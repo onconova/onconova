@@ -9,7 +9,7 @@ services:
             additional_contexts:
                 certificates: ${SSL_CERT_DIR}
             args:
-                CA_SSL_CERT_BUNDLE: ${SSL_CERT_BUNDLE}
+                CA_SSL_CERT_BUNDLE: ${CA_SSL_CERT_BUNDLE}
                 HOST_SSL_CERT_KEY: ${HOST_SSL_CERT_KEY}
                 HOST_SSL_CERT_BUNDLE: ${HOST_SSL_CERT_BUNDLE}
                 PROXY_HTTP: ${PROXY_HTTP}
@@ -40,7 +40,7 @@ services:
             additional_contexts:
                 certificates: ${SSL_CERT_DIR}
             args:
-                SSL_CERT_BUNDLE: ${SSL_CERT_BUNDLE}
+                CA_SSL_CERT_BUNDLE: ${CA_SSL_CERT_BUNDLE}
                 PROXY_HTTP: ${PROXY_HTTP}
                 PROXY_HTTPS: ${PROXY_HTTPS}
         ports:

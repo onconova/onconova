@@ -9,7 +9,7 @@ FROM python:3.11.0rc2-bullseye
 # Get arguments from .yml file
 ARG PROXY_HTTP
 ARG PROXY_HTTPS
-ARG SSL_CERT_BUNDLE
+ARG CA_SSL_CERT_BUNDLE
 ARG ENV
 
 # Set environment variables
@@ -22,10 +22,10 @@ ENV https_proxy=${PROXY_HTTPS}
 ENV http_proxy=${PROXY_HTTP}
 ENV POETRY_VERSION=1.0.0
 ENV CA_BUNDLE_CERT=/etc/ssl/certs/ca-cert-bundle.crt
-ENV REQUESTS_CA_BUNDLE=$CA_BUNDLE_CERT
+ENV REQUESTS_CA_BUNDLE=$CA_SSL_CERT_BUNDLE
 
 # Install SSL certificates
-COPY --from=certificates ${SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
+COPY --from=certificates ${CA_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
 RUN update-ca-certificates
 
 # Set work directory
