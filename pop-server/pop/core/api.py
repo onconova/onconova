@@ -1,5 +1,5 @@
 from ninja import NinjaAPI, Redoc, Swagger
-from apps.core.models import CancerPatient 
+from pop.core.models import CancerPatient 
 
 api = NinjaAPI(docs=Swagger())
 
@@ -13,6 +13,7 @@ class CancerPatientSchema(ModelSchema):
     class Meta:
         model = CancerPatient
         exclude = ['auto_id']
+        depth=1
 
 
 @api.get("/patch/{id}", response=CancerPatientSchema)

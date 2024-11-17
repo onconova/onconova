@@ -42,9 +42,8 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True       # Ensure that all subdomains, not ju
 # Application definition
 INSTALLED_APPS = [
     'django_extensions',
-    'auditlog',
-    'apps.core',
-    'apps.terminology',
+    'pop.core',
+    'pop.terminology',
     'secured_fields',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -82,28 +81,7 @@ AUTH_EXEMPT_ROUTES = ['login','favicon']
 SECURED_FIELDS_KEY = env('POSTGRES_ENCRYPTED_FIELDS_KEY')
 SECURED_FIELDS_HASH_SALT = env('POSTGRES_ENCRYPTED_FIELDS_HASH_SALT')
 
-# Auditlog settings
-AUDITLOG_INCLUDE_ALL_MODELS = True
-AUDITLOG_EXCLUDE_TRACKING_FIELDS = (
-    "createdAt",
-    "modifiedAt",
-    "createdBy",
-    "modifiedBy",
-    "multimodalTherapy"
-)
-AUDITLOG_EXCLUDE_TRACKING_MODELS = (
-    "sessions",
-    "valuesets",
-    "mtpconn",
-    "molpathconn",
-    "contenttypes",
-    "auth",
-    "auth_ldap",
-    "admin",
-    "cases.MultimodalTherapy",
-)
-
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'pop.urls'
 
 TEMPLATES = [
     {
@@ -120,7 +98,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'pop.wsgi.application'
 
 
 # Database(s)

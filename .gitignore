@@ -9,6 +9,7 @@ __pycache__/
 # Environment variables
 .env
 *.env
+.venv
 
 # Django settings and secrets
 settings_local.py

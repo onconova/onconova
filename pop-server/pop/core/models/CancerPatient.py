@@ -1,6 +1,8 @@
 from django.db import models 
 from django.utils.translation import gettext_lazy as _
-import apps.core.models.fields as custom
+import pop.core.models.fields as custom
+import random 
+import string
 from .BaseModel import BaseModel 
 
 class CancerPatient(BaseModel):
@@ -46,16 +48,16 @@ class CancerPatient(BaseModel):
     )
     
     def _generate_random_id(self):
-        return f'POP-{self.__class__.__name__}-{digit(3)}-{digit(3)}-{digit(2)}'
+        digit = lambda N: ''.join([str(random.randint(1,9)) for _ in range(N)])
+        return f'{random.choice(string.ascii_letters)}{digit(4)}.{digit(3)}.{digit(2)}'
     
     def save(self, *args, **kwargs):
         # If an ID has not been manually specified, add an automated one
         if not self.pseudoidentifier:
             # Generate random digits
-            digit = lambda N: ''.join([str(random.randint(1,9)) for _ in range(N)])
             new_pseudoidentifier = self._generate_random_id()
             # Check for ID clashes in the database
-            while CancerPatient.objects.filter(id=new_id).exists():
+            while CancerPatient.objects.filter(id=new_pseudoidentifier).exists():
                 new_pseudoidentifier = self._generate_random_id()
             # Set the ID for the patient
             self.pseudoidentifier = new_pseudoidentifier

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pop"
+name = "pop-server"
 version = "0.4.0"
 description = "The Precision Oncology Program (POP) is a joint at the University Hospital Zurich (USZ) to capture clinical data from oncology patients in a structured manner. The final aim of the project is to enable aggregated data analysis interactively."
 readme = "README.md"
@@ -9,52 +9,30 @@ classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python"
 ]
-packages = [{include = "pop"}]
+packages = [{include = "pop-server"}]
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 # Core dependencies
 python = "~=3.11"
-Django = "4.2"
+Django = "5.1"
 # Django extensions/apps
-django-crispy-forms = "2.0"
 django-environ = "0.9.0"
 django_extensions = "3.2.1"
-django-htmx = "1.14.0 "
 django-secured-fields = "0.4.2"
-django-auditlog = "3.0b4"
-django-crontab="0.7.1"
-django-ninja = "1.1.0" 
-django-excel = "0.0.10"
-django-jazzmin = "3.0.0"
-django-log-viewer = "1.1.7"
-pyexcel-xls = "0.7.0"
-pyexcel-xlsx = "0.6.0" 
+django-ninja = "1.3.0" 
 # Tools
-requests = "2.30.0"
-requests-ntlm2 = "6.5.3"
+requests = "2.32.0"
 fhir-resources = "7.1.0" 
-ldap3 = "2.9.1"
-rdflib = "6.3.2"
-cachetools = "5.3.0"
-shortuuid = "1.0.11"
-Pillow = "10.1.0"
-numpy = "1.26.4"
-# Databases drivers/interfaces
-oracledb = "1.3.0"
-pyodbc = "4.0.35"
-mssql-django = "1.5"
-psycopg2-binary = "2.9.6"
+cachetools = "5.5.0"
 # Testing
 pytest-django = "4.5.2"
-selenium-wire = "5.1.0"
-hyperframe = ">6.0"
-h2 = ">4.0"
 parameterized = "0.9.0"
 coverage = "7.2.3"
-model_bakery = "1.11.0"
-# HTML/CSS add-ons
-crispy-bootstrap5 = "0.7"
-fontawesomefree = "6.4.2"
 # WSGI server for production
 gunicorn = "21.2.0"
 # Serve dev-instance via HTTPS

@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timesince
 from django.conf import settings
+from datetime import datetime
+import random 
 
 class BaseModel(models.Model):
     auto_id = models.BigAutoField(
@@ -22,19 +24,11 @@ class BaseModel(models.Model):
         auto_now=True,
         db_column='updated_at'
     )
-    created_by = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
-        related_name='+',
-        editable=False,
-    )
-    modified_by = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
-        related_name='+',
-        editable=False,
-    )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.pk and not self.id:
+            self.id = self._generate_unique_id()
 
     class Meta:
         abstract = True
@@ -53,7 +47,7 @@ class BaseModel(models.Model):
  
     @property
     def hours_since_last_created(self):
-        delta = now() - self.createdAt
+        delta = datetime.now() - self.createdAt
         return delta.total_seconds() / (60 * 60)
  
     @property
@@ -63,7 +57,7 @@ class BaseModel(models.Model):
     @property
     def date_label(self):
         for field in self._meta.fields:
-            if isinstance(field,PeriodField): 
+            if isinstance(field,models.PeriodField): 
                 if getattr(self, field.name + '_start') or getattr(self, field.name + '_end'):
                     start_date, end_date = 'Unknown','Ongoing'
                     if getattr(self, field.name + '_start'):
@@ -82,17 +76,15 @@ class BaseModel(models.Model):
                     date += f' | {report}'   
         return date
     
-    def _generate_random_id(self):
-        return f'POP-{self.__class__.__name__}-{digit(4)}-{digit(3)}-{digit(2)}'
-    
-    def save(self, *args, **kwargs):
-        # If an ID has not been manually specified, add an automated one
-        if not self.id:
-            # Generate random digits
-            new_id = self._generate_random_id()
-            # Check for ID clashes in the database
-            while CancerPatient.objects.filter(id=new_id).exists():
-                new_id = self._generate_random_id()
-            # Set the ID for the patient
-            self.id = new_id
-        return super().save(*args, **kwargs)
+    def _generate_unique_id(self):
+        def _generate_random_id():
+            digit = lambda N: ''.join([str(random.randint(1,9)) for _ in range(N)])
+            return f'POP-{self.__class__.__name__}-{digit(4)}-{digit(3)}-{digit(2)}'
+        # Generate random digits
+        new_id = _generate_random_id()
+        # Check for ID clashes in the database
+        while self.__class__.objects.filter(id=new_id).exists():
+            new_id = _generate_random_id()
+        # Set the ID for the patient
+        return new_id
+

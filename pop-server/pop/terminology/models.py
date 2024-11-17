@@ -1,5 +1,6 @@
 from django.db import models
-from apps.core.models import BaseModel
+from django.contrib.postgres import fields as postgres
+from pop.core.models import BaseModel
 from django.utils.translation import gettext_lazy as _    
  
 class CodedConcept(BaseModel):
@@ -11,7 +12,7 @@ class CodedConcept(BaseModel):
     display = models.CharField(
         verbose_name='Text',
         help_text=_('Human-readable representation defined by the system'),
-        max_length=500,
+        max_length=2000,
         blank=True, null=True,
     )
     system = models.CharField(
@@ -25,10 +26,12 @@ class CodedConcept(BaseModel):
         max_length=200,
         blank=True, null=True,
     )
-    synonyms = models.ArrayField(
+    synonyms = postgres.ArrayField(
         base_field=models.CharField(
-            max_length=500,
-    ))
+            max_length=2000,
+        ),
+        default=list
+    )
     parent = models.ForeignKey(
         to='self',
         on_delete=models.CASCADE,
@@ -49,22 +52,6 @@ class CodedConcept(BaseModel):
     def __str__(self):
         return f"{self.display}"
     
-
-
-class QuantityComparator(CodedConcept):
-    canonical_url = 'http://hl7.org/fhir/ValueSet/quantity-comparator'
-    description = 'How the Quantity should be understood and represented.'
-
-
-class IdentifierUse(CodedConcept):
-    canonical_url = 'http://hl7.org/fhir/ValueSet/identifier-use'
-    description = 'HL7-defined code system of concepts specifying type of identifier.'
-
-
-class IdentifierType(CodedConcept):
-    canonical_url = 'http://hl7.org/fhir/ValueSet/identifier-type'
-    description = 'A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.'
-
 
 class FamilyMemberType(CodedConcept):
     canonical_url = 'http://terminology.hl7.org/ValueSet/v3-FamilyMember'
