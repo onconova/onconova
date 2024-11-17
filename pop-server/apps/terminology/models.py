@@ -25,6 +25,10 @@ class CodedConcept(BaseModel):
         max_length=200,
         blank=True, null=True,
     )
+    synonyms = models.ArrayField(
+        base_field=models.CharField(
+            max_length=500,
+    ))
     parent = models.ForeignKey(
         to='self',
         on_delete=models.CASCADE,
