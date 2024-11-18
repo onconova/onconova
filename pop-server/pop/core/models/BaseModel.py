@@ -76,6 +76,7 @@ class BaseModel(models.Model):
                     date += f' | {report}'   
         return date
     
+    
     def _generate_unique_id(self):
         def _generate_random_id():
             digit = lambda N: ''.join([str(random.randint(1,9)) for _ in range(N)])

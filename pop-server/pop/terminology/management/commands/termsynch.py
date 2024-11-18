@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.utils import timezone
-from pop.terminology.utils import ValueSetComposer, printRed, printGreen, load_SNOMED_database
+from pop.terminology.services import ValueSetComposer, printRed, printGreen, download_codesystem
 import django.apps 
 import traceback
 
@@ -13,7 +12,7 @@ class Command(BaseCommand):
     which valuesets to synchronize.
 
     Usage:
-        python manage.py synchronize_valuesets --valuesets <valueset_names> --skip-existing --force-reset
+        python manage.py termsynch --valuesets <valueset_names> --skip-existing --force-reset
 
     Args:
         --valuesets: A list of valueset names to synchronize. Use 'all' to synchronize all valuesets.
@@ -23,7 +22,7 @@ class Command(BaseCommand):
         --collection-limit: Limit the number of concepts to be collected. For testing and debugging purposes.
 
     Example:
-        python manage.py synchronize_valuesets --valuesets CTCAETerms MedicationClinicalDrugsIngredients --skip-existing
+        python manage.py termsynch --valuesets CTCAETerms MedicationClinicalDrugsIngredients --skip-existing
     """
     
     help = """Synchronizes valuesets in the database"""    
@@ -80,7 +79,7 @@ class Command(BaseCommand):
     #------------------------------------------------------------------------------------------
     def handle(self, *args, **options):
         """
-        Main handler for the 'synchronize_valuesets' command.
+        Main handler for the 'termsynch' command.
 
         Args:
             *args: Unused positional arguments.
@@ -99,11 +98,7 @@ class Command(BaseCommand):
         total_synchronized = 0
         failed = []
         for valueset_model in valueset_models:
-            
-            # Skip special models
-            if valueset_model.__name__ in ['TreeStructure','UnifiedCodesForUnitsOfMeasure']:
-                continue
-            
+                     
             try:
                 ValueSetComposer(valueset_model, 
                     skip_existing=options['skip_existing'], 
@@ -123,18 +118,18 @@ class Command(BaseCommand):
                     traceback.print_exc()
         
         # Clear the SNOMED CT terminology from memory
-        if load_SNOMED_database.cache_info().currsize > 0:
-            load_SNOMED_database.cache_clear()
-            print('\n ⓘ SNOMED CT terminology cache cleared succesfully.')
+        if download_codesystem.cache_info().currsize > 0:
+            download_codesystem.cache_clear()
+            print('\n ⓘ Codesystems cache cleared succesfully.')
         
         print('\n-------------------------------------------')
         print('SUMMARY')
         if total_synchronized>0:
-            printGreen(f"✓ {total_synchronized} valueset(s) synchronized succesfully.")
+            printGreen(f"✓ {total_synchronized} CodedConcept-model(s) synchronized succesfully.")
         if failed:
-            printRed(f"❌The following {len(failed)} valueset(s) failed to synchronize:")
+            printRed(f"❌The following {len(failed)} CodedConcept-model(s) failed to synchronize:")
             for fail in failed:
-                printRed(f"Valueset: <{fail}>")
+                printRed(f"Model: <{fail}>")
         print('-------------------------------------------')                
         print()
     #------------------------------------------------------------------------------------------
