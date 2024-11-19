@@ -24,7 +24,7 @@ services:
             - 8000
         volumes:
             - ./pop-server:/app/code
-            - ./logs/prod:/app/logs
+            - ./etc/logs:/app/logs
             - static_volume:/app/static
             - media_volume:/app/media
         env_file: .env
@@ -58,7 +58,7 @@ services:
         volumes:
             - static_volume:/app/static
             - media_volume:/app/media
-            - ./logs/prod:/app/logs
+            - ./etc/logs:/app/logs
             - ${SSL_CERT_DIR}/${HOST_SSL_CERT_BUNDLE}:/etc/nginx/ssl/cert_host.pem
             - ${SSL_CERT_DIR}/${HOST_SSL_CERT_KEY}:/etc/nginx/ssl/cert_host.key      
         ports:
