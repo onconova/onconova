@@ -1,9 +1,10 @@
 import os
 import unittest
+import requests
 from io import StringIO
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, PropertyMock
 from pop.terminology.utils import parent_to_children, _cache, CodedConcept, get_dictreader_and_size, \
-            parse_OBO_file, get_file_location, ensure_within_string_limits, ensure_list
+            parse_OBO_file, get_file_location, ensure_within_string_limits, ensure_list, request_http_get
 
 class TestParentToChildren(unittest.TestCase):
     def setUp(self):
@@ -264,6 +265,7 @@ class TestGetDictReaderAndSize(unittest.TestCase):
         file = self.NamedStringIO(file_content, name='test.csv')
         get_dictreader_and_size(file, verbose=False)
         mock_print.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()

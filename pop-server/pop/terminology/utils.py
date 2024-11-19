@@ -1,11 +1,21 @@
 from collections import defaultdict 
-from django.conf import settings 
 import os 
 import csv
-from typing import List, Optional, TextIO, Tuple
+import requests
+from typing import List, Optional, TextIO, Tuple, Union
 from pydantic import BaseModel, Field
+import environ 
+
+# Load environmental variables
+env = environ.Env()
+environ.Env.read_env('.env', overwrite=True)
 
 _cache = {}
+
+# Custom function to print with color
+def printRed(skk): print("\033[91m {}\033[00m" .format(skk))
+def printGreen(skk): print("\033[92m {}\033[00m" .format(skk))
+def printYellow(skk): print("\033[93m {}\033[00m" .format(skk))
 
 class CodedConcept(BaseModel):
     """
@@ -22,7 +32,6 @@ class CodedConcept(BaseModel):
         properties (dict): A dictionary of additional properties for the concept.
     """
 
-    __hash__ = object.__hash__
 
     system: Optional[str] = Field(default=None)
     code: str = Field()
@@ -33,6 +42,8 @@ class CodedConcept(BaseModel):
     synonyms: List[str] = Field(default=[])
     properties: Optional[dict] = Field(default=None)
 
+    def __hash__(self):
+        return hash(self.__repr__())
 
 def parent_to_children(codesystem: dict) -> dict:
     """
@@ -221,3 +232,75 @@ def ensure_list(val: Any) -> List[Any]:
     if not isinstance(val, list):
         return [val]
     return val
+
+
+def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], str]:
+    """
+    Make a GET request to an API endpoint, parse the JSON response, and return the parsed JSON data.
+
+    Args:
+        api_url (str): The URL of the API endpoint to make the request to.
+        raw (bool, optional): If True, return the raw response text instead of the parsed JSON data. Defaults to False.
+
+    Returns:
+        Union[Dict[str, Any], str]: The parsed JSON data if raw is False, otherwise the raw response text.
+
+    Note:
+        This function sets up the necessary configurations, including basic authentication,
+        proxies, and certificate verification, to make a secure API request.
+    """
+    # Define the API endpoint basic authentication credentials
+    if 'loinc.org' in api_url:
+        api_username = env('LOINC_USER')
+        api_password = env('LOINC_PASSWORD')
+    elif 'nlm.nih.gov' in api_url:
+        api_username = env('UMLS_API_USER')
+        api_password = env('UMLS_API_KEY')
+    else: 
+        api_username, api_password = None, None
+
+    # Define the path to the certificate bundle file
+    certificate_bundle_path = env('CA_SSL_CERT_BUNDLE')
+
+    # Create a session for making the request
+    session = requests.Session()
+
+    # Set up the proxy with authentication
+    proxies = {
+        'http': env('PROXY_HTTP'),
+        'https': env('PROXY_HTTPS'),
+    }
+    session.proxies = proxies
+    # Set up the basic authentication for the API
+    if api_username and api_password:
+        session.auth = (api_username, api_password)
+
+    # Make a GET request to the API and parse the JSON response
+    response = session.get(api_url, verify=certificate_bundle_path, proxies=proxies)
+
+    # Check if there is an authorization issue
+    if response.status_code == 401:
+        # If authorization is required, the session cookies have now been set by the first request and a second request is necessary 
+        response = session.get(api_url, verify=certificate_bundle_path, proxies=proxies)
+
+    # Check for custom FHIR expansion response code
+    if response.status_code == 422 and '$expand' in api_url:
+        # If expansion operation is too costly, server will refuse, in that case, get non-expanded content definition
+        response = session.get(api_url.replace('$expand',''), verify=certificate_bundle_path, proxies=proxies)
+
+    # Check for unknown URL response code
+    if response.status_code == 404 and 'mcode' in api_url.lower():
+        # Certain mCODE valuesets use a different domain to serve the JSON representations
+        response = session.get(api_url.replace("build.fhir.org/ig/HL7/fhir-mCODE-ig/", "hl7.org/fhir/us/mcode/"), verify=certificate_bundle_path, proxies=proxies)
+
+    if response.status_code == 200:
+        # Successfully connected to the API
+        if raw:
+            return response.text
+        json_response = response.json()  # Parse JSON response
+        # Now you can work with the JSON data
+        return json_response
+    else:
+        printRed(f"NETWORK ERROR: Request failed with status code: {response.status_code}")
+        response.raise_for_status()
+        

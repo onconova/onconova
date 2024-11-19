@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from pop.terminology.services import ValueSetComposer, printRed, printGreen, download_codesystem
+from pop.terminology.services import collect_codedconcept_terminology, printRed, printGreen, download_codesystem
 import django.apps 
 import traceback
 
@@ -31,7 +31,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         # Positional arguments
         parser.add_argument(
-            '--valuesets', 
+            '--models', 
             nargs='+', 
             type=str,
             default='all'
@@ -63,12 +63,6 @@ class Command(BaseCommand):
             help='Delete all dangling concepts in the database that are not collected by the valueset (WARNING: Will trigger deletion cascades in the rest of the database)',
         )    
         parser.add_argument(
-            '--collection-limit',
-            type=int,
-            default=9999999999,
-            help='Limit the number of concepts to be collected. For testing and debugging purposes.',
-        )   
-        parser.add_argument(
             '--raise-failed',
             action='store_true',
             default=False,
@@ -86,10 +80,10 @@ class Command(BaseCommand):
             **options: Command-line options.
         """
         # Get list of models defined on Django
-        if options['valuesets']=='all':
+        if options['models']=='all':
             valueset_models = list(django.apps.apps.get_app_config('terminology').get_models())
         else:
-            valueset_models = [django.apps.apps.get_model('terminology', valueset_name) for valueset_name in options['valuesets']]
+            valueset_models = [django.apps.apps.get_model('terminology', valueset_name) for valueset_name in options['models']]
         
         if options['debug']:
             print('\n ⓘ Debug mode enabled (database state will remain unchanged)')
@@ -100,13 +94,13 @@ class Command(BaseCommand):
         for valueset_model in valueset_models:
                      
             try:
-                ValueSetComposer(valueset_model, 
+                collect_codedconcept_terminology(
+                    valueset_model, 
                     skip_existing=options['skip_existing'], 
                     force_reset=options['force_reset'],
                     prune_dangling=options['prune_dangling'],
-                    concepts_limit=options['collection_limit'],
-                    debug_mode=options['debug'],
-                ).compose()
+                    write_db=not options['debug'],
+                )
                 total_synchronized += 1
             except: 
                 if options['raise_failed']:

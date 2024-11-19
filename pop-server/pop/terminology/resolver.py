@@ -3,6 +3,15 @@ import urllib
 class CanonicalUrlResolver:
 
     def resolve_HL7_endpoint(self, canonical_url: str) -> str:
+        """Resolve a HL7 canonical URL to a URL that can be used to download the
+        corresponding ValueSet or CodeSystem resource.
+
+        Args:
+            canonical_url (str): The canonical URL to resolve.
+
+        Returns:
+            str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
+        """
         RELEASE_VERSIONS = {
             'http://hl7.org/fhir/us/core': 'STU5.0.1',
             'http://hl7.org/fhir/us/vitals': 'STU1',
@@ -23,21 +32,66 @@ class CanonicalUrlResolver:
         else:
             raise KeyError(f'Unknown FHIR/HL7 resource requested in canonical URL: {canonical_url}')
     def resolve_LOINC_endpoint(self, canonical_url: str) -> str:
+        """Resolve a LOINC canonical URL to a URL that can be used to download the
+        corresponding ValueSet resource.
+
+        Args:
+            canonical_url (str): The canonical URL to resolve.
+
+        Returns:
+            str: The URL that can be used to download the corresponding ValueSet resource.
+        """
         valueset_name = canonical_url.replace('http://','https://').replace('https://loinc.org/','').replace('/','')  
         return f'http://fhir.loinc.org/ValueSet/$expand?url=http://loinc.org/vs/{valueset_name}&_format=json'
 
     def resolve_VSAC_endpoint(self, canonical_url: str) -> str:
+        """Resolve a VSAC canonical URL to a URL that can be used to download the
+        corresponding ValueSet resource.
+
+        Args:
+            canonical_url (str): The canonical URL to resolve.
+
+        Returns:
+            str: The URL that can be used to download the corresponding ValueSet resource.
+        """
         valueset_name = canonical_url.replace('https://vsac.nlm.nih.gov/valueset/','').split('/')[0]
         return f'https://cts.nlm.nih.gov/fhir/res/ValueSet/{valueset_name}/$expand?_format=json'
 
     def resolve_CTS_endpoint(self, canonical_url: str) -> str:
+        """Resolve a CTS canonical URL to a URL that can be used to download the
+        corresponding ValueSet or CodeSystem resource.
+
+        Args:
+            canonical_url (str): The canonical URL to resolve.
+
+        Returns:
+            str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
+        """
         return f'{canonical_url}/$expand?_format=json'
 
     def resolve_Simplifier_endpoint(self, canonical_url: str) -> str:
+        """Resolve a Simplifier canonical URL to a URL that can be used to download the
+        corresponding ValueSet resource.
+
+        Args:
+            canonical_url (str): The canonical URL to resolve.
+
+        Returns:
+            str: The URL that can be used to download the corresponding ValueSet resource.
+        """
         valueset_name = canonical_url.replace('https://simplifier.net/pop','').replace('ValueSets/','',).replace('CodeSystems/','',)
         return f'https://simplifier.net/pop/{valueset_name}/$download?format=json'
     
     def resolve(self, canonical_url: str) -> str:
+        """Resolve a canonical URL to a URL that can be used to download the
+        corresponding ValueSet or CodeSystem resource.
+
+        Args:
+            canonical_url (str): The canonical URL to resolve.
+
+        Returns:
+            str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
+        """
         # Validate the input canonical_url
         if not urllib.parse.urlparse(canonical_url).scheme:
             raise ValueError("Invalid URL: " + canonical_url)

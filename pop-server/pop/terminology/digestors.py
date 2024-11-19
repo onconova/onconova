@@ -20,14 +20,43 @@ environ.Env.read_env(os.path.join(settings.BASE_DIR, '.env'), overwrite=True)
 csv.field_size_limit(sys.maxsize)
 
 class TerminologyDigestor:
+    """
+    A base class for digesting terminology files into CodedConcept objects.
+
+    Attributes:
+        PATH (str): The base directory path for external data files.
+        FILENAME (str): The name of the file containing terminology data.
+        CANONICAL_URL (str): The canonical URL of the terminology.
+        OTHER_URLS (list[str]): Additional URLs associated with the terminology.
+        LABEL (str): A label identifier for the terminology.
+
+    Methods:
+        __init__(verbose: bool = True) -> None:
+            Initializes the TerminologyDigestor and prepares the file location.
+        
+        digest() -> dict[str, CodedConcept]:
+            Digests the terminology's concepts and designations.
+        
+        _digest_concepts() -> None:
+            Reads and processes each row from the file containing concepts.
+        
+        _digest_concept_row(row: dict[str, str]) -> None:
+            Processes a single row from the concepts file.
+    """
+
     PATH: str = os.path.join(settings.BASE_DIR, env('EXTERNAL_DATA_DIR')) 
     FILENAME: str
     CANONICAL_URL: str 
     OTHER_URLS: list[str] = []
     LABEL: str 
 
-    def __init__(self, verbose=True):
+    def __init__(self, verbose: bool = True) -> None:
+        """
+        Initialize the TerminologyDigestor.
 
+        Args:
+            verbose (bool, optional): Whether to print progress messages. Defaults to True.
+        """
         try:
             self.file_location = get_file_location(self.PATH, self.FILENAME)
         except FileNotFoundError:
@@ -35,9 +64,16 @@ class TerminologyDigestor:
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             process.wait()
         self.file_location = get_file_location(self.PATH, self.FILENAME)
-        self.verbose = verbose 
+        self.verbose = verbose
         
-    def digest(self):
+    def digest(self) -> dict[str, CodedConcept]:
+        """
+        Digests the terminology's concepts and designations.
+
+        Returns:
+            dict[str, CodedConcept]: A dictionary with concept codes as keys
+                and CodedConcept objects as values.
+        """
         self.designations = defaultdict(list)
         self.concepts = {}     
         self._digest_concepts()
@@ -45,18 +81,38 @@ class TerminologyDigestor:
             self.concepts[code].synonyms = synonyms
         return self.concepts
     
-    def _digest_concepts(self):
+    def _digest_concepts(self) -> None:
+        """
+        Reads through a file containing concepts and processes each row.
+
+        Returns:
+            None
+        """
         # Read through file containing the concepts
         with open(self.file_location) as file:
             # Go over the concepts in the file
             reader, total = get_dictreader_and_size(file)
             for row in tqdm(reader, total=total, disable=not self.verbose, desc='• Digesting concepts'):
                 self._digest_concept_row(row)
-        if self.verbose: 
-            print(f'\r✓ All concepts succesfully digested')
+        if self.verbose:
+            print(f'\r✓ All concepts successfully digested')
 
-    def _digest_concept_row(self, row):
+    def _digest_concept_row(self, row: dict[str, str]) -> None:
+        """
+        Processes a single row in the file containing concepts.
+
+        Args:
+            row (dict[str, str]): A dictionary representing a single row in the file.
+
+        Returns:
+            None
+
+        Raises:
+            NotImplementedError: If the method is not implemented in a subclass.
+        """
         raise NotImplementedError()
+
+
 
 class NCITDigestor(TerminologyDigestor):
     LABEL = 'ncit'
