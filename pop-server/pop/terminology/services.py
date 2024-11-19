@@ -1,17 +1,14 @@
 import cachetools
 import environ
 import requests 
-import csv
 import os 
-import subprocess
 import cachetools.func
-from datetime import datetime
-import urllib
 from collections import defaultdict
 from fhir.resources.R4B.valueset import ValueSet as ValueSetSchema, ValueSetComposeInclude
 from fhir.resources.R4B.codesystem import CodeSystem as CodeSystemSchema
 from pop.terminology.digestors import DIGESTORS, TerminologyDigestor, NCITDigestor
-from pop.terminology.utils import CodedConcept, get_file_location
+from pop.terminology.utils import CodedConcept, get_file_location, parent_to_children
+from pop.terminology.resolver import resolve_canonical_url
 from enum import Enum
 from typing import List
 from tqdm import tqdm 
@@ -19,8 +16,6 @@ from tqdm import tqdm
 # Generate absolute path to artifacts folder
 from pop.settings import BASE_DIR
 artifacts_path = os.path.join(BASE_DIR, 'pop/apps/valuesets/artifacts/')
-
-_cache = {}
 
 # Load environmental variables
 env = environ.Env()
@@ -45,90 +40,6 @@ class FilterOperator(str, Enum):
     CHILD_OF = "child-of"
     DESCENDENT_LEAF = "descendent-leaf"
     EXISTS = "exists"
-
-def find_in_tree(lst, key, value, in_check=False):
-    """
-    Find the index of a dictionary in a list based on a key-value pair.
-    """
-    return next(
-        (i for i, dic in enumerate(lst) 
-            if key in dic
-            if (str(value) in str(dic[key]) 
-            if in_check else dic[key] == value)
-        )
-    , None)
-
-def parent_to_children(codesystem):
-    """
-    Preprocesses the codesystem to create a mapping from parent codes to their children.
-    
-    Args:
-        codesystem (dict): A dictionary where each value is a concept with `code` and `parent` attributes.
-    
-    Returns:
-        dict: A dictionary mapping parent codes to a list of their child concepts.
-    """
-    if id(codesystem) in _cache:
-        return _cache[id(codesystem)]
-    mapping = defaultdict(list)
-    for concept in codesystem.values():
-        mapping[concept.parent].append(concept)
-    _cache[id(codesystem)] = mapping
-    return mapping
-
-def resolve_canonical_url_to_api_endpoint_url(canonical_url: str) -> str:
-
-    def resolve_HL7_endpoint(canonical_url: str) -> str:
-        RELEASE_VERSIONS = {
-            'http://hl7.org/fhir/us/core': 'STU5.0.1',
-            'http://hl7.org/fhir/us/vitals': 'STU1',
-            'http://hl7.org/fhir/us/mcode': 'STU3',
-            'http://hl7.org/fhir/uv/genomics-reporting': 'STU2',
-            'http://hl7.org/fhir/': 'R4B',
-            'http://terminology.hl7.org/': '',
-        }
-        for domain in RELEASE_VERSIONS:
-            if canonical_url.startswith(domain):
-                version = RELEASE_VERSIONS[domain]
-                if 'ValueSet' in canonical_url:
-                    return canonical_url.replace('/ValueSet/',f'/{version}/ValueSet-') + '.json'
-                elif 'CodeSystem' in canonical_url :
-                    return canonical_url.replace('/CodeSystem/',f'/{version}/CodeSystem-') + '.json'
-                else:
-                    return canonical_url.replace('http://hl7.org/fhir/',f'http://hl7.org/fhir/{version}/codesystem-') + '.json'
-        else:
-            raise KeyError(f'Unknown FHIR/HL7 resource requested in canonical URL: {canonical_url}')
-    def resolve_LOINC_endpoint(canonical_url: str) -> str:
-        valueset_name = canonical_url.replace('http://','https://').replace('https://loinc.org/','').replace('/','')  
-        return f'http://fhir.loinc.org/ValueSet/$expand?url=http://loinc.org/vs/{valueset_name}&_format=json'
-
-    def resolve_VSAC_endpoint(canonical_url: str) -> str:
-        valueset_name = canonical_url.replace('https://vsac.nlm.nih.gov/valueset/','').split('/')[0]
-        return f'https://cts.nlm.nih.gov/fhir/res/ValueSet/{valueset_name}/$expand?_format=json'
-
-    def resolve_CTS_endpoint(canonical_url: str) -> str:
-        return f'{canonical_url}/$expand?_format=json'
-
-    def resolve_Simplifier_endpoint(canonical_url: str) -> str:
-        valueset_name = canonical_url.replace('https://simplifier.net/pop','').replace('ValueSets/','',).replace('CodeSystems/','',)
-        return f'https://simplifier.net/pop/{valueset_name}/$download?format=json'
-        
-    # Validate the input canonical_url
-    if not urllib.parse.urlparse(canonical_url).scheme:
-        raise ValueError("Invalid URL: " + canonical_url)
-
-    url_resolvers = {
-        'loinc.org': resolve_LOINC_endpoint,
-        'hl7.org': resolve_HL7_endpoint,
-        'vsac.nlm.nih.gov': resolve_VSAC_endpoint,
-        'cts.nlm.nih.gov': resolve_CTS_endpoint,
-        'simplifier.net/pop': resolve_Simplifier_endpoint,
-    }
-    
-    for url_domain, resolver in url_resolvers.items():
-        if url_domain in canonical_url:
-            return resolver(canonical_url)
-    raise KeyError(f'Unknown resource requested in canonical URL: {canonical_url}')
 
 
 
@@ -202,7 +113,7 @@ def request_api_endpoint_json(api_url, raw=False):
 def download_canonical_url(canonical_url: str) -> str:
     if not canonical_url.endswith('.json'):
         # Parse the API endpoint based on the canonical URL
-        download_url =  resolve_canonical_url_to_api_endpoint_url(canonical_url)
+        download_url =  resolve_canonical_url(canonical_url)
     else:
         download_url = canonical_url
     # Download the structure definition
