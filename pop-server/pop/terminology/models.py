@@ -183,9 +183,9 @@ class AdministrationMethod(CodedConcept):
     description = 'A coded concept describing the technique by which the medicine is administered.'
 
 
-class CancerRelatedSurgicalProcedureCode(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-related-surgical-procedure-vs'
-    description = 'Cancer-Related Surgical Procedures'
+class SurgicalProcedure(CodedConcept):
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-surgical-procedures'
+    description = 'Surgical Procedure'
 
 
 class RadiotherapyModality(CodedConcept):
@@ -208,7 +208,7 @@ class RadiotherapyVolumeType(CodedConcept):
         return f"{self.display.replace(' (observable entity)','')}"
 
 class ObservationBodySite(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-observation-bodysites'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-observation-bodysites'
     description = 'Bodysites related to an observation.'
 
 
@@ -282,7 +282,7 @@ class TNMStagingMethod(CodedConcept):
 
 
 class TNMPrimaryTumorCategory(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-primary-tumor-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-primary-tumor-category'
     description = 'Result values for T category. This value set contains SNOMED-CT equivalents of AJCC codes for the T category, according to TNM staging rules.'
     
     def __str__(self):
@@ -301,7 +301,7 @@ class TNMPrimaryTumorStagingType(CodedConcept):
 
 
 class TNMDistantMetastasesCategory(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-distant-metastases-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-distant-metastases-category'
     description = 'Result values for M category. This value set contains SNOMED-CT equivalents of AJCC codes for the M category, according to TNM staging rules.'
     
     def __str__(self):
@@ -320,7 +320,7 @@ class TNMDistantMetastasesStagingType(CodedConcept):
 
 
 class TNMRegionalNodesCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-regional-nodes-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-regional-nodes-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the N category, according to TNM staging rules.'
     
     def __str__(self):
@@ -338,7 +338,7 @@ class TNMRegionalNodesStagingType(CodedConcept):
 
 
 class TNMGradeCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-grade-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-grade-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the G category, according to TNM staging rules.'
     
     def __str__(self):
@@ -350,7 +350,7 @@ class TNMGradeCategoryValues(CodedConcept):
         return label.replace(' ','')
     
 class TNMResidualTumorCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-residual-tumor-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-residual-tumor-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the R category, according to TNM staging rules.'
     
     def __str__(self):
@@ -362,7 +362,7 @@ class TNMResidualTumorCategoryValues(CodedConcept):
         return label.replace(' ','')
 
 class TNMLymphaticInvasionCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-lymphatic-invasion-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-lymphatic-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the L category, according to TNM staging rules.'
     
     def __str__(self):
@@ -375,7 +375,7 @@ class TNMLymphaticInvasionCategoryValues(CodedConcept):
         return label.replace(' ','')
 
 class TNMVenousInvasionCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-venous-invasion-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-venous-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the V category, according to TNM staging rules.'
     
     def __str__(self):
@@ -388,7 +388,7 @@ class TNMVenousInvasionCategoryValues(CodedConcept):
         return label.replace(' ','')
 
 class TNMPerineuralInvasionCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-perineural-invasion-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-perineural-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the Pn category, according to TNM staging rules.'
     
     def __str__(self):
@@ -401,7 +401,7 @@ class TNMPerineuralInvasionCategoryValues(CodedConcept):
         return label.replace(' ','')
 
 class TNMSerumTumorMarkerLevelCategoryValues(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-tnm-serum-tumor-marker-level-category'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-serum-tumor-marker-level-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the S category, according to TNM staging rules.'
     
     def __str__(self):
@@ -494,7 +494,7 @@ class GleasonGradeGroupValue(CodedConcept):
 
 
 class TumorMarkerTestCodes(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-tumor-marker-test-codes'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-codes'
     description = 'Codes representing tests for tumor markers. Extends the base valueset for tumor marker tests required for mCODE based on LOINC codes.'
     analyte = models.CharField(
      verbose_name=_('Analyte'),
@@ -545,11 +545,6 @@ class BodyLocationAndLateralityQualifier(CodedConcept):
     description = 'Qualifiers to refine a body structure or location including qualifiers for relative location, directionality, number, plane, and laterality.'
 
 
-class UnitsOfTime(CodedConcept):
-    valueset = 'http://hl7.org/fhir/ValueSet/units-of-time'
-    description = 'A unit of time (units from UCUM).'
-
-
 class HumanSpecimenCollectionSite(CodedConcept):
     valueset =  None
     description = 'Anatomical or acquired body sites (body structure)'
@@ -563,7 +558,7 @@ class USCoreSmokingStatusObservationCodes(CodedConcept):
 
 
 class CauseOfDeathCodes(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-causes-of-death'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-causes-of-death'
     description = 'Causes of death for oncology patients'
     # Additional codes for an extensible valuset
     extension_concepts = [
@@ -738,7 +733,7 @@ class GeneticTherapeuticImplications(CodedConcept):
 
 
 class TreatmentCategories(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-treatment-categories'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-treatment-categories'
     description = 'Codes representing the order in which different therapies are given to people as their disease progresses.'
     # Additional codes
     extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
@@ -747,13 +742,13 @@ class TreatmentCategories(CodedConcept):
         return self.display.replace('therapy','').replace('care','').replace(' Therapy','').replace('treatment','').replace('drug','').replace('antineoplastic','')
 
 class CancerTreatmentResponseObservationMethods(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-cancer-treatment-response-observation-methods'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-cancer-treatment-response-observation-methods'
     description = 'Codes representing the observation methods to study the response of a cancer to treatment'
     extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
 
 
 class TreatmentResponseInterpretation(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-treatment-response-interpretations'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-treatment-response-interpretations'
     description = 'Codes representing whether the RECIST results where interpreted or directly reported.'
 
 
@@ -763,7 +758,7 @@ class CancerTreatmentResponses(CodedConcept):
 
 
 class MTBRecommendations(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-molecular-tumor-board-recommendations'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-molecular-tumor-board-recommendations'
     description = 'Codes representing MTB recommendations'
 
 
@@ -772,12 +767,12 @@ class ICD10Condition(CodedConcept):
     description = 'Codes representing comorbid conditions in the ICD-10 system'
 
 class PDL1TumorCellScores(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-pdl1-tumor-cell-scores'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-pdl1-tumor-cell-scores'
     description = 'Score values for classification of the expression evidence for PD-L1 immunihistochemistry analyses measuring tumor cells'
 
 
 class PDL1ImmuneCellScores(CodedConcept):
-    valueset =  'https://pop.org/fhir/ValueSets/pop-pdl1-immune-cell-scores'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-pdl1-immune-cell-scores'
     description = 'Score values for classification of the expression evidence for PD-L1 immunihistochemistry analyses'
 
 
@@ -860,47 +855,47 @@ class ConsentScopeCodes(CodedConcept):
 
 
 class ExpectedDrugAction(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-expected-drug-action'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-expected-drug-action'
     description = 'Expected action of a drug'
 
 
 class TumorMarkerTestResultCodes(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-tumor-marker-test-results'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-results'
     description = 'Collection of LOINC codes that represent results of tumor marker tests'
 
 
 class RecreationalDrugs(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-recreational-drugs'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-recreational-drugs'
     description = 'Substances that people use to alter their mental state, often for pleasure or leisure, with effects ranging from relaxation and euphoria to hallucinations and altered perceptions.'
 
 
 class AdverseEventMitigationTreatmentAdjustment(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-adverse-event-mitigation-treatment-adjustment'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-treatment-adjustment'
     description = "Adjustments made to a patient's treatment plan in response to an adverse event."
 
 
 class AdverseEventMitigationDrugs(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-adverse-event-mitigation-drugs'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-drugs'
     description = "Drug or medication categories used in the mitigation process of an adverse event."
 
 
 class AdverseEventMitigationProcedures(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-adverse-event-mitigation-procedures'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-procedures'
     description = "Procedures undertaken to mitigate the impact of an adverse event on a patient's health."
 
 
 class AdverseEventMitigationManagement(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-adverse-event-mitigation-management'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-management'
     description = "Classification of actions to mitigate adverse events affecting a patient's health."
     def __str__(self):
         return self.display.replace('management','')
 
 class CancerRiskAssessmentMethods(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-cancer-risk-assessment-methods'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-methods'
     description = "Methods used to assess the risk in cancer"
 
 class CancerRiskAssessmentValues(CodedConcept):
-    valueset = 'https://pop.org/fhir/ValueSets/pop-cancer-risk-assessment-values'
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-values'
     description = "Classification of cancer risk assessment"
 
 class NCITCancerClassification(CodedConcept):

@@ -112,8 +112,7 @@ def resolve_canonical_url_to_api_endpoint_url(canonical_url: str) -> str:
         return f'{canonical_url}/$expand?_format=json'
 
     def resolve_Simplifier_endpoint(canonical_url: str) -> str:
-        valueset_name = canonical_url.replace('https','http').replace('http://pop.org/fhir/ValueSets/','',).replace('http://pop.org/fhir/CodeSystems/','',)
-        print( f'https://simplifier.net/pop/{valueset_name}/$download?format=json')
+        valueset_name = canonical_url.replace('https://simplifier.net/pop','').replace('ValueSets/','',).replace('CodeSystems/','',)
         return f'https://simplifier.net/pop/{valueset_name}/$download?format=json'
         
     # Validate the input canonical_url
@@ -125,7 +124,7 @@ def resolve_canonical_url_to_api_endpoint_url(canonical_url: str) -> str:
         'hl7.org': resolve_HL7_endpoint,
         'vsac.nlm.nih.gov': resolve_VSAC_endpoint,
         'cts.nlm.nih.gov': resolve_CTS_endpoint,
-        'pop.org': resolve_Simplifier_endpoint,
+        'simplifier.net/pop': resolve_Simplifier_endpoint,
     }
     
     for url_domain, resolver in url_resolvers.items():
