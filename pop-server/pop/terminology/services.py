@@ -1,19 +1,17 @@
 import cachetools
-import json
 import environ
 import requests 
-import sys 
 import csv
 import os 
-import string
+import subprocess
 import cachetools.func
 from datetime import datetime
 import urllib
 from collections import defaultdict
 from fhir.resources.R4B.valueset import ValueSet as ValueSetSchema, ValueSetComposeInclude
 from fhir.resources.R4B.codesystem import CodeSystem as CodeSystemSchema
-from pop.terminology.digestors import DIGESTORS 
-from pop.terminology.utils import CodedConcept 
+from pop.terminology.digestors import DIGESTORS, TerminologyDigestor, NCITDigestor
+from pop.terminology.utils import CodedConcept, get_file_location
 from enum import Enum
 from typing import List
 from tqdm import tqdm 
@@ -216,7 +214,7 @@ def download_codesystem(canonical_url) -> List[CodedConcept]:
     digestor = next((digestor for digestor in DIGESTORS if digestor.CANONICAL_URL == canonical_url or canonical_url in digestor.OTHER_URLS), None)
     if digestor:
         print(f'• Digesting code system: {canonical_url}')
-        concepts, designations = digestor().digest()        
+        concepts = digestor().digest()        
         print(f'✓ Digestion complete and added to cache')
     else:
         print(f'• Downloading code system: {canonical_url}')
@@ -340,496 +338,121 @@ class ValueSetComposer(object):
         self.concepts_limit = concepts_limit or 999999999999
         self.debug_mode = debug_mode
 
-    def compile_CTCAE_concepts(self):
-        """
-        Compile CTCAE (Common Terminology Criteria for Adverse Events) concepts and tree structure from a CSV file.
-
-        This function reads a CTCAE terminology CSV file, extracts concepts, and compiles relevant information 
-        into a list of dictionaries. Each dictionary represents a CTCAE concept, containing its code, display name, 
-        system, version, and grades.
-
-        Additionally, the function constructs a tree structure representing the hierarchy of CTCAE concepts.
-
-        Returns:
-            tuple: A tuple containing two elements:
-                1. list: A list of dictionaries representing CTCAE concepts.
-                2. list: A tree structure representing the hierarchy of CTCAE concepts.
-
-        Note:
-            - The CSV file is expected to have specific column order and delimiter (';') as defined in the function.
-            - The function assumes the first row of the CSV contains headers and skips it.
-        """
-        # Open the CTCAE terminology CSV file for reading
-        with open(os.path.join(artifacts_path,'CTCAE/CTCAE.csv')) as file:
-            # Increase the CSV field size limit to handle large values
-            csv.field_size_limit(sys.maxsize)
-            
-            # Create a CSV reader
-            reader = csv.reader(file, delimiter=';')
-            
-            with open(os.path.join(artifacts_path,'CTCAE/VERSION'), "r") as version_file:
-                version = version_file.read().strip()
-            
-            # Iterate through rows in the CSV file
-            for rowNumber, row in enumerate(reader):
-                # Skip the first row (headers)
-                if rowNumber == 0:
-                    continue
-                # Check that the limit of concepts has not been exceeded (for debuging and testing)
-                if len(self.concepts) >= self.concepts_limit: return
-
-                # Extract data from the current row
-                code, category, display = row[0:3]
-                CTCAE_grades = [grade if grade != ' -' else None for grade in row[3:8]]
-
-                # Create a dictionary representing the CTCAE concept
-                concept_dict = {
-                    'code': code,
-                    'display': display,
-                    'system': 'http://terminology.hl7.org/CodeSystem/MDRAE',
-                    'version': version,
-                    'grade1': CTCAE_grades[0],
-                    'grade2': CTCAE_grades[1],
-                    'grade3': CTCAE_grades[2],
-                    'grade4': CTCAE_grades[3],
-                    'grade5': CTCAE_grades[4],
-                }
-                # Append the concept dictionary to the concepts list
-                self.concepts.append(concept_dict)
-
-                # Create a child tree node for the concept
-                child_tree = {
-                    'id': code,
-                    'label': display,
-                    'children': [],
-                }
-
-                # Find the index of the parent node in the tree structure
-                tree_index = find_in_tree(self.tree, 'label', category)
-
-                # If the parent node doesn't exist, create it
-                if tree_index is None:
-                    subtree = {
-                        'id': category,
-                        'label': category,
-                        'children': [],
-                    }            
-                    self.tree.append(subtree)
-                    tree_index = -1
-
-                # Add the child node to the parent node in the tree structure
-                self.tree[tree_index]['children'].append(child_tree)
 
 
-    def compile_LOINC_TumorMarkerTest_concepts(self):
-        """
-        Compiles LOINC (Logical Observation Identifiers Names and Codes) Tumor Marker Test concepts
-        based on a provided FHIR model's canonical URL.
+    def expand_AntineoplasticAgent_with_NCTPOT_mappings(self):
 
-        Args:
-        - model: The FHIR model representing LOINC Tumor Marker Test concepts.
+        class NCTPOTDrugToClassDigestor(TerminologyDigestor):
+            LABEL = 'nctpot'
+            FILENAME = 'nctpot_drug_drugclass.tsv'
+            def _digest_concept_row(self, row):
+                self.concepts[row['id_drugClass']] = row['id_drug']
 
-        Returns:
-        - concepts: A list of compiled LOINC Tumor Marker Test concepts.
-        - tree: A hierarchical tree structure for the concepts.
-
-        This function compiles LOINC Tumor Marker Test concepts by querying and processing data from a remote source
-        and organizes them into a hierarchical tree structure based on their components.
-
-        The provided 'model' should represent LOINC Tumor Marker Test concepts and specify a canonical URL.
-        """    
-        SYSTEM = 'http://loinc.org'
-        # Prepare the correct URL for HTTP requests based on the given URL
-        api_url = resolve_canonical_url_to_api_endpoint_url(self.model.canonical_url)
-        # Download the FHIR resource definition
-        valueset_json = request_api_endpoint_json(api_url)
-        valueset = ValueSet.parse_raw(json.dumps(valueset_json))
-        
-        # Include all codes collected in the mCODE TumorMarkerTestCodes valueset
-        included_valueset_api_url = resolve_canonical_url_to_api_endpoint_url(valueset.compose.include[0].valueSet[0])
-        included_valueset_json = request_api_endpoint_json(included_valueset_api_url)
-        included_valuesetvalueset = ValueSet.parse_raw(json.dumps(included_valueset_json))
-        codes = [concept.code for concept in included_valuesetvalueset.compose.include[0].concept]
-        # Add the extended LOINC concepts    
-        codes += [concept.code for concept in valueset.compose.include[1].concept]
-        
-        sample_lookup = {}
-        type_lookup = {}
-        for n,code in enumerate(codes):
-            # Check that the limit of concepts has not been exceeded (for debuging and testing)
-            if len(self.concepts) >= self.concepts_limit: return
-
-            print(f'Compiling tumor marker test concepts {n+1}/{len(codes)}\t', end='\r')        
-
-            api_endpoint = f'https://fhir.loinc.org/CodeSystem/$lookup?code={code}&system=http%3A%2F%2Floinc.org&_format=json'
-            data = request_api_endpoint_json(api_endpoint)
-            data = data['parameter']
-            
-            for parameter in data:
-                if parameter['name']=='display': 
-                    display = parameter['valueString']
-                    break
-            
-            def search_LOINC_properties(property):
-                for parameter in data:
-                    if parameter['name']=='property': 
-                        if parameter['part'][0]['valueCode'].lower()==property:
-                            return parameter['part'][1]['valueCodedConcept']['display'], parameter['part'][1]['valueCodedConcept']['code']                   
-                return None, None
-
-            VERSION, _ = search_LOINC_properties('VersionLastChanged')
-            analyte, _ = search_LOINC_properties('analyte')                
-            analyte = analyte.replace(' & ',' and ')
-            scale, _ = search_LOINC_properties('scale_typ')
-            method, _ = search_LOINC_properties('method_typ')
-            
-            def lookup_LOINC_property_code(code, lookup):
-                if code not in lookup:
-                    api_endpoint = f'https://fhir.loinc.org/CodeSystem/$lookup?system=http://loinc.org&code={code}'
-                    sub_data = request_api_endpoint_json(api_endpoint)
-                    display = sub_data['parameter'][-1]['part'][-1]['valueString']
-                    lookup[code] = display
-                    return display, lookup
-                else:
-                    return lookup[code], lookup
-                
-            _, type_code = search_LOINC_properties('property')   
-            type, type_lookup = lookup_LOINC_property_code(type_code, type_lookup)
-               
-            _, sample_code = search_LOINC_properties('system')
-            sample, sample_lookup = lookup_LOINC_property_code(sample_code, sample_lookup)
-            self.concepts.append({
-                'code': code,
-                'display': display,
-                'system': SYSTEM,
-                'version': None,
-                'analyte': analyte,
-                'sample': sample,
-                'method': method if method else 'Unspecified',
-                'type': type,
-            })
-        
-        # Add non-loinc concepts 
-        NCI_tests_map = {
-                'C157196': {
-                    'analyte': 'Estrogen receptor',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Number fraction',
-                },
-                'C157165': {
-                    'analyte': 'Androgen receptor',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Number fraction',
-                },
-                'C141458': {
-                    'analyte': 'Progesterone receptor',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Number fraction',
-                },
-                'C87051': {
-                    'analyte': 'p16',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Presence or threshold',
-                },
-                'C123557': {
-                    'analyte': 'Ki67',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Number fraction',
-                },
-                'C122807': {
-                    'analyte': 'PD-L1',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Number fraction',
-                },
-                'C185751': {
-                    'analyte': 'HER2',
-                    'method': 'Immunohistochemistry',
-                    'type': 'Immunohistochemical category',
-                },
-                'C16152': {
-                    'analyte': 'HER2',
-                    'method': 'FISH',
-                    'type': 'Presence or threshold',
-                },
-                'C165984': {
-                    'analyte': 'SSTR2',
-                    'method': 'Unspeficied',
-                    'type': 'Number fraction',
-                },
-                'C159326': {
-                    'analyte': 'HPV',
-                    'method': 'PCR',
-                    'type': 'Presence or threshold',
-                },
-                'C159327': {
-                    'analyte': 'HPV',
-                    'method': 'ISH',
-                    'type': 'Presence or threshold',
-                },
-                'C166035': {
-                    'analyte': 'Epstein Barr virus DNA',
-                    'method': 'PCR',
-                    'type': 'Presence or threshold',
-                },
-                'C138177': {
-                    'analyte': 'Epstein Barr virus DNA',
-                    'method': 'ISH',
-                    'type': 'Presence or threshold',
-                },
+        class NCTPOTClassesDigestor(TerminologyDigestor):
+            LABEL = 'nctpot'
+            FILENAME = 'nctpot_drugclass.tsv'
+            THERAPY_DISPLAY_LABELS = {
+                'pi3k-akt-mtor': 'PI3K/AKT/mTOR pathway inhibitors',
+                'tk': 'TK inhibitors',
+                'DNA damage repair': 'DNA damage repair inhibitors',
+                'developmental pathway': 'Developmental pathway inhibitors',
+                'immune response': 'Immunotherapy',
+                'cell cycle': 'Cell cycle inhibitors',
+                'other function': 'Others',
+                'epigenetic modulation': 'Epigenetic modulators',
+                'metabolic control': 'Metabolic therapy',
+                'targeted immune-mediated ablation': 'Targeted immunomediated ablation therapy',
+                'BiTE': 'BiTE',
+                'CAR-T': 'CAR-T',
+                'targeted irradiation': 'Targeted radiopharmaceutics',
+                'targeted immune pathway activation': 'Targeted immunoactivation',
+                'targeted apoptose': 'Targeted apoptosis modulators',
+                'targeted chemo': 'Targeted chemotherapy',
+                'targeted radio-labelling': 'Targeted radioa-labeling',
+                'chemo': 'Chemotherapy',
             }
-        
-        for concept in valueset.compose.include[2].concept:
-            # Check that the limit of concepts has not been exceeded (for debuging and testing)
-            if len(self.concepts) >= self.concepts_limit: return
-                        
-            code = concept.code
-            self.concepts.append({
-                'code': code,
-                'display': concept.display,
-                'system': valueset.compose.include[2].system,
-                'version': valueset.compose.include[2].version,
-                'analyte': NCI_tests_map[code]['analyte'],
-                'sample': 'Blood or Tissue',
-                'method': NCI_tests_map[code]['method'],
-                'type': NCI_tests_map[code]['type'],
-                'scale': None,
-            })
-            
-
-
-    def compile_NCIT_drugs(self):
-        """
-        Compiles NCIT (National Cancer Institute Thesaurus) drugs data by mapping them to NCT-POT (National Cancer Trials Potentials) concepts.
-
-        System Requirements:
-            - Requires internet access for API requests.
-
-        Example:
-            To compile NCIT drugs data:
-            ```
-            compiler = DrugCompiler()
-            compiled_drugs = compiler.compile_NCIT_drugs()
-            ```
-
-        """
-        SYSTEM = 'http://ncithesaurus-stage.nci.nih.gov'
-        VERSION = datetime.now().strftime("%d%m%Y")
-
-        THERAPY_CLASS_LABEL_TO_DISPLAY = {
-            'pi3k-akt-mtor': 'PI3K/AKT/mTOR pathway inhibitors',
-            'tk': 'TK inhibitors',
-            'DNA damage repair': 'DNA damage repair inhibitors',
-            'developmental pathway': 'Developmental pathway inhibitors',
-            'immune response': 'Immunotherapy',
-            'cell cycle': 'Cell cycle inhibitors',
-            'other function': 'Others',
-            'epigenetic modulation': 'Epigenetic modulators',
-            'metabolic control': 'Metabolic therapy',
-            'targeted immune-mediated ablation': 'Targeted immunomediated ablation therapy',
-            'BiTE': 'BiTE',
-            'CAR-T': 'CAR-T',
-            'targeted irradiation': 'Targeted radiopharmaceutics',
-            'targeted immune pathway activation': 'Targeted immunoactivation',
-            'targeted apoptose': 'Targeted apoptosis modulators',
-            'targeted chemo': 'Targeted chemotherapy',
-            'targeted radio-labelling': 'Targeted radioa-labeling',
-            'chemo': 'Chemotherapy',
-        }
-
-        
-        # Create map of NCT-POT drug codes to drug classification
-        NCTPOT_Drugs_to_DrugClasses_file = 'pop/apps/valuesets/artifacts/NCT-POT/drugs/drug_drugClass.tsv'
-        NCTPOT_Drugs_to_DrugClasses = {}
-        with open(NCTPOT_Drugs_to_DrugClasses_file) as tsv:
-            for n,line in enumerate(csv.reader(tsv, delimiter="\t")):
-                if n==0: continue
-                id_drugClass, id_drug = line
-                NCTPOT_Drugs_to_DrugClasses[id_drug] = id_drugClass
-
-        # Create dictionary of NCT-POT drug classes and other properties
-        NCTPOT_DrugClasses_file = 'pop/apps/valuesets/artifacts/NCT-POT/drugs/drugClass.tsv'
-        NCTPOT_DrugClasses = {}
-        with open(NCTPOT_DrugClasses_file) as tsv:
-            for n,line in enumerate(csv.reader(tsv, delimiter="\t")):
-                if n==0: continue
-                id_drugClass, drugClass, drugDomain, therapyClass = line[:4]
-                drugDomain = drugDomain.replace('(anti)','(Anti)')
-                NCTPOT_DrugClasses[id_drugClass] = {
-                    'name': drugClass,
-                    'domain': drugDomain,
-                    'therapy': therapyClass,
+            def _digest_concept_row(self, row):
+                self.concepts[row['id']] = {
+                    'name': row['name'],
+                    'domain': row['domain'].replace('(anti)','(Anti)'),
+                    'therapy': self.THERAPY_DISPLAY_LABELS.get(row['basket']),
+                    'targetFamily': row['targetFamily'],
+                    'chemical': row['chemStructure'],
                 }                     
 
-        # Create map of drug codes from NCIT to NCT-POT
-        NCTPOT_Drugs_file = 'pop/apps/valuesets/artifacts/NCT-POT/drugs/drug.tsv'
-        NCTPOT_Drugs = {}
-        NCTPOT_DrugNames = {}
-        with open(NCTPOT_Drugs_file) as tsv:
-            for n,line in enumerate(csv.reader(tsv, delimiter="\t")):
-                if n==0: continue                            
-                drug_id = line[0]
-                drug_name = line[3]
-                NCIT_code = line[7]
-                NCTPOT_Drugs[NCIT_code] = drug_id
-                NCTPOT_DrugNames[NCIT_code] = drug_name
-                
+        class NCTPOTDrugsDigestor(TerminologyDigestor):
+            LABEL = 'nctpot'
+            FILENAME = 'nctpot_drug.tsv'
+            def _digest_concept_row(self, row):
+                self.concepts[row['id@ncit']] = {
+                    'id': row['id'],
+                    'name': row['name'],
+                    'synonyms': row['synonyms'].split('#'),
+                }
 
+        def _get_drug_terminology_mappings(drug_name):
+            # Get RxNorm code
+            data = request_api_endpoint_json(f'https://rxnav.nlm.nih.gov/REST/rxcui.json?name={drug_name}')
+            rxnorm_code = data['idGroup'].get('rxnormId',[None])[0]
+            if rxnorm_code:
+                # Get ATC code through the RxNorm API
+                data = request_api_endpoint_json(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/property.json?propName=ATC')
+                atc_code = data['propConceptGroup']['propConcept'][-1]['propValue'] if data else None
+                # Get SNOMED CT code through the RxNorm API
+                data = request_api_endpoint_json(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/property.json?propName=SNOMEDCT')
+                snomed_code = data['propConceptGroup']['propConcept'][-1]['propValue'] if data else None 
+            else:
+                atc_code, snomed_code = None, None
+            return rxnorm_code, atc_code, snomed_code
 
-        def compile_concept_for_NCIT_drug(ncit_code, drug, parent_ncit_code=None):
-                rxnorm_code, atc_code, snomed_code, NCTPOT_drug_class = None,None,None,{}
-                if ncit_code in NCTPOT_Drugs:
-                    # Get RxNorm code
-                    data = request_api_endpoint_json(f'https://rxnav.nlm.nih.gov/REST/rxcui.json?name={drug}')
-                    rxnorm_code = data['idGroup'].get('rxnormId',[None])[0]
-                    if rxnorm_code:
-                        # Get ATC code through the RxNorm API
-                        data = request_api_endpoint_json(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/property.json?propName=ATC')
-                        atc_code = data['propConceptGroup']['propConcept'][-1]['propValue'] if data else None
-                        # Get SNOMED CT code through the RxNorm API
-                        data = request_api_endpoint_json(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/property.json?propName=SNOMEDCT')
-                        snomed_code = data['propConceptGroup']['propConcept'][-1]['propValue'] if data else None 
+        def _add_concept_with_NCTPOT_properties(concept):
+            # Get NCT-POT classification if available
+            nctpot_drug = nctpot_drugs.get(concept.code, {})
+            nctpot_drug_class_id = nctpot_map.get(nctpot_drug.get('id'))
+            nctpot_drug_class = nctpot_drug_classes.get(nctpot_drug_class_id, {})
+            # Get RxNorm, ATC and SNOMED CT codes
+            rxnorm_code, atc_code, snomed_code = _get_drug_terminology_mappings(concept.display)
+            # Compose concept
+            concepts[concept.code] = CodedConcept(
+                code = concept.code,
+                display = concept.display,
+                system = concept.system,
+                version = concept.version,
+                parent = concept.parent,
+                synonyms = concept.synonyms + nctpot_drug.get('synonyms', []),
+                drugCategory = nctpot_drug_class.get('name'),
+                drugDomain = nctpot_drug_class.get('domain'), 
+                therapyCategory = nctpot_drug_class.get('therapy'), 
+                atc = atc_code, 
+                snomed = snomed_code, 
+                rxnorm = rxnorm_code, 
+            )
 
-                    # Get NCT-POT classification if available
-                    drug_id = NCTPOT_Drugs.get(ncit_code)
-                    drug_class_id = NCTPOT_Drugs_to_DrugClasses.get(drug_id)
-                    NCTPOT_drug_class = NCTPOT_DrugClasses.get(drug_class_id, {})
+        def get_children_recursively(parent):
+            for child in ncit_children[parent]:
+                _add_concept_with_NCTPOT_properties(child)
+                get_children_recursively(child)
 
-                # Compile concept
-                concept_data = {
-                    'code': ncit_code,
-                    'display': drug,
-                    'system': SYSTEM,
-                    'version': VERSION,
-                    'parent': parent_ncit_code,
-                    'drugCategory': NCTPOT_drug_class.get('name'),
-                    'drugDomain': NCTPOT_drug_class.get('domain'), 
-                    'therapyCategory': THERAPY_CLASS_LABEL_TO_DISPLAY.get(NCTPOT_drug_class.get('therapy')), 
-                    'atc': atc_code, 
-                    'snomed': snomed_code, 
-                    'rxnorm': rxnorm_code, 
-                }   
-                if concept_data not in self.concepts:
-                    print(f'({len(self.concepts)+1}/~8515)  Adding NCIT concept: {ncit_code} ({drug if len(drug)<30 else drug[:30] + "..."}) \t\t\t\t\t\t\t\t\t\t', end='\r')
+        concepts = {}
+        # Prepare the NCIT codesystem and its tree structre
+        ncit_codesystem = download_codesystem(NCITDigestor.CANONICAL_URL)
+        ncit_children = parent_to_children(ncit_codesystem)
+        # Digest the NCTPOT maps
+        nctpot_drugs = NCTPOTDrugsDigestor().digest()
+        nctpot_map = NCTPOTDrugToClassDigestor().digest()
+        nctpot_drug_classes = NCTPOTClassesDigestor().digest()
+        # Add the concepts from the NCIT Antineoplastic agents tree
+        ANTINEOPLASTIC_AGENTS_CODE = 'C274'
+        get_children_recursively(ANTINEOPLASTIC_AGENTS_CODE)
 
-                return concept_data          
-
-        def add_ncit_tree_children(parent_ncit_code, tree, include_subtrees=True):            
-
-            ncit_parent_tree = request_api_endpoint_json(f'https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/{parent_ncit_code}/children')        
-            for concept in ncit_parent_tree:
-                # Get NCIT code and display
-                drug = concept['name']
-                ncit_code = concept['code']
-                if not concept['leaf'] and not include_subtrees:
-                    continue
-                
-                # Compile concept
-                concept_data = compile_concept_for_NCIT_drug(ncit_code, drug, parent_ncit_code)
-
-                # Check that collection limit has not been exceeded, else return current state
-                if len(self.concepts) >= self.concepts_limit: 
-                    return tree
-                
-                # If concept has not been added to the list, add it
-                if concept_data not in self.concepts:
-                    self.concepts.append(concept_data)
-                               
-                # If requested, explore the full subtree for each child
-                subtree = []
-                if include_subtrees and not concept['leaf']:
-                    subtree = add_ncit_tree_children(ncit_code, tree=subtree)
-
-                # Append all children subtrees to current leaf
-                tree.append({
-                    'id': ncit_code,
-                    'label': drug,
-                    'children': subtree
-                })
-            return tree
-        
-        # Compile NCIT tree for concept C274 - Antineoplastic agents
-        self.tree = add_ncit_tree_children('C274', tree=[])
-        
-        # Compile the concepts for other codes in the NCT-POT dictionary not included in the NCIT Antineoplastic agents tree
-        others_subtrees = []
-        for ncit_code in NCTPOT_Drugs.keys():
-            existing_drugs = [concept['code'] for concept in self.concepts]
+        # Add other NCTPOT concepts not in the NCT Antineoplastic agents tree
+        for ncit_code in nctpot_drugs.keys():
             # If drug has already been included or there is not associated NCIT code, skip it
-            if not ncit_code or ncit_code in existing_drugs:
-                continue 
-            drug = NCTPOT_DrugNames[ncit_code]
-            # Compile information about the drug 
-            concept_data = compile_concept_for_NCIT_drug(ncit_code, drug)
-            self.concepts.append(concept_data)
-            others_subtrees.append({
-                'id': ncit_code,
-                'label': drug,
-                'children': [],
-            })
-        # If there were additional concepts added, put them all under the 'Other' classification
-        if len(others_subtrees)>0:
-            self.tree.append({
-                'id': 'C17649',
-                'label': 'Other',
-                'children': others_subtrees
-            })
-
-
-    def compile_ICD10_comorbidities_concepts(self):
-
-        with open('pop/apps/valuesets/artifacts/ICD-10/icdo10_code_system.tsv') as tsv:
-            for line in csv.reader(tsv, delimiter="\t"):
-                code, display = line[0], line[1]
-                if 'neoplasm' in display.lower() or '-' in code:
-                    continue 
-                if not code[-1].isnumeric():
-                    family = code
-                    self.tree.append({'id': family, 'label': display, 'children': []})
-                    continue
-                elif family=='II': # Neoplasms
-                    continue
-
-                if '.' in code:
-                    self.tree[-1]['children'][-1]['children'].append({'id': code, 'label': display, 'children': None} )
-
-                else: 
-                    parent = code
-                    self.tree[-1]['children'].append({'id': parent, 'label': display, 'children': []}) 
-
-
-                self.concepts.append({
-                    'code': code,
-                    'display': display,
-                    'system': 'http://hl7.org/fhir/sid/icd-10',
-                    'version': '2.1.0',
-                })
-
-
-    def compile_OncoTree_concepts(self):
-        SYSTEM = 'http://oncotree.mskcc.org/fhir/CodeSystem/snapshot'            
-        VERSION = datetime.now().strftime("%d%m%Y")
-        
-        # Download tree via the OncoTree API
-        api_url = 'https://oncotree.mskcc.org/api/tumorTypes/tree'
-        oncotree = request_api_endpoint_json(api_url)
-
-        def explore_oncotree(oncotree):
-            # Add current oncotree code
-            self.concepts.append({
-                'code': oncotree['code'],
-                'display': oncotree['name'],
-                'level': oncotree['level'],
-                'parent': oncotree['parent'],
-                'tissue': oncotree['tissue'],
-                'system': SYSTEM,
-                'version': VERSION,
-            })
-            # And recursively add all its children
-            for child in oncotree['children'].values():
-                explore_oncotree(child)
-        for tissue in oncotree['TISSUE']['children'].values():
-            explore_oncotree(tissue)
-
+            if ncit_code not in concepts and ncit_code in ncit_codesystem:
+                concept = ncit_codesystem.get(ncit_code)
+                _add_concept_with_NCTPOT_properties(concept)
+        return concepts 
+    
 
     def compose(self):
         """
@@ -866,10 +489,7 @@ class ValueSetComposer(object):
 
         # Determine which valueset model to synchronize and compile concepts accordingly
         special_composer_function = {
-            'CTCAETerms': self.compile_CTCAE_concepts,
-            'TumorMarkerTestCodes': self.compile_LOINC_TumorMarkerTest_concepts,
-            'AntineoplasticAgents': self.compile_NCIT_drugs,
-            'OncoTreeCancerClassification': self.compile_OncoTree_concepts,
+            'AntineoplasticAgent': self.expand_AntineoplasticAgent_with_NCTPOT_mappings,
         }
         if self.model.__name__ in special_composer_function:
             special_composer_function[self.model.__name__]()

@@ -5,7 +5,9 @@ import os
 import csv
 import environ 
 import subprocess
+import json 
 import sys
+from datetime import datetime 
 from tqdm import tqdm 
 from pop.terminology.utils import get_file_location, get_dictreader_and_size, ensure_within_string_limits, ensure_list, CodedConcept
 
@@ -30,7 +32,6 @@ class TerminologyDigestor:
             self.file_location = get_file_location(self.PATH, self.FILENAME)
         except FileNotFoundError:
             cmd = f'chmod +x download.sh && ./download.sh {self.LABEL}'
-            print('Launching download script: ', cmd)
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             process.wait()
         self.file_location = get_file_location(self.PATH, self.FILENAME)
@@ -42,7 +43,7 @@ class TerminologyDigestor:
         self._digest_concepts()
         for code, synonyms in self.designations.items(): 
             self.concepts[code].synonyms = synonyms
-        return self.concepts, self.designations 
+        return self.concepts
     
     def _digest_concepts(self):
         # Read through file containing the concepts
@@ -92,7 +93,7 @@ class SNOMEDCTDigestor(TerminologyDigestor):
     def digest(self):
         super().digest() 
         self._digest_relationships()
-        return self.concepts, self.designations 
+        return self.concepts
     
     def _digest_relationships(self):
         file_location = get_file_location(self.PATH, self.RELATIONSHIPS_FILENAME)
@@ -151,7 +152,7 @@ class LOINCDigestor(TerminologyDigestor):
         super().digest() 
         self._digest_part_codes()
         self._digest_answer_lists()
-        return self.concepts, self.designations 
+        return self.concepts
     
     def _digest_concept_row(self, row):
         # Get core coding elements
@@ -472,6 +473,37 @@ class WHOATCDigestor(TerminologyDigestor):
             system=self.CANONICAL_URL,
         )
 
+class OncoTreeDigestor(TerminologyDigestor):
+    LABEL = 'oncotree'
+    FILENAME = 'oncotree.json'
+    CANONICAL_URL='http://oncotree.mskcc.org/fhir/CodeSystem/snapshot'
+    VERSION = datetime.now().strftime("%d%m%Y")
+
+    def digest(self):
+        self.concepts = {}
+        with open(self.file_location) as file:
+            self.oncotree = json.load(file)
+        # And recursively add all its children
+        for branch in self.oncotree['TISSUE']['children'].values():
+            self._digest_branch(branch)
+        return self.concepts
+
+    def _digest_branch(self, branch):
+        code = branch['code']
+        display = ensure_within_string_limits(branch['name'])
+        # Add current oncotree code
+        self.concepts[code] = CodedConcept(
+            code = code,
+            display = display,
+            parent = branch['parent'],
+            properties = {'tissue': branch['tissue'], 'level': branch['level']},
+            system = self.CANONICAL_URL,
+            version = self.VERSION,
+        )
+        # And recursively add all its children
+        for child_branch in branch['children'].values():
+            self._digest_branch(child_branch)
+
 
 DIGESTORS = [
     NCITDigestor, 
@@ -490,4 +522,5 @@ DIGESTORS = [
     ICD10PCSDigestor,
     HGNCGenesDigestor,
     HGNCGroupDigestor,
+    OncoTreeDigestor,
 ]

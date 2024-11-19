@@ -74,6 +74,35 @@ download_so() {
 }
 
 
+download_oncotree() {
+	# Local variables
+	DOWNLOAD_URL=https://oncotree.mskcc.org/api/tumorTypes/tree
+	DOWNLOAD_FILE=${DATA_DIR}/oncotree.json
+	echo ""
+	echo "Downloading OncoTree files"
+	echo "-----------------------------------"
+	wget $WGET_PROXY_OPTIONS --no-cache -U "Mozilla/4.0" -O $DOWNLOAD_FILE $DOWNLOAD_URL
+  echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
+}
+
+
+download_nctpot() {
+	# Local variables
+	DOWNLOAD_URL_1=https://raw.githubusercontent.com/TMO-HD/NCT-POT/refs/heads/main/drugs/tsv/drug_drugClass.tsv
+	DOWNLOAD_FILE_1=${DATA_DIR}/nctpot_drug_drugclass.tsv
+	DOWNLOAD_URL_2=https://raw.githubusercontent.com/TMO-HD/NCT-POT/refs/heads/main/drugs/tsv/drugClass.tsv
+	DOWNLOAD_FILE_2=${DATA_DIR}/nctpot_drugclass.tsv
+	DOWNLOAD_URL_3=https://raw.githubusercontent.com/TMO-HD/NCT-POT/refs/heads/main/drugs/tsv/drug.tsv
+	DOWNLOAD_FILE_3=${DATA_DIR}/nctpot_drug.tsv
+	echo ""
+	echo "Downloading NCT-POT files"
+	echo "-----------------------------------"
+	wget $WGET_PROXY_OPTIONS --no-cache -O $DOWNLOAD_FILE_1 $DOWNLOAD_URL_1
+	wget $WGET_PROXY_OPTIONS --no-cache -O $DOWNLOAD_FILE_2 $DOWNLOAD_URL_2
+	wget $WGET_PROXY_OPTIONS --no-cache -O $DOWNLOAD_FILE_3 $DOWNLOAD_URL_3
+  echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
+}
+
 download_icdo3topo() {
 	# Local variables
 	DOWNLOAD_URL=https://raw.githubusercontent.com/luisfabib/icd10_2019_data/refs/heads/main/icdo3/icdo3.2_topography.tsv
@@ -339,6 +368,7 @@ case "$TERMINOLOGY" in
   icdo3topo) download_icdo3topo;;
   icdo3morph) download_icdo3morph;;
   icdo3diff) download_icdo3diff;;
+  oncotree) download_oncotree;;
   icd10) download_icd10;;
   icd10cm) download_icd10cm;;
   icd10pcs) download_icd10pcs;;
@@ -348,6 +378,7 @@ case "$TERMINOLOGY" in
   rxnorm) download_rxnorm;;
   snomedct) process_snomedct;;
   ucum) download_ucum;;
+  nctpot) download_nctpot;;
   hta) download_hta;;
   atc) download_atc;;
   ch-term) download_ch-term;;

@@ -903,16 +903,5 @@ class NCITCancerClassification(CodedConcept):
     description = "Cancer classification by the NCIT"
 
 class OncoTreeCancerClassification(CodedConcept):
-    valueset = None
+    codesystem = 'http://oncotree.mskcc.org/fhir/CodeSystem/snapshot'
     description = "Cancer classification by OncoTree"
-    tissue = models.CharField(
-        verbose_name='Cancer Tissue',
-        max_length=50,
-    )
-    parent = models.CharField(
-        verbose_name='Parent OncoTree Code',
-        max_length=50,
-    )
-    level = models.PositiveBigIntegerField(
-        verbose_name='Oncotree level',
-    )
