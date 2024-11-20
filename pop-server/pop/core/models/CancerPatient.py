@@ -1,55 +1,63 @@
 from django.db import models 
 from django.utils.translation import gettext_lazy as _
 import pop.core.models.fields as custom
+
+from pop.terminology import models as terminologies 
+from pop.terminology.models import RaceCategory
 import random 
 import string
 from .BaseModel import BaseModel 
 
 class CancerPatient(BaseModel):
     """
-    A patient who has been diagnosed with or is receiving medical treatment for a malignant growth or tumor
+    A patient who has been diagnosed with or is receiving medical 
+    treatment for a malignant growth or tumor
     """ 
     pseudoidentifier = models.CharField(
-        verbose_name=_('Pseudoidentifier'),
-        help_text=_("Pseudoidentifier of the patient"),
-        max_length=40, 
-        unique=True,
-        editable=False,
+        verbose_name = _('Pseudoidentifier'),
+        help_text = _("Pseudoidentifier of the patient"),
+        max_length = 40, 
+        unique = True,
+        editable = False,
     )
     race = custom.CodedConceptField(
-        verbose_name=_('Race'),
-        help_text=_("Race of the patient"),
-        valueset='RaceCategory',    
-        null=True, blank=True,    
+        verbose_name = _('Race'),
+        help_text = _("Race of the patient"),
+        terminology = terminologies.RaceCategory,    
+        null = True, 
+        blank = True,    
     )
     birthsex = custom.CodedConceptField(
-        verbose_name=_('Birth sex'),
-        help_text=_("Sex assigned at birth"),
-        valueset='BirthSex',
-        blank=True, null=True,
+        verbose_name = _('Birth sex'),
+        help_text = _("Sex assigned at birth"),
+        terminology = terminologies.BirthSex,
+        blank = True, 
+        null = True,
     )
     gender_identity = custom.CodedConceptField(
-        valueset='GenderIdentity',
-        null=True, blank=True,        
+        verbose_name = _('Gender identity'),
+        terminology = terminologies.GenderIdentity,
+        null = True, 
+        blank = True,        
     )
     gender = custom.CodedConceptField(
-        verbose_name=_('Gender'),
-        help_text=_("Gender for administrative purposes"),
-        valueset='AdministrativeGender', 
+        verbose_name = _('Gender'),
+        help_text = _("Gender for administrative purposes"),
+        terminology = terminologies.AdministrativeGender, 
     )
     birthdate = models.DateField(
-        verbose_name=_('Date of birth'),
-        help_text=_('Date of birth'),
+        verbose_name = _('Date of birth'),
+        help_text = _('Date of birth'),
     )
-    id_deceased = models.BooleanField(
-        verbose_name=_('Is deceased'),
-        help_text=_("Indicates if the individual is deceased or not"),
-        null=True,
+    is_deceased = models.BooleanField(
+        verbose_name = _('Is deceased'),
+        help_text = _("Indicates if the individual is deceased or not"),
+        null = True,
     )
     
     def _generate_random_id(self):
         digit = lambda N: ''.join([str(random.randint(1,9)) for _ in range(N)])
-        return f'{random.choice(string.ascii_letters)}{digit(4)}.{digit(3)}.{digit(2)}'
+        return f'{random.choice(string.ascii_letters).upper()}.{digit(4)}.{digit(3)}.{digit(2)}'
     
     def save(self, *args, **kwargs):
         # If an ID has not been manually specified, add an automated one
