@@ -7,7 +7,7 @@ services:
         build:
             context: ./pop-server
             additional_contexts:
-                certificates: ${SSL_CERT_DIR}
+                project-root: .
             args:
                 CA_SSL_CERT_BUNDLE: ${CA_SSL_CERT_BUNDLE}
                 HOST_SSL_CERT_KEY: ${HOST_SSL_CERT_KEY}
@@ -38,7 +38,7 @@ services:
         build:
             context: ./pop-web
             additional_contexts:
-                certificates: ${SSL_CERT_DIR}
+                project-root: .
             args:
                 CA_SSL_CERT_BUNDLE: ${CA_SSL_CERT_BUNDLE}
                 PROXY_HTTP: ${PROXY_HTTP}

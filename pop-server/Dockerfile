@@ -22,10 +22,10 @@ ENV https_proxy=${PROXY_HTTPS}
 ENV http_proxy=${PROXY_HTTP}
 ENV POETRY_VERSION=1.0.0
 ENV CA_BUNDLE_CERT=/etc/ssl/certs/ca-cert-bundle.crt
-ENV REQUESTS_CA_BUNDLE=$CA_SSL_CERT_BUNDLE
+ENV REQUESTS_CA_BUNDLE=$CA_BUNDLE_CERT
 
 # Install SSL certificates
-COPY --from=certificates ${CA_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
+COPY --from=project-root ${CA_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
 RUN update-ca-certificates
 
 # Set work directory
