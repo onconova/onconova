@@ -33,9 +33,9 @@ class CancerPatientFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.CancerPatient
     
-    birthdate = faker.date_of_birth()
+    birthdate = factory.LazyFunction(faker.date_of_birth)
     gender = factory.SubFactory(make_terminology_factory(terminology.AdministrativeGender))
     race = factory.SubFactory(make_terminology_factory(terminology.RaceCategory))
     birthsex = factory.SubFactory(make_terminology_factory(terminology.BirthSex))
-    is_deceased = faker.boolean()
+    is_deceased = factory.LazyFunction(faker.boolean)
 

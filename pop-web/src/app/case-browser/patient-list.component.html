@@ -3,15 +3,24 @@
         <p-inputIcon styleClass="pi pi-search" />
         <input type="text" pInputText placeholder="Search" [(ngModel)]="filterValue" (ngModelChange)="filterPatients(filterValue)"/>
     </p-iconField>
-    <p-dataView #dv [value]="filteredPatients" [paginator]="true" [rows]="10" *ngIf="!loading">
+</div>
+<div class="card">
+        <p-dataView #dv [value]="filteredPatients" [paginator]="true" [rows]="10" *ngIf="!loading">
         <ng-template pTemplate="list" let-patients>
             <div class="grid grid-nogutter">
                 <div class="col-12" *ngFor="let patient of patients; let first = first" class="col-12">
                     <div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3" [ngClass]="{ 'border-top-1 surface-border': !first }">
-                        <svg width="4rem" height="4rem" [data-jdenticon-value]="[patient.pseudoidentifier]"></svg>
+                        <p-avatar size="xlarge" [style]="{'background': 'white', 'border': '1px solid #f0f2'}">
+                            <svg width="4rem" height="4rem" [data-jdenticon-value]="[patient.pseudoidentifier]"></svg>
+                        </p-avatar>
+
+
                         <div class="flex flex-column">
                             <div class="text-xl font-bold">{{patient.pseudoidentifier}}</div>
-                            <div class="">{{patient.birthdate}}, {{patient.gender.display}}</div>
+                            <div class="">
+                                <i class="pi pi-mars"></i>,
+                                {{patient.birthdate}}  
+                                <span *ngIf="patient.is_deceased">, †</span></div>
                         </div>
                     </div>
                 </div>

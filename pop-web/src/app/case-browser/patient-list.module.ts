@@ -14,6 +14,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SkeletonModule } from 'primeng/skeleton';
+import { AvatarModule } from 'primeng/avatar';
 import { PatientListRoutingModule } from './patient-list-routing.module';
 
 
@@ -33,6 +34,7 @@ import { PatientListRoutingModule } from './patient-list-routing.module';
         InputIconModule,
         InputTextModule,
         SkeletonModule,
+        AvatarModule,
         PatientListRoutingModule,
     ],
     declarations: [
