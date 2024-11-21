@@ -1,37 +1,94 @@
-import itertools
-from typing import Any, Dict, Iterator, List, Optional, Set, Tuple, Type, Union, cast
+from typing import Any,List, Tuple, Type, Optional
 
-from django.db.models import Field as DjangoField
-from django.db.models import ManyToManyRel, ManyToOneRel, Model
-from pydantic import field_validator, create_model as create_pydantic_model, ConfigDict, model_validator
+from django.db.models import Model as DjangoModel
 
-from typing import Any, Callable, Dict, List, Tuple, Type, TypeVar, Union, no_type_check
+from pydantic import create_model as create_pydantic_model, BaseModel as PydanticBaseModel, ConfigDict
 
 from ninja.errors import ConfigError
+from ninja.orm.metaclass import MetaConf
 from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
-from ninja.schema import Schema
+from ninja.schema import ResolverMetaclass, Schema
 
-from functools import partial 
-
-from pop.core.schemas.fields import get_schema_field, CodedConcept
+from pop.core.schemas.fields import get_schema_field, CodedConcept as CodedConceptSchema
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
+_is_modelschema_class_defined = False
 
-SchemaKey = Tuple[Type[Model], str, int, str, str, str, str]
+class BaseSchema(PydanticBaseModel):
+    """
+    Expands the Pydantic [BaseModel](https://docs.pydantic.dev/latest/api/base_model/) to use aliases by default.    
+    """    
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name = True,
+    )
 
-def to_camel_toe(string):
-    return ''.join([
-        word if n==0 else word.capitalize() 
-            for n,word in enumerate(string.split('_'))
-    ])
+    def model_dump(self, *args, **kwargs):
+        """
+        Override the Pydantic `model_dump` method to always use aliases and exclude None values.
+        """
+        kwargs.update({'by_alias': True, 'exclude_none': True})
+        return super().model_dump(*args, **kwargs)
+
+    def model_dump_json(self, *args, **kwargs):
+        """
+        Dumps the model as a JSON string.
+
+        This method overrides the default behavior to ensure that aliases are 
+        used and None values are excluded by default.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            str: The JSON string representation of the model.
+        """
+        # Update kwargs to use aliases and exclude None values
+        kwargs.update({'by_alias': True, 'exclude_none': True})
+        # Call the superclass method with updated arguments
+        return super().model_dump_json(*args, **kwargs)
+
+    def model_dump_django(
+            self, 
+            model: Type[DjangoModel] = None, 
+            instance: DjangoModel = None, 
+            save: bool=False
+    ) -> DjangoModel:
+        """
+        Creates a Django model instance from the current schema.
+        """
+        model = model or self.__ormmodel__
+        if not instance:
+            instance = model()
+        for field in self.model_fields.keys():
+            data = getattr(self, field)
+            if isinstance(data, CodedConceptSchema):
+                data = model._meta.get_field(field).related_model.objects.get(code=data.code, system=data.system)
+            setattr(model, field, data)
+        if save:
+            instance.save()
+        return instance
+
+
 
 class SchemaFactory(NinjaSchemaFactory):
-    
+    """
+    A factory for creating Pydantic schemas from Django models.
+
+    This factory is a subclass of `ninja.orm.factory.SchemaFactory` and overrides
+    the `create_schema` method to generate Pydantic schemas with custom fields
+    and properties.
+
+    Attributes:
+        IGNORE_FIELDS (List[str]): A list of field names to ignore when creating schemas.
+    """
+
     IGNORE_FIELDS = ['auto_id']
     
     def create_schema(
         self,
-        model: Type[Model],
+        model: Type[DjangoModel],
         *,
         name: str = "",
         depth: int = 0,
@@ -39,10 +96,34 @@ class SchemaFactory(NinjaSchemaFactory):
         exclude: Optional[List[str]] = None,
         optional_fields: Optional[List[str]] = None,
         custom_fields: Optional[List[Tuple[str, Any, Any]]] = None,
-        base_class: Type[Schema] = Schema,
+        base_class: Type[Schema] = BaseSchema,
     ) -> Type[Schema]:
-        name = name or model.__name__
+        """
+        Creates a Pydantic schema from a Django model.
 
+        This method generates a Pydantic schema class based on a given Django model
+        and various configuration options. The schema can include, exclude, or modify
+        certain fields from the model, and can also customize field properties.
+
+        Args:
+            model (Type[Model]): The Django model to create a schema from.
+            name (str, optional): The name of the schema. Defaults to the model's name.
+            depth (int, optional): The depth of relation fields to include. Defaults to 0.
+            fields (Optional[List[str]], optional): Specific fields to include. Defaults to None.
+            exclude (Optional[List[str]], optional): Fields to exclude. Defaults to None.
+            optional_fields (Optional[List[str]], optional): Fields to make optional. Defaults to None.
+            custom_fields (Optional[List[Tuple[str, Any, Any]]], optional): Custom fields to add. Defaults to None.
+            base_class (Type[Schema], optional): The base class for the schema. Defaults to Schema.
+
+        Returns:
+            Type[Schema]: The generated Pydantic schema type.
+
+        Raises:
+            ConfigError: If both 'fields' and 'exclude' are set.
+        """
+
+        name = name or model.__name__
+    
         if fields and exclude:
             raise ConfigError("Only one of 'fields' or 'exclude' should be set.")
 
@@ -61,17 +142,15 @@ class SchemaFactory(NinjaSchemaFactory):
         for fld in model_fields_list:
             if fld.name in self.IGNORE_FIELDS:
                 continue 
-            python_type, field_info = get_schema_field(
+            field_name, (python_type, field_info) = get_schema_field(
                 fld,
                 depth=depth,
                 optional=optional_fields and (fld.name in optional_fields),
             )
-            definitions[fld.name] = (python_type, field_info)
+            definitions[field_name] = (python_type, field_info)
 
         if custom_fields:
             for fld_name, python_type, field_info in custom_fields:
-                # if not isinstance(field_info, FieldInfo):
-                #     field_info = Field(field_info)
                 definitions[fld_name] = (python_type, field_info)
 
         if name in self.schema_names:
@@ -79,23 +158,18 @@ class SchemaFactory(NinjaSchemaFactory):
         
         schema: Type[Schema] = create_pydantic_model(
             name,
-            __config__=ConfigDict(extra='forbid', from_attributes=True),
+            __base__=base_class,
             __module__=base_class.__module__,
             __validators__={},
             **definitions,
-        )  # type: ignore
-        # __model_name: str,
-        # *,
-        # __config__: ConfigDict | None = None,
-        # __base__: None = None,
-        # __module__: str = __name__,
-        # __validators__: dict[str, AnyClassMethod] | None = None,
-        # __cls_kwargs__: dict[str, Any] | None = None,
-        # **field_definitions: Any,
+        )
+        schema.__ormmodel__ = model
         self.schemas[key] = schema
         self.schema_names.add(name)
         return schema
 
-factory = SchemaFactory()
 
+factory = SchemaFactory()
 create_schema = factory.create_schema
+_is_modelschema_class_define = True
+

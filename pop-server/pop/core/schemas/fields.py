@@ -1,6 +1,3 @@
-
-
-
 from typing import Dict, List, Tuple, Optional
 
 from django.db.models.fields import Field as DjangoField
@@ -8,17 +5,12 @@ from django.db.models import ManyToManyField
 
 from ninja.orm.fields import TYPES as BASE_TYPES, title_if_lower, create_m2m_link_type
 from ninja.schema import Schema 
-from ninja.openapi.schema import OpenAPISchema
+
 from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
 
-def to_camel_toe(string):
-    return ''.join([
-        word if n==0 else word.capitalize() 
-            for n,word in enumerate(string.split('_'))
-    ])
 
 class Reference(Schema):
     type: str = None
@@ -33,17 +25,26 @@ class CodedConcept(Schema):
     synonyms: Optional[List[str]] = None
     properties: Optional[Dict] = None
 
-TYPES = {
+
+DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
     # POP fields
     "CodedConceptField": CodedConcept,
 }
 
 
-def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = False) -> Tuple:
-    "Returns pydantic field from django's model field"
-    alias = None
-    serialization_alias = None
+def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = False) -> Tuple[type, FieldInfo]:
+    """
+    Returns a pydantic field from a django model field.
+
+    This function takes a django model field and returns a tuple containing the
+    python type for the field and a pydantic FieldInfo object. The python type
+    is determined by the field's internal type and whether or not the field is
+    a relation field. The FieldInfo object contains additional information about
+    the field such as its default value, alias, title, description, and json
+    schema extras.
+    """
+    field_name = getattr(field, "name", None) and field.name
     default = ...
     default_factory = None
     description = None
@@ -56,44 +57,45 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     # Handle relation fields
     if field.is_relation:
         if depth > 0:
-            return get_related_field_schema(field, depth=depth)
-        related_model = field.related_model 
-        # if isinstance(related_model, str):
-        #     app_label, related_model_name = related_model.split('.')
-        #     related_model = django_apps.get_model(app_label=app_label, model_name=related_model_name)
-
-        alias = getattr(field, "name", None) and field.name
-        if issubclass(related_model, CodedConceptModel):
-            json_schema_extra = {'x-terminology', CodedConceptModel.__name__}
-            internal_type = 'CodedConceptField'      
-            alias = alias.rstrip('_id')
+            from pop.core.schemas.factory import create_schema
+            model = field.related_model
+            schema = create_schema(model, depth=depth - 1)
+            default = ...
+            if not field.concrete and field.auto_created or field.null:
+                default = None
+            if isinstance(field, ManyToManyField):
+                schema = List[schema]
+            python_type = schema
         else:
-            internal_type = related_model._meta.get_field('id').get_internal_type()
-        
-        serialization_alias = to_camel_toe(alias)
-        
-        if not field.concrete and field.auto_created or field.null or optional:
-            default = None
-            nullable = True
+            related_model = field.related_model 
+            if issubclass(related_model, CodedConceptModel):
+                json_schema_extra = {'x-terminology', CodedConceptModel.__name__}
+                internal_type = 'CodedConceptField'    
+            else:
+                internal_type = related_model._meta.get_field('id').get_internal_type()
+                field_name += '_id'
+            if not field.concrete and field.auto_created or field.null or optional:
+                default = None
+                nullable = True
 
-        related_type = TYPES.get(internal_type, int)
+            related_type = DJANGO_TO_PYDANTIC_TYPES.get(internal_type, int)
 
-        if field.one_to_many or field.many_to_many:
-            m2m_type = create_m2m_link_type(related_type)
-            python_type = List[m2m_type]  # type: ignore
-            default=[]
-        else:
-            python_type = related_type
+            if field.one_to_many or field.many_to_many:
+                m2m_type = create_m2m_link_type(related_type)
+                python_type = List[m2m_type]  # type: ignore
+                default=[]
+            else:
+                python_type = related_type
 
-    # Handle all other fields 
     else:
+        # Handle non-relation fields
         _f_name, _f_path, _f_pos, field_options = field.deconstruct()
         blank = field_options.get("blank", False)
         null = field_options.get("null", False)
         max_length = field_options.get("max_length")
 
         internal_type = field.get_internal_type()
-        python_type = TYPES[internal_type]
+        python_type = DJANGO_TO_PYDANTIC_TYPES[internal_type]
 
         if field.primary_key or blank or null or optional:
             default = None
@@ -114,15 +116,15 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     description = field.help_text or None
     if field.verbose_name:
         title = title_if_lower(field.verbose_name)
-    
-    return (
+
+    return field_name, (
         python_type,
         FieldInfo(
             default=default,
-            alias=serialization_alias,
-            validation_alias=serialization_alias,
-            serialization_alias=serialization_alias,
             default_factory=default_factory,
+            alias=to_camel_case(field_name),
+            validation_alias=to_camel_case(field_name),
+            serialization_alias=to_camel_case(field_name),
             title=title,
             examples=examples,
             description=description,
@@ -131,22 +133,18 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
         ),
     )
 
-def get_related_field_schema(field: DjangoField, *, depth: int) -> Tuple[OpenAPISchema]:
-    from pop.core.schemas.factory import create_schema
+def to_camel_case(string: str) -> str:
+    """
+    Convert a string from snake_case to camelCase.
 
-    model = field.related_model
-    schema = create_schema(model, depth=depth - 1)
-    default = ...
-    if not field.concrete and field.auto_created or field.null:
-        default = None
-    if isinstance(field, ManyToManyField):
-        schema = List[schema]  # type: ignore
+    Args:
+        string (str): The string to convert.
 
-    return (
-        schema,
-        FieldInfo(
-            default=default,
-            description=field.help_text,
-            title=title_if_lower(field.verbose_name),
-        ),
-    )
+    Returns:
+        str: The converted string.
+    """
+    return ''.join([
+        word if n==0 else word.capitalize()
+            for n,word in enumerate(string.split('_'))
+    ])
+

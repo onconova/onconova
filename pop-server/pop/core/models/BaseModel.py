@@ -18,11 +18,9 @@ class BaseModel(models.Model):
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        db_column='created_at'
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        db_column='updated_at'
     )
 
     def __init__(self, *args, **kwargs):

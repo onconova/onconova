@@ -132,9 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'         # US English
-TIME_ZONE = 'Etc/GMT-1'         # Central European time
+TIME_ZONE = 'Europe/Berlin'     # Central European time
 USE_I18N = True                 # Enable Django’s translation system
-USE_TZ = False                  # Do not make datetimes timezone-aware by default
+USE_TZ = True                   # Do not make datetimes timezone-aware by default
 
 
 # Static files (CSS, JavaScript, Images)
@@ -165,7 +165,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-            'format': '[%(levelname)s %(asctime)s] (%(ip)s %(username)s) : "%(message)s"',
+            'format': '[%(levelname)s %(asctime)s]: "%(message)s"',
             'datefmt' : '%d/%b/%Y %H:%M:%S',
         },
     },
