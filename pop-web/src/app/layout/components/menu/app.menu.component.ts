@@ -17,7 +17,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Home',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard'] }
                 ]
             },
             {
@@ -25,8 +25,8 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'New Case', icon: 'pi pi-fw pi-plus', routerLink: ['/uikit/formlayout'] },
                     { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Case Browser', icon: 'pi pi-fw pi-search', routerLink: ['/uikit/formlayout'] },
-                    { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Case Browser', icon: 'pi pi-fw pi-search', routerLink: ['/cases'] },
+                    { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/cases/browser'] },
                 ]
             },
             {

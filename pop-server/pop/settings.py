@@ -24,6 +24,10 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")  # Used to provide cryptographic signing, 
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") # Host/domain names that this Django site can serve
 ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+
 # Django debugging mode
 DEBUG = env("DEBUG")                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
 
@@ -45,6 +49,7 @@ INSTALLED_APPS = [
     'pop.core',
     'pop.terminology',
     'secured_fields',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +60,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',            # Provide several security enhancements to the request/response cycle
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',     # Enable session functionality
     'django.middleware.common.CommonMiddleware',                # Enable common middleware functionality (e.g. URL rewriting, set the Content-Length header for non-streaming responses, etc.)
     'django.middleware.csrf.CsrfViewMiddleware',                # Add protection against Cross Site Request Forgeries by adding hidden form fields to POST forms and checking requests for the correct value

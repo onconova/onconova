@@ -26,6 +26,7 @@ django-environ = "0.9.0"
 django_extensions = "3.2.1"
 django-secured-fields = "0.4.2"
 django-ninja = "1.3.0" 
+django-cors-headers = "4.6.0"
 # Tools
 requests = "2.32.0"
 fhir-resources = "7.1.0" 

@@ -14,6 +14,8 @@
     "@angular/platform-browser-dynamic": "^18.2.12",
     "@angular/router": "^18.2.12",
     "chart.js": "^4.4.6",
+    "jdenticon": "^3.3.0",
+    "ngx-jdenticon": "^2.0.0",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.12",

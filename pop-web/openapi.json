@@ -1,0 +1,467 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+      "title": "NinjaAPI",
+      "version": "1.0.0",
+      "description": ""
+    },
+    "paths": {
+      "/api/cancer-patients": {
+        "get": {
+          "operationId": "pop_core_api_get_all_cancer_patient_matching_the_query",
+          "summary": "Get All Cancer Patient Matching The Query",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "pseudoidentifier",
+              "schema": {
+                "title": "Pseudoidentifier",
+                "type": "string"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "deceased",
+              "schema": {
+                "title": "Deceased",
+                "type": "boolean"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "gender",
+              "schema": {
+                "items": {
+                  "enum": [
+                    "male",
+                    "female",
+                    "unknown"
+                  ],
+                  "title": "GenderEnum",
+                  "type": "string"
+                },
+                "title": "Gender",
+                "type": "array"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "born",
+              "schema": {
+                "format": "date",
+                "title": "Born",
+                "type": "string"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "items": {
+                      "$ref": "#/components/schemas/CancerPatientOut"
+                    },
+                    "title": "Response",
+                    "type": "array"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "operationId": "pop_core_api_create_cancer_patient",
+          "summary": "Create Cancer Patient",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          },
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancerPatientIn"
+                }
+              }
+            },
+            "required": true
+          }
+        }
+      },
+      "/api/cancer-patients/{id}": {
+        "get": {
+          "operationId": "pop_core_api_get_cancer_patient_by_id",
+          "summary": "Get Cancer Patient By Id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "schema": {
+                "title": "Id",
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CancerPatientOut"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "operationId": "pop_core_api_update_cancer_patient_by_id",
+          "summary": "Update Cancer Patient By Id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "schema": {
+                "title": "Id",
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          },
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancerPatientIn"
+                }
+              }
+            },
+            "required": true
+          }
+        },
+        "delete": {
+          "operationId": "pop_core_api_delete_cancer_patient_by_id",
+          "summary": "Delete Cancer Patient By Id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "schema": {
+                "title": "Id",
+                "type": "string"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Filters": {
+          "properties": {
+            "pseudoidentifier": {
+              "title": "Pseudoidentifier",
+              "type": "string"
+            },
+            "deceased": {
+              "title": "Deceased",
+              "type": "boolean"
+            },
+            "gender": {
+              "items": {
+                "enum": [
+                  "male",
+                  "female",
+                  "unknown"
+                ],
+                "title": "GenderEnum",
+                "type": "string"
+              },
+              "title": "Gender",
+              "type": "array"
+            },
+            "born": {
+              "format": "date",
+              "title": "Born",
+              "type": "string"
+            }
+          },
+          "title": "Filters",
+          "type": "object"
+        },
+        "GenderEnum": {
+          "enum": [
+            "male",
+            "female",
+            "unknown"
+          ],
+          "title": "GenderEnum",
+          "type": "string"
+        },
+        "CancerPatientOut": {
+          "properties": {
+            "id": {
+              "examples": [],
+              "maxLength": 64,
+              "title": "Id",
+              "type": "string"
+            },
+            "created_at": {
+              "examples": [],
+              "format": "date-time",
+              "title": "Created At",
+              "type": "string"
+            },
+            "updated_at": {
+              "examples": [],
+              "format": "date-time",
+              "title": "Updated At",
+              "type": "string"
+            },
+            "pseudoidentifier": {
+              "description": "Pseudoidentifier of the patient",
+              "examples": [],
+              "maxLength": 40,
+              "title": "Pseudoidentifier",
+              "type": "string"
+            },
+            "race": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CodedConcept"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Race of the patient",
+              "examples": [],
+              "title": "Race"
+            },
+            "birthsex": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CodedConcept"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sex assigned at birth",
+              "examples": [],
+              "title": "Birth sex"
+            },
+            "gender_identity": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CodedConcept"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "examples": [],
+              "title": "Gender identity"
+            },
+            "gender": {
+              "$ref": "#/components/schemas/CodedConcept",
+              "description": "Gender for administrative purposes",
+              "examples": [],
+              "title": "Gender"
+            },
+            "birthdate": {
+              "description": "Date of birth",
+              "examples": [],
+              "format": "date",
+              "title": "Date of birth",
+              "type": "string"
+            },
+            "is_deceased": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Indicates if the individual is deceased or not",
+              "examples": [],
+              "title": "Is deceased"
+            }
+          },
+          "required": [
+            "id",
+            "created_at",
+            "updated_at",
+            "pseudoidentifier",
+            "gender",
+            "birthdate"
+          ],
+          "title": "CancerPatientOut",
+          "type": "object"
+        },
+        "CodedConcept": {
+          "properties": {
+            "code": {
+              "title": "Code",
+              "type": "string"
+            },
+            "system": {
+              "title": "System",
+              "type": "string"
+            },
+            "display": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Display"
+            },
+            "version": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Version"
+            },
+            "synonyms": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Synonyms"
+            },
+            "properties": {
+              "anyOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Properties"
+            }
+          },
+          "required": [
+            "code",
+            "system"
+          ],
+          "title": "CodedConcept",
+          "type": "object"
+        },
+        "CancerPatientIn": {
+          "properties": {
+            "race": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CodedConcept"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Race of the patient",
+              "examples": [],
+              "title": "Race"
+            },
+            "birthsex": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CodedConcept"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sex assigned at birth",
+              "examples": [],
+              "title": "Birth sex"
+            },
+            "genderIdentity": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CodedConcept"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "examples": [],
+              "title": "Gender identity"
+            },
+            "gender": {
+              "$ref": "#/components/schemas/CodedConcept",
+              "description": "Gender for administrative purposes",
+              "examples": [],
+              "title": "Gender"
+            },
+            "birthdate": {
+              "description": "Date of birth",
+              "examples": [],
+              "format": "date",
+              "title": "Date of birth",
+              "type": "string"
+            },
+            "isDeceased": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Indicates if the individual is deceased or not",
+              "examples": [],
+              "title": "Is deceased"
+            }
+          },
+          "required": [
+            "gender",
+            "birthdate"
+          ],
+          "title": "CancerPatientIn",
+          "type": "object"
+        }
+      }
+    },
+    "servers": []
+  }
