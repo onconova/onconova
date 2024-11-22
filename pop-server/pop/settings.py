@@ -22,21 +22,20 @@ with open("pyproject.toml", "rb") as f:
 
 # Security configuration
 SECRET_KEY = env("DJANGO_SECRET_KEY")  # Used to provide cryptographic signing, and should be set to a unique, unpredictable value.
-ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") # Host/domain names that this Django site can serve
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']# Host/domain names that this Django site can serve
 ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
 
 CORS_ORIGIN_ALLOW_ALL = True
-
-
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 # Django debugging mode
 DEBUG = env("DEBUG")                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
 
 # HTTPS Settings
 SESSION_COOKIE_SECURE = True                # Cookie will only be sent over an HTTPS connection
-CSRF_COOKIE_SECURE = True                   # Cookie will only be sent over an HTTPS connection
+# CSRF_COOKIE_SECURE = True                   # Cookie will only be sent over an HTTPS connection
 SECURE_SSL_REDIRECT = True                  # Redirect all non-HTTPS requests to HTTPS
-CSRF_TRUSTED_ORIGINS = [f'https://{env("HOST")}:{env("HTTPS_WEB_PORT")}'] # A list of trusted origins for unsafe requests (e.g. POST).
+# CSRF_TRUSTED_ORIGINS = [f'https://{env("HOST")}:{env("HTTPS_WEB_PORT")}'] # A list of trusted origins for unsafe requests (e.g. POST).
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")   # Trust the X-Forwarded-Proto header that comes from the Nginx proxy and that the request is guaranteed to be secure
 
 # HTTP Strict Transport Security (HSTS) settings
@@ -64,12 +63,10 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',            # Provide several security enhancements to the request/response cycle
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',     # Enable session functionality
-    'django.middleware.common.CommonMiddleware',                # Enable common middleware functionality (e.g. URL rewriting, set the Content-Length header for non-streaming responses, etc.)
-    'django.middleware.csrf.CsrfViewMiddleware',                # Add protection against Cross Site Request Forgeries by adding hidden form fields to POST forms and checking requests for the correct value
+    # 'django.middleware.csrf.CsrfViewMiddleware',                # Add protection against Cross Site Request Forgeries by adding hidden form fields to POST forms and checking requests for the correct value
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # Add the user attribute, representing the currently-logged-in user, to every incoming HttpRequest object
-    'django.contrib.messages.middleware.MessageMiddleware',     # Enable cookie- and session-based message support
+    # 'django.contrib.messages.middleware.MessageMiddleware',     # Enable cookie- and session-based message support
     'django.middleware.clickjacking.XFrameOptionsMiddleware',   # Add simple clickjacking protection via the X-Frame-Options header 
 ]
 
@@ -158,15 +155,6 @@ FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Django crispy bootstrap style
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-# Redirections after login and logout
-LOGIN_URL = "home/login"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home/login"
 
 # Logger settings
 LOGGING = {

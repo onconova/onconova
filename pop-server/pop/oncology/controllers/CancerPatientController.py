@@ -56,7 +56,7 @@ class Filters(Schema):
 class CancerPatientController(ControllerBase):
 
     @route.get(
-        path='', 
+        path='/', 
         response={
             200: NinjaPaginationResponseSchema[CancerPatientSchema]
         },
@@ -71,7 +71,7 @@ class CancerPatientController(ControllerBase):
         return queryset
 
     @route.post(
-        path='', 
+        path='/', 
         response={
             201: ResourceIdSchema
         },
@@ -79,7 +79,7 @@ class CancerPatientController(ControllerBase):
     )
     def create_cancer_patient(self, payload: CancerPatientCreateSchema): # type: ignore
         instance = CancerPatientCreateSchema.model_validate(payload).model_dump_django(save=True)
-        return 201, instance.id
+        return 201, ResourceIdSchema(id=instance.id)
 
     @route.get(
         path='/{patientId}', 

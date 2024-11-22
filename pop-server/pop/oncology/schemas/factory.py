@@ -65,7 +65,7 @@ class BaseSchema(PydanticBaseModel):
             data = getattr(self, field)
             if isinstance(data, CodedConceptSchema):
                 data = model._meta.get_field(field).related_model.objects.get(code=data.code, system=data.system)
-            setattr(model, field, data)
+            setattr(instance, field, data)
         if save:
             instance.save()
         return instance

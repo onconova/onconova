@@ -2,6 +2,7 @@ import factory
 import faker
 
 from django.contrib.auth.models import Group, User
+from django.contrib.auth.hashers import make_password
 
 import pop.oncology.models as models
 import pop.terminology.models as terminology
@@ -27,6 +28,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
 
     username = factory.Sequence(lambda n: 'user%d' % n)
+    password = factory.LazyFunction(lambda: make_password(faker.password()))
     email = factory.LazyAttribute(lambda obj: '%s@example.com' % obj.username)
 
 class CancerPatientFactory(factory.django.DjangoModelFactory):

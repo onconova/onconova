@@ -5,15 +5,13 @@ from typing import Optional
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from parameterized import parameterized
-
 from pydantic_core import PydanticUndefined
 
 from django.db import models as django_models
 from django.contrib.auth.models import User
 
 from pop.terminology.models import AdministrativeGender as MockCodedConcept
-from pop.oncology.schemas.fields import get_schema_field, CodedConcept as CodedConceptSchema
+from pop.oncology.schemas.fields import get_schema_field, CodedConceptSchema
 from pop.oncology.schemas.factory import SchemaFactory
 from pop.tests.factories import UserFactory, make_terminology_factory
 
