@@ -17,7 +17,7 @@ class Reference(Schema):
     id: str = None
     url: Optional[str] = None
 
-class CodedConcept(Schema):  
+class CodedConceptSchema(Schema):  
     code: str
     system: str
     display: Optional[str] = None
@@ -29,7 +29,7 @@ class CodedConcept(Schema):
 DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
     # POP fields
-    "CodedConceptField": CodedConcept,
+    "CodedConceptField": CodedConceptSchema,
 }
 
 
@@ -57,7 +57,7 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     # Handle relation fields
     if field.is_relation:
         if depth > 0:
-            from pop.core.schemas.factory import create_schema
+            from pop.oncology.schemas.factory import create_schema
             model = field.related_model
             schema = create_schema(model, depth=depth - 1)
             default = ...

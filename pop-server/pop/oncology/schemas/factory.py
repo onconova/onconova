@@ -9,7 +9,7 @@ from ninja.orm.metaclass import MetaConf
 from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import ResolverMetaclass, Schema
 
-from pop.core.schemas.fields import get_schema_field, CodedConcept as CodedConceptSchema
+from pop.oncology.schemas.fields import get_schema_field, CodedConceptSchema
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
 _is_modelschema_class_defined = False

@@ -1,12 +1,13 @@
-from django.db import models 
-from django.utils.translation import gettext_lazy as _
-import pop.core.models.fields as custom
-
-from pop.terminology import models as terminologies 
-from pop.terminology.models import RaceCategory
 import random 
 import string
-from .BaseModel import BaseModel 
+
+from django.db import models 
+from django.utils.translation import gettext_lazy as _
+
+from pop.core.models import BaseModel 
+
+import pop.terminology.fields as termfields 
+import pop.terminology.models as terminologies 
 
 class CancerPatient(BaseModel):
     """
@@ -20,27 +21,27 @@ class CancerPatient(BaseModel):
         unique = True,
         editable = False,
     )
-    race = custom.CodedConceptField(
+    race = termfields.CodedConceptField(
         verbose_name = _('Race'),
         help_text = _("Race of the patient"),
         terminology = terminologies.RaceCategory,    
         null = True, 
         blank = True,    
     )
-    birthsex = custom.CodedConceptField(
+    birthsex = termfields.CodedConceptField(
         verbose_name = _('Birth sex'),
         help_text = _("Sex assigned at birth"),
         terminology = terminologies.BirthSex,
         blank = True, 
         null = True,
     )
-    gender_identity = custom.CodedConceptField(
+    gender_identity = termfields.CodedConceptField(
         verbose_name = _('Gender identity'),
         terminology = terminologies.GenderIdentity,
         null = True, 
         blank = True,        
     )
-    gender = custom.CodedConceptField(
+    gender = termfields.CodedConceptField(
         verbose_name = _('Gender'),
         help_text = _("Gender for administrative purposes"),
         terminology = terminologies.AdministrativeGender, 

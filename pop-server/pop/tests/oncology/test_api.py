@@ -1,8 +1,8 @@
 
 from django.test import TestCase
 from ninja.testing import TestClient
-from pop.core.api import api, CancerPatientOut
-from test.factories import CancerPatientFactory
+from pop.oncology.api import api, CancerPatientOut
+from pop.tests.factories import CancerPatientFactory
 
 class TestAPI(TestCase):
 

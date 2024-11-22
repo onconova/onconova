@@ -7,6 +7,7 @@ import os
 import environ
 import tomllib
 import socket
+import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,8 +48,10 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True       # Ensure that all subdomains, not ju
 INSTALLED_APPS = [
     'django_extensions',
     'pop.core',
+    'pop.oncology',
     'pop.terminology',
     'secured_fields',
+    'ninja_extra',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,15 +77,14 @@ MIDDLEWARE = [
 SESSION_EXPIRE_SECONDS = 3600*12  # Sessions expire after 12 hours
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False # Close sessions when closing browsers
 
+NINJA_JWT = {
+    "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.SlidingToken",),
+    "SLIDING_TOKEN_LIFETIME": datetime.timedelta(hours=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=1),
+}
+
 # User time-limited edit permission expiration
 EDIT_PERMISSION_EXPIRE = 48 # Time-limited users' permission to edit resources expires after 48 hours 
-
-# Authentication settings
-AUTHENTICATION_BACKENDS = [
-   'apps.auth_ldap.backend.AuthenticationBackend',
-]
-AUTH_LOGIN_ROUTE = 'login'
-AUTH_EXEMPT_ROUTES = ['login','favicon']
 
 # Database field encryption
 SECURED_FIELDS_KEY = env('POSTGRES_ENCRYPTED_FIELDS_KEY')
@@ -147,8 +149,8 @@ USE_TZ = True                   # Do not make datetimes timezone-aware by defaul
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'                                             # URL to use when referring to static files located in STATIC_ROOT
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]           # Additional locations the staticfiles app will traverse
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static') # Absolute path to the directory where collectstatic will collect static files for deployment.
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')       # Absolute filesystem path to the directory that will hold user-uploaded files.
+STATIC_ROOT = '/app/static' # Absolute path to the directory where collectstatic will collect static files for deployment.
+MEDIA_ROOT = '/app/media'      # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_URL = '/media/'                                               # URL that handles the media served from MEDIA_ROOT, used for managing stored files
 
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",

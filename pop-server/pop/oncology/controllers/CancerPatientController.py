@@ -1,0 +1,124 @@
+from enum import Enum
+
+from ninja import Query
+from ninja.schema import Schema, Field
+from ninja_extra.pagination import (
+    paginate, 
+    PageNumberPaginationExtra, 
+    PaginatedResponseSchema
+)
+from ninja_extra.schemas import NinjaPaginationResponseSchema
+
+from ninja_extra import (
+    api_controller, 
+    ControllerBase, 
+    permissions, 
+    route,
+)
+from ninja_jwt.authentication import JWTAuth
+
+from pop.core.schemas import ResourceIdSchema 
+from pop.oncology.models import CancerPatient
+from pop.oncology.schemas.factory import create_schema, BaseSchema
+
+from django.shortcuts import get_object_or_404
+from typing import List
+from datetime import date 
+
+CancerPatientCreateSchema: BaseSchema = create_schema(
+    model=CancerPatient, 
+    name='CancerPatientCreateSchema', 
+    exclude=('id', 'created_at', 'updated_at', 'pseudoidentifier')
+)
+CancerPatientSchema: BaseSchema = create_schema(
+    model=CancerPatient,
+    name='CancerPatientSchema', 
+)
+
+class GenderEnum(Enum):
+    male = 'male'
+    female = 'female'
+    unknown = 'unknown'
+
+
+class Filters(Schema):
+    pseudoidentifier__icontains: str = Field(None, alias='pseudoidentifier')
+    is_deceased: bool = Field(None, alias='deceased')
+    gender__code__in: List[GenderEnum] = Field(None, alias="gender")
+    birthdate: date = Field(None, alias="born")
+
+
+@api_controller(
+    'cancer-patients/', 
+    auth=[JWTAuth()], 
+    tags=['Cancer Patients'],  
+)
+class CancerPatientController(ControllerBase):
+
+    @route.get(
+        path='', 
+        response={
+            200: NinjaPaginationResponseSchema[CancerPatientSchema]
+        },
+        operation_id='getCancerPatients',
+    )
+    @paginate()
+    def get_all_cancer_patient_matching_the_query(self, filters: Query[Filters]):
+        queryset = CancerPatient.objects.all()
+        for (filter,value) in filters:
+            if value is not None:
+                queryset = queryset.filter(**{filter: value})
+        return queryset
+
+    @route.post(
+        path='', 
+        response={
+            201: ResourceIdSchema
+        },
+        operation_id='createCancerPatient',
+    )
+    def create_cancer_patient(self, payload: CancerPatientCreateSchema): # type: ignore
+        instance = CancerPatientCreateSchema.model_validate(payload).model_dump_django(save=True)
+        return 201, instance.id
+
+    @route.get(
+        path='/{patientId}', 
+        response={
+            200: CancerPatientSchema, 
+            404: None
+        },
+        operation_id='getCancerPatientById',
+        )
+    def get_cancer_patient_by_id(self, patientId: str): 
+        instance = get_object_or_404(CancerPatient, id=patientId)
+        return 200, instance
+
+    @route.put(
+        path='/{patientId}', 
+        response={
+            204: None, 
+            404: None
+        },
+        operation_id='updateCancerPatientById',
+    )
+    def update_cancer_patient(self, patientId: str, payload: CancerPatientCreateSchema): # type: ignore
+        instance = get_object_or_404(CancerPatient, id=patientId)
+        instance = CancerPatientCreateSchema\
+                    .model_validate(payload)\
+                    .model_dump_django(instance=instance, save=True)
+        return 204, None
+
+    @route.delete(
+        path='/{patientId}', 
+        response={
+            204: None, 
+            404: None,
+        },
+        operation_id='deleteCancerPatientById',
+    )
+    def delete_cancer_patient(self, patientId: str):
+        instance = get_object_or_404(CancerPatient, id=patientId)
+        instance.delete()
+        return 204, None
+    
+

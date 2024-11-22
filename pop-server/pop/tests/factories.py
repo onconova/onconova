@@ -3,7 +3,7 @@ import faker
 
 from django.contrib.auth.models import Group, User
 
-import pop.core.models as models
+import pop.oncology.models as models
 import pop.terminology.models as terminology
 
 faker = faker.Faker()
