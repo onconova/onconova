@@ -12,6 +12,11 @@ import { RippleModule } from 'primeng/ripple';
 import { AppMenuComponent } from './components/menu/app.menu.component';
 import { AppMenuitemComponent } from './components/menu/components/menuitem/app.menuitem.component';
 import { RouterModule } from '@angular/router';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { ButtonModule } from 'primeng/button';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
+
 import { AppTopBarComponent } from './components/topbar/app.topbar.component';
 import { AppFooterComponent } from './components/footer/app.footer.component';
 import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
@@ -30,6 +35,10 @@ import { AppLayoutComponent } from "./app.layout.component";
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        TieredMenuModule,
+        ButtonModule,
+        MessagesModule,
+        ToastModule,
         BrowserAnimationsModule,
         InputTextModule,
         SidebarModule,

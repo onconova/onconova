@@ -9,11 +9,7 @@
  */
 
 
-export type GenderEnum = 'male' | 'female' | 'unknown';
-
-export const GenderEnum = {
-    Male: 'male' as GenderEnum,
-    Female: 'female' as GenderEnum,
-    Unknown: 'unknown' as GenderEnum
-};
+export interface ResourceIdSchema { 
+    id: string;
+}
 

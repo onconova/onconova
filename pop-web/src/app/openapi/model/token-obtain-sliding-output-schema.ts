@@ -9,11 +9,11 @@
  */
 
 
-export type GenderEnum = 'male' | 'female' | 'unknown';
-
-export const GenderEnum = {
-    Male: 'male' as GenderEnum,
-    Female: 'female' as GenderEnum,
-    Unknown: 'unknown' as GenderEnum
-};
+export interface TokenObtainSlidingOutputSchema { 
+    /**
+     * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+     */
+    username: string;
+    token: string;
+}
 

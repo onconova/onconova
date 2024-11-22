@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CancerPatientService } from '../services/cancerpatient.service';
-import { CancerPatientOut } from '../openapi';
+import { CancerPatientSchema, NinjaPaginationResponseSchemaCancerPatientSchema } from '../openapi';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 })
 
 export class PatientListComponent implements OnInit, OnDestroy {
-  patients$!: Observable<CancerPatientOut[]>;
-  filteredPatients: CancerPatientOut[] = [];
-  patients: CancerPatientOut[] = [];
+  patients$!: Observable<NinjaPaginationResponseSchemaCancerPatientSchema>;
+  filteredPatients: CancerPatientSchema[] = [];
+  patients: CancerPatientSchema[] = [];
   filterValue: string = '';
   loading: boolean = true;
   subscription!: Subscription;
@@ -20,9 +20,9 @@ export class PatientListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.patients$ = this.patientService.getCancerPatients();
-    this.patients$.subscribe(patients => {
-      this.patients = patients;
-      this.filteredPatients = patients;
+    this.patients$.subscribe(page => {
+      this.patients = page.items;
+      this.filteredPatients = page.items;
       this.loading = false;
     });
   }

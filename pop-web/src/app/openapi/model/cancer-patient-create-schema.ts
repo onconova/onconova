@@ -1,5 +1,5 @@
 /**
- * NinjaAPI
+ * POP API
  *
  * 
  *
@@ -7,17 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConcept } from './coded-concept';
+import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface CancerPatientIn { 
-    race?: CodedConcept | null;
-    birthsex?: CodedConcept | null;
-    genderIdentity?: CodedConcept | null;
+export interface CancerPatientCreateSchema { 
+    race?: CodedConceptSchema | null;
+    birthsex?: CodedConceptSchema | null;
+    genderIdentity?: CodedConceptSchema | null;
     /**
      * Gender for administrative purposes
      */
-    gender: CodedConcept;
+    gender: CodedConceptSchema;
     /**
      * Date of birth
      */

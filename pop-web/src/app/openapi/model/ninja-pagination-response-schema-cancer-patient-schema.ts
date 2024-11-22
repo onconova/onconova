@@ -7,13 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CancerPatientSchema } from './cancer-patient-schema';
 
 
-export type GenderEnum = 'male' | 'female' | 'unknown';
-
-export const GenderEnum = {
-    Male: 'male' as GenderEnum,
-    Female: 'female' as GenderEnum,
-    Unknown: 'unknown' as GenderEnum
-};
+export interface NinjaPaginationResponseSchemaCancerPatientSchema { 
+    count: number;
+    items: Array<CancerPatientSchema>;
+}
 

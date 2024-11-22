@@ -7,13 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserSchema } from './user-schema';
 
 
-export type GenderEnum = 'male' | 'female' | 'unknown';
-
-export const GenderEnum = {
-    Male: 'male' as GenderEnum,
-    Female: 'female' as GenderEnum,
-    Unknown: 'unknown' as GenderEnum
-};
+export interface UserTokenSchema { 
+    token: string;
+    user: UserSchema;
+    token_exp_date: string | null;
+}
 

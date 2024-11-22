@@ -1,5 +1,5 @@
 /**
- * NinjaAPI
+ * POP API
  *
  * 
  *
@@ -9,7 +9,7 @@
  */
 
 
-export interface CodedConcept { 
+export interface CodedConceptSchema { 
     code: string;
     system: string;
     display?: string | null;

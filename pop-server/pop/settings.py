@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',     # Enable session functionality
     # 'django.middleware.csrf.CsrfViewMiddleware',                # Add protection against Cross Site Request Forgeries by adding hidden form fields to POST forms and checking requests for the correct value
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # Add the user attribute, representing the currently-logged-in user, to every incoming HttpRequest object
-    # 'django.contrib.messages.middleware.MessageMiddleware',     # Enable cookie- and session-based message support
+    'django.contrib.messages.middleware.MessageMiddleware',     # Enable cookie- and session-based message support
     'django.middleware.clickjacking.XFrameOptionsMiddleware',   # Add simple clickjacking protection via the X-Frame-Options header 
 ]
 
@@ -76,8 +76,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False # Close sessions when closing browsers
 
 NINJA_JWT = {
     "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.SlidingToken",),
-    "SLIDING_TOKEN_LIFETIME": datetime.timedelta(hours=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=1),
+    "SLIDING_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=7),
 }
 
 # User time-limited edit permission expiration

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { DefaultService, CancerPatientOut } from '../openapi'
+import { CancerPatientsService, NinjaPaginationResponseSchemaCancerPatientSchema } from '../openapi'
 
 @Injectable({
   providedIn: 'root',
 })
 export class CancerPatientService {
-  constructor(private api: DefaultService) {}
+  constructor(private api: CancerPatientsService) {}
 
-  getCancerPatients(): Observable<CancerPatientOut[]> {
-    return this.api.popCoreApiGetAllCancerPatientMatchingTheQuery()
+  getCancerPatients(): Observable<NinjaPaginationResponseSchemaCancerPatientSchema> {
+    return this.api.getCancerPatients()
   }
 }

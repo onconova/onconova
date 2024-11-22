@@ -20,13 +20,9 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-        </button>
+
+        <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
+        <p-tieredMenu #profile [model]="profile_items" [popup]="true" />
+
     </div>
 </div>

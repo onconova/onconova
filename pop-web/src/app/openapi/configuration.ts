@@ -86,6 +86,15 @@ export class Configuration {
         else {
             this.credentials = {};
         }
+
+        // init default JWTAuth credential
+        if (!this.credentials['JWTAuth']) {
+            this.credentials['JWTAuth'] = () => {
+                return typeof this.accessToken === 'function'
+                    ? this.accessToken()
+                    : this.accessToken;
+            };
+        }
     }
 
     /**
