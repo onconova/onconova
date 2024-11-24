@@ -1,0 +1,28 @@
+<p-autoComplete
+  formControlName="[formControlName]"
+  [dropdown]="true"
+  [showClear]="true"
+  [suggestions]="filteredConcepts"
+  (completeMethod)="filterConcepts($event)"
+  optionLabel="code"
+>
+  <!-- Custom item template -->
+  <ng-template let-country pTemplate="item">
+    <div>{{ country.display }}</div>
+    <div class="ml-3 mt-1 flex-auto text-xs gap2">
+      <div *ngIf="showSynonyms">
+        <ng-container *ngFor="let synonym of country.synonyms; let i = index;">
+          <div>
+              <b>syn.</b>
+              <span class="ml-1">{{ synonym }}</span>
+          </div> 
+        </ng-container>
+      </div>
+      <div class="mt-1" *ngIf="showCodes">
+          <i class="pi pi-code text-xs"></i>
+          <code class="ml-1">{{ country.code }}</code>
+      </div> 
+    </div>
+  </ng-template>
+</p-autoComplete>
+  

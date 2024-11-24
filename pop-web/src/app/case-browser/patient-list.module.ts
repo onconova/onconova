@@ -20,8 +20,7 @@ import { PatientListRoutingModule } from './patient-list-routing.module';
 import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
-
-
+import { CodedConceptSelectModule } from '../core/components/coded-concept-select/coded-concept-select.module';
 
 @NgModule({
     imports: [
@@ -44,6 +43,7 @@ import { InputMaskModule } from 'primeng/inputmask';
         DialogModule,
         ReactiveFormsModule,
         InputMaskModule,
+        CodedConceptSelectModule,
     ],
     declarations: [
         PatientListComponent,

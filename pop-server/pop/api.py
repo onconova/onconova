@@ -2,6 +2,7 @@ from ninja_jwt.controller import NinjaJWTDefaultController
 from ninja_extra import NinjaExtraAPI
 
 from pop.core.controllers import AuthController
+from pop.terminology.controllers import TerminologyController
 from pop.oncology.controllers import (
     CancerPatientController,
 )
@@ -13,4 +14,5 @@ api = NinjaExtraAPI(
 api.register_controllers(
     AuthController,
     CancerPatientController,
+    TerminologyController,
 )

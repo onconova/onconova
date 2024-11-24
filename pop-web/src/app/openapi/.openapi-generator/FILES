@@ -7,6 +7,8 @@ api/auth.service.ts
 api/auth.serviceInterface.ts
 api/cancer-patients.service.ts
 api/cancer-patients.serviceInterface.ts
+api/terminology.service.ts
+api/terminology.serviceInterface.ts
 configuration.ts
 encoder.ts
 git_push.sh

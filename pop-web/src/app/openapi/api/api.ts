@@ -4,4 +4,7 @@ export * from './auth.serviceInterface';
 export * from './cancer-patients.service';
 import { CancerPatientsService } from './cancer-patients.service';
 export * from './cancer-patients.serviceInterface';
-export const APIS = [AuthService, CancerPatientsService];
+export * from './terminology.service';
+import { TerminologyService } from './terminology.service';
+export * from './terminology.serviceInterface';
+export const APIS = [AuthService, CancerPatientsService, TerminologyService];

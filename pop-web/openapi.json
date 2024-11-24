@@ -8,7 +8,7 @@
   "paths": {
     "/api/auth/login": {
       "post": {
-        "operationId": "auth_login_02aaff73",
+        "operationId": "auth_login_bf536594",
         "summary": "Login",
         "parameters": [],
         "responses": {
@@ -342,6 +342,42 @@
           {
             "JWTAuth": []
           }
+        ]
+      }
+    },
+    "/api/terminologies/{terminology}/concepts": {
+      "get": {
+        "operationId": "getTerminologyConcepts",
+        "summary": "Get Terminology Concepts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "terminology",
+            "schema": {
+              "title": "Terminology",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CodedConceptSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Terminology"
         ]
       }
     }
