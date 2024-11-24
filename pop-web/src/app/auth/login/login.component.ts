@@ -46,7 +46,14 @@ export class LoginComponent {
             },
             (error) => {
                 this.loading = false
-                this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Please check your credentials' });
+                if (error.status == 401) {
+                    this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
+                } else 
+                if (error.status == 400 ){
+                    this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Please provide a username and a password' });
+                } else {
+                    this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.message });
+                }
             }
         )
     }
