@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { CancerPatientService } from '../services/cancerpatient.service';
 import { CancerPatientSchema, NinjaPaginationResponseSchemaCancerPatientSchema } from '../openapi';
 import { Observable } from 'rxjs';
+import { PatientFormComponent } from './components/patient-form/patient-form.component';
 
 @Component({
   templateUrl: './patient-list.component.html',
@@ -15,6 +16,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
   filterValue: string = '';
   loading: boolean = true;
   subscription!: Subscription;
+  patientFormVisible: boolean = false;
 
   constructor(private patientService: CancerPatientService) {}
 
@@ -43,4 +45,8 @@ export class PatientListComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
   };
+
+  showDialog() {
+    this.patientFormVisible = true;
+}
 }

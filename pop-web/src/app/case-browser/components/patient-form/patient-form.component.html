@@ -1,0 +1,15 @@
+<form  [formGroup]="patientForm">
+    <div class="flex-auto">
+        <label class="form-label">Gender</label>
+        <p-dropdown 
+            formControlName="gender" 
+            placeholder="Select an option" />
+    </div>
+    <div class="flex-auto">
+        <label class="form-label">Date of Birth </label>
+        <p-inputMask 
+            mask="99/99/9999" 
+            formControlName="age"
+            placeholder="DD/MM/YYYY" />
+    </div>
+</form>

@@ -10,6 +10,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { ApiModule, Configuration, ConfigurationParameters } from './openapi/';
 import { AuthGuard } from './auth/auth.guard';
 import { PrimeNGConfig } from 'primeng/api';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
     primeConfig.ripple = true;
@@ -31,6 +33,8 @@ export function apiConfigFactory (): Configuration {
         AppRoutingModule,
         AppLayoutModule,
         ApiModule.forRoot(apiConfigFactory),
+        FormsModule, 
+        ReactiveFormsModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

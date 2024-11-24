@@ -15,7 +15,12 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
+import { PatientFormComponent } from './components/patient-form/patient-form.component';
 import { PatientListRoutingModule } from './patient-list-routing.module';
+import { DialogModule } from 'primeng/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputMaskModule } from 'primeng/inputmask';
+
 
 
 @NgModule({
@@ -36,9 +41,13 @@ import { PatientListRoutingModule } from './patient-list-routing.module';
         SkeletonModule,
         AvatarModule,
         PatientListRoutingModule,
+        DialogModule,
+        ReactiveFormsModule,
+        InputMaskModule,
     ],
     declarations: [
         PatientListComponent,
+        PatientFormComponent,
     ]
 })
 export class CasebrowserModule { }
