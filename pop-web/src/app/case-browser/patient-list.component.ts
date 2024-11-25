@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CancerPatientService } from '../services/cancerpatient.service';
 import { CancerPatientSchema, NinjaPaginationResponseSchemaCancerPatientSchema } from '../openapi';
 import { Observable } from 'rxjs';
-import { PatientFormComponent } from './components/patient-form/patient-form.component';
+import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   templateUrl: './patient-list.component.html',
@@ -16,9 +17,13 @@ export class PatientListComponent implements OnInit, OnDestroy {
   filterValue: string = '';
   loading: boolean = true;
   subscription!: Subscription;
-  patientFormVisible: boolean = false;
 
-  constructor(private patientService: CancerPatientService) {}
+  @ViewChild('modalComponent') modalComponent!: ModalFormComponent;
+  formGroup!: FormGroup;
+
+
+  constructor(private patientService: CancerPatientService,
+  ) {}
 
   ngOnInit() {
     this.patients$ = this.patientService.getCancerPatients();
@@ -40,13 +45,14 @@ export class PatientListComponent implements OnInit, OnDestroy {
     }
   };
 
+
+  openModal() {
+    this.modalComponent.openModal();
+  }
   ngOnDestroy() {
     if (this.subscription) {
         this.subscription.unsubscribe();
     }
   };
 
-  showDialog() {
-    this.patientFormVisible = true;
-}
 }

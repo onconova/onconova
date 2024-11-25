@@ -22,6 +22,8 @@ import { AppFooterComponent } from './components/footer/app.footer.component';
 import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 
+import { MessageService } from 'primeng/api';
+
 @NgModule({
     declarations: [
         AppMenuitemComponent,
@@ -48,6 +50,7 @@ import { AppLayoutComponent } from "./app.layout.component";
         RippleModule,
         RouterModule,
     ],
-    exports: [AppLayoutComponent]
+    exports: [AppLayoutComponent],
+    providers: [MessageService]
 })
 export class AppLayoutModule { }

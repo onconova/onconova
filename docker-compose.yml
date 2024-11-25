@@ -46,7 +46,7 @@ services:
         ports:
         - 4200
         volumes:
-        - ./pop-web:/pop-web
+            - ./pop-web:/pop-web
         networks:
             - pop-network
 

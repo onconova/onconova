@@ -15,6 +15,7 @@
     "@angular/router": "^18.2.12",
     "@auth0/angular-jwt": "^5.2.0",
     "chart.js": "^4.4.6",
+    "inputmask": "^5.0.9",
     "jdenticon": "^3.3.0",
     "jwt-decode": "^4.0.0",
     "ngx-jdenticon": "^2.0.0",
@@ -24,5 +25,8 @@
     "rxjs": "^7.8.1",
     "tslib": "^2.8.1",
     "web-animations-js": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/inputmask": "^5.0.7"
   }
 }

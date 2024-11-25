@@ -1,15 +1,29 @@
-<form  [formGroup]="patientForm">
-    <div class="flex-auto">
-        <label class="form-label">Gender</label>
-        <coded-concept-select 
-            terminology="AdministrativeGender"
-            formControlName="gender"/>
-    </div>
-    <div class="flex-auto">
-        <label class="form-label">Date of Birth </label>
-        <p-inputMask 
-            mask="99/99/9999" 
-            formControlName="birthdate"
-            placeholder="DD/MM/YYYY" />
-    </div>
-</form>
+<div class="formgrid grid p-fluid">
+    <form  [formGroup]="patientForm" (ngSubmit)="createPatient(patientForm.value)">
+        <div class="field col">
+            <label class="form-label">Gender</label>
+            <coded-concept-select 
+                terminology="AdministrativeGender"
+                [control]="patientForm.controls['gender']"/>
+            <control-error controlName="gender"></control-error>
+        </div>
+
+        <div class="field col">
+            <label class="form-label">Date of Birth </label>
+            <p-calendar 
+                formControlName="birthdate"
+                dateFormat="dd/mm/yyyy"
+                placeholder="DD/MM/YYYY" 
+                appendTo="body"
+                dateMask />
+            <control-error controlName="birthdate"></control-error>
+        </div>
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-5"  
+            [loading]="loading"
+            [disabled]="patientForm.invalid" />
+    </form>
+
+</div>  

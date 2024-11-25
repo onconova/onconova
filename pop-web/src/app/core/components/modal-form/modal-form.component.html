@@ -1,0 +1,35 @@
+<p-dialog 
+    [visible]="visible"
+    header="Header" 
+    [closable]="true"
+    onHide="closeModal()"
+    [modal]="true" 
+    styleHeader=""
+    >
+    <ng-template pTemplate="headless">
+        <div class="bg-white mb-0 p-0" style="border-radius: 2rem;">
+            <div class="modal-header px-5 py-3 flex" style="border-radius: 2rem 2rem 0 0rem;">
+                <div class="inline-flex align-items-center justify-content-center gap-2">
+                    <p-avatar 
+                        icon="pi pi-user" 
+                        styleClass="mr-2" 
+                        size="large" />
+                    <div class="flex-column">
+                        <div class="font-bold white-space-nowrap text-xl text-white">
+                            Accesioning
+                        </div>
+                        <div class="fwhite-space-nowrap text-white">
+                            Add new case
+                        </div>
+                    </div>
+                </div>
+                <div class=" my-auto ml-auto text-white">
+                    <i class="pi pi-times" (click)="closeModal()"></i>
+                </div>
+            </div>
+            <div class="modal-body p-5">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

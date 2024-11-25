@@ -83,12 +83,7 @@
               "browserTarget": "pop-web:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "ssl": true,
-            "sslKey": "../etc/certs/localhost-key.pem",
-            "sslCert": "../etc/certs/localhost.pem"
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

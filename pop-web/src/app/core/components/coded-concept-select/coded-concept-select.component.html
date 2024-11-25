@@ -1,10 +1,13 @@
 <p-autoComplete
-  formControlName="[formControlName]"
+  [formControl]="control"
   [dropdown]="true"
   [showClear]="true"
+  [forceSelection]="true"
   [suggestions]="filteredConcepts"
   (completeMethod)="filterConcepts($event)"
-  optionLabel="code"
+  placeholder="Search or select an option"
+  optionLabel="display"
+  appendTo="body"
 >
   <!-- Custom item template -->
   <ng-template let-country pTemplate="item">

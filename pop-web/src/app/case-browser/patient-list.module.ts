@@ -20,7 +20,12 @@ import { PatientListRoutingModule } from './patient-list-routing.module';
 import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
+import { CalendarModule } from 'primeng/calendar';
 import { CodedConceptSelectModule } from '../core/components/coded-concept-select/coded-concept-select.module';
+import { DateMaskDirective } from './components/patient-form/date-mask-directive'
+
+import { ControlErrorComponent } from './components/control-error/control-error.component';
+import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
 
 @NgModule({
     imports: [
@@ -43,11 +48,15 @@ import { CodedConceptSelectModule } from '../core/components/coded-concept-selec
         DialogModule,
         ReactiveFormsModule,
         InputMaskModule,
+        CalendarModule,
         CodedConceptSelectModule,
+        ControlErrorComponent,
+        ModalFormComponent,
     ],
     declarations: [
         PatientListComponent,
         PatientFormComponent,
+        DateMaskDirective,
     ]
 })
 export class CasebrowserModule { }
