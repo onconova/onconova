@@ -2,6 +2,7 @@ import random
 import string
 
 from django.db import models 
+from django.db.models import F, Func, ExpressionWrapper, Case, When, Value
 from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel 
@@ -9,11 +10,34 @@ from pop.core.models import BaseModel
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
+class CancerPatientManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().annotate(
+            # Add patient age computed at database-level (fast and queriable)
+            age=ExpressionWrapper(
+                Func(
+                    Func(
+                        Case(
+                            When(date_of_death__isnull=False, then=F('date_of_death')),
+                            default=Func(function='NOW'),  # Use current date if date_of_death is NULL
+                        ),
+                        F('birthdate'),
+                        function='AGE'
+                    ),
+                    function="EXTRACT",
+                    template="EXTRACT(YEAR FROM %(expressions)s)"
+                ),
+                output_field=models.IntegerField()
+            )
+        )
+        
 class CancerPatient(BaseModel):
     """
     A patient who has been diagnosed with or is receiving medical 
     treatment for a malignant growth or tumor
     """ 
+    objects = CancerPatientManager()
+    
     pseudoidentifier = models.CharField(
         verbose_name = _('Pseudoidentifier'),
         help_text = _("Pseudoidentifier of the patient"),
@@ -50,10 +74,21 @@ class CancerPatient(BaseModel):
         verbose_name = _('Date of birth'),
         help_text = _('Date of birth'),
     )
-    is_deceased = models.BooleanField(
+    is_deceased = models.GeneratedField(
         verbose_name = _('Is deceased'),
-        help_text = _("Indicates if the individual is deceased or not"),
-        null = True,
+        help_text = _("Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)"),
+        expression = Case(
+            When(date_of_death__isnull = False, then = Value(True)),  # Deceased if `date_of_death` is not null
+            default = Value(False),  # Not deceased otherwise
+            output_field = models.BooleanField(),
+        ),
+        output_field = models.BooleanField(),
+        db_persist = True,
+    )
+    date_of_death = models.DateField(
+        verbose_name = _('Date of death'),
+        help_text = _("Date on which the patient was declared dead"),
+        null=True, blank=True,
     )
     
     def _generate_random_id(self):
@@ -71,3 +106,4 @@ class CancerPatient(BaseModel):
             # Set the ID for the patient
             self.pseudoidentifier = new_pseudoidentifier
         return super().save(*args, **kwargs)
+
