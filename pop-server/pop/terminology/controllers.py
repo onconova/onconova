@@ -10,7 +10,7 @@ from ninja_extra import (
     route,
 )
  
-from pop.oncology.schemas.fields import CodedConceptSchema
+from pop.core.schemas.fields import CodedConceptSchema
 from pop.terminology import models as terminologies
 
 @api_controller("/terminologies", tags=["Terminology"])

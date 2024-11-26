@@ -10,21 +10,7 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-
-
-class Reference(Schema):
-    type: str = None
-    id: str = None
-    url: Optional[str] = None
-
-class CodedConceptSchema(Schema):  
-    code: str
-    system: str
-    display: Optional[str] = None
-    version: Optional[str] = None
-    synonyms: Optional[List[str]] = None
-    properties: Optional[Dict] = None
-
+from pop.core.schemas import CodedConceptSchema
 
 DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
@@ -57,7 +43,7 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     # Handle relation fields
     if field.is_relation:
         if depth > 0:
-            from pop.oncology.schemas.factory import create_schema
+            from pop.core.schemas import create_schema
             model = field.related_model
             schema = create_schema(model, depth=depth - 1)
             default = ...

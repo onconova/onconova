@@ -4,36 +4,24 @@ from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import (
     paginate, 
-    PageNumberPaginationExtra, 
-    PaginatedResponseSchema
 )
 from ninja_extra.schemas import NinjaPaginationResponseSchema
 
 from ninja_extra import (
     api_controller, 
     ControllerBase, 
-    permissions, 
     route,
 )
 from ninja_jwt.authentication import JWTAuth
 
 from pop.core.schemas import ResourceIdSchema 
 from pop.oncology.models import CancerPatient
-from pop.oncology.schemas.factory import create_schema, BaseSchema
 
 from django.shortcuts import get_object_or_404
 from typing import List
 from datetime import date 
 
-CancerPatientCreateSchema: BaseSchema = create_schema(
-    model=CancerPatient, 
-    name='CancerPatientCreateSchema', 
-    exclude=('id', 'created_at', 'updated_at', 'pseudoidentifier')
-)
-CancerPatientSchema: BaseSchema = create_schema(
-    model=CancerPatient,
-    name='CancerPatientSchema', 
-)
+from pop.oncology.schemas import CancerPatientSchema, CancerPatientCreateSchema
 
 class GenderEnum(Enum):
     male = 'male'

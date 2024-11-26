@@ -11,8 +11,8 @@ from django.db import models as django_models
 from django.contrib.auth.models import User
 
 from pop.terminology.models import AdministrativeGender as MockCodedConcept
-from pop.oncology.schemas.fields import get_schema_field, CodedConceptSchema
-from pop.oncology.schemas.factory import SchemaFactory
+from pop.core.schemas.fields import get_schema_field, CodedConceptSchema
+from pop.core.schemas.factory import SchemaFactory
 from pop.tests.factories import UserFactory, make_terminology_factory
 
 class TestGetSchemaField(TestCase):
