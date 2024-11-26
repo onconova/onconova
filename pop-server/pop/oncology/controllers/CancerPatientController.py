@@ -78,7 +78,7 @@ class CancerPatientController(ControllerBase):
         operation_id='createCancerPatient',
     )
     def create_cancer_patient(self, payload: CancerPatientCreateSchema): # type: ignore
-        instance = CancerPatientCreateSchema.model_validate(payload).model_dump_django(save=True)
+        instance = CancerPatientCreateSchema.model_validate(payload).model_dump_django(save=True, user=self.context.request.user)
         return 201, ResourceIdSchema(id=instance.id)
 
     @route.get(
@@ -105,7 +105,7 @@ class CancerPatientController(ControllerBase):
         instance = get_object_or_404(CancerPatient, id=patientId)
         instance = CancerPatientCreateSchema\
                     .model_validate(payload)\
-                    .model_dump_django(instance=instance, save=True)
+                    .model_dump_django(instance=instance, save=True, user=self.context.request.user)
         return 204, None
 
     @route.delete(

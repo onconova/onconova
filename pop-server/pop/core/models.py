@@ -1,9 +1,12 @@
+import random 
+from datetime import datetime
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timesince
-from django.conf import settings
-from datetime import datetime
-import random 
+from django.contrib.auth import get_user_model
+
+UserModel = get_user_model()
 
 class BaseModel(models.Model):
     auto_id = models.BigAutoField(
@@ -21,6 +24,17 @@ class BaseModel(models.Model):
     )
     updated_at = models.DateTimeField(
         auto_now=True,
+    )
+    created_by = models.ForeignKey(
+        help_text=_('The user who created the original data'),
+        to=UserModel,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    updated_by = models.ManyToManyField(
+        help_text=_('The user(s) who updated the data since its creation'),
+        to=UserModel,
+        related_name='+'
     )
 
     def __init__(self, *args, **kwargs):

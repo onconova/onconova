@@ -5,7 +5,6 @@ from django.db.models import Model as DjangoModel
 from pydantic import create_model as create_pydantic_model, BaseModel as PydanticBaseModel, ConfigDict
 
 from ninja.errors import ConfigError
-from ninja.orm.metaclass import MetaConf
 from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import ResolverMetaclass, Schema
 
@@ -52,20 +51,28 @@ class BaseSchema(PydanticBaseModel):
     def model_dump_django(
             self, 
             model: Type[DjangoModel] = None, 
-            instance: DjangoModel = None, 
-            save: bool=False
+            instance: Optional[DjangoModel] = None, 
+            save: bool=False,
+            user: Optional[DjangoModel]=None,
     ) -> DjangoModel:
         """
         Creates a Django model instance from the current schema.
         """
         model = model or self.__ormmodel__
-        if not instance:
+        create = instance is None 
+        if create:
             instance = model()
         for field in self.model_fields.keys():
             data = getattr(self, field)
             if isinstance(data, CodedConceptSchema):
                 data = model._meta.get_field(field).related_model.objects.get(code=data.code, system=data.system)
             setattr(instance, field, data)
+        if user:
+            if create:
+                instance.created_by = user
+            else:
+                if user not in instance.updated_by.all():
+                    instance.updated_by.add(user)
         if save:
             instance.save()
         return instance
