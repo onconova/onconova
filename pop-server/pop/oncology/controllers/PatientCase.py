@@ -15,13 +15,13 @@ from ninja_extra import (
 from ninja_jwt.authentication import JWTAuth
 
 from pop.core.schemas import ResourceIdSchema 
-from pop.oncology.models import CancerPatient
+from pop.oncology.models import PatientCase
 
 from django.shortcuts import get_object_or_404
 from typing import List
 from datetime import date 
 
-from pop.oncology.schemas import CancerPatientSchema, CancerPatientCreateSchema
+from pop.oncology.schemas import PatientCaseSchema, PatientCaseCreateSchema
 
 class GenderEnum(Enum):
     male = 'male'
@@ -33,7 +33,7 @@ class Filters(Schema):
     pseudoidentifier__icontains: str = Field(None, alias='pseudoidentifier')
     is_deceased: bool = Field(None, alias='deceased')
     gender__code__in: List[GenderEnum] = Field(None, alias="gender")
-    birthdate: date = Field(None, alias="born")
+    date_of_birth: date = Field(None, alias="born")
 
 
 @api_controller(
@@ -41,18 +41,18 @@ class Filters(Schema):
     auth=[JWTAuth()], 
     tags=['Cancer Patients'],  
 )
-class CancerPatientController(ControllerBase):
+class PatientCaseController(ControllerBase):
 
     @route.get(
         path='/', 
         response={
-            200: NinjaPaginationResponseSchema[CancerPatientSchema]
+            200: NinjaPaginationResponseSchema[PatientCaseSchema]
         },
-        operation_id='getCancerPatients',
+        operation_id='getPatientCases',
     )
     @paginate()
     def get_all_cancer_patient_matching_the_query(self, filters: Query[Filters]):
-        queryset = CancerPatient.objects.all()
+        queryset = PatientCase.objects.all()
         for (filter,value) in filters:
             if value is not None:
                 queryset = queryset.filter(**{filter: value})
@@ -63,22 +63,22 @@ class CancerPatientController(ControllerBase):
         response={
             201: ResourceIdSchema
         },
-        operation_id='createCancerPatient',
+        operation_id='createPatientCase',
     )
-    def create_cancer_patient(self, payload: CancerPatientCreateSchema): # type: ignore
-        instance = CancerPatientCreateSchema.model_validate(payload).model_dump_django(save=True, user=self.context.request.user)
+    def create_cancer_patient(self, payload: PatientCaseCreateSchema): # type: ignore
+        instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(save=True, user=self.context.request.user)
         return 201, ResourceIdSchema(id=instance.id)
 
     @route.get(
         path='/{patientId}', 
         response={
-            200: CancerPatientSchema, 
+            200: PatientCaseSchema, 
             404: None
         },
-        operation_id='getCancerPatientById',
+        operation_id='getPatientCaseById',
         )
     def get_cancer_patient_by_id(self, patientId: str): 
-        instance = get_object_or_404(CancerPatient, id=patientId)
+        instance = get_object_or_404(PatientCase, id=patientId)
         return 200, instance
 
     @route.put(
@@ -87,11 +87,11 @@ class CancerPatientController(ControllerBase):
             204: None, 
             404: None
         },
-        operation_id='updateCancerPatientById',
+        operation_id='updatePatientCaseById',
     )
-    def update_cancer_patient(self, patientId: str, payload: CancerPatientCreateSchema): # type: ignore
-        instance = get_object_or_404(CancerPatient, id=patientId)
-        instance = CancerPatientCreateSchema\
+    def update_cancer_patient(self, patientId: str, payload: PatientCaseCreateSchema): # type: ignore
+        instance = get_object_or_404(PatientCase, id=patientId)
+        instance = PatientCaseCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, save=True, user=self.context.request.user)
         return 204, None
@@ -102,10 +102,10 @@ class CancerPatientController(ControllerBase):
             204: None, 
             404: None,
         },
-        operation_id='deleteCancerPatientById',
+        operation_id='deletePatientCaseById',
     )
     def delete_cancer_patient(self, patientId: str):
-        instance = get_object_or_404(CancerPatient, id=patientId)
+        instance = get_object_or_404(PatientCase, id=patientId)
         instance.delete()
         return 204, None
     

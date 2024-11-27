@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { CancerPatientCreateSchema } from '../model/models';
-import { CancerPatientSchema } from '../model/models';
-import { NinjaPaginationResponseSchemaCancerPatientSchema } from '../model/models';
+import { PatientCaseCreateSchema } from '../model/models';
+import { PatientCaseSchema } from '../model/models';
+import { NinjaPaginationResponseSchemaPatientCaseSchema } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
 
 
@@ -21,7 +21,7 @@ import { Configuration }                                     from '../configurat
 
 
 
-export interface CancerPatientsServiceInterface {
+export interface PatientCasesServiceInterface {
     defaultHeaders: HttpHeaders;
     configuration: Configuration;
 
@@ -30,21 +30,21 @@ export interface CancerPatientsServiceInterface {
      * 
      * @param cancerPatientCreateSchema 
      */
-    createCancerPatient(cancerPatientCreateSchema: CancerPatientCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPatientCase(cancerPatientCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
      * Delete Cancer Patient
      * 
      * @param patientId 
      */
-    deleteCancerPatientById(patientId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deletePatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Cancer Patient By Id
      * 
      * @param patientId 
      */
-    getCancerPatientById(patientId: string, extraHttpRequestParams?: any): Observable<CancerPatientSchema>;
+    getPatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<PatientCaseSchema>;
 
     /**
      * Get All Cancer Patient Matching The Query
@@ -56,7 +56,7 @@ export interface CancerPatientsServiceInterface {
      * @param limit 
      * @param offset 
      */
-    getCancerPatients(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<NinjaPaginationResponseSchemaCancerPatientSchema>;
+    getPatientCases(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<NinjaPaginationResponseSchemaPatientCaseSchema>;
 
     /**
      * Update Cancer Patient
@@ -64,6 +64,6 @@ export interface CancerPatientsServiceInterface {
      * @param patientId 
      * @param cancerPatientCreateSchema 
      */
-    updateCancerPatientById(patientId: string, cancerPatientCreateSchema: CancerPatientCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updatePatientCaseById(patientId: string, cancerPatientCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
 
 }

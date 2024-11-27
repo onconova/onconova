@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CancerPatientsService } from '../../../openapi/api/cancer-patients.service'
-import { CancerPatientCreateSchema } from '../../../openapi/model/cancer-patient-create-schema'
+import { PatientCasesService } from '../../../openapi/api/cancer-patients.service'
+import { PatientCaseCreateSchema } from '../../../openapi/model/cancer-patient-create-schema'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CodedConceptSchema } from '../../../openapi/model/coded-concept-schema'
 import { MessageService } from 'primeng/api';
@@ -16,23 +16,23 @@ export class PatientFormComponent {
 
   patientForm = new FormGroup({
     gender: new FormControl<CodedConceptSchema|null>(null,Validators.required),
-    birthdate: new FormControl<Date|null>(null, [
+    date_of_birth: new FormControl<Date|null>(null, [
         Validators.required,
       ])
   });
 
   constructor (
-    private patientService: CancerPatientsService,
+    private patientService: PatientCasesService,
     private messageService: MessageService ) { }
 
   createPatient(data: any): void {
     this.loading = true;  
-    console.log(data.birthdate.toISOString().substring(0, 10))
-    const cancerPatientData: CancerPatientCreateSchema = {
+    console.log(data.date_of_birth.toISOString().substring(0, 10))
+    const cancerPatientData: PatientCaseCreateSchema = {
       gender: data.gender,
-      birthdate: data.birthdate.toISOString().substring(0, 10),
+      date_of_birth: data.date_of_birth.toISOString().substring(0, 10),
     };
-    this.patientService.createCancerPatient(cancerPatientData).subscribe(
+    this.patientService.createPatientCase(cancerPatientData).subscribe(
       (response) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved patient' + response.id });
         this.loading = false;  

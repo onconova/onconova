@@ -104,7 +104,7 @@
     },
     "/api/cancer-patients/": {
       "post": {
-        "operationId": "createCancerPatient",
+        "operationId": "createPatientCase",
         "summary": "Create Cancer Patient",
         "parameters": [],
         "responses": {
@@ -126,7 +126,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CancerPatientCreateSchema"
+                "$ref": "#/components/schemas/PatientCaseCreateSchema"
               }
             }
           },
@@ -139,7 +139,7 @@
         ]
       },
       "get": {
-        "operationId": "getCancerPatients",
+        "operationId": "getPatientCases",
         "summary": "Get All Cancer Patient Matching The Query",
         "parameters": [
           {
@@ -217,7 +217,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NinjaPaginationResponseSchema_CancerPatientSchema_"
+                  "$ref": "#/components/schemas/NinjaPaginationResponseSchema_PatientCaseSchema_"
                 }
               }
             }
@@ -235,7 +235,7 @@
     },
     "/api/cancer-patients/{patientId}": {
       "delete": {
-        "operationId": "deleteCancerPatientById",
+        "operationId": "deletePatientCaseById",
         "summary": "Delete Cancer Patient",
         "parameters": [
           {
@@ -266,7 +266,7 @@
         ]
       },
       "get": {
-        "operationId": "getCancerPatientById",
+        "operationId": "getPatientCaseById",
         "summary": "Get Cancer Patient By Id",
         "parameters": [
           {
@@ -285,7 +285,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CancerPatientSchema"
+                  "$ref": "#/components/schemas/PatientCaseSchema"
                 }
               }
             }
@@ -304,7 +304,7 @@
         ]
       },
       "put": {
-        "operationId": "updateCancerPatientById",
+        "operationId": "updatePatientCaseById",
         "summary": "Update Cancer Patient",
         "parameters": [
           {
@@ -332,7 +332,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CancerPatientCreateSchema"
+                "$ref": "#/components/schemas/PatientCaseCreateSchema"
               }
             }
           },
@@ -532,7 +532,7 @@
         "title": "ResourceIdSchema",
         "type": "object"
       },
-      "CancerPatientCreateSchema": {
+      "PatientCaseCreateSchema": {
         "properties": {
           "race": {
             "anyOf": [
@@ -578,7 +578,7 @@
             "examples": [],
             "title": "Gender"
           },
-          "birthdate": {
+          "date_of_birth": {
             "description": "Date of birth",
             "examples": [],
             "format": "date",
@@ -601,9 +601,9 @@
         },
         "required": [
           "gender",
-          "birthdate"
+          "date_of_birth"
         ],
-        "title": "CancerPatientCreateSchema",
+        "title": "PatientCaseCreateSchema",
         "type": "object"
       },
       "CodedConceptSchema": {
@@ -730,7 +730,7 @@
         "title": "Input",
         "type": "object"
       },
-      "CancerPatientSchema": {
+      "PatientCaseSchema": {
         "properties": {
           "id": {
             "examples": [],
@@ -801,7 +801,7 @@
             "examples": [],
             "title": "Gender"
           },
-          "birthdate": {
+          "date_of_birth": {
             "description": "Date of birth",
             "examples": [],
             "format": "date",
@@ -828,12 +828,12 @@
           "updated_at",
           "pseudoidentifier",
           "gender",
-          "birthdate"
+          "date_of_birth"
         ],
-        "title": "CancerPatientSchema",
+        "title": "PatientCaseSchema",
         "type": "object"
       },
-      "NinjaPaginationResponseSchema_CancerPatientSchema_": {
+      "NinjaPaginationResponseSchema_PatientCaseSchema_": {
         "properties": {
           "count": {
             "title": "Count",
@@ -841,7 +841,7 @@
           },
           "items": {
             "items": {
-              "$ref": "#/components/schemas/CancerPatientSchema"
+              "$ref": "#/components/schemas/PatientCaseSchema"
             },
             "title": "Items",
             "type": "array"
@@ -851,7 +851,7 @@
           "count",
           "items"
         ],
-        "title": "NinjaPaginationResponseSchema[CancerPatientSchema]",
+        "title": "NinjaPaginationResponseSchema[PatientCaseSchema]",
         "type": "object"
       }
     },

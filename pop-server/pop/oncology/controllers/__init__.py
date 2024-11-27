@@ -1,5 +1,5 @@
-from .CancerPatientController import CancerPatientController
+from .PatientCase import PatientCaseController
 
 __all__ = (
-    CancerPatientController,
+    PatientCaseController,
 )

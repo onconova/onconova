@@ -1,6 +1,6 @@
-from .CancerPatientSchemas import CancerPatientSchema, CancerPatientCreateSchema
+from .PatientCase import PatientCaseSchema, PatientCaseCreateSchema
 
 __all__ = (
-     CancerPatientSchema, 
-     CancerPatientCreateSchema,
+     PatientCaseSchema, 
+     PatientCaseCreateSchema,
 )

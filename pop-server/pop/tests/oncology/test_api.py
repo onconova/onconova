@@ -2,7 +2,7 @@
 from django.test import TestCase, Client
 from ninja_extra.testing import TestClient
 from pop.oncology import models
-from pop.oncology.controllers.CancerPatientController import CancerPatientController, CancerPatientCreateSchema, CancerPatientSchema
+from pop.oncology.schemas import PatientCaseCreateSchema, PatientCaseSchema
 from pop.tests import factories 
 from pop.core.controllers import AuthController 
 from parameterized import parameterized
@@ -21,7 +21,7 @@ DELETE = 'delete'
 PUT = 'put'
 POST = 'post'
 
-class TestCancerPatientController(TestCase):
+class TestPatientCaseController(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Create a fake user
@@ -30,7 +30,7 @@ class TestCancerPatientController(TestCase):
         cls.password = faker.password()
         user.set_password(cls.password)
         user.save()
-        cls.patient = factories.CancerPatientFactory.create()
+        cls.patient = factories.PatientCaseFactory.create()
     
     def _authenticate_user(self):
         # Login the user and retrieve the JWT token
@@ -60,8 +60,8 @@ class TestCancerPatientController(TestCase):
     def test_get_cancer_patient_by_id(self, _, *scenario):        
         response = self._call_api_endpoint(GET, f'/api/cancer-patients/{self.patient.id}', *scenario)
         if response == '200':
-            expected = CancerPatientSchema.model_validate(self.patient).model_dump(exclude=['created_at','updated_at'])
-            result = CancerPatientSchema.model_validate(response.json()).model_dump(exclude=['created_at','updated_at'])
+            expected = PatientCaseSchema.model_validate(self.patient).model_dump(exclude=['created_at','updated_at'])
+            result = PatientCaseSchema.model_validate(response.json()).model_dump(exclude=['created_at','updated_at'])
             self.maxDiff = None
             self.assertDictEqual(result, expected)
 
@@ -70,26 +70,26 @@ class TestCancerPatientController(TestCase):
         response = self._call_api_endpoint(DELETE, f'/api/cancer-patients/{self.patient.id}', *scenario)
         if response == '204':
             for entry in response.json()['items']:
-                result = CancerPatientSchema.model_validate(entry).model_dump(exclude=['created_at','updated_at'])
+                result = PatientCaseSchema.model_validate(entry).model_dump(exclude=['created_at','updated_at'])
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_delete_cancer_patient_by_id(self, _, *scenario):            
         response = self._call_api_endpoint(DELETE, f'/api/cancer-patients/{self.patient.id}', *scenario)
         if response == '204':
-            self.assertFalse(models.CancerPatient.objects.filter(id=self.patient.id).exists())
+            self.assertFalse(models.PatientCase.objects.filter(id=self.patient.id).exists())
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_create_cancer_patient(self, _, *scenario):            
-        json_data = CancerPatientCreateSchema.model_validate(self.patient).model_dump(mode='json')
+        json_data = PatientCaseCreateSchema.model_validate(self.patient).model_dump(mode='json')
         response = self._call_api_endpoint(POST, f'/api/cancer-patients/', *scenario, data=json_data)
         if response == '201':
-            self.assertTrue(models.CancerPatient.objects.filter(id=self.patient.id).exists())
+            self.assertTrue(models.PatientCase.objects.filter(id=self.patient.id).exists())
 
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_update_cancer_patient(self, _, *scenario):            
-        patient = factories.CancerPatientFactory.create()
-        json_data = CancerPatientCreateSchema.model_validate(patient).model_dump(mode='json')
+        patient = factories.PatientCaseFactory.create()
+        json_data = PatientCaseCreateSchema.model_validate(patient).model_dump(mode='json')
         response = self._call_api_endpoint(PUT, f'/api/cancer-patients/{patient.id}', *scenario, data=json_data)
         if response == '201':
-            self.assertTrue(models.CancerPatient.objects.filter(id=patient.id).exists()) 
+            self.assertTrue(models.PatientCase.objects.filter(id=patient.id).exists()) 

@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CancerPatientSchema } from './cancer-patient-schema';
+import { PatientCaseSchema } from './cancer-patient-schema';
 
 
-export interface NinjaPaginationResponseSchemaCancerPatientSchema { 
+export interface NinjaPaginationResponseSchemaPatientCaseSchema { 
     count: number;
-    items: Array<CancerPatientSchema>;
+    items: Array<PatientCaseSchema>;
 }
 

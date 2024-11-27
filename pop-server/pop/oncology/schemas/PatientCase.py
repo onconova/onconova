@@ -1,24 +1,25 @@
-from pop.oncology.models import CancerPatient
+from pop.oncology.models import PatientCase
 from pop.core.schemas import ModelSchema
 
-class CancerPatientSchema(ModelSchema):
+class PatientCaseSchema(ModelSchema):
     
     class Meta:
-        model = CancerPatient
+        model = PatientCase
         fields = (
             'id',
             'pseudoidentifier',
             'race',
-            'birthsex',
+            'sex_at_birth',
             'gender_identity',
             'gender',
-            'birthdate',
+            'date_of_birth',
             'is_deceased',
             'date_of_death',
+            'cause_of_death',
         )
 
-class CancerPatientCreateSchema(ModelSchema):
+class PatientCaseCreateSchema(ModelSchema):
     
     class Meta:
-        model = CancerPatient
+        model = PatientCase
         exclude = ('id', 'created_at', 'updated_at', 'pseudoidentifier', 'created_by', 'updated_by')

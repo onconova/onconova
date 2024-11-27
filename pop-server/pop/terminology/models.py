@@ -583,13 +583,9 @@ class USCoreSmokingStatusObservationCodes(CodedConcept):
         return self.display.replace(' (finding)','')
 
 
-class CauseOfDeathCodes(CodedConcept):
+class CauseOfDeath(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-causes-of-death'
-    description = 'Causes of death for oncology patients'
-    # Additional codes for an extensible valuset
-    extension_concepts = [
-     {'code':'15355001','system':'http://snomed.info/sct','display':'Unattended death'},
-    ]
+    description = 'Cause of death for oncology patients'
 
 
 class TumorMorphologyCode(CodedConcept):

@@ -2,7 +2,7 @@ import random
 import string
 
 from django.db import models 
-from django.db.models import F, Func, ExpressionWrapper, Case, When, Value
+from django.db.models import Q, F, Func, ExpressionWrapper, Case, When, Value
 from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel 
@@ -10,7 +10,7 @@ from pop.core.models import BaseModel
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
-class CancerPatientManager(models.Manager):
+class PatientCaseManager(models.Manager):
     def get_queryset(self):
         """
         Annotate the queryset with a database-level age computation.
@@ -18,7 +18,7 @@ class CancerPatientManager(models.Manager):
         Age is computed using PostgreSQL's built-in AGE and EXTRACT functions.
         The computation is done on the database side, so it is both fast and
         queriable. The age is computed as the difference in years between the
-        birthdate and either the date of death or the current date if the
+        date_of_birth and either the date of death or the current date if the
         patient is alive.
         """
         return super().get_queryset().annotate(
@@ -30,7 +30,7 @@ class CancerPatientManager(models.Manager):
                             When(date_of_death__isnull=False, then=F('date_of_death')),
                             default=Func(function='NOW'),  # Use current date if date_of_death is NULL
                         ),
-                        F('birthdate'),
+                        F('date_of_birth'),
                         function='AGE'
                     ),
                     function="EXTRACT",
@@ -39,13 +39,18 @@ class CancerPatientManager(models.Manager):
                 output_field=models.IntegerField()
             )
         )
-        
-class CancerPatient(BaseModel):
+
+class PatientCase(BaseModel):
     """
-    A patient who has been diagnosed with or is receiving medical 
-    treatment for a malignant growth or tumor
-    """ 
-    objects = CancerPatientManager()
+    Represents a patient case in the oncology system.
+
+    This model stores information about a patient's case, including their
+    pseudoidentifier, race, sex at birth, gender identity, gender, date of birth,
+    date of death, cause of death, and other related fields. 
+
+    All fields are stored according to HIPAA de-identification standards.
+    """
+    objects = PatientCaseManager()
     
     pseudoidentifier = models.CharField(
         verbose_name = _('Pseudoidentifier'),
@@ -54,6 +59,11 @@ class CancerPatient(BaseModel):
         unique = True,
         editable = False,
     )
+    gender = termfields.CodedConceptField(
+        verbose_name = _('Gender'),
+        help_text = _("Gender for administrative purposes"),
+        terminology = terminologies.AdministrativeGender, 
+    )
     race = termfields.CodedConceptField(
         verbose_name = _('Race'),
         help_text = _("Race of the patient"),
@@ -61,7 +71,7 @@ class CancerPatient(BaseModel):
         null = True, 
         blank = True,    
     )
-    birthsex = termfields.CodedConceptField(
+    sex_at_birth = termfields.CodedConceptField(
         verbose_name = _('Birth sex'),
         help_text = _("Sex assigned at birth"),
         terminology = terminologies.BirthSex,
@@ -74,21 +84,16 @@ class CancerPatient(BaseModel):
         null = True, 
         blank = True,        
     )
-    gender = termfields.CodedConceptField(
-        verbose_name = _('Gender'),
-        help_text = _("Gender for administrative purposes"),
-        terminology = terminologies.AdministrativeGender, 
-    )
-    birthdate = models.DateField(
+    date_of_birth = models.DateField(
         verbose_name = _('Date of birth'),
-        help_text = _('Date of birth'),
+        help_text = _('Anonymized date of birth (year/month). The day is set to the first day of the month by convention.'),
     )
     is_deceased = models.GeneratedField(
         verbose_name = _('Is deceased'),
         help_text = _("Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)"),
         expression = Case(
-            When(date_of_death__isnull = False, then = Value(True)),  # Deceased if `date_of_death` is not null
-            default = Value(False),  # Not deceased otherwise
+            When(Q(date_of_death__isnull = False) | Q(cause_of_death__isnull = False), then = Value(True)),  
+            default = Value(False),
             output_field = models.BooleanField(),
         ),
         output_field = models.BooleanField(),
@@ -96,14 +101,20 @@ class CancerPatient(BaseModel):
     )
     date_of_death = models.DateField(
         verbose_name = _('Date of death'),
-        help_text = _("Date on which the patient was declared dead"),
+        help_text = _('Anonymized date of death (year/month). The day is set to the first day of the month by convention.'),
+        null=True, blank=True,
+    )
+    cause_of_death = termfields.CodedConceptField(
+        verbose_name = _('Cause of death'),
+        help_text = _("Classification of the cause of death."),
+        terminology = terminologies.CauseOfDeath, 
         null=True, blank=True,
     )
     
     @property
     def age(self):
         """
-        Calculate the age of the patient based on the birthdate and current date
+        Calculate the age of the patient based on the date_of_birth and current date
         or date of death, if available. The age is computed at the database level.
         """
         return self.__class__.objects.filter(pk=self.pk).values('_age')[0]['_age']
@@ -120,7 +131,7 @@ class CancerPatient(BaseModel):
         """
         digit = lambda N: ''.join([str(random.randint(1,9)) for _ in range(N)])
         return f'{random.choice(string.ascii_letters).upper()}.{digit(4)}.{digit(3)}.{digit(2)}'
-    
+
     def save(self, *args, **kwargs):
         # If an ID has not been manually specified, add an automated one
         """
@@ -131,15 +142,34 @@ class CancerPatient(BaseModel):
         is found, it will generate a new ID and check it again. This ensures that the ID
         is unique.
         
-        The ID is generated using the `_generate_random_id` method.
+        Also, ensures that the date of birth and date of death are properly de-identified before
+        storing them in the database.
         """
         if not self.pseudoidentifier:
             # Generate random digits
             new_pseudoidentifier = self._generate_random_id()
             # Check for ID clashes in the database
-            while CancerPatient.objects.filter(id=new_pseudoidentifier).exists():
+            while PatientCase.objects.filter(id=new_pseudoidentifier).exists():
                 new_pseudoidentifier = self._generate_random_id()
             # Set the ID for the patient
             self.pseudoidentifier = new_pseudoidentifier
+        # Ensure the date_of_birth is anonymized
+        if self.date_of_birth.day != 1:
+            self.date_of_birth = self.date_of_birth.replace(day=1)
+        if self.date_of_death and self.date_of_death.day != 1:
+            self.date_of_death = self.date_of_death.replace(day=1)
         return super().save(*args, **kwargs)
     
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(date_of_birth__day=1),
+                name='date_of_birth_must_be_first_of_month',
+                violation_error_message='Birthdate must be the first day of the month',
+            ),
+            models.CheckConstraint(
+                condition=Q(date_of_death__day=1),
+                name='date_of_death_must_be_first_of_month',
+                violation_error_message='Birthdate must be the first day of the month',
+            ),
+        ]

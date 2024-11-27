@@ -10,7 +10,7 @@
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface CancerPatientSchema { 
+export interface PatientCaseSchema { 
     id: string;
     created_at: string;
     updated_at: string;
@@ -28,7 +28,7 @@ export interface CancerPatientSchema {
     /**
      * Date of birth
      */
-    birthdate: string;
+    date_of_birth: string;
     is_deceased?: boolean | null;
 }
 

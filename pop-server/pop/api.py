@@ -4,7 +4,7 @@ from ninja_extra import NinjaExtraAPI
 from pop.core.controllers import AuthController
 from pop.terminology.controllers import TerminologyController
 from pop.oncology.controllers import (
-    CancerPatientController,
+    PatientCaseController,
 )
 api = NinjaExtraAPI(
     title="POP API",
@@ -13,6 +13,6 @@ api = NinjaExtraAPI(
 )
 api.register_controllers(
     AuthController,
-    CancerPatientController,
+    PatientCaseController,
     TerminologyController,
 )

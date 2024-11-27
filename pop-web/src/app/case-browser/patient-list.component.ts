@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CancerPatientService } from '../services/cancerpatient.service';
-import { CancerPatientSchema, NinjaPaginationResponseSchemaCancerPatientSchema } from '../openapi';
+import { PatientCaseService } from '../services/cancerpatient.service';
+import { PatientCaseSchema, NinjaPaginationResponseSchemaPatientCaseSchema } from '../openapi';
 import { Observable } from 'rxjs';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
 import { FormGroup } from '@angular/forms';
@@ -11,9 +11,9 @@ import { FormGroup } from '@angular/forms';
 })
 
 export class PatientListComponent implements OnInit, OnDestroy {
-  patients$!: Observable<NinjaPaginationResponseSchemaCancerPatientSchema>;
-  filteredPatients: CancerPatientSchema[] = [];
-  patients: CancerPatientSchema[] = [];
+  patients$!: Observable<NinjaPaginationResponseSchemaPatientCaseSchema>;
+  filteredPatients: PatientCaseSchema[] = [];
+  patients: PatientCaseSchema[] = [];
   filterValue: string = '';
   loading: boolean = true;
   subscription!: Subscription;
@@ -22,11 +22,11 @@ export class PatientListComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
 
 
-  constructor(private patientService: CancerPatientService,
+  constructor(private patientService: PatientCaseService,
   ) {}
 
   ngOnInit() {
-    this.patients$ = this.patientService.getCancerPatients();
+    this.patients$ = this.patientService.getPatientCases();
     this.patients$.subscribe(page => {
       this.patients = page.items;
       this.filteredPatients = page.items;
@@ -40,7 +40,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
     } else {
       this.filteredPatients = this.patients.filter(patient =>
         patient.pseudoidentifier.toLowerCase().includes(filterValue.toLowerCase()) ||
-        patient.birthdate.toLowerCase().includes(filterValue.toLowerCase())
+        patient.date_of_birth.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
   };
