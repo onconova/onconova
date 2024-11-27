@@ -370,7 +370,7 @@ class ICDO3TopographyDigestor(TerminologyDigestor):
                 code=code,
                 display=display,
                 system=self.CANONICAL_URL,
-                parent=code.split('.')[0] if str(row['Lvl']) == '4' else None,
+                parent=code.split('.')[0] if len(code.split('.'))>1 else None,
             )
         if str(row['Lvl']) in ['3','4']:
             self.concepts[code].display = display.capitalize() if str(row['Lvl']) == '3' else display
