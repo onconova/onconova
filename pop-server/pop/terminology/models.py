@@ -1,33 +1,8 @@
 from django.db import models
-from django.db.models import Lookup, Field
 from django.contrib.postgres import fields as postgres
 from django.utils.translation import gettext_lazy as _    
 
 from pop.core.models import BaseModel
-
-class DescendantOf(Lookup):
-    lookup_name = "descendantof"
-
-    def as_sql(self, compiler, connection):
-        lhs, lhs_params = self.process_lhs(compiler, connection)
-        rhs, rhs_params = self.process_rhs(compiler, connection)
-        params = lhs_params + rhs_params
-        table = lhs.split('.')[0].strip('"')
-        print(table)
-        recursive_cte = f"""
-        WITH RECURSIVE descendants AS (
-            SELECT id
-            FROM {table}
-            WHERE code = {rhs}
-            UNION ALL
-            SELECT t.id
-            FROM {table} AS t
-            INNER JOIN descendants AS d ON t.parent_id = d.id
-        )
-        SELECT id FROM descendants
-        """
-        return f"{lhs} IN ({recursive_cte})", params
-Field.register_lookup(DescendantOf)
 
 class CodedConcept(BaseModel):
     code = models.CharField(
