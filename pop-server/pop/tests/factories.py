@@ -1,5 +1,6 @@
 import factory
 import faker
+import random 
 
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.hashers import make_password
@@ -39,5 +40,6 @@ class CancerPatientFactory(factory.django.DjangoModelFactory):
     gender = factory.SubFactory(make_terminology_factory(terminology.AdministrativeGender))
     race = factory.SubFactory(make_terminology_factory(terminology.RaceCategory))
     birthsex = factory.SubFactory(make_terminology_factory(terminology.BirthSex))
-    is_deceased = factory.LazyFunction(faker.boolean)
+    date_of_death = factory.LazyFunction(lambda: faker.date() if random.random() > 0.5 else None)
+
 

@@ -5,7 +5,17 @@ class CancerPatientSchema(ModelSchema):
     
     class Meta:
         model = CancerPatient
-        fields = '__all__'
+        fields = (
+            'id',
+            'pseudoidentifier',
+            'race',
+            'birthsex',
+            'gender_identity',
+            'gender',
+            'birthdate',
+            'is_deceased',
+            'date_of_death',
+        )
 
 class CancerPatientCreateSchema(ModelSchema):
     
