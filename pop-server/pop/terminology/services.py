@@ -199,9 +199,15 @@ def follow_valueset_composition_rule(rule: ValueSetComposeInclude) -> List[Coded
         else:
             # Add specified codes if they exist in the code system
             if rule.concept:
-                system_concepts.extend([
-                    codesystem.get(concept.code) for concept in rule.concept
-                ])
+                if codesystem:
+                    system_concepts.extend([
+                        codesystem.get(concept.code) for concept in rule.concept
+                    ])
+                else: 
+                    system_concepts.extend([
+                        CodedConcept(code=concept.code, system=rule.system, display=concept.display) for concept in rule.concept
+                    ])
+
 
             # Process filters to include codes based on relationships
             if rule.filter:
@@ -301,7 +307,7 @@ def collect_codedconcept_terminology(
     dangling_concepts = [concept.pk for concept in CodedConceptModel.objects.all()]
     # Start updating the database
     for concept in tqdm(concepts, total=len(concepts), desc='• Writing into database'):
-        if not write_db or not concept.display: 
+        if not write_db or not concept or not concept.display: 
             continue
         instance, created = CodedConceptModel.objects.update_or_create(
             code=concept.code, system=concept.system,
@@ -319,7 +325,7 @@ def collect_codedconcept_terminology(
 
     # Update relationships
     for concept in tqdm(concepts, total=len(concepts), desc='• Updating relationships'):
-        if concept.parent:
+        if concept and concept.parent:
             child = CodedConceptModel.objects.get(code=concept.code, system=concept.system)
             parent = CodedConceptModel.objects.filter(code=concept.parent,system=concept.system).first()
             if parent:

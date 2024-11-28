@@ -1,7 +1,7 @@
 <div class="formgrid grid p-fluid">
     <form  [formGroup]="form" (ngSubmit)="onSave()">
         <div class="field col">
-            <label class="form-label">Gender</label>
+            <label class="form-label required">Gender</label>
             <coded-concept-select 
                 terminology="AdministrativeGender"
                 [control]="form.controls['gender']"/>
@@ -9,22 +9,56 @@
         </div>
 
         <div class="field col">
-            <label class="form-label">Date of Birth </label>
+            <label for="date-of-birth" class="form-label required">Date of Birth</label>
             <p-calendar 
+                required
+                id="date-of-birth"
                 formControlName="dateOfBirth"
                 view="month" 
                 dateFormat="mm/yy" 
                 placeholder="MM/YYYY" 
                 dataType="string"
                 appendTo="body"
-                dateMask />
+                dateMask 
+                aria-describedby="username-help"
+            />
+            <small id="username-help">For de-identification, only the month and year are used.  </small>
             <control-error controlName="dateOfBirth"></control-error>
         </div>
+
+        <div class="field col flex">
+            <p-inputSwitch formControlName="isAlive" />
+            <label class="form-label ml-2 my-auto required">Patient is alive</label>
+        </div>
+
+        <div class="field col" *ngIf="!form.value.isAlive">
+            <label class="form-label required">Date of Death</label>
+            <p-calendar 
+                formControlName="dateOfDeath"
+                view="month" 
+                dateFormat="mm/yy" 
+                placeholder="MM/YYYY" 
+                dataType="string"
+                appendTo="body"
+                dateMask />
+            <control-error controlName="dateOfDeath"></control-error>
+        </div>
+
+        <div class="field col" *ngIf="!form.value.isAlive">
+            <label class="form-label">Cause of death</label>
+            <coded-concept-select 
+                terminology="CauseOfDeath"
+                [showSynonyms]="false"
+                [control]="form.controls['causeOfDeath']"/>
+            <control-error controlName="causeOfDeath"></control-error>
+        </div>
+
         <p-button 
             type="submit" 
             label="Save" 
-            styleClass="w-full p-3 mt-5"  
+            styleClass="w-full p-3 mt-2"  
             [loading]="loading"
             [disabled]="form.invalid" />
+
     </form>
 </div>  

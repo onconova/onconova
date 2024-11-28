@@ -47,9 +47,9 @@ export class CodedConceptSelectComponent {
         for (let i = 0; i < (this.concepts as any[]).length; i++) {
             let concept = (this.concepts as any[])[i];
             if (
-                concept.display.toLowerCase().indexOf(query.toLowerCase()) == 0
+                concept.display.toLowerCase().indexOf(query.toLowerCase()) !== -1
                 ||
-                concept.code.toLowerCase().indexOf(query.toLowerCase()) == 0
+                concept.code.toLowerCase().indexOf(query.toLowerCase()) !== -1
             ) {
                 filtered.push(concept);
             }

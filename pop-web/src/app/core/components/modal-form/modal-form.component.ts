@@ -30,9 +30,9 @@ export class ModalFormComponent {
 
   loading: boolean = false
   visible: boolean = false
-  form!: FormGroup;
-  formComponent: any = PatientFormComponent;
-  private currentInstance: any;
+  title!: string;
+  subtitle!: string;
+  formComponent: any;
 
   private modalService = inject(ModalFormService)
 
@@ -50,22 +50,22 @@ export class ModalFormComponent {
   private loadComponent(component: any, data: any) {
     this.content.clear();
     const componentRef = this.content.createComponent(component);
-    this.currentInstance = componentRef.instance;
+    this.formComponent = componentRef.instance;
 
     // subscribe to the save event emitted by the PatientFormComponent
-    this.currentInstance.save.subscribe((event: any) => {
+    this.formComponent.save.subscribe((event: any) => {
       console.log('PROPAGATE SAVE')
       this.saveEvent.emit(event);
     });
 
     // Pass data to the component
     if (data) {
-      Object.assign(this.currentInstance, data);
+      Object.assign(this.formComponent, data);
     }
 
     // Optionally subscribe to save/close events
-    if (this.currentInstance.save) {
-      this.currentInstance.save.subscribe(() => {
+    if (this.formComponent.save) {
+      this.formComponent.save.subscribe(() => {
         this.visible = false; // Close modal on save
       });
     }
@@ -75,8 +75,8 @@ export class ModalFormComponent {
 
   private closeModal() {
     this.visible = false;
-    if (this.currentInstance?.close) {
-      this.currentInstance.close();
+    if (this.formComponent?.close) {
+      this.formComponent.close();
     }
   }
 

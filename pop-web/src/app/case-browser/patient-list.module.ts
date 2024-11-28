@@ -22,6 +22,7 @@ import { ToastModule } from 'primeng/toast';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule } from 'primeng/calendar';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { CodedConceptSelectModule } from '../core/components/coded-concept-select/coded-concept-select.module';
 import { DateMaskDirective } from './components/patient-form/date-mask-directive'
 
@@ -53,6 +54,7 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
         CodedConceptSelectModule,
         ControlErrorComponent,
         ModalFormComponent,
+        InputSwitchModule,
         ToastModule
     ],
     declarations: [
