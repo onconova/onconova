@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService as APIAuthService } from '../core/modules/openapi/api/auth.service';
+import { AuthService as APIAuthService } from '../core/modules/openapi';
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators';
 import { TokenObtainSlidingInputSchema, TokenObtainSlidingOutputSchema } from '../core/modules/openapi/';
@@ -22,7 +22,7 @@ export class AuthService {
         password: password
     }
     return this.apiAuth.tokenObtainSliding(userCredentials)
-      .pipe(tap(response => {
+      .pipe(tap((response: TokenObtainSlidingOutputSchema) => {
         localStorage.setItem('pop_access_token', response.token);
       })) 
   }
