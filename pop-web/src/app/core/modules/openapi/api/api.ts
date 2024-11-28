@@ -1,9 +1,9 @@
 export * from './auth.service';
 import { AuthService } from './auth.service';
 export * from './auth.serviceInterface';
-export * from './cancer-patients.service';
-import { PatientCasesService } from './cancer-patients.service';
-export * from './cancer-patients.serviceInterface';
+export * from './patient-cases.service';
+import { PatientCasesService } from './patient-cases.service';
+export * from './patient-cases.serviceInterface';
 export * from './terminology.service';
 import { TerminologyService } from './terminology.service';
 export * from './terminology.serviceInterface';

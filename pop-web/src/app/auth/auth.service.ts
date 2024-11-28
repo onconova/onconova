@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AuthService as APIAuthService } from '../openapi/api/auth.service';
+import { AuthService as APIAuthService } from '../core/modules/openapi/api/auth.service';
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators';
-import { TokenObtainSlidingInputSchema } from '../openapi/model/token-obtain-sliding-input-schema';
-import { TokenObtainSlidingOutputSchema } from '../openapi/model/token-obtain-sliding-output-schema';
+import { TokenObtainSlidingInputSchema, TokenObtainSlidingOutputSchema } from '../core/modules/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({

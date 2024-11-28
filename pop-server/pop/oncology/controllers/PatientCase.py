@@ -37,9 +37,9 @@ class Filters(Schema):
 
 
 @api_controller(
-    'cancer-patients/', 
+    'patient-cases/', 
     auth=[JWTAuth()], 
-    tags=['Cancer Patients'],  
+    tags=['Patient Cases'],  
 )
 class PatientCaseController(ControllerBase):
 

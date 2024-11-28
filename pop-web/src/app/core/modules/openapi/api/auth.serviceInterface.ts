@@ -31,7 +31,7 @@ export interface AuthServiceInterface {
      * 
      * @param tokenObtainSlidingInputSchema 
      */
-    authLoginBf536594(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, extraHttpRequestParams?: any): Observable<UserTokenSchema>;
+    authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, extraHttpRequestParams?: any): Observable<UserTokenSchema>;
 
     /**
      * Obtain Token

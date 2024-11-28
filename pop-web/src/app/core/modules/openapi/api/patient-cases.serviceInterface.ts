@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { NinjaPaginationResponseSchemaPatientCaseSchema } from '../model/models';
 import { PatientCaseCreateSchema } from '../model/models';
 import { PatientCaseSchema } from '../model/models';
-import { NinjaPaginationResponseSchemaPatientCaseSchema } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
 
 
@@ -28,9 +28,9 @@ export interface PatientCasesServiceInterface {
     /**
      * Create Cancer Patient
      * 
-     * @param cancerPatientCreateSchema 
+     * @param patientCaseCreateSchema 
      */
-    createPatientCase(cancerPatientCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPatientCase(patientCaseCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
      * Delete Cancer Patient
@@ -62,8 +62,8 @@ export interface PatientCasesServiceInterface {
      * Update Cancer Patient
      * 
      * @param patientId 
-     * @param cancerPatientCreateSchema 
+     * @param patientCaseCreateSchema 
      */
-    updatePatientCaseById(patientId: string, cancerPatientCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updatePatientCaseById(patientId: string, patientCaseCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
 
 }

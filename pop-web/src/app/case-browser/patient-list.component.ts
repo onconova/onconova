@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PatientCaseService } from '../services/cancerpatient.service';
-import { PatientCaseSchema, NinjaPaginationResponseSchemaPatientCaseSchema } from '../openapi';
+import { PatientCaseSchema, NinjaPaginationResponseSchemaPatientCaseSchema } from '../core/modules/openapi';
 import { Observable } from 'rxjs';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
 import { FormGroup } from '@angular/forms';

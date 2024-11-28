@@ -107,12 +107,12 @@ export class AuthService implements AuthServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authLoginBf536594(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserTokenSchema>;
-    public authLoginBf536594(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserTokenSchema>>;
-    public authLoginBf536594(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserTokenSchema>>;
-    public authLoginBf536594(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserTokenSchema>;
+    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserTokenSchema>>;
+    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserTokenSchema>>;
+    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (tokenObtainSlidingInputSchema === null || tokenObtainSlidingInputSchema === undefined) {
-            throw new Error('Required parameter tokenObtainSlidingInputSchema was null or undefined when calling authLoginBf536594.');
+            throw new Error('Required parameter tokenObtainSlidingInputSchema was null or undefined when calling authLoginCc9e767a.');
         }
 
         let localVarHeaders = this.defaultHeaders;

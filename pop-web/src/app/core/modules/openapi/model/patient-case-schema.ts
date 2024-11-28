@@ -12,23 +12,26 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 export interface PatientCaseSchema { 
     id: string;
-    created_at: string;
-    updated_at: string;
     /**
      * Pseudoidentifier of the patient
      */
     pseudoidentifier: string;
     race?: CodedConceptSchema | null;
-    birthsex?: CodedConceptSchema | null;
+    sex_at_birth?: CodedConceptSchema | null;
     gender_identity?: CodedConceptSchema | null;
     /**
      * Gender for administrative purposes
      */
     gender: CodedConceptSchema;
     /**
-     * Date of birth
+     * Anonymized date of birth (year/month). The day is set to the first day of the month by convention.
      */
     date_of_birth: string;
-    is_deceased?: boolean | null;
+    /**
+     * Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)
+     */
+    is_deceased: boolean;
+    date_of_death?: string | null;
+    cause_of_death?: CodedConceptSchema | null;
 }
 

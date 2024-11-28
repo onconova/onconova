@@ -11,17 +11,18 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface PatientCaseCreateSchema { 
-    race?: CodedConceptSchema | null;
-    birthsex?: CodedConceptSchema | null;
-    genderIdentity?: CodedConceptSchema | null;
     /**
      * Gender for administrative purposes
      */
     gender: CodedConceptSchema;
+    race?: CodedConceptSchema | null;
+    sexAtBirth?: CodedConceptSchema | null;
+    genderIdentity?: CodedConceptSchema | null;
     /**
-     * Date of birth
+     * Anonymized date of birth (year/month). The day is set to the first day of the month by convention.
      */
-    date_of_birth: string;
-    isDeceased?: boolean | null;
+    dateOfBirth: string;
+    dateOfDeath?: string | null;
+    causeOfDeath?: CodedConceptSchema | null;
 }
 

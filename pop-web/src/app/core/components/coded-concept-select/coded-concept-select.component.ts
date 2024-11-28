@@ -1,9 +1,8 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TerminologyService } from '../../../openapi/api/terminology.service';
-import { CodedConceptSchema } from '../../../openapi';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TerminologyService } from '../../../core/modules/openapi/api/terminology.service';
+import { CodedConceptSchema } from '../../../core/modules/openapi';
 import {FormControl} from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;

@@ -22,4 +22,12 @@ class PatientCaseCreateSchema(ModelSchema):
     
     class Meta:
         model = PatientCase
-        exclude = ('id', 'created_at', 'updated_at', 'pseudoidentifier', 'created_by', 'updated_by')
+        exclude = (
+            'id', 
+            'created_at', 
+            'updated_at', 
+            'pseudoidentifier', 
+            'created_by', 
+            'updated_by',
+            'is_deceased',
+        )

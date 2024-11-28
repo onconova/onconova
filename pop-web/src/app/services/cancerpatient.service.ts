@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { PatientCasesService, NinjaPaginationResponseSchemaPatientCaseSchema } from '../openapi'
+import { PatientCasesService, NinjaPaginationResponseSchemaPatientCaseSchema } from '../core/modules/openapi'
 
 @Injectable({
   providedIn: 'root',
