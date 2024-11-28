@@ -60,14 +60,16 @@ class BaseSchema(PydanticBaseModel):
             if isinstance(data, CodedConceptSchema):
                 data = model._meta.get_field(field).related_model.objects.get(code=data.code, system=data.system)
             setattr(instance, field, data)
-        if user:
-            if create:
-                instance.created_by = user
-            else:
-                if user not in instance.updated_by.all():
-                    instance.updated_by.add(user)
         if save:
             instance.save()
+            if user:
+                if create:
+                    instance.created_by = user
+                    instance.updated_by.add(user)
+                else:
+                    if user not in instance.updated_by.all():
+                        instance.updated_by.add(user)        
+            
         return instance
 
 

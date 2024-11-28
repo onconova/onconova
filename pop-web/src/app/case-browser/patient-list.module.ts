@@ -25,7 +25,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { CodedConceptSelectModule } from '../core/components/coded-concept-select/coded-concept-select.module';
 import { DateMaskDirective } from './components/patient-form/date-mask-directive'
-
+import { DividerModule } from 'primeng/divider';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ControlErrorComponent } from './components/control-error/control-error.component';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
 
@@ -53,7 +54,9 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
         CalendarModule,
         CodedConceptSelectModule,
         ControlErrorComponent,
+        DividerModule,
         ModalFormComponent,
+        AvatarGroupModule,
         InputSwitchModule,
         ToastModule
     ],

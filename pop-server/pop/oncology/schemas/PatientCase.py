@@ -15,7 +15,11 @@ class PatientCaseSchema(ModelSchema):
             'date_of_birth',
             'is_deceased',
             'date_of_death',
-            'cause_of_death',
+            'cause_of_death',           
+            'created_at', 
+            'updated_at', 
+            'created_by', 
+            'updated_by',
         )
 
 class PatientCaseCreateSchema(ModelSchema):

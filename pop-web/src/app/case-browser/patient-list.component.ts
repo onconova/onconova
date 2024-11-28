@@ -35,6 +35,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
   getPatientList(): void{
     this.patients$ = this.patientService.getPatientCases();
     this.patients$.subscribe(page => {
+      console.log(page.items[0])
       this.patients = page.items;
       this.filteredPatients = page.items;
       this.loading = false;

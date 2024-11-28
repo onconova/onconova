@@ -21,10 +21,40 @@
 
                         <div class="flex flex-column">
                             <div class="text-xl font-bold">{{patient.pseudoidentifier}}</div>
-                            <div class="">
-                                <i class="pi pi-mars"></i>,
+                            <div class="flex">
+                                <i class="pi pi-mars" *ngIf="patient.gender.code === 'male'"></i>
+                                <i class="pi pi-venus" *ngIf="patient.gender.code === 'female'"></i>
+                                <i class="pi pi-question" *ngIf="!patient.gender.code.includes('male')"></i>
                                 {{patient.date_of_birth}}  
                                 <span *ngIf="patient.is_deceased">, †</span></div>
+                            </div>
+                            <p-divider layout="vertical" />
+                            <div>
+                                <div>Diagnosis pending</div>
+                                <div>No further information available</div>
+                            </div>
+                            <p-divider layout="vertical" />
+                            <div class="flex flex-column text-center gap-2"> 
+                                Manager
+                                <p-avatar 
+                                label="{{ patient.created_by?.username || '?' }}" 
+                                size="normal" 
+                                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                                title="{{ patient.created_by?.username || 'Unknown user' }}" 
+                                shape="circle"/>
+                            </div>
+                            <div class="flex">
+                                Ccontributors
+                                <p-avatarGroup styleClass="mb-3">
+                                    <ng-container *ngFor="let editor of patient.updated_by ">
+                                        <p-avatar 
+                                        label="{{ editor.username || '?' }}" 
+                                        size="large" 
+                                        shape="circle"
+                                        [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                                        />
+                                    </ng-container>
+                                </p-avatarGroup>
                             </div>
                         </div>
 
