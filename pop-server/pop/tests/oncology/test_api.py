@@ -24,6 +24,7 @@ POST = 'post'
 class TestPatientCaseController(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.endpoint_base_url = '/api/patient-cases'
         # Create a fake user
         user = factories.UserFactory()
         cls.username = user.username
@@ -58,7 +59,7 @@ class TestPatientCaseController(TestCase):
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_get_cancer_patient_by_id(self, _, *scenario):        
-        response = self._call_api_endpoint(GET, f'/api/cancer-patients/{self.patient.id}', *scenario)
+        response = self._call_api_endpoint(GET, f'{self.endpoint_base_url}/{self.patient.id}', *scenario)
         if response == '200':
             expected = PatientCaseSchema.model_validate(self.patient).model_dump(exclude=['created_at','updated_at'])
             result = PatientCaseSchema.model_validate(response.json()).model_dump(exclude=['created_at','updated_at'])
@@ -67,21 +68,21 @@ class TestPatientCaseController(TestCase):
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_get_all_cancer_patients(self, _, *scenario):            
-        response = self._call_api_endpoint(DELETE, f'/api/cancer-patients/{self.patient.id}', *scenario)
+        response = self._call_api_endpoint(DELETE, f'{self.endpoint_base_url}/{self.patient.id}', *scenario)
         if response == '204':
             for entry in response.json()['items']:
                 result = PatientCaseSchema.model_validate(entry).model_dump(exclude=['created_at','updated_at'])
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_delete_cancer_patient_by_id(self, _, *scenario):            
-        response = self._call_api_endpoint(DELETE, f'/api/cancer-patients/{self.patient.id}', *scenario)
+        response = self._call_api_endpoint(DELETE, f'{self.endpoint_base_url}/{self.patient.id}', *scenario)
         if response == '204':
             self.assertFalse(models.PatientCase.objects.filter(id=self.patient.id).exists())
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_create_cancer_patient(self, _, *scenario):            
         json_data = PatientCaseCreateSchema.model_validate(self.patient).model_dump(mode='json')
-        response = self._call_api_endpoint(POST, f'/api/cancer-patients/', *scenario, data=json_data)
+        response = self._call_api_endpoint(POST, f'{self.endpoint_base_url}/', *scenario, data=json_data)
         if response == '201':
             self.assertTrue(models.PatientCase.objects.filter(id=self.patient.id).exists())
 
@@ -90,6 +91,6 @@ class TestPatientCaseController(TestCase):
     def test_update_cancer_patient(self, _, *scenario):            
         patient = factories.PatientCaseFactory.create()
         json_data = PatientCaseCreateSchema.model_validate(patient).model_dump(mode='json')
-        response = self._call_api_endpoint(PUT, f'/api/cancer-patients/{patient.id}', *scenario, data=json_data)
+        response = self._call_api_endpoint(PUT, f'{self.endpoint_base_url}/{patient.id}', *scenario, data=json_data)
         if response == '201':
             self.assertTrue(models.PatientCase.objects.filter(id=patient.id).exists()) 

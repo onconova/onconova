@@ -1,26 +1,15 @@
 from pop.oncology.models import PatientCase
-from pop.core.schemas import ModelSchema
+from pop.core.schemas import ModelSchema, UserSchema
+from typing import List
+from pydantic import Field 
+
 
 class PatientCaseSchema(ModelSchema):
-    
+    age: int = Field(description='Approximate age of the patient in years') 
+
     class Meta:
         model = PatientCase
-        fields = (
-            'id',
-            'pseudoidentifier',
-            'race',
-            'sex_at_birth',
-            'gender_identity',
-            'gender',
-            'date_of_birth',
-            'is_deceased',
-            'date_of_death',
-            'cause_of_death',           
-            'created_at', 
-            'updated_at', 
-            'created_by', 
-            'updated_by',
-        )
+        fields = '__all__'
 
 class PatientCaseCreateSchema(ModelSchema):
     

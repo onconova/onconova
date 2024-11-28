@@ -2,24 +2,28 @@ from typing import Dict, List, Tuple, Optional
 
 from django.db.models.fields import Field as DjangoField
 from django.db.models import ManyToManyField
+from django.contrib.auth import get_user_model
+
 
 from ninja.orm.fields import TYPES as BASE_TYPES, title_if_lower, create_m2m_link_type
 from ninja.schema import Schema 
 
+from pydantic import AliasChoices
 from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema
+from pop.core.schemas import CodedConceptSchema, UserSchema
+
+UserModel = get_user_model()
 
 DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
     # POP fields
-    "CodedConceptField": CodedConceptSchema,
 }
 
 
-def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = False) -> Tuple[type, FieldInfo]:
+def get_schema_field(field: DjangoField, *, expand: bool = False, optional: bool = False) -> Tuple[type, FieldInfo]:
     """
     Returns a pydantic field from a django model field.
 
@@ -30,7 +34,7 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     the field such as its default value, alias, title, description, and json
     schema extras.
     """
-    field_name = getattr(field, "name", None) and field.name
+    django_field_name = getattr(field, "name", None) and field.name
     default = ...
     default_factory = None
     description = None
@@ -38,14 +42,15 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     max_length = None
     nullable = False
     python_type = None
+    related_type = None
     json_schema_extra = None 
     examples = []
     # Handle relation fields
     if field.is_relation:
-        if depth > 0:
+        if expand:
             from pop.core.schemas import create_schema
             model = field.related_model
-            schema = create_schema(model, depth=depth - 1)
+            schema = create_schema(model)
             default = ...
             if not field.concrete and field.auto_created or field.null:
                 default = None
@@ -56,15 +61,16 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
             related_model = field.related_model 
             if issubclass(related_model, CodedConceptModel):
                 json_schema_extra = {'x-terminology', CodedConceptModel.__name__}
-                internal_type = 'CodedConceptField'    
+                related_type = CodedConceptSchema   
             else:
                 internal_type = related_model._meta.get_field('id').get_internal_type()
-                field_name += '_id'
+                django_field_name += '_id'
             if not field.concrete and field.auto_created or field.null or optional:
                 default = None
                 nullable = True
 
-            related_type = DJANGO_TO_PYDANTIC_TYPES.get(internal_type, int)
+            if not related_type:
+                related_type = DJANGO_TO_PYDANTIC_TYPES.get(internal_type, int)
 
             if field.one_to_many or field.many_to_many:
                 m2m_type = create_m2m_link_type(related_type)
@@ -103,14 +109,16 @@ def get_schema_field(field: DjangoField, *, depth: int = 0, optional: bool = Fal
     if field.verbose_name:
         title = title_if_lower(field.verbose_name)
 
-    return field_name, (
+    schema_field_name = to_camel_case(django_field_name)
+
+    return schema_field_name, (
         python_type,
         FieldInfo(
             default=default,
             default_factory=default_factory,
-            alias=to_camel_case(field_name),
-            validation_alias=to_camel_case(field_name),
-            serialization_alias=to_camel_case(field_name),
+            alias=django_field_name,
+            validation_alias=AliasChoices(schema_field_name, django_field_name),
+            serialization_alias=schema_field_name,
             title=title,
             examples=examples,
             description=description,

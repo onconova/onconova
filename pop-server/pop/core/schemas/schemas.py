@@ -1,14 +1,20 @@
 from datetime import datetime
 from typing import Optional, List, Dict
-from ninja import ModelSchema, Schema
+from ninja import Schema
 from django.contrib.auth import get_user_model
 
 UserModel = get_user_model()
 
-class UserSchema(ModelSchema):
-    class Meta:
-        model = UserModel
-        fields = ("id", "username", "email")
+
+class UserSchema(Schema):
+    id: int
+    username: str
+    email: str
+    first_name: Optional[str]
+    last_name: Optional[str]
+    is_active: bool
+    is_staff: bool
+    is_superuser: bool
 
 class UserTokenSchema(Schema):
     token: str

@@ -36,6 +36,7 @@ class SchemaFactory(NinjaSchemaFactory):
         depth: int = 0,
         fields: Optional[List[str]] = None,
         exclude: Optional[List[str]] = None,
+        expand: List[str] = None,
         optional_fields: Optional[List[str]] = None,
         custom_fields: Optional[List[Tuple[str, Any, Any]]] = None,
         base_class: Type[Schema] = BaseSchema,
@@ -76,6 +77,7 @@ class SchemaFactory(NinjaSchemaFactory):
             return self.schemas[key]
 
         model_fields_list = list(self._selected_model_fields(model, fields, exclude))
+
         if optional_fields:
             if optional_fields == "__all__":
                 optional_fields = [f.name for f in model_fields_list]
@@ -86,7 +88,7 @@ class SchemaFactory(NinjaSchemaFactory):
                 continue 
             field_name, (python_type, field_info) = get_schema_field(
                 fld,
-                depth=depth,
+                expand=fld.name in (expand or []),
                 optional=optional_fields and (fld.name in optional_fields),
             )
             definitions[field_name] = (python_type, field_info)
@@ -97,7 +99,7 @@ class SchemaFactory(NinjaSchemaFactory):
 
         if name in self.schema_names:
             name = self._get_unique_name(name)
-        
+
         schema: Type[Schema] = create_pydantic_model(
             name,
             __base__=base_class,
@@ -113,5 +115,4 @@ class SchemaFactory(NinjaSchemaFactory):
 
 factory = SchemaFactory()
 create_schema = factory.create_schema
-_is_modelschema_class_define = True
 

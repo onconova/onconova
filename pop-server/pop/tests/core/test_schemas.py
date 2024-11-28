@@ -29,8 +29,8 @@ class TestGetSchemaField(TestCase):
         field_name, (python_type, field_info) = get_schema_field(field)
         self.assertEqual(python_type, CodedConceptSchema)
         self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'test_field')
-        self.assertEqual(field_info.alias, 'testField')
+        self.assertEqual(field_name, 'testField')
+        self.assertEqual(field_info.alias, 'test_field')
 
     def test_getting_a_relation_field(self):
         # Create a relation field
@@ -44,8 +44,8 @@ class TestGetSchemaField(TestCase):
         field_name, (python_type, field_info) = get_schema_field(field)
         self.assertEqual(python_type, int)
         self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'test_field_id')
-        self.assertEqual(field_info.alias, 'testFieldId')
+        self.assertEqual(field_name, 'testFieldId')
+        self.assertEqual(field_info.alias, 'test_field_id')
 
     def test_getting_a_non_relation_field(self):
         # Create a non-relation field
@@ -57,8 +57,8 @@ class TestGetSchemaField(TestCase):
         field_name, (python_type, field_info) = get_schema_field(field)
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'test_field')
-        self.assertEqual(field_info.alias, 'testField')
+        self.assertEqual(field_name, 'testField')
+        self.assertEqual(field_info.alias, 'test_field')
 
     def test_getting_a_relation_field_with_depth(self):
         # Create a relation field
@@ -69,11 +69,11 @@ class TestGetSchemaField(TestCase):
         field.name = 'test_field'
 
         # Test get_schema_field with depth greater than 0
-        field_name, (python_type, field_info) = get_schema_field(field, depth=1)
+        field_name, (python_type, field_info) = get_schema_field(field, expand=True)
         self.assertNotEqual(python_type, int)
         self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'test_field')
-        self.assertEqual(field_info.alias, 'testField')
+        self.assertEqual(field_name, 'testField')
+        self.assertEqual(field_info.alias, 'test_field')
 
     def test_getting_a_field_with_default_value(self):
         # Create a field with a default value
@@ -85,8 +85,8 @@ class TestGetSchemaField(TestCase):
         field_name, (python_type, field_info) = get_schema_field(field)
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, 'test_default')
-        self.assertEqual(field_name, 'test_field')
-        self.assertEqual(field_info.alias, 'testField')
+        self.assertEqual(field_name, 'testField')
+        self.assertEqual(field_info.alias, 'test_field')
 
     def test_getting_an_optional_field(self):
         # Create an optional field
@@ -98,8 +98,8 @@ class TestGetSchemaField(TestCase):
         field_name, (python_type, field_info) = get_schema_field(field, optional=True)
         self.assertEqual(python_type, Optional[str])
         self.assertEqual(field_info.default, None)
-        self.assertEqual(field_name, 'test_field')
-        self.assertEqual(field_info.alias, 'testField')
+        self.assertEqual(field_name, 'testField')
+        self.assertEqual(field_info.alias, 'test_field')
 
     def test_getting_a_nullable_field(self):
         # Create a nullable field
@@ -111,8 +111,8 @@ class TestGetSchemaField(TestCase):
         field_name, (python_type, field_info) = get_schema_field(field)
         self.assertEqual(python_type, Optional[str])
         self.assertEqual(field_info.default, None)
-        self.assertEqual(field_name, 'test_field')
-        self.assertEqual(field_info.alias, 'testField')
+        self.assertEqual(field_name, 'testField')
+        self.assertEqual(field_info.alias, 'test_field')
 
 
     def test_getting_a_many_to_many_field(self):
@@ -126,8 +126,8 @@ class TestGetSchemaField(TestCase):
         # Test get_schema_field
         field_name, (python_type, field_info) = get_schema_field(field)
         self.assertEqual(field_info.default, [])
-        self.assertEqual(field_name, 'test_field_id')
-        self.assertEqual(field_info.alias, 'testFieldId')
+        self.assertEqual(field_name, 'testFieldId')
+        self.assertEqual(field_info.alias, 'test_field_id')
 
 class TestSchemaFactory(TestCase):
 
@@ -164,7 +164,7 @@ class TestSchemaFactory(TestCase):
         instance = schema(test_field=input_value)
         # Assertion
         self.assertEqual(len(schema.model_fields), 1)
-        self.assertEqual(instance.test_field, expected_value)
+        self.assertEqual(instance.testField, expected_value)
         self.assertEqual(instance.model_dump(), {'testField': expected_value})
 
     def test_creating_schema_with_relational_field(self):
@@ -184,7 +184,7 @@ class TestSchemaFactory(TestCase):
         instance = schema(test_field_id=input_value)
         # Assertion
         self.assertEqual(len(schema.model_fields), 1)
-        self.assertEqual(instance.test_field_id, expected_value)
+        self.assertEqual(instance.testFieldId, expected_value)
         self.assertEqual(instance.model_dump(), {'testFieldId': expected_value})
 
     def test_creating_schema_with_codedconcept_field(self):
@@ -209,4 +209,4 @@ class TestSchemaFactory(TestCase):
         instance = schema.model_validate({'test_field': input_value})
         # Assertion
         self.assertEqual(len(schema.model_fields), 1)
-        self.assertEqual(instance.test_field, expected_value)
+        self.assertEqual(instance.testField, expected_value)

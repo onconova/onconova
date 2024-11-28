@@ -15,11 +15,17 @@ class BaseSchema(PydanticBaseModel):
         populate_by_name = True,
     )
 
+    @classmethod
+    def model_validate(cls, *args, **kwargs):
+        print('MODEL VALIDATE')
+        print(*args, **kwargs)
+        return super().model_validate(*args, **kwargs)
+
     def model_dump(self, *args, **kwargs):
         """
         Override the Pydantic `model_dump` method to always use aliases and exclude None values.
         """
-        kwargs.update({'by_alias': True, 'exclude_none': True})
+        kwargs.update({'exclude_none': True})
         return super().model_dump(*args, **kwargs)
 
     def model_dump_json(self, *args, **kwargs):
@@ -37,7 +43,7 @@ class BaseSchema(PydanticBaseModel):
             str: The JSON string representation of the model.
         """
         # Update kwargs to use aliases and exclude None values
-        kwargs.update({'by_alias': True, 'exclude_none': True})
+        kwargs.update({'exclude_none': True})
         # Call the superclass method with updated arguments
         return super().model_dump_json(*args, **kwargs)
 
@@ -55,11 +61,11 @@ class BaseSchema(PydanticBaseModel):
         create = instance is None 
         if create:
             instance = model()
-        for field in self.model_fields.keys():
-            data = getattr(self, field)
+        for field_name, field in self.model_fields.items():
+            data = getattr(self, field_name)
             if isinstance(data, CodedConceptSchema):
-                data = model._meta.get_field(field).related_model.objects.get(code=data.code, system=data.system)
-            setattr(instance, field, data)
+                data = model._meta.get_field(field.alias).related_model.objects.get(code=data.code, system=data.system)
+            setattr(instance, field.alias, data)
         if save:
             instance.save()
             if user:

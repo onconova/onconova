@@ -28,7 +28,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = factory.Sequence(lambda n: 'user%d' % n)
+    username = factory.LazyFunction(lambda: faker.profile()['username'])
     password = factory.LazyFunction(lambda: make_password(faker.password()))
     email = factory.LazyAttribute(lambda obj: '%s@example.com' % obj.username)
 
@@ -42,5 +42,5 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     sex_at_birth = factory.SubFactory(make_terminology_factory(terminology.BirthSex))
     date_of_death = factory.LazyFunction(lambda: faker.date_this_decade() if random.random() > 0.5 else None)
     cause_of_death = factory.SubFactory(make_terminology_factory(terminology.CauseOfDeath))
-
+    created_by =  factory.SubFactory(UserFactory)
 
