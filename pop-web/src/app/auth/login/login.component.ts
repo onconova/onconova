@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { LayoutService } from '../../layout/service/app.layout.service'
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -15,8 +14,7 @@ import { MessageService } from 'primeng/api';
             margin-right: 1rem;
             color: var(--primary-color) !important;
         }
-    `],
-    providers: [MessageService]
+    `]
 })
 export class LoginComponent {
 

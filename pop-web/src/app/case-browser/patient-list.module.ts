@@ -18,6 +18,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { PatientFormComponent } from './components/patient-form/patient-form.component';
 import { PatientListRoutingModule } from './patient-list-routing.module';
 import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule } from 'primeng/calendar';
@@ -52,11 +53,12 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
         CodedConceptSelectModule,
         ControlErrorComponent,
         ModalFormComponent,
+        ToastModule
     ],
     declarations: [
         PatientListComponent,
-        PatientFormComponent,
         DateMaskDirective,
+        PatientFormComponent,
     ]
 })
 export class CasebrowserModule { }

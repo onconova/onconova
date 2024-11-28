@@ -52,7 +52,7 @@ class PatientCaseController(ControllerBase):
     )
     @paginate()
     def get_all_cancer_patient_matching_the_query(self, filters: Query[Filters]):
-        queryset = PatientCase.objects.all()
+        queryset = PatientCase.objects.all().order_by('-created_at')
         for (filter,value) in filters:
             if value is not None:
                 queryset = queryset.filter(**{filter: value})

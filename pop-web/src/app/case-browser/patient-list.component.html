@@ -3,9 +3,12 @@
         <p-inputIcon styleClass="pi pi-search" />
         <input type="text" pInputText placeholder="Search" [(ngModel)]="filterValue" (ngModelChange)="filterPatients(filterValue)"/>
     </p-iconField>
-    <p-button (onClick)="openModal()" label="New case" class="ml-3"></p-button>
+    <p-button (onClick)="openModalForm()" label="New case" class="ml-3"></p-button>
 
 </div>
+    <div>
+        {{total}} entries found
+    </div>
         <p-dataView #dv [value]="filteredPatients" [paginator]="true" [rows]="10" *ngIf="!loading" >
         <ng-template pTemplate="list" let-patients>
             <div class="grid grid-nogutter">
@@ -22,9 +25,10 @@
                                 <i class="pi pi-mars"></i>,
                                 {{patient.date_of_birth}}  
                                 <span *ngIf="patient.is_deceased">, †</span></div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
+                 </div>
             </div>
         </ng-template>
     </p-dataView>
@@ -42,6 +46,4 @@
         </div>
 </div>
 
-<app-modal-form #modalComponent>
-    <patient-form></patient-form>
-</app-modal-form>
+<app-dynamic-modal-form (saveEvent)="getPatientList()"></app-dynamic-modal-form>

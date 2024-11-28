@@ -1,10 +1,10 @@
 <div class="formgrid grid p-fluid">
-    <form  [formGroup]="patientForm" (ngSubmit)="createPatient(patientForm.value)">
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
         <div class="field col">
             <label class="form-label">Gender</label>
             <coded-concept-select 
                 terminology="AdministrativeGender"
-                [control]="patientForm.controls['gender']"/>
+                [control]="form.controls['gender']"/>
             <control-error controlName="gender"></control-error>
         </div>
 
@@ -12,8 +12,10 @@
             <label class="form-label">Date of Birth </label>
             <p-calendar 
                 formControlName="dateOfBirth"
-                dateFormat="dd/mm/yyyy"
-                placeholder="DD/MM/YYYY" 
+                view="month" 
+                dateFormat="mm/yy" 
+                placeholder="MM/YYYY" 
+                dataType="string"
                 appendTo="body"
                 dateMask />
             <control-error controlName="dateOfBirth"></control-error>
@@ -23,7 +25,6 @@
             label="Save" 
             styleClass="w-full p-3 mt-5"  
             [loading]="loading"
-            [disabled]="patientForm.invalid" />
+            [disabled]="form.invalid" />
     </form>
-
 </div>  

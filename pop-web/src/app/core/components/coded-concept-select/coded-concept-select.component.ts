@@ -28,7 +28,7 @@ export class CodedConceptSelectComponent {
     concepts: CodedConceptSchema[] = [];
     filteredConcepts: CodedConceptSchema[] = [];
 
-    @Input() control!: FormControl;
+    @Input() control!: FormControl | any;
 
     constructor(private terminologyService: TerminologyService) {}
 
