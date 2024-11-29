@@ -1,212 +1,201 @@
 
-import json 
-from typing import Optional
-
-from unittest import TestCase
-from unittest.mock import MagicMock
+from typing import Optional, List
 
 from pydantic_core import PydanticUndefined
 
-from django.db import models as django_models
-from django.contrib.auth.models import User
+from django_fake_model import models as fake
 
-from pop.terminology.models import AdministrativeGender as MockCodedConcept
-from pop.core.schemas.fields import get_schema_field, CodedConceptSchema
+from django.test import TestCase, TransactionTestCase
+from django.db import models as django_models
+from django.db.models import CharField, ForeignKey, ManyToManyField
+
+from pop.oncology.models import PatientCase
+from pop.terminology.models import CodedConcept as CodedConceptBase
+from pop.core.schemas.fields import get_schema_field, CodedConceptSchema, get_schema_field, PydanticUndefined
 from pop.core.schemas.factory import SchemaFactory
-from pop.tests.factories import UserFactory, make_terminology_factory
+from pop.core.schemas import CodedConceptSchema
+from pop.tests.factories import UserFactory, PatientCaseFactory
+
+
+class RelatedModel(fake.FakeModel):
+    id = django_models.CharField(max_length=100, db_column='test_id')
+
+class CodedConceptModel(fake.FakeModel, CodedConceptBase):
+    pass
 
 class TestGetSchemaField(TestCase):
 
-    def test_getting_a_codedconcept_field(self):
-        # Create a relation field
-        field = django_models.ForeignKey('self', on_delete=django_models.CASCADE)
+    def setUp(self):
+        self.MockModel = RelatedModel
+        self.MockCodedConcept = CodedConceptModel
+    
+    def _create_foreign_key_field(self, model, null=False):
+        field = ForeignKey(model, on_delete=django_models.CASCADE, name='test_field', null=null)
         field.is_relation = True
-        field.related_model = MockCodedConcept
+        field.related_model = model
         field.concrete = False
-        field.name = 'test_field'
+        return field
 
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field)
-        self.assertEqual(python_type, CodedConceptSchema)
-        self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'testField')
-        self.assertEqual(field_info.alias, 'test_field')
+    def _assert_naming_and_aliases(self, schema_field_name, field_info, expected_name, expected_alias):
+        self.assertEqual(schema_field_name, expected_name)
+        self.assertEqual(field_info.alias, expected_alias)
+        self.assertEqual(field_info.validation_alias.choices, [expected_name, expected_alias])
+        self.assertEqual(field_info.serialization_alias, expected_name)
 
-    def test_getting_a_relation_field(self):
-        # Create a relation field
-        field = django_models.ForeignKey('self', on_delete=django_models.CASCADE)
-        field.is_relation = True
-        field.related_model = User
-        field.concrete = False
-        field.name = 'test_field'
-
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field)
-        self.assertEqual(python_type, int)
-        self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'testFieldId')
-        self.assertEqual(field_info.alias, 'test_field_id')
-
-    def test_getting_a_non_relation_field(self):
-        # Create a non-relation field
-        field = django_models.CharField(max_length=255)
-        field.is_relation = False
-        field.name = 'test_field'
-
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field)
-        self.assertEqual(python_type, str)
-        self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'testField')
-        self.assertEqual(field_info.alias, 'test_field')
-
-    def test_getting_a_relation_field_with_depth(self):
-        # Create a relation field
-        field = django_models.ForeignKey('self', on_delete=django_models.CASCADE)
-        field.is_relation = True
-        field.related_model = User
-        field.concrete = False
-        field.name = 'test_field'
-
-        # Test get_schema_field with depth greater than 0
-        field_name, (python_type, field_info) = get_schema_field(field, expand=True)
-        self.assertNotEqual(python_type, int)
-        self.assertEqual(field_info.default, PydanticUndefined)
-        self.assertEqual(field_name, 'testField')
-        self.assertEqual(field_info.alias, 'test_field')
-
-    def test_getting_a_field_with_default_value(self):
-        # Create a field with a default value
-        field = django_models.CharField(max_length=255, default='test_default')
-        field.is_relation = False
-        field.name = 'test_field'
-
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field)
+    def test_non_relation_field_with_default_value(self):
+        field = CharField(max_length=255, default='test_default', name='test_field')
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, 'test_default')
-        self.assertEqual(field_name, 'testField')
-        self.assertEqual(field_info.alias, 'test_field')
 
-    def test_getting_an_optional_field(self):
-        # Create an optional field
-        field = django_models.CharField(max_length=255, blank=True, null=True)
-        field.is_relation = False
-        field.name = 'test_field'
+    def test_non_relation_field_without_default_value(self):
+        field = CharField(max_length=255, name='test_field')
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
+        self.assertEqual(python_type, str)
+        self.assertEqual(field_info.default, PydanticUndefined)
 
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field, optional=True)
+    def test_relation_field_with_expand_true(self):
+        field = self._create_foreign_key_field(model=self.MockModel)
+        schema_field_name, (python_type, field_info) = get_schema_field(field, expand=True)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
+        self.assertIsInstance(python_type, type)
+        self.assertEqual(field_info.default, PydanticUndefined)
+
+    def test_relation_field_with_expand_false(self):
+        field = self._create_foreign_key_field(model=self.MockModel)
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
+        self.assertEqual(python_type, str)
+        self.assertEqual(field_info.default, PydanticUndefined)
+
+    def test_relation_field_with_optional_true(self):
+        field = self._create_foreign_key_field(model=self.MockModel)
+        schema_field_name, (python_type, field_info) = get_schema_field(field, optional=True)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
         self.assertEqual(python_type, Optional[str])
         self.assertEqual(field_info.default, None)
-        self.assertEqual(field_name, 'testField')
-        self.assertEqual(field_info.alias, 'test_field')
 
-    def test_getting_a_nullable_field(self):
-        # Create a nullable field
-        field = django_models.CharField(max_length=255, null=True)
-        field.is_relation = False
-        field.name = 'test_field'
-
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field)
+    def test_relation_field_with_nullable_true(self):
+        field = self._create_foreign_key_field(model=self.MockModel, null=True)
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
         self.assertEqual(python_type, Optional[str])
         self.assertEqual(field_info.default, None)
-        self.assertEqual(field_name, 'testField')
-        self.assertEqual(field_info.alias, 'test_field')
 
+    def test_coded_concept_field(self):
+        field = self._create_foreign_key_field(model=self.MockCodedConcept)
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
+        self.assertEqual(python_type, CodedConceptSchema)
+        self.assertEqual(field_info.default, PydanticUndefined)
 
-    def test_getting_a_many_to_many_field(self):
-        # Create a many-to-many field
-        field = django_models.ManyToManyField('self')
+    def test_many_to_many_field(self):
+        field = ManyToManyField(self.MockModel, name='test_fields')
         field.is_relation = True
-        field.related_model = User
-        field.concrete = True
-        field.name = 'test_field'
-
-        # Test get_schema_field
-        field_name, (python_type, field_info) = get_schema_field(field)
+        field.related_model = self.MockModel
+        field.concrete = False
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldsIds', 'test_fields_ids')
+        self.assertEqual(python_type, List[str])
         self.assertEqual(field_info.default, [])
-        self.assertEqual(field_name, 'testFieldId')
-        self.assertEqual(field_info.alias, 'test_field_id')
 
+
+
+
+
+class NonRelationalFakeModel(fake.FakeModel):
+    id = django_models.CharField(max_length=100, db_column='test_id', primary_key=True)
+    test_field = django_models.CharField(max_length=100)
+
+class RelationalFakeModel(fake.FakeModel):
+    id = django_models.CharField(max_length=100, db_column='test_id', primary_key=True)
+    related_field = django_models.ForeignKey(to=NonRelationalFakeModel, on_delete=django_models.CASCADE)
+
+class ManyToManyFakeModel(fake.FakeModel, CodedConceptBase):
+    pass
+
+class CodingFakeModel(fake.FakeModel):
+    id = django_models.CharField(max_length=100, db_column='test_id', primary_key=True)
+    related_concept = django_models.ForeignKey(to=CodedConceptModel, on_delete=django_models.CASCADE)
+
+@ManyToManyFakeModel.fake_me
+@RelationalFakeModel.fake_me
+@NonRelationalFakeModel.fake_me
+@CodingFakeModel.fake_me
+@CodedConceptModel.fake_me
 class TestSchemaFactory(TestCase):
 
     def setUp(self):
         self.factory = SchemaFactory()
 
-    def _setup_model(self, fields):
-        model_meta = MagicMock()
-        model_meta.get_fields.return_value = fields
-        return MagicMock(
-            __name__='MyModel', 
-            _meta=model_meta
-        )
-
-    def test_create_schema_returns_schema_with_correct_name(self):
-        # Setup model
-        model = self._setup_model([])
-        # Assertion
-        schema = self.factory.create_schema(model)
-        self.assertEqual(schema.__name__, 'MyModel')
-
     def test_creating_schema_with_nonrelational_field(self):
-        # Setup model field
-        field = django_models.CharField(max_length=255, null=True)
-        field.is_relation = False
-        field.name = 'test_field'
-        # Setup model
-        model = self._setup_model([field])
+        value = 'test_value'
+        django_instance = NonRelationalFakeModel.objects.create(id='id-1', test_field=value)
         # Create schema
-        schema = self.factory.create_schema(model)
-        # Instantiate
-        input_value = 'test_value'
-        expected_value = input_value
-        instance = schema(test_field=input_value)
+        schema = self.factory.create_schema(NonRelationalFakeModel)
+        schema_instance = schema.model_validate(django_instance)
         # Assertion
-        self.assertEqual(len(schema.model_fields), 1)
-        self.assertEqual(instance.testField, expected_value)
-        self.assertEqual(instance.model_dump(), {'testField': expected_value})
+        self.assertEqual(len(schema.model_fields), 2)
+        self.assertEqual(schema_instance.testField, value)
+        self.assertEqual(schema_instance.model_dump()['testField'], value)
+        self.assertEqual(schema_instance.model_dump_django().test_field, django_instance.test_field)
 
     def test_creating_schema_with_relational_field(self):
-        # Setup model field
-        field = django_models.ForeignKey('self', on_delete=django_models.CASCADE)
-        field.is_relation = True
-        field.related_model = User
-        field.concrete = False
-        field.name = 'test_field'
-        # Setup model
-        model = self._setup_model([field])
+        user = UserFactory()
+        django_instance = PatientCaseFactory(created_by=user)
         # Create schema
-        schema = self.factory.create_schema(model)
-        # Instantiate
-        input_value = UserFactory().id
-        expected_value = input_value
-        instance = schema(test_field_id=input_value)
+        schema = self.factory.create_schema(PatientCase)
+        schema_instance = schema.model_validate(django_instance)
         # Assertion
-        self.assertEqual(len(schema.model_fields), 1)
-        self.assertEqual(instance.testFieldId, expected_value)
-        self.assertEqual(instance.model_dump(), {'testFieldId': expected_value})
+        django_instance.user = None;
+        django_instance.save()
+        self.assertEqual(schema_instance.createdById, user.id)
+        self.assertEqual(schema_instance.model_dump()['createdById'], user.id)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).created_by, user)
 
     def test_creating_schema_with_codedconcept_field(self):
-        # Setup model field
-        field = django_models.ForeignKey('self', on_delete=django_models.CASCADE)
-        field.is_relation = True
-        field.related_model = MockCodedConcept
-        field.concrete = False
-        field.name = 'test_field'
-        # Setup model
-        model = self._setup_model([field])
+        django_instance = PatientCaseFactory()
+        related_concept = django_instance.gender 
         # Create schema
-        schema = self.factory.create_schema(model)
-        # Instantiate
-        concept = make_terminology_factory(MockCodedConcept).create()
-        input_value = CodedConceptSchema.model_validate({
-            'code': concept.code,
-            'diplay': concept.display,
-            'system': concept.system,
-        })
-        expected_value = input_value
-        instance = schema.model_validate({'test_field': input_value})
+        schema = self.factory.create_schema(PatientCase)
+        schema_instance = schema.model_validate(django_instance)
         # Assertion
-        self.assertEqual(len(schema.model_fields), 1)
-        self.assertEqual(instance.testField, expected_value)
+        django_instance.gender = None;
+        self.assertEqual(schema_instance.gender.model_dump(), CodedConceptSchema.model_validate(related_concept).model_dump())
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).gender, related_concept)
+
+    def test_creating_schema_with_manytomany_field(self):
+        user1 = UserFactory()
+        user2 = UserFactory()
+        django_instance = PatientCaseFactory()
+        django_instance.updated_by.add(user1)
+        django_instance.updated_by.add(user2)
+
+        # Create schema
+        schema = self.factory.create_schema(PatientCase)
+        schema_instance = schema.model_validate(django_instance)
+        # Assertion
+        django_instance.updated_by.set([])
+        self.assertEqual(schema_instance.updatedByIds, [user1.id, user2.id])
+        self.assertEqual(schema_instance.model_dump()['updatedByIds'],  [user1.id, user2.id])
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.first(), user1)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.last(), user2)
+
+
+    def test_creating_schema_with_expanded_manytomany_field(self):
+        user1 = UserFactory()
+        user2 = UserFactory()
+        django_instance = PatientCaseFactory()
+        django_instance.updated_by.add(user1)
+        django_instance.updated_by.add(user2)
+
+        # Create schema
+        schema = self.factory.create_schema(PatientCase, expand=['updated_by'])
+        schema_instance = schema.model_validate(django_instance)
+        # Assertion
+        django_instance.updated_by.set([])
+        self.assertEqual([user['username'] for user in schema_instance.model_dump()['updatedBy']],  [user1.username, user2.username])
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.first(), user1)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.last(), user2)

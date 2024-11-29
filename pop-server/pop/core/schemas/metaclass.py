@@ -17,6 +17,7 @@ class MetaConf:
     model: Any
     fields: Optional[List[str]] = None
     exclude: Union[List[str], str, None] = None
+    schema_name: str = None
     expand: Optional[List[str]] = None
     fields_optional: Union[List[str], str, None] = None
 
@@ -27,6 +28,7 @@ class MetaConf:
             model = meta.model
             fields = getattr(meta, "fields", None)
             expand = getattr(meta, "expand", None)
+            schema_name = getattr(meta, "name", name)
             exclude = getattr(meta, "exclude", None)
             optional_fields = getattr(meta, "fields_optional", None)
         else:
@@ -49,6 +51,7 @@ class MetaConf:
         return MetaConf(
             model=model,
             fields=fields,
+            schema_name=schema_name,
             exclude=exclude,
             expand=expand,
             fields_optional=optional_fields,
@@ -94,7 +97,7 @@ class ModelSchemaMetaclass(ResolverMetaclass):
 
                 model_schema = create_schema(
                     meta_conf.model,
-                    name=name,
+                    name=meta_conf.schema_name,
                     fields=meta_conf.fields,
                     exclude=meta_conf.exclude,
                     expand=meta_conf.expand,

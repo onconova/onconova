@@ -56,7 +56,7 @@ class PatientCaseController(ControllerBase):
         for (filter,value) in filters:
             if value is not None:
                 queryset = queryset.filter(**{filter: value})
-        return queryset
+        return [PatientCaseSchema.model_validate(instance) for instance in queryset]
 
     @route.post(
         path='/', 
@@ -79,7 +79,7 @@ class PatientCaseController(ControllerBase):
         )
     def get_cancer_patient_by_id(self, patientId: str): 
         instance = get_object_or_404(PatientCase, id=patientId)
-        return 200, instance
+        return 200, PatientCaseSchema.model_validate(instance)
 
     @route.put(
         path='/{patientId}', 

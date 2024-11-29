@@ -23,7 +23,12 @@ DJANGO_TO_PYDANTIC_TYPES = {
 }
 
 
-def get_schema_field(field: DjangoField, *, expand: bool = False, optional: bool = False) -> Tuple[type, FieldInfo]:
+def get_schema_field(
+        field: DjangoField, 
+        *, 
+        expand: bool = False, 
+        optional: bool = False
+    ) -> Tuple[type, FieldInfo]:
     """
     Returns a pydantic field from a django model field.
 
@@ -33,6 +38,14 @@ def get_schema_field(field: DjangoField, *, expand: bool = False, optional: bool
     a relation field. The FieldInfo object contains additional information about
     the field such as its default value, alias, title, description, and json
     schema extras.
+
+    Args:
+        field (DjangoField): The django model field to convert.
+        expand (bool, optional): Whether to expand the relation field. Defaults to False.
+        optional (bool, optional): Whether the field is optional. Defaults to False.
+
+    Returns:
+        Tuple[type, FieldInfo]: A tuple containing the python type for the field and a pydantic FieldInfo object.
     """
     django_field_name = getattr(field, "name", None) and field.name
     default = ...
@@ -51,11 +64,12 @@ def get_schema_field(field: DjangoField, *, expand: bool = False, optional: bool
             from pop.core.schemas import create_schema
             model = field.related_model
             schema = create_schema(model)
-            default = ...
             if not field.concrete and field.auto_created or field.null:
                 default = None
-            if isinstance(field, ManyToManyField):
+            if field.one_to_many or field.many_to_many:
                 schema = List[schema]
+                default=[]
+
             python_type = schema
         else:
             related_model = field.related_model 
@@ -65,6 +79,7 @@ def get_schema_field(field: DjangoField, *, expand: bool = False, optional: bool
             else:
                 internal_type = related_model._meta.get_field('id').get_internal_type()
                 django_field_name += '_id'
+
             if not field.concrete and field.auto_created or field.null or optional:
                 default = None
                 nullable = True
@@ -73,8 +88,8 @@ def get_schema_field(field: DjangoField, *, expand: bool = False, optional: bool
                 related_type = DJANGO_TO_PYDANTIC_TYPES.get(internal_type, int)
 
             if field.one_to_many or field.many_to_many:
-                m2m_type = create_m2m_link_type(related_type)
-                python_type = List[m2m_type]  # type: ignore
+                python_type = List[related_type] 
+                django_field_name += 's'
                 default=[]
             else:
                 python_type = related_type

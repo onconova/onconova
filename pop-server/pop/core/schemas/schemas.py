@@ -1,7 +1,10 @@
 from datetime import datetime
 from typing import Optional, List, Dict
-from ninja import Schema
+from ninja import Schema, Field
+from pydantic import ConfigDict, SecretStr
 from django.contrib.auth import get_user_model
+from ninja_jwt.schema import TokenObtainSlidingInputSchema, TokenObtainSlidingOutputSchema, TokenRefreshSlidingInputSchema, TokenRefreshSlidingOutputSchema
+from typing_extensions import Annotated
 
 UserModel = get_user_model()
 
@@ -10,24 +13,48 @@ class UserSchema(Schema):
     id: int
     username: str
     email: str
-    first_name: Optional[str]
-    last_name: Optional[str]
-    is_active: bool
-    is_staff: bool
-    is_superuser: bool
+    firstName: Optional[str] = Field(default=None, alias='first_name')
+    lastName: Optional[str] = Field(default=None, alias='last_name')
+    # Schema config
+    model_config = ConfigDict(
+        title='User',
+    )
 
-class UserTokenSchema(Schema):
-    token: str
-    user: UserSchema
-    token_exp_date: Optional[datetime]
+    
+class UserCredentialsSchema(TokenObtainSlidingInputSchema):
+    username: str
+    password: SecretStr
+    # Schema config
+    model_config = ConfigDict(
+        title='UserCredentials',
+    )
+
+class OldSlidingTokenSchema(TokenRefreshSlidingInputSchema):
+    # Schema config
+    model_config = ConfigDict(
+        title='OldSlidingToken',
+    )
+
+class NewSlidingTokenSchema(TokenRefreshSlidingOutputSchema):
+    # Schema config
+    model_config = ConfigDict(
+        title='OldSlidingToken',
+    )
+
+class SlidingTokenSchema(TokenObtainSlidingOutputSchema):
+    # Schema config
+    model_config = ConfigDict(
+        title='SlidingToken',
+    )
+
 
 class ResourceIdSchema(Schema):
     id: str 
+    # Schema config
+    model_config = ConfigDict(
+        title='ResourceId',
+    )
     
-class ReferenceSchema(Schema):
-    type: str = None
-    id: str = None
-    url: Optional[str] = None
 
 class CodedConceptSchema(Schema):  
     code: str
@@ -36,3 +63,7 @@ class CodedConceptSchema(Schema):
     version: Optional[str] = None
     synonyms: Optional[List[str]] = None
     properties: Optional[Dict] = None
+    # Schema config
+    model_config = ConfigDict(
+        title='CodedConcept',
+    )

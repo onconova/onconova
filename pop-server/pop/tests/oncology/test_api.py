@@ -31,12 +31,13 @@ class TestPatientCaseController(TestCase):
         cls.password = faker.password()
         user.set_password(cls.password)
         user.save()
-        cls.patient = factories.PatientCaseFactory.create()
-    
+        cls.user = user
+        cls.patient = factories.PatientCaseFactory(created_by=user)
+
     def _authenticate_user(self):
         # Login the user and retrieve the JWT token
         auth_client = TestClient(AuthController)
-        response = auth_client.post("/login", json={"username": self.username, "password": self.password}, secure=True)
+        response = auth_client.post("/sliding", json={"username": self.username, "password": self.password}, secure=True)
         token = response.json()["token"]
         return {"Authorization": f"Bearer {str(token)}"}
 
@@ -65,6 +66,8 @@ class TestPatientCaseController(TestCase):
             result = PatientCaseSchema.model_validate(response.json()).model_dump(exclude=['created_at','updated_at'])
             self.maxDiff = None
             self.assertDictEqual(result, expected)
+            self.assertEqual(self.user.id, result.createdById)
+            self.assertIn(self.user.id, result.updatedByIds[0])
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_get_all_cancer_patients(self, _, *scenario):            
@@ -85,6 +88,8 @@ class TestPatientCaseController(TestCase):
         response = self._call_api_endpoint(POST, f'{self.endpoint_base_url}/', *scenario, data=json_data)
         if response == '201':
             self.assertTrue(models.PatientCase.objects.filter(id=self.patient.id).exists())
+            self.assertEqual(self.user, models.PatientCase.objects.get(id=self.patient.id).created_by)
+            self.assertIn(self.user, models.PatientCase.objects.get(id=self.patient.id).updated_by.all())
 
 
     @parameterized.expand(CONNECTION_SCENARIOS)
@@ -94,3 +99,5 @@ class TestPatientCaseController(TestCase):
         response = self._call_api_endpoint(PUT, f'{self.endpoint_base_url}/{patient.id}', *scenario, data=json_data)
         if response == '201':
             self.assertTrue(models.PatientCase.objects.filter(id=patient.id).exists()) 
+            self.assertEqual(self.user, models.PatientCase.objects.get(id=self.patient.id).created_by)
+            self.assertIn(self.user, models.PatientCase.objects.get(id=self.patient.id).updated_by.all())
