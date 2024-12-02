@@ -1,85 +1,34 @@
-<div class="card">
+<div class="flex mb-5">
     <p-iconField iconPosition="left">
         <p-inputIcon styleClass="pi pi-search" />
         <input type="text" pInputText placeholder="Search" [(ngModel)]="filterValue" (ngModelChange)="filterPatients(filterValue)"/>
     </p-iconField>
-    <p-button (onClick)="openModalForm()" label="New case" class="ml-3"></p-button>
-    <div>
-        <label>Age</label>
-        <div>
-            <input type="text" pInputText [(ngModel)]="ageRangeValues[0]" class="w-full mb-3" style="width: 4rem !important;"/>
-            <input type="text" pInputText [(ngModel)]="ageRangeValues[1]" class="w-full mb-3" style="width: 4rem !important;"/>
-        </div>
-        <p-slider [(ngModel)]="ageRangeValues" [range]="true" (onSlideEnd)="getFilteredPatientList()" styleClass="w-14rem" />
 
-    </div>
+    <p-button (onClick)="openModalForm()" label="New case" class="ml-3 ml-auto"></p-button>
 </div>
-    <div>
-        {{total}} entries found
+    <div class="my-3 ml-3">
+        <span class="font-bold">{{total}}</span> matching cases found
     </div>
-        <p-dataView #dv [value]="filteredPatients" [paginator]="true" [rows]="10" *ngIf="!loading" >
-        <ng-template pTemplate="list" let-patients>
+        <p-dataView 
+            [value]="cases"
+            [paginator]="true" 
+            [rows]="pageSize" 
+            [rowsPerPageOptions]="pageSizeChoices"
+            [totalRecords]="totalCases"
+            class="no-background"
+        >
+        <ng-template pTemplate="list" let-pagePatients>
             <div class="grid grid-nogutter">
-                <div class="col-12" *ngFor="let patient of patients; let first = first" class="col-12">
-                    <div class="card flex flex-column sm:flex-row sm:align-items-center p-4 gap-3 mb-3" [ngClass]="{ 'border-top-1 surface-border': !first }">
-                        <p-avatar size="xlarge" [style]="{'background': 'white', 'border': '1px solid #f0f2'}">
-                            <svg width="4rem" height="4rem" [data-jdenticon-value]="[patient.pseudoidentifier]"></svg>
-                        </p-avatar>
-
-
-                        <div class="flex flex-column">
-                            <div class="text-xl font-bold">{{patient.pseudoidentifier}}</div>
-                            <div class="flex">
-                                <i class="pi pi-mars" *ngIf="patient.gender.code === 'male'"></i>
-                                <i class="pi pi-venus" *ngIf="patient.gender.code === 'female'"></i>
-                                <i class="pi pi-question" *ngIf="!patient.gender.code.includes('male')"></i>
-                                {{patient.age}} years 
-                                <span *ngIf="patient.is_deceased">, †</span></div>
-                            </div>
-                            <p-divider layout="vertical" />
-                            <div>
-                                <div>Diagnosis pending</div>
-                                <div>No further information available</div>
-                            </div>
-                            <p-divider layout="vertical" />
-                            <div class="flex flex-column text-center gap-2"> 
-                                Manager
-                                <p-avatar 
-                                label="{{this.users[patient.createdById]?.initials || getUser(patient.createdById)}}" 
-                                size="normal" 
-                                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                                title="{{ this.users[patient.createdById]?.username || 'Unknown user' }}" 
-                                shape="circle"/>
-                            </div>
-                            <div class="flex flex-column text-center gap-2"> 
-                                Contributors
-                                <p-avatarGroup styleClass="my-auto">
-                                    <ng-container *ngFor="let id of patient.updatedByIds;">
-                                        <p-avatar 
-                                        label="{{this.users[id]?.initials || getUser(id)}}" 
-                                        size="normal" 
-                                        shape="circle"
-                                        [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                                        title="{{ this.users[id]?.username || 'Unknown user' }}" 
-                                        />
-                                    </ng-container>
-                                    <p-avatar *ngIf="patient.updatedByIds.length > 2"
-                                        label="+2" 
-                                        shape="circle"
-                                        size="normal" 
-                                        [style]="{ 'background-color': 'grey', color: '#ffffff' }" />
-                                </p-avatarGroup>
-                            </div>
-                        </div>
-
-                 </div>
+                <div class="col-12" *ngFor="let patientCase of pagePatients; let first = first" class="col-12">
+                    <app-case-browser-item [case]="patientCase"></app-case-browser-item>
+                </div>
             </div>
         </ng-template>
     </p-dataView>
 
     <!-- Skeleton loader -->
     <div *ngIf="loading">
-        <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8]; let first = first">
+        <ng-container *ngFor="let _ of [].constructor(20); let first=first">
             <div class="flex flex-row  p-4 gap-3" [ngClass]="{ 'border-top-1 surface-border': !first }">
                 <p-skeleton [style]="{ width: '4rem', height: '4rem'}"></p-skeleton>
                 <div class="flex flex-column">
@@ -87,7 +36,7 @@
                     <p-skeleton [style]="{ width: '20rem', height: '1rem' }"></p-skeleton>      
                 </div>
             </div>
-        </div>
-</div>
+        </ng-container>
+    </div>
 
 <app-dynamic-modal-form (saveEvent)="getPatientList()"></app-dynamic-modal-form>

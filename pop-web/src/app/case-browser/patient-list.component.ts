@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject, ViewEncapsulation  } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PatientCaseService } from '../services/cancerpatient.service';
-import { PatientCase, PaginatedPatientCase } from '../core/modules/openapi';
+import { PatientCase, PatientCasesService, PaginatedPatientCase, PatientCasesServiceInterface} from '../core/modules/openapi';
 import { Observable } from 'rxjs';
 import { PatientFormComponent } from './components/patient-form/patient-form.component';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
@@ -9,52 +9,72 @@ import { ModalFormService } from '../core/components/modal-form/modal-form.servi
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../core/modules/openapi'
 
+
 @Component({
   templateUrl: './patient-list.component.html',
+  styleUrl: './patient-list.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 
 export class PatientListComponent implements OnInit, OnDestroy {
-  patients$!: Observable<PaginatedPatientCase>;
+  
+  public cases!: PatientCase[];
+
   filteredPatients: PatientCase[] = [];
   patients: PatientCase[] = [];
   filterValue: string = '';
   loading: boolean = true;
   total: number = 0;
   ageRangeValues = [0,100];
+
+  public pageSizeChoices: number[] = [10, 25, 50, 100];
+  public pageSize: number = this.pageSizeChoices[0];
+  public totalCases: number = 0;
+
   subscription!: Subscription;
   users: any = {};
   
+  private patientCasesService = inject(PatientCasesService)
+  private modalFormService = inject(ModalFormService)
+  public readonly cases$: Observable<PaginatedPatientCase> = this.patientCasesService.getPatientCases();
+
+
   @ViewChild('modalComponent') modalComponent!: ModalFormComponent;
   formGroup!: FormGroup;
 
-
-  constructor(private patientService: PatientCaseService, private modalFormService: ModalFormService, private authService: AuthService
-  ) {}
+  public query = {
+    ageLte:  100,
+    ageGte:  0,
+    pseudoidentifier: undefined,
+    deceased: undefined, 
+    gender: undefined,
+    born: undefined,
+    limit:  undefined,
+    offset:  undefined,
+  }
 
   ngOnInit() {
     this.getPatientList()
   }
 
   getPatientList(): void{
-    this.patients$ = this.patientService.getPatientCases();
-    this.patients$.subscribe(page => {
-      console.log(page.items[0])
-      this.patients = page.items;
+    this.patientCasesService.getPatientCases(...Object.values(this.query)).subscribe(page => {
+      this.cases = page.items;
       this.filteredPatients = page.items;
       this.loading = false;
-      this.total = page.items.length
+      this.total = page.count
     });
   }
 
   getFilteredPatientList(): void{
-    this.patients$ = this.patientService.getFilteredPatientCases(this.ageRangeValues[1], this.ageRangeValues[0]);
-    this.patients$.subscribe(page => {
-      console.log(page.items[0])
-      this.patients = page.items;
-      this.filteredPatients = page.items;
-      this.loading = false;
-      this.total = page.items.length
-    });
+    // this.patients$ = this.patientCasesService.getFilteredPatientCases(this.ageRangeValues[1], this.ageRangeValues[0]);
+    // this.patients$.subscribe(page => {
+    //   console.log(page.items[0])
+    //   this.patients = page.items;
+    //   this.filteredPatients = page.items;
+    //   this.loading = false;
+    //   this.total = page.items.length
+    // });
   }
   filterPatients(filterValue: string): void {
     if (!filterValue) {
@@ -67,15 +87,6 @@ export class PatientListComponent implements OnInit, OnDestroy {
     }
   };
 
-  getUser(userId: number) {
-    this.authService.getUserById(userId).subscribe(user => {
-      this.users[userId] = {
-        initials: user.username[0].toUpperCase(),
-        username: user.username,
-      }
-    })
-    return '?'
-  }
 
   openModalForm() {    
     this.modalFormService.open(PatientFormComponent, { /* optional data */ });

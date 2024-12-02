@@ -6,7 +6,6 @@ import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
 import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
-import { NgxJdenticonModule } from "ngx-jdenticon";
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { PatientListComponent } from './patient-list.component';
@@ -28,8 +27,12 @@ import { CodedConceptSelectModule } from '../core/components/coded-concept-selec
 import { DateMaskDirective } from './components/patient-form/date-mask-directive'
 import { DividerModule } from 'primeng/divider';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ChipModule } from 'primeng/chip';
+
+
 import { ControlErrorComponent } from './components/control-error/control-error.component';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
+import { CaseBrowserCardComponent } from './components/case-card/case-browser-item.component';
 
 @NgModule({
     imports: [
@@ -42,7 +45,6 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
         StyleClassModule,
         PanelMenuModule,
         ButtonModule,
-        NgxJdenticonModule,
         IconFieldModule,
         InputIconModule,
         InputTextModule,
@@ -60,7 +62,9 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
         AvatarGroupModule,
         InputSwitchModule,
         SliderModule,
-        ToastModule
+        ToastModule,
+        ChipModule,
+        CaseBrowserCardComponent
     ],
     declarations: [
         PatientListComponent,
