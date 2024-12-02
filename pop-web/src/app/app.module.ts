@@ -1,15 +1,18 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { AuthInterceptor } from './auth/auth.interceptor';
 import { ApiModule, Configuration, ConfigurationParameters } from './core/modules/openapi/';
-import { BASE_PATH } from './core/modules/openapi/variables';
+
+import { HttpCacheInterceptor, CACHE_OPTIONS } from './core/interceptors/cache.interceptor';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { BASE_PATH } from './core/modules/openapi/variables';
 import { PrimeNGConfig } from 'primeng/api';
 
 // Messages imports 
@@ -45,13 +48,14 @@ export function apiConfigFactory (): Configuration {
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: BASE_PATH, useValue: 'https://localhost:4443' },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: CACHE_OPTIONS, useValue: { /* options */ } },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpCacheInterceptor, multi: true },
         {
             provide: APP_INITIALIZER,
             useFactory: initializeAppFactory,
             deps: [PrimeNGConfig],
             multi: true,
          },
-        // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         AuthGuard
     ],
     bootstrap: [AppComponent]
