@@ -3,6 +3,8 @@ from typing import Optional, List, Dict
 from ninja import Schema, Field
 from pydantic import ConfigDict, SecretStr
 from django.contrib.auth import get_user_model
+
+from ninja_extra.schemas import NinjaPaginationResponseSchema
 from ninja_jwt.schema import TokenObtainSlidingInputSchema, TokenObtainSlidingOutputSchema, TokenRefreshSlidingInputSchema, TokenRefreshSlidingOutputSchema
 from typing_extensions import Annotated
 
@@ -47,6 +49,8 @@ class SlidingTokenSchema(TokenObtainSlidingOutputSchema):
         title='SlidingToken',
     )
 
+class Paginated(NinjaPaginationResponseSchema):
+    pass
 
 class ResourceIdSchema(Schema):
     id: str 

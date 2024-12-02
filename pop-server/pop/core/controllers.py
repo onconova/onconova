@@ -43,7 +43,6 @@ class AuthController(TokenObtainPairController):
         response={
             200: List[UserSchema]
         }, 
-        permissions=[permissions.IsAuthenticated]
     )
     def get_all_users_matching_the_query(self):
         return get_user_model().objects.all()
@@ -55,7 +54,6 @@ class AuthController(TokenObtainPairController):
             200: UserSchema,
             404: None
         }, 
-        permissions=[permissions.IsAuthenticated]
     )
     def get_user_by_id(self, userId: int):
         return get_object_or_404(get_user_model(), id=userId)

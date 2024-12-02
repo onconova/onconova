@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { NinjaPaginationResponseSchemaPatientCaseSchema } from '../model/models';
-import { PatientCaseCreateSchema } from '../model/models';
-import { PatientCaseSchema } from '../model/models';
+import { PaginatedPatientCase } from '../model/models';
+import { PatientCase } from '../model/models';
+import { PatientCaseCreate } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
 
 
@@ -28,9 +28,9 @@ export interface PatientCasesServiceInterface {
     /**
      * Create Cancer Patient
      * 
-     * @param patientCaseCreateSchema 
+     * @param patientCaseCreate 
      */
-    createPatientCase(patientCaseCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
      * Delete Cancer Patient
@@ -44,11 +44,13 @@ export interface PatientCasesServiceInterface {
      * 
      * @param patientId 
      */
-    getPatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<PatientCaseSchema>;
+    getPatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<PatientCase>;
 
     /**
      * Get All Cancer Patient Matching The Query
      * 
+     * @param ageLte 
+     * @param ageGte 
      * @param pseudoidentifier 
      * @param deceased 
      * @param gender 
@@ -56,14 +58,14 @@ export interface PatientCasesServiceInterface {
      * @param limit 
      * @param offset 
      */
-    getPatientCases(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<NinjaPaginationResponseSchemaPatientCaseSchema>;
+    getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
 
     /**
      * Update Cancer Patient
      * 
      * @param patientId 
-     * @param patientCaseCreateSchema 
+     * @param patientCaseCreate 
      */
-    updatePatientCaseById(patientId: string, patientCaseCreateSchema: PatientCaseCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updatePatientCaseById(patientId: string, patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<{}>;
 
 }

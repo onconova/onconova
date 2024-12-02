@@ -9,7 +9,7 @@
  */
 
 
-export interface TokenRefreshSlidingOutputSchema { 
+export interface OldSlidingTokenSchema { 
     token: string;
 }
 

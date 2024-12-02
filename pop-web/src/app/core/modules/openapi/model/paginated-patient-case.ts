@@ -7,12 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserSchema } from './user-schema';
+import { PatientCase } from './patient-case';
 
 
-export interface UserTokenSchema { 
-    token: string;
-    user: UserSchema;
-    token_exp_date: string | null;
+export interface PaginatedPatientCase { 
+    count: number;
+    items: Array<PatientCase>;
 }
 

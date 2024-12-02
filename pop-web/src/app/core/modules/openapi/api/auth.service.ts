@@ -17,15 +17,15 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { TokenObtainSlidingInputSchema } from '../model/token-obtain-sliding-input-schema';
+import { NewSlidingTokenSchema } from '../model/new-sliding-token-schema';
 // @ts-ignore
-import { TokenObtainSlidingOutputSchema } from '../model/token-obtain-sliding-output-schema';
+import { OldSlidingTokenSchema } from '../model/old-sliding-token-schema';
 // @ts-ignore
-import { TokenRefreshSlidingInputSchema } from '../model/token-refresh-sliding-input-schema';
+import { SlidingTokenSchema } from '../model/sliding-token-schema';
 // @ts-ignore
-import { TokenRefreshSlidingOutputSchema } from '../model/token-refresh-sliding-output-schema';
+import { UserCredentialsSchema } from '../model/user-credentials-schema';
 // @ts-ignore
-import { UserTokenSchema } from '../model/user-token-schema';
+import { UserSchema } from '../model/user-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -102,91 +102,17 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Login
-     * @param tokenObtainSlidingInputSchema 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserTokenSchema>;
-    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserTokenSchema>>;
-    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserTokenSchema>>;
-    public authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (tokenObtainSlidingInputSchema === null || tokenObtainSlidingInputSchema === undefined) {
-            throw new Error('Required parameter tokenObtainSlidingInputSchema was null or undefined when calling authLoginCc9e767a.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/auth/login`;
-        return this.httpClient.request<UserTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: tokenObtainSlidingInputSchema,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Obtain Token
-     * @param tokenObtainSlidingInputSchema 
+     * @param userCredentialsSchema 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tokenObtainSliding(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TokenObtainSlidingOutputSchema>;
-    public tokenObtainSliding(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TokenObtainSlidingOutputSchema>>;
-    public tokenObtainSliding(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TokenObtainSlidingOutputSchema>>;
-    public tokenObtainSliding(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (tokenObtainSlidingInputSchema === null || tokenObtainSlidingInputSchema === undefined) {
-            throw new Error('Required parameter tokenObtainSlidingInputSchema was null or undefined when calling tokenObtainSliding.');
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SlidingTokenSchema>;
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SlidingTokenSchema>>;
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SlidingTokenSchema>>;
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (userCredentialsSchema === null || userCredentialsSchema === undefined) {
+            throw new Error('Required parameter userCredentialsSchema was null or undefined when calling getSlidingToken.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -235,10 +161,134 @@ export class AuthService implements AuthServiceInterface {
         }
 
         let localVarPath = `/api/auth/sliding`;
-        return this.httpClient.request<TokenObtainSlidingOutputSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<SlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: tokenObtainSlidingInputSchema,
+                body: userCredentialsSchema,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get User By Id
+     * @param userId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getUserById(userId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserSchema>;
+    public getUserById(userId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserSchema>>;
+    public getUserById(userId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserSchema>>;
+    public getUserById(userId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling getUserById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}`;
+        return this.httpClient.request<UserSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Users Matching The Query
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getUsers(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<UserSchema>>;
+    public getUsers(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<UserSchema>>>;
+    public getUsers(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<UserSchema>>>;
+    public getUsers(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/users`;
+        return this.httpClient.request<Array<UserSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -251,16 +301,16 @@ export class AuthService implements AuthServiceInterface {
 
     /**
      * Refresh Token
-     * @param tokenRefreshSlidingInputSchema 
+     * @param oldSlidingTokenSchema 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public tokenRefreshSliding(tokenRefreshSlidingInputSchema: TokenRefreshSlidingInputSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TokenRefreshSlidingOutputSchema>;
-    public tokenRefreshSliding(tokenRefreshSlidingInputSchema: TokenRefreshSlidingInputSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TokenRefreshSlidingOutputSchema>>;
-    public tokenRefreshSliding(tokenRefreshSlidingInputSchema: TokenRefreshSlidingInputSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TokenRefreshSlidingOutputSchema>>;
-    public tokenRefreshSliding(tokenRefreshSlidingInputSchema: TokenRefreshSlidingInputSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (tokenRefreshSlidingInputSchema === null || tokenRefreshSlidingInputSchema === undefined) {
-            throw new Error('Required parameter tokenRefreshSlidingInputSchema was null or undefined when calling tokenRefreshSliding.');
+    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NewSlidingTokenSchema>;
+    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NewSlidingTokenSchema>>;
+    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NewSlidingTokenSchema>>;
+    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (oldSlidingTokenSchema === null || oldSlidingTokenSchema === undefined) {
+            throw new Error('Required parameter oldSlidingTokenSchema was null or undefined when calling refereshSlidingToken.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -309,10 +359,10 @@ export class AuthService implements AuthServiceInterface {
         }
 
         let localVarPath = `/api/auth/sliding/refresh`;
-        return this.httpClient.request<TokenRefreshSlidingOutputSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<NewSlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: tokenRefreshSlidingInputSchema,
+                body: oldSlidingTokenSchema,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

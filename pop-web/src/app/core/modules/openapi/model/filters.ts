@@ -10,6 +10,8 @@
 
 
 export interface Filters { 
+    age_lte?: number;
+    age_gte?: number;
     pseudoidentifier?: string;
     deceased?: boolean;
     gender?: Array<Filters.GenderEnum>;

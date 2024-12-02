@@ -11,11 +11,11 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { TokenObtainSlidingInputSchema } from '../model/models';
-import { TokenObtainSlidingOutputSchema } from '../model/models';
-import { TokenRefreshSlidingInputSchema } from '../model/models';
-import { TokenRefreshSlidingOutputSchema } from '../model/models';
-import { UserTokenSchema } from '../model/models';
+import { NewSlidingTokenSchema } from '../model/models';
+import { OldSlidingTokenSchema } from '../model/models';
+import { SlidingTokenSchema } from '../model/models';
+import { UserCredentialsSchema } from '../model/models';
+import { UserSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -27,24 +27,30 @@ export interface AuthServiceInterface {
     configuration: Configuration;
 
     /**
-     * Login
-     * 
-     * @param tokenObtainSlidingInputSchema 
-     */
-    authLoginCc9e767a(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, extraHttpRequestParams?: any): Observable<UserTokenSchema>;
-
-    /**
      * Obtain Token
      * 
-     * @param tokenObtainSlidingInputSchema 
+     * @param userCredentialsSchema 
      */
-    tokenObtainSliding(tokenObtainSlidingInputSchema: TokenObtainSlidingInputSchema, extraHttpRequestParams?: any): Observable<TokenObtainSlidingOutputSchema>;
+    getSlidingToken(userCredentialsSchema: UserCredentialsSchema, extraHttpRequestParams?: any): Observable<SlidingTokenSchema>;
+
+    /**
+     * Get User By Id
+     * 
+     * @param userId 
+     */
+    getUserById(userId: number, extraHttpRequestParams?: any): Observable<UserSchema>;
+
+    /**
+     * Get All Users Matching The Query
+     * 
+     */
+    getUsers(extraHttpRequestParams?: any): Observable<Array<UserSchema>>;
 
     /**
      * Refresh Token
      * 
-     * @param tokenRefreshSlidingInputSchema 
+     * @param oldSlidingTokenSchema 
      */
-    tokenRefreshSliding(tokenRefreshSlidingInputSchema: TokenRefreshSlidingInputSchema, extraHttpRequestParams?: any): Observable<TokenRefreshSlidingOutputSchema>;
+    refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, extraHttpRequestParams?: any): Observable<NewSlidingTokenSchema>;
 
 }

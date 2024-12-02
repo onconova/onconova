@@ -5,7 +5,6 @@ from ninja.schema import Schema, Field
 from ninja_extra.pagination import (
     paginate, 
 )
-from ninja_extra.schemas import NinjaPaginationResponseSchema
 
 from ninja_extra import (
     api_controller, 
@@ -14,7 +13,7 @@ from ninja_extra import (
 )
 from ninja_jwt.authentication import JWTAuth
 
-from pop.core.schemas import ResourceIdSchema 
+from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import PatientCase
 
 from django.shortcuts import get_object_or_404
@@ -30,6 +29,8 @@ class GenderEnum(Enum):
 
 
 class Filters(Schema):
+    db_age__lte: int = Field(None, alias='age_lte')
+    db_age__gte: int = Field(None, alias='age_gte')
     pseudoidentifier__icontains: str = Field(None, alias='pseudoidentifier')
     is_deceased: bool = Field(None, alias='deceased')
     gender__code__in: List[GenderEnum] = Field(None, alias="gender")
@@ -46,7 +47,7 @@ class PatientCaseController(ControllerBase):
     @route.get(
         path='/', 
         response={
-            200: NinjaPaginationResponseSchema[PatientCaseSchema]
+            200: Paginated[PatientCaseSchema]
         },
         operation_id='getPatientCases',
     )

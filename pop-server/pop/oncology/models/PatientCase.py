@@ -23,7 +23,7 @@ class PatientCaseManager(models.Manager):
         """
         return super().get_queryset().annotate(
             # Add patient age computed at database-level (fast and queriable)
-            _age=ExpressionWrapper(
+            db_age=ExpressionWrapper(
                 Func(
                     Func(
                         Case(
@@ -117,7 +117,7 @@ class PatientCase(BaseModel):
         Calculate the age of the patient based on the date_of_birth and current date
         or date of death, if available. The age is computed at the database level.
         """
-        return self.__class__.objects.filter(pk=self.pk).values('_age')[0]['_age']
+        return self.__class__.objects.filter(pk=self.pk).values('db_age')[0]['db_age']
     
     def _generate_random_id(self):
         """

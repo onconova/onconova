@@ -9,11 +9,8 @@
  */
 
 
-export interface TokenObtainSlidingInputSchema { 
+export interface UserCredentialsSchema { 
     password: string;
-    /**
-     * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-     */
     username: string;
 }
 

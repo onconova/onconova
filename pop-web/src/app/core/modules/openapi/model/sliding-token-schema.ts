@@ -7,11 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PatientCaseSchema } from './patient-case-schema';
 
 
-export interface NinjaPaginationResponseSchemaPatientCaseSchema { 
-    count: number;
-    items: Array<PatientCaseSchema>;
+export interface SlidingTokenSchema { 
+    /**
+     * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+     */
+    username: string;
+    token: string;
 }
 

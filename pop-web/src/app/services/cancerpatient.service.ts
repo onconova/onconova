@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { PatientCasesService, NinjaPaginationResponseSchemaPatientCaseSchema } from '../core/modules/openapi'
+import { PatientCasesService, PaginatedPatientCase } from '../core/modules/openapi'
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,15 @@ import { PatientCasesService, NinjaPaginationResponseSchemaPatientCaseSchema } f
 export class PatientCaseService {
   constructor(private api: PatientCasesService) {}
 
-  getPatientCases(): Observable<NinjaPaginationResponseSchemaPatientCaseSchema> {
+  getPatientCases(): Observable<PaginatedPatientCase> {
     return this.api.getPatientCases()
+  }
+
+  getFilteredPatientCases(ageLte: number, ageGte: number): Observable<PaginatedPatientCase> {
+    let pseudoidentifier = undefined; 
+    let deceased = undefined; 
+    let boolean = undefined; 
+    let gender = undefined; 
+    return this.api.getPatientCases(ageLte, ageGte, pseudoidentifier, deceased, boolean, gender)
   }
 }

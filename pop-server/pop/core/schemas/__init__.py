@@ -5,7 +5,8 @@ from .schemas import (
     NewSlidingTokenSchema,
     OldSlidingTokenSchema,  
     SlidingTokenSchema, 
-    UserCredentialsSchema
+    UserCredentialsSchema,
+    Paginated
 )
 from .base import BaseSchema
 from .factory import create_schema, factory 
@@ -22,5 +23,6 @@ __all__ = (
     NewSlidingTokenSchema, 
     OldSlidingTokenSchema, 
     SlidingTokenSchema, 
+    Paginated,
     UserCredentialsSchema,
 )

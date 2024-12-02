@@ -23,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { SliderModule } from 'primeng/slider';
 import { CodedConceptSelectModule } from '../core/components/coded-concept-select/coded-concept-select.module';
 import { DateMaskDirective } from './components/patient-form/date-mask-directive'
 import { DividerModule } from 'primeng/divider';
@@ -58,6 +59,7 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
         ModalFormComponent,
         AvatarGroupModule,
         InputSwitchModule,
+        SliderModule,
         ToastModule
     ],
     declarations: [

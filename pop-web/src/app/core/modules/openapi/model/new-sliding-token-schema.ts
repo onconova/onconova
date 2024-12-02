@@ -9,11 +9,7 @@
  */
 
 
-export interface TokenObtainSlidingOutputSchema { 
-    /**
-     * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-     */
-    username: string;
+export interface NewSlidingTokenSchema { 
     token: string;
 }
 

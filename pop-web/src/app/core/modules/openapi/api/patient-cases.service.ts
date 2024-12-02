@@ -17,11 +17,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { NinjaPaginationResponseSchemaPatientCaseSchema } from '../model/ninja-pagination-response-schema-patient-case-schema';
+import { PaginatedPatientCase } from '../model/paginated-patient-case';
 // @ts-ignore
-import { PatientCaseCreateSchema } from '../model/patient-case-create-schema';
+import { PatientCase } from '../model/patient-case';
 // @ts-ignore
-import { PatientCaseSchema } from '../model/patient-case-schema';
+import { PatientCaseCreate } from '../model/patient-case-create';
 // @ts-ignore
 import { ResourceIdSchema } from '../model/resource-id-schema';
 
@@ -101,16 +101,16 @@ export class PatientCasesService implements PatientCasesServiceInterface {
 
     /**
      * Create Cancer Patient
-     * @param patientCaseCreateSchema 
+     * @param patientCaseCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPatientCase(patientCaseCreateSchema: PatientCaseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createPatientCase(patientCaseCreateSchema: PatientCaseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createPatientCase(patientCaseCreateSchema: PatientCaseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
-    public createPatientCase(patientCaseCreateSchema: PatientCaseCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (patientCaseCreateSchema === null || patientCaseCreateSchema === undefined) {
-            throw new Error('Required parameter patientCaseCreateSchema was null or undefined when calling createPatientCase.');
+    public createPatientCase(patientCaseCreate: PatientCaseCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
+    public createPatientCase(patientCaseCreate: PatientCaseCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
+    public createPatientCase(patientCaseCreate: PatientCaseCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createPatientCase(patientCaseCreate: PatientCaseCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (patientCaseCreate === null || patientCaseCreate === undefined) {
+            throw new Error('Required parameter patientCaseCreate was null or undefined when calling createPatientCase.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -169,7 +169,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: patientCaseCreateSchema,
+                body: patientCaseCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -256,9 +256,9 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPatientCaseById(patientId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PatientCaseSchema>;
-    public getPatientCaseById(patientId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PatientCaseSchema>>;
-    public getPatientCaseById(patientId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PatientCaseSchema>>;
+    public getPatientCaseById(patientId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PatientCase>;
+    public getPatientCaseById(patientId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PatientCase>>;
+    public getPatientCaseById(patientId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PatientCase>>;
     public getPatientCaseById(patientId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (patientId === null || patientId === undefined) {
             throw new Error('Required parameter patientId was null or undefined when calling getPatientCaseById.');
@@ -308,7 +308,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         }
 
         let localVarPath = `/api/patient-cases/${this.configuration.encodeParam({name: "patientId", value: patientId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<PatientCaseSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PatientCase>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -323,6 +323,8 @@ export class PatientCasesService implements PatientCasesServiceInterface {
 
     /**
      * Get All Cancer Patient Matching The Query
+     * @param ageLte 
+     * @param ageGte 
      * @param pseudoidentifier 
      * @param deceased 
      * @param gender 
@@ -332,12 +334,20 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPatientCases(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NinjaPaginationResponseSchemaPatientCaseSchema>;
-    public getPatientCases(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NinjaPaginationResponseSchemaPatientCaseSchema>>;
-    public getPatientCases(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NinjaPaginationResponseSchemaPatientCaseSchema>>;
-    public getPatientCases(pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedPatientCase>;
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedPatientCase>>;
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedPatientCase>>;
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (ageLte !== undefined && ageLte !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageLte, 'age_lte');
+        }
+        if (ageGte !== undefined && ageGte !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageGte, 'age_gte');
+        }
         if (pseudoidentifier !== undefined && pseudoidentifier !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pseudoidentifier, 'pseudoidentifier');
@@ -409,7 +419,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         }
 
         let localVarPath = `/api/patient-cases/`;
-        return this.httpClient.request<NinjaPaginationResponseSchemaPatientCaseSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedPatientCase>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -426,19 +436,19 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     /**
      * Update Cancer Patient
      * @param patientId 
-     * @param patientCaseCreateSchema 
+     * @param patientCaseCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updatePatientCaseById(patientId: string, patientCaseCreateSchema: PatientCaseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public updatePatientCaseById(patientId: string, patientCaseCreateSchema: PatientCaseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public updatePatientCaseById(patientId: string, patientCaseCreateSchema: PatientCaseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public updatePatientCaseById(patientId: string, patientCaseCreateSchema: PatientCaseCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updatePatientCaseById(patientId: string, patientCaseCreate: PatientCaseCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updatePatientCaseById(patientId: string, patientCaseCreate: PatientCaseCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updatePatientCaseById(patientId: string, patientCaseCreate: PatientCaseCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updatePatientCaseById(patientId: string, patientCaseCreate: PatientCaseCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (patientId === null || patientId === undefined) {
             throw new Error('Required parameter patientId was null or undefined when calling updatePatientCaseById.');
         }
-        if (patientCaseCreateSchema === null || patientCaseCreateSchema === undefined) {
-            throw new Error('Required parameter patientCaseCreateSchema was null or undefined when calling updatePatientCaseById.');
+        if (patientCaseCreate === null || patientCaseCreate === undefined) {
+            throw new Error('Required parameter patientCaseCreate was null or undefined when calling updatePatientCaseById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -496,7 +506,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: patientCaseCreateSchema,
+                body: patientCaseCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

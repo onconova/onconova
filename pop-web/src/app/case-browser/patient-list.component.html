@@ -4,7 +4,15 @@
         <input type="text" pInputText placeholder="Search" [(ngModel)]="filterValue" (ngModelChange)="filterPatients(filterValue)"/>
     </p-iconField>
     <p-button (onClick)="openModalForm()" label="New case" class="ml-3"></p-button>
+    <div>
+        <label>Age</label>
+        <div>
+            <input type="text" pInputText [(ngModel)]="ageRangeValues[0]" class="w-full mb-3" style="width: 4rem !important;"/>
+            <input type="text" pInputText [(ngModel)]="ageRangeValues[1]" class="w-full mb-3" style="width: 4rem !important;"/>
+        </div>
+        <p-slider [(ngModel)]="ageRangeValues" [range]="true" (onSlideEnd)="getFilteredPatientList()" styleClass="w-14rem" />
 
+    </div>
 </div>
     <div>
         {{total}} entries found
@@ -25,7 +33,7 @@
                                 <i class="pi pi-mars" *ngIf="patient.gender.code === 'male'"></i>
                                 <i class="pi pi-venus" *ngIf="patient.gender.code === 'female'"></i>
                                 <i class="pi pi-question" *ngIf="!patient.gender.code.includes('male')"></i>
-                                {{patient.date_of_birth}}  
+                                {{patient.age}} years 
                                 <span *ngIf="patient.is_deceased">, †</span></div>
                             </div>
                             <p-divider layout="vertical" />
@@ -37,23 +45,29 @@
                             <div class="flex flex-column text-center gap-2"> 
                                 Manager
                                 <p-avatar 
-                                label="{{ patient.created_by?.username || '?' }}" 
+                                label="{{this.users[patient.createdById]?.initials || getUser(patient.createdById)}}" 
                                 size="normal" 
                                 [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                                title="{{ patient.created_by?.username || 'Unknown user' }}" 
+                                title="{{ this.users[patient.createdById]?.username || 'Unknown user' }}" 
                                 shape="circle"/>
                             </div>
-                            <div class="flex">
-                                Ccontributors
-                                <p-avatarGroup styleClass="mb-3">
-                                    <ng-container *ngFor="let editor of patient.updated_by ">
+                            <div class="flex flex-column text-center gap-2"> 
+                                Contributors
+                                <p-avatarGroup styleClass="my-auto">
+                                    <ng-container *ngFor="let id of patient.updatedByIds;">
                                         <p-avatar 
-                                        label="{{ editor.username || '?' }}" 
-                                        size="large" 
+                                        label="{{this.users[id]?.initials || getUser(id)}}" 
+                                        size="normal" 
                                         shape="circle"
                                         [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                                        title="{{ this.users[id]?.username || 'Unknown user' }}" 
                                         />
                                     </ng-container>
+                                    <p-avatar *ngIf="patient.updatedByIds.length > 2"
+                                        label="+2" 
+                                        shape="circle"
+                                        size="normal" 
+                                        [style]="{ 'background-color': 'grey', color: '#ffffff' }" />
                                 </p-avatarGroup>
                             </div>
                         </div>

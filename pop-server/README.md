@@ -1,7 +1,7 @@
 SSL_CERT_DIR=./etc/certs/
 CA_SSL_CERT_BUNDLE=''
-HOST_SSL_CERT_BUNDLE=localhost.pem
-HOST_SSL_CERT_KEY=localhost-key.pem
+HOST_SSL_CERT_BUNDLE=localhost.crt
+HOST_SSL_CERT_KEY=localhost.key
 PROXY_HTTP=''
 PROXY_HTTPS=''
 

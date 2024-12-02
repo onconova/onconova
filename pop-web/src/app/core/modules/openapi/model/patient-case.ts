@@ -10,28 +10,39 @@
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface PatientCaseSchema { 
+export interface PatientCase { 
+    /**
+     * Approximate age of the patient in years
+     */
+    age: number;
     id: string;
+    createdAt: string;
+    updatedAt: string;
+    createdById?: number | null;
     /**
      * Pseudoidentifier of the patient
      */
     pseudoidentifier: string;
-    race?: CodedConceptSchema | null;
-    sex_at_birth?: CodedConceptSchema | null;
-    gender_identity?: CodedConceptSchema | null;
     /**
      * Gender for administrative purposes
      */
     gender: CodedConceptSchema;
+    race?: CodedConceptSchema | null;
+    sexAtBirth?: CodedConceptSchema | null;
+    genderIdentity?: CodedConceptSchema | null;
     /**
      * Anonymized date of birth (year/month). The day is set to the first day of the month by convention.
      */
-    date_of_birth: string;
+    dateOfBirth: string;
     /**
      * Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)
      */
-    is_deceased: boolean;
-    date_of_death?: string | null;
-    cause_of_death?: CodedConceptSchema | null;
+    isDeceased: boolean;
+    dateOfDeath?: string | null;
+    causeOfDeath?: CodedConceptSchema | null;
+    /**
+     * The user(s) who updated the data since its creation
+     */
+    updatedByIds?: Array<number>;
 }
 

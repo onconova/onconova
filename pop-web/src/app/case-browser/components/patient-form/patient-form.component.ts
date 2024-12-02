@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { PatientCaseCreateSchema, PatientCasesService, CodedConceptSchema } from '../../../core/modules/openapi/'
+import { PatientCaseCreate, PatientCasesService, CodedConceptSchema } from '../../../core/modules/openapi/'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import * as moment from 'moment';
@@ -61,7 +61,7 @@ export class PatientFormComponent {
       this.loading = true;  
       // Prepare the data according to the API scheme
       const data = this.form.value
-      const cancerPatientData: PatientCaseCreateSchema = {
+      const cancerPatientData: PatientCaseCreate = {
         gender: data.gender,
         dateOfBirth: moment(data.dateOfBirth, 'MM/YYYY').format('YYYY-MM-DD'),
         dateOfDeath: !data.isAlive?  moment(data.dateOfDeath, 'MM/YYYY').format('YYYY-MM-DD'): null,

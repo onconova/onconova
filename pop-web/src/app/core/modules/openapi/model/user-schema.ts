@@ -10,11 +10,10 @@
 
 
 export interface UserSchema { 
-    id?: number | null;
-    /**
-     * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-     */
+    id: number;
     username: string;
-    email?: string | null;
+    email: string;
+    firstName?: string | null;
+    lastName?: string | null;
 }
 

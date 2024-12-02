@@ -10,7 +10,7 @@
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface PatientCaseCreateSchema { 
+export interface PatientCaseCreate { 
     /**
      * Gender for administrative purposes
      */
