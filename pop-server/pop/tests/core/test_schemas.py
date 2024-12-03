@@ -3,31 +3,24 @@ from typing import Optional, List
 
 from pydantic_core import PydanticUndefined
 
-from django_fake_model import models as fake
-
 from django.test import TestCase, TransactionTestCase
 from django.db import models as django_models
 from django.db.models import CharField, ForeignKey, ManyToManyField
 
 from pop.oncology.models import PatientCase
-from pop.terminology.models import CodedConcept as CodedConceptBase
+from pop.terminology.models import CodedConcept as CodedConceptBase, AdministrativeGender
 from pop.core.schemas.fields import get_schema_field, CodedConceptSchema, get_schema_field, PydanticUndefined
 from pop.core.schemas.factory import SchemaFactory
 from pop.core.schemas import CodedConceptSchema
 from pop.tests.factories import UserFactory, PatientCaseFactory
 
 
-class RelatedModel(fake.FakeModel):
-    id = django_models.CharField(max_length=100, db_column='test_id')
-
-class CodedConceptModel(fake.FakeModel, CodedConceptBase):
-    pass
 
 class TestGetSchemaField(TestCase):
 
     def setUp(self):
-        self.MockModel = RelatedModel
-        self.MockCodedConcept = CodedConceptModel
+        self.MockModel = PatientCase
+        self.MockCodedConcept = AdministrativeGender
     
     def _create_foreign_key_field(self, model, null=False):
         field = ForeignKey(model, on_delete=django_models.CASCADE, name='test_field', null=null)
@@ -103,44 +96,20 @@ class TestGetSchemaField(TestCase):
 
 
 
-
-
-class NonRelationalFakeModel(fake.FakeModel):
-    id = django_models.CharField(max_length=100, db_column='test_id', primary_key=True)
-    test_field = django_models.CharField(max_length=100)
-
-class RelationalFakeModel(fake.FakeModel):
-    id = django_models.CharField(max_length=100, db_column='test_id', primary_key=True)
-    related_field = django_models.ForeignKey(to=NonRelationalFakeModel, on_delete=django_models.CASCADE)
-
-class ManyToManyFakeModel(fake.FakeModel, CodedConceptBase):
-    pass
-
-class CodingFakeModel(fake.FakeModel):
-    id = django_models.CharField(max_length=100, db_column='test_id', primary_key=True)
-    related_concept = django_models.ForeignKey(to=CodedConceptModel, on_delete=django_models.CASCADE)
-
-@ManyToManyFakeModel.fake_me
-@RelationalFakeModel.fake_me
-@NonRelationalFakeModel.fake_me
-@CodingFakeModel.fake_me
-@CodedConceptModel.fake_me
 class TestSchemaFactory(TestCase):
 
     def setUp(self):
         self.factory = SchemaFactory()
 
     def test_creating_schema_with_nonrelational_field(self):
-        value = 'test_value'
-        django_instance = NonRelationalFakeModel.objects.create(id='id-1', test_field=value)
+        django_instance = PatientCaseFactory()
         # Create schema
-        schema = self.factory.create_schema(NonRelationalFakeModel)
+        schema = self.factory.create_schema(PatientCase, exclude=['id', 'pseudoidentifier'])
         schema_instance = schema.model_validate(django_instance)
         # Assertion
-        self.assertEqual(len(schema.model_fields), 2)
-        self.assertEqual(schema_instance.testField, value)
-        self.assertEqual(schema_instance.model_dump()['testField'], value)
-        self.assertEqual(schema_instance.model_dump_django().test_field, django_instance.test_field)
+        self.assertEqual(schema_instance.createdAt, django_instance.created_at)
+        self.assertEqual(schema_instance.model_dump()['createdAt'],  django_instance.created_at)
+        self.assertEqual(schema_instance.model_dump_django().created_at.day, django_instance.created_at.day)
 
     def test_creating_schema_with_relational_field(self):
         user = UserFactory()
