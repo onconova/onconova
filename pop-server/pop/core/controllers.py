@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from ninja_extra import route, api_controller, permissions
+from ninja_extra import route, api_controller, ControllerBase
 from ninja_jwt.controller import TokenObtainPairController
+from ninja_jwt.authentication import JWTAuth
 
 from pop.core.schemas import (
     UserSchema, 
@@ -37,6 +38,14 @@ class AuthController(TokenObtainPairController):
     def refresh_token(self, refresh_token: OldSlidingTokenSchema):
         return refresh_token.to_response_schema()
     
+    
+@api_controller(
+    '/auth', 
+    auth=[JWTAuth()], 
+    tags=['Auth'],  
+)
+class UsersController(ControllerBase):
+
     @route.get(
         path="/users",
         operation_id='getUsers',
@@ -57,4 +66,3 @@ class AuthController(TokenObtainPairController):
     )
     def get_user_by_id(self, userId: int):
         return get_object_or_404(get_user_model(), id=userId)
-    
