@@ -52,7 +52,7 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCases',
     )
     @paginate()
-    def get_all_cancer_patient_matching_the_query(self, filters: Query[Filters]):
+    def get_all_patient_cases_matching_the_query(self, filters: Query[Filters]):
         queryset = PatientCase.objects.all().order_by('-created_at')
         for (filter,value) in filters:
             if value is not None:
@@ -66,7 +66,7 @@ class PatientCaseController(ControllerBase):
         },
         operation_id='createPatientCase',
     )
-    def create_cancer_patient(self, payload: PatientCaseCreateSchema): # type: ignore
+    def create_patient_case(self, payload: PatientCaseCreateSchema): # type: ignore
         instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(save=True, user=self.context.request.user)
         return 201, ResourceIdSchema(id=instance.id)
 
@@ -78,7 +78,7 @@ class PatientCaseController(ControllerBase):
         },
         operation_id='getPatientCaseById',
         )
-    def get_cancer_patient_by_id(self, patientId: str): 
+    def get_patient_case_by_id(self, patientId: str): 
         instance = get_object_or_404(PatientCase, id=patientId)
         return 200, PatientCaseSchema.model_validate(instance)
 
@@ -90,7 +90,7 @@ class PatientCaseController(ControllerBase):
         },
         operation_id='updatePatientCaseById',
     )
-    def update_cancer_patient(self, patientId: str, payload: PatientCaseCreateSchema): # type: ignore
+    def update_patient_case(self, patientId: str, payload: PatientCaseCreateSchema): # type: ignore
         instance = get_object_or_404(PatientCase, id=patientId)
         instance = PatientCaseCreateSchema\
                     .model_validate(payload)\
@@ -105,7 +105,7 @@ class PatientCaseController(ControllerBase):
         },
         operation_id='deletePatientCaseById',
     )
-    def delete_cancer_patient(self, patientId: str):
+    def delete_patient_case(self, patientId: str):
         instance = get_object_or_404(PatientCase, id=patientId)
         instance.delete()
         return 204, None
