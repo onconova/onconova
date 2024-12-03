@@ -22,23 +22,23 @@ class NeoplasticEntity(BaseModel):
     }
     
     case = models.ForeignKey(
-        verbose_name=_('Patient case'),
-        help_text=_("Indicates the case of the patient who's neoplasm(s) are recorded"),
-        to=PatientCase,
-        related_name='neoplastic_entities',
-        on_delete=models.CASCADE,
+        verbose_name = _('Patient case'),
+        help_text = _("Indicates the case of the patient who's neoplasm(s) are recorded"),
+        to = PatientCase,
+        related_name = 'neoplastic_entities',
+        on_delete = models.CASCADE,
     )
     relationship = models.CharField(
-        verbose_name=_("Neoplastic relationship"),
-        help_text=_("Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease."),
-        max_length=30,
-        choices=NEOPLASTIC_RELATIONSHIPS,
+        verbose_name = _("Neoplastic relationship"),
+        help_text = _("Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease."),
+        max_length = 30,
+        choices = NEOPLASTIC_RELATIONSHIPS,
     )
     related_primary = models.ForeignKey(
-        verbose_name=_("Related primary neoplasm"),
-        help_text=_("Reference to the primary neoplasm of which the neoplasm(s) originated from."),
-        to="self",
-        related_name='recurrences',
+        verbose_name = _("Related primary neoplasm"),
+        help_text = _("Reference to the primary neoplasm of which the neoplasm(s) originated from."),
+        to = "self",
+        related_name ='recurrences',
         on_delete=models.CASCADE,
         null = True, blank = True,
     )
@@ -65,7 +65,7 @@ class NeoplasticEntity(BaseModel):
     laterality = termfields.CodedConceptField(
         verbose_name=_('Laterality'),
         help_text=_('Laterality qualifier for the location of the neoplasm(s)'),
-        terminology=terminologies.LateralityQualifier,
+        terminology = terminologies.LateralityQualifier,
         null = True, blank = True,
     )
     
