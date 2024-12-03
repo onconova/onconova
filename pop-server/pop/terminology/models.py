@@ -47,7 +47,7 @@ class CodedConcept(BaseModel):
     )
  
     class Meta:
-        unique_together = [["code", "system", "version"]]
+        unique_together=['code', 'system']
         abstract = True 
     
     def __str__(self):
