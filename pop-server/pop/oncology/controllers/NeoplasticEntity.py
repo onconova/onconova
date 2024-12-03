@@ -2,26 +2,27 @@ from enum import Enum
 
 from ninja import Query
 from ninja.schema import Schema, Field
-from ninja_extra.pagination import (
-    paginate, 
-)
-
-from ninja_extra import (
-    api_controller, 
-    ControllerBase, 
-    route,
-)
 from ninja_jwt.authentication import JWTAuth
+from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ResourceIdSchema
 from pop.oncology.models import NeoplasticEntity
 
 from django.shortcuts import get_object_or_404
 from typing import List
-from datetime import date 
 
 from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 
+
+class NeoplasticRelationship(str, Enum):
+    primary = 'primary'
+    metastatic = 'metastatic'
+    local_recurrence = 'local_recurrence'
+    regional_recurrence = 'regional_recurrence'
+
+class QueryParameters(Schema):
+    case__id: str = Field(None, alias='caseId')
+    relationship__in: List[NeoplasticRelationship] = Field(None, alias='type')
 
 @api_controller(
     'neoplastic-entities/', 
@@ -37,9 +38,11 @@ class NeoplasticEntityController(ControllerBase):
         },
         operation_id='getNeoplasticEntities',
     )
-    def get_all_neoplastic_entities_matching_the_query(self):
+    def get_all_neoplastic_entities_matching_the_query(self, query: Query[QueryParameters]):
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
-        print( [NeoplasticEntitySchema.model_validate(instance) for instance in queryset])
+        for (lookup, value) in query:
+            if value is not None:
+                queryset = queryset.filter(**{lookup: value})
         return 200, [NeoplasticEntitySchema.model_validate(instance) for instance in queryset]
 
     @route.post(

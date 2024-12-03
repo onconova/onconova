@@ -2,16 +2,9 @@ from enum import Enum
 
 from ninja import Query
 from ninja.schema import Schema, Field
-from ninja_extra.pagination import (
-    paginate, 
-)
-
-from ninja_extra import (
-    api_controller, 
-    ControllerBase, 
-    route,
-)
 from ninja_jwt.authentication import JWTAuth
+from ninja_extra.pagination import paginate
+from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import PatientCase
@@ -28,7 +21,7 @@ class GenderEnum(Enum):
     unknown = 'unknown'
 
 
-class Filters(Schema):
+class QueryParameters(Schema):
     db_age__lte: int = Field(None, alias='age_lte')
     db_age__gte: int = Field(None, alias='age_gte')
     pseudoidentifier__icontains: str = Field(None, alias='pseudoidentifier')
@@ -52,11 +45,11 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCases',
     )
     @paginate()
-    def get_all_patient_cases_matching_the_query(self, filters: Query[Filters]):
+    def get_all_patient_cases_matching_the_query(self, query: Query[QueryParameters]):
         queryset = PatientCase.objects.all().order_by('-created_at')
-        for (filter,value) in filters:
+        for (lookup,value) in query:
             if value is not None:
-                queryset = queryset.filter(**{filter: value})
+                queryset = queryset.filter(**{lookup: value})
         return [PatientCaseSchema.model_validate(instance) for instance in queryset]
 
     @route.post(
