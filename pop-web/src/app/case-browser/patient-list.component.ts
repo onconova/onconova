@@ -7,7 +7,7 @@ import { PatientFormComponent } from './components/patient-form/patient-form.com
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
 import { ModalFormService } from '../core/components/modal-form/modal-form.service';
 import { FormGroup } from '@angular/forms';
-import { AuthService } from '../core/modules/openapi'
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -36,6 +36,7 @@ export class PatientListComponent implements OnInit, OnDestroy {
   
   private patientCasesService = inject(PatientCasesService)
   private modalFormService = inject(ModalFormService)
+  private messageService = inject(MessageService) 
   public readonly cases$: Observable<PaginatedPatientCase> = this.patientCasesService.getPatientCases();
 
 
@@ -58,11 +59,17 @@ export class PatientListComponent implements OnInit, OnDestroy {
   }
 
   getPatientList(): void{
-    this.patientCasesService.getPatientCases(...Object.values(this.query)).subscribe(page => {
+    this.patientCasesService.getPatientCases(...Object.values(this.query)).subscribe(
+      (page) => {
       this.cases = page.items;
       this.filteredPatients = page.items;
       this.loading = false;
       this.total = page.count
+    },
+    (error) => {
+      // Report any problems
+      this.loading = false;  
+      this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error.message });
     });
   }
 
