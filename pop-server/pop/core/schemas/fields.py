@@ -83,7 +83,7 @@ def get_schema_field(
             related_model = field.related_model 
             if issubclass(related_model, CodedConceptModel):
                 json_schema_extra['is_coded_concept'] = True
-                json_schema_extra['terminology'] = CodedConceptModel.__name__
+                json_schema_extra['terminology'] = related_model.__name__
                 related_type = CodedConceptSchema   
             else:
                 internal_type = related_model._meta.get_field('id').get_internal_type()
