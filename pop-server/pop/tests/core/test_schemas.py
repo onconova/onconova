@@ -122,7 +122,7 @@ class TestSchemaFactory(TestCase):
         django_instance.save()
         self.assertEqual(schema_instance.createdById, user.id)
         self.assertEqual(schema_instance.model_dump()['createdById'], user.id)
-        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).created_by, user)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance).created_by, user)
 
     def test_creating_schema_with_codedconcept_field(self):
         django_instance = PatientCaseFactory()
@@ -133,7 +133,7 @@ class TestSchemaFactory(TestCase):
         # Assertion
         django_instance.gender = None;
         self.assertEqual(schema_instance.gender.model_dump(), CodedConceptSchema.model_validate(related_concept).model_dump())
-        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).gender, related_concept)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance).gender, related_concept)
 
     def test_creating_schema_with_manytomany_field(self):
         user1 = UserFactory()
@@ -149,8 +149,8 @@ class TestSchemaFactory(TestCase):
         django_instance.updated_by.set([])
         self.assertEqual(schema_instance.updatedByIds, [user1.id, user2.id])
         self.assertEqual(schema_instance.model_dump()['updatedByIds'],  [user1.id, user2.id])
-        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.first(), user1)
-        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.last(), user2)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.first(), user1)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.last(), user2)
 
 
     def test_creating_schema_with_expanded_manytomany_field(self):
@@ -166,5 +166,5 @@ class TestSchemaFactory(TestCase):
         # Assertion
         django_instance.updated_by.set([])
         self.assertEqual([user['username'] for user in schema_instance.model_dump()['updatedBy']],  [user1.username, user2.username])
-        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.first(), user1)
-        self.assertEqual(schema_instance.model_dump_django(instance=django_instance, save=True).updated_by.last(), user2)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.first(), user1)
+        self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.last(), user2)

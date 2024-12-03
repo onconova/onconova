@@ -33,7 +33,6 @@ class BaseSchema(PydanticBaseModel):
 
     @classmethod
     def model_validate(cls, obj=None, *args, **kwargs):
-        print('VALIDATE MODEL')
         if isinstance(obj, DjangoModel):
             data = {}
             for field in obj._meta.get_fields():
@@ -56,7 +55,6 @@ class BaseSchema(PydanticBaseModel):
                     data[attr_name] = getattr(obj, attr_name)
 
             obj = data
-            print(data)
         return super().model_validate(obj=obj, *args, **kwargs)
 
     def model_dump(self, *args, **kwargs):
@@ -89,7 +87,6 @@ class BaseSchema(PydanticBaseModel):
             self, 
             model: Type[DjangoModel] = None, 
             instance: Optional[DjangoModel] = None, 
-            save: bool=False,
             user: Optional[DjangoModel]=None,
     ) -> DjangoModel:
         """
@@ -101,31 +98,41 @@ class BaseSchema(PydanticBaseModel):
             instance = model()
         for field_name, field in self.model_fields.items():
             data = getattr(self, field_name)
+            # Handle foreign key relations through IDs
+            if data and field.alias.endswith('_id'):
+                fk_name = field.alias.rstrip('_ids') 
+                related_model = model._meta.get_field(fk_name).related_model
+                data = related_model.objects.get(id=data).pk
+                
             if isinstance(data, CodedConceptSchema):
                 data = model._meta.get_field(field.alias).related_model.objects.get(code=data.code, system=data.system)
             try:
                 setattr(instance, field.alias, data)
             except: pass
+        print('INSTANCE', self.model_dump())       
         instance.save()
         for field_name, field in self.model_fields.items():
             m2m_field_name = None
+               
             if field.alias.endswith('_ids'):
                 m2m_field_name = field.alias.rstrip('_ids')
             elif hasattr(model, field.alias) and model._meta.get_field(field.alias).many_to_many:
                 m2m_field_name = field.alias
+                
             if m2m_field_name:
                 related_model = model._meta.get_field(m2m_field_name).related_model
                 items = getattr(self, field_name)
                 getattr(instance, m2m_field_name).set([
                     related_model.objects.get(id=item.id if hasattr(item,'id') else item) for item in items
                 ])
+                
         if user:
             if create:
                 instance.created_by = user
                 instance.updated_by.add(user)
             else:
                 if user not in instance.updated_by.all():
-                    instance.updated_by.add(user)        
+                    instance.updated_by.add(user) 
         instance.save()            
         return instance
 

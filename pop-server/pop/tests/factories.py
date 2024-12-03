@@ -11,9 +11,11 @@ import pop.terminology.models as terminology
 faker = faker.Faker()
 
 def make_terminology_factory(terminology):
+    code_iterator = [f"{terminology.__name__.lower()}-code-{n+1}" for n in range(4)]
+    display_iterator = [code.replace('-code-',' ').capitalize() for code in code_iterator]
     return factory.make_factory(terminology,
-        code = factory.Sequence(lambda n: f"{terminology.__name__.lower()}-code-{n+1}"),
-        display = factory.Sequence(lambda n: f"{terminology.__name__} Concept {n+1}"),
+        code = factory.Iterator(code_iterator),
+        display = factory.Iterator(display_iterator),
         system = f'http://test.org/codesystem/{terminology.__name__.lower()}',
         FACTORY_CLASS=factory.django.DjangoModelFactory,
     )
@@ -44,3 +46,32 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     cause_of_death = factory.SubFactory(make_terminology_factory(terminology.CauseOfDeath))
     created_by =  factory.SubFactory(UserFactory)
 
+
+
+class PrimaryNeoplasticEntityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.NeoplasticEntity
+    
+    relationship = 'primary'
+    case = factory.SubFactory(PatientCaseFactory)
+    assertion_date = factory.LazyFunction(lambda: faker.date())
+    topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
+    morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
+    differentitation = factory.LazyFunction(lambda: make_terminology_factory(terminology.HistologyDifferentiation)() if random.random() > 0.75 else None)
+    laterality = factory.LazyFunction(lambda: make_terminology_factory(terminology.LateralityQualifier)() if random.random() > 0.75 else None)
+    created_by =  factory.SubFactory(UserFactory)
+
+
+class MetastaticNeoplasticEntityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.NeoplasticEntity
+    
+    relationship = 'metastatic'
+    case = factory.SubFactory(PatientCaseFactory)
+    assertion_date = factory.LazyFunction(lambda: faker.date())
+    related_primary = factory.SubFactory(PrimaryNeoplasticEntityFactory)
+    topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
+    morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
+    differentitation = factory.LazyFunction(lambda: make_terminology_factory(terminology.HistologyDifferentiation)() if random.random() > 0.75 else None)
+    laterality = factory.LazyFunction(lambda: make_terminology_factory(terminology.LateralityQualifier)() if random.random() > 0.75 else None)
+    created_by =  factory.SubFactory(UserFactory)
