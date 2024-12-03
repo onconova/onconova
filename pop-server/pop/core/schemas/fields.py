@@ -56,8 +56,16 @@ def get_schema_field(
     nullable = False
     python_type = None
     related_type = None
-    json_schema_extra = None 
-    examples = []
+    examples = []    
+    json_schema_extra = dict(
+        orm_name = django_field_name,    
+        is_coded_concept = False,
+        is_relation = bool(field.is_relation),
+        many_to_many = bool(field.many_to_many),
+        one_to_many = bool(field.one_to_many),
+        expanded = expand,
+    )
+    
     # Handle relation fields
     if field.is_relation:
         if expand:
@@ -74,7 +82,8 @@ def get_schema_field(
         else:
             related_model = field.related_model 
             if issubclass(related_model, CodedConceptModel):
-                json_schema_extra = {'x-terminology', CodedConceptModel.__name__}
+                json_schema_extra['is_coded_concept'] = True
+                json_schema_extra['terminology'] = CodedConceptModel.__name__
                 related_type = CodedConceptSchema   
             else:
                 internal_type = related_model._meta.get_field('id').get_internal_type()

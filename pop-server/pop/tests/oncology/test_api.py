@@ -209,7 +209,7 @@ class TestNeoplastcEntityController(ApiControllerTestCase):
         # Assert response content
         if scenario == 'HTTPS Authenticated':
             self.assertEqual(response.status_code, 204) 
-            updated_instance = models.PatientCase.objects.filter(id=instance.id).first() 
+            updated_instance = models.NeoplasticEntity.objects.filter(id=instance.id).first() 
             self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
             self.assertEqual(creator, updated_instance.created_by) 
             self.assertIn(self.user, updated_instance.updated_by.all()) 

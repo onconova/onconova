@@ -94,38 +94,54 @@ class BaseSchema(PydanticBaseModel):
         """
         model = model or self.__ormmodel__
         create = instance is None 
+        m2m_relations = {}
         if create:
             instance = model()
+        serialized_data = self.model_dump(exclude_unset=True)
         for field_name, field in self.model_fields.items():
-            data = getattr(self, field_name)
-            # Handle foreign key relations through IDs
-            if data and field.alias.endswith('_id'):
-                fk_name = field.alias.rstrip('_ids') 
-                related_model = model._meta.get_field(fk_name).related_model
-                data = related_model.objects.get(id=data).pk
-                
-            if isinstance(data, CodedConceptSchema):
-                data = model._meta.get_field(field.alias).related_model.objects.get(code=data.code, system=data.system)
-            try:
-                setattr(instance, field.alias, data)
-            except: pass
-        print('INSTANCE', self.model_dump())       
+            # Skip unset fields
+            if field_name not in serialized_data:
+                continue
+            # Get field data
+            data = serialized_data[field_name]
+            # Get field metadata
+            field_meta = field.json_schema_extra
+            orm_field = field_meta.get('orm_name', field.alias)
+            # Handle relational fields
+            if field_meta.get('is_relation'):
+                related_model = model._meta.get_field(orm_field).related_model
+                if field_meta.get('many_to_many') or field_meta.get('one_to_many'):
+                    print('DATA', data)
+                    print('ID', [item.get(id) if isinstance(item, dict) else item for item in data])
+                    # Collect all related instances
+                    m2m_relations[orm_field] = [
+                        related_model.objects.get(id=item.get('id') if isinstance(item, dict) else item) for item in data
+                    ]
+                    # Do not set many-to-many or one-to-many fields yet
+                    continue
+                else:
+                    # Handle ForeignKey fields/relations
+                    if field_meta.get('expanded'):
+                        # If the serialized fields has been expanded, the data already contains the data
+                        related_instance = data
+                    else:
+                        if field_meta.get('is_coded_concept'):
+                            # For coded concepts, wuery the database via the code and codesystem
+                            related_instance = related_model.objects.get(code=data.get('code'), system=data.get('system'))
+                        else:
+                            # Otherwise, query the database via the foreign key to get the related instance
+                            related_instance = related_model.objects.get(id=data)
+                    # Set the related instance value into the model instance
+                setattr(instance, orm_field, related_instance)      
+            else:             
+                # Otherwise simply handle all other non-relational fields
+                setattr(instance, orm_field, data)
+        # Save the model instance to the database    
         instance.save()
-        for field_name, field in self.model_fields.items():
-            m2m_field_name = None
-               
-            if field.alias.endswith('_ids'):
-                m2m_field_name = field.alias.rstrip('_ids')
-            elif hasattr(model, field.alias) and model._meta.get_field(field.alias).many_to_many:
-                m2m_field_name = field.alias
-                
-            if m2m_field_name:
-                related_model = model._meta.get_field(m2m_field_name).related_model
-                items = getattr(self, field_name)
-                getattr(instance, m2m_field_name).set([
-                    related_model.objects.get(id=item.id if hasattr(item,'id') else item) for item in items
-                ])
-                
+        # Set many-to-many
+        for orm_field, related_instances in m2m_relations.items():
+            getattr(instance, orm_field).set(related_instances)
+        # Update the information on the requesting user        
         if user:
             if create:
                 instance.created_by = user
