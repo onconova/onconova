@@ -10,6 +10,10 @@ import pop.terminology.models as terminology
 
 faker = faker.Faker()
 
+class TerminologyFactory(factory.django.DjangoModelFactory):
+       class Meta:
+        django_get_or_create = ('code','system')
+
 def make_terminology_factory(terminology):
     code_iterator = [f"{terminology.__name__.lower()}-code-{n+1}" for n in range(4)]
     display_iterator = [code.replace('-code-',' ').capitalize() for code in code_iterator]
@@ -17,7 +21,7 @@ def make_terminology_factory(terminology):
         code = factory.Iterator(code_iterator),
         display = factory.Iterator(display_iterator),
         system = f'http://test.org/codesystem/{terminology.__name__.lower()}',
-        FACTORY_CLASS=factory.django.DjangoModelFactory,
+        FACTORY_CLASS=TerminologyFactory,
     )
 
 class GroupFactory(factory.django.DjangoModelFactory):
@@ -74,4 +78,25 @@ class MetastaticNeoplasticEntityFactory(factory.django.DjangoModelFactory):
     morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
     differentitation = factory.LazyFunction(lambda: make_terminology_factory(terminology.HistologyDifferentiation)() if random.random() > 0.75 else None)
     laterality = factory.LazyFunction(lambda: make_terminology_factory(terminology.LateralityQualifier)() if random.random() > 0.75 else None)
+    created_by =  factory.SubFactory(UserFactory)
+
+
+class TNMStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TNMStaging
+    
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    stage = factory.SubFactory(make_terminology_factory(terminology.TNMStage))
+    methodology = factory.SubFactory(make_terminology_factory(terminology.TNMStagingMethod))
+    created_by =  factory.SubFactory(UserFactory)
+
+class FIGOStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.FIGOStaging
+    
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    stage = factory.SubFactory(make_terminology_factory(terminology.FIGOStage))
+    methodology = factory.SubFactory(make_terminology_factory(terminology.FIGOStagingMethod))
     created_by =  factory.SubFactory(UserFactory)

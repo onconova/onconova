@@ -248,7 +248,7 @@ class CancerStagingMethod(CodedConcept):
     
 
 
-class TNMStageClassification(CodedConcept):
+class TNMStage(CodedConcept):
     valueset =  'https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-stage-group-vs.json'
     description = 'Result values for cancer stage group using TNM staging. This value set contains SNOMED-CT equivalents of AJCC codes for Stage Group, according to TNM staging rules.'
     
@@ -320,7 +320,7 @@ class TNMDistantMetastasesStagingType(CodedConcept):
     description = 'Identifying codes for the type of cancer staging performed, i.e., clinical, pathological, or other, for distant metastases (M) staging observation.'
 
 
-class TNMRegionalNodesCategoryValues(CodedConcept):
+class TNMRegionalNodesCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-regional-nodes-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the N category, according to TNM staging rules.'
     
@@ -338,7 +338,7 @@ class TNMRegionalNodesStagingType(CodedConcept):
     description = 'Identifying codes for the type of cancer staging performed, i.e., clinical, pathological, or other, for regional nodes (N) staging observation.'
 
 
-class TNMGradeCategoryValues(CodedConcept):
+class TNMGradeCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-grade-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the G category, according to TNM staging rules.'
     
@@ -350,7 +350,7 @@ class TNMGradeCategoryValues(CodedConcept):
         label = label.replace('AJCC','')
         return label.replace(' ','')
     
-class TNMResidualTumorCategoryValues(CodedConcept):
+class TNMResidualTumorCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-residual-tumor-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the R category, according to TNM staging rules.'
     
@@ -362,7 +362,7 @@ class TNMResidualTumorCategoryValues(CodedConcept):
         label = label.replace('AJCC','')
         return label.replace(' ','')
 
-class TNMLymphaticInvasionCategoryValues(CodedConcept):
+class TNMLymphaticInvasionCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-lymphatic-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the L category, according to TNM staging rules.'
     
@@ -375,7 +375,7 @@ class TNMLymphaticInvasionCategoryValues(CodedConcept):
         label = label.replace('AJCC','')
         return label.replace(' ','')
 
-class TNMVenousInvasionCategoryValues(CodedConcept):
+class TNMVenousInvasionCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-venous-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the V category, according to TNM staging rules.'
     
@@ -388,7 +388,7 @@ class TNMVenousInvasionCategoryValues(CodedConcept):
         label = label.replace('AJCC','')
         return label.replace(' ','')
 
-class TNMPerineuralInvasionCategoryValues(CodedConcept):
+class TNMPerineuralInvasionCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-perineural-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the Pn category, according to TNM staging rules.'
     
@@ -401,7 +401,7 @@ class TNMPerineuralInvasionCategoryValues(CodedConcept):
         label = label.replace('AJCC','')
         return label.replace(' ','')
 
-class TNMSerumTumorMarkerLevelCategoryValues(CodedConcept):
+class TNMSerumTumorMarkerLevelCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-serum-tumor-marker-level-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the S category, according to TNM staging rules.'
     
@@ -416,7 +416,7 @@ class TNMSerumTumorMarkerLevelCategoryValues(CodedConcept):
 
 
 
-class FIGOStageValue(CodedConcept):
+class FIGOStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-figo-stage-value-vs'
     description = 'Values for International Federation of Gynecology and Obstetrics (FIGO) Staging System.'
 
@@ -430,12 +430,12 @@ class FIGOStagingMethod(CodedConcept):
         return label
 
 
-class BinetStageValue(CodedConcept):
+class BinetStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-binet-stage-value-vs'
     description = 'Codes in the Binet staging system representing Chronic Lymphocytic Leukemia (CLL) stage.'
 
 
-class RaiStageValue(CodedConcept):
+class RaiStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-rai-stage-value-vs'
     description = 'Codes in the Rai staging system representing Chronic Lymphocytic Leukemia (CLL) stage.'
 
@@ -445,7 +445,7 @@ class RaiStagingMethod(CodedConcept):
     description = 'Rai Staging Systems used to stage chronic lymphocytic leukemia (CLL).'
 
 
-class LymphomaStageValue(CodedConcept):
+class LymphomaStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-lymphoma-stage-value-vs'
     description = 'Stage values used in lymphoma staging systems.'
 
@@ -469,32 +469,52 @@ class ClinOrPathModifier(CodedConcept):
         return label
 
 
-class BreslowDepthStageValue(CodedConcept):
+class BreslowDepthStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-breslow-depth-stage-value-vs'
     description = 'Codes in the Breslow staging system representing melanoma depth.'
 
 
-class ClarkLevelValue(CodedConcept):
+class ClarkLevel(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-clark-level-value-vs'
     description = 'Levels for Clark staging of melanoma'
 
 
-class MyelomaISSValue(CodedConcept):
+class MyelomaISSStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-myeloma-iss-stage-value-vs'
     description = 'Codes in ISS staging system representing plasma cell or multiple myeloma stage.'
 
 
-class MyelomaRISSValue(CodedConcept):
+class MyelomaRISSStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-myeloma-riss-stage-value-vs'
     description = 'Codes in RISS staging system representing plasma cell or multiple myeloma stage.'
 
 
-class GleasonGradeGroupValue(CodedConcept):
+class NeuroblastomaINSSStage(CodedConcept):
+    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-neuroblastoma-inss-value-vs'
+    description = 'Codes in INSS staging system representing neuroblastoma stage.'
+
+
+class NeuroblastomaINRGSSStage(CodedConcept):
+    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-neuroblastoma-INRGSS-value-vs'
+    description = 'Codes in the INRGSS system representing neuroblastoma stage.'
+
+
+class GleasonGradeGroupStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-gleason-grade-group-value-vs'
     description = 'Gleason grade for prostatic cancer, with values that explicitly reference the Gleason score.'
 
 
-class TumorMarkerTestCodes(CodedConcept):
+class WilmsTumorStage(CodedConcept):
+    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-wilms-tumor-stage-value-vs'
+    description = 'Codes in the National Wilms Tumor Study Group representing Wilms Tumor stage.'
+
+
+class RhabdomyosarcomaClinicalGroup(CodedConcept):
+    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-rhabdomyosarcoma-clinical-group-value-vs'
+    description = 'Intergroup code indicating whether the rhabdomyosarcoma is confined to its primary location or has extended beyond the site of origin.'
+
+    
+class TumorMarkerTest(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-codes'
     description = 'Codes representing tests for tumor markers. Extends the base valueset for tumor marker tests required for mCODE based on LOINC codes.'
     analyte = models.CharField(
@@ -563,7 +583,7 @@ class CauseOfDeath(CodedConcept):
     description = 'Cause of death for oncology patients'
 
 
-class TumorMorphologyCode(CodedConcept):
+class TumorMorphology(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-morphology-code-vs'
     description = 'Contains the preferred preferred (active) code for tumor morphology.'
 
@@ -616,7 +636,7 @@ class AdverseEventRelatedness(CodedConcept):
         return f'{label}'
 
 
-class HighLowCodes(CodedConcept):
+class HighLowInterpretation(CodedConcept):
     valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/high-low-codes-vs'
     description = 'This value set includes high/low codes for Observation Interpretations'
 
@@ -626,7 +646,7 @@ class GeneticVariantAssessment(CodedConcept):
     description = 'Genetic variant assessment codes'
 
 
-class StructuralVariantAnalysisMethods(CodedConcept):
+class StructuralVariantAnalysisMethod(CodedConcept):
     valueset =  'https://loinc.org/LL4048-6/'
     description = 'Structural variant analysis methods'
 
@@ -636,12 +656,12 @@ class Gene(CodedConcept):
     description = 'HUGO Gene Nomenclature Committee Gene Names (HGNC)'
 
 
-class HumanReferenceSequenceNCBIBuildId(CodedConcept):
+class ReferenceGenomeBuild(CodedConcept):
     valueset =  'https://loinc.org/LL1040-6/'
     description = 'Human reference sequence NCBI build ID'
 
 
-class DNAChangeType(CodedConcept):
+class DnaChangeType(CodedConcept):
     valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/dna-change-type-vs'
     description = 'DNA Change Type of a variant'
     def __str__(self):
@@ -668,7 +688,7 @@ class ChromosomeIdentifier(CodedConcept):
     description = 'List of human chromosomes'
 
 
-class AminoAcidChangeTypes(CodedConcept):
+class AminoAcidChangeType(CodedConcept):
     valueset =  'https://loinc.org/LL380-7/'
     description = 'Amino acid change types'
 
@@ -685,17 +705,12 @@ class MolecularConsequence(CodedConcept):
         return self.display.replace('_',' ').capitalize()
 
 
-class ClinVar(CodedConcept):
-    valueset =  None
-    description = ''
-
-
 class GenomicCoordinateSystem(CodedConcept):
     valueset =  'https://loinc.org/LL5323-2/'
     description = 'Genomic coordinate system'
 
 
-class MicrosatelliteInstabilityStates(CodedConcept):
+class MicrosatelliteInstabilityState(CodedConcept):
     valueset =  'https://loinc.org/LL3994-2/'
     description = 'Microsatellite instability in Cancer specimen Qualitative'
 
@@ -724,12 +739,12 @@ class FunctionalEffect(CodedConcept):
         return self.display.replace('_',' ').capitalize()
 
 
-class GeneticTherapeuticImplications(CodedConcept):
+class GeneticTherapeuticImplication(CodedConcept):
     valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/genetic-therapeutic-implications-vs'
     description = 'Value Set for terms that describe a predicted ramification based on the presence of associated molecular finding(s).'
 
 
-class TreatmentCategories(CodedConcept):
+class TreatmentCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-treatment-categories'
     description = 'Codes representing the order in which different therapies are given to people as their disease progresses.'
     # Additional codes
@@ -738,7 +753,7 @@ class TreatmentCategories(CodedConcept):
     def __str__(self):
         return self.display.replace('therapy','').replace('care','').replace(' Therapy','').replace('treatment','').replace('drug','').replace('antineoplastic','')
 
-class CancerTreatmentResponseObservationMethods(CodedConcept):
+class CancerTreatmentResponseObservationMethod(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-cancer-treatment-response-observation-methods'
     description = 'Codes representing the observation methods to study the response of a cancer to treatment'
     extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
@@ -749,12 +764,12 @@ class TreatmentResponseInterpretation(CodedConcept):
     description = 'Codes representing whether the RECIST results where interpreted or directly reported.'
 
 
-class CancerTreatmentResponses(CodedConcept):
+class CancerTreatmentResponse(CodedConcept):
     valueset =  'https://loinc.org/LL4721-8/'
     description = 'Codes representing the RECIST results'
 
 
-class MTBRecommendations(CodedConcept):
+class MolecularTumorBoardRecommendation(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-molecular-tumor-board-recommendations'
     description = 'Codes representing MTB recommendations'
 
@@ -763,12 +778,12 @@ class ICD10Condition(CodedConcept):
     valueset =  'http://hl7.org/fhir/ValueSet/icd-10'
     description = 'Codes representing comorbid conditions in the ICD-10 system'
 
-class PDL1TumorCellScores(CodedConcept):
+class PDL1TumorCellScore(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-pdl1-tumor-cell-scores'
     description = 'Score values for classification of the expression evidence for PD-L1 immunihistochemistry analyses measuring tumor cells'
 
 
-class PDL1ImmuneCellScores(CodedConcept):
+class PDL1ImmuneCellScore(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-pdl1-immune-cell-scores'
     description = 'Score values for classification of the expression evidence for PD-L1 immunihistochemistry analyses'
 
@@ -846,7 +861,7 @@ class ConsentState(CodedConcept):
     description = 'Indicates the state of the consent.'
 
 
-class ConsentScopeCodes(CodedConcept):
+class ConsentScope(CodedConcept):
     valueset = 'http://hl7.org/fhir/ValueSet/consent-scope'
     description = 'This value set includes the four Consent scope codes.'
 
@@ -856,12 +871,12 @@ class ExpectedDrugAction(CodedConcept):
     description = 'Expected action of a drug'
 
 
-class TumorMarkerTestResultCodes(CodedConcept):
+class TumorMarkerTestResult(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-results'
     description = 'Collection of LOINC codes that represent results of tumor marker tests'
 
 
-class RecreationalDrugs(CodedConcept):
+class RecreationalDrug(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-recreational-drugs'
     description = 'Substances that people use to alter their mental state, often for pleasure or leisure, with effects ranging from relaxation and euphoria to hallucinations and altered perceptions.'
 
@@ -871,12 +886,12 @@ class AdverseEventMitigationTreatmentAdjustment(CodedConcept):
     description = "Adjustments made to a patient's treatment plan in response to an adverse event."
 
 
-class AdverseEventMitigationDrugs(CodedConcept):
+class AdverseEventMitigationDrug(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-drugs'
     description = "Drug or medication categories used in the mitigation process of an adverse event."
 
 
-class AdverseEventMitigationProcedures(CodedConcept):
+class AdverseEventMitigationProcedure(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-procedures'
     description = "Procedures undertaken to mitigate the impact of an adverse event on a patient's health."
 
@@ -887,11 +902,11 @@ class AdverseEventMitigationManagement(CodedConcept):
     def __str__(self):
         return self.display.replace('management','')
 
-class CancerRiskAssessmentMethods(CodedConcept):
+class CancerRiskAssessmentMethod(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-methods'
     description = "Methods used to assess the risk in cancer"
 
-class CancerRiskAssessmentValues(CodedConcept):
+class CancerRiskAssessmentClassification(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-values'
     description = "Classification of cancer risk assessment"
 

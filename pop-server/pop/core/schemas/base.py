@@ -106,13 +106,13 @@ class BaseSchema(PydanticBaseModel):
             data = serialized_data[field_name]
             # Get field metadata
             field_meta = field.json_schema_extra
+            if field_meta is None:
+                continue
             orm_field = field_meta.get('orm_name', field.alias)
             # Handle relational fields
             if field_meta.get('is_relation'):
                 related_model = model._meta.get_field(orm_field).related_model
                 if field_meta.get('many_to_many') or field_meta.get('one_to_many'):
-                    print('DATA', data)
-                    print('ID', [item.get(id) if isinstance(item, dict) else item for item in data])
                     # Collect all related instances
                     m2m_relations[orm_field] = [
                         related_model.objects.get(id=item.get('id') if isinstance(item, dict) else item) for item in data

@@ -1,10 +1,12 @@
 
 from django.test import TestCase, Client
+from django.db.models import Model
 from ninja_extra.testing import TestClient
 from pop.oncology import models, schemas
 from pop.tests import factories 
+from pop.core.schemas import ModelSchema 
 from pop.core.controllers import AuthController 
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 
 import faker 
 faker = faker.Faker()
@@ -20,21 +22,29 @@ DELETE = 'delete'
 PUT = 'put'
 POST = 'post'
 
-class ApiControllerTestCase(TestCase):
+class ApiControllerTestCase:
     CONTROLLER_BASE_URL: str
-    
+    FACTORY: factories.factory.django.DjangoModelFactory
+    MODEL: Model
+    SCHEMA: ModelSchema
+    CREATE_SCHEMA: ModelSchema
+
     @classmethod
     def setUpTestData(cls):
         cls.maxDiff = None
         # Create a fake user
-        user = factories.UserFactory()
-        cls.username = user.username
+        cls.user = factories.UserFactory()
+        cls.username = cls.user.username
         cls.password = faker.password()
-        user.set_password(cls.password)
-        user.save()
-        cls.user = user
-        cls.case = factories.PatientCaseFactory(created_by=user)
-
+        cls.user.set_password(cls.password)
+        cls.user.save()
+        # Ensure class settings are iterable
+        cls.FACTORY = [cls.FACTORY] if not isinstance(cls.FACTORY, list) else cls.FACTORY
+        cls.MODEL = [cls.MODEL] if not isinstance(cls.MODEL, list) else cls.MODEL
+        cls.SCHEMA = [cls.SCHEMA] if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
+        cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA] if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
+        cls.SUBTESTS = len(cls.MODEL)
+        
     def _authenticate_user(self):
         # Login the user and retrieve the JWT token
         auth_client = TestClient(AuthController)
@@ -72,145 +82,119 @@ class ApiControllerTestCase(TestCase):
         )
         return response
     
+
+    @parameterized.expand(CONNECTION_SCENARIOS)
+    def test_get_all(self, scenario, *config):            
+        for i in range(self.SUBTESTS):
+            instance = self.FACTORY[i](created_by=self.user)
+            with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(GET, f'/', *config)
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    self.assertEqual(response.status_code, 200)
+                    if 'items' in response.json():
+                        entry = response.json()['items'][0]
+                    expected = self.SCHEMA[i].model_validate(instance).model_dump(exclude=['createdAt','updatedAt'])
+                    result = self.SCHEMA[i].model_validate(entry).model_dump(exclude=['createdAt','updatedAt'])
+                    self.assertEqual(expected, result)
+                self.MODEL[i].objects.all().delete()
+
+    @parameterized.expand(CONNECTION_SCENARIOS)
+    def test_get_by_id(self, scenario, *config):              
+        for i in range(self.SUBTESTS):
+            instance = self.FACTORY[i](created_by=self.user)
+            with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(GET, f'/{instance.id}', *config)
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    self.assertEqual(response.status_code, 200)
+                    expected = self.SCHEMA[i].model_validate(instance).model_dump(exclude=['createdAt','updatedAt'])
+                    result = self.SCHEMA[i].model_validate(response.json()).model_dump(exclude=['createdAt','updatedAt'])
+                    self.assertDictEqual(result, expected)
     
+    @parameterized.expand(CONNECTION_SCENARIOS)
+    def test_delete(self, scenario, *config):              
+        for i in range(self.SUBTESTS):
+            instance = self.FACTORY[i](created_by=self.user)
+            with self.subTest(i=i):       
+                # Call the API endpoint
+                response = self.call_api_endpoint(DELETE, f'/{instance.id}', *config)
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    self.assertEqual(response.status_code, 204)
+                    self.assertFalse(self.MODEL[i].objects.filter(id=instance.id).exists())
+
+    @parameterized.expand(CONNECTION_SCENARIOS)
+    def test_create(self, scenario, *config):                     
+        for i in range(self.SUBTESTS):
+            instance = self.FACTORY[i](created_by=self.user)
+            with self.subTest(i=i):       
+                json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
+                # Call the API endpoint.
+                response = self.call_api_endpoint(POST, f'/', *config, data=json_data)
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    created_id = response.json()['id']
+                    self.assertEqual(response.status_code, 201)
+                    created_instance = self.MODEL[i].objects.filter(id=created_id).first()
+                    self.assertIsNotNone(created_instance)
+                    self.assertEqual(self.user,created_instance.created_by)
+                    self.assertIn(self.user, created_instance.updated_by.all())
+
+    @parameterized.expand(CONNECTION_SCENARIOS)
+    def test_update(self, scenario, *config):                   
+        for i in range(self.SUBTESTS):
+            instance = self.FACTORY[i]()
+            with self.subTest(i=i):           
+                # Prepare the data
+                creator = instance.created_by
+                json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
+                # Call the API endpoint
+                response = self.call_api_endpoint(PUT, f'/{instance.id}', *config, data=json_data)
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    self.assertEqual(response.status_code, 204) 
+                    updated_instance =self.MODEL[i].objects.filter(id=instance.id).first() 
+                    self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
+                    self.assertEqual(creator, updated_instance.created_by) 
+                    self.assertIn(self.user, updated_instance.updated_by.all()) 
+               
+                
     
-    
-class TestPatientCaseController(ApiControllerTestCase):
+class TestPatientCaseController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/patient-cases'
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_get_patient_case_by_id(self, scenario, *config):        
-        # Call the API endpoint
-        response = self.call_api_endpoint(GET, f'/{self.case.id}', *config)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 200)
-            expected = schemas.PatientCaseSchema.model_validate(self.case).model_dump(exclude=['createdAt','updatedAt'])
-            result = schemas.PatientCaseSchema.model_validate(response.json()).model_dump(exclude=['createdAt','updatedAt'])
-            self.assertDictEqual(result, expected)
-            self.assertEqual(self.user.id, result['createdById'])
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_get_all_patient_cases(self, scenario, *config):            
-        # Call the API endpoint
-        response = self.call_api_endpoint(GET, f'/', *config)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 200)
-            entry = response.json()['items'][0]
-            expected = schemas.PatientCaseSchema.model_validate(self.case).model_dump(exclude=['createdAt','updatedAt'])
-            result = schemas.PatientCaseSchema.model_validate(entry).model_dump(exclude=['createdAt','updatedAt'])
-            self.assertEqual(expected, result)
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_delete_patient_case_by_id(self, scenario, *config):            
-        # Call the API endpoint
-        response = self.call_api_endpoint(DELETE, f'/{self.case.id}', *config)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 204)
-            self.assertFalse(models.PatientCase.objects.filter(id=self.case.id).exists())
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_create_patient_case(self, scenario, *config):            
-        json_data = schemas.PatientCaseCreateSchema.model_validate(self.case).model_dump(mode='json')
-        # Call the API endpoint
-        response = self.call_api_endpoint(POST, f'/', *config, data=json_data)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            created_id = response.json()['id']
-            self.assertEqual(response.status_code, 201)
-            created_instance = models.PatientCase.objects.filter(id=created_id).first()
-            self.assertIsNotNone(created_instance)
-            self.assertEqual(self.user,created_instance.created_by)
-            self.assertIn(self.user, created_instance.updated_by.all())
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_update_patient_case(self, scenario, *config):            
-        # Prepare the data
-        patient = factories.PatientCaseFactory.create()
-        creator = patient.created_by
-        json_data = schemas.PatientCaseCreateSchema.model_validate(patient).model_dump(mode='json')
-        # Call the API endpoint
-        response = self.call_api_endpoint(PUT, f'/{patient.id}', *config, data=json_data)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 204)
-            updated_instance = models.PatientCase.objects.filter(id=patient.id).first()
-            self.assertIsNotNone(updated_instance) 
-            self.assertEqual(creator, updated_instance.created_by)
-            self.assertIn(self.user, updated_instance.updated_by.all())
-            
+    FACTORY = factories.PatientCaseFactory
+    MODEL = models.PatientCase
+    SCHEMA = schemas.PatientCaseSchema
+    CREATE_SCHEMA = schemas.PatientCaseCreateSchema             
 
 
-class TestNeoplastcEntityController(ApiControllerTestCase):
+class TestNeoplastcEntityController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/neoplastic-entities'
+    FACTORY = factories.PrimaryNeoplasticEntityFactory
+    MODEL = models.NeoplasticEntity
+    SCHEMA = schemas.NeoplasticEntitySchema
+    CREATE_SCHEMA = schemas.NeoplasticEntityCreateSchema    
     
-    @classmethod
-    def setUpTestData(cls):
-        super().setUpTestData()
-        cls.cancer_entity = factories.PrimaryNeoplasticEntityFactory(case=cls.case)
-        
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_get_all_neoplastic_entities(self, scenario, *config):            
-        # Call the API endpoint
-        response = self.call_api_endpoint(GET, f'/', *config)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 200)
-            entry = response.json()[0]
-            expected = schemas.NeoplasticEntitySchema.model_validate(self.cancer_entity).model_dump(exclude=['createdAt','updatedAt'])
-            result = schemas.NeoplasticEntitySchema.model_validate(entry).model_dump(exclude=['createdAt','updatedAt'])
-            self.assertEqual(expected, result)
 
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_get_neoplastic_entity_by_id(self, scenario, *config):        
-        # Call the API endpoint
-        response = self.call_api_endpoint(GET, f'/{self.cancer_entity.id}', *config)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 200)
-            expected = schemas.NeoplasticEntitySchema.model_validate(self.cancer_entity).model_dump(exclude=['createdAt','updatedAt'])
-            result = schemas.NeoplasticEntitySchema.model_validate(response.json()).model_dump(exclude=['createdAt','updatedAt'])
-            self.assertDictEqual(result, expected)
+class TestStagingController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/stagings'
+    FACTORY = [
+        factories.TNMStagingFactory, 
+        factories.FIGOStagingFactory,
+    ]
+    MODEL = [
+        models.TNMStaging, 
+        models.FIGOStaging,
+    ]
+    SCHEMA = [
+        schemas.TNMStagingSchema, 
+        schemas.FIGOStagingSchema,
+    ]
+    CREATE_SCHEMA = [
+        schemas.TNMStagingCreateSchema, 
+        schemas.FIGOStagingCreateSchema
+    ]
     
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_delete_neoplastic_entity_by_id(self, scenario, *config):            
-        # Call the API endpoint
-        response = self.call_api_endpoint(DELETE, f'/{self.cancer_entity.id}', *config)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 204)
-            self.assertFalse(models.NeoplasticEntity.objects.filter(id=self.cancer_entity.id).exists())
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_create_neoplastic_entity(self, scenario, *config):            
-        json_data = schemas.NeoplasticEntityCreateSchema.model_validate(self.cancer_entity).model_dump(mode='json')
-        print(json_data)
-        # Call the API endpoint.
-        response = self.call_api_endpoint(POST, f'/', *config, data=json_data)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            created_id = response.json()['id']
-            self.assertEqual(response.status_code, 201)
-            created_instance = models.NeoplasticEntity.objects.filter(id=created_id).first()
-            self.assertIsNotNone(created_instance)
-            self.assertEqual(self.user,created_instance.created_by)
-            self.assertIn(self.user, created_instance.updated_by.all())
-
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_update_neoplastic_entity(self, scenario, *config):            
-        # Prepare the data
-        instance = factories.PrimaryNeoplasticEntityFactory()
-        creator = instance.created_by
-        json_data = schemas.NeoplasticEntityCreateSchema.model_validate(instance).model_dump(mode='json')
-        # Call the API endpoint
-        response = self.call_api_endpoint(PUT, f'/{instance.id}', *config, data=json_data)
-        # Assert response content
-        if scenario == 'HTTPS Authenticated':
-            self.assertEqual(response.status_code, 204) 
-            updated_instance = models.NeoplasticEntity.objects.filter(id=instance.id).first() 
-            self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
-            self.assertEqual(creator, updated_instance.created_by) 
-            self.assertIn(self.user, updated_instance.updated_by.all()) 
-            

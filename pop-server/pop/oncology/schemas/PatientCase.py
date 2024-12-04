@@ -1,5 +1,5 @@
 from pop.oncology.models import PatientCase
-from pop.core.schemas import ModelSchema
+from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
 from pydantic import Field 
 
 
@@ -17,11 +17,7 @@ class PatientCaseCreateSchema(ModelSchema):
         name = 'PatientCaseCreate'
         model = PatientCase
         exclude = (
-            'id', 
-            'created_at', 
-            'updated_at', 
+            *CREATE_IGNORED_FIELDS,
             'pseudoidentifier', 
-            'created_by', 
-            'updated_by',
             'is_deceased',
         )

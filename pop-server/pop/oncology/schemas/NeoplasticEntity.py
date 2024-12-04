@@ -1,5 +1,5 @@
 from pop.oncology.models import NeoplasticEntity
-from pop.core.schemas import ModelSchema
+from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
 from pydantic import Field 
 
 
@@ -17,11 +17,7 @@ class NeoplasticEntityCreateSchema(ModelSchema):
         name = 'NeoplasticEntityCreate'
         model = NeoplasticEntity
         exclude = (
-            'id', 
-            'created_at', 
-            'updated_at', 
-            'created_by', 
-            'updated_by',
+            *CREATE_IGNORED_FIELDS,
         )
 
 

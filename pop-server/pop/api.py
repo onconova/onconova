@@ -6,8 +6,10 @@ from pop.terminology.controllers import TerminologyController
 from pop.oncology.controllers import (
     PatientCaseController,
     NeoplasticEntityController,
-    
+    StagingController,    
 )
+
+
 api = NinjaExtraAPI(
     title="POP API",
     description="Precision Oncology Platform API for exchange of research cancer data",
@@ -18,5 +20,6 @@ api.register_controllers(
     UsersController,
     PatientCaseController,
     NeoplasticEntityController,
+    StagingController,
     TerminologyController,
 )

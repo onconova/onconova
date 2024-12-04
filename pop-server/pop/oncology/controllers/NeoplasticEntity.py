@@ -3,9 +3,10 @@ from enum import Enum
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
+from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema
+from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import NeoplasticEntity
 
 from django.shortcuts import get_object_or_404
@@ -34,16 +35,17 @@ class NeoplasticEntityController(ControllerBase):
     @route.get(
         path='/', 
         response={
-            200: List[NeoplasticEntitySchema],
+            200: Paginated[NeoplasticEntitySchema],
         },
         operation_id='getNeoplasticEntities',
     )
+    @paginate()
     def get_all_neoplastic_entities_matching_the_query(self, query: Query[QueryParameters]):
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
         for (lookup, value) in query:
             if value is not None:
                 queryset = queryset.filter(**{lookup: value})
-        return 200, [NeoplasticEntitySchema.model_validate(instance) for instance in queryset]
+        return [NeoplasticEntitySchema.model_validate(instance) for instance in queryset]
 
     @route.post(
         path='/', 

@@ -59,7 +59,7 @@ class PatientCaseController(ControllerBase):
         },
         operation_id='createPatientCase',
     )
-    def create_patient_case(self, payload: PatientCaseCreateSchema): # type: ignore
+    def create_patient_case(self, payload: PatientCaseCreateSchema):
         instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
         return 201, ResourceIdSchema(id=instance.id)
 

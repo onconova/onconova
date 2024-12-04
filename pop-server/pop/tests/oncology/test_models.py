@@ -50,3 +50,4 @@ class NeoplasticEntityModelTest(TestCase):
     def test_metastatic_neoplasm_can_have_related_primary(self):
         self.metastatic_neoplasm.related_primary = factories.PrimaryNeoplasticEntityFactory()
         self.assertIsNone(self.metastatic_neoplasm.save())
+        

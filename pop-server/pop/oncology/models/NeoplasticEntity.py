@@ -106,7 +106,7 @@ class NeoplasticEntity(BaseModel):
         verbose_name_plural  = "Neoplastic Entities"
         constraints = [
             models.CheckConstraint(
-                check = models.Q(relationship='primary', related_primary=None) | ~models.Q(relationship='primary'),
+                condition = models.Q(relationship='primary', related_primary=None) | ~models.Q(relationship='primary'),
                 name = 'primary_cannot_have_a_related_primary',
                 violation_error_message = 'A primary neoplasm cannot have a related primary',
             )

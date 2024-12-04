@@ -10,6 +10,13 @@ from typing_extensions import Annotated
 
 UserModel = get_user_model()
 
+CREATE_IGNORED_FIELDS = (
+    'id', 
+    'created_at', 
+    'updated_at', 
+    'created_by', 
+    'updated_by',
+)  
 
 class UserSchema(Schema):
     id: int
