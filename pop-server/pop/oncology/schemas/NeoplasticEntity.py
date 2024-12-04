@@ -4,7 +4,7 @@ from pydantic import Field
 
 
 class NeoplasticEntitySchema(ModelSchema):
-    description: str = Field(description='HUman-readable description of the neoplastic entity') 
+    description: str = Field(description='Human-readable description of the neoplastic entity') 
 
     class Meta:
         name = 'NeoplasticEntity'

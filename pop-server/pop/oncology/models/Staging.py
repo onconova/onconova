@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -25,17 +27,17 @@ class Staging(BaseModel):
 
     STAGING_DOMAINS = {
         TNM: 'TNM Stage',
-        FIGO: 'Gynecologic FIGO Stage',
-        BINET: 'Leukemia Binet Stage',
-        RAI: 'Leukemia RAI Stage',
-        BRESLOW: 'Melanoma Breslow Stage',
-        CLARK: 'Melanoma Clark Level',
-        ISS: 'Myeloma ISS Stage',
-        RISS: 'Myeloma RISS Stage',
-        INSS: 'Neuroblastoma INSS Stage',
+        FIGO: 'FIGO Stage',
+        BINET: 'Binet Stage',
+        RAI: 'RAI Stage',
+        BRESLOW: 'Breslow Stage',
+        CLARK: 'Clark Level',
+        ISS: 'ISS Stage',
+        RISS: 'RISS Stage',
+        INSS: 'INSS Stage',
         INRGSS: 'Neuroblastoma INRGSS Stage',
-        GLEASON: 'Prostate Gleason Stage',
-        RHABDO: 'Rhabdomyosarcoma Clinical Group Stage',
+        GLEASON: 'Prostate Gleason Group',
+        RHABDO: 'Rhabdomyosarcoma Clinical Group',
         WILMS: 'Wilms Tumor Stage',
         LYMPHOMA: 'Lymphoma Stage',
     }
@@ -59,6 +61,23 @@ class Staging(BaseModel):
     )
     
     @property
+    def description(self):
+        staging = self.STAGING_DOMAINS[self.staging_domain]
+
+        return f'{staging} {self.stage_value}'
+    
+    @property
+    def stage_value(self):
+        regex = r"(?i).+(?:Stage| Level| Group Stage| Group )\s*([a-z0-9]+)(?:.*)"
+        stage_string = getattr(self, self.staging_domain).stage.display  
+        matched =  re.match(regex, stage_string)
+        if matched:
+            stage_value = matched.group(1)
+        else:
+            stage_value = stage_string
+        return stage_value          
+    
+    @property
     def staging_domain(self):
         for domain in self.STAGING_DOMAINS.keys():
             try:             
@@ -69,6 +88,9 @@ class Staging(BaseModel):
     
     def get_domain_staging(self):
         return getattr(self, self.staging_domain)   
+    
+    def __str__(self):
+        return self.description
     
 class TNMStaging(Staging):
     
@@ -90,6 +112,11 @@ class TNMStaging(Staging):
         terminology = terminologies.TNMStagingMethod,
         blank = True, null=True,
     )    
+    pathological = models.BooleanField(
+        verbose_name = _("Pathological staging"),
+        help_text = _("Whether the staging was based on pathological (true) or clinical (false) evidence."),
+        null = True, blank = True,
+    )
     primaryTumor = termfields.CodedConceptField(
         verbose_name = _('T Stage'),
         help_text = _("T stage (extent of the primary tumor)"),

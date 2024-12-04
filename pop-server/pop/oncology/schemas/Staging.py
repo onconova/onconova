@@ -20,6 +20,7 @@ from pydantic import Field
 
 class TNMStagingSchema(ModelSchema):
     stagingDomain: Literal[TNM] = TNM # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'TNMStaging'
@@ -42,6 +43,7 @@ class TNMStagingCreateSchema(ModelSchema):
 
 class FIGOStagingSchema(ModelSchema):
     stagingDomain: Literal[FIGO] = FIGO # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'FIGOStaging'
@@ -64,6 +66,7 @@ class FIGOStagingCreateSchema(ModelSchema):
 
 class BinetStagingSchema(ModelSchema):
     stagingDomain: Literal[BINET] = BINET # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'BinetStaging'
@@ -87,6 +90,7 @@ class BinetStagingCreateSchema(ModelSchema):
 
 class RaiStagingSchema(ModelSchema):
     stagingDomain: Literal[RAI] = RAI # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'RaiStaging'
@@ -111,6 +115,7 @@ class RaiStagingCreateSchema(ModelSchema):
 class BreslowDepthSchema(ModelSchema):
     stagingDomain: Literal[BRESLOW] = BRESLOW # type: ignore
     stage: CodedConceptSchema
+    description: str = Field(description='Human-readable description of the staging') 
     
     class Meta:
         name = 'BreslowDepth'
@@ -135,6 +140,7 @@ class BreslowDepthCreateSchema(ModelSchema):
 
 class ClarkStagingSchema(ModelSchema):
     stagingDomain: Literal[CLARK] = CLARK # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'ClarkStaging'
@@ -159,6 +165,7 @@ class ClarkStagingCreateSchema(ModelSchema):
 
 class ISSStagingSchema(ModelSchema):
     stagingDomain: Literal[ISS] = ISS # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'ISSStaging'
@@ -181,6 +188,7 @@ class ISSStagingCreateSchema(ModelSchema):
 
 class RISSStagingSchema(ModelSchema):
     stagingDomain: Literal[RISS] = RISS # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'RISSStaging'
@@ -204,6 +212,7 @@ class RISSStagingCreateSchema(ModelSchema):
 
 class GleasonGradeSchema(ModelSchema):
     stagingDomain: Literal[GLEASON] = GLEASON # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'GleasonGrade'
@@ -226,6 +235,7 @@ class GleasonGradeCreateSchema(ModelSchema):
 
 class INSSStageSchema(ModelSchema):
     stagingDomain: Literal[INSS] = INSS # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'INSSStage'
@@ -248,6 +258,7 @@ class INSSStageCreateSchema(ModelSchema):
 
 class INRGSSStageSchema(ModelSchema):
     stagingDomain: Literal[INRGSS] = INRGSS # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'INRGSSStage'
@@ -270,6 +281,7 @@ class INRGSSStageCreateSchema(ModelSchema):
 
 class WilmsStageSchema(ModelSchema):
     stagingDomain: Literal[WILMS] = WILMS # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'WilmsStage'
@@ -292,6 +304,7 @@ class WilmsStageCreateSchema(ModelSchema):
 
 class RhabdomyosarcomaClinicalGroupSchema(ModelSchema):
     stagingDomain: Literal[RHABDO] = RHABDO # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'RhabdomyosarcomaClinicalGroup'
@@ -314,6 +327,7 @@ class RhabdomyosarcomaClinicalGroupCreateSchema(ModelSchema):
 
 class LymphomaStagingSchema(ModelSchema):
     stagingDomain: Literal[LYMPHOMA] = LYMPHOMA # type: ignore
+    description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
         name = 'LymphomaStaging'

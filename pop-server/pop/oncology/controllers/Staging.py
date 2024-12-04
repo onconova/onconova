@@ -80,7 +80,7 @@ def cast_to_model_schema(model_instance, schemas, payload=None):
 @api_controller(
     'stagings/', 
     auth=[JWTAuth()], 
-    tags=['Statings'],  
+    tags=['Stagings'],  
 )
 class StagingController(ControllerBase):
 
