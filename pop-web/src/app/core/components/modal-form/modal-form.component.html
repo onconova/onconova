@@ -3,14 +3,17 @@
     [closable]="true"
     [modal]="true" 
     [focusOnShow]="false"
-    (onHide)="onClose()"
+    (visibleChange)="onClose()"
+    [style]="{'min-width': '25%'}"
     styleHeader=""
     >
     <ng-template pTemplate="header">
         <p-avatar 
-            icon="pi pi-user" 
             styleClass="mr-2" 
-            size="large" />
+            [style]="{ 'background-color': 'var(--blue-100)', color: 'var(--blue-500)' }"
+            size="large">
+            <lucide-angular [img]="formComponent.icon" ></lucide-angular>
+        </p-avatar>
         <div class="flex-column form-title ml-2 mr-auto">
             <div class="title">
                 {{formComponent.title}}
@@ -21,7 +24,7 @@
         </div>
     </ng-template>
     <ng-template pTemplate="closeicon">
-        <i class="pi pi-times" (click)="onClose()"></i>
+        <i class="pi pi-times" ></i>
     </ng-template>
     <ng-container #formContent></ng-container>
 </p-dialog>

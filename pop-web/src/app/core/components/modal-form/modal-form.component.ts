@@ -1,11 +1,13 @@
 // dynamic-form-modal.component.ts
-import { Component, ViewChild, ViewContainerRef, inject, Output, Input, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, inject, Output, Input, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 
 import { AvatarModule } from 'primeng/avatar';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+
+import { LucideAngularModule } from 'lucide-angular';
 
 import { ModalFormService } from './modal-form.service'
 
@@ -17,7 +19,9 @@ import { PatientFormComponent } from 'src/app/core/forms/case-form/patient-form.
   templateUrl: './modal-form.component.html',
   styleUrl: './modal-form.component.css',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
+    LucideAngularModule,
     CommonModule,
     AvatarModule,
     DialogModule,

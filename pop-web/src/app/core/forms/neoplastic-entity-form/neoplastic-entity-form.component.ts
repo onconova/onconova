@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 
+import { Ribbon } from 'lucide-angular';
+
 
 @Component({
   selector: 'neoplastic-entity-form',
@@ -40,6 +42,7 @@ export class NeoplasticEntityFormComponent {
     loading: boolean = false;
     title: string = 'Neoplastic Entity'
     subtitle: string = 'Add new neoplastic entity'
+    readonly icon = Ribbon;
 
     caseId!: string;
 

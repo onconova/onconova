@@ -2,6 +2,9 @@ label.required {
     font-weight: 550;
 }label.required::after {
     content: '*';
-    color: var(--text-color-secondary);
+    color: var(--red-500);
     margin-left: .1rem;
+}
+.field {
+    margin-bottom: .5rem;
 }

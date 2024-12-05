@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import * as moment from 'moment';
 
+import { User } from 'lucide-angular';
+
 @Component({
   selector: 'patient-form',
   templateUrl: './patient-form.component.html',
@@ -16,6 +18,7 @@ export class PatientFormComponent {
   loading: boolean = false;
   title: string = 'Accesionning'
   subtitle: string = 'Add new patient case'
+  readonly icon = User;
 
   ngOnInit() {
     this.constructForm()

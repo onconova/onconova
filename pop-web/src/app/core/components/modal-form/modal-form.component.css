@@ -1,8 +1,23 @@
+.p-dialog {
+    border: none;
+}
+.p-dialog-header {
+    background: var(--blue-500);
+    margin-bottom: 1.5rem;
+    color: white;
+}
+.p-dialog-header-icons i {
+    color: white;
+}
 .form-title .title{
     font-size: 1.2rem;
     font-weight: 550;
 }
 .form-title .subtitle{
     font-size: .9rem;
-    color: var(--text-color-secondary)
+    color: var(--blue-100)
+}
+.p-avatar {
+    line-height: 0 !important;
+    padding: 1rem;
 }
