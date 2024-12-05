@@ -17,29 +17,27 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { NewSlidingTokenSchema } from '../model/new-sliding-token-schema';
+import { PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging } from '../model/paginated-union-tnm-staging-figo-staging-binet-staging-rai-staging-breslow-depth-clark-staging-iss-staging-riss-staging-gleason-grade-inss-stage-inrgss-stage-wilms-stage-rhabdomyosarcoma-clinical-group-lymphoma-staging';
 // @ts-ignore
-import { OldSlidingTokenSchema } from '../model/old-sliding-token-schema';
+import { Payload } from '../model/payload';
 // @ts-ignore
-import { SlidingTokenSchema } from '../model/sliding-token-schema';
+import { ResourceIdSchema } from '../model/resource-id-schema';
 // @ts-ignore
-import { UserCredentialsSchema } from '../model/user-credentials-schema';
-// @ts-ignore
-import { UserSchema } from '../model/user-schema';
+import { Response } from '../model/response';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    AuthServiceInterface
-} from './auth.serviceInterface';
+    StagingsServiceInterface
+} from './stagings.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements AuthServiceInterface {
+export class StagingsService implements StagingsServiceInterface {
 
     protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -102,20 +100,27 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Obtain Token
-     * @param userCredentialsSchema 
+     * Create Staging
+     * @param payload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SlidingTokenSchema>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SlidingTokenSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SlidingTokenSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (userCredentialsSchema === null || userCredentialsSchema === undefined) {
-            throw new Error('Required parameter userCredentialsSchema was null or undefined when calling getSlidingToken.');
+    public createStaging(payload: Payload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
+    public createStaging(payload: Payload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
+    public createStaging(payload: Payload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createStaging(payload: Payload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (payload === null || payload === undefined) {
+            throw new Error('Required parameter payload was null or undefined when calling createStaging.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -160,11 +165,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/sliding`;
-        return this.httpClient.request<SlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/stagings/`;
+        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: userCredentialsSchema,
+                body: payload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -176,17 +181,87 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Get User By Id
-     * @param userId 
+     * Delete Staging
+     * @param stagingId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserById(userId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserSchema>;
-    public getUserById(userId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserSchema>>;
-    public getUserById(userId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserSchema>>;
-    public getUserById(userId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (userId === null || userId === undefined) {
-            throw new Error('Required parameter userId was null or undefined when calling getUserById.');
+    public deleteStagingById(stagingId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteStagingById(stagingId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteStagingById(stagingId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteStagingById(stagingId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (stagingId === null || stagingId === undefined) {
+            throw new Error('Required parameter stagingId was null or undefined when calling deleteStagingById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/stagings/${this.configuration.encodeParam({name: "stagingId", value: stagingId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Staging By Id
+     * @param stagingId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getStagingById(stagingId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Response>;
+    public getStagingById(stagingId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Response>>;
+    public getStagingById(stagingId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Response>>;
+    public getStagingById(stagingId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (stagingId === null || stagingId === undefined) {
+            throw new Error('Required parameter stagingId was null or undefined when calling getStagingById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -232,8 +307,8 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}`;
-        return this.httpClient.request<UserSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/stagings/${this.configuration.encodeParam({name: "stagingId", value: stagingId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<Response>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -247,14 +322,31 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Get All Users Matching The Query
+     * Get All Stagings Matching The Query
+     * @param caseId 
+     * @param limit 
+     * @param offset 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUsers(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<UserSchema>>;
-    public getUsers(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<UserSchema>>>;
-    public getUsers(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<UserSchema>>>;
-    public getUsers(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getStagings(caseId?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>;
+    public getStagings(caseId?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>>;
+    public getStagings(caseId?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>>;
+    public getStagings(caseId?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (caseId !== undefined && caseId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseId, 'caseId');
+        }
+        if (limit !== undefined && limit !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>limit, 'limit');
+        }
+        if (offset !== undefined && offset !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>offset, 'offset');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -299,10 +391,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/users`;
-        return this.httpClient.request<Array<UserSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/stagings/`;
+        return this.httpClient.request<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -314,26 +407,36 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Refresh Token
-     * @param oldSlidingTokenSchema 
+     * Update Staging
+     * @param stagingId 
+     * @param payload 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NewSlidingTokenSchema>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NewSlidingTokenSchema>>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NewSlidingTokenSchema>>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (oldSlidingTokenSchema === null || oldSlidingTokenSchema === undefined) {
-            throw new Error('Required parameter oldSlidingTokenSchema was null or undefined when calling refereshSlidingToken.');
+    public updateStagingById(stagingId: string, payload: Payload, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateStagingById(stagingId: string, payload: Payload, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateStagingById(stagingId: string, payload: Payload, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateStagingById(stagingId: string, payload: Payload, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (stagingId === null || stagingId === undefined) {
+            throw new Error('Required parameter stagingId was null or undefined when calling updateStagingById.');
+        }
+        if (payload === null || payload === undefined) {
+            throw new Error('Required parameter payload was null or undefined when calling updateStagingById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -372,11 +475,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/sliding/refresh`;
-        return this.httpClient.request<NewSlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/stagings/${this.configuration.encodeParam({name: "stagingId", value: stagingId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: oldSlidingTokenSchema,
+                body: payload,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

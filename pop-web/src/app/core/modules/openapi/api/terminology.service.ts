@@ -95,19 +95,33 @@ export class TerminologyService implements TerminologyServiceInterface {
 
     /**
      * Get Terminology Concepts
-     * @param terminology 
+     * @param terminologyName 
+     * @param query 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTerminologyConcepts(terminology: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<CodedConceptSchema>>;
-    public getTerminologyConcepts(terminology: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<CodedConceptSchema>>>;
-    public getTerminologyConcepts(terminology: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<CodedConceptSchema>>>;
-    public getTerminologyConcepts(terminology: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (terminology === null || terminology === undefined) {
-            throw new Error('Required parameter terminology was null or undefined when calling getTerminologyConcepts.');
+    public getTerminologyConcepts(terminologyName: string, query?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<CodedConceptSchema>>;
+    public getTerminologyConcepts(terminologyName: string, query?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<CodedConceptSchema>>>;
+    public getTerminologyConcepts(terminologyName: string, query?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<CodedConceptSchema>>>;
+    public getTerminologyConcepts(terminologyName: string, query?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (terminologyName === null || terminologyName === undefined) {
+            throw new Error('Required parameter terminologyName was null or undefined when calling getTerminologyConcepts.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (query !== undefined && query !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>query, 'query');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -143,10 +157,11 @@ export class TerminologyService implements TerminologyServiceInterface {
             }
         }
 
-        let localVarPath = `/api/terminologies/${this.configuration.encodeParam({name: "terminology", value: terminology, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/concepts`;
+        let localVarPath = `/api/terminologies/${this.configuration.encodeParam({name: "terminologyName", value: terminologyName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/concepts`;
         return this.httpClient.request<Array<CodedConceptSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

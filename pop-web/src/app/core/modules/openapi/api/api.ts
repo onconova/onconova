@@ -1,10 +1,16 @@
 export * from './auth.service';
 import { AuthService } from './auth.service';
 export * from './auth.serviceInterface';
+export * from './neoplastic-entities.service';
+import { NeoplasticEntitiesService } from './neoplastic-entities.service';
+export * from './neoplastic-entities.serviceInterface';
 export * from './patient-cases.service';
 import { PatientCasesService } from './patient-cases.service';
 export * from './patient-cases.serviceInterface';
+export * from './stagings.service';
+import { StagingsService } from './stagings.service';
+export * from './stagings.serviceInterface';
 export * from './terminology.service';
 import { TerminologyService } from './terminology.service';
 export * from './terminology.serviceInterface';
-export const APIS = [AuthService, PatientCasesService, TerminologyService];
+export const APIS = [AuthService, NeoplasticEntitiesService, PatientCasesService, StagingsService, TerminologyService];

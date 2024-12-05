@@ -25,8 +25,9 @@ export interface TerminologyServiceInterface {
     /**
      * Get Terminology Concepts
      * 
-     * @param terminology 
+     * @param terminologyName 
+     * @param query 
      */
-    getTerminologyConcepts(terminology: string, extraHttpRequestParams?: any): Observable<Array<CodedConceptSchema>>;
+    getTerminologyConcepts(terminologyName: string, query?: string, extraHttpRequestParams?: any): Observable<Array<CodedConceptSchema>>;
 
 }

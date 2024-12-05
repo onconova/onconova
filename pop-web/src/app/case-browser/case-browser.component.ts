@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { PatientCaseService } from '../services/cancerpatient.service';
 import { PatientCase, PatientCasesService, PaginatedPatientCase, PatientCasesServiceInterface} from '../core/modules/openapi';
 import { Observable } from 'rxjs';
-import { PatientFormComponent } from './components/patient-form/patient-form.component';
+import { PatientFormComponent } from '../core/forms/case-form/patient-form.component';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
 import { ModalFormService } from '../core/components/modal-form/modal-form.service';
 import { FormGroup } from '@angular/forms';
@@ -11,12 +11,12 @@ import { MessageService } from 'primeng/api';
 
 
 @Component({
-  templateUrl: './patient-list.component.html',
-  styleUrl: './patient-list.component.css',
+  templateUrl: './case-browser.component.html',
+  styleUrl: './case-browser.component.css',
   encapsulation: ViewEncapsulation.None
 })
 
-export class PatientListComponent implements OnInit, OnDestroy {
+export class CaseBrowserComponent implements OnInit, OnDestroy {
   
   public cases!: PatientCase[];
 

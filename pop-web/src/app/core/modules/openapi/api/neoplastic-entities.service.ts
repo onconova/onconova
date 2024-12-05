@@ -17,29 +17,27 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { NewSlidingTokenSchema } from '../model/new-sliding-token-schema';
+import { NeoplasticEntity } from '../model/neoplastic-entity';
 // @ts-ignore
-import { OldSlidingTokenSchema } from '../model/old-sliding-token-schema';
+import { NeoplasticEntityCreate } from '../model/neoplastic-entity-create';
 // @ts-ignore
-import { SlidingTokenSchema } from '../model/sliding-token-schema';
+import { PaginatedNeoplasticEntity } from '../model/paginated-neoplastic-entity';
 // @ts-ignore
-import { UserCredentialsSchema } from '../model/user-credentials-schema';
-// @ts-ignore
-import { UserSchema } from '../model/user-schema';
+import { ResourceIdSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    AuthServiceInterface
-} from './auth.serviceInterface';
+    NeoplasticEntitiesServiceInterface
+} from './neoplastic-entities.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements AuthServiceInterface {
+export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInterface {
 
     protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -102,20 +100,27 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Obtain Token
-     * @param userCredentialsSchema 
+     * Create Neoplastic Entity
+     * @param neoplasticEntityCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SlidingTokenSchema>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SlidingTokenSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SlidingTokenSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (userCredentialsSchema === null || userCredentialsSchema === undefined) {
-            throw new Error('Required parameter userCredentialsSchema was null or undefined when calling getSlidingToken.');
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (neoplasticEntityCreate === null || neoplasticEntityCreate === undefined) {
+            throw new Error('Required parameter neoplasticEntityCreate was null or undefined when calling createNeoplasticEntity.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -160,11 +165,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/sliding`;
-        return this.httpClient.request<SlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/neoplastic-entities/`;
+        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: userCredentialsSchema,
+                body: neoplasticEntityCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -176,17 +181,107 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Get User By Id
-     * @param userId 
+     * Delete Patient Case
+     * @param entityId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserById(userId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserSchema>;
-    public getUserById(userId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserSchema>>;
-    public getUserById(userId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserSchema>>;
-    public getUserById(userId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (userId === null || userId === undefined) {
-            throw new Error('Required parameter userId was null or undefined when calling getUserById.');
+    public deleteNeoplasticEntityById(entityId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteNeoplasticEntityById(entityId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteNeoplasticEntityById(entityId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteNeoplasticEntityById(entityId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (entityId === null || entityId === undefined) {
+            throw new Error('Required parameter entityId was null or undefined when calling deleteNeoplasticEntityById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/neoplastic-entities/${this.configuration.encodeParam({name: "entityId", value: entityId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Neoplastic Entities Matching The Query
+     * @param caseId 
+     * @param type 
+     * @param limit 
+     * @param offset 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedNeoplasticEntity>;
+    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedNeoplasticEntity>>;
+    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedNeoplasticEntity>>;
+    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (caseId !== undefined && caseId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseId, 'caseId');
+        }
+        if (type) {
+            type.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'type');
+            })
+        }
+        if (limit !== undefined && limit !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>limit, 'limit');
+        }
+        if (offset !== undefined && offset !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>offset, 'offset');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -232,10 +327,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: undefined})}`;
-        return this.httpClient.request<UserSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/neoplastic-entities/`;
+        return this.httpClient.request<PaginatedNeoplasticEntity>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -247,14 +343,18 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Get All Users Matching The Query
+     * Get Neoplastic Entity By Id
+     * @param entityId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUsers(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<UserSchema>>;
-    public getUsers(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<UserSchema>>>;
-    public getUsers(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<UserSchema>>>;
-    public getUsers(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getNeoplasticEntityById(entityId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NeoplasticEntity>;
+    public getNeoplasticEntityById(entityId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NeoplasticEntity>>;
+    public getNeoplasticEntityById(entityId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NeoplasticEntity>>;
+    public getNeoplasticEntityById(entityId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (entityId === null || entityId === undefined) {
+            throw new Error('Required parameter entityId was null or undefined when calling getNeoplasticEntityById.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -299,8 +399,8 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/users`;
-        return this.httpClient.request<Array<UserSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/neoplastic-entities/${this.configuration.encodeParam({name: "entityId", value: entityId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<NeoplasticEntity>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -314,26 +414,36 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Refresh Token
-     * @param oldSlidingTokenSchema 
+     * Update Neoplastic Entity
+     * @param entityId 
+     * @param neoplasticEntityCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NewSlidingTokenSchema>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NewSlidingTokenSchema>>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NewSlidingTokenSchema>>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (oldSlidingTokenSchema === null || oldSlidingTokenSchema === undefined) {
-            throw new Error('Required parameter oldSlidingTokenSchema was null or undefined when calling refereshSlidingToken.');
+    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (entityId === null || entityId === undefined) {
+            throw new Error('Required parameter entityId was null or undefined when calling updateNeoplasticEntityById.');
+        }
+        if (neoplasticEntityCreate === null || neoplasticEntityCreate === undefined) {
+            throw new Error('Required parameter neoplasticEntityCreate was null or undefined when calling updateNeoplasticEntityById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -372,11 +482,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/sliding/refresh`;
-        return this.httpClient.request<NewSlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/neoplastic-entities/${this.configuration.encodeParam({name: "entityId", value: entityId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: oldSlidingTokenSchema,
+                body: neoplasticEntityCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

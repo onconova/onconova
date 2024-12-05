@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { PatientCaseCreate, PatientCasesService, CodedConceptSchema } from '../../../core/modules/openapi/'
+import { PatientCaseCreate, PatientCasesService, CodedConceptSchema } from '../../modules/openapi'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import * as moment from 'moment';

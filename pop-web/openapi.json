@@ -6,67 +6,6 @@
     "description": "Precision Oncology Platform API for exchange of research cancer data"
   },
   "paths": {
-    "/api/auth/users": {
-      "get": {
-        "operationId": "getUsers",
-        "summary": "Get All Users Matching The Query",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/UserSchema"
-                  },
-                  "title": "Response",
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
-    "/api/auth/users/{userId}": {
-      "get": {
-        "operationId": "getUserById",
-        "summary": "Get User By Id",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "schema": {
-              "title": "Userid",
-              "type": "integer"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserSchema"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
     "/api/auth/sliding": {
       "post": {
         "operationId": "getSlidingToken",
@@ -131,10 +70,81 @@
         }
       }
     },
+    "/api/auth/users": {
+      "get": {
+        "operationId": "getUsers",
+        "summary": "Get All Users Matching The Query",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UserSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth/users/{userId}": {
+      "get": {
+        "operationId": "getUserById",
+        "summary": "Get User By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "title": "Userid",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/patient-cases/": {
       "post": {
         "operationId": "createPatientCase",
-        "summary": "Create Cancer Patient",
+        "summary": "Create Patient Case",
         "parameters": [],
         "responses": {
           "201": {
@@ -169,7 +179,7 @@
       },
       "get": {
         "operationId": "getPatientCases",
-        "summary": "Get All Cancer Patient Matching The Query",
+        "summary": "Get All Patient Cases Matching The Query",
         "parameters": [
           {
             "in": "query",
@@ -283,7 +293,7 @@
     "/api/patient-cases/{patientId}": {
       "delete": {
         "operationId": "deletePatientCaseById",
-        "summary": "Delete Cancer Patient",
+        "summary": "Delete Patient Case",
         "parameters": [
           {
             "in": "path",
@@ -314,7 +324,7 @@
       },
       "get": {
         "operationId": "getPatientCaseById",
-        "summary": "Get Cancer Patient By Id",
+        "summary": "Get Patient Case By Id",
         "parameters": [
           {
             "in": "path",
@@ -352,7 +362,7 @@
       },
       "put": {
         "operationId": "updatePatientCaseById",
-        "summary": "Update Cancer Patient",
+        "summary": "Update Patient Case",
         "parameters": [
           {
             "in": "path",
@@ -392,19 +402,591 @@
         ]
       }
     },
-    "/api/terminologies/{terminology}/concepts": {
+    "/api/neoplastic-entities/": {
+      "post": {
+        "operationId": "createNeoplasticEntity",
+        "summary": "Create Neoplastic Entity",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Neoplastic Entities"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NeoplasticEntityCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getNeoplasticEntities",
+        "summary": "Get All Neoplastic Entities Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "items": {
+                "enum": [
+                  "primary",
+                  "metastatic",
+                  "local_recurrence",
+                  "regional_recurrence"
+                ],
+                "title": "NeoplasticRelationship",
+                "type": "string"
+              },
+              "title": "Type",
+              "type": "array"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_NeoplasticEntity_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Neoplastic Entities"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/neoplastic-entities/{entityId}": {
+      "delete": {
+        "operationId": "deleteNeoplasticEntityById",
+        "summary": "Delete Patient Case",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entityId",
+            "schema": {
+              "title": "Entityid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Neoplastic Entities"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getNeoplasticEntityById",
+        "summary": "Get Neoplastic Entity By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entityId",
+            "schema": {
+              "title": "Entityid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NeoplasticEntity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Neoplastic Entities"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateNeoplasticEntityById",
+        "summary": "Update Neoplastic Entity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entityId",
+            "schema": {
+              "title": "Entityid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Neoplastic Entities"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NeoplasticEntityCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/stagings/": {
+      "post": {
+        "operationId": "createStaging",
+        "summary": "Create Staging",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Stagings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/TNMStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FIGOStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BinetStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RaiStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BreslowDepthCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ClarkStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ISSStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RISSStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GleasonGradeCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/INSSStageCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/INRGSSStageCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/WilmsStageCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroupCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/LymphomaStagingCreate"
+                  }
+                ],
+                "title": "Payload"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getStagings",
+        "summary": "Get All Stagings Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_Union_TNMStaging__FIGOStaging__BinetStaging__RaiStaging__BreslowDepth__ClarkStaging__ISSStaging__RISSStaging__GleasonGrade__INSSStage__INRGSSStage__WilmsStage__RhabdomyosarcomaClinicalGroup__LymphomaStaging__"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Stagings"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/stagings/{stagingId}": {
+      "delete": {
+        "operationId": "deleteStagingById",
+        "summary": "Delete Staging",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stagingId",
+            "schema": {
+              "title": "Stagingid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Stagings"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getStagingById",
+        "summary": "Get Staging By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stagingId",
+            "schema": {
+              "title": "Stagingid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/TNMStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FIGOStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BinetStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RaiStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BreslowDepth"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ClarkStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ISSStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RISSStaging"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GleasonGrade"
+                    },
+                    {
+                      "$ref": "#/components/schemas/INSSStage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/INRGSSStage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WilmsStage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroup"
+                    },
+                    {
+                      "$ref": "#/components/schemas/LymphomaStaging"
+                    }
+                  ],
+                  "title": "Response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Stagings"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateStagingById",
+        "summary": "Update Staging",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stagingId",
+            "schema": {
+              "title": "Stagingid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Stagings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/TNMStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FIGOStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BinetStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RaiStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BreslowDepthCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ClarkStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ISSStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RISSStagingCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GleasonGradeCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/INSSStageCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/INRGSSStageCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/WilmsStageCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroupCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/LymphomaStagingCreate"
+                  }
+                ],
+                "title": "Payload"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/terminologies/{terminologyName}/concepts": {
       "get": {
         "operationId": "getTerminologyConcepts",
         "summary": "Get Terminology Concepts",
         "parameters": [
           {
             "in": "path",
-            "name": "terminology",
+            "name": "terminologyName",
             "schema": {
-              "title": "Terminology",
+              "title": "Terminologyname",
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -425,57 +1007,17 @@
         },
         "tags": [
           "Terminology"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
         ]
       }
     }
   },
   "components": {
     "schemas": {
-      "UserSchema": {
-        "properties": {
-          "id": {
-            "title": "Id",
-            "type": "integer"
-          },
-          "username": {
-            "title": "Username",
-            "type": "string"
-          },
-          "email": {
-            "title": "Email",
-            "type": "string"
-          },
-          "firstName": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Firstname"
-          },
-          "lastName": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lastname"
-          }
-        },
-        "required": [
-          "id",
-          "username",
-          "email"
-        ],
-        "title": "User",
-        "type": "object"
-      },
       "SlidingTokenSchema": {
         "properties": {
           "username": {
@@ -540,6 +1082,51 @@
           "token"
         ],
         "title": "OldSlidingToken",
+        "type": "object"
+      },
+      "UserSchema": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "firstName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Firstname"
+          },
+          "lastName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastname"
+          }
+        },
+        "required": [
+          "id",
+          "username",
+          "email"
+        ],
+        "title": "User",
         "type": "object"
       },
       "ResourceIdSchema": {
@@ -626,6 +1213,13 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Gender for administrative purposes",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender",
+            "terminology": "AdministrativeGender",
             "title": "Gender"
           },
           "race": {
@@ -639,6 +1233,13 @@
             ],
             "description": "Race of the patient",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "race",
+            "terminology": "RaceCategory",
             "title": "Race"
           },
           "sexAtBirth": {
@@ -652,6 +1253,13 @@
             ],
             "description": "Sex assigned at birth",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "sex_at_birth",
+            "terminology": "BirthSex",
             "title": "Birth sex"
           },
           "genderIdentity": {
@@ -664,12 +1272,25 @@
               }
             ],
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender_identity",
+            "terminology": "GenderIdentity",
             "title": "Gender identity"
           },
           "dateOfBirth": {
             "description": "Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
+            "expanded": false,
             "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_birth",
             "title": "Date of birth",
             "type": "string"
           },
@@ -685,6 +1306,12 @@
             ],
             "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_death",
             "title": "Date of death"
           },
           "causeOfDeath": {
@@ -698,6 +1325,13 @@
             ],
             "description": "Classification of the cause of death.",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cause_of_death",
+            "terminology": "CauseOfDeath",
             "title": "Cause of death"
           }
         },
@@ -706,46 +1340,6 @@
           "dateOfBirth"
         ],
         "title": "PatientCaseCreate",
-        "type": "object"
-      },
-      "Filters": {
-        "properties": {
-          "age_lte": {
-            "title": "Age Lte",
-            "type": "integer"
-          },
-          "age_gte": {
-            "title": "Age Gte",
-            "type": "integer"
-          },
-          "pseudoidentifier": {
-            "title": "Pseudoidentifier",
-            "type": "string"
-          },
-          "deceased": {
-            "title": "Deceased",
-            "type": "boolean"
-          },
-          "gender": {
-            "items": {
-              "enum": [
-                "male",
-                "female",
-                "unknown"
-              ],
-              "title": "GenderEnum",
-              "type": "string"
-            },
-            "title": "Gender",
-            "type": "array"
-          },
-          "born": {
-            "format": "date",
-            "title": "Born",
-            "type": "string"
-          }
-        },
-        "title": "Filters",
         "type": "object"
       },
       "GenderEnum": {
@@ -773,6 +1367,16 @@
           }
         },
         "title": "Input",
+        "type": "object"
+      },
+      "QueryParameters": {
+        "properties": {
+          "caseId": {
+            "title": "Caseid",
+            "type": "string"
+          }
+        },
+        "title": "QueryParameters",
         "type": "object"
       },
       "Paginated_PatientCase_": {
@@ -805,19 +1409,37 @@
           },
           "id": {
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
             "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
             "title": "Id",
             "type": "string"
           },
           "createdAt": {
             "examples": [],
+            "expanded": false,
             "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
             "title": "Created At",
             "type": "string"
           },
           "updatedAt": {
             "examples": [],
+            "expanded": false,
             "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
             "title": "Updated At",
             "type": "string"
           },
@@ -832,12 +1454,24 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
             "title": "Created By"
           },
           "pseudoidentifier": {
             "description": "Pseudoidentifier of the patient",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
             "maxLength": 40,
+            "one_to_many": false,
+            "orm_name": "pseudoidentifier",
             "title": "Pseudoidentifier",
             "type": "string"
           },
@@ -845,6 +1479,13 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Gender for administrative purposes",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender",
+            "terminology": "AdministrativeGender",
             "title": "Gender"
           },
           "race": {
@@ -858,6 +1499,13 @@
             ],
             "description": "Race of the patient",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "race",
+            "terminology": "RaceCategory",
             "title": "Race"
           },
           "sexAtBirth": {
@@ -871,6 +1519,13 @@
             ],
             "description": "Sex assigned at birth",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "sex_at_birth",
+            "terminology": "BirthSex",
             "title": "Birth sex"
           },
           "genderIdentity": {
@@ -883,18 +1538,37 @@
               }
             ],
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender_identity",
+            "terminology": "GenderIdentity",
             "title": "Gender identity"
           },
           "dateOfBirth": {
             "description": "Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
+            "expanded": false,
             "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_birth",
             "title": "Date of birth",
             "type": "string"
           },
           "isDeceased": {
             "description": "Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "is_deceased",
             "title": "Is deceased",
             "type": "boolean"
           },
@@ -910,6 +1584,12 @@
             ],
             "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_death",
             "title": "Date of death"
           },
           "causeOfDeath": {
@@ -923,15 +1603,28 @@
             ],
             "description": "Classification of the cause of death.",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cause_of_death",
+            "terminology": "CauseOfDeath",
             "title": "Cause of death"
           },
           "updatedByIds": {
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
             "items": {
               "type": "integer"
             },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
             "title": "Updated By",
             "type": "array"
           }
@@ -947,6 +1640,4269 @@
           "isDeceased"
         ],
         "title": "PatientCase",
+        "type": "object"
+      },
+      "NeoplasticEntityCreate": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's neoplasm(s) are recorded",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "relationship": {
+            "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "relationship",
+            "title": "Neoplastic relationship",
+            "type": "string"
+          },
+          "relatedPrimaryId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference to the primary neoplasm of which the neoplasm(s) originated from.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "related_primary",
+            "title": "Related primary neoplasm"
+          },
+          "assertionDate": {
+            "description": "The date on which the existence of the neoplasm(s) was first asserted or acknowledged",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "assertion_date",
+            "title": "Assertion date",
+            "type": "string"
+          },
+          "topography": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Anatomical location of the neoplasm(s)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "topography",
+            "terminology": "CancerTopography",
+            "title": "Topography"
+          },
+          "morphology": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "morphology",
+            "terminology": "CancerMorphology",
+            "title": "Morphology"
+          },
+          "differentitation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Morphologic differentitation characteristics of the neoplasm(s)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "differentitation",
+            "terminology": "HistologyDifferentiation",
+            "title": "Differentiation"
+          },
+          "laterality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Laterality qualifier for the location of the neoplasm(s)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "laterality",
+            "terminology": "LateralityQualifier",
+            "title": "Laterality"
+          }
+        },
+        "required": [
+          "caseId",
+          "relationship",
+          "assertionDate",
+          "topography",
+          "morphology"
+        ],
+        "title": "NeoplasticEntityCreate",
+        "type": "object"
+      },
+      "NeoplasticRelationship": {
+        "enum": [
+          "primary",
+          "metastatic",
+          "local_recurrence",
+          "regional_recurrence"
+        ],
+        "title": "NeoplasticRelationship",
+        "type": "string"
+      },
+      "NeoplasticEntity": {
+        "properties": {
+          "description": {
+            "description": "Human-readable description of the neoplastic entity",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's neoplasm(s) are recorded",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "relationship": {
+            "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "relationship",
+            "title": "Neoplastic relationship",
+            "type": "string"
+          },
+          "relatedPrimaryId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Reference to the primary neoplasm of which the neoplasm(s) originated from.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "related_primary",
+            "title": "Related primary neoplasm"
+          },
+          "assertionDate": {
+            "description": "The date on which the existence of the neoplasm(s) was first asserted or acknowledged",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "assertion_date",
+            "title": "Assertion date",
+            "type": "string"
+          },
+          "topography": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Anatomical location of the neoplasm(s)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "topography",
+            "terminology": "CancerTopography",
+            "title": "Topography"
+          },
+          "morphology": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "morphology",
+            "terminology": "CancerMorphology",
+            "title": "Morphology"
+          },
+          "differentitation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Morphologic differentitation characteristics of the neoplasm(s)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "differentitation",
+            "terminology": "HistologyDifferentiation",
+            "title": "Differentiation"
+          },
+          "laterality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Laterality qualifier for the location of the neoplasm(s)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "laterality",
+            "terminology": "LateralityQualifier",
+            "title": "Laterality"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "relationship",
+          "assertionDate",
+          "topography",
+          "morphology"
+        ],
+        "title": "NeoplasticEntity",
+        "type": "object"
+      },
+      "Paginated_NeoplasticEntity_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NeoplasticEntity"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[NeoplasticEntity]",
+        "type": "object"
+      },
+      "BinetStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "binet",
+            "default": "binet",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Binet stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "BinetStage",
+            "title": "Binet Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "BinetStagingCreate",
+        "type": "object"
+      },
+      "BreslowDepthCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "breslow",
+            "default": "breslow",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "depth": {
+            "description": "Breslow depth given in milimeters",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "depth",
+            "title": "Breslow depth",
+            "type": "number"
+          },
+          "isUlcered": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the primary tumour presents ulceration",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "is_ulcered",
+            "title": "Ulcered"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "depth"
+        ],
+        "title": "BreslowDepthCreate",
+        "type": "object"
+      },
+      "ClarkStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "clark",
+            "default": "clark",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Clark level stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "ClarkLevel",
+            "title": "Clark Level Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "ClarkStagingCreate",
+        "type": "object"
+      },
+      "FIGOStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "figo",
+            "default": "figo",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the FIGO stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "FIGOStage",
+            "title": "FIGO Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for the FIGO staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "FIGOStagingMethod",
+            "title": "FIGO staging methodology"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "FIGOStagingCreate",
+        "type": "object"
+      },
+      "GleasonGradeCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "gleason",
+            "default": "gleason",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Gleason grade stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "GleasonGradeGroupStage",
+            "title": "Gleason grade Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "GleasonGradeCreate",
+        "type": "object"
+      },
+      "INRGSSStageCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "inrgss",
+            "default": "inrgss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the INRGSS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "NeuroblastomaINRGSSStage",
+            "title": "INRGSS Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "INRGSSStageCreate",
+        "type": "object"
+      },
+      "INSSStageCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "inss",
+            "default": "inss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the INSS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "NeuroblastomaINSSStage",
+            "title": "INSS Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "INSSStageCreate",
+        "type": "object"
+      },
+      "ISSStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "iss",
+            "default": "iss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of theISS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "MyelomaISSStage",
+            "title": "ISS Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "ISSStagingCreate",
+        "type": "object"
+      },
+      "LymphomaStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "lymphoma",
+            "default": "lymphoma",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Lymphoma stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "LymphomaStage",
+            "title": "Lymphoma Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for the Lymphoma staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "LymphomaStagingMethod",
+            "title": "Lymphoma staging methodology"
+          },
+          "bulky": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Bulky modifier indicating if the lymphoma has the presence of bulky disease.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bulky",
+            "title": "Bulky disease modifier"
+          },
+          "pathological": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the staging was based on clinical or pathologic evidence.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "pathological",
+            "title": "Pathological staging"
+          },
+          "modifierss": {
+            "default": [],
+            "description": "Qualifier acting as modifier for the lymphoma stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "modifiers",
+            "terminology": "LymphomaStagingMethod",
+            "title": "Lymphoma stage modifier",
+            "type": "array"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "LymphomaStagingCreate",
+        "type": "object"
+      },
+      "RISSStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "riss",
+            "default": "riss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the RISS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "MyelomaRISSStage",
+            "title": "RISS Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "RISSStagingCreate",
+        "type": "object"
+      },
+      "RaiStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "rai",
+            "default": "rai",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Rai stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "RaiStage",
+            "title": "Rai Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for the Rai staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "RaiStagingMethod",
+            "title": "Rai staging methodology"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "RaiStagingCreate",
+        "type": "object"
+      },
+      "RhabdomyosarcomaClinicalGroupCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "rhabdomyosarcoma",
+            "default": "rhabdomyosarcoma",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the rhabdomyosarcoma clinical group",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "RhabdomyosarcomaClinicalGroup",
+            "title": "Rhabdomyosarcoma clinical group"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "RhabdomyosarcomaClinicalGroupCreate",
+        "type": "object"
+      },
+      "TNMStagingCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "tnm",
+            "default": "tnm",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The information determined as a result of making the observation, if the information has a simple value",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "TNMStage",
+            "title": "TNM Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for TNM staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "TNMStagingMethod",
+            "title": "TNM Staging methodology"
+          },
+          "pathological": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the staging was based on pathological (true) or clinical (false) evidence.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "pathological",
+            "title": "Pathological staging"
+          },
+          "primaryTumor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "T stage (extent of the primary tumor)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "primaryTumor",
+            "terminology": "TNMPrimaryTumorCategory",
+            "title": "T Stage"
+          },
+          "regionalNodes": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "N stage (degree of spread to regional lymph nodes)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "regionalNodes",
+            "terminology": "TNMRegionalNodesCategory",
+            "title": "N Stage"
+          },
+          "distantMetastases": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "M stage (presence of distant metastasis)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "distantMetastases",
+            "terminology": "TNMDistantMetastasesCategory",
+            "title": "M Stage"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "G stage (grade of the cancer cells)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "grade",
+            "terminology": "TNMGradeCategory",
+            "title": "G Stage"
+          },
+          "residualTumor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "R stage (extent of residual tumor cells after operation)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "residualTumor",
+            "terminology": "TNMResidualTumorCategory",
+            "title": "R Stage"
+          },
+          "lymphaticInvasion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "L stage (invasion into lymphatic vessels)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "lymphaticInvasion",
+            "terminology": "TNMLymphaticInvasionCategory",
+            "title": "L Stage"
+          },
+          "venousInvasion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "V stage (invasion into venous vessels)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "venousInvasion",
+            "terminology": "TNMVenousInvasionCategory",
+            "title": "V Stage"
+          },
+          "perineuralInvasion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Pn stage (invasion into adjunct nerves)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "perineuralInvasion",
+            "terminology": "TNMPerineuralInvasionCategory",
+            "title": "Pn Stage"
+          },
+          "serumTumorMarkerLevel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "S stage (serum tumor marker level)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "serumTumorMarkerLevel",
+            "terminology": "TNMSerumTumorMarkerLevelCategory",
+            "title": "S Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "TNMStagingCreate",
+        "type": "object"
+      },
+      "WilmsStageCreate": {
+        "properties": {
+          "stagingDomain": {
+            "const": "wilms",
+            "default": "wilms",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Wilms stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "WilmsTumorStage",
+            "title": "Wilms Stage"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "WilmsStageCreate",
+        "type": "object"
+      },
+      "BinetStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "binet",
+            "default": "binet",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Binet stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "BinetStage",
+            "title": "Binet Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "BinetStaging",
+        "type": "object"
+      },
+      "BreslowDepth": {
+        "properties": {
+          "stagingDomain": {
+            "const": "breslow",
+            "default": "breslow",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "depth": {
+            "description": "Breslow depth given in milimeters",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "depth",
+            "title": "Breslow depth",
+            "type": "number"
+          },
+          "isUlcered": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the primary tumour presents ulceration",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "is_ulcered",
+            "title": "Ulcered"
+          }
+        },
+        "required": [
+          "stage",
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "depth"
+        ],
+        "title": "BreslowDepth",
+        "type": "object"
+      },
+      "ClarkStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "clark",
+            "default": "clark",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Clark level stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "ClarkLevel",
+            "title": "Clark Level Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "ClarkStaging",
+        "type": "object"
+      },
+      "FIGOStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "figo",
+            "default": "figo",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the FIGO stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "FIGOStage",
+            "title": "FIGO Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for the FIGO staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "FIGOStagingMethod",
+            "title": "FIGO staging methodology"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "FIGOStaging",
+        "type": "object"
+      },
+      "GleasonGrade": {
+        "properties": {
+          "stagingDomain": {
+            "const": "gleason",
+            "default": "gleason",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Gleason grade stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "GleasonGradeGroupStage",
+            "title": "Gleason grade Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "GleasonGrade",
+        "type": "object"
+      },
+      "INRGSSStage": {
+        "properties": {
+          "stagingDomain": {
+            "const": "inrgss",
+            "default": "inrgss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the INRGSS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "NeuroblastomaINRGSSStage",
+            "title": "INRGSS Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "INRGSSStage",
+        "type": "object"
+      },
+      "INSSStage": {
+        "properties": {
+          "stagingDomain": {
+            "const": "inss",
+            "default": "inss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the INSS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "NeuroblastomaINSSStage",
+            "title": "INSS Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "INSSStage",
+        "type": "object"
+      },
+      "ISSStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "iss",
+            "default": "iss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of theISS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "MyelomaISSStage",
+            "title": "ISS Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "ISSStaging",
+        "type": "object"
+      },
+      "LymphomaStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "lymphoma",
+            "default": "lymphoma",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Lymphoma stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "LymphomaStage",
+            "title": "Lymphoma Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for the Lymphoma staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "LymphomaStagingMethod",
+            "title": "Lymphoma staging methodology"
+          },
+          "bulky": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Bulky modifier indicating if the lymphoma has the presence of bulky disease.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bulky",
+            "title": "Bulky disease modifier"
+          },
+          "pathological": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the staging was based on clinical or pathologic evidence.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "pathological",
+            "title": "Pathological staging"
+          },
+          "modifierss": {
+            "default": [],
+            "description": "Qualifier acting as modifier for the lymphoma stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "modifiers",
+            "terminology": "LymphomaStagingMethod",
+            "title": "Lymphoma stage modifier",
+            "type": "array"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "LymphomaStaging",
+        "type": "object"
+      },
+      "Paginated_Union_TNMStaging__FIGOStaging__BinetStaging__RaiStaging__BreslowDepth__ClarkStaging__ISSStaging__RISSStaging__GleasonGrade__INSSStage__INRGSSStage__WilmsStage__RhabdomyosarcomaClinicalGroup__LymphomaStaging__": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/TNMStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/FIGOStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/BinetStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/RaiStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/BreslowDepth"
+                },
+                {
+                  "$ref": "#/components/schemas/ClarkStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/ISSStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/RISSStaging"
+                },
+                {
+                  "$ref": "#/components/schemas/GleasonGrade"
+                },
+                {
+                  "$ref": "#/components/schemas/INSSStage"
+                },
+                {
+                  "$ref": "#/components/schemas/INRGSSStage"
+                },
+                {
+                  "$ref": "#/components/schemas/WilmsStage"
+                },
+                {
+                  "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroup"
+                },
+                {
+                  "$ref": "#/components/schemas/LymphomaStaging"
+                }
+              ]
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[Union[TNMStaging, FIGOStaging, BinetStaging, RaiStaging, BreslowDepth, ClarkStaging, ISSStaging, RISSStaging, GleasonGrade, INSSStage, INRGSSStage, WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging]]",
+        "type": "object"
+      },
+      "RISSStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "riss",
+            "default": "riss",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the RISS stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "MyelomaRISSStage",
+            "title": "RISS Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "RISSStaging",
+        "type": "object"
+      },
+      "RaiStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "rai",
+            "default": "rai",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Rai stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "RaiStage",
+            "title": "Rai Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for the Rai staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "RaiStagingMethod",
+            "title": "Rai staging methodology"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "RaiStaging",
+        "type": "object"
+      },
+      "RhabdomyosarcomaClinicalGroup": {
+        "properties": {
+          "stagingDomain": {
+            "const": "rhabdomyosarcoma",
+            "default": "rhabdomyosarcoma",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the rhabdomyosarcoma clinical group",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "RhabdomyosarcomaClinicalGroup",
+            "title": "Rhabdomyosarcoma clinical group"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "RhabdomyosarcomaClinicalGroup",
+        "type": "object"
+      },
+      "TNMStaging": {
+        "properties": {
+          "stagingDomain": {
+            "const": "tnm",
+            "default": "tnm",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The information determined as a result of making the observation, if the information has a simple value",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "TNMStage",
+            "title": "TNM Stage"
+          },
+          "methodology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Methodology used for TNM staging",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "TNMStagingMethod",
+            "title": "TNM Staging methodology"
+          },
+          "pathological": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the staging was based on pathological (true) or clinical (false) evidence.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "pathological",
+            "title": "Pathological staging"
+          },
+          "primaryTumor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "T stage (extent of the primary tumor)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "primaryTumor",
+            "terminology": "TNMPrimaryTumorCategory",
+            "title": "T Stage"
+          },
+          "regionalNodes": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "N stage (degree of spread to regional lymph nodes)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "regionalNodes",
+            "terminology": "TNMRegionalNodesCategory",
+            "title": "N Stage"
+          },
+          "distantMetastases": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "M stage (presence of distant metastasis)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "distantMetastases",
+            "terminology": "TNMDistantMetastasesCategory",
+            "title": "M Stage"
+          },
+          "grade": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "G stage (grade of the cancer cells)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "grade",
+            "terminology": "TNMGradeCategory",
+            "title": "G Stage"
+          },
+          "residualTumor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "R stage (extent of residual tumor cells after operation)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "residualTumor",
+            "terminology": "TNMResidualTumorCategory",
+            "title": "R Stage"
+          },
+          "lymphaticInvasion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "L stage (invasion into lymphatic vessels)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "lymphaticInvasion",
+            "terminology": "TNMLymphaticInvasionCategory",
+            "title": "L Stage"
+          },
+          "venousInvasion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "V stage (invasion into venous vessels)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "venousInvasion",
+            "terminology": "TNMVenousInvasionCategory",
+            "title": "V Stage"
+          },
+          "perineuralInvasion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Pn stage (invasion into adjunct nerves)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "perineuralInvasion",
+            "terminology": "TNMPerineuralInvasionCategory",
+            "title": "Pn Stage"
+          },
+          "serumTumorMarkerLevel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "S stage (serum tumor marker level)",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "serumTumorMarkerLevel",
+            "terminology": "TNMSerumTumorMarkerLevelCategory",
+            "title": "S Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "TNMStaging",
+        "type": "object"
+      },
+      "WilmsStage": {
+        "properties": {
+          "stagingDomain": {
+            "const": "wilms",
+            "default": "wilms",
+            "title": "Stagingdomain",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the staging",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer is staged",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the staging was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_coded_concept": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Staging date",
+            "type": "string"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "stagedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were the focus of the staging.",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "staged_entities",
+            "title": "Staged neoplastic entities",
+            "type": "array"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The value of the Wilms stage",
+            "examples": [],
+            "expanded": false,
+            "is_coded_concept": true,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "stage",
+            "terminology": "WilmsTumorStage",
+            "title": "Wilms Stage"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "stage"
+        ],
+        "title": "WilmsStage",
         "type": "object"
       }
     },

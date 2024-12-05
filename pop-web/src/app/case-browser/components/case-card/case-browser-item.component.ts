@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, inject } from '@angular/core';
 
 import { PatientCase, AuthService, UserSchema } from '../../../core/modules/openapi';
-import { Observable, Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { DividerModule } from 'primeng/divider';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -17,6 +18,7 @@ import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
     templateUrl: './case-browser-item.component.html',
     imports: [
         CommonModule,
+        RouterModule,
         NgxJdenticonModule,
         AvatarModule,
         AvatarGroupModule,

@@ -26,28 +26,28 @@ export interface PatientCasesServiceInterface {
     configuration: Configuration;
 
     /**
-     * Create Cancer Patient
+     * Create Patient Case
      * 
      * @param patientCaseCreate 
      */
     createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
-     * Delete Cancer Patient
+     * Delete Patient Case
      * 
      * @param patientId 
      */
     deletePatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
-     * Get Cancer Patient By Id
+     * Get Patient Case By Id
      * 
      * @param patientId 
      */
     getPatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<PatientCase>;
 
     /**
-     * Get All Cancer Patient Matching The Query
+     * Get All Patient Cases Matching The Query
      * 
      * @param ageLte 
      * @param ageGte 
@@ -61,7 +61,7 @@ export interface PatientCasesServiceInterface {
     getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
 
     /**
-     * Update Cancer Patient
+     * Update Patient Case
      * 
      * @param patientId 
      * @param patientCaseCreate 

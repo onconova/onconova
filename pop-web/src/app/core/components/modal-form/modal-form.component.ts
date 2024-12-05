@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { ModalFormService } from './modal-form.service'
 
-import { PatientFormComponent } from 'src/app/case-browser/components/patient-form/patient-form.component';
+import { PatientFormComponent } from 'src/app/core/forms/case-form/patient-form.component';
 
 
 @Component({

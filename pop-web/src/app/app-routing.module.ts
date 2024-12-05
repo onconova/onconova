@@ -4,6 +4,9 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { AuthGuard } from './auth/auth.guard';
 
+import { CaseBrowserComponent } from './case-browser/case-browser.component';
+import { CaseManagerComponent } from './case-manager/case-manager.component';
+
 @NgModule({
     imports: [
         RouterModule.forRoot([
@@ -16,7 +19,12 @@ import { AuthGuard } from './auth/auth.guard';
                 canActivate: [AuthGuard],
                 children: [
                     { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
-                    { path: 'cases', loadChildren: () => import('./case-browser/patient-list.module').then(m => m.CasebrowserModule) },
+                    { path: 'cases', 
+                        children: [
+                            { path: '', component: CaseBrowserComponent},
+                            { path: ':caseID',  component: CaseManagerComponent }
+                        ]
+                    },
                 ]
             },
             { path: 'notfound', component: NotfoundComponent },

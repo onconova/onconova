@@ -19,6 +19,9 @@ import { PrimeNGConfig } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { CaseBrowserModule } from './case-browser/case-browser.module';
+import { CaseManagerModule } from './case-manager/case-manager.module';
+
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
     primeConfig.ripple = true;
 };
@@ -43,6 +46,8 @@ export function apiConfigFactory (): Configuration {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastModule,
+        CaseBrowserModule,
+        CaseManagerModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

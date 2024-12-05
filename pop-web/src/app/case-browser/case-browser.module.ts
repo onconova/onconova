@@ -8,14 +8,13 @@ import { DataViewModule } from 'primeng/dataview';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { PatientListComponent } from './patient-list.component';
+import { CaseBrowserComponent } from './case-browser.component';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
-import { PatientFormComponent } from './components/patient-form/patient-form.component';
-import { PatientListRoutingModule } from './patient-list-routing.module';
+import { PatientFormComponent } from '../core/forms/case-form/patient-form.component';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,13 +23,13 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { SliderModule } from 'primeng/slider';
 import { CodedConceptSelectModule } from '../core/components/coded-concept-select/coded-concept-select.module';
-import { DateMaskDirective } from './components/patient-form/date-mask-directive'
+import { DateMaskDirective } from '../core/components/directives/date-mask-directive'
 import { DividerModule } from 'primeng/divider';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ChipModule } from 'primeng/chip';
 
 
-import { ControlErrorComponent } from './components/control-error/control-error.component';
+import { ControlErrorComponent } from '../core/components/control-error/control-error.component';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
 import { CaseBrowserCardComponent } from './components/case-card/case-browser-item.component';
 
@@ -50,7 +49,6 @@ import { CaseBrowserCardComponent } from './components/case-card/case-browser-it
         InputTextModule,
         SkeletonModule,
         AvatarModule,
-        PatientListRoutingModule,
         DialogModule,
         ReactiveFormsModule,
         InputMaskModule,
@@ -67,9 +65,9 @@ import { CaseBrowserCardComponent } from './components/case-card/case-browser-it
         CaseBrowserCardComponent
     ],
     declarations: [
-        PatientListComponent,
+        CaseBrowserComponent,
         DateMaskDirective,
         PatientFormComponent,
     ]
 })
-export class CasebrowserModule { }
+export class CaseBrowserModule { }

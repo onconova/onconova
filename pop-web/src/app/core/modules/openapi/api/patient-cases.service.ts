@@ -100,7 +100,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Create Cancer Patient
+     * Create Patient Case
      * @param patientCaseCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -181,7 +181,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Delete Cancer Patient
+     * Delete Patient Case
      * @param patientId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -251,7 +251,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Get Cancer Patient By Id
+     * Get Patient Case By Id
      * @param patientId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -322,7 +322,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Get All Cancer Patient Matching The Query
+     * Get All Patient Cases Matching The Query
      * @param ageLte 
      * @param ageGte 
      * @param pseudoidentifier 
@@ -434,7 +434,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Update Cancer Patient
+     * Update Patient Case
      * @param patientId 
      * @param patientCaseCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
