@@ -26,6 +26,14 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ChipModule } from 'primeng/chip';
 import {RouterModule} from '@angular/router';
 import { CaseManagerComponent } from './case-manager.component';
+import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
+import { PanelModule } from 'primeng/panel';
+import { TimelineModule } from 'primeng/timeline';
+import { BadgeModule } from 'primeng/badge';
+import { CaseManagerPanelComponent } from './components/case-manager-panel/case-manager-panel.component'
+import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
+
+import { LucideAngularModule, HeartPulse, Tags, TestTubeDiagonal, Dna, Fingerprint, Microscope, Siren, DiamondPlus, Activity, Cigarette, Tablets, Slice, Radiation, Ribbon, Presentation, ShieldAlert, Image, CircleGauge} from 'lucide-angular';
 
 
 @NgModule({
@@ -56,9 +64,33 @@ import { CaseManagerComponent } from './case-manager.component';
         SliderModule,
         ToastModule,
         ChipModule,
+        NgxJdenticonModule,    
+        PanelModule,
+        TimelineModule,
+        BadgeModule,
+        ModalFormComponent,
+        LucideAngularModule.pick({HeartPulse, Tags, TestTubeDiagonal, Dna, Fingerprint, Microscope, Siren, DiamondPlus, Activity, Cigarette, Tablets, Slice, Radiation, Ribbon, Presentation, ShieldAlert, Image, CircleGauge}),
+    ],
+    providers: [
+    { 
+        // Custom identicon style
+        provide: JDENTICON_CONFIG,
+        useValue: {
+            hues: [220, 230],
+        lightness: {
+            color: [0.21, 0.9],
+            grayscale: [0.23, 0.62],
+        },
+        saturation: {
+            color: 0.80,
+            grayscale: 0.50,
+        },
+        },
+    }
     ],
     declarations: [
         CaseManagerComponent,
+        CaseManagerPanelComponent,
     ]
 })
 export class CaseManagerModule { }

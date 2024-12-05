@@ -64,42 +64,54 @@ class PatientCaseController(ControllerBase):
         return 201, ResourceIdSchema(id=instance.id)
 
     @route.get(
-        path='/{patientId}', 
+        path='/{caseId}', 
         response={
             200: PatientCaseSchema, 
             404: None
         },
         operation_id='getPatientCaseById',
         )
-    def get_patient_case_by_id(self, patientId: str): 
-        instance = get_object_or_404(PatientCase, id=patientId)
+    def get_patient_case_by_id(self, caseId: str): 
+        instance = get_object_or_404(PatientCase, id=caseId)
         return 200, PatientCaseSchema.model_validate(instance)
 
+    @route.get(
+        path='/pseudo/{pseudoidentifier}', 
+        response={
+            200: PatientCaseSchema, 
+            404: None
+        },
+        operation_id='getPatientCaseByPseudoidentifier',
+        )
+    def get_patient_case_by_pseudoidentifier(self, pseudoidentifier: str): 
+        instance = get_object_or_404(PatientCase, pseudoidentifier=pseudoidentifier.strip())
+        return 200, PatientCaseSchema.model_validate(instance)
+    
     @route.put(
-        path='/{patientId}', 
+        path='/{caseId}', 
         response={
             204: None, 
             404: None
         },
         operation_id='updatePatientCaseById',
     )
-    def update_patient_case(self, patientId: str, payload: PatientCaseCreateSchema): # type: ignore
-        instance = get_object_or_404(PatientCase, id=patientId)
+    def update_patient_case(self, caseId: str, payload: PatientCaseCreateSchema): # type: ignore
+        instance = get_object_or_404(PatientCase, id=caseId)
         instance = PatientCaseCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
         return 204, None
 
     @route.delete(
-        path='/{patientId}', 
+        path='/{caseId}', 
         response={
             204: None, 
             404: None,
         },
         operation_id='deletePatientCaseById',
     )
-    def delete_patient_case(self, patientId: str):
-        instance = get_object_or_404(PatientCase, id=patientId)
+    def delete_patient_case(self, caseId: str):
+        instance = get_object_or_404(PatientCase, id=caseId)
         instance.delete()
         return 204, None
     

@@ -50,6 +50,7 @@ export function apiConfigFactory (): Configuration {
         CaseManagerModule,
     ],
     providers: [
+        
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: BASE_PATH, useValue: 'https://localhost:4443' },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

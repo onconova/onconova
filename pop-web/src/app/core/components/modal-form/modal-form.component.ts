@@ -1,5 +1,5 @@
 // dynamic-form-modal.component.ts
-import { Component, ViewChild, ViewContainerRef, inject, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, inject, Output, Input, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 
@@ -34,6 +34,8 @@ export class ModalFormComponent {
   subtitle!: string;
   formComponent: any;
 
+  @Input() caseId!: string | null; 
+
   private modalService = inject(ModalFormService)
 
   ngAfterViewInit() {
@@ -51,6 +53,7 @@ export class ModalFormComponent {
     this.content.clear();
     const componentRef = this.content.createComponent(component);
     this.formComponent = componentRef.instance;
+    this.formComponent.caseId = this.caseId;
 
     // subscribe to the save event emitted by the PatientFormComponent
     this.formComponent.save.subscribe((event: any) => {

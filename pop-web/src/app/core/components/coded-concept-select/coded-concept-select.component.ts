@@ -50,6 +50,8 @@ export class CodedConceptSelectComponent {
                 concept.display.toLowerCase().indexOf(query.toLowerCase()) !== -1
                 ||
                 concept.code.toLowerCase().indexOf(query.toLowerCase()) !== -1
+                ||
+                (concept.synonyms && concept.synonyms.some((synonym:string) => synonym.toLowerCase().indexOf(query.toLowerCase()) !== -1))
             ) {
                 filtered.push(concept);
             }

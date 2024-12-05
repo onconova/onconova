@@ -1,0 +1,51 @@
+<div class="formgrid grid p-fluid">
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field col">
+            <label for="assertionDate" class="form-label required">Neoplastic relation category</label>
+            <p-dropdown 
+            [options]="relationships" 
+            formControlName="relationship"
+            optionLabel="name" 
+            placeholder="Select an option" />
+        </div>
+
+        <div class="field col">
+            <label for="assertionDate" class="form-label required">Assertion date</label>
+            <p-calendar 
+                required
+                id="assertionDate"
+                formControlName="assertionDate"
+                dateFormat="dd/mm/yy" 
+                placeholder="DD/MM/YYYY" 
+                appendTo="body"
+                dateMask 
+            />
+            <control-error controlName="assertionDate"></control-error>
+        </div>
+
+        <div class="field col">
+            <label class="form-label required">Topography</label>
+            <coded-concept-select 
+                terminology="CancerTopography"
+                [showCodes]="true"
+                [control]="form.controls['topography']"/>
+            <control-error controlName="topography"></control-error>
+        </div>
+        <div class="field col">
+            <label class="form-label required">Morphology</label>
+            <coded-concept-select 
+                terminology="CancerMorphology"
+                [showCodes]="true"
+                [control]="form.controls['morphology']"/>
+            <control-error controlName="morphology"></control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+    </form>
+</div>  

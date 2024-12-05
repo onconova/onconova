@@ -1,0 +1,13 @@
+.p-timeline-event-opposite {
+    display: none !important;
+}
+.p-timeline-event-content {
+    padding-bottom: .5rem;
+}
+.p-timeline-event {
+    min-height: unset;
+}
+.p-avatar {
+    line-height: 0;
+    padding: 1rem;
+}

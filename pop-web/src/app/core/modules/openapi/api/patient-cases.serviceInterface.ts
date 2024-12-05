@@ -35,16 +35,23 @@ export interface PatientCasesServiceInterface {
     /**
      * Delete Patient Case
      * 
-     * @param patientId 
+     * @param caseId 
      */
-    deletePatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deletePatientCaseById(caseId: string, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Patient Case By Id
      * 
-     * @param patientId 
+     * @param caseId 
      */
-    getPatientCaseById(patientId: string, extraHttpRequestParams?: any): Observable<PatientCase>;
+    getPatientCaseById(caseId: string, extraHttpRequestParams?: any): Observable<PatientCase>;
+
+    /**
+     * Get Patient Case By Pseudoidentifier
+     * 
+     * @param pseudoidentifier 
+     */
+    getPatientCaseByPseudoidentifier(pseudoidentifier: string, extraHttpRequestParams?: any): Observable<PatientCase>;
 
     /**
      * Get All Patient Cases Matching The Query
@@ -63,9 +70,9 @@ export interface PatientCasesServiceInterface {
     /**
      * Update Patient Case
      * 
-     * @param patientId 
+     * @param caseId 
      * @param patientCaseCreate 
      */
-    updatePatientCaseById(patientId: string, patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updatePatientCaseById(caseId: string, patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<{}>;
 
 }

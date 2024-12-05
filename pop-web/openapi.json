@@ -290,16 +290,16 @@
         ]
       }
     },
-    "/api/patient-cases/{patientId}": {
+    "/api/patient-cases/{caseId}": {
       "delete": {
         "operationId": "deletePatientCaseById",
         "summary": "Delete Patient Case",
         "parameters": [
           {
             "in": "path",
-            "name": "patientId",
+            "name": "caseId",
             "schema": {
-              "title": "Patientid",
+              "title": "Caseid",
               "type": "string"
             },
             "required": true
@@ -328,9 +328,9 @@
         "parameters": [
           {
             "in": "path",
-            "name": "patientId",
+            "name": "caseId",
             "schema": {
-              "title": "Patientid",
+              "title": "Caseid",
               "type": "string"
             },
             "required": true
@@ -366,9 +366,9 @@
         "parameters": [
           {
             "in": "path",
-            "name": "patientId",
+            "name": "caseId",
             "schema": {
-              "title": "Patientid",
+              "title": "Caseid",
               "type": "string"
             },
             "required": true
@@ -395,6 +395,46 @@
           },
           "required": true
         },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/patient-cases/pseudo/{pseudoidentifier}": {
+      "get": {
+        "operationId": "getPatientCaseByPseudoidentifier",
+        "summary": "Get Patient Case By Pseudoidentifier",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pseudoidentifier",
+            "schema": {
+              "title": "Pseudoidentifier",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientCase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
         "security": [
           {
             "JWTAuth": []

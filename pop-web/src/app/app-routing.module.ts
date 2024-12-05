@@ -22,14 +22,19 @@ import { CaseManagerComponent } from './case-manager/case-manager.component';
                     { path: 'cases', 
                         children: [
                             { path: '', component: CaseBrowserComponent},
-                            { path: ':caseID',  component: CaseManagerComponent }
+                            { path: ':pseudoidentifier',  component: CaseManagerComponent }
                         ]
                     },
                 ]
             },
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },
-        ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })
+        ], { 
+            scrollPositionRestoration: 'enabled', 
+            anchorScrolling: 'enabled', 
+            onSameUrlNavigation: 'reload',
+            bindToComponentInputs: true,
+        })
     ],
     exports: [RouterModule]
 })

@@ -1,3 +1,120 @@
-<div>
-    CASE MANAGER
+<!-- Case summary -->
+<div class="card flex p-4">
+    <p-avatar size="xlarge" [style]="{'background': 'white', 'width': '5rem'}" >
+        <svg class="my-auto" [data-jdenticon-value]="[pseudoidentifier]"></svg>
+    </p-avatar>
+    <div class="ml-3">
+        CASE MANAGEMENT
+        <h2 class="mb-0">
+            {{ pseudoidentifier }}
+        </h2>
+        <div *ngIf="case">
+            {{ case.gender.display }}, 
+            {{ case.age }} years
+        </div>
+    </div>
 </div>
+
+<!-- Case content -->
+<div class="grid" *ngIf="case"> 
+    <div class="col-12 md:col-6 lg:col-4">
+        <h5 class="font-bold">
+            Cancer Characterization
+        </h5>
+        <app-case-manager-panel
+            title="Neoplastic Entities"
+            icon="ribbon"
+            [formComponent]="NeoplasticEntityFormComponent"
+            [dataService]="neoplasticEntities$"/>
+            
+        <app-case-manager-panel
+            title="Stagings"
+            icon="tags"/>
+
+        <app-case-manager-panel
+            title="Risk Assessments"
+            icon="heart-pulse"/>
+
+        <app-case-manager-panel
+            title="Blood Tumor Markers"
+            icon="test-tube-diagonal"/>
+
+        <h5  class="font-bold mt-5">
+            Pathology
+        </h5>
+
+        <app-case-manager-panel
+            title="Immunostaining Tumor Markers"
+            icon="microscope"/>
+            
+        <app-case-manager-panel
+            title="Genomic Variants"
+            icon="dna"/>
+
+        <app-case-manager-panel
+            title="Genomic Signatures"
+            icon="fingerprint"/>
+
+    </div>
+
+
+    <div class="col-12 md:col-6 lg:col-4">
+        <h5 class="font-bold">
+            Therapy
+        </h5>
+        <app-case-manager-panel
+            title="Systemic Treatments"
+            icon="tablets"/>
+            
+        <app-case-manager-panel
+            title="Surgical Procedures"
+            icon="slice"/>
+
+        <app-case-manager-panel
+            title="Radiotherapies"
+            icon="radiation"/>
+
+
+        <h5  class="font-bold mt-5">
+            Profile
+        </h5>
+
+        <app-case-manager-panel
+            title="Lifestyle"
+            icon="cigarette"/>
+            
+        <app-case-manager-panel
+            title="Comorbidities"
+            icon="diamond-plus"/>
+
+        <app-case-manager-panel
+            title="Vitals"
+            icon="activity"/>
+
+    </div>
+
+
+    <div class="col-12 md:col-6 lg:col-4">
+        <h5 class="font-bold">
+            Clinical Observations
+        </h5>
+
+        <app-case-manager-panel
+            title="Tumor Boards"
+            icon="presentation"/>
+            
+        <app-case-manager-panel
+            title="Adverse Events"
+            icon="shield-alert"/>
+
+        <app-case-manager-panel
+            title="Treatment Responses"
+            icon="image"/>
+
+        <app-case-manager-panel
+            title="Performance Status"
+            icon="circle-gauge"/>
+
+    </div>
+</div>
+<app-dynamic-modal-form [caseId]="case?.id || null"></app-dynamic-modal-form>
