@@ -7,6 +7,7 @@
             [options]="relationships" 
             formControlName="relationship"
             optionLabel="name" 
+            optionValue="code"
             placeholder="Select an option" />
         </div>
 
@@ -24,6 +25,16 @@
             <control-error controlName="assertionDate"></control-error>
         </div>
 
+        <div class="field col" *ngIf="requiresPrimary">
+            <label for="assertionDate" class="form-label required">Related primary neoplasm</label>
+            <p-dropdown 
+            [options]="relatedPrimaries" 
+            formControlName="relatedPrimary"
+            optionLabel="description" 
+            optionValue="id"
+            placeholder="Select an option" />
+        </div>
+
         <div class="field col">
             <label class="form-label required">Topography</label>
             <coded-concept-select 
@@ -37,6 +48,7 @@
             <coded-concept-select 
                 terminology="CancerMorphology"
                 [showCodes]="true"
+                [baseQuery]="morphologyCodeFilter"
                 [control]="form.controls['morphology']"/>
             <control-error controlName="morphology"></control-error>
         </div>

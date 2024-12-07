@@ -66,9 +66,7 @@ export class CaseManagerPanelComponent implements OnInit {
         this.dataService.subscribe(
             (response: any) => {
                 console.log(response)
-                response.items.forEach((entry: any) => {
-                    this.entries.push(entry)
-                });
+                this.entries = response.items;
             },
             (error: Error) => {
                 console.log(error)

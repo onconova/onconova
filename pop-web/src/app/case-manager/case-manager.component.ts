@@ -22,26 +22,6 @@ export class CaseManagerComponent implements OnInit {
 
     public neoplasticEntities$!: Observable<PaginatedNeoplasticEntity> 
 
-    // Dummy
-    entries = [
-        {
-            date: new Date('2021/01/01'),
-            description: 'Data entry 1',
-        },
-        {
-            date: new Date('2021/02/02'),
-            description: 'Data entry 2',
-        },
-        {
-            date: new Date('2021/03/03'),
-            description: 'Data entry 3',
-        },
-        {
-            date: new Date('2021/04/04'),
-            description: 'Data entry 4',
-        }
-    ]
-
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent
 
     private caseService = inject(PatientCasesService);
@@ -51,11 +31,11 @@ export class CaseManagerComponent implements OnInit {
 
 
     ngOnInit() {
-        this.neoplasticEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.case?.id)
 
         this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier).subscribe(
             (response) => {
                 this.case = response;
+                this.neoplasticEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.case.id)
             },
             (error) => {
                 // Report any problems

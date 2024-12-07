@@ -4,6 +4,7 @@
 .p-dialog-header {
     background: var(--blue-500);
     margin-bottom: 1.5rem;
+    padding: 1rem 2rem;
     color: white;
 }
 .p-dialog-header-icons i {

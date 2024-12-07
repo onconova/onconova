@@ -28,6 +28,7 @@ export class CodedConceptSelectComponent {
     concepts: CodedConceptSchema[] = [];
     filteredConcepts: CodedConceptSchema[] = [];
 
+    @Input() baseQuery: string = '';
     @Input() control!: FormControl | any;
 
     constructor(private terminologyService: TerminologyService) {}
@@ -41,21 +42,20 @@ export class CodedConceptSelectComponent {
     }
 
     filterConcepts(event: AutoCompleteCompleteEvent) {
-        let filtered: any[] = [];
-        let query = event.query;
-
-        for (let i = 0; i < (this.concepts as any[]).length; i++) {
-            let concept = (this.concepts as any[])[i];
-            if (
-                concept.display.toLowerCase().indexOf(query.toLowerCase()) !== -1
-                ||
-                concept.code.toLowerCase().indexOf(query.toLowerCase()) !== -1
-                ||
-                (concept.synonyms && concept.synonyms.some((synonym:string) => synonym.toLowerCase().indexOf(query.toLowerCase()) !== -1))
-            ) {
-                filtered.push(concept);
+        let query: string = `${this.baseQuery} ${event.query}`
+        this.filteredConcepts = this.concepts;
+        query.split(' ').forEach(word => {
+            if (word) {
+                this.filteredConcepts = this.filteredConcepts.filter((concept) => this.conceptMatchesQuery(concept, word.toLowerCase()));
             }
-        }
-        this.filteredConcepts = filtered;
+        })
+    }
+
+    conceptMatchesQuery(concept: CodedConceptSchema, query: string): boolean {
+        return concept.code.toLowerCase().includes(query)
+            || 
+            concept.display != null && concept.display.toLowerCase().includes(query)
+            ||
+            (concept.synonyms != null && concept.synonyms.some((synonym:string) => synonym.toLowerCase().includes(query)));   
     }
 }

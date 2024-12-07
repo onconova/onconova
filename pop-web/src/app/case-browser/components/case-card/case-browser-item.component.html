@@ -2,7 +2,7 @@
 <div 
     class="case-browser-card card flex flex-column sm:flex-row sm:align-items-center p-3 gap-3 mb-3" 
     [routerLink]="['/cases', case.pseudoidentifier]" target="_blank">
-    <p-avatar size="xlarge" [style]="{'background': 'white', 'border': '1px solid #f0f2'}">
+    <p-avatar size="xlarge" [style]="{'background': 'white', 'border': '1px solid #f0f2', 'padding': '0'}">
         <svg width="4rem" height="4rem" [data-jdenticon-value]="[case.pseudoidentifier]"></svg>
     </p-avatar>
 

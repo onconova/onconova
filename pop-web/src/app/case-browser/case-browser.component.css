@@ -8,3 +8,7 @@
     border-left: solid 4px var(--primary-color);
     cursor: pointer;
 }
+.p-avatar {
+    line-height: 0 !important;
+    padding: 1rem;
+}

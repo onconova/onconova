@@ -1,11 +1,12 @@
 import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { InputMaskModule } from 'primeng/inputmask';
 
 import { CodedConceptSchema } from '../../modules/openapi'
-import { NeoplasticEntityCreate, NeoplasticEntitiesService } from '../../modules/openapi'
+import { NeoplasticEntity, NeoplasticEntityCreate, NeoplasticEntitiesService } from '../../modules/openapi'
 import { CodedConceptSelectModule } from '../../components/coded-concept-select/coded-concept-select.module';
 import { ControlErrorComponent } from '../../components/control-error/control-error.component';
 
@@ -21,6 +22,7 @@ import { Ribbon } from 'lucide-angular';
   selector: 'neoplastic-entity-form',
   templateUrl: './neoplastic-entity-form.component.html',
   imports: [
+    CommonModule,
     InputMaskModule,
     ReactiveFormsModule,
     FormsModule,
@@ -44,11 +46,15 @@ export class NeoplasticEntityFormComponent {
     subtitle: string = 'Add new neoplastic entity'
     readonly icon = Ribbon;
 
-    caseId!: string;
-
+    private caseId!: string;
+    public requiresPrimary: boolean = false;
+    public morphologyCodeFilter: string = '/3';
     private neoplasticEntitiesService = inject(NeoplasticEntitiesService)
+    public relatedPrimaries!: NeoplasticEntity[];
+
     private messageService = inject(MessageService)
     private datePipe = inject(DatePipe)
+
 
     relationships = [
     { name: 'Primary', code: 'primary' },
@@ -58,16 +64,48 @@ export class NeoplasticEntityFormComponent {
     ]
   ngOnInit() {
     this.constructForm()
-    console.log('caseId', this.caseId)
+    this.onNeoplastiCRelationshipChange()
+    this.getRelatedPrimaries()
   }
 
   private constructForm() {
     this.form = new FormGroup({
-        relationship: new FormControl<string|null>(null,Validators.required),
+        relationship: new FormControl<string>('primary',Validators.required),
         assertionDate: new FormControl<Date|null>(null, Validators.required),
+        relatedPrimary: new FormControl<string|null>(null, Validators.required),
         topography: new FormControl<CodedConceptSchema|null>(null,Validators.required),
         morphology: new FormControl<CodedConceptSchema|null>(null,Validators.required),
     });
+  }
+
+
+  private onNeoplastiCRelationshipChange(): void {
+    // Subscribe to changes in the neoplastic relationship form control 
+    this.form.get('relationship')?.valueChanges.subscribe(relationship => {
+      // Update base filter for morphology codes     
+      if (relationship === 'metastatic') {
+        this.morphologyCodeFilter = '/6'
+      } else {
+        this.morphologyCodeFilter = '/3'
+      }  
+      this.requiresPrimary = relationship !== 'primary'
+
+      const relatedPrimary = this.form.get('relatedPrimary')
+      if (relationship !== 'metastatic') {
+        relatedPrimary?.removeValidators(Validators.required);
+      } else {
+        relatedPrimary?.addValidators(Validators.required);
+      }  
+      relatedPrimary?.updateValueAndValidity();
+    });
+  }
+
+  getRelatedPrimaries() {
+    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, ["primary"]).subscribe(
+      (response) => {
+          this.relatedPrimaries = response.items
+      }
+    )
   }
 
 
@@ -78,7 +116,7 @@ export class NeoplasticEntityFormComponent {
       const data = this.form.value
       const payload: NeoplasticEntityCreate = {
         caseId: this.caseId,
-        relationship: data.relationship.code,
+        relationship: data.relationship,
         topography: data.topography,
         assertionDate: this.datePipe.transform(data.assertionDate, 'yyyy-MM-dd') || data.assertionDate,
         morphology: data.morphology,
