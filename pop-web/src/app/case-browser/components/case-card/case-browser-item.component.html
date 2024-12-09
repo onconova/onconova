@@ -1,7 +1,10 @@
 
 <div 
     class="case-browser-card card flex flex-column sm:flex-row sm:align-items-center p-3 gap-3 mb-3" 
-    [routerLink]="['/cases', case.pseudoidentifier]" target="_blank">
+    [routerLink]="['/cases', case.pseudoidentifier]" 
+    target="_blank">
+    
+    <!-- Identicon -->
     <p-avatar size="xlarge" [style]="{'background': 'white', 'border': '1px solid #f0f2', 'padding': '0'}">
         <svg width="4rem" height="4rem" [data-jdenticon-value]="[case.pseudoidentifier]"></svg>
     </p-avatar>
@@ -16,36 +19,44 @@
             <span *ngIf="case.isDeceased">, †</span>
         </div>
     </div>
+
     <p-divider layout="vertical" />
+
     <div class="flex flex-column" style="width: 20%">
         <div>Diagnosis pending</div>
         <div>No further information available</div>
     </div>
-    <p-divider layout="vertical" />
+
+    <p-divider layout="vertical"/>
+
     <div class="flex flex-column text-center gap-3" >
         Created
         <div class="">{{ case.createdAt | date }}</div>
     </div>
-    <div class="flex flex-column text-center gap-2" >
+    <div class="flex flex-column text-center gap-2" *ngIf="this.case.createdById" >
         Manager
-        <p-avatar 
-            label="{{ createdByUsername && createdByUsername[0].toUpperCase() || '?' }}" 
-            size="normal" 
-            [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-            title="{{ createdByUsername }}" 
-            shape="circle"/>
+        <ng-container *ngIf="createdByUsername$ | async as username">
+            <p-avatar 
+                label="{{ username[0].toUpperCase() }}" 
+                size="normal" 
+                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                title="{{ username }}" 
+                shape="circle"/>
+        </ng-container>
     </div>
     <div class="flex flex-column text-center gap-2"> 
         Contributors
         <p-avatarGroup styleClass="my-auto">
-            <ng-container *ngFor="let username of updatedByUsernames;">
-                <p-avatar 
-                label="{{ username[0].toUpperCase() }}" 
-                size="normal" 
-                shape="circle"
-                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                title="{{ username }}" 
-                />
+            <ng-container *ngFor="let username$ of updatedByUsernames$;">
+                <ng-container *ngIf="username$ | async as username">
+                    <p-avatar 
+                    label="{{ username[0].toUpperCase() }}" 
+                    size="normal" 
+                    shape="circle"
+                    [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                    title="{{ username }}" 
+                    />
+                </ng-container>
             </ng-container>
             <p-avatar *ngIf="case.updatedByIds && case.updatedByIds.length > 2"
                 label="+2" 

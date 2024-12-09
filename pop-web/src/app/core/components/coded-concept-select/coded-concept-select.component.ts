@@ -1,61 +1,99 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { inject, Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TerminologyService } from '../../../core/modules/openapi/api/terminology.service';
 import { CodedConceptSchema } from '../../../core/modules/openapi';
-import {FormControl} from '@angular/forms';
+import { Observable, Subscription, tap } from 'rxjs';
+
+import { CommonModule } from '@angular/common';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
 
 interface AutoCompleteCompleteEvent {
     originalEvent: Event;
     query: string;
 }
+
 @Component({
+    standalone: true,
     selector: 'coded-concept-select',
     templateUrl: './coded-concept-select.component.html',
-    providers:[
-        TerminologyService,
+    providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => CodedConceptSelectComponent),
-            multi: true
-        }
+            multi: true,
+        },
+    ],
+    imports: [
+        CommonModule,
+        FormsModule, 
+        ReactiveFormsModule,
+        AutoCompleteModule,
     ]
 })
-export class CodedConceptSelectComponent {
+export class CodedConceptSelectComponent implements ControlValueAccessor {
+    
+    private terminologyService: TerminologyService = inject(TerminologyService);
+
     @Input() terminology!: string;
     @Input() formControlName!: string;
     @Input() showSynonyms: boolean = true;
     @Input() showCodes: boolean = false;
-    concepts: CodedConceptSchema[] = [];
-    filteredConcepts: CodedConceptSchema[] = [];
-
     @Input() baseQuery: string = '';
-    @Input() control!: FormControl | any;
 
-    constructor(private terminologyService: TerminologyService) {}
+
+    public formControl: FormControl = new FormControl();
+    public concepts!: CodedConceptSchema[];
+    public filteredConcepts!: CodedConceptSchema[];
+    private conceptsSubscription!: Subscription;
+
 
     ngOnInit() {
-        this.terminologyService.getTerminologyConcepts(this.terminology).subscribe(
-            (concepts: CodedConceptSchema[]) => {
-                this.concepts = concepts;
+        this.conceptsSubscription = this.terminologyService.getTerminologyConcepts(this.terminology).subscribe({
+            next: data => {
+                this.concepts = data;
+                this.filteredConcepts = data;
             }
-        );
+        });
+
     }
 
     filterConcepts(event: AutoCompleteCompleteEvent) {
+        let filtered: CodedConceptSchema[] = []
         let query: string = `${this.baseQuery} ${event.query}`
-        this.filteredConcepts = this.concepts;
+        filtered = [...this.concepts];
         query.split(' ').forEach(word => {
             if (word) {
-                this.filteredConcepts = this.filteredConcepts.filter((concept) => this.conceptMatchesQuery(concept, word.toLowerCase()));
+                filtered = filtered.filter((concept) => this.conceptMatchesQuery(concept, word.toLowerCase()));
             }
         })
+        this.filteredConcepts = filtered
     }
 
+ 
     conceptMatchesQuery(concept: CodedConceptSchema, query: string): boolean {
         return concept.code.toLowerCase().includes(query)
             || 
             concept.display != null && concept.display.toLowerCase().includes(query)
             ||
             (concept.synonyms != null && concept.synonyms.some((synonym:string) => synonym.toLowerCase().includes(query)));   
+    }
+
+
+    ngOnDestroy(): void {
+        this.conceptsSubscription.unsubscribe();
+    }
+
+
+    writeValue(value: any): void {
+        this.formControl.patchValue(value);
+    }
+
+    registerOnChange(fn: any): void {
+        this.formControl.valueChanges.subscribe((val) => fn(val));
+    }
+
+    registerOnTouched(fn: any): void {
+        this.formControl.valueChanges.subscribe(val => fn(val));
     }
 }

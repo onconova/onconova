@@ -17,15 +17,19 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
 @Component({
     standalone: true,
     selector: 'control-error',
-    imports: [AsyncPipe],
+    imports: [
+      AsyncPipe,
+    ],
     template: '<div class="text-danger mt-2" style="color:#e24c4c">{{ message$ | async }}</div>',
     changeDetection: ChangeDetectionStrategy.OnPush,
   })
   export class ControlErrorComponent implements OnInit, OnDestroy {
-    private subscription = new Subscription();
+
     private formGroupDirective = inject(FormGroupDirective);
-    errors: any = inject(FORM_ERRORS);
-    message$ = new BehaviorSubject<string>('');
+
+    private subscription = new Subscription();
+    private errors: any = inject(FORM_ERRORS);
+    public message$ = new BehaviorSubject<string>('');
   
     @Input() controlName!: string;
     @Input() customErrors?: ValidationErrors;
@@ -53,7 +57,7 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
         } else {
           const message = this.controlName
             ? `Control "${this.controlName}" not found in the form group.`
-            : `Input controlName is required`;
+            : `Input formControlName is required`;
           console.error(message);
         }
       } else {

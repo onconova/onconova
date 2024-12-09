@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 
-import { PatientCase, AuthService, UserSchema } from '../../../core/modules/openapi';
+import { PatientCase, AuthService } from '../../../core/modules/openapi';
 import { RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 import { DividerModule } from 'primeng/divider';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -13,7 +13,25 @@ import { AvatarModule } from 'primeng/avatar';
 
 import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
 
+
+/**
+ * Represents a single case browser item.
+ *
+ * This component is used to display information about a specific patient case in a case browser or list.
+ * It takes a `PatientCase` object as input and fetches the usernames of the users who created and updated the case.
+ *
+ * @example
+ * <app-case-browser-item [case]="patientCase"></app-case-browser-item>
+ *
+ * @property {PatientCase} case - The patient case object.
+ * @property {Observable<string>} createdByUsername$ - An observable that emits the username of the user who created the case.
+ * @property {Observable<string>[]} updatedByUsernames$ - An array of observables that emit the usernames of the users who updated the case.
+ *
+ * @dependencies
+ * - AuthService: Used to fetch the usernames of the users who created and updated the case.
+ */
 @Component({
+    standalone: true,
     selector: 'app-case-browser-item',
     templateUrl: './case-browser-item.component.html',
     imports: [
@@ -24,7 +42,6 @@ import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
         AvatarGroupModule,
         DividerModule,
         ChipModule,
-
     ],
     providers: [
       { 
@@ -43,45 +60,31 @@ import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
         },
       }
     ],
-    standalone: true,
 })
-export class CaseBrowserCardComponent implements OnDestroy {
+export class CaseBrowserCardComponent {
 
+    // Injected services
     private authService: AuthService = inject(AuthService);
-    private subscriptions: Subscription[] = [];
-    @Input() case!: PatientCase;
-    public createdByUsername!: string;
-    public updatedByUsernames: string[] = [];
+
+    // Properties
+    @Input() public case!: PatientCase;
+    public createdByUsername$: Observable<string> = of('?');
+    public updatedByUsernames$: Observable<string>[] = [];
 
     ngOnInit() {
-        this.getCreatedByUsername()
-        this.getUpdatedByUsernames()
-    }
-
-    getCreatedByUsername() {
         if (this.case.createdById) {
-            this.subscriptions.push(
-                this.authService.getUserById(this.case.createdById).subscribe(user => {
-                    this.createdByUsername = user.username
-                })
-            )            
+            this.createdByUsername$ = this.authService
+                    .getUserById(this.case.createdById)
+                    .pipe(map(user => user.username));
+        }
+        if (this.case.updatedByIds) {
+            this.updatedByUsernames$ = this.case.updatedByIds.map(
+                id => this.authService
+                        .getUserById(id)
+                        .pipe(map(user => user.username))
+            )
         }
     }
-
-    getUpdatedByUsernames() {
-        if (this.case.updatedByIds) {
-            for (let i = 0; i<this.case.updatedByIds.length; i++) {
-                this.subscriptions.push(
-                    this.authService.getUserById(this.case.updatedByIds[i]).subscribe(user => {
-                        this.updatedByUsernames.push(user.username)
-                    })
-                )
-            }
-        }            
-    }
-    
-    ngOnDestroy(): void {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    }
 }
+
 

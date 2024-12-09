@@ -9,6 +9,7 @@
             optionLabel="name" 
             optionValue="code"
             placeholder="Select an option" />
+            <control-error controlName="relationship"></control-error>
         </div>
 
         <div class="field col">
@@ -33,6 +34,7 @@
             optionLabel="description" 
             optionValue="id"
             placeholder="Select an option" />
+            <control-error controlName="relatedPrimary"></control-error>
         </div>
 
         <div class="field col">
@@ -40,7 +42,7 @@
             <coded-concept-select 
                 terminology="CancerTopography"
                 [showCodes]="true"
-                [control]="form.controls['topography']"/>
+                formControlName="topography"/>
             <control-error controlName="topography"></control-error>
         </div>
         <div class="field col">
@@ -49,7 +51,7 @@
                 terminology="CancerMorphology"
                 [showCodes]="true"
                 [baseQuery]="morphologyCodeFilter"
-                [control]="form.controls['morphology']"/>
+                formControlName="morphology"/>
             <control-error controlName="morphology"></control-error>
         </div>
 

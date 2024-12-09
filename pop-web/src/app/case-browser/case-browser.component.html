@@ -1,33 +1,35 @@
 <div class="flex mb-5">
-    <p-iconField iconPosition="left">
-        <p-inputIcon styleClass="pi pi-search" />
-        <input type="text" pInputText placeholder="Search" [(ngModel)]="filterValue" (ngModelChange)="filterPatients(filterValue)"/>
-    </p-iconField>
-
-    <p-button (onClick)="openModalForm()" label="New case" class="ml-3 ml-auto"></p-button>
+    <!-- Button to add new cases -->
+    <p-button (onClick)="openNewCaseForm()" label="New case" class="ml-3 ml-auto"></p-button>
 </div>
+
+
+<!-- use ngTemplateOutlet to conditionally render templates -->
+<ng-container *ngIf="cases$ | async as cases; else loading">
     <div class="my-3 ml-3">
-        <span class="font-bold">{{total}}</span> matching cases found
+        <span class="font-bold">{{cases.length}}</span> matching cases found
     </div>
-        <p-dataView 
-            [value]="cases"
-            [paginator]="true" 
-            [rows]="pageSize" 
-            [rowsPerPageOptions]="pageSizeChoices"
-            [totalRecords]="totalCases"
-            class="no-background"
-        >
-        <ng-template pTemplate="list" let-pagePatients>
+    <p-dataView 
+        [value]="cases"
+        [paginator]="true" 
+        [rows]="pageSize" 
+        [rowsPerPageOptions]="pageSizeChoices"
+        [totalRecords]="totalCases"
+        class="no-background"
+    >
+        <ng-template pTemplate="list" let-cases>
             <div class="grid grid-nogutter">
-                <div class="col-12" *ngFor="let patientCase of pagePatients; let first = first" class="col-12">
-                    <app-case-browser-item [case]="patientCase"></app-case-browser-item>
+                <div class="col-12" *ngFor="let case of cases; let first = first" class="col-12">
+                    <app-case-browser-item [case]="case"></app-case-browser-item>
                 </div>
             </div>
         </ng-template>
     </p-dataView>
+</ng-container>
 
-    <!-- Skeleton loader -->
-    <div *ngIf="loading">
+<!-- Skeleton loader -->
+<ng-template #loading>
+    <div>
         <ng-container *ngFor="let _ of [].constructor(20); let first=first">
             <div class="flex flex-row  p-4 gap-3" [ngClass]="{ 'border-top-1 surface-border': !first }">
                 <p-skeleton [style]="{ width: '4rem', height: '4rem'}"></p-skeleton>
@@ -38,5 +40,6 @@
             </div>
         </ng-container>
     </div>
+</ng-template>
 
-<app-dynamic-modal-form (saveEvent)="getPatientList()"></app-dynamic-modal-form>
+<app-dynamic-modal-form (saveEvent)="refreshCases()"></app-dynamic-modal-form>

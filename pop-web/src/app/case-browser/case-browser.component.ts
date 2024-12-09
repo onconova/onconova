@@ -1,107 +1,101 @@
-import { Component, OnInit, OnDestroy, ViewChild, inject, ViewEncapsulation  } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { PatientCaseService } from '../services/cancerpatient.service';
-import { PatientCase, PatientCasesService, PaginatedPatientCase, PatientCasesServiceInterface} from '../core/modules/openapi';
-import { Observable } from 'rxjs';
+import { Component, OnInit, inject, ViewEncapsulation  } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { map, first, of, Observable, catchError } from 'rxjs';
+
+// PrimeNG dependencies
+import { MessageService } from 'primeng/api';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { DataViewModule } from 'primeng/dataview';
+import { SkeletonModule } from 'primeng/skeleton';
+
+// Project dependencies
+import { PatientCase, PatientCasesService, PaginatedPatientCase} from '../core/modules/openapi';
+import { CaseBrowserCardComponent } from './components/case-card/case-browser-item.component';
 import { PatientFormComponent } from '../core/forms/case-form/patient-form.component';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
 import { ModalFormService } from '../core/components/modal-form/modal-form.service';
-import { FormGroup } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 
 
 @Component({
+  standalone: true,
   templateUrl: './case-browser.component.html',
   styleUrl: './case-browser.component.css',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    CaseBrowserCardComponent,
+    ModalFormComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    ButtonModule,
+    DataViewModule,
+    SkeletonModule,
+  ],
 })
 
-export class CaseBrowserComponent implements OnInit, OnDestroy {
+export class CaseBrowserComponent implements OnInit {
   
-  public cases!: PatientCase[];
+  // Injected services  
+  private patientCasesService = inject(PatientCasesService)
+  private modalFormService = inject(ModalFormService)
+  private messageService = inject(MessageService) 
 
-  filteredPatients: PatientCase[] = [];
-  patients: PatientCase[] = [];
-  filterValue: string = '';
-  loading: boolean = true;
-  total: number = 0;
-  ageRangeValues = [0,100];
-
+  // Pagination settings
   public pageSizeChoices: number[] = [10, 25, 50, 100];
   public pageSize: number = this.pageSizeChoices[0];
   public totalCases: number = 0;
 
-  subscription!: Subscription;
-  users: any = {};
-  
-  private patientCasesService = inject(PatientCasesService)
-  private modalFormService = inject(ModalFormService)
-  private messageService = inject(MessageService) 
-  public readonly cases$: Observable<PaginatedPatientCase> = this.patientCasesService.getPatientCases();
+  // Observables
+  public cases$!: Observable<PatientCase[]> 
 
-
-  @ViewChild('modalComponent') modalComponent!: ModalFormComponent;
-  formGroup!: FormGroup;
-
-  public query = {
-    ageLte:  100,
-    ageGte:  0,
-    pseudoidentifier: undefined,
-    deceased: undefined, 
-    gender: undefined,
-    born: undefined,
-    limit:  undefined,
-    offset:  undefined,
-  }
-
+/**
+ * Initializes the component by refreshing the list of patient cases.
+ */
   ngOnInit() {
-    this.getPatientList()
+    this.refreshCases();
   }
 
-  getPatientList(): void{
-    this.patientCasesService.getPatientCases(...Object.values(this.query)).subscribe(
-      (page) => {
-      this.cases = page.items;
-      this.filteredPatients = page.items;
-      this.loading = false;
-      this.total = page.count
-    },
-    (error) => {
-      // Report any problems
-      this.loading = false;  
-      this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error.message });
-    });
-  }
-
-  getFilteredPatientList(): void{
-    // this.patients$ = this.patientCasesService.getFilteredPatientCases(this.ageRangeValues[1], this.ageRangeValues[0]);
-    // this.patients$.subscribe(page => {
-    //   console.log(page.items[0])
-    //   this.patients = page.items;
-    //   this.filteredPatients = page.items;
-    //   this.loading = false;
-    //   this.total = page.items.length
-    // });
-  }
-  filterPatients(filterValue: string): void {
-    if (!filterValue) {
-      this.filteredPatients = this.patients;
-    } else {
-      this.filteredPatients = this.patients.filter(patient =>
-        patient.pseudoidentifier.toLowerCase().includes(filterValue.toLowerCase()) ||
-        patient.dateOfBirth.toLowerCase().includes(filterValue.toLowerCase())
-      );
-    }
-  };
+/**
+ * Refreshes the list of patient cases.
+ *
+ * This method fetches patient cases from the PatientCaseService and updates
+ * the `cases$` observable with the resulting list of cases. It maps the
+ * paginated response to extract the case items and handles any errors that
+ * occur during the fetch process by displaying an error message using the
+ * MessageService.
+ */
+  refreshCases() {
+    this.cases$ = this.patientCasesService
+    .getPatientCases()
+    .pipe(
+      map(page => page.items),
+      first(),
+      catchError(error => {
+        // Report any problems
+        this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error.message });
+        return of(error)
+      })
+    )
+   }
 
 
-  openModalForm() {    
+  /**
+   * Opens a modal form for creating a new patient case.
+   *
+   * When the user clicks the "New Case" button, this method is called. It
+   * opens a modal form using the ModalFormService, passing in the
+   * PatientFormComponent as the form component to display, and an empty
+   * object as the data to pass to the form.
+   */
+  openNewCaseForm() {    
     this.modalFormService.open(PatientFormComponent, { /* optional data */ });
   }
-  ngOnDestroy() {
-    if (this.subscription) {
-        this.subscription.unsubscribe();
-    }
-  };
 
 }

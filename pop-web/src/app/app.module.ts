@@ -19,8 +19,13 @@ import { PrimeNGConfig } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CaseBrowserModule } from './case-browser/case-browser.module';
-import { CaseManagerModule } from './case-manager/case-manager.module';
+
+import { LucideAngularModule, HeartPulse, Tags, 
+    TestTubeDiagonal, Dna, Fingerprint, Microscope,
+    Siren, DiamondPlus, Activity, Cigarette, Tablets, 
+    Slice, Radiation, Ribbon, Presentation, ShieldAlert,
+    Image, CircleGauge} from 'lucide-angular';
+
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
     primeConfig.ripple = true;
@@ -46,8 +51,7 @@ export function apiConfigFactory (): Configuration {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastModule,
-        CaseBrowserModule,
-        CaseManagerModule,
+        LucideAngularModule.pick({HeartPulse, Tags, TestTubeDiagonal, Dna, Fingerprint, Microscope, Siren, DiamondPlus, Activity, Cigarette, Tablets, Slice, Radiation, Ribbon, Presentation, ShieldAlert, Image, CircleGauge}),
     ],
     providers: [
         

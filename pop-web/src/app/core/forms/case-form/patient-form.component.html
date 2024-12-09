@@ -4,14 +4,13 @@
             <label class="form-label required">Gender</label>
             <coded-concept-select 
                 terminology="AdministrativeGender"
-                [control]="form.controls['gender']"/>
+                formControlName="gender"/>
             <control-error controlName="gender"></control-error>
         </div>
 
         <div class="field col">
             <label for="date-of-birth" class="form-label required">Date of Birth</label>
             <p-calendar 
-                required
                 id="date-of-birth"
                 formControlName="dateOfBirth"
                 view="month" 
@@ -20,9 +19,9 @@
                 dataType="string"
                 appendTo="body"
                 dateMask 
-                aria-describedby="username-help"
+                aria-describedby="dateOfBirth-help"
             />
-            <small id="username-help">For de-identification, only the month and year are used.  </small>
+            <small id="dateOfBirth-help">For de-identification, only the month and year are used.  </small>
             <control-error controlName="dateOfBirth"></control-error>
         </div>
 
@@ -49,7 +48,7 @@
             <coded-concept-select 
                 terminology="CauseOfDeath"
                 [showSynonyms]="false"
-                [control]="form.controls['causeOfDeath']"/>
+                formControlName="causeOfDeath"/>
             <control-error controlName="causeOfDeath"></control-error>
         </div>
 

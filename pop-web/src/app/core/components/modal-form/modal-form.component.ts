@@ -15,10 +15,10 @@ import { PatientFormComponent } from 'src/app/core/forms/case-form/patient-form.
 
 
 @Component({
+  standalone: true,
   selector: 'app-dynamic-modal-form',
   templateUrl: './modal-form.component.html',
   styleUrl: './modal-form.component.css',
-  standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
     LucideAngularModule,
@@ -61,7 +61,6 @@ export class ModalFormComponent {
 
     // subscribe to the save event emitted by the PatientFormComponent
     this.formComponent.save.subscribe((event: any) => {
-      console.log('PROPAGATE SAVE')
       this.saveEvent.emit(event);
     });
 
@@ -89,7 +88,6 @@ export class ModalFormComponent {
 
 
   onClose() {
-    console.log('CLOSE')
     this.closeModal();
   }
 }

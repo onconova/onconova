@@ -1,24 +1,46 @@
 import { Component, Input, ViewEncapsulation, OnInit, inject  } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { ModalFormService } from '../../../core/components/modal-form/modal-form.service';
 
+import { PanelModule } from 'primeng/panel';
+import { AvatarModule } from 'primeng/avatar';
+import { BadgeModule } from 'primeng/badge';
+import { MenuModule } from 'primeng/menu';
+import { TimelineModule } from 'primeng/timeline';
+
+
+import { LucideAngularModule } from 'lucide-angular';
+
 
 @Component({
+    standalone: true,
     selector: 'app-case-manager-panel',
     templateUrl: './case-manager-panel.component.html',
     styleUrl: './case-manager-panel.component.css',
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        CommonModule,
+        LucideAngularModule,
+        PanelModule,
+        AvatarModule,
+        MenuModule,
+        BadgeModule,
+        TimelineModule,
+    ]
 })
 export class CaseManagerPanelComponent implements OnInit {
+
+    private modalFormService = inject(ModalFormService)
+
+
     @Input() title!: string;
     @Input() icon!: string;
-
     @Input() formComponent!: any;
     @Input() dataService!: any;
 
     public entries: any[] = [];
 
-    private modalFormService = inject(ModalFormService)
 
 
     public menuItems = [
@@ -26,7 +48,6 @@ export class CaseManagerPanelComponent implements OnInit {
             label: 'Add',
             icon: 'pi pi-plus',
             command: () => {
-                console.log('Add new', this.title)
                 this.addNewEntry()
             }
         },
@@ -34,7 +55,6 @@ export class CaseManagerPanelComponent implements OnInit {
             label: 'Refresh',
             icon: 'pi pi-refresh',
             command: () => {
-                console.log('Refresh', this.title)
                 this.refreshEntries()
             }
         },

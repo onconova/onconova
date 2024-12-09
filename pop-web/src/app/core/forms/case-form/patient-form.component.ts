@@ -1,14 +1,35 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PatientCaseCreate, PatientCasesService, CodedConceptSchema } from '../../modules/openapi'
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { InputSwitchModule } from 'primeng/inputswitch';
+
 import * as moment from 'moment';
 
-import { User } from 'lucide-angular';
+import { DateMaskDirective } from '../../components/directives/date-mask-directive';
+import { CodedConceptSelectComponent } from '../../components/coded-concept-select/coded-concept-select.component';
+import { ControlErrorComponent } from '../../components/control-error/control-error.component';
 
+import { User } from 'lucide-angular';
 @Component({
+  standalone: true,
   selector: 'patient-form',
   templateUrl: './patient-form.component.html',
+  imports: [
+    CommonModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    CodedConceptSelectComponent,
+    ControlErrorComponent,
+    ButtonModule,
+    CalendarModule,
+    InputSwitchModule,
+    DateMaskDirective,
+  ]
 })
 export class PatientFormComponent {
 
@@ -28,9 +49,7 @@ export class PatientFormComponent {
   private constructForm() {
     this.form = new FormGroup({
       gender: new FormControl<CodedConceptSchema|null>(null,Validators.required),
-      dateOfBirth: new FormControl<Date|null>(null, [
-          Validators.required,
-        ]),
+      dateOfBirth: new FormControl<Date|null>(null,Validators.required),
       isAlive: new FormControl<boolean>(true,Validators.required),
       dateOfDeath: new FormControl<Date|null>(null, []),
       causeOfDeath: new FormControl<CodedConceptSchema|null>(null),
@@ -86,5 +105,7 @@ export class PatientFormComponent {
       )
     }
   }
-
+  get f() {
+    return this.form.controls;
+  }
 }

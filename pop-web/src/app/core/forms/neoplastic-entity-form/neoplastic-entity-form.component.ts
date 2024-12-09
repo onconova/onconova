@@ -7,8 +7,9 @@ import { InputMaskModule } from 'primeng/inputmask';
 
 import { CodedConceptSchema } from '../../modules/openapi'
 import { NeoplasticEntity, NeoplasticEntityCreate, NeoplasticEntitiesService } from '../../modules/openapi'
-import { CodedConceptSelectModule } from '../../components/coded-concept-select/coded-concept-select.module';
+import { CodedConceptSelectComponent } from '../../components/coded-concept-select/coded-concept-select.component';
 import { ControlErrorComponent } from '../../components/control-error/control-error.component';
+import { DateMaskDirective } from '../../components/directives/date-mask-directive';
 
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
@@ -28,8 +29,9 @@ import { Ribbon } from 'lucide-angular';
     FormsModule,
     CalendarModule,
     DropdownModule,
-    CodedConceptSelectModule,
+    CodedConceptSelectComponent,
     ControlErrorComponent,
+    DateMaskDirective,
   ],
   providers: [
     DatePipe,
@@ -121,7 +123,6 @@ export class NeoplasticEntityFormComponent {
         assertionDate: this.datePipe.transform(data.assertionDate, 'yyyy-MM-dd') || data.assertionDate,
         morphology: data.morphology,
       };
-      console.log('POST', payload)
       // Send the data to the server's API
       this.neoplasticEntitiesService.createNeoplasticEntity(payload).subscribe(
         (response) => {

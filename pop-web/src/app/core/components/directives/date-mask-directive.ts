@@ -5,6 +5,7 @@ import { Calendar } from 'primeng/calendar';
 import Inputmask from "inputmask";
 
 @Directive({
+  standalone: true,
   selector: '[dateMask]'
 })
 export class DateMaskDirective implements AfterViewInit {
