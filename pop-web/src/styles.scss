@@ -16,6 +16,19 @@ body {
     background: light-dark(var(--p-surface-50), var(--p-surface-950));
 }
 
+@keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  router-outlet + * {
+    animation: fade .5s;
+  }
+  
 $gutter: 1rem; //for primeflex grid system
 /* PrimeNG */
 @import "primeicons/primeicons.css";
