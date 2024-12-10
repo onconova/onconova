@@ -21,16 +21,15 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Data Management',
+                label: 'Case Management',
                 items: [
-                    { label: 'New Case', icon: 'pi pi-fw pi-plus', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/uikit/formlayout'] },
                     { label: 'Case Browser', icon: 'pi pi-fw pi-search', routerLink: ['/cases'] },
                     { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/cases/browser'] },
+                    { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/uikit/formlayout'] },
                 ]
             },
             {
-                label: 'Data Analysis',
+                label: 'Cohort Analysis',
                 items: [
                     { label: 'Cohort Builder', icon: 'pi pi-fw pi-hammer', routerLink: ['/uikit/formlayout'] },
                     { label: 'Cohort Analysis', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/formlayout'] },
