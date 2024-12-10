@@ -10,16 +10,11 @@
 
         <div class="field col">
             <label for="date-of-birth" class="form-label required">Date of Birth</label>
-            <p-calendar 
-                id="date-of-birth"
+            <masked-calendar 
                 formControlName="dateOfBirth"
                 view="month" 
                 dateFormat="mm/yy" 
                 placeholder="MM/YYYY" 
-                dataType="string"
-                appendTo="body"
-                dateMask 
-                aria-describedby="dateOfBirth-help"
             />
             <small id="dateOfBirth-help">For de-identification, only the month and year are used.  </small>
             <control-error controlName="dateOfBirth"></control-error>
@@ -32,14 +27,12 @@
 
         <div class="field col" *ngIf="!form.value.isAlive">
             <label class="form-label required">Date of Death</label>
-            <p-calendar 
+            <masked-calendar 
                 formControlName="dateOfDeath"
                 view="month" 
                 dateFormat="mm/yy" 
                 placeholder="MM/YYYY" 
-                dataType="string"
-                appendTo="body"
-                dateMask />
+                />
             <control-error controlName="dateOfDeath"></control-error>
         </div>
 

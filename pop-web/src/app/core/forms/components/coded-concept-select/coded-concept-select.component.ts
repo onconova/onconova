@@ -1,8 +1,8 @@
 import { inject, Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TerminologyService } from '../../../core/modules/openapi/api/terminology.service';
-import { CodedConceptSchema } from '../../../core/modules/openapi';
-import { Observable, Subscription, tap } from 'rxjs';
+import { TerminologyService } from '../../../../core/modules/openapi/api/terminology.service';
+import { CodedConceptSchema } from '../../../../core/modules/openapi';
+import { Subscription } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';

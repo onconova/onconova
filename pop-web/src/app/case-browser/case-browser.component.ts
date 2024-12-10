@@ -13,9 +13,9 @@ import { DataViewModule } from 'primeng/dataview';
 import { SkeletonModule } from 'primeng/skeleton';
 
 // Project dependencies
-import { PatientCase, PatientCasesService, PaginatedPatientCase} from '../core/modules/openapi';
+import { PatientCase, PatientCasesService} from '../core/modules/openapi';
 import { CaseBrowserCardComponent } from './components/case-card/case-browser-item.component';
-import { PatientFormComponent } from '../core/forms/case-form/patient-form.component';
+import { PatientFormComponent } from '../core/forms';
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
 import { ModalFormService } from '../core/components/modal-form/modal-form.service';
 

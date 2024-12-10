@@ -7,17 +7,19 @@ import { InputMaskModule } from 'primeng/inputmask';
 
 import { CodedConceptSchema } from '../../modules/openapi'
 import { NeoplasticEntity, NeoplasticEntityCreate, NeoplasticEntitiesService } from '../../modules/openapi'
-import { CodedConceptSelectComponent } from '../../components/coded-concept-select/coded-concept-select.component';
-import { ControlErrorComponent } from '../../components/control-error/control-error.component';
-import { DateMaskDirective } from '../../components/directives/date-mask-directive';
 
-import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 
 import { Ribbon } from 'lucide-angular';
 
+import { 
+  CodedConceptSelectComponent, 
+  MaskedCalendarComponent,
+  ControlErrorComponent 
+} from '../../forms/components';
 
 @Component({
   selector: 'neoplastic-entity-form',
@@ -27,11 +29,11 @@ import { Ribbon } from 'lucide-angular';
     InputMaskModule,
     ReactiveFormsModule,
     FormsModule,
-    CalendarModule,
+    MaskedCalendarComponent,
     DropdownModule,
+    ButtonModule,
     CodedConceptSelectComponent,
     ControlErrorComponent,
-    DateMaskDirective,
   ],
   providers: [
     DatePipe,

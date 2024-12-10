@@ -11,7 +11,7 @@ import { LucideAngularModule } from 'lucide-angular';
 
 import { ModalFormService } from './modal-form.service'
 
-import { PatientFormComponent } from 'src/app/core/forms/case-form/patient-form.component';
+import { PatientFormComponent } from 'src/app/core/forms/patient-case-form/patient-case-form.component';
 
 
 @Component({

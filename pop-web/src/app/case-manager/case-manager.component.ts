@@ -1,18 +1,24 @@
 import { Component, OnInit, Input, ViewEncapsulation, inject  } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, of, Subscription } from 'rxjs'; 
+import { Observable, Subscription } from 'rxjs'; 
 
 import { MessageService } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 
 import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
 
-import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
-import { PatientCase, PatientCasesService } from '../core/modules/openapi';
-import { NeoplasticEntitiesService, PaginatedNeoplasticEntity } from '../core/modules/openapi'
-import { NeoplasticEntityFormComponent } from '../core/forms/neoplastic-entity-form/neoplastic-entity-form.component';
+import { 
+    PatientCase, PatientCasesService,
+    NeoplasticEntitiesService, PaginatedNeoplasticEntity,
+} from '../core/modules/openapi'
 
+import { 
+    NeoplasticEntityFormComponent 
+} from '../core/forms';
+
+import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
 import { CaseManagerPanelComponent } from './components/case-manager-panel/case-manager-panel.component'
+
 
 @Component({
     standalone: true,

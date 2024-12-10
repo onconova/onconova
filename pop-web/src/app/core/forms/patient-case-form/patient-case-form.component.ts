@@ -5,33 +5,34 @@ import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } 
 
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 
 import * as moment from 'moment';
 
-import { DateMaskDirective } from '../../components/directives/date-mask-directive';
-import { CodedConceptSelectComponent } from '../../components/coded-concept-select/coded-concept-select.component';
-import { ControlErrorComponent } from '../../components/control-error/control-error.component';
+import { 
+  CodedConceptSelectComponent, 
+  MaskedCalendarComponent,
+  ControlErrorComponent 
+} from '../components';
 
 import { User } from 'lucide-angular';
+
 @Component({
   standalone: true,
   selector: 'patient-form',
-  templateUrl: './patient-form.component.html',
+  templateUrl: './patient-case-form.component.html',
   imports: [
     CommonModule,
     FormsModule, 
     ReactiveFormsModule,
     CodedConceptSelectComponent,
+    MaskedCalendarComponent,
     ControlErrorComponent,
     ButtonModule,
-    CalendarModule,
     InputSwitchModule,
-    DateMaskDirective,
   ]
 })
-export class PatientFormComponent {
+export class PatientFormComponent implements OnInit {
 
   form!: FormGroup;
   @Output() save = new EventEmitter<void>();

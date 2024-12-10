@@ -14,14 +14,8 @@
 
         <div class="field col">
             <label for="assertionDate" class="form-label required">Assertion date</label>
-            <p-calendar 
-                required
-                id="assertionDate"
+            <masked-calendar 
                 formControlName="assertionDate"
-                dateFormat="dd/mm/yy" 
-                placeholder="DD/MM/YYYY" 
-                appendTo="body"
-                dateMask 
             />
             <control-error controlName="assertionDate"></control-error>
         </div>
