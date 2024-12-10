@@ -10,7 +10,7 @@
             <p-avatar 
                 size="normal" 
                 shape="square" 
-                [style]="{ 'background-color': 'var(--p-primary-50)', color: 'var(--p-primary-500)' }">
+                [style]="{ 'background-color': 'color-mix(in srgb, var(--p-primary-500), transparent 80%)', color: 'var(--p-primary-500)' }">
                 <lucide-angular [name]="icon" ></lucide-angular>
             </p-avatar>
             <span style="font-size: 1.1rem;">
@@ -30,14 +30,26 @@
         </div>
         <p-timeline [value]="entries" *ngIf="entries.length > 0">
             <ng-template pTemplate="content" let-entry>
-                <div>
-                    <small class="p-text-secondary">{{ 
-                        entry.date || entry.assertionDate | date }}</small>
+                <div (click)="showDrawer(entry)" class="cursor-pointer">
+                    <div>
+                        <small class="p-text-secondary">{{ 
+                            entry.date || entry.assertionDate | date }}</small>
+                    </div>
+                    <div>
+                        {{ entry.description }}
+                    </div>
                 </div>
-                <div>
-                    {{ entry.description }}
-                </div>
+                
             </ng-template>
         </p-timeline>
     </div>
 </p-panel>
+
+<app-case-manager-drawer 
+    [(visible)]="drawerVisible" 
+    [data]="drawerData" 
+    [icon]="icon"
+    (delete)="deleteEntry($event)"
+    (update)="updateEntry($event)"
+    >
+</app-case-manager-drawer>

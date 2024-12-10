@@ -8,8 +8,8 @@ export class ModalFormService {
   private modalSubject = new Subject<any>();
   modal$ = this.modalSubject.asObservable();
 
-  open(component: any, data: any = {}) {
-    this.modalSubject.next({ component, data });
+  open(component: any, data: any = {}, onSave: any = null) {
+    this.modalSubject.next({ component, data, onSave });
   }
 
   close() {

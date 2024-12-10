@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,8 @@ import { DatePipe } from '@angular/common';
 import { Fluid } from 'primeng/fluid';
 
 import { Ribbon } from 'lucide-angular';
+
+import * as moment from 'moment'; 
 
 import { 
   CodedConceptSelectComponent, 
@@ -52,8 +54,9 @@ export class NeoplasticEntityFormComponent {
     subtitle: string = 'Add new neoplastic entity'
     readonly icon = Ribbon;
 
+    private initialData: NeoplasticEntity | any = {};
     private caseId!: string;
-    public requiresPrimary: boolean = false;
+    public requiresPrimary!: boolean;
     public morphologyCodeFilter: string = '/3';
     private neoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public relatedPrimaries!: NeoplasticEntity[];
@@ -70,41 +73,43 @@ export class NeoplasticEntityFormComponent {
     ]
   ngOnInit() {
     this.constructForm()
-    this.onNeoplastiCRelationshipChange()
     this.getRelatedPrimaries()
+    this.onNeoplastiCRelationshipChange(this.initialData?.relationship)
+    this.requiresPrimary = ['metastatic', 'local_recurrence', 'regional_recurrence'].includes(this.initialData?.relationship)
+    // Subscribe to changes in the neoplastic relationship form control 
+    this.form.get('relationship')?.valueChanges.subscribe(relationship => {
+      this.onNeoplastiCRelationshipChange(relationship)
+    })
   }
 
   private constructForm() {
     this.form = new FormGroup({
-        relationship: new FormControl<string>('primary',Validators.required),
-        assertionDate: new FormControl<Date|null>(null, Validators.required),
-        relatedPrimary: new FormControl<string|null>(null, Validators.required),
-        topography: new FormControl<CodedConceptSchema|null>(null,Validators.required),
-        morphology: new FormControl<CodedConceptSchema|null>(null,Validators.required),
+        relationship: new FormControl<string>(this.initialData?.relationship || 'primary',Validators.required),
+        assertionDate: new FormControl<Date|null>(this.initialData?.assertionDate, Validators.required),
+        relatedPrimary: new FormControl<string|null>(this.initialData?.relatedPrimary, Validators.required),
+        topography: new FormControl<CodedConceptSchema|null>(this.initialData?.topography,Validators.required),
+        morphology: new FormControl<CodedConceptSchema|null>(this.initialData?.morphology,Validators.required),
     });
   }
 
 
-  private onNeoplastiCRelationshipChange(): void {
-    // Subscribe to changes in the neoplastic relationship form control 
-    this.form.get('relationship')?.valueChanges.subscribe(relationship => {
-      // Update base filter for morphology codes     
-      if (relationship === 'metastatic') {
-        this.morphologyCodeFilter = '/6'
-      } else {
-        this.morphologyCodeFilter = '/3'
-      }  
-      this.requiresPrimary = relationship !== 'primary'
+  private onNeoplastiCRelationshipChange(relationship: string): void {
+    // Update base filter for morphology codes     
+    if (relationship === 'metastatic') {
+      this.morphologyCodeFilter = '/6'
+    } else {
+      this.morphologyCodeFilter = '/3'
+    }  
+    this.requiresPrimary = relationship !== 'primary'
 
-      const relatedPrimary = this.form.get('relatedPrimary')
-      if (relationship !== 'metastatic') {
-        relatedPrimary?.removeValidators(Validators.required);
-      } else {
-        relatedPrimary?.addValidators(Validators.required);
-      }  
-      relatedPrimary?.updateValueAndValidity();
-    });
-  }
+    const relatedPrimary = this.form.get('relatedPrimary')
+    if (relationship !== 'metastatic') {
+      relatedPrimary?.removeValidators(Validators.required);
+    } else {
+      relatedPrimary?.addValidators(Validators.required);
+    }  
+    relatedPrimary?.updateValueAndValidity();
+  };
 
   getRelatedPrimaries() {
     this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, ["primary"]).subscribe(
@@ -124,23 +129,41 @@ export class NeoplasticEntityFormComponent {
         caseId: this.caseId,
         relationship: data.relationship,
         topography: data.topography,
-        assertionDate: this.datePipe.transform(data.assertionDate, 'yyyy-MM-dd') || data.assertionDate,
+        assertionDate: moment(data.assertionDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
         morphology: data.morphology,
       };
+      console.log('data.assertionDate', data.assertionDate)
       // Send the data to the server's API
-      this.neoplasticEntitiesService.createNeoplasticEntity(payload).subscribe(
-        (response) => {
-          // Report the successful creation of the resource
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved: '+ this.title.toLowerCase() + response.id });
-          this.loading = false;  
-          this.save.emit();
-        },
-        (error) => {
-          // Report any problems
-          this.loading = false;  
-          this.messageService.add({ severity: 'error', summary: 'Error ocurred during saving', detail: error.message });
-        }
-      )
+      if (this.initialData.id) {
+        this.neoplasticEntitiesService.updateNeoplasticEntityById(this.initialData.id, payload).subscribe(
+          (response) => {
+            // Report the successful creation of the resource
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + this.initialData.id });
+            this.loading = false;  
+            this.save.emit();
+          },
+          (error) => {
+            // Report any problems
+            this.loading = false;  
+            this.messageService.add({ severity: 'error', summary: 'Error ocurred while updating', detail: error.message });
+          }
+        )
+  
+      } else {
+        this.neoplasticEntitiesService.createNeoplasticEntity(payload).subscribe(
+          (response) => {
+            // Report the successful creation of the resource
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.id });
+            this.loading = false;  
+            this.save.emit();
+          },
+          (error) => {
+            // Report any problems
+            this.loading = false;  
+            this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.message });
+          }
+        )  
+      }
     }
   }
 }

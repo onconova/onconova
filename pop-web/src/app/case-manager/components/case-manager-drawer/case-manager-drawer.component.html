@@ -1,0 +1,74 @@
+<p-drawer [(visible)]="visible" position="right" (onShow)="prepareDisplayData()" (onHide)="visibleChange.emit(false)" >
+    <ng-template #header>
+        <div class="flex items-center gap-2">
+            <p-avatar 
+                size="large" 
+                shape="square" 
+                [style]="{ 'background-color': 'var(--p-highlight-background);', color: 'var(--p-primary-500)' }">
+                <lucide-angular [name]="icon" ></lucide-angular>
+            </p-avatar>
+            <div class="font-bold my-auto">{{data?.description || 'Unknown'}}</div>
+        </div>
+    </ng-template>
+
+    <div class="property">
+        <small class="property-label">ID</small>
+        <div class="monospace"><small>{{ data.id }}</small></div>
+    </div>
+
+    <p-divider />
+
+    <div *ngFor="let property of properties">
+        <div class="property">
+            <small class="property-label">{{ property.label | titlecase }}</small>
+            <div>{{ property.value }}</div> 
+        </div>
+    </div>
+
+    <p-divider />
+
+    <div class="mb-5">
+        <div class="property" *ngIf="createdBy$ | async as createdBy">
+            <small class="property-label">Created by: </small>
+            <span class="monospace"><small>{{ createdBy }}</small></span>
+            <div><small>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
+        </div>
+        <div class="property" *ngIf="lastUpdatedBy$ | async as lastUpdatedBy">
+            <small class="property-label">Last updated by: </small>
+            <span class="monospace"><small>{{ lastUpdatedBy }}</small></span>
+            <div><small>{{ data.updatedAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
+        </div>
+    </div>
+
+
+    <ng-template #footer>
+    
+        
+        <div class="flex items-center gap-2">
+            <p-button 
+                label="Hide" 
+                icon="pi pi-eye-slash" 
+                class="w-full" 
+                severity="secondary"
+                (click)="visibleChange.emit(false)"
+                outlined/>
+            <!-- <p-button
+                label="Delete"
+                icon="pi pi-trash"
+                class="w-full"
+                severity="danger"
+                (click)="visibleChange.emit(false); delete.emit(data.id)"
+                text
+            /> -->
+            <p-confirmdialog />
+            <p-splitbutton 
+                label="Edit" 
+                icon="pi pi-pencil" 
+                dropdownIcon="pi pi-cog" 
+                (onClick)="visibleChange.emit(false); update.emit(data)"
+                [model]="actionItems" 
+                outlined/>
+        </div>
+
+    </ng-template>
+</p-drawer>

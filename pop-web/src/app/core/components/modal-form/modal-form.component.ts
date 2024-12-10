@@ -42,7 +42,7 @@ export class ModalFormComponent {
   ngAfterViewInit() {
       this.modalService.modal$.subscribe((modalData) => {
         if (modalData) {
-          this.loadComponent(modalData.component, modalData.data);
+          this.loadComponent(modalData.component, modalData.data, modalData.onSave);
         } else {
           this.closeModal();
         }
@@ -50,7 +50,7 @@ export class ModalFormComponent {
   }
 
 
-  private loadComponent(component: any, data: any) {
+  private loadComponent(component: any, data: any, onSave: any) {
     this.content.clear();
     const componentRef = this.content.createComponent(component);
     this.formComponent = componentRef.instance;
@@ -58,12 +58,15 @@ export class ModalFormComponent {
 
     // subscribe to the save event emitted by the PatientFormComponent
     this.formComponent.save.subscribe((event: any) => {
+      if (onSave) {
+        onSave()
+      }
       this.saveEvent.emit(event);
     });
 
     // Pass data to the component
     if (data) {
-      Object.assign(this.formComponent, data);
+      this.formComponent.initialData = data;
     }
 
     // Optionally subscribe to save/close events

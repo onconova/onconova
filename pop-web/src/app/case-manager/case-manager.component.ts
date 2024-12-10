@@ -20,6 +20,13 @@ import { ModalFormComponent } from '../core/components/modal-form/modal-form.com
 import { CaseManagerPanelComponent } from './components/case-manager-panel/case-manager-panel.component'
 
 
+interface DataService {
+    get: CallableFunction;
+    create: CallableFunction;
+    delete: CallableFunction;
+    update: CallableFunction;
+}
+
 @Component({
     standalone: true,
     templateUrl: './case-manager.component.html',
@@ -64,8 +71,14 @@ export class CaseManagerComponent implements OnInit {
     public caseId!: string;
 
     // Case-specific data observables
-    public neoplasticEntities$!: Observable<PaginatedNeoplasticEntity> 
+    public neoplasticEntityService: DataService = {
+        get: this.neoplasticEntitiesService.getNeoplasticEntities.bind(this.neoplasticEntitiesService),
+        create: this.neoplasticEntitiesService.createNeoplasticEntity.bind(this.neoplasticEntitiesService),
+        delete: this.neoplasticEntitiesService.deleteNeoplasticEntityById.bind(this.neoplasticEntitiesService),
+        update: this.neoplasticEntitiesService.updateNeoplasticEntityById.bind(this.neoplasticEntitiesService),
+    };
 
+    
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent
 
@@ -77,7 +90,6 @@ export class CaseManagerComponent implements OnInit {
                 // Get internal case ID used for API requests
                 this.caseId = this.case.id;
                 // Get data observables for this specific case 
-                this.neoplasticEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.case.id)
             },
             error: (error) => {
                 // Report any problems

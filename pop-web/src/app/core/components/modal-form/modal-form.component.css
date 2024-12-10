@@ -1,25 +1,25 @@
-.p-dialog {
+.form-dialog.p-dialog {
     border: none !important;
 }
-.p-dialog-header {
+.form-dialog .p-dialog-header {
     background: var(--p-primary-500);
     margin-bottom: 1.5rem;
     padding: 1rem 2rem;
     color: white;
     border-radius: var(--p-dialog-border-radius) var(--p-dialog-border-radius) 0 0 ;
 }
-.p-dialog .p-dialog-header-actions i {
+.form-dialog.p-dialog .p-dialog-header-actions i {
     color: white !important;
 }
-.p-dialog .form-title .title{
+.form-dialog.p-dialog .form-title .title{
     font-size: 1.2rem;
     font-weight: 550;
 }
-.p-dialog .form-title .subtitle{
+.form-dialog.p-dialog .form-title .subtitle{
     font-size: .9rem;
     color: var(--p-primary-100)
 }
-.p-dialog .p-avatar {
+.form-dialog.p-dialog .p-avatar {
     line-height: 0 !important;
     padding: 1rem;
     color: var(--p-primary-100) !important;

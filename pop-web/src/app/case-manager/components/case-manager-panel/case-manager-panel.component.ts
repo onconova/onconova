@@ -1,16 +1,19 @@
 import { Component, Input, ViewEncapsulation, OnInit, inject  } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Observable, first } from 'rxjs';
 import { ModalFormService } from '../../../core/components/modal-form/modal-form.service';
 
 import { Panel } from 'primeng/panel';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { Menu } from 'primeng/menu';
+import { MessageService } from 'primeng/api';
 import { Timeline } from 'primeng/timeline';
 
+import { CaseManagerDrawerComponent } from '../case-manager-drawer/case-manager-drawer.component';
 
 import { LucideAngularModule } from 'lucide-angular';
+import { ModalFormComponent } from '../../../core/components/modal-form/modal-form.component'
 
 
 @Component({
@@ -20,6 +23,8 @@ import { LucideAngularModule } from 'lucide-angular';
     styleUrl: './case-manager-panel.component.css',
     encapsulation: ViewEncapsulation.None,
     imports: [
+        ModalFormComponent,
+        CaseManagerDrawerComponent,
         CommonModule,
         LucideAngularModule,
         Panel,
@@ -31,14 +36,18 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class CaseManagerPanelComponent implements OnInit {
 
-    private modalFormService = inject(ModalFormService)
-
+    private modalFormService = inject(ModalFormService);
+    private messageService = inject(MessageService);
 
     @Input() title!: string;
     @Input() icon!: string;
+    @Input() caseId!: string;
     @Input() formComponent!: any;
-    @Input() dataService!: any;
+    @Input() service!: any; 
+    public data$!: Observable<any>;
 
+    drawerVisible: boolean = false;
+    drawerData: any = {};
     public entries: any[] = [];
 
 
@@ -72,18 +81,22 @@ export class CaseManagerPanelComponent implements OnInit {
     
 
     ngOnInit(): void {
-        if (this.dataService) {
-            this.refreshEntries()
+        if ( this.service ){
+            console.log(this.caseId)
+            this.data$ = this.service.get(this.caseId)
+            if (this.data$) {
+                this.refreshEntries()
+            }
         }
+
     }
 
     addNewEntry() {    
-        console.log(this.formComponent)
-        this.modalFormService.open(this.formComponent, {});
+        this.modalFormService.open(this.formComponent, {}, this.refreshEntries.bind(this));
       }
 
     refreshEntries() {
-        this.dataService.subscribe(
+        this.data$.subscribe(
             (response: any) => {
                 console.log(response)
                 this.entries = response.items;
@@ -94,4 +107,23 @@ export class CaseManagerPanelComponent implements OnInit {
         )
     }
 
+    showDrawer(data: any) {
+        this.drawerVisible = true
+        this.drawerData = data
+    }
+
+    updateEntry(data: any) {
+        console.log('UPDATE', data)
+        this.modalFormService.open(this.formComponent, data, this.refreshEntries.bind(this));
+    }
+
+    deleteEntry(id: string) {
+        this.service.delete(id).pipe(first()).subscribe({
+            complete: () => {
+                this.refreshEntries()
+                this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
+            },
+            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error loading case', detail: error.message })
+        })
+    }
 }
