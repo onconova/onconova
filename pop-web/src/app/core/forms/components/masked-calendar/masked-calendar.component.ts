@@ -1,7 +1,7 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CalendarModule, CalendarTypeView } from 'primeng/calendar';
+import { DatePicker, DatePickerTypeView } from 'primeng/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DateMaskDirective } from '../directives/date-mask-directive';
 
@@ -20,7 +20,7 @@ import { DateMaskDirective } from '../directives/date-mask-directive';
         CommonModule,
         FormsModule, 
         ReactiveFormsModule,
-        CalendarModule,
+        DatePicker,
         DateMaskDirective,
     ]
 })
@@ -30,7 +30,7 @@ export class MaskedCalendarComponent implements ControlValueAccessor {
     @Input() formControlName!: string;
     @Input() dateFormat: string = 'dd/mm/yy';
     @Input() placeholder: string = 'DD/MM/YYYY';
-    @Input() view: CalendarTypeView = 'date';
+    @Input() view: DatePickerTypeView = 'date';
 
 
     public formControl: FormControl = new FormControl();

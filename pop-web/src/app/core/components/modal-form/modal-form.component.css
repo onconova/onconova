@@ -1,24 +1,28 @@
 .p-dialog {
-    border: none;
+    border: none !important;
 }
 .p-dialog-header {
-    background: var(--blue-500);
+    background: var(--p-primary-500);
     margin-bottom: 1.5rem;
     padding: 1rem 2rem;
     color: white;
+    border-radius: var(--p-dialog-border-radius) var(--p-dialog-border-radius) 0 0 ;
 }
-.p-dialog-header-icons i {
-    color: white;
+.p-dialog .p-dialog-header-actions i {
+    color: white !important;
 }
-.form-title .title{
+.p-dialog .form-title .title{
     font-size: 1.2rem;
     font-weight: 550;
 }
-.form-title .subtitle{
+.p-dialog .form-title .subtitle{
     font-size: .9rem;
-    color: var(--blue-100)
+    color: var(--p-primary-100)
 }
-.p-avatar {
+.p-dialog .p-avatar {
     line-height: 0 !important;
     padding: 1rem;
+    color: var(--p-primary-100) !important;
+    background: var(--p-primary-400) !important;
 }
+

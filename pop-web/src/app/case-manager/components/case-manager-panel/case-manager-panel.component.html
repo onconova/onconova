@@ -5,12 +5,12 @@
     collapseIcon="pi pi-angle-down" 
     expandIcon="pi pi-angle-up" 
     styleClass="mb-3">
-    <ng-template pTemplate="header">
+    <ng-template #header>
         <div class="flex align-items-center gap-3">
             <p-avatar 
                 size="normal" 
                 shape="square" 
-                [style]="{ 'background-color': 'var(--blue-100)', color: 'var(--blue-500)' }">
+                [style]="{ 'background-color': 'var(--p-primary-50)', color: 'var(--p-primary-500)' }">
                 <lucide-angular [name]="icon" ></lucide-angular>
             </p-avatar>
             <span style="font-size: 1.1rem;">
@@ -18,14 +18,11 @@
             </span>
             <p-badge [value]="entries.length" [severity]="entries.length ? 'primary' : 'secondary'" />
         </div>
-    </ng-template>
-    
-    <ng-template pTemplate="icons">
-        <button class="p-panel-header-icon p-link mr-2" (click)="menu.toggle($event)">
-            <span class="pi pi-cog"></span>
-        </button>
+
+        <span class="pi pi-cog cursor-pointer ml-auto" (click)="menu.toggle($event)"></span>
         <p-menu #menu id="config_menu" [model]="menuItems" [popup]="true" />
     </ng-template>
+    
 
     <div class="ml-2">
         <div *ngIf="entries.length == 0" class="p-text-secondary">
@@ -35,8 +32,7 @@
             <ng-template pTemplate="content" let-entry>
                 <div>
                     <small class="p-text-secondary">{{ 
-                        entry.date || entry.assertionDate 
-                        | date }}</small>
+                        entry.date || entry.assertionDate | date }}</small>
                 </div>
                 <div>
                     {{ entry.description }}

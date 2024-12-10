@@ -1,7 +1,7 @@
 import { AfterViewInit, Directive, ElementRef  } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
-import { Calendar } from 'primeng/calendar';
+import { DatePicker } from 'primeng/datepicker';
 import Inputmask from "inputmask";
 
 @Directive({
@@ -10,7 +10,7 @@ import Inputmask from "inputmask";
 })
 export class DateMaskDirective implements AfterViewInit {
   constructor(
-    private primeCalendar: Calendar, 
+    private primeCalendar: DatePicker, 
     private ngControl: NgControl,  
     private elementRef: ElementRef
   ) { }

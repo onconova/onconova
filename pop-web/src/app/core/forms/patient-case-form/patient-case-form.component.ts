@@ -5,7 +5,8 @@ import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } 
 
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitch } from 'primeng/toggleswitch';
+import { Fluid } from 'primeng/fluid';
 
 import * as moment from 'moment';
 
@@ -29,7 +30,8 @@ import { User } from 'lucide-angular';
     MaskedCalendarComponent,
     ControlErrorComponent,
     ButtonModule,
-    InputSwitchModule,
+    ToggleSwitch,
+    Fluid,
   ]
 })
 export class PatientFormComponent implements OnInit {

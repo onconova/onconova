@@ -1,9 +1,9 @@
-<div class="formgrid  p-fluid">
+<p-fluid>
     <form  [formGroup]="form" (ngSubmit)="onSave()">
 
-        <div class="field col">
-            <label for="assertionDate" class="form-label required">Neoplastic relation category</label>
-            <p-dropdown 
+        <div class="field">
+            <label for="relationship" class="form-label required">Neoplastic relation category</label>
+            <p-select 
             [options]="relationships" 
             formControlName="relationship"
             optionLabel="name" 
@@ -12,7 +12,7 @@
             <control-error controlName="relationship"></control-error>
         </div>
 
-        <div class="field col">
+        <div class="field">
             <label for="assertionDate" class="form-label required">Assertion date</label>
             <masked-calendar 
                 formControlName="assertionDate"
@@ -20,9 +20,9 @@
             <control-error controlName="assertionDate"></control-error>
         </div>
 
-        <div class="field col" *ngIf="requiresPrimary">
-            <label for="assertionDate" class="form-label required">Related primary neoplasm</label>
-            <p-dropdown 
+        <div class="field" *ngIf="requiresPrimary">
+            <label for="relatedPrimary" class="form-label required">Related primary neoplasm</label>
+            <p-select 
             [options]="relatedPrimaries" 
             formControlName="relatedPrimary"
             optionLabel="description" 
@@ -31,16 +31,16 @@
             <control-error controlName="relatedPrimary"></control-error>
         </div>
 
-        <div class="field col">
-            <label class="form-label required">Topography</label>
+        <div class="field">
+            <label for="topography" class="form-label required">Topography</label>
             <coded-concept-select 
                 terminology="CancerTopography"
                 [showCodes]="true"
                 formControlName="topography"/>
             <control-error controlName="topography"></control-error>
         </div>
-        <div class="field col">
-            <label class="form-label required">Morphology</label>
+        <div class="field">
+            <label for="morphology" class="form-label required">Morphology</label>
             <coded-concept-select 
                 terminology="CancerMorphology"
                 [showCodes]="true"
@@ -56,4 +56,5 @@
             [loading]="loading"
             [disabled]="form.invalid" />
     </form>
-</div>  
+</p-fluid>
+ 

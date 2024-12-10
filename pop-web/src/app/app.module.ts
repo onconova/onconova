@@ -13,7 +13,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 
 import { BASE_PATH } from './core/modules/openapi/variables';
-import { PrimeNGConfig } from 'primeng/api';
+
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import { AppThemePreset } from './app.preset'
 
 // Messages imports 
 import { ToastModule } from 'primeng/toast';
@@ -27,9 +30,6 @@ import { LucideAngularModule, HeartPulse, Tags,
     Image, CircleGauge} from 'lucide-angular';
 
 
-const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
-    primeConfig.ripple = true;
-};
 
 
 export function apiConfigFactory (): Configuration {
@@ -54,18 +54,21 @@ export function apiConfigFactory (): Configuration {
         LucideAngularModule.pick({HeartPulse, Tags, TestTubeDiagonal, Dna, Fingerprint, Microscope, Siren, DiamondPlus, Activity, Cigarette, Tablets, Slice, Radiation, Ribbon, Presentation, ShieldAlert, Image, CircleGauge}),
     ],
     providers: [
-        
+        provideAnimationsAsync(),
+        providePrimeNG({ 
+            ripple: true,
+            theme: {
+                preset: AppThemePreset,
+                options: {
+                    darkModeSelector: '.dark-mode'
+                }
+            }
+        }),
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: BASE_PATH, useValue: 'https://localhost:4443' },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: CACHE_OPTIONS, useValue: { /* options */ } },
         { provide: HTTP_INTERCEPTORS, useClass: HttpCacheInterceptor, multi: true },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initializeAppFactory,
-            deps: [PrimeNGConfig],
-            multi: true,
-         },
         AuthGuard
     ],
     bootstrap: [AppComponent]

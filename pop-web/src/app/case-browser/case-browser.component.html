@@ -17,7 +17,7 @@
         [totalRecords]="totalCases"
         class="no-background"
     >
-        <ng-template pTemplate="list" let-cases>
+        <ng-template #list let-cases>
             <div class="grid grid-nogutter">
                 <div class="col-12" *ngFor="let case of cases; let first = first" class="col-12">
                     <app-case-browser-item [case]="case"></app-case-browser-item>

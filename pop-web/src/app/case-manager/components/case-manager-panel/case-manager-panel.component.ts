@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { ModalFormService } from '../../../core/components/modal-form/modal-form.service';
 
-import { PanelModule } from 'primeng/panel';
+import { Panel } from 'primeng/panel';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
-import { MenuModule } from 'primeng/menu';
-import { TimelineModule } from 'primeng/timeline';
+import { Menu } from 'primeng/menu';
+import { Timeline } from 'primeng/timeline';
 
 
 import { LucideAngularModule } from 'lucide-angular';
@@ -22,11 +22,11 @@ import { LucideAngularModule } from 'lucide-angular';
     imports: [
         CommonModule,
         LucideAngularModule,
-        PanelModule,
+        Panel,
         AvatarModule,
-        MenuModule,
+        Menu,
         BadgeModule,
-        TimelineModule,
+        Timeline,
     ]
 })
 export class CaseManagerPanelComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { LayoutService } from "../../service/app.layout.service";
 import packageInfo from '../../../../../package.json';
 import { AuthService } from '../../../auth/auth.service';
@@ -12,8 +12,10 @@ import { Router } from '@angular/router';
 })
 export class AppTopBarComponent {
     version = packageInfo.version;
-    items!: MenuItem[];
-    profile_items!: MenuItem[];
+    items!: any[];
+    profile_items!: any[];
+    themeModeIcon: 'pi pi-sun' | 'pi pi-moon' = 'pi pi-sun';
+
 
     @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -35,6 +37,14 @@ export class AppTopBarComponent {
                     this.logout();
                 }
             }];
+    }
+
+    toggleDarkMode() {
+        const element = document.querySelector('html');
+        if (element) {
+            this.themeModeIcon = this.themeModeIcon == 'pi pi-moon' ? 'pi pi-sun' : 'pi pi-moon'
+            element.classList.toggle('dark-mode');
+        }
     }
 
     logout() {

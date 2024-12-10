@@ -9,9 +9,10 @@ import { CodedConceptSchema } from '../../modules/openapi'
 import { NeoplasticEntity, NeoplasticEntityCreate, NeoplasticEntitiesService } from '../../modules/openapi'
 
 import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
+import { Select } from 'primeng/select';
 import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
+import { Fluid } from 'primeng/fluid';
 
 import { Ribbon } from 'lucide-angular';
 
@@ -22,6 +23,7 @@ import {
 } from '../../forms/components';
 
 @Component({
+  standalone: true,
   selector: 'neoplastic-entity-form',
   templateUrl: './neoplastic-entity-form.component.html',
   imports: [
@@ -30,7 +32,8 @@ import {
     ReactiveFormsModule,
     FormsModule,
     MaskedCalendarComponent,
-    DropdownModule,
+    Fluid,
+    Select,
     ButtonModule,
     CodedConceptSelectComponent,
     ControlErrorComponent,
@@ -38,7 +41,6 @@ import {
   providers: [
     DatePipe,
   ],
-  standalone: true,
 })
 export class NeoplasticEntityFormComponent {
 

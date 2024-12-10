@@ -2,10 +2,11 @@
     background: none !important;
 }
 .case-browser-card {
-    border-left: solid 4px #efefef;
+    background: var(--p-dataview-content-background);
+    border-left: solid 4px var(--p-dataview-header-border-color);
 }
 .case-browser-card:hover {
-    border-left: solid 4px var(--primary-color);
+    border-left: solid 4px var(--p-primary-color);
     cursor: pointer;
 }
 .p-avatar {

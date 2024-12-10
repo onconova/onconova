@@ -1,13 +1,16 @@
+.p-timeline-event {
+    min-height: 1rem !important;
+}
 .p-timeline-event-opposite {
     display: none !important;
 }
 .p-timeline-event-content {
-    padding-bottom: .5rem;
+    padding-bottom: .75rem !important;
 }
 .p-timeline-event {
     min-height: unset;
 }
 .p-avatar {
-    line-height: 0;
+    line-height: 0.25;
     padding: 1rem;
 }

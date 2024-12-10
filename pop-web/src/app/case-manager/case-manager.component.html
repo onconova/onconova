@@ -1,11 +1,11 @@
 <!-- Case summary -->
-<div class="card flex py-4 " style="background: var(--blue-500); color: white; width: 50%;">
-    <p-avatar size="xlarge" [style]="{'background': 'white', 'width': '5rem', 'height': '5rem', padding: '0'}" >
+<div class="card flex py-4 " style="background: var(--p-content-background); color: var(--p-text-color); width: 50%;">
+    <p-avatar size="xlarge" [style]="{'background': 'var(--p-avatar-background)', 'width': '5rem', 'height': '5rem', padding: '0'}" >
         <svg class="my-auto" [data-jdenticon-value]="[pseudoidentifier]"></svg>
     </p-avatar>
     <div class="ml-3">
         CASE MANAGEMENT
-        <h2 class="mb-0 text-white" style="font-family: monospace;">
+        <h2 class="mb-0" style="font-family: monospace;">
             {{ pseudoidentifier }}
         </h2>
         <div *ngIf="case">

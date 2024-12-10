@@ -1,6 +1,6 @@
-<div class="formgrid  p-fluid" >
+<p-fluid>
     <form  [formGroup]="form" (ngSubmit)="onSave()" >
-        <div class="field col">
+        <div class="field">
             <label class="form-label required">Gender</label>
             <coded-concept-select 
                 terminology="AdministrativeGender"
@@ -8,7 +8,7 @@
             <control-error controlName="gender"></control-error>
         </div>
 
-        <div class="field col">
+        <div class="field">
             <label for="date-of-birth" class="form-label required">Date of Birth</label>
             <masked-calendar 
                 formControlName="dateOfBirth"
@@ -20,12 +20,12 @@
             <control-error controlName="dateOfBirth"></control-error>
         </div>
 
-        <div class="field col flex">
-            <p-inputSwitch formControlName="isAlive" />
+        <div class="field flex">
+            <p-toggleswitch formControlName="isAlive" />
             <label class="form-label ml-2 my-auto required">Patient is alive</label>
         </div>
 
-        <div class="field col" *ngIf="!form.value.isAlive">
+        <div class="field" *ngIf="!form.value.isAlive">
             <label class="form-label required">Date of Death</label>
             <masked-calendar 
                 formControlName="dateOfDeath"
@@ -36,7 +36,7 @@
             <control-error controlName="dateOfDeath"></control-error>
         </div>
 
-        <div class="field col" *ngIf="!form.value.isAlive">
+        <div class="field" *ngIf="!form.value.isAlive">
             <label class="form-label">Cause of death</label>
             <coded-concept-select 
                 terminology="CauseOfDeath"
@@ -53,4 +53,4 @@
             [disabled]="form.invalid" />
 
     </form>
-</div>  
+</p-fluid>  
