@@ -4,6 +4,7 @@
   "author": "Luis Fabregas-Ibanez <luisfaib@gmail.com>",
   "dependencies": {
     "@angular-devkit/build-angular": "^18.2.12",
+    "@angular-eslint/schematics": "^19.0.1",
     "@angular/animations": "^18.2.12",
     "@angular/cdk": "^18.2.13",
     "@angular/common": "^18.2.12",
@@ -29,6 +30,13 @@
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
-    "@types/inputmask": "^5.0.7"
+    "@types/inputmask": "^5.0.7",
+    "@types/jasmine": "^5.1.5",
+    "karma": "^6.4.4",
+    "karma-brave-launcher": "^1.0.0",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.1.0"
   }
 }

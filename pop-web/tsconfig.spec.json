@@ -11,8 +11,8 @@
     "src/test.ts",
     "src/polyfills.ts"
   ],
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+  "exclude": [
+    "node_modules/**/*",
+    "src/app/core/modules/openapi/**/*"
   ]
 }

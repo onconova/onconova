@@ -3,6 +3,8 @@
     "compilerOptions": {
         "baseUrl": "./",
         "outDir": "./dist/out-tsc",
+        "typeRoots": ["node_modules/@types"],
+        "types": ["jasmine", "node"],
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,
