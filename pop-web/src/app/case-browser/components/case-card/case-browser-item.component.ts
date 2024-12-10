@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 
-import { PatientCase, AuthService } from '../../../core/modules/openapi';
+import { PatientCase, AuthService, NeoplasticEntity, NeoplasticEntitiesService } from '../../../core/modules/openapi';
 import { RouterModule } from '@angular/router';
 import { Observable, map, of } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { AvatarModule } from 'primeng/avatar';
 
 import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
 
+import { CancerIconComponent } from 'src/app/core/components/cancer-icon/cancer-icon.component';
 
 /**
  * Represents a single case browser item.
@@ -42,6 +43,7 @@ import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
         AvatarGroupModule,
         DividerModule,
         ChipModule,
+        CancerIconComponent,
     ],
     providers: [
       { 
@@ -65,11 +67,12 @@ export class CaseBrowserCardComponent {
 
     // Injected services
     private authService: AuthService = inject(AuthService);
-
+    private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     // Properties
     @Input() public case!: PatientCase;
     public createdByUsername$: Observable<string> = of('?');
     public updatedByUsernames$: Observable<string>[] = [];
+    public primaryEntity$!: Observable<NeoplasticEntity>;
 
     ngOnInit() {
         if (this.case.createdById) {
@@ -84,6 +87,7 @@ export class CaseBrowserCardComponent {
                         .pipe(map(user => user.username))
             )
         }
+        this.primaryEntity$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.case.id, ['primary']).pipe(map(data => data.items[0]))
     }
 }
 

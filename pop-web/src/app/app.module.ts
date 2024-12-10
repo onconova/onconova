@@ -22,6 +22,7 @@ import { AppThemePreset } from './app.preset'
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 import { LucideAngularModule, HeartPulse, Tags, 
     TestTubeDiagonal, Dna, Fingerprint, Microscope,
@@ -51,6 +52,7 @@ export function apiConfigFactory (): Configuration {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastModule,
+        InlineSVGModule.forRoot(),
         LucideAngularModule.pick({HeartPulse, Tags, TestTubeDiagonal, Dna, Fingerprint, Microscope, Siren, DiamondPlus, Activity, Cigarette, Tablets, Slice, Radiation, Ribbon, Presentation, ShieldAlert, Image, CircleGauge}),
     ],
     providers: [

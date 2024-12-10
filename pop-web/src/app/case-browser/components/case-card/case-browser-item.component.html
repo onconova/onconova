@@ -20,8 +20,16 @@
     <p-divider layout="vertical" />
 
     <div class="flex flex-column" style="width: 20%">
-        <div>Diagnosis pending</div>
-        <div>No further information available</div>
+        <ng-container *ngIf="primaryEntity$ | async as primaryEntity; else pending">
+            <div class="flex gap-2">
+                <cancer-icon [topography]="primaryEntity.topography.code"></cancer-icon>
+                <div class="my-auto">{{ primaryEntity.description }}</div>
+            </div>
+        </ng-container>
+        <ng-template #pending>
+            <div>Diagnosis pending</div>
+            <div>No further information available</div>
+        </ng-template>
     </div>
 
     <p-divider layout="vertical"/>

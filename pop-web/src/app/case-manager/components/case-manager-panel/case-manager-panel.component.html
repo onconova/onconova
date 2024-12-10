@@ -6,7 +6,7 @@
     expandIcon="pi pi-angle-up" 
     styleClass="mb-3">
     <ng-template #header>
-        <div class="flex align-items-center gap-3">
+        <div class="flex align-items-center gap-2">
             <p-avatar 
                 size="normal" 
                 shape="square" 
@@ -19,7 +19,7 @@
             <p-badge [value]="entries.length" [severity]="entries.length ? 'primary' : 'secondary'" />
         </div>
 
-        <span class="pi pi-cog cursor-pointer ml-auto" (click)="menu.toggle($event)"></span>
+        <span class="pi pi-cog cursor-pointer ml-auto my-auto" style="color: var(--p-button-text-secondary-color)" (click)="menu.toggle($event)"></span>
         <p-menu #menu id="config_menu" [model]="menuItems" [popup]="true" />
     </ng-template>
     
@@ -28,7 +28,7 @@
         <div *ngIf="entries.length == 0" class="p-text-secondary">
             No entries associated with this case
         </div>
-        <p-timeline [value]="entries" *ngIf="entries.length > 0">
+        <p-timeline [value]="entries" *ngIf="entries.length > 0" class="mt-2">
             <ng-template pTemplate="content" let-entry>
                 <div (click)="showDrawer(entry)" class="cursor-pointer">
                     <div>
