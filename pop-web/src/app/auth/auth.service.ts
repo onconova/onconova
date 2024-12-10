@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthService as APIAuthService } from '../core/modules/openapi';
 import { Observable } from 'rxjs'
-import { tap } from 'rxjs/operators';
-import { UserCredentialsSchema, SlidingTokenSchema } from '../core/modules/openapi/';
+import { tap, firstValueFrom } from 'rxjs';
+import { UserCredentialsSchema, OldSlidingTokenSchema, NewSlidingTokenSchema, SlidingTokenSchema } from '../core/modules/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -35,6 +35,16 @@ export class AuthService {
     return localStorage.getItem('pop_access_token');
   }
 
+  async refreshToken(): Promise<NewSlidingTokenSchema> {
+    const slidingToken: OldSlidingTokenSchema = {
+        token: this.token,
+    }
+    return await firstValueFrom(this.apiAuth.refereshSlidingToken(slidingToken)
+      .pipe(tap((response: NewSlidingTokenSchema) => {
+        localStorage.setItem('pop_access_token', response.token);
+      })))
+  }
+
   setToken(token: string): void {
     this.token = token;
   }
@@ -43,7 +53,8 @@ export class AuthService {
     const token = localStorage.getItem('pop_access_token');
     // Check whether the token is expired and return true or false
     const jwtHelper = new JwtHelperService();
-    return !jwtHelper.isTokenExpired(token);
+    const hasExpired =  !jwtHelper.isTokenExpired(token);
+    return hasExpired
   }
 
 }
