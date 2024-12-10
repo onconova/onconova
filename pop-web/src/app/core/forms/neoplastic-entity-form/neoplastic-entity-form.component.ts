@@ -89,6 +89,8 @@ export class NeoplasticEntityFormComponent {
         relatedPrimary: new FormControl<string|null>(this.initialData?.relatedPrimary, Validators.required),
         topography: new FormControl<CodedConceptSchema|null>(this.initialData?.topography,Validators.required),
         morphology: new FormControl<CodedConceptSchema|null>(this.initialData?.morphology,Validators.required),
+        laterality: new FormControl<CodedConceptSchema|null>(this.initialData?.laterality),
+        differentiation: new FormControl<CodedConceptSchema|null>(this.initialData?.differentitation),
     });
   }
 
@@ -129,10 +131,11 @@ export class NeoplasticEntityFormComponent {
         caseId: this.caseId,
         relationship: data.relationship,
         topography: data.topography,
-        assertionDate: moment(data.assertionDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+        assertionDate: moment(data.assertionDate, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
         morphology: data.morphology,
+        laterality: data.laterality,
+        differentitation: data.differentiation,
       };
-      console.log('data.assertionDate', data.assertionDate)
       // Send the data to the server's API
       if (this.initialData.id) {
         this.neoplasticEntitiesService.updateNeoplasticEntityById(this.initialData.id, payload).subscribe(

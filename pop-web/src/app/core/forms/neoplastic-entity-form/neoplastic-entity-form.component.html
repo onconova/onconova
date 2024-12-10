@@ -49,6 +49,23 @@
             <control-error controlName="morphology"></control-error>
         </div>
 
+        <div class="field">
+            <label for="laterality" class="form-label">Laterality</label>
+            <coded-concept-select 
+                terminology="LateralityQualifier"
+                [showSynonyms]="false"
+                formControlName="laterality"/>
+            <control-error controlName="laterality"></control-error>
+        </div>
+
+        <div class="field">
+            <label for="differentiation" class="form-label">Histological differentiation</label>
+            <coded-concept-select 
+                terminology="HistologyDifferentiation"
+                formControlName="differentiation"/>
+            <control-error controlName="differentiation"></control-error>
+        </div>
+
         <p-button 
             type="submit" 
             label="Save" 
