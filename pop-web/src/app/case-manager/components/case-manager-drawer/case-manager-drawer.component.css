@@ -1,3 +1,7 @@
+.p-drawer-right {
+    min-width: 25% !important;
+}
+
 .monospace {
     font-family: monospace;
 }

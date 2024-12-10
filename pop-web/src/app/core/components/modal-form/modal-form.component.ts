@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
 
 import { LucideAngularModule } from 'lucide-angular';
 
@@ -23,6 +24,7 @@ import { ModalFormService } from './modal-form.service'
     AvatarModule,
     DialogModule,
     ButtonModule,
+    DividerModule,
   ],
 })
 export class ModalFormComponent {

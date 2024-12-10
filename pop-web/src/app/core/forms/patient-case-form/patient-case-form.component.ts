@@ -88,8 +88,8 @@ export class PatientFormComponent implements OnInit {
       const data = this.form.value
       const cancerPatientData: PatientCaseCreate = {
         gender: data.gender,
-        dateOfBirth: moment(data.dateOfBirth, 'MM/YYYY').format('YYYY-MM-DD'),
-        dateOfDeath: !data.isAlive?  moment(data.dateOfDeath, 'MM/YYYY').format('YYYY-MM-DD'): null,
+        dateOfBirth: moment(data.dateOfBirth, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'),
+        dateOfDeath: !data.isAlive?  moment(data.dateOfDeath, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'): null,
         causeOfDeath: !data.isAlive? data.causeOfDeath: null,
       };
       // Send the data to the server's API
