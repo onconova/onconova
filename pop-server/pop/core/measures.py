@@ -3,7 +3,7 @@ from measurement.base import MeasureBase, BidimensionalMeasure
 from measurement.measures import Mass, Volume as VolumeBase
 
 class Unit(MeasureBase):
-    STANDARD_UNIT = 'kIU'
+    STANDARD_UNIT = 'IU'
     UNITS = {
         'IU': 1.0,
     }

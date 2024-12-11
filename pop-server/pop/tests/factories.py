@@ -101,11 +101,22 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
 
 
 
-class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
+class CA125TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TumorMarker
     analyte = 'CA125'
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
     mass_concentration = factory.LazyFunction(lambda: measures.MassConcentration(g__l=random.random()))    
+    created_by =  factory.SubFactory(UserFactory)
+
+
+
+class LDHTumorMarkerTestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TumorMarker
+    analyte = 'LDH'
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    arbitrary_concentration = factory.LazyFunction(lambda: measures.ArbitraryConcentration(IU__l=1000*random.random()))    
     created_by =  factory.SubFactory(UserFactory)

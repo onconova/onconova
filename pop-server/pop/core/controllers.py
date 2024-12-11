@@ -84,7 +84,7 @@ class UsersController(ControllerBase):
 class MeasuresController(ControllerBase):
 
     @route.get(
-        path="/measures/{measureName}/units", 
+        path="/{measureName}/units", 
         operation_id='getMeasureUnits',
         response={
             200: List[str],
@@ -108,7 +108,7 @@ class MeasuresController(ControllerBase):
 
 
     @route.post(
-        path="/measures/{measureName}/units/conversion", 
+        path="/{measureName}/units/conversion", 
         operation_id='convertUnits',
         response={
             200: MeasureSchema,

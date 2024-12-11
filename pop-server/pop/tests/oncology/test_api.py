@@ -40,10 +40,10 @@ class ApiControllerTestCase:
         cls.user.save()
         # Ensure class settings are iterable
         cls.FACTORY = [cls.FACTORY] if not isinstance(cls.FACTORY, list) else cls.FACTORY
-        cls.MODEL = [cls.MODEL] if not isinstance(cls.MODEL, list) else cls.MODEL
-        cls.SCHEMA = [cls.SCHEMA] if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
-        cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA] if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
-        cls.SUBTESTS = len(cls.MODEL)
+        cls.SUBTESTS = len(cls.FACTORY)
+        cls.MODEL = [cls.MODEL]*cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
+        cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
+        cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
         
     def _authenticate_user(self):
         # Login the user and retrieve the JWT token
@@ -203,7 +203,11 @@ class TestStagingController(ApiControllerTestCase, TestCase):
 
 class TestTumorMarkerController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/tumor-markers'
-    FACTORY = factories.TumorMarkerTestFactory
+    FACTORY = [
+        factories.CA125TumorMarkerTestFactory,
+        factories.LDHTumorMarkerTestFactory
+    ]
+    
     MODEL = models.TumorMarker
     SCHEMA = schemas.TumorMarkerSchema
     CREATE_SCHEMA = schemas.TumorMarkerCreateSchema    
