@@ -138,6 +138,17 @@ class TestSchemaFactory(TestCase):
         self.assertEqual(schema_instance.model_dump()['createdById'], user.id)
         self.assertEqual(schema_instance.model_dump_django(instance=django_instance).created_by, user)
 
+    def test_creating_schema_with_nullable_relational_field(self):
+        user = UserFactory()
+        django_instance = PatientCaseFactory(created_by=user)
+        # Create schema
+        schema = self.factory.create_schema(PatientCase)
+        schema_instance = schema.model_validate(django_instance)
+        schema_instance.race = None
+        # Assertion
+        self.assertIsNotNone(django_instance.race)
+        self.assertIsNone(schema_instance.model_dump_django(instance=django_instance).race)
+        
     def test_creating_schema_with_codedconcept_field(self):
         django_instance = PatientCaseFactory()
         related_concept = django_instance.gender 
@@ -182,3 +193,6 @@ class TestSchemaFactory(TestCase):
         self.assertEqual([user['username'] for user in schema_instance.model_dump()['updatedBy']],  [user1.username, user2.username])
         self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.first(), user1)
         self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.last(), user2)
+        
+
+        

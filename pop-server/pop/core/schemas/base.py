@@ -97,7 +97,9 @@ class BaseSchema(PydanticBaseModel):
         m2m_relations = {}
         if create:
             instance = model()
-        serialized_data = self.model_dump(exclude_unset=True)
+        serialized_data = super().model_dump(exclude_unset=True)
+        from pprint import pprint
+        pprint(serialized_data)
         for field_name, field in self.model_fields.items():
             # Skip unset fields
             if field_name not in serialized_data:
@@ -120,17 +122,20 @@ class BaseSchema(PydanticBaseModel):
                     # Do not set many-to-many or one-to-many fields yet
                     continue
                 else:
-                    # Handle ForeignKey fields/relations
-                    if field_meta.get('expanded'):
-                        # If the serialized fields has been expanded, the data already contains the data
-                        related_instance = data
+                    if data is None:
+                        related_instance = None
                     else:
-                        if field_meta.get('is_coded_concept'):
-                            # For coded concepts, wuery the database via the code and codesystem
-                            related_instance = related_model.objects.get(code=data.get('code'), system=data.get('system'))
+                        # Handle ForeignKey fields/relations
+                        if field_meta.get('expanded'):
+                            # If the serialized fields has been expanded, the data already contains the data
+                            related_instance = data
                         else:
-                            # Otherwise, query the database via the foreign key to get the related instance
-                            related_instance = related_model.objects.get(id=data)
+                            if field_meta.get('is_coded_concept'):
+                                # For coded concepts, wuery the database via the code and codesystem
+                                related_instance = related_model.objects.get(code=data.get('code'), system=data.get('system'))
+                            else:
+                                # Otherwise, query the database via the foreign key to get the related instance
+                                related_instance = related_model.objects.get(id=data)
                     # Set the related instance value into the model instance
                 setattr(instance, orm_field, related_instance)      
             else:             
