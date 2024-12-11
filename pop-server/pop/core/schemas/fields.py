@@ -13,13 +13,12 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, UserSchema
-
+from pop.core.schemas import CodedConceptSchema, MeasureSchema
+from django_measurement.models import MeasurementField
 UserModel = get_user_model()
 
 DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
-    # POP fields
 }
 
 
@@ -59,7 +58,6 @@ def get_schema_field(
     examples = []    
     json_schema_extra = dict(
         orm_name = django_field_name,    
-        is_coded_concept = False,
         is_relation = bool(field.is_relation),
         many_to_many = bool(field.many_to_many),
         one_to_many = bool(field.one_to_many),
@@ -82,7 +80,6 @@ def get_schema_field(
         else:
             related_model = field.related_model 
             if issubclass(related_model, CodedConceptModel):
-                json_schema_extra['is_coded_concept'] = True
                 json_schema_extra['terminology'] = related_model.__name__
                 related_type = CodedConceptSchema   
             else:
@@ -110,8 +107,11 @@ def get_schema_field(
         null = field_options.get("null", False)
         max_length = field_options.get("max_length")
 
-        internal_type = field.get_internal_type()
-        python_type = DJANGO_TO_PYDANTIC_TYPES[internal_type]
+        if isinstance(field, MeasurementField):
+            python_type = MeasureSchema
+        else:
+            internal_type = field.get_internal_type()
+            python_type = DJANGO_TO_PYDANTIC_TYPES[internal_type]
 
         if field.primary_key or blank or null or optional:
             default = None

@@ -65,7 +65,26 @@ class ResourceIdSchema(Schema):
     model_config = ConfigDict(
         title='ResourceId',
     )
-    
+
+class MeasureSchema(Schema):
+    value: float
+    unit: str
+
+    # Schema config
+    model_config = ConfigDict(
+        title='Measure',
+    )
+
+
+class MeasureConversionSchema(Schema):
+    value: float
+    unit: str
+    new_unit: str
+
+    # Schema config
+    model_config = ConfigDict(
+        title='MeasureConversion',
+    )
 
 class CodedConceptSchema(Schema):  
     code: str

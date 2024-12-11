@@ -46,6 +46,13 @@ class BaseModel(models.Model):
         abstract = True
  
     @property
+    def description(self):
+        raise NotImplementedError
+
+    def __str__(self):
+        return self.description
+
+    @property
     def last_updated(self):
         return self.updated_at
  

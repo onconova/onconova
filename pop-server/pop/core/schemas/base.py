@@ -3,9 +3,11 @@ from typing import Any,List, Tuple, Type, Optional
 from django.db.models import Model as DjangoModel
 from django.db.models import ManyToManyRel, ManyToOneRel, ForeignKey
 
+from django_measurement.models import MeasurementField
+
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
 
-from pop.core.schemas import CodedConceptSchema
+from pop.terminology.models import CodedConcept
 
 def to_camel_case(string: str) -> str:
     """
@@ -98,8 +100,6 @@ class BaseSchema(PydanticBaseModel):
         if create:
             instance = model()
         serialized_data = super().model_dump(exclude_unset=True)
-        from pprint import pprint
-        pprint(serialized_data)
         for field_name, field in self.model_fields.items():
             # Skip unset fields
             if field_name not in serialized_data:
@@ -110,13 +110,16 @@ class BaseSchema(PydanticBaseModel):
             field_meta = field.json_schema_extra
             if field_meta is None:
                 continue
-            orm_field = field_meta.get('orm_name', field.alias)
+            orm_field =  model._meta.get_field(
+                field_meta.get('orm_name', field.alias)
+            )
+            
             # Handle relational fields
             if field_meta.get('is_relation'):
-                related_model = model._meta.get_field(orm_field).related_model
+                related_model = orm_field.related_model
                 if field_meta.get('many_to_many') or field_meta.get('one_to_many'):
                     # Collect all related instances
-                    m2m_relations[orm_field] = [
+                    m2m_relations[orm_field.name] = [
                         related_model.objects.get(id=item.get('id') if isinstance(item, dict) else item) for item in data
                     ]
                     # Do not set many-to-many or one-to-many fields yet
@@ -130,17 +133,22 @@ class BaseSchema(PydanticBaseModel):
                             # If the serialized fields has been expanded, the data already contains the data
                             related_instance = data
                         else:
-                            if field_meta.get('is_coded_concept'):
+                            if issubclass(related_model, CodedConcept):
                                 # For coded concepts, wuery the database via the code and codesystem
                                 related_instance = related_model.objects.get(code=data.get('code'), system=data.get('system'))
                             else:
                                 # Otherwise, query the database via the foreign key to get the related instance
                                 related_instance = related_model.objects.get(id=data)
                     # Set the related instance value into the model instance
-                setattr(instance, orm_field, related_instance)      
+                setattr(instance, orm_field.name, related_instance)      
             else:             
-                # Otherwise simply handle all other non-relational fields
-                setattr(instance, orm_field, data)
+                # For measurement fields, add the measure with the provided unit and value
+                if isinstance(orm_field, MeasurementField):
+                    measure = orm_field.measurement
+                    setattr(instance, orm_field.name, measure(**{data.get('unit'): data.get('value')}))
+                else:
+                    # Otherwise simply handle all other non-relational fields
+                    setattr(instance, orm_field.name, data)
         # Save the model instance to the database    
         instance.save()
         # Set many-to-many

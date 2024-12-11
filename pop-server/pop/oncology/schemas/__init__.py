@@ -16,6 +16,7 @@ from .Staging import (
      RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
      LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
+from .TumorMarker import TumorMarkerSchema, TumorMarkerCreateSchema
 
 __all__ = (
      # PatientCase schemas
@@ -37,4 +38,6 @@ __all__ = (
      WilmsStageSchema, WilmsStageCreateSchema,
      RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
      LymphomaStagingSchema, LymphomaStagingCreateSchema,
+     # Tumor marker schemas
+     TumorMarkerSchema, TumorMarkerCreateSchema,
 )

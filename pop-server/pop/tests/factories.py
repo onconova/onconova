@@ -5,8 +5,10 @@ import random
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.hashers import make_password
 
+import pop.core.measures as measures
 import pop.oncology.models as models
 import pop.terminology.models as terminology
+
 
 faker = faker.Faker()
 
@@ -95,4 +97,15 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)    
     stage = factory.SubFactory(make_terminology_factory(terminology.FIGOStage, code_iterator=[f"figo-stage-{n+1}-code" for n in range(5)]))
     methodology = factory.SubFactory(make_terminology_factory(terminology.FIGOStagingMethod))
+    created_by =  factory.SubFactory(UserFactory)
+
+
+
+class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TumorMarker
+    analyte = 'CA125'
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    mass_concentration = factory.LazyFunction(lambda: measures.MassConcentration(g__l=random.random()))    
     created_by =  factory.SubFactory(UserFactory)

@@ -75,6 +75,8 @@ class ApiControllerTestCase:
             data=data if data is not None else None, 
             content_type="application/json"
         )
+        if response.status_code == 500:
+            print(response.status_code)
         self.assertIn(
             response.status_code, 
             expected_responses, 
@@ -87,9 +89,9 @@ class ApiControllerTestCase:
     def test_get_all(self, scenario, *config):            
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
+            # Call the API endpoint
+            response = self.call_api_endpoint(GET, f'/', *config)
             with self.subTest(i=i):
-                # Call the API endpoint
-                response = self.call_api_endpoint(GET, f'/', *config)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
@@ -104,9 +106,9 @@ class ApiControllerTestCase:
     def test_get_by_id(self, scenario, *config):              
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
+            # Call the API endpoint
+            response = self.call_api_endpoint(GET, f'/{instance.id}', *config)
             with self.subTest(i=i):
-                # Call the API endpoint
-                response = self.call_api_endpoint(GET, f'/{instance.id}', *config)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
@@ -118,9 +120,9 @@ class ApiControllerTestCase:
     def test_delete(self, scenario, *config):              
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
+            # Call the API endpoint
+            response = self.call_api_endpoint(DELETE, f'/{instance.id}', *config)
             with self.subTest(i=i):       
-                # Call the API endpoint
-                response = self.call_api_endpoint(DELETE, f'/{instance.id}', *config)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 204)
@@ -130,10 +132,10 @@ class ApiControllerTestCase:
     def test_create(self, scenario, *config):                     
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
+            json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
+            # Call the API endpoint.
+            response = self.call_api_endpoint(POST, f'/', *config, data=json_data)
             with self.subTest(i=i):       
-                json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
-                # Call the API endpoint.
-                response = self.call_api_endpoint(POST, f'/', *config, data=json_data)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     created_id = response.json()['id']
@@ -197,4 +199,12 @@ class TestStagingController(ApiControllerTestCase, TestCase):
         schemas.TNMStagingCreateSchema, 
         schemas.FIGOStagingCreateSchema
     ]
+    
+
+class TestTumorMarkerController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/tumor-markers'
+    FACTORY = factories.TumorMarkerTestFactory
+    MODEL = models.TumorMarker
+    SCHEMA = schemas.TumorMarkerSchema
+    CREATE_SCHEMA = schemas.TumorMarkerCreateSchema    
     

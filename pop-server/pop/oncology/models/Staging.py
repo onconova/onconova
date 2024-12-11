@@ -89,8 +89,6 @@ class Staging(BaseModel):
     def get_domain_staging(self):
         return getattr(self, self.staging_domain)   
     
-    def __str__(self):
-        return self.description
     
 class TNMStaging(Staging):
     

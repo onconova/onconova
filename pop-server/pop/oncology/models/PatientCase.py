@@ -110,6 +110,10 @@ class PatientCase(BaseModel):
         terminology = terminologies.CauseOfDeath, 
         null=True, blank=True,
     )
+
+    @property
+    def description(self):
+        return f'POP Case {self.pseudoidentifier}'
     
     @property
     def age(self):

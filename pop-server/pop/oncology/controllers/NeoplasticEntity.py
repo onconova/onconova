@@ -95,7 +95,7 @@ class NeoplasticEntityController(ControllerBase):
         },
         operation_id='deleteNeoplasticEntityById',
     )
-    def delete_patient_case(self, entityId: str):
+    def delete_neoplastic_entity(self, entityId: str):
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
         instance.delete()
         return 204, None

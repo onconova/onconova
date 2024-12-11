@@ -97,10 +97,7 @@ class NeoplasticEntity(BaseModel):
         description = f'{self.relationship} {description}' 
         return description.capitalize()
     
-    def __str__(self):
-        return self.description
-
-            
+                
     class Meta:
         verbose_name = "Neoplastic Entity"
         verbose_name_plural  = "Neoplastic Entities"

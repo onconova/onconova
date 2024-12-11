@@ -6,6 +6,7 @@ from .Staging import (
     RISSStaging, INSSStage, INRGSSStage,  GleasonGrade, 
     WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging
 )
+from .TumorMarker import TumorMarker
 
 __all__ = (
     PatientCase,
