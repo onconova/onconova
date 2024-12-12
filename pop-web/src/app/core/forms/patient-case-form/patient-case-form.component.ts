@@ -1,15 +1,15 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatientCaseCreate, PatientCasesService, CodedConceptSchema } from '../../modules/openapi'
-import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PatientCaseCreate, PatientCasesService, PatientCase } from '../../modules/openapi'
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { Fluid } from 'primeng/fluid';
 
 import * as moment from 'moment';
 
+import { AbstractFormBase } from '../abstract-form-base.component';
 import { 
   CodedConceptSelectComponent, 
   MaskedCalendarComponent,
@@ -17,6 +17,7 @@ import {
 } from '../components';
 
 import { User } from 'lucide-angular';
+import { EmptyObject } from 'chart.js/dist/types/basic';
 
 @Component({
   standalone: true,
@@ -34,29 +35,42 @@ import { User } from 'lucide-angular';
     Fluid,
   ]
 })
-export class PatientFormComponent implements OnInit {
+export class PatientFormComponent extends AbstractFormBase implements OnInit {
 
-  form!: FormGroup;
-  @Output() save = new EventEmitter<void>();
 
-  loading: boolean = false;
-  title: string = 'Accesionning'
-  subtitle: string = 'Add new patient case'
-  readonly icon = User;
+  private readonly caseService = inject(PatientCasesService);
+  public readonly formBuilder = inject(FormBuilder);
+
+  public readonly createService = this.caseService.createPatientCase.bind(this.caseService);
+  public readonly updateService = this.caseService.updatePatientCaseById.bind(this.caseService);
+  public initialData: PatientCase | EmptyObject = {};
+
+  public readonly title: string = 'Accessioning'
+  public readonly subtitle: string = 'New patient'
+  public readonly icon = User;
 
   ngOnInit() {
-    this.constructForm()
-    this.onIsAliveChange()
+    this.constructForm();
+    this.onIsAliveChange();
   }
 
   private constructForm() {
-    this.form = new FormGroup({
-      gender: new FormControl<CodedConceptSchema|null>(null,Validators.required),
-      dateOfBirth: new FormControl<Date|null>(null,Validators.required),
-      isAlive: new FormControl<boolean>(true,Validators.required),
-      dateOfDeath: new FormControl<Date|null>(null, []),
-      causeOfDeath: new FormControl<CodedConceptSchema|null>(null),
+    this.form = this.formBuilder.group({
+      gender: [null,Validators.required],
+      dateOfBirth: [null,Validators.required],
+      isAlive: [true,Validators.required],
+      dateOfDeath: (null),
+      causeOfDeath: [null],
     });
+  }
+
+  constructAPIPayload(data: any): PatientCaseCreate {
+    return {
+      gender: data.gender,
+      dateOfBirth: moment(data.dateOfBirth, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'),
+      dateOfDeath: !data.isAlive?  moment(data.dateOfDeath, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'): null,
+      causeOfDeath: !data.isAlive? data.causeOfDeath: null,
+    };
   }
 
   private onIsAliveChange(): void {
@@ -77,38 +91,5 @@ export class PatientFormComponent implements OnInit {
     });
   }
 
-  constructor (
-    private caseService: PatientCasesService,
-    private messageService: MessageService ) { }
-    
-  onSave(): void {
-    if (this.form.valid) {
-      this.loading = true;  
-      // Prepare the data according to the API scheme
-      const data = this.form.value
-      const cancerPatientData: PatientCaseCreate = {
-        gender: data.gender,
-        dateOfBirth: moment(data.dateOfBirth, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'),
-        dateOfDeath: !data.isAlive?  moment(data.dateOfDeath, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'): null,
-        causeOfDeath: !data.isAlive? data.causeOfDeath: null,
-      };
-      // Send the data to the server's API
-      this.caseService.createPatientCase(cancerPatientData).subscribe(
-        (response) => {
-          // Report the successful creation of the resource
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved patient: ' + response.id });
-          this.loading = false;  
-          this.save.emit();
-        },
-        (error) => {
-          // Report any problems
-          this.loading = false;  
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'The patient could not be saved' });
-        }
-      )
-    }
-  }
-  get f() {
-    return this.form.controls;
-  }
+
 }

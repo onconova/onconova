@@ -1,28 +1,34 @@
-import { Component, Output, EventEmitter, inject, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { InputMaskModule } from 'primeng/inputmask';
-
-import { CodedConceptSchema } from '../../modules/openapi'
-import { NeoplasticEntity, NeoplasticEntityCreate, NeoplasticEntitiesService } from '../../modules/openapi'
-
-import { ButtonModule } from 'primeng/button';
-import { Select } from 'primeng/select';
-import { MessageService } from 'primeng/api';
-import { DatePipe } from '@angular/common';
-import { Fluid } from 'primeng/fluid';
+import * as moment from 'moment'; 
 
 import { Ribbon } from 'lucide-angular';
 
-import * as moment from 'moment'; 
+import { 
+  NeoplasticEntity, 
+  NeoplasticEntitiesService,
+  NeoplasticRelationship, 
+  NeoplasticEntityCreate
+} from '../../modules/openapi'
+
+import { ButtonModule } from 'primeng/button';
+import { Select } from 'primeng/select';
+import { Fluid } from 'primeng/fluid';
 
 import { 
   CodedConceptSelectComponent, 
   MaskedCalendarComponent,
   ControlErrorComponent 
 } from '../../forms/components';
+
+import { AbstractFormBase } from '../abstract-form-base.component';
+import { EmptyObject } from 'chart.js/dist/types/basic';
+
+type MorphologicalBehaviors = '/3' | '/6' | '/1';
 
 @Component({
   standalone: true,
@@ -40,40 +46,38 @@ import {
     CodedConceptSelectComponent,
     ControlErrorComponent,
   ],
-  providers: [
-    DatePipe,
-  ],
 })
-export class NeoplasticEntityFormComponent {
+export class NeoplasticEntityFormComponent extends AbstractFormBase implements OnInit{
 
-    form!: FormGroup;
-    @Output() save = new EventEmitter<void>();
+  private readonly neoplasticEntitiesService = inject(NeoplasticEntitiesService)
+  public readonly formBuilder = inject(FormBuilder)
 
-    loading: boolean = false;
-    title: string = 'Neoplastic Entity'
-    subtitle: string = 'Add new neoplastic entity'
-    readonly icon = Ribbon;
-
-    private initialData: NeoplasticEntity | any = {};
-    private caseId!: string;
-    public requiresPrimary!: boolean;
-    public morphologyCodeFilter: string = '/3';
-    private neoplasticEntitiesService = inject(NeoplasticEntitiesService)
-    public relatedPrimaries!: NeoplasticEntity[];
-
-    private messageService = inject(MessageService)
-    private datePipe = inject(DatePipe)
+  public readonly createService = this.neoplasticEntitiesService.createNeoplasticEntity.bind(this.neoplasticEntitiesService)
+  public readonly updateService = this.neoplasticEntitiesService.updateNeoplasticEntityById.bind(this.neoplasticEntitiesService)
 
 
-    relationships = [
-    { name: 'Primary', code: 'primary' },
-    { name: 'Metastatic', code: 'metastatic' },
-    { name: 'Local recurrence', code: 'local_recurrence' },
-    { name: 'Regional recurrence', code: 'regional_recurrence' },
-    ]
+  public readonly title: string = 'Neoplastic Entity'
+  public readonly subtitle: string = 'Add new neoplastic entity'
+  public readonly icon = Ribbon;
+
+  private caseId!: string;
+  public initialData: NeoplasticEntity | EmptyObject = {};
+  public requiresPrimary!: boolean;
+  public morphologyCodeFilter: MorphologicalBehaviors = '/3';
+  public relatedPrimaries!: NeoplasticEntity[];
+  public relationshipOptions = [
+    { name: 'Primary', code: NeoplasticRelationship.Primary },
+    { name: 'Metastatic', code: NeoplasticRelationship.Metastatic },
+    { name: 'Local recurrence', code: NeoplasticRelationship.LocalRecurrence },
+    { name: 'Regional recurrence', code: NeoplasticRelationship.RegionalRecurrence },
+  ]
+
   ngOnInit() {
+    // Construct the form 
     this.constructForm()
+    // Fetch any primary neoplastic entities that could be related to a new entry 
     this.getRelatedPrimaries()
+    // Setup the dynamic fields of the form based on initial conditions
     this.onNeoplastiCRelationshipChange(this.initialData?.relationship)
     this.requiresPrimary = ['metastatic', 'local_recurrence', 'regional_recurrence'].includes(this.initialData?.relationship)
     // Subscribe to changes in the neoplastic relationship form control 
@@ -82,30 +86,42 @@ export class NeoplasticEntityFormComponent {
     })
   }
 
-  private constructForm() {
-    this.form = new FormGroup({
-        relationship: new FormControl<string>(this.initialData?.relationship || 'primary',Validators.required),
-        assertionDate: new FormControl<Date|null>(this.initialData?.assertionDate, Validators.required),
-        relatedPrimary: new FormControl<string|null>(this.initialData?.relatedPrimary, Validators.required),
-        topography: new FormControl<CodedConceptSchema|null>(this.initialData?.topography,Validators.required),
-        morphology: new FormControl<CodedConceptSchema|null>(this.initialData?.morphology,Validators.required),
-        laterality: new FormControl<CodedConceptSchema|null>(this.initialData?.laterality),
-        differentiation: new FormControl<CodedConceptSchema|null>(this.initialData?.differentitation),
+  constructForm() {
+    this.form = this.formBuilder.group({
+        relationship: [this.initialData?.relationship || 'primary',Validators.required],
+        assertionDate: [this.initialData?.assertionDate, Validators.required],
+        relatedPrimary: [this.initialData?.relatedPrimaryId, Validators.required],
+        topography: [this.initialData?.topography,Validators.required],
+        morphology: [this.initialData?.morphology,Validators.required],
+        laterality: [this.initialData?.laterality],
+        differentiation: [this.initialData?.differentitation],
     });
   }
 
+  constructAPIPayload(data: any): NeoplasticEntityCreate {    
+    return {
+      caseId: this.caseId,
+      relationship: data.relationship,
+      topography: data.topography,
+      relatedPrimaryId: data.relatedPrimary,
+      assertionDate: moment(data.assertionDate, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+      morphology: data.morphology,
+      laterality: data.laterality,
+      differentitation: data.differentiation,
+    };
+  }
 
   private onNeoplastiCRelationshipChange(relationship: string): void {
     // Update base filter for morphology codes     
-    if (relationship === 'metastatic') {
+    if (relationship === NeoplasticRelationship.Metastatic) {
       this.morphologyCodeFilter = '/6'
     } else {
       this.morphologyCodeFilter = '/3'
     }  
-    this.requiresPrimary = relationship !== 'primary'
+    this.requiresPrimary = relationship !== NeoplasticRelationship.Primary
 
     const relatedPrimary = this.form.get('relatedPrimary')
-    if (relationship !== 'metastatic') {
+    if (relationship !== NeoplasticRelationship.Primary) {
       relatedPrimary?.removeValidators(Validators.required);
     } else {
       relatedPrimary?.addValidators(Validators.required);
@@ -113,62 +129,12 @@ export class NeoplasticEntityFormComponent {
     relatedPrimary?.updateValueAndValidity();
   };
 
-  getRelatedPrimaries() {
-    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, ["primary"]).subscribe(
+  private getRelatedPrimaries() {
+    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, [NeoplasticRelationship.Primary]).subscribe(
       (response) => {
           this.relatedPrimaries = response.items
       }
     )
   }
 
-
-  onSave(): void {
-    if (this.form.valid) {
-      this.loading = true;  
-      // Prepare the data according to the API scheme
-      const data = this.form.value
-      const payload: NeoplasticEntityCreate = {
-        caseId: this.caseId,
-        relationship: data.relationship,
-        topography: data.topography,
-        relatedPrimaryId: data.relatedPrimary,
-        assertionDate: moment(data.assertionDate, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
-        morphology: data.morphology,
-        laterality: data.laterality,
-        differentitation: data.differentiation,
-      };
-      console.log(payload)
-      // Send the data to the server's API
-      if (this.initialData.id) {
-        this.neoplasticEntitiesService.updateNeoplasticEntityById(this.initialData.id, payload).subscribe(
-          (response) => {
-            // Report the successful creation of the resource
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + this.initialData.id });
-            this.loading = false;  
-            this.save.emit();
-          },
-          (error) => {
-            // Report any problems
-            this.loading = false;  
-            this.messageService.add({ severity: 'error', summary: 'Error ocurred while updating', detail: error.message });
-          }
-        )
-  
-      } else {
-        this.neoplasticEntitiesService.createNeoplasticEntity(payload).subscribe(
-          (response) => {
-            // Report the successful creation of the resource
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.id });
-            this.loading = false;  
-            this.save.emit();
-          },
-          (error) => {
-            // Report any problems
-            this.loading = false;  
-            this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.message });
-          }
-        )  
-      }
-    }
-  }
 }
