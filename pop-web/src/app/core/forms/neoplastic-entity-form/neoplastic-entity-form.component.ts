@@ -2,8 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-import { InputMaskModule } from 'primeng/inputmask';
 import * as moment from 'moment'; 
 
 import { Ribbon } from 'lucide-angular';
@@ -36,7 +34,6 @@ type MorphologicalBehaviors = '/3' | '/6' | '/1';
   templateUrl: './neoplastic-entity-form.component.html',
   imports: [
     CommonModule,
-    InputMaskModule,
     ReactiveFormsModule,
     FormsModule,
     MaskedCalendarComponent,

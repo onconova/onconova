@@ -3,8 +3,6 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, FormGroupDirective } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { InputMaskModule } from 'primeng/inputmask';
 import * as moment from 'moment'; 
 
 import { Tags } from 'lucide-angular';
@@ -82,7 +80,6 @@ type StagingCreate = TNMStagingCreate
   templateUrl: './staging-form.component.html',
   imports: [
     CommonModule,
-    InputMaskModule,
     ReactiveFormsModule,
     FormsModule,
     MaskedCalendarComponent,

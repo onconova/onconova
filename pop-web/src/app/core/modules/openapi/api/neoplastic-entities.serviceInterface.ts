@@ -33,7 +33,7 @@ export interface NeoplasticEntitiesServiceInterface {
     createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
-     * Delete Patient Case
+     * Delete Neoplastic Entity
      * 
      * @param entityId 
      */

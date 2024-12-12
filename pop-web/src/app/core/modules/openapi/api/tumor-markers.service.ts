@@ -17,27 +17,27 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { NeoplasticEntity } from '../model/neoplastic-entity';
-// @ts-ignore
-import { NeoplasticEntityCreate } from '../model/neoplastic-entity-create';
-// @ts-ignore
-import { PaginatedNeoplasticEntity } from '../model/paginated-neoplastic-entity';
+import { PaginatedTumorMarker } from '../model/paginated-tumor-marker';
 // @ts-ignore
 import { ResourceIdSchema } from '../model/resource-id-schema';
+// @ts-ignore
+import { TumorMarker } from '../model/tumor-marker';
+// @ts-ignore
+import { TumorMarkerCreate } from '../model/tumor-marker-create';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    NeoplasticEntitiesServiceInterface
-} from './neoplastic-entities.serviceInterface';
+    TumorMarkersServiceInterface
+} from './tumor-markers.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInterface {
+export class TumorMarkersService implements TumorMarkersServiceInterface {
 
     protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -100,17 +100,17 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
     }
 
     /**
-     * Create Neoplastic Entity
-     * @param neoplasticEntityCreate 
+     * Create Tumor Marker
+     * @param tumorMarkerCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (neoplasticEntityCreate === null || neoplasticEntityCreate === undefined) {
-            throw new Error('Required parameter neoplasticEntityCreate was null or undefined when calling createNeoplasticEntity.');
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (tumorMarkerCreate === null || tumorMarkerCreate === undefined) {
+            throw new Error('Required parameter tumorMarkerCreate was null or undefined when calling createTumorMarker.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -165,11 +165,11 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
             }
         }
 
-        let localVarPath = `/api/neoplastic-entities/`;
+        let localVarPath = `/api/tumor-markers/`;
         return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: neoplasticEntityCreate,
+                body: tumorMarkerCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -181,17 +181,17 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
     }
 
     /**
-     * Delete Neoplastic Entity
-     * @param entityId 
+     * Delete Tumor Marker
+     * @param tumorMarkerId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteNeoplasticEntityById(entityId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteNeoplasticEntityById(entityId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteNeoplasticEntityById(entityId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteNeoplasticEntityById(entityId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (entityId === null || entityId === undefined) {
-            throw new Error('Required parameter entityId was null or undefined when calling deleteNeoplasticEntityById.');
+    public deleteTumorMarkerById(tumorMarkerId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteTumorMarkerById(tumorMarkerId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteTumorMarkerById(tumorMarkerId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteTumorMarkerById(tumorMarkerId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (tumorMarkerId === null || tumorMarkerId === undefined) {
+            throw new Error('Required parameter tumorMarkerId was null or undefined when calling deleteTumorMarkerById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -236,7 +236,7 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
             }
         }
 
-        let localVarPath = `/api/neoplastic-entities/${this.configuration.encodeParam({name: "entityId", value: entityId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/tumor-markers/${this.configuration.encodeParam({name: "tumorMarkerId", value: tumorMarkerId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -251,29 +251,93 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
     }
 
     /**
-     * Get All Neoplastic Entities Matching The Query
+     * Get Tumor Marker By Id
+     * @param tumorMarkerId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getTumorMarkerById(tumorMarkerId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TumorMarker>;
+    public getTumorMarkerById(tumorMarkerId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TumorMarker>>;
+    public getTumorMarkerById(tumorMarkerId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TumorMarker>>;
+    public getTumorMarkerById(tumorMarkerId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (tumorMarkerId === null || tumorMarkerId === undefined) {
+            throw new Error('Required parameter tumorMarkerId was null or undefined when calling getTumorMarkerById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/tumor-markers/${this.configuration.encodeParam({name: "tumorMarkerId", value: tumorMarkerId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<TumorMarker>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Tumor Markers Matching The Query
      * @param caseId 
-     * @param type 
      * @param limit 
      * @param offset 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedNeoplasticEntity>;
-    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedNeoplasticEntity>>;
-    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedNeoplasticEntity>>;
-    public getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTumorMarkers(caseId?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedTumorMarker>;
+    public getTumorMarkers(caseId?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedTumorMarker>>;
+    public getTumorMarkers(caseId?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedTumorMarker>>;
+    public getTumorMarkers(caseId?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>caseId, 'caseId');
-        }
-        if (type) {
-            type.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'type');
-            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -327,8 +391,8 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
             }
         }
 
-        let localVarPath = `/api/neoplastic-entities/`;
-        return this.httpClient.request<PaginatedNeoplasticEntity>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/tumor-markers/`;
+        return this.httpClient.request<PaginatedTumorMarker>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -343,92 +407,21 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
     }
 
     /**
-     * Get Neoplastic Entity By Id
-     * @param entityId 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getNeoplasticEntityById(entityId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NeoplasticEntity>;
-    public getNeoplasticEntityById(entityId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NeoplasticEntity>>;
-    public getNeoplasticEntityById(entityId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NeoplasticEntity>>;
-    public getNeoplasticEntityById(entityId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (entityId === null || entityId === undefined) {
-            throw new Error('Required parameter entityId was null or undefined when calling getNeoplasticEntityById.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/neoplastic-entities/${this.configuration.encodeParam({name: "entityId", value: entityId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<NeoplasticEntity>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Update Neoplastic Entity
-     * @param entityId 
-     * @param neoplasticEntityCreate 
+     * @param tumorMarkerId 
+     * @param tumorMarkerCreate 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (entityId === null || entityId === undefined) {
-            throw new Error('Required parameter entityId was null or undefined when calling updateNeoplasticEntityById.');
+    public updateTumorMarkerById(tumorMarkerId: string, tumorMarkerCreate: TumorMarkerCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateTumorMarkerById(tumorMarkerId: string, tumorMarkerCreate: TumorMarkerCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateTumorMarkerById(tumorMarkerId: string, tumorMarkerCreate: TumorMarkerCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateTumorMarkerById(tumorMarkerId: string, tumorMarkerCreate: TumorMarkerCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (tumorMarkerId === null || tumorMarkerId === undefined) {
+            throw new Error('Required parameter tumorMarkerId was null or undefined when calling updateTumorMarkerById.');
         }
-        if (neoplasticEntityCreate === null || neoplasticEntityCreate === undefined) {
-            throw new Error('Required parameter neoplasticEntityCreate was null or undefined when calling updateNeoplasticEntityById.');
+        if (tumorMarkerCreate === null || tumorMarkerCreate === undefined) {
+            throw new Error('Required parameter tumorMarkerCreate was null or undefined when calling updateTumorMarkerById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -482,11 +475,11 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
             }
         }
 
-        let localVarPath = `/api/neoplastic-entities/${this.configuration.encodeParam({name: "entityId", value: entityId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/tumor-markers/${this.configuration.encodeParam({name: "tumorMarkerId", value: tumorMarkerId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: neoplasticEntityCreate,
+                body: tumorMarkerCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

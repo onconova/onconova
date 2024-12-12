@@ -12,11 +12,13 @@ import {
     PatientCasesService,
     NeoplasticEntitiesService,
     StagingsService,
+    TumorMarkersService,
 } from '../core/modules/openapi'
 
 import { 
     NeoplasticEntityFormComponent,
     StagingFormComponent,
+    TumorMarkerFormComponent,
 } from '../core/forms';
 
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
@@ -67,6 +69,7 @@ export class CaseManagerComponent implements OnInit {
     private caseServiceSubscription!: Subscription;
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);
+    private tumorMarkersService: TumorMarkersService = inject(TumorMarkersService);
     private messageService: MessageService = inject(MessageService) ;
 
     // Case properties
@@ -90,9 +93,20 @@ export class CaseManagerComponent implements OnInit {
         update: this.stagingsService.updateStagingById.bind(this.stagingsService),
     };
 
+
+    // Case-specific data observables
+    public tumorMarkerService: DataService = {
+        get: this.tumorMarkersService.getTumorMarkers.bind(this.tumorMarkersService),
+        create: this.tumorMarkersService.createTumorMarker.bind(this.tumorMarkersService),
+        delete: this.tumorMarkersService.deleteTumorMarkerById.bind(this.tumorMarkersService),
+        update: this.tumorMarkersService.updateTumorMarkerById.bind(this.tumorMarkersService),
+    };
+
+
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
     public StagingFormComponent = StagingFormComponent;
+    public TumorMarkerFormComponent = TumorMarkerFormComponent;
 
 
     ngOnInit() {

@@ -25,15 +25,15 @@
     
 
     <div class="ml-2">
-        <div *ngIf="entries.length == 0" class="p-text-secondary">
+        <div *ngIf="entries.length == 0" class="no-entries-text">
             No entries associated with this case
         </div>
         <p-timeline [value]="entries" *ngIf="entries.length > 0" class="mt-2">
             <ng-template pTemplate="content" let-entry>
                 <div (click)="showDrawer(entry)" class="cursor-pointer">
                     <div>
-                        <small class="p-text-secondary">{{ 
-                            entry.date || entry.assertionDate | date }}</small>
+                        <small class="p-text-secondary">
+                            {{ entry.date || entry.assertionDate | date }}</small>
                     </div>
                     <div>
                         {{ entry.description }}

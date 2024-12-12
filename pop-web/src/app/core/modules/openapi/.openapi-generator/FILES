@@ -5,6 +5,8 @@ api.module.ts
 api/api.ts
 api/auth.service.ts
 api/auth.serviceInterface.ts
+api/measures.service.ts
+api/measures.serviceInterface.ts
 api/neoplastic-entities.service.ts
 api/neoplastic-entities.serviceInterface.ts
 api/patient-cases.service.ts
@@ -13,6 +15,8 @@ api/stagings.service.ts
 api/stagings.serviceInterface.ts
 api/terminology.service.ts
 api/terminology.serviceInterface.ts
+api/tumor-markers.service.ts
+api/tumor-markers.serviceInterface.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -38,6 +42,8 @@ model/iss-staging-create.ts
 model/iss-staging.ts
 model/lymphoma-staging-create.ts
 model/lymphoma-staging.ts
+model/measure-conversion-schema.ts
+model/measure-schema.ts
 model/models.ts
 model/neoplastic-entity-create.ts
 model/neoplastic-entity.ts
@@ -46,6 +52,7 @@ model/new-sliding-token-schema.ts
 model/old-sliding-token-schema.ts
 model/paginated-neoplastic-entity.ts
 model/paginated-patient-case.ts
+model/paginated-tumor-marker.ts
 model/paginated-union-tnm-staging-figo-staging-binet-staging-rai-staging-breslow-depth-clark-staging-iss-staging-riss-staging-gleason-grade-inss-stage-inrgss-stage-wilms-stage-rhabdomyosarcoma-clinical-group-lymphoma-staging-items-inner.ts
 model/paginated-union-tnm-staging-figo-staging-binet-staging-rai-staging-breslow-depth-clark-staging-iss-staging-riss-staging-gleason-grade-inss-stage-inrgss-stage-wilms-stage-rhabdomyosarcoma-clinical-group-lymphoma-staging.ts
 model/patient-case-create.ts
@@ -63,6 +70,8 @@ model/riss-staging.ts
 model/sliding-token-schema.ts
 model/tnm-staging-create.ts
 model/tnm-staging.ts
+model/tumor-marker-create.ts
+model/tumor-marker.ts
 model/user-credentials-schema.ts
 model/user-schema.ts
 model/wilms-stage-create.ts

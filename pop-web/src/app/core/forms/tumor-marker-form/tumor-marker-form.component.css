@@ -1,0 +1,15 @@
+
+
+
+p-selectbutton.tumor-markers {
+    --analyte-button-width: 7rem;
+    display: grid;
+    grid-template-columns: repeat(5, var(--analyte-button-width));
+}
+p-selectbutton.tumor-markers .p-togglebutton {
+    width: var(--analyte-button-width);
+    height: 100%;
+}
+p-selectbutton.tumor-markers .p-togglebutton-checked::before {
+    background-color: color-mix(in srgb, var(--p-primary-color), transparent 60%);
+}

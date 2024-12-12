@@ -1,0 +1,33 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the analysis</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+        
+
+        <div class="field">
+            <label for="stagedEntities" class="form-label required">Neoplastic entities assessed</label>
+            <reference-multiselect 
+            [references]="relatedEntities" 
+            formControlName="stagedEntities"/>
+            <control-error controlName="stagedEntities"></control-error>
+        </div>
+
+        <div class="field">
+            <label for="stagedEntities" class="form-label required">Analyte</label>
+            <p-selectbutton [options]="analytes" formControlName="analyte" optionLabel="justify" class="tumor-markers">
+                <ng-template #item let-analyte>
+                    <span pTooltip="Enter your username" tooltipPosition="bottom">{{analyte}}</span>
+                </ng-template>
+            </p-selectbutton>
+            <control-error controlName="analyte"></control-error>
+        </div>
+
+        
+    </form>
+</p-fluid>
