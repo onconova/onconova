@@ -131,7 +131,8 @@ class NCITDigestor(TerminologyDigestor):
             display=display,
             definition=row['definition'],
             parent=parent,  
-            synonyms=[synonym for synonym in synonyms[1:]]
+            synonyms=[synonym for synonym in synonyms[1:]],
+            system=self.CANONICAL_URL,
         )
 
 
@@ -219,7 +220,8 @@ class LOINCDigestor(TerminologyDigestor):
             code = code,
             display = display,
             properties = {prop: row[prop] for prop in self.LOINC_PROPERTIES},
-            synonyms = [ensure_within_string_limits(row['DisplayName'])] if row['DisplayName'] else []
+            synonyms = [ensure_within_string_limits(row['DisplayName'])] if row['DisplayName'] else [],
+            system=self.CANONICAL_URL,
         )
 
     def _digest_part_codes(self):
@@ -236,7 +238,8 @@ class LOINCDigestor(TerminologyDigestor):
                 self.concepts[code] = CodedConcept(
                     code = code,
                     display = display,
-                    parent = row['IMMEDIATE_PARENT']
+                    parent = row['IMMEDIATE_PARENT'],
+                    system=self.CANONICAL_URL,
                 ) 
             if self.verbose:
                 print(f'\r• Sucessfully digested all parts')
