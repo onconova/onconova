@@ -40,6 +40,7 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     @Input() showSynonyms: boolean = true;
     @Input() showCodes: boolean = false;
     @Input() baseQuery: string = '';
+    @Input() placeholder: string = 'Select or search an option';
 
 
     public formControl: FormControl = new FormControl();

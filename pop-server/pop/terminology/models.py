@@ -252,18 +252,20 @@ class TNMStage(CodedConcept):
     valueset =  'https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-stage-group-vs.json'
     description = 'Result values for cancer stage group using TNM staging. This value set contains SNOMED-CT equivalents of AJCC codes for Stage Group, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
+        label = label.replace('(qualifier value)','')
         label = label.replace('AJCC','')
         label = label.replace(' ','')
         if label[0].isnumeric() and not label.startswith('0'):
             label = {'1':'I','2':'II','3':'III','4':'IV','5':'V',}[label[0]] + ':' + label[1:]
         if label[-1]==":":
             label=label[:-1]
-        return f'Stage {label}'
+        return f'AJCC Stage {label}'
     
 
 
@@ -273,12 +275,12 @@ class TNMStagingMethod(CodedConcept):
     # Additional codes for an extensible valuset
     extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
 
-    def __str__(self):
-        label = self.display
-        label = label.replace('American Joint Commission on Cancer','AJCC')
-        label = label.replace('neoplasm staging system (tumor staging)','')
-        label = label.replace(' (tumor staging)','')
-        return f'{label}'
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
+        label = label.replace('American Joint Committee on Cancer,','AJCC').replace(' (tumor staging)','').replace(' neoplasm staging system','')
+        label = label.replace('Union for International Cancer Control Stage','UICC Staging')
+        return label
     
 
 
@@ -424,9 +426,11 @@ class FIGOStage(CodedConcept):
 class FIGOStagingMethod(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-figo-staging-method-vs'
     description = 'Staging methods from International Federation of Gynecology and Obstetrics (FIGO).'
-    def __str__(self):
-        label = self.display 
-        label = label.lower().replace("federation internationale de gynecologie et d'obstetrique",'figo').replace('figo','FIGO')
+
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display 
+        label = label.replace("Federation of Gynecology and Obstetrics",'FIGO').replace(' (tumor staging)','')
         return label
 
 

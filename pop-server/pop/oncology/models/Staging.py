@@ -422,6 +422,6 @@ class LymphomaStaging(Staging):
     modifiers = termfields.CodedConceptField(
         verbose_name = _("Lymphoma stage modifier"),
         help_text = _("Qualifier acting as modifier for the lymphoma stage"),
-        terminology = terminologies.LymphomaStagingMethod,
+        terminology = terminologies.LymphomaStageValueModifier,
         multiple = True,
     )

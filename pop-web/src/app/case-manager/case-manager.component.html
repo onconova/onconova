@@ -30,7 +30,10 @@
             
         <app-case-manager-panel
             title="Stagings"
-            icon="tags"/>
+            icon="tags"
+            [caseId]="caseId"
+            [formComponent]="StagingFormComponent"
+            [service]="stagingService"/>
 
         <app-case-manager-panel
             title="Risk Assessments"

@@ -5,7 +5,7 @@
   [forceSelection]="true"
   [suggestions]="filteredConcepts"
   (completeMethod)="filterConcepts($event)"
-  placeholder="Search or select an option"
+  [placeholder]="placeholder"
   optionLabel="display"
   appendTo="body"
 >

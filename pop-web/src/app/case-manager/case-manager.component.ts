@@ -8,12 +8,15 @@ import { AvatarModule } from 'primeng/avatar';
 import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
 
 import { 
-    PatientCase, PatientCasesService,
-    NeoplasticEntitiesService, PaginatedNeoplasticEntity,
+    PatientCase, 
+    PatientCasesService,
+    NeoplasticEntitiesService,
+    StagingsService,
 } from '../core/modules/openapi'
 
 import { 
-    NeoplasticEntityFormComponent 
+    NeoplasticEntityFormComponent,
+    StagingFormComponent,
 } from '../core/forms';
 
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
@@ -60,10 +63,11 @@ interface DataService {
 export class CaseManagerComponent implements OnInit {
 
     // Injected dependencies
-    private caseService: PatientCasesService = inject(PatientCasesService);
-    private caseServiceSubscription!: Subscription
-    private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
-    private messageService: MessageService = inject(MessageService) 
+    private caseService: PatientCasesService = inject(PatientCasesService);;
+    private caseServiceSubscription!: Subscription;
+    private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
+    private stagingsService: StagingsService = inject(StagingsService);
+    private messageService: MessageService = inject(MessageService) ;
 
     // Case properties
     @Input() public pseudoidentifier: string = '';
@@ -78,9 +82,17 @@ export class CaseManagerComponent implements OnInit {
         update: this.neoplasticEntitiesService.updateNeoplasticEntityById.bind(this.neoplasticEntitiesService),
     };
 
-    
+    // Case-specific data observables
+    public stagingService: DataService = {
+        get: this.stagingsService.getStagings.bind(this.stagingsService),
+        create: this.stagingsService.createStaging.bind(this.stagingsService),
+        delete: this.stagingsService.deleteStagingById.bind(this.stagingsService),
+        update: this.stagingsService.updateStagingById.bind(this.stagingsService),
+    };
+
     // Form components
-    public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent
+    public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
+    public StagingFormComponent = StagingFormComponent;
 
 
     ngOnInit() {

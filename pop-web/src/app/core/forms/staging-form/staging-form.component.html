@@ -1,0 +1,389 @@
+
+
+<div class="field">
+    <label for="currentStagingForm" class="form-label required">Staging domain</label>
+    <p-select 
+    [options]="stagingDomains" 
+    [(ngModel)]="currentStagingForm"
+    optionLabel="label" 
+    optionValue="value"
+    placeholder="Select an option" 
+    (onChange)="updateForm()"/>
+</div>
+
+<p-fluid [ngSwitch]="currentStagingForm">
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of staging</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+        
+
+        <div class="field">
+            <label for="stagedEntities" class="form-label required">Staged neoplastic entities</label>
+            <reference-multiselect 
+            [references]="relatedEntities" 
+            formControlName="stagedEntities"/>
+            <control-error controlName="stagedEntities"></control-error>
+        </div>
+
+        <ng-container *ngSwitchCase="'tnm'">
+            <div class="field">
+                <label for="methodology" class="form-label">Methodology</label>
+                <coded-concept-select 
+                    terminology="TNMStagingMethod"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="methodology"/>
+                <control-error controlName="methodology"></control-error>
+            </div>
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="TNMStage"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+            <div class="field">
+                <label for="pathological" class="form-label">Was the staging performed in a pathological setting?</label>
+                <div class="flex flex-wrap gap-4">
+                    <div *ngFor="let option of optionsYesNoUnknown" class="field-checkbox">
+                        <p-radiobutton [inputId]="option.label" [value]="option.value" formControlName="pathological" />
+                        <label [for]="option.label" class="ml-2">{{ option.label }}</label>
+                    </div>
+                </div>
+                <control-error controlName="pathological"></control-error>
+            </div>
+            <div class="field"  style="max-width: 45rem">
+                <label class="form-label mb-3">TNM Parameters</label>
+                <div class="grid">
+                    <div class="field col-4">
+                        <label class="form-label">T - Primary Tumor</label>
+                        <coded-concept-select 
+                            terminology="TNMPrimaryTumorCategory"
+                            [showSynonyms]="false"
+                            formControlName="primaryTumor"/>
+                        <control-error controlName="primaryTumor"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">N - Regional nodes</label>
+                        <coded-concept-select 
+                            terminology="TNMRegionalNodesCategory"
+                            [showSynonyms]="false"
+                            formControlName="regionalNodes"/>
+                        <control-error controlName="regionalNodes"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">M - Distant Metastases</label>
+                        <coded-concept-select 
+                            terminology="TNMDistantMetastasesCategory"
+                            [showSynonyms]="false"
+                            formControlName="distantMetastases"/>
+                        <control-error controlName="distantMetastases"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">G - Grade</label>
+                        <coded-concept-select 
+                            terminology="TNMGradeCategory"
+                            [showSynonyms]="false"
+                            formControlName="grade"/>
+                        <control-error controlName="grade"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">R - Residual tumor</label>
+                        <coded-concept-select 
+                            terminology="TNMResidualTumorCategory"
+                            [showSynonyms]="false"
+                            formControlName="residualTumor"/>
+                        <control-error controlName="residualTumor"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">L - Lymphatic invasion</label>
+                        <coded-concept-select 
+                            terminology="TNMLymphaticInvasionCategory"
+                            [showSynonyms]="false"
+                            formControlName="lymphaticInvasion"/>
+                        <control-error controlName="lymphaticInvasion"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">V - Venous invasion</label>
+                        <coded-concept-select 
+                            terminology="TNMVenousInvasionCategory"
+                            [showSynonyms]="false"
+                            formControlName="venousInvasion"/>
+                        <control-error controlName="venousInvasion"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">Pn - Perineural invasion</label>
+                        <coded-concept-select 
+                            terminology="TNMPerineuralInvasionCategory"
+                            [showSynonyms]="false"
+                            formControlName="perineuralInvasion"/>
+                        <control-error controlName="perineuralInvasion"></control-error>            
+                    </div>
+                    <div class="field col-4">
+                        <label class="form-label">S - Serum marker level</label>
+                        <coded-concept-select 
+                            terminology="TNMSerumTumorMarkerLevelCategory"
+                            [showSynonyms]="false"
+                            formControlName="serumTumorMarkerLevel"/>
+                        <control-error controlName="serumTumorMarkerLevel"></control-error>            
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+            
+        <ng-container *ngSwitchCase="'figo'">
+            <div class="field">
+                <label for="methodology" class="form-label">Methodology</label>
+                <coded-concept-select 
+                    terminology="FIGOStagingMethod"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="methodology"/>
+                <control-error controlName="methodology"></control-error>
+            </div>
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="FIGOStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'binet'">
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="BinetStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'rai'">
+            <div class="field">
+                <label for="methodology" class="form-label">Methodology</label>
+                <coded-concept-select 
+                    terminology="RaiStagingMethod"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="methodology"/>
+                <control-error controlName="methodology"></control-error>
+            </div>
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="RaiStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'breslow'">
+            <div class="field">
+                <label for="depth" class="form-label required">Breslow depth (mm)</label>
+                <p-inputnumber 
+                    formControlName="depth"
+                    placeholder="Enter value" 
+                    inputId="milimiters" 
+                    suffix=" mm"/>  
+                <control-error controlName="depth"></control-error>
+            </div>
+            <div class="field">
+                <label for="isUlcered" class="form-label">Is ulcered?</label>
+                <div class="flex flex-wrap gap-4">
+                    <div *ngFor="let option of optionsYesNoUnknown" class="field-checkbox">
+                        <p-radiobutton [inputId]="option.label" [value]="option.value" formControlName="isUlcered" />
+                        <label [for]="option.label" class="ml-2">{{ option.label }}</label>
+                    </div>
+                </div>
+                <control-error controlName="isUlcered"></control-error>
+            </div>
+        </ng-container>
+
+
+        <ng-container *ngSwitchCase="'clark'">
+            <div class="field">
+                <label for="stage" class="form-label required">Clark level</label>
+                <coded-concept-select 
+                    terminology="ClarkLevel"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+        
+        <ng-container *ngSwitchCase="'iss'">
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="MyelomaISSStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+        
+        <ng-container *ngSwitchCase="'riss'">
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="MyelomaRISSStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        
+        <ng-container *ngSwitchCase="'inss'">
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="NeuroblastomaINSSStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        
+        <ng-container *ngSwitchCase="'inrgss'">
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="NeuroblastomaINRGSSStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        
+        <ng-container *ngSwitchCase="'gleason'">
+            <div class="field">
+                <label for="stage" class="form-label required">Group stage</label>
+                <coded-concept-select 
+                    terminology="GleasonGradeGroupStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        
+        <ng-container *ngSwitchCase="'wilms'">
+            <div class="field">
+                <label for="stage" class="form-label required">Tumor stage</label>
+                <coded-concept-select 
+                    terminology="WilmsTumorStage"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        
+        <ng-container *ngSwitchCase="'rhabdo'">
+            <div class="field">
+                <label for="stage" class="form-label required">Clinical group</label>
+                <coded-concept-select 
+                    terminology="RhabdomyosarcomaClinicalGroup"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+        </ng-container>
+
+
+        
+        <ng-container *ngSwitchCase="'lymphoma'">
+            <div class="field">
+                <label for="methodology" class="form-label">Methodology</label>
+                <coded-concept-select 
+                    terminology="LymphomaStagingMethod"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="methodology"/>
+                <control-error controlName="methodology"></control-error>
+            </div>
+            <div class="field">
+                <label for="stage" class="form-label required">Stage</label>
+                <coded-concept-select 
+                    terminology="RhabdomyosarcomaClinicalGroup"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="stage"/>
+                <control-error controlName="stage"></control-error>
+            </div>
+            <div class="field">
+                <label for="bulky" class="form-label">Is there presence of bulky disease?</label>
+                <div class="flex flex-wrap gap-4">
+                    <div *ngFor="let option of optionsYesNoUnknown" class="field-checkbox">
+                        <p-radiobutton [inputId]="option.label" [value]="option.value" formControlName="bulky" />
+                        <label [for]="option.label" class="ml-2">{{ option.label }}</label>
+                    </div>
+                </div>
+                <control-error controlName="bulky"></control-error>
+            </div>
+            <div class="field">
+                <label for="pathological" class="form-label">Was the staging performed in a pathological setting?</label>
+                <div class="flex flex-wrap gap-4">
+                    <div *ngFor="let option of optionsYesNoUnknown" class="field-checkbox">
+                        <p-radiobutton [inputId]="option.label" [value]="option.value" formControlName="pathological" />
+                        <label [for]="option.label" class="ml-2">{{ option.label }}</label>
+                    </div>
+                </div>
+                <control-error controlName="pathological"></control-error>
+            </div>
+            <div class="field">
+                <label for="methodology" class="form-label">Modifiers</label>
+                <coded-concept-select 
+                    terminology="LymphomaStageValueModifier"
+                    [showCodes]="false"
+                    [showSynonyms]="false"
+                    formControlName="methodology"/>
+                <control-error controlName="methodology"></control-error>
+            </div>
+        </ng-container>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+    </form>
+</p-fluid>

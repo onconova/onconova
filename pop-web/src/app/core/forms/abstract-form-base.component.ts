@@ -17,7 +17,7 @@ interface Resource {
 export abstract class AbstractFormBase {
 
   private readonly messageService = inject(MessageService)
-  private readonly destroyRef = inject(DestroyRef);
+  public readonly destroyRef = inject(DestroyRef);
 
   @Output() public save = new EventEmitter<void>();
 

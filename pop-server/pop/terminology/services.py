@@ -300,6 +300,14 @@ def collect_codedconcept_terminology(
             concepts = download_codesystem(CodedConceptModel.codesystem).values()
     print(f'\n✓ Collected a total of {len(concepts)} concepts.')
 
+
+    if hasattr(CodedConceptModel,'transform'):
+        for concept in tqdm(concepts, total=len(concepts), desc='• Transforming displays'):
+            if concept and concept.display:
+                concept.synonyms.append(concept.display)
+                concept.display = CodedConceptModel.transform(concept)    
+                print(concept.code, concept.display)            
+
     # Keep track of the update process
     new_concepts = 0
     updated_concepts = 0
