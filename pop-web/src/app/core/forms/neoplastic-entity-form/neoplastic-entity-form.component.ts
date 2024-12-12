@@ -131,11 +131,13 @@ export class NeoplasticEntityFormComponent {
         caseId: this.caseId,
         relationship: data.relationship,
         topography: data.topography,
+        relatedPrimaryId: data.relatedPrimary,
         assertionDate: moment(data.assertionDate, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
         morphology: data.morphology,
         laterality: data.laterality,
         differentitation: data.differentiation,
       };
+      console.log(payload)
       // Send the data to the server's API
       if (this.initialData.id) {
         this.neoplasticEntitiesService.updateNeoplasticEntityById(this.initialData.id, payload).subscribe(

@@ -99,7 +99,7 @@ class BaseSchema(PydanticBaseModel):
         m2m_relations = {}
         if create:
             instance = model()
-        serialized_data = super().model_dump(exclude_unset=True)
+        serialized_data = super().model_dump()
         for field_name, field in self.model_fields.items():
             # Skip unset fields
             if field_name not in serialized_data:
@@ -139,11 +139,11 @@ class BaseSchema(PydanticBaseModel):
                             else:
                                 # Otherwise, query the database via the foreign key to get the related instance
                                 related_instance = related_model.objects.get(id=data)
-                    # Set the related instance value into the model instance
+                # Set the related instance value into the model instance
                 setattr(instance, orm_field.name, related_instance)      
             else:             
                 # For measurement fields, add the measure with the provided unit and value
-                if isinstance(orm_field, MeasurementField):
+                if isinstance(orm_field, MeasurementField) and data is not None:
                     measure = orm_field.measurement
                     setattr(instance, orm_field.name, measure(**{data.get('unit'): data.get('value')}))
                 else:
