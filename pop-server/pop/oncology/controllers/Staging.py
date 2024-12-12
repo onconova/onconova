@@ -137,7 +137,7 @@ class StagingController(ControllerBase):
     def update_staging(self, stagingId: str, payload: AnyOfPayloadSchemas): # type: ignore
         instance = get_object_or_404(Staging, id=stagingId)
         instance = cast_to_model_schema(instance.get_domain_staging(), CREATE_STAGING_SCHEMAS, payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
+                    .model_dump_django(instance=instance.get_domain_staging(), user=self.context.request.user)
         return 204, None
 
     @route.delete(
