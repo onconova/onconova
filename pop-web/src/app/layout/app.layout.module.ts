@@ -16,6 +16,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ButtonModule } from 'primeng/button';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 import { AppTopBarComponent } from './components/topbar/app.topbar.component';
 import { AppFooterComponent } from './components/footer/app.footer.component';
@@ -37,6 +38,7 @@ import { MessageService } from 'primeng/api';
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        InlineSVGModule,
         TieredMenuModule,
         ButtonModule,
         MessagesModule,

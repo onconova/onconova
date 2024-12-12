@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { Toast } from 'primeng/toast';
         InputTextModule,
         FormsModule,
         PasswordModule,
-        Toast
+        Toast,
+        InlineSVGModule,
     ],
     declarations: [LoginComponent]
 })

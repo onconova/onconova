@@ -1,12 +1,11 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo" style="
-        filter: invert(58%) sepia(76%) saturate(4928%) hue-rotate(201deg) brightness(96%) contrast(90%);" class="mr-3">
+        <div inlineSVG="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo" class="pop-logo mr-3"></div>
         <div>
-            <div class="text-xl">
+            <div class="layout-topbar-title text-xl">
                 Precision Oncology Platform
             </div>
-            <div class="block text-500 font-medium text-sm">
+            <div class="layout-topbar-version">
                 Release {{version}}
             </div>
         </div>

@@ -32,6 +32,7 @@ interface DataService {
     update: CallableFunction;
 }
 
+
 @Component({
     standalone: true,
     templateUrl: './case-manager.component.html',
@@ -42,7 +43,7 @@ interface DataService {
             // Custom identicon style
             provide: JDENTICON_CONFIG,
             useValue: {
-                hues: [220, 230],
+                hues: [0, 0],
             lightness: {
                 color: [0.21, 0.9],
                 grayscale: [0.23, 0.62],

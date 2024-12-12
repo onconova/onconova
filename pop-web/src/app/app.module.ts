@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ApiModule, Configuration, ConfigurationParameters } from './core/modules/openapi/';
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 import { HttpCacheInterceptor, CACHE_OPTIONS } from './core/interceptors/cache.interceptor';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -22,7 +23,6 @@ import { AppThemePreset } from './app.preset'
 import { ToastModule } from 'primeng/toast';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { InlineSVGModule } from 'ng-inline-svg-2';
 
 import { LucideAngularModule, HeartPulse, Tags, 
     TestTubeDiagonal, Dna, Fingerprint, Microscope,

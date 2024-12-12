@@ -4,6 +4,8 @@ import { LayoutService } from "../../service/app.layout.service";
 import packageInfo from '../../../../../package.json';
 import { AuthService } from '../../../auth/auth.service';
 import { Router } from '@angular/router';
+import { updatePreset } from '@primeng/themes';
+
 
 @Component({
     selector: 'app-topbar',
@@ -36,7 +38,15 @@ export class AppTopBarComponent {
                 command: () => {
                     this.logout();
                 }
-            }];
+            },
+            {
+                label: 'Palette',
+                icon: 'pi pi-pencil',
+                command: () => {
+                    this.changePrimaryColor();
+                }
+            },
+        ];
     }
 
 
@@ -62,6 +72,40 @@ export class AppTopBarComponent {
         }
     }
 
+
+    
+    changePrimaryColor() {
+        const element = document.querySelector('html');
+        if (element) {
+            element.classList.toggle('teal-theme');
+        }
+        const scheme = {
+            50: '{teal.50}',
+            100: '{teal.100}',
+            200: '{teal.200}',
+            300: '{teal.300}',
+            400: '{teal.400}',
+            500: '{teal.500}',
+            600: '{teal.600}',
+            700: '{teal.700}',
+            800: '{teal.800}',
+            900: '{teal.900}',
+            950: '{teal.950}'
+        }
+        updatePreset(
+            {
+            semantic: {
+                colorScheme: {
+                    light: {
+                        primary: scheme
+                    },
+                    dark: {
+                        primary: scheme
+                    }
+                }
+            }
+        })
+    }
 
     logout() {
         this.authService.logout()

@@ -50,7 +50,7 @@ import { CancerIconComponent } from 'src/app/core/components/cancer-icon/cancer-
         // Custom identicon style
         provide: JDENTICON_CONFIG,
         useValue: {
-            hues: [220, 230],
+            hues: [0, 0],
           lightness: {
             color: [0.21, 0.9],
             grayscale: [0.23, 0.62],
