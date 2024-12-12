@@ -39,13 +39,29 @@ export class AppTopBarComponent {
             }];
     }
 
+
+    ngOnInit(): void {
+    const darkModePreference = localStorage.getItem('darkMode');
+    if (darkModePreference === 'true') {
+        this.themeModeIcon = 'pi pi-moon';
+        const element = document.querySelector('html');
+        if (element) {
+            element.classList.add('dark-mode');
+        }
+    } else {
+        this.themeModeIcon = 'pi pi-sun';
+    }
+    }
+
     toggleDarkMode() {
         const element = document.querySelector('html');
         if (element) {
             this.themeModeIcon = this.themeModeIcon == 'pi pi-moon' ? 'pi pi-sun' : 'pi pi-moon'
             element.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', element.classList.contains('dark-mode').toString());
         }
     }
+
 
     logout() {
         this.authService.logout()
