@@ -203,11 +203,7 @@ class TestStagingController(ApiControllerTestCase, TestCase):
 
 class TestTumorMarkerController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/tumor-markers'
-    FACTORY = [
-        factories.CA125TumorMarkerTestFactory,
-        factories.LDHTumorMarkerTestFactory
-    ]
-    
+    FACTORY = factories.TumorMarkerTestFactory
     MODEL = models.TumorMarker
     SCHEMA = schemas.TumorMarkerSchema
     CREATE_SCHEMA = schemas.TumorMarkerCreateSchema    

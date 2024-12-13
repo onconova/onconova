@@ -518,6 +518,10 @@ class RhabdomyosarcomaClinicalGroup(CodedConcept):
     description = 'Intergroup code indicating whether the rhabdomyosarcoma is confined to its primary location or has extended beyond the site of origin.'
 
     
+class TumorMarkerAnalyte(CodedConcept):
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-analytes'
+    description = 'Codes representing analytes for tumor markers.'
+    
 class TumorMarkerTest(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-codes'
     description = 'Codes representing tests for tumor markers. Extends the base valueset for tumor marker tests required for mCODE based on LOINC codes.'

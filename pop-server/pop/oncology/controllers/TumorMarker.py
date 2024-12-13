@@ -8,6 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import TumorMarker
+from pop.oncology.models.TumorMarker import AnalyteDetails, ANALYTES_DATA
 
 from django.shortcuts import get_object_or_404
 from typing import List
@@ -92,3 +93,17 @@ class TumorMarkerController(ControllerBase):
         instance.delete()
         return 204, None
     
+    
+    @route.get(
+        path='analytes/{analyteCode}/details', 
+        response={
+            200: AnalyteDetails,
+            404: None,
+        },
+        operation_id='getTumorMarkerAnalyteDetails',
+    )
+    def get_tumor_marker_analyte_details(self, analyteCode: str):
+        instance = ANALYTES_DATA.get(analyteCode)
+        if instance is None:
+            return 404, None
+        return 200, instance
