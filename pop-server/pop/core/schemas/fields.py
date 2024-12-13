@@ -1,7 +1,8 @@
 from typing import Dict, List, Tuple, Optional
+import enum 
 
 from django.db.models.fields import Field as DjangoField
-from django.db.models import ManyToManyField
+from django.db.models import CharField
 from django.contrib.auth import get_user_model
 
 
@@ -101,6 +102,7 @@ def get_schema_field(
                 python_type = related_type
 
     else:
+        
         # Handle non-relation fields
         _f_name, _f_path, _f_pos, field_options = field.deconstruct()
         blank = field_options.get("blank", False)
@@ -109,6 +111,11 @@ def get_schema_field(
 
         if isinstance(field, MeasurementField):
             python_type = MeasureSchema
+        elif isinstance(field, CharField) and field.choices is not None:            
+            schema_field_name = to_camel_case(django_field_name)
+            enum_schema_name = f'{field.model.__name__ if hasattr(field, "model") else ""}{schema_field_name[0].upper()+schema_field_name[1:]}Choices'
+            enum_choices = enum.Enum(enum_schema_name, {value.upper(): value for value,_ in field.choices}, type=str)
+            python_type = enum_choices
         else:
             internal_type = field.get_internal_type()
             python_type = DJANGO_TO_PYDANTIC_TYPES[internal_type]
@@ -133,8 +140,8 @@ def get_schema_field(
     if field.verbose_name:
         title = title_if_lower(field.verbose_name)
 
-    schema_field_name = to_camel_case(django_field_name)
 
+    schema_field_name = to_camel_case(django_field_name)
     return schema_field_name, (
         python_type,
         FieldInfo(

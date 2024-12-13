@@ -5,7 +5,7 @@ from pydantic_core import PydanticUndefined
 
 from django.test import TestCase, TransactionTestCase
 from django.db import models as django_models
-from django.db.models import CharField, ForeignKey, ManyToManyField
+from django.db.models import CharField, ForeignKey, ManyToManyField, TextChoices
 
 from pop.oncology.models import PatientCase
 from pop.terminology.models import CodedConcept as CodedConceptBase, AdministrativeGender
@@ -58,6 +58,15 @@ class TestGetSchemaField(TestCase):
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, PydanticUndefined)
 
+    def test_charfield_with_choices(self):
+        choices = [('a', 'optionA'),('b', 'optionB')]
+        field = CharField(max_length=255, name='test_field', choices=choices)
+        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
+        self._assert_django_field_properties(field, field_info)
+        self.assertEqual([e.value for e in python_type], [choice[0] for choice in choices])
+        self.assertEqual(field_info.default, PydanticUndefined)
+        
     def test_relation_field_with_expand_true(self):
         field = self._create_foreign_key_field(model=self.MockModel)
         schema_field_name, (python_type, field_info) = get_schema_field(field, expand=True)
