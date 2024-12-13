@@ -6,7 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ResourceIdSchema, Paginated, factory
 from pop.oncology.models import NeoplasticEntity
 
 from django.shortcuts import get_object_or_404
@@ -15,15 +15,9 @@ from typing import List
 from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 
 
-class NeoplasticRelationship(str, Enum):
-    primary = 'primary'
-    metastatic = 'metastatic'
-    local_recurrence = 'local_recurrence'
-    regional_recurrence = 'regional_recurrence'
-
 class QueryParameters(Schema):
     case__id: str = Field(None, alias='caseId')
-    relationship__in: List[NeoplasticRelationship] = Field(None, alias='type')
+    relationship__in: List[NeoplasticEntitySchema.model_fields['relationship'].annotation] = Field(None, alias='type') # type: ignore
 
 @api_controller(
     'neoplastic-entities/', 

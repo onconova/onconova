@@ -12,14 +12,13 @@ METASTATIC = 'metastatic'
 LOCAL_RECURRENCE = 'local_recurrence'
 REGIONAL_RECURRENCE = 'regional_recurrence'
 
+class NeoplasticEntityRelationship(models.TextChoices):
+    PRIMARY = PRIMARY
+    METASTATIC = METASTATIC
+    LOCAL_RECURRENCE = LOCAL_RECURRENCE
+    REGIONAL_RECURRENCE = REGIONAL_RECURRENCE 
+    
 class NeoplasticEntity(BaseModel):
-
-    NEOPLASTIC_RELATIONSHIPS = {
-        PRIMARY: 'Primary',
-        METASTATIC: 'Metastatic',
-        LOCAL_RECURRENCE: 'Local recurrence',
-        REGIONAL_RECURRENCE: 'Regional recurrence',
-    }
     
     case = models.ForeignKey(
         verbose_name = _('Patient case'),
@@ -32,7 +31,7 @@ class NeoplasticEntity(BaseModel):
         verbose_name = _("Neoplastic relationship"),
         help_text = _("Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease."),
         max_length = 30,
-        choices = NEOPLASTIC_RELATIONSHIPS,
+        choices = NeoplasticEntityRelationship,
     )
     related_primary = models.ForeignKey(
         verbose_name = _("Related primary neoplasm"),

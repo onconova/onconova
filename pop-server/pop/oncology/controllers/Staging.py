@@ -7,7 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ResourceIdSchema, Paginated
-from pop.oncology.models import Staging
+from pop.oncology.models import Staging, StagingDomain
 
 from django.shortcuts import get_object_or_404
 from typing import List, Union
@@ -69,6 +69,7 @@ AnyOfPayloadSchemas = Union[CREATE_STAGING_SCHEMAS]
 
 class QueryParameters(Schema):
     case__id: str = Field(None, alias='caseId')
+    stagingDomain: List[StagingDomain] = Field(None, alias='stagingDomain')
 
 def cast_to_model_schema(model_instance, schemas, payload=None):
     return next((

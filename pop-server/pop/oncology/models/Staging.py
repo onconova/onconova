@@ -8,38 +8,39 @@ from pop.oncology.models import PatientCase, NeoplasticEntity
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
-TNM = 'tnm'
-FIGO = 'figo'
-BINET = 'binet'
-RAI = 'rai'
-BRESLOW = 'breslow'
-CLARK = 'clark'
-ISS = 'iss'
-RISS = 'riss'
-INSS = 'inss'
-INRGSS = 'inrgss'
-GLEASON = 'gleason'
-RHABDO = 'rhabdomyosarcoma'
-WILMS = 'wilms'
-LYMPHOMA = 'lymphoma'
+class StagingDomain(models.TextChoices):
+    TNM = 'tnm'
+    FIGO = 'figo'
+    BINET = 'binet'
+    RAI = 'rai'
+    BRESLOW = 'breslow'
+    CLARK = 'clark'
+    ISS = 'iss'
+    RISS = 'riss'
+    INSS = 'inss'
+    INRGSS = 'inrgss'
+    GLEASON = 'gleason'
+    RHABDO = 'rhabdomyosarcoma'
+    WILMS = 'wilms'
+    LYMPHOMA = 'lymphoma'
 
 class Staging(BaseModel):
 
     STAGING_DOMAINS = {
-        TNM: 'TNM Stage',
-        FIGO: 'FIGO Stage',
-        BINET: 'Binet Stage',
-        RAI: 'RAI Stage',
-        BRESLOW: 'Breslow Stage',
-        CLARK: 'Clark Level',
-        ISS: 'ISS Stage',
-        RISS: 'RISS Stage',
-        INSS: 'INSS Stage',
-        INRGSS: 'Neuroblastoma INRGSS Stage',
-        GLEASON: 'Prostate Gleason Group',
-        RHABDO: 'Rhabdomyosarcoma Clinical Group',
-        WILMS: 'Wilms Tumor Stage',
-        LYMPHOMA: 'Lymphoma Stage',
+        StagingDomain.TNM.value: 'TNM Stage',
+        StagingDomain.FIGO.value: 'FIGO Stage',
+        StagingDomain.BINET.value: 'Binet Stage',
+        StagingDomain.RAI.value: 'RAI Stage',
+        StagingDomain.BRESLOW.value: 'Breslow Stage',
+        StagingDomain.CLARK.value: 'Clark Level',
+        StagingDomain.ISS.value: 'ISS Stage',
+        StagingDomain.RISS.value: 'RISS Stage',
+        StagingDomain.INSS.value: 'INSS Stage',
+        StagingDomain.INRGSS.value: 'Neuroblastoma INRGSS Stage',
+        StagingDomain.GLEASON.value: 'Prostate Gleason Group',
+        StagingDomain.RHABDO.value: 'Rhabdomyosarcoma Clinical Group',
+        StagingDomain.WILMS.value: 'Wilms Tumor Stage',
+        StagingDomain.LYMPHOMA.value: 'Lymphoma Stage',
     }
     
     case = models.ForeignKey(
@@ -95,7 +96,7 @@ class TNMStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = TNM,
+        related_name = StagingDomain.TNM.value,
         parent_link = True,
         primary_key = True,
     )
@@ -176,7 +177,7 @@ class FIGOStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = FIGO,
+        related_name = StagingDomain.FIGO.value,
         parent_link = True,
         primary_key = True,
     )
@@ -198,7 +199,7 @@ class BinetStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = BINET,
+        related_name = StagingDomain.BINET.value,
         parent_link = True,
         primary_key = True,
     )
@@ -214,7 +215,7 @@ class RaiStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = RAI,
+        related_name = StagingDomain.RAI.value,
         parent_link = True,
         primary_key = True,
     )
@@ -236,7 +237,7 @@ class BreslowDepth(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = BRESLOW,
+        related_name = StagingDomain.BRESLOW.value,
         parent_link = True,
         primary_key = True,
     )
@@ -270,7 +271,7 @@ class ClarkStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = CLARK,
+        related_name = StagingDomain.CLARK.value,
         parent_link = True,
         primary_key = True,
     )
@@ -286,7 +287,7 @@ class ISSStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = ISS,
+        related_name = StagingDomain.ISS.value,
         parent_link = True,
         primary_key = True,
     )
@@ -302,7 +303,7 @@ class RISSStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = RISS,
+        related_name = StagingDomain.RISS.value,
         parent_link = True,
         primary_key = True,
     )
@@ -318,7 +319,7 @@ class INSSStage(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = INSS,
+        related_name = StagingDomain.INSS.value,
         parent_link = True,
         primary_key = True,
     )
@@ -334,7 +335,7 @@ class INRGSSStage(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = INRGSS,
+        related_name = StagingDomain.INRGSS.value,
         parent_link = True,
         primary_key = True,
     )
@@ -349,7 +350,7 @@ class GleasonGrade(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = GLEASON,
+        related_name = StagingDomain.GLEASON.value,
         parent_link = True,
         primary_key = True,
     )
@@ -364,7 +365,7 @@ class WilmsStage(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = WILMS,
+        related_name = StagingDomain.WILMS.value,
         parent_link = True,
         primary_key = True,
     )
@@ -379,7 +380,7 @@ class RhabdomyosarcomaClinicalGroup(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = RHABDO,
+        related_name = StagingDomain.RHABDO.value,
         parent_link = True,
         primary_key = True,
     )
@@ -394,7 +395,7 @@ class LymphomaStaging(Staging):
     staging = models.OneToOneField(
         to = Staging,
         on_delete = models.CASCADE,
-        related_name = LYMPHOMA,
+        related_name = StagingDomain.LYMPHOMA.value,
         parent_link = True,
         primary_key = True,
     )

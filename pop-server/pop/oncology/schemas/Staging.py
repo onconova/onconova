@@ -1,25 +1,26 @@
 from pop.oncology.models.Staging import (
-    FIGO, FIGOStaging, 
-    TNM, TNMStaging,
-    BINET, BinetStaging,
-    RAI, RaiStaging, 
-    BRESLOW, BreslowDepth, 
-    CLARK, ClarkStaging, 
-    ISS, ISSStaging,
-    RISS, RISSStaging, 
-    GLEASON, GleasonGrade, 
-    INSS, INSSStage, 
-    INRGSS, INRGSSStage, 
-    WILMS, WilmsStage, 
-    RHABDO, RhabdomyosarcomaClinicalGroup,
-    LYMPHOMA, LymphomaStaging
+    StagingDomain,
+    FIGOStaging, 
+    TNMStaging,
+    BinetStaging,
+    RaiStaging, 
+    BreslowDepth, 
+    ClarkStaging, 
+    ISSStaging,
+    RISSStaging, 
+    GleasonGrade, 
+    INSSStage, 
+    INRGSSStage, 
+    WilmsStage, 
+    RhabdomyosarcomaClinicalGroup,
+    LymphomaStaging
 )
 from pop.core.schemas import ModelSchema, CodedConceptSchema, CREATE_IGNORED_FIELDS
 from typing import Literal
 from pydantic import Field 
 
 class TNMStagingSchema(ModelSchema):
-    stagingDomain: Literal[TNM] = TNM # type: ignore
+    stagingDomain: Literal[StagingDomain.TNM] = StagingDomain.TNM # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -30,7 +31,7 @@ class TNMStagingSchema(ModelSchema):
         ]
 
 class TNMStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[TNM] = TNM # type: ignore
+    stagingDomain: Literal[StagingDomain.TNM] = StagingDomain.TNM # type: ignore
 
     class Meta:
         name = 'TNMStagingCreate'
@@ -42,7 +43,7 @@ class TNMStagingCreateSchema(ModelSchema):
 
 
 class FIGOStagingSchema(ModelSchema):
-    stagingDomain: Literal[FIGO] = FIGO # type: ignore
+    stagingDomain: Literal[StagingDomain.FIGO] = StagingDomain.FIGO # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -53,7 +54,7 @@ class FIGOStagingSchema(ModelSchema):
         ]
 
 class FIGOStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[FIGO] = FIGO # type: ignore
+    stagingDomain: Literal[StagingDomain.FIGO] = StagingDomain.FIGO # type: ignore
 
     class Meta:
         name = 'FIGOStagingCreate'
@@ -65,7 +66,7 @@ class FIGOStagingCreateSchema(ModelSchema):
 
 
 class BinetStagingSchema(ModelSchema):
-    stagingDomain: Literal[BINET] = BINET # type: ignore
+    stagingDomain: Literal[StagingDomain.BINET] = StagingDomain.BINET # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -76,7 +77,7 @@ class BinetStagingSchema(ModelSchema):
         ]
 
 class BinetStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[BINET] = BINET # type: ignore
+    stagingDomain: Literal[StagingDomain.BINET] = StagingDomain.BINET # type: ignore
 
     class Meta:
         name = 'BinetStagingCreate'
@@ -89,7 +90,7 @@ class BinetStagingCreateSchema(ModelSchema):
 
 
 class RaiStagingSchema(ModelSchema):
-    stagingDomain: Literal[RAI] = RAI # type: ignore
+    stagingDomain: Literal[StagingDomain.RAI] = StagingDomain.RAI # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -100,7 +101,7 @@ class RaiStagingSchema(ModelSchema):
         ]
 
 class RaiStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[RAI] = RAI # type: ignore
+    stagingDomain: Literal[StagingDomain.RAI] = StagingDomain.RAI # type: ignore
 
     class Meta:
         name = 'RaiStagingCreate'
@@ -113,7 +114,7 @@ class RaiStagingCreateSchema(ModelSchema):
 
 
 class BreslowDepthSchema(ModelSchema):
-    stagingDomain: Literal[BRESLOW] = BRESLOW # type: ignore
+    stagingDomain: Literal[StagingDomain.BRESLOW] = StagingDomain.BRESLOW # type: ignore
     stage: CodedConceptSchema
     description: str = Field(description='Human-readable description of the staging') 
     
@@ -125,7 +126,7 @@ class BreslowDepthSchema(ModelSchema):
         ]
 
 class BreslowDepthCreateSchema(ModelSchema):
-    stagingDomain: Literal[BRESLOW] = BRESLOW # type: ignore
+    stagingDomain: Literal[StagingDomain.BRESLOW] = StagingDomain.BRESLOW # type: ignore
 
     class Meta:
         name = 'BreslowDepthCreate'
@@ -139,7 +140,7 @@ class BreslowDepthCreateSchema(ModelSchema):
 
 
 class ClarkStagingSchema(ModelSchema):
-    stagingDomain: Literal[CLARK] = CLARK # type: ignore
+    stagingDomain: Literal[StagingDomain.CLARK] = StagingDomain.CLARK # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -150,7 +151,7 @@ class ClarkStagingSchema(ModelSchema):
         ]
 
 class ClarkStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[CLARK] = CLARK # type: ignore
+    stagingDomain: Literal[StagingDomain.CLARK] = StagingDomain.CLARK # type: ignore
 
     class Meta:
         name = 'ClarkStagingCreate'
@@ -164,7 +165,7 @@ class ClarkStagingCreateSchema(ModelSchema):
 
 
 class ISSStagingSchema(ModelSchema):
-    stagingDomain: Literal[ISS] = ISS # type: ignore
+    stagingDomain: Literal[StagingDomain.ISS] = StagingDomain.ISS # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -175,7 +176,7 @@ class ISSStagingSchema(ModelSchema):
         ]
 
 class ISSStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[ISS] = ISS # type: ignore
+    stagingDomain: Literal[StagingDomain.ISS] = StagingDomain.ISS # type: ignore
 
     class Meta:
         name = 'ISSStagingCreate'
@@ -187,7 +188,7 @@ class ISSStagingCreateSchema(ModelSchema):
 
 
 class RISSStagingSchema(ModelSchema):
-    stagingDomain: Literal[RISS] = RISS # type: ignore
+    stagingDomain: Literal[StagingDomain.RISS] = StagingDomain.RISS # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -198,7 +199,7 @@ class RISSStagingSchema(ModelSchema):
         ]
 
 class RISSStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[RISS] = RISS # type: ignore
+    stagingDomain: Literal[StagingDomain.RISS] = StagingDomain.RISS # type: ignore
 
     class Meta:
         name = 'RISSStagingCreate'
@@ -211,7 +212,7 @@ class RISSStagingCreateSchema(ModelSchema):
 
 
 class GleasonGradeSchema(ModelSchema):
-    stagingDomain: Literal[GLEASON] = GLEASON # type: ignore
+    stagingDomain: Literal[StagingDomain.GLEASON] = StagingDomain.GLEASON # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -222,7 +223,7 @@ class GleasonGradeSchema(ModelSchema):
         ]
 
 class GleasonGradeCreateSchema(ModelSchema):
-    stagingDomain: Literal[GLEASON] = GLEASON # type: ignore
+    stagingDomain: Literal[StagingDomain.GLEASON] = StagingDomain.GLEASON # type: ignore
 
     class Meta:
         name = 'GleasonGradeCreate'
@@ -234,7 +235,7 @@ class GleasonGradeCreateSchema(ModelSchema):
 
 
 class INSSStageSchema(ModelSchema):
-    stagingDomain: Literal[INSS] = INSS # type: ignore
+    stagingDomain: Literal[StagingDomain.INSS] = StagingDomain.INSS # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -245,7 +246,7 @@ class INSSStageSchema(ModelSchema):
         ]
 
 class INSSStageCreateSchema(ModelSchema):
-    stagingDomain: Literal[INSS] = INSS # type: ignore
+    stagingDomain: Literal[StagingDomain.INSS] = StagingDomain.INSS # type: ignore
 
     class Meta:
         name = 'INSSStageCreate'
@@ -257,7 +258,7 @@ class INSSStageCreateSchema(ModelSchema):
 
 
 class INRGSSStageSchema(ModelSchema):
-    stagingDomain: Literal[INRGSS] = INRGSS # type: ignore
+    stagingDomain: Literal[StagingDomain.INRGSS] = StagingDomain.INRGSS # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -268,7 +269,7 @@ class INRGSSStageSchema(ModelSchema):
         ]
 
 class INRGSSStageCreateSchema(ModelSchema):
-    stagingDomain: Literal[INRGSS] = INRGSS # type: ignore
+    stagingDomain: Literal[StagingDomain.INRGSS] = StagingDomain.INRGSS # type: ignore
 
     class Meta:
         name = 'INRGSSStageCreate'
@@ -280,7 +281,7 @@ class INRGSSStageCreateSchema(ModelSchema):
 
 
 class WilmsStageSchema(ModelSchema):
-    stagingDomain: Literal[WILMS] = WILMS # type: ignore
+    stagingDomain: Literal[StagingDomain.WILMS] = StagingDomain.WILMS # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -291,7 +292,7 @@ class WilmsStageSchema(ModelSchema):
         ]
 
 class WilmsStageCreateSchema(ModelSchema):
-    stagingDomain: Literal[WILMS] = WILMS # type: ignore
+    stagingDomain: Literal[StagingDomain.WILMS] = StagingDomain.WILMS # type: ignore
 
     class Meta:
         name = 'WilmsStageCreate'
@@ -303,7 +304,7 @@ class WilmsStageCreateSchema(ModelSchema):
 
 
 class RhabdomyosarcomaClinicalGroupSchema(ModelSchema):
-    stagingDomain: Literal[RHABDO] = RHABDO # type: ignore
+    stagingDomain: Literal[StagingDomain.RHABDO] = StagingDomain.RHABDO # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -314,7 +315,7 @@ class RhabdomyosarcomaClinicalGroupSchema(ModelSchema):
         ]
 
 class RhabdomyosarcomaClinicalGroupCreateSchema(ModelSchema):
-    stagingDomain: Literal[RHABDO] = RHABDO # type: ignore
+    stagingDomain: Literal[StagingDomain.RHABDO] = StagingDomain.RHABDO # type: ignore
 
     class Meta:
         name = 'RhabdomyosarcomaClinicalGroupCreate'
@@ -326,7 +327,7 @@ class RhabdomyosarcomaClinicalGroupCreateSchema(ModelSchema):
 
 
 class LymphomaStagingSchema(ModelSchema):
-    stagingDomain: Literal[LYMPHOMA] = LYMPHOMA # type: ignore
+    stagingDomain: Literal[StagingDomain.LYMPHOMA] = StagingDomain.LYMPHOMA # type: ignore
     description: str = Field(description='Human-readable description of the staging') 
 
     class Meta:
@@ -337,7 +338,7 @@ class LymphomaStagingSchema(ModelSchema):
         ]
 
 class LymphomaStagingCreateSchema(ModelSchema):
-    stagingDomain: Literal[LYMPHOMA] = LYMPHOMA # type: ignore
+    stagingDomain: Literal[StagingDomain.LYMPHOMA] = StagingDomain.LYMPHOMA # type: ignore
 
     class Meta:
         name = 'LymphomaStagingCreate'

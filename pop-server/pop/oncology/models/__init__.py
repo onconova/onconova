@@ -1,6 +1,7 @@
 from .PatientCase import PatientCase
 from .NeoplasticEntity import NeoplasticEntity
 from .Staging import (
+    StagingDomain,
     Staging, TNMStaging, FIGOStaging, BinetStaging,
     RaiStaging, BreslowDepth, ClarkStaging, ISSStaging,
     RISSStaging, INSSStage, INRGSSStage,  GleasonGrade, 
@@ -12,6 +13,7 @@ __all__ = (
     PatientCase,
     NeoplasticEntity,
     Staging,
+    StagingDomain,
     TNMStaging,
     FIGOStaging, 
     BinetStaging,
