@@ -122,8 +122,8 @@ class NCITDigestor(TerminologyDigestor):
     def _digest_concept_row(self, row):        
         # Get core coding elements
         code = row['code']
-        parent = row['parents'].split('|')[0]
-        synonyms = [ensure_within_string_limits(synonym) for synonym in row['synonyms'].split('|')]
+        parent = row['parents'].split('|')[0] if row['parents'] else None
+        synonyms = [ensure_within_string_limits(synonym) for synonym in row['synonyms'].split('|')] if row['synonyms'] else [None]
         display = row['display name'] or synonyms[0]
         # Add the concept
         self.concepts[code] = CodedConcept(
@@ -150,6 +150,10 @@ class SNOMEDCTDigestor(TerminologyDigestor):
     def digest(self):
         super().digest() 
         self._digest_relationships()
+        for code, concept in self.concepts.items():
+            if len(concept.display) > len(concept.synonyms[0]):
+                self.concepts[code].synonyms.append(concept.display)
+                self.concepts[code].display = concept.synonyms[0]
         return self.concepts
     
     def _digest_relationships(self):
@@ -175,17 +179,16 @@ class SNOMEDCTDigestor(TerminologyDigestor):
         code = row['conceptId'] 
         usage = self.SNOMED_DESIGNATION_USES[row['typeId']]
         display = ensure_within_string_limits(row['term'])
-        # Add the concept if it is a full specification
-        if usage == 'FULL':
-            self.concepts[code] = CodedConcept(
+        if code not in self.concepts:
+            self.concepts[code] = CodedConcept( 
                 code=code,
                 display=display,
                 system=self.CANONICAL_URL,
             )
-        # Add the designation
-        self.designations[code].append(display)
-        
-
+        if usage == 'FULL':
+            self.concepts[code].display = display
+        else:
+            self.concepts[code].synonyms.append(display)     
 
 
 class LOINCDigestor(TerminologyDigestor):

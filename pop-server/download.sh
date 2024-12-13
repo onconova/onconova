@@ -10,8 +10,8 @@ fi
 
 # Set proxy options if PROXY_URL_HTTPS is defined
 WGET_PROXY_OPTIONS=""
-if [ -n "$PROXY_URL_HTTPS" ]; then
-  WGET_PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$PROXY_URL_HTTPS  -e http_proxy=$PROXY_URL_HTTPS"
+if [ -n "$PROXY_HTTPS" ]; then
+  WGET_PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$PROXY_HTTPS  -e http_proxy=$PROXY_HTTP --ca-certificate=$CA_BUNDLE_CERT"
 fi
 
 TERMINOLOGY=$1
@@ -219,6 +219,7 @@ process_loinc() {
       echo -e "ERROR FILE NOT FOUND:\nPlease download the LOINC_*.zip file from (requires a LOINC login):\n\n\thttps://loinc.org/download/loinc-complete/ \n\nand specify the location of the zip file with the LOINC_ZIPFILE_PATH variable.\n"
       exit 1
   fi  
+  echo "unzip $LOINC_ZIPFILE_PATH -d $TEMP_DIR "
   unzip $LOINC_ZIPFILE_PATH -d $TEMP_DIR 
   mv $TEMP_DIR/AccessoryFiles/LinguisticVariants/deDE15LinguisticVariant.csv $DATA_DIR/loinc_deDE15.csv
   mv $TEMP_DIR/AccessoryFiles/LinguisticVariants/frFR18LinguisticVariant.csv $DATA_DIR/loinc_frFR18.csv
@@ -243,7 +244,7 @@ process_snomedct() {
       echo -e "ERROR FILE NOT FOUND:\nPlease download the SNOMEDCT_International_*.zip file from (requires a LOINC login):\n\n\thttps://mlds.ihtsdotools.org/#/viewReleases/viewRelease/167 \n\nand specify the location of the zip file with the SNOMED_ZIPFILE_PATH variable.\n"
       exit 1
   fi  
-  echo $DATA_DIR
+  mkdir $TEMP_DIR
   unzip $SNOMED_ZIPFILE_PATH -d $DATA_DIR
   mv $DATA_DIR/SnomedCT_* $TEMP_DIR
   mv $TEMP_DIR/Snapshot/Terminology/sct2_Description_Snapshot-en_INT_* $DATA_DIR/snomedct.tsv 
