@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NeoplasticEntityRelationshipChoices } from './neoplastic-entity-relationship-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
@@ -26,7 +27,7 @@ export interface NeoplasticEntity {
     /**
      * Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.
      */
-    relationship: string;
+    relationship: NeoplasticEntityRelationshipChoices;
     relatedPrimaryId?: string | null;
     /**
      * The date on which the existence of the neoplasm(s) was first asserted or acknowledged
@@ -47,4 +48,7 @@ export interface NeoplasticEntity {
      */
     updatedByIds?: Array<number>;
 }
+export namespace NeoplasticEntity {
+}
+
 

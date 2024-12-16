@@ -1,0 +1,11 @@
+<div class="flex flex-wrap gap-4" class="{{class}}">
+    <ng-container *ngFor="let choice of choices">
+        <div class="flex items-center">
+            <p-radiobutton 
+                [inputId]="choice.value" 
+                [value]="choice.value" 
+                [formControl]="formControl"/>
+            <label [for]="choice.value" class="ml-2">{{ choice.name }}</label>
+        </div>
+    </ng-container>
+</div>

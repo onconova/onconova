@@ -11,6 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { AnalyteDetails } from '../model/models';
 import { PaginatedTumorMarker } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
 import { TumorMarker } from '../model/models';
@@ -38,6 +39,13 @@ export interface TumorMarkersServiceInterface {
      * @param tumorMarkerId 
      */
     deleteTumorMarkerById(tumorMarkerId: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Get Tumor Marker Analyte Details By Code
+     * 
+     * @param analyteCode 
+     */
+    getTumorMarkerAnalyteDetailsByCode(analyteCode: string, extraHttpRequestParams?: any): Observable<AnalyteDetails>;
 
     /**
      * Get Tumor Marker By Id

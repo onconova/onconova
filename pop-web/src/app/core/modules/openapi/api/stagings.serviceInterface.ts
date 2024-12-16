@@ -50,10 +50,11 @@ export interface StagingsServiceInterface {
      * Get All Stagings Matching The Query
      * 
      * @param caseId 
+     * @param stagingDomain 
      * @param limit 
      * @param offset 
      */
-    getStagings(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>;
+    getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>;
 
     /**
      * Update Staging

@@ -264,8 +264,9 @@ class TNMStage(CodedConcept):
         if label[0].isnumeric() and not label.startswith('0'):
             label = {'1':'I','2':'II','3':'III','4':'IV','5':'V',}[label[0]] + ':' + label[1:]
         if label[-1]==":":
-            label=label[:-1]
-        return f'AJCC Stage {label}'
+            label=label[:-1]    
+        concept.display = f'AJCC Stage {label}'
+        return concept
     
 
 
@@ -280,7 +281,8 @@ class TNMStagingMethod(CodedConcept):
         label = concept.display
         label = label.replace('American Joint Committee on Cancer,','AJCC').replace(' (tumor staging)','').replace(' neoplasm staging system','')
         label = label.replace('Union for International Cancer Control Stage','UICC Staging')
-        return label
+        concept.display = label
+        return concept
     
 
 
@@ -288,13 +290,16 @@ class TNMPrimaryTumorCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-primary-tumor-category'
     description = 'Result values for T category. This value set contains SNOMED-CT equivalents of AJCC codes for the T category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
     
 
 
@@ -307,13 +312,16 @@ class TNMDistantMetastasesCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-distant-metastases-category'
     description = 'Result values for M category. This value set contains SNOMED-CT equivalents of AJCC codes for the M category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
     
 
 
@@ -326,13 +334,16 @@ class TNMRegionalNodesCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-regional-nodes-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the N category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
     
 
 class TNMRegionalNodesStagingType(CodedConcept):
@@ -344,77 +355,91 @@ class TNMGradeCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-grade-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the G category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
     
 class TNMResidualTumorCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-residual-tumor-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the R category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
 
 class TNMLymphaticInvasionCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-lymphatic-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the L category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
-        label = label.replace('Stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
 
 class TNMVenousInvasionCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-venous-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the V category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
-        label = label.replace('Stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
 
 class TNMPerineuralInvasionCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-perineural-invasion-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the Pn category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
-        label = label.replace('Stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
 
 class TNMSerumTumorMarkerLevelCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tnm-serum-tumor-marker-level-category'
     description = 'Result values for N category. This value set contains SNOMED-CT equivalents of AJCC codes for the S category, according to TNM staging rules.'
     
-    def __str__(self):
-        label = self.display
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
         label = label.replace('stage','')
-        label = label.replace('Stage','')
         label = label.replace('AJCC','')
-        return label.replace(' ','')
+        label = label.replace(' ','')
+        concept.display = label
+        return concept
 
 
 
@@ -431,8 +456,8 @@ class FIGOStagingMethod(CodedConcept):
     def transform(cls, concept):
         label = concept.display 
         label = label.replace("Federation of Gynecology and Obstetrics",'FIGO').replace(' (tumor staging)','')
-        return label
-
+        concept.display = label
+        return concept
 
 class BinetStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-binet-stage-value-vs'
@@ -521,6 +546,13 @@ class RhabdomyosarcomaClinicalGroup(CodedConcept):
 class TumorMarkerAnalyte(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-analytes'
     description = 'Codes representing analytes for tumor markers.'
+
+    @classmethod
+    def transform(cls, concept):
+        from pop.oncology.models.TumorMarker import ANALYTES_DATA
+        analyte_data = ANALYTES_DATA.get(concept.code)
+        concept.properties = analyte_data.model_dump(mode='json') if analyte_data else None
+        return concept
     
 class TumorMarkerTest(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-codes'

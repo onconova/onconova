@@ -2,7 +2,7 @@
 
 
 p-selectbutton.tumor-markers {
-    --analyte-button-width: 7rem;
+    --analyte-button-width: 8rem;
     display: grid;
     grid-template-columns: repeat(5, var(--analyte-button-width));
 }

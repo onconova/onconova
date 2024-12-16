@@ -1,7 +1,7 @@
 
 from typing import List
 from enum import Enum 
-from dataclasses import dataclass
+from pydantic import BaseModel as PydanticBaseModel
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -207,17 +207,16 @@ class AnalyteResultType(Enum):
     immunohistochemical_score = 'ImmunoHistoChemicalScore'
     nuclear_expression_status = 'NuclearExpressionStatus'
 
-@dataclass
-class AnalyteDetails:
+class AnalyteDetails(PydanticBaseModel):
     acronym: str
     display: str 
-    value_types: List[AnalyteResultType]
+    valueTypes: List[AnalyteResultType]
 
 ANALYTES_DATA = {
     "LP28643-2": AnalyteDetails(
         acronym = 'CEA',
         display = 'Carcinoembryonic Antigen',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
             AnalyteResultType.substance_concentration,
@@ -226,62 +225,62 @@ ANALYTES_DATA = {
     "LP14543-0": AnalyteDetails(
         acronym = 'CA125',
         display = 'Cancer Antigen 125',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP15461-4": AnalyteDetails(
         acronym = 'CA15-3',
         display = 'Cancer Antigen 15-3',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP14040-7": AnalyteDetails(
         acronym = 'CA19-9',
         display = 'Cancer Antigen 19-9',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP15463-0": AnalyteDetails(
         acronym = 'CA242',
         display = 'Cancer Antigen 242',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP15464-8": AnalyteDetails(
         acronym = 'CA27-29',
         display = 'Cancer Antigen 27-29',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP15465-5": AnalyteDetails(
         acronym = 'CA50',
         display = 'Cancer Antigen 50',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP15466-3": AnalyteDetails(
         acronym = 'CA549',
         display = 'Cancer Antigen 549',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP15467-1": AnalyteDetails(
         acronym = 'CA72-4',
         display = 'Cancer Antigen 72-4',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP18274-8": AnalyteDetails(
         acronym = 'CA DM/70K',
         display = 'Cancer Antigen DM/70K',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP28642-4": AnalyteDetails(
         acronym = 'CASA',
         display = 'Cancer-associated Serum Ag',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP135291-5": AnalyteDetails(
         acronym = 'CTC',
         display = 'Circulating tumor cells',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP63010-0": AnalyteDetails(
         acronym = 'FGF',
         display = 'Fibroblast growth factor',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
             AnalyteResultType.substance_concentration,
@@ -290,22 +289,22 @@ ANALYTES_DATA = {
     "LP420752-0": AnalyteDetails(
         acronym = 'GRP',
         display = 'Gastrin releasing polypeptide prohormone',
-        value_types =  [AnalyteResultType.mass_concentration,]
+        valueTypes =  [AnalyteResultType.mass_concentration,]
     ),
     "LP89249-4": AnalyteDetails(
         acronym = 'TNFBP1',
         display = 'Tumor necrosis factor binding protein 1',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP62856-7": AnalyteDetails(
         acronym = 'YKL-40',
         display = 'Chitinase-3-like protein 1',
-        value_types =  [AnalyteResultType.mass_concentration]
+        valueTypes =  [AnalyteResultType.mass_concentration]
     ),
     "LP38032-6": AnalyteDetails(
         acronym = 'NSE',
         display = 'Neuron-specific enolase',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
         ]
@@ -313,14 +312,14 @@ ANALYTES_DATA = {
     "LP15033-1": AnalyteDetails(
         acronym = 'LDH',
         display = 'Lactate dehydrogenase',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.arbitary_concentration,
         ]
     ),
     "LP14652-9": AnalyteDetails(
         acronym = 'CgA',
         display = 'Chromogranin A',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.substance_concentration,
         ]
@@ -328,12 +327,12 @@ ANALYTES_DATA = {
     "LP57672-5": AnalyteDetails(
         acronym = 'S100B',
         display = 'S100 calcium binding protein B',
-        value_types =  [AnalyteResultType.mass_concentration]
+        valueTypes =  [AnalyteResultType.mass_concentration]
     ),
     "LP18193-0": AnalyteDetails(
         acronym = 'PSA',
         display = 'Prostate specific Ag',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
             AnalyteResultType.substance_concentration,
@@ -342,7 +341,7 @@ ANALYTES_DATA = {
     "LP14331-0": AnalyteDetails(
         acronym = 'AFP',
         display = 'Alpha-1-Fetoprotein',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
             AnalyteResultType.substance_concentration,
@@ -351,7 +350,7 @@ ANALYTES_DATA = {
     "LP14329-4": AnalyteDetails(
         acronym = 'β-hCG',
         display = 'Choriogonadotropin subunit β',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
             AnalyteResultType.substance_concentration,
@@ -361,7 +360,7 @@ ANALYTES_DATA = {
     "LP19423-0": AnalyteDetails(
         acronym = 'CYFRA 21-1',
         display = 'Cytokeratin 19 Fragment',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
         ]
@@ -369,7 +368,7 @@ ANALYTES_DATA = {
     "LP93517-8": AnalyteDetails(
         acronym = 'HE4',
         display = 'Human epididymis protein 4',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.substance_concentration,
         ]
@@ -377,7 +376,7 @@ ANALYTES_DATA = {
     "LP15724-5": AnalyteDetails(
         acronym = 'Mel',
         display = 'Melanin',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.mass_concentration,
             AnalyteResultType.arbitary_concentration,
         ]
@@ -385,12 +384,12 @@ ANALYTES_DATA = {
     "LP38066-4": AnalyteDetails(
         acronym = 'EBV Ab',
         display = 'Epstein Barr Virus Ab',
-        value_types =  [AnalyteResultType.arbitary_concentration]
+        valueTypes =  [AnalyteResultType.arbitary_concentration]
     ),
     "LP220351-3": AnalyteDetails(
         acronym = 'PD-L1',
         display = 'Programmed cell death ligand 1',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.immmune_cells_score,
             AnalyteResultType.tumor_proportion_score,
             AnalyteResultType.combined_positive_score,
@@ -399,7 +398,7 @@ ANALYTES_DATA = {
     "LP28442-9": AnalyteDetails(
         acronym = 'HER2',
         display = 'Human Epidermal Growth Factor Receptor 2',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.presence,
             AnalyteResultType.immunohistochemical_score,
         ]
@@ -407,67 +406,67 @@ ANALYTES_DATA = {
     "LP18567-5": AnalyteDetails(
         acronym = 'ER',
         display = 'Estrogen receptor',
-        value_types =  [AnalyteResultType.fraction]
+        valueTypes =  [AnalyteResultType.fraction]
     ),
     "LP14902-8": AnalyteDetails(
         acronym = 'PR',
         display = 'Progesterone receptor',
-        value_types =  [AnalyteResultType.fraction]
+        valueTypes =  [AnalyteResultType.fraction]
     ),
     "LP68364-6": AnalyteDetails(
         acronym = 'AR',
         display = 'Androgen receptor',
-        value_types =  [AnalyteResultType.fraction]
+        valueTypes =  [AnalyteResultType.fraction]
     ),
     "LP39016-8": AnalyteDetails(
         acronym = 'Ki67',
         display = 'Ki-67 nuclear Ag',
-        value_types =  [AnalyteResultType.fraction]
+        valueTypes =  [AnalyteResultType.fraction]
     ),
     "LP420961-7": AnalyteDetails(
         acronym = 'MLH3',
         display = 'DNA mismatch repair protein MLH3',
-        value_types =  [AnalyteResultType.nuclear_expression_status]
+        valueTypes =  [AnalyteResultType.nuclear_expression_status]
     ),
     "LP212189-7": AnalyteDetails(
         acronym = 'MLH1',
         display = 'DNA mismatch repair protein MLH1',
-        value_types =  [AnalyteResultType.nuclear_expression_status]
+        valueTypes =  [AnalyteResultType.nuclear_expression_status]
     ),
     "LP212190-5": AnalyteDetails(
         acronym = 'MSH2',
         display = 'DNA mismatch repair protein MSH2',
-        value_types =  [AnalyteResultType.nuclear_expression_status]
+        valueTypes =  [AnalyteResultType.nuclear_expression_status]
     ),
     "LP420964-1": AnalyteDetails(
         acronym = 'MSH3',
         display = 'DNA mismatch repair protein MSH3',
-        value_types =  [AnalyteResultType.nuclear_expression_status]
+        valueTypes =  [AnalyteResultType.nuclear_expression_status]
     ),
     "LP212191-3": AnalyteDetails(
         acronym = 'MSH6',
         display = 'DNA mismatch repair protein MSH6',
-        value_types =  [AnalyteResultType.nuclear_expression_status]
+        valueTypes =  [AnalyteResultType.nuclear_expression_status]
     ),
     "LP212192-1": AnalyteDetails(
         acronym = 'PMS2',
         display = 'Mismatch repair endonuclease PMS2',
-        value_types =  [AnalyteResultType.nuclear_expression_status]
+        valueTypes =  [AnalyteResultType.nuclear_expression_status]
     ),
     "LP19646-6": AnalyteDetails(
         acronym = 'p16',
         display = 'Cyclin-dependent Kinase Inhibitor 2A',
-        value_types =  [AnalyteResultType.presence]
+        valueTypes =  [AnalyteResultType.presence]
     ),
     "LP38570-5": AnalyteDetails(
         acronym = 'HPV DNA',
         display = 'Human papilloma virus DNA',
-        value_types =  [AnalyteResultType.presence]
+        valueTypes =  [AnalyteResultType.presence]
     ),
     "LP38067-2": AnalyteDetails(
         acronym = 'EBV DNA',
         display = 'Epstein Barr Virus DNA',
-        value_types =  [
+        valueTypes =  [
             AnalyteResultType.arbitary_concentration, 
             AnalyteResultType.presence
         ]
@@ -475,7 +474,7 @@ ANALYTES_DATA = {
     "C17922": AnalyteDetails(
         acronym = 'SSTR2',
         display = 'Somatostatin Receptor Type 2',
-        value_types =  [AnalyteResultType.fraction]
+        valueTypes =  [AnalyteResultType.fraction]
     ),
 }
 

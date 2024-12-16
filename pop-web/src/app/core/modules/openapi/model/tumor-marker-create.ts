@@ -7,7 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TumorMarkerTumorProportionScoreChoices } from './tumor-marker-tumor-proportion-score-choices';
 import { MeasureSchema } from './measure-schema';
+import { TumorMarkerNuclearExpressionStatusChoices } from './tumor-marker-nuclear-expression-status-choices';
+import { TumorMarkerImmunohistochemicalScoreChoices } from './tumor-marker-immunohistochemical-score-choices';
+import { TumorMarkerPresenceChoices } from './tumor-marker-presence-choices';
+import { TumorMarkerImmuneCellScoreChoices } from './tumor-marker-immune-cell-score-choices';
+import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface TumorMarkerCreate { 
@@ -22,16 +28,24 @@ export interface TumorMarkerCreate {
     /**
      * The chemical or biological substance/agent that is analyzed.
      */
-    analyte: string;
+    analyte: CodedConceptSchema;
     massConcentration?: MeasureSchema | null;
     arbitraryConcentration?: MeasureSchema | null;
     substanceConcentration?: MeasureSchema | null;
     fraction?: MeasureSchema | null;
     multipleOfMedian?: MeasureSchema | null;
-    classification?: string | null;
+    tumorProportionScore?: TumorMarkerTumorProportionScoreChoices | null;
+    immuneCellScore?: TumorMarkerImmuneCellScoreChoices | null;
+    combinedPositiveScore?: MeasureSchema | null;
+    immunohistochemicalScore?: TumorMarkerImmunohistochemicalScoreChoices | null;
+    presence?: TumorMarkerPresenceChoices | null;
+    nuclearExpressionStatus?: TumorMarkerNuclearExpressionStatusChoices | null;
     /**
      * References to the neoplastic entities that are related or the focus of the tumor marker analysis.
      */
     relatedEntitiesIds?: Array<string>;
 }
+export namespace TumorMarkerCreate {
+}
+
 

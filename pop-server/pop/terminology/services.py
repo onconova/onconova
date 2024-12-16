@@ -305,7 +305,7 @@ def collect_codedconcept_terminology(
         for concept in tqdm(concepts, total=len(concepts), desc='• Transforming displays'):
             if concept and concept.display:
                 concept.synonyms.append(concept.display)
-                concept.display = CodedConceptModel.transform(concept)    
+                concept = CodedConceptModel.transform(concept)    
                 print(concept.code, concept.display)            
 
     # Keep track of the update process

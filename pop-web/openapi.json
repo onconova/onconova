@@ -502,7 +502,7 @@
                   "local_recurrence",
                   "regional_recurrence"
                 ],
-                "title": "NeoplasticRelationship",
+                "title": "NeoplasticEntityRelationshipChoices",
                 "type": "string"
               },
               "title": "Type",
@@ -757,6 +757,35 @@
             "schema": {
               "title": "Caseid",
               "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "stagingDomain",
+            "schema": {
+              "items": {
+                "enum": [
+                  "tnm",
+                  "figo",
+                  "binet",
+                  "rai",
+                  "breslow",
+                  "clark",
+                  "iss",
+                  "riss",
+                  "inss",
+                  "inrgss",
+                  "gleason",
+                  "rhabdomyosarcoma",
+                  "wilms",
+                  "lymphoma"
+                ],
+                "title": "StagingDomain",
+                "type": "string"
+              },
+              "title": "Stagingdomain",
+              "type": "array"
             },
             "required": false
           },
@@ -1211,6 +1240,46 @@
         ]
       }
     },
+    "/api/tumor-markers/analytes/{analyteCode}/details": {
+      "get": {
+        "operationId": "getTumorMarkerAnalyteDetailsByCode",
+        "summary": "Get Tumor Marker Analyte Details By Code",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analyteCode",
+            "schema": {
+              "title": "Analytecode",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyteDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Tumor Markers"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/measures/{measureName}/units/conversion": {
       "post": {
         "operationId": "convertUnits",
@@ -1254,6 +1323,42 @@
           },
           "required": true
         }
+      }
+    },
+    "/api/measures/{measureName}/units/default": {
+      "get": {
+        "operationId": "getMeasureDefaultUnits",
+        "summary": "Get Measure Default Units",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "measureName",
+            "schema": {
+              "title": "Measurename",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Measures"
+        ]
       }
     },
     "/api/measures/{measureName}/units": {
@@ -1965,6 +2070,7 @@
             "type": "string"
           },
           "relationship": {
+            "$ref": "#/components/schemas/NeoplasticEntityRelationshipChoices",
             "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
             "examples": [],
             "expanded": false,
@@ -1973,8 +2079,7 @@
             "maxLength": 30,
             "one_to_many": false,
             "orm_name": "relationship",
-            "title": "Neoplastic relationship",
-            "type": "string"
+            "title": "Neoplastic relationship"
           },
           "relatedPrimaryId": {
             "anyOf": [
@@ -2079,14 +2184,14 @@
         "title": "NeoplasticEntityCreate",
         "type": "object"
       },
-      "NeoplasticRelationship": {
+      "NeoplasticEntityRelationshipChoices": {
         "enum": [
           "primary",
           "metastatic",
           "local_recurrence",
           "regional_recurrence"
         ],
-        "title": "NeoplasticRelationship",
+        "title": "NeoplasticEntityRelationshipChoices",
         "type": "string"
       },
       "NeoplasticEntity": {
@@ -2159,6 +2264,7 @@
             "type": "string"
           },
           "relationship": {
+            "$ref": "#/components/schemas/NeoplasticEntityRelationshipChoices",
             "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
             "examples": [],
             "expanded": false,
@@ -2167,8 +2273,7 @@
             "maxLength": 30,
             "one_to_many": false,
             "orm_name": "relationship",
-            "title": "Neoplastic relationship",
-            "type": "string"
+            "title": "Neoplastic relationship"
           },
           "relatedPrimaryId": {
             "anyOf": [
@@ -3584,6 +3689,26 @@
         ],
         "title": "WilmsStageCreate",
         "type": "object"
+      },
+      "StagingDomain": {
+        "enum": [
+          "tnm",
+          "figo",
+          "binet",
+          "rai",
+          "breslow",
+          "clark",
+          "iss",
+          "riss",
+          "inss",
+          "inrgss",
+          "gleason",
+          "rhabdomyosarcoma",
+          "wilms",
+          "lymphoma"
+        ],
+        "title": "StagingDomain",
+        "type": "string"
       },
       "BinetStaging": {
         "properties": {
@@ -6019,16 +6144,16 @@
             "type": "string"
           },
           "analyte": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The chemical or biological substance/agent that is analyzed.",
             "examples": [],
             "expanded": false,
-            "is_relation": false,
+            "is_relation": true,
             "many_to_many": false,
-            "maxLength": 50,
             "one_to_many": false,
             "orm_name": "analyte",
-            "title": "Analyte",
-            "type": "string"
+            "terminology": "TumorMarkerAnalyte",
+            "title": "Analyte"
           },
           "massConcentration": {
             "anyOf": [
@@ -6120,24 +6245,118 @@
             "orm_name": "multiple_of_median",
             "title": "Multiples of the median"
           },
-          "classification": {
+          "tumorProportionScore": {
             "anyOf": [
               {
-                "maxLength": 50,
-                "type": "string"
+                "$ref": "#/components/schemas/TumorMarkerTumorProportionScoreChoices",
+                "maxLength": 50
               },
               {
                 "type": "null"
               }
             ],
-            "description": "Qualitative classification of the analyte",
+            "description": "Categorization of the percentage of cells in a tumor that express PD-L1",
             "examples": [],
             "expanded": false,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "classification",
-            "title": "Classification"
+            "orm_name": "tumor_proportion_score",
+            "title": "Immune Cells Score (ICS)"
+          },
+          "immuneCellScore": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerImmuneCellScoreChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Categorization of the percentage of PD-L1 positive immune cells",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "immune_cell_score",
+            "title": "Immune Cells Score (ICS)"
+          },
+          "combinedPositiveScore": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "combined_positive_score",
+            "title": "Combined Positive Score (CPS)"
+          },
+          "immunohistochemicalScore": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerImmunohistochemicalScoreChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Categorization of the number of analyte-positive cells in a sample",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "immunohistochemical_score",
+            "title": "Immunohistochemical Score"
+          },
+          "presence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerPresenceChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether an analyte has tested positive or negative.",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "presence",
+            "title": "Presence"
+          },
+          "nuclearExpressionStatus": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerNuclearExpressionStatusChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Categorization of the status of expression of the analyte",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "nuclear_expression_status",
+            "title": "Nuclear expression status"
           },
           "relatedEntitiesIds": {
             "default": [],
@@ -6162,6 +6381,55 @@
         ],
         "title": "TumorMarkerCreate",
         "type": "object"
+      },
+      "TumorMarkerImmuneCellScoreChoices": {
+        "enum": [
+          "IC0",
+          "IC1",
+          "IC2",
+          "IC3"
+        ],
+        "title": "TumorMarkerImmuneCellScoreChoices",
+        "type": "string"
+      },
+      "TumorMarkerImmunohistochemicalScoreChoices": {
+        "enum": [
+          "0",
+          "1+",
+          "2+",
+          "3+",
+          "indeterminate"
+        ],
+        "title": "TumorMarkerImmunohistochemicalScoreChoices",
+        "type": "string"
+      },
+      "TumorMarkerNuclearExpressionStatusChoices": {
+        "enum": [
+          "intact",
+          "loss",
+          "indeterminate"
+        ],
+        "title": "TumorMarkerNuclearExpressionStatusChoices",
+        "type": "string"
+      },
+      "TumorMarkerPresenceChoices": {
+        "enum": [
+          "positive",
+          "negative",
+          "indeterminate"
+        ],
+        "title": "TumorMarkerPresenceChoices",
+        "type": "string"
+      },
+      "TumorMarkerTumorProportionScoreChoices": {
+        "enum": [
+          "TC0",
+          "TC1",
+          "TC2",
+          "TC3"
+        ],
+        "title": "TumorMarkerTumorProportionScoreChoices",
+        "type": "string"
       },
       "Paginated_TumorMarker_": {
         "properties": {
@@ -6266,16 +6534,16 @@
             "type": "string"
           },
           "analyte": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The chemical or biological substance/agent that is analyzed.",
             "examples": [],
             "expanded": false,
-            "is_relation": false,
+            "is_relation": true,
             "many_to_many": false,
-            "maxLength": 50,
             "one_to_many": false,
             "orm_name": "analyte",
-            "title": "Analyte",
-            "type": "string"
+            "terminology": "TumorMarkerAnalyte",
+            "title": "Analyte"
           },
           "massConcentration": {
             "anyOf": [
@@ -6367,24 +6635,118 @@
             "orm_name": "multiple_of_median",
             "title": "Multiples of the median"
           },
-          "classification": {
+          "tumorProportionScore": {
             "anyOf": [
               {
-                "maxLength": 50,
-                "type": "string"
+                "$ref": "#/components/schemas/TumorMarkerTumorProportionScoreChoices",
+                "maxLength": 50
               },
               {
                 "type": "null"
               }
             ],
-            "description": "Qualitative classification of the analyte",
+            "description": "Categorization of the percentage of cells in a tumor that express PD-L1",
             "examples": [],
             "expanded": false,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "classification",
-            "title": "Classification"
+            "orm_name": "tumor_proportion_score",
+            "title": "Immune Cells Score (ICS)"
+          },
+          "immuneCellScore": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerImmuneCellScoreChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Categorization of the percentage of PD-L1 positive immune cells",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "immune_cell_score",
+            "title": "Immune Cells Score (ICS)"
+          },
+          "combinedPositiveScore": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "combined_positive_score",
+            "title": "Combined Positive Score (CPS)"
+          },
+          "immunohistochemicalScore": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerImmunohistochemicalScoreChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Categorization of the number of analyte-positive cells in a sample",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "immunohistochemical_score",
+            "title": "Immunohistochemical Score"
+          },
+          "presence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerPresenceChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether an analyte has tested positive or negative.",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "presence",
+            "title": "Presence"
+          },
+          "nuclearExpressionStatus": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMarkerNuclearExpressionStatusChoices",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Categorization of the status of expression of the analyte",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "nuclear_expression_status",
+            "title": "Nuclear expression status"
           },
           "updatedByIds": {
             "default": [],
@@ -6428,6 +6790,49 @@
         ],
         "title": "TumorMarker",
         "type": "object"
+      },
+      "AnalyteDetails": {
+        "properties": {
+          "acronym": {
+            "title": "Acronym",
+            "type": "string"
+          },
+          "display": {
+            "title": "Display",
+            "type": "string"
+          },
+          "valueTypes": {
+            "items": {
+              "$ref": "#/components/schemas/AnalyteResultType"
+            },
+            "title": "Valuetypes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "acronym",
+          "display",
+          "valueTypes"
+        ],
+        "title": "AnalyteDetails",
+        "type": "object"
+      },
+      "AnalyteResultType": {
+        "enum": [
+          "MassConcentration",
+          "ArbitraryConcentration",
+          "SubstanceConcentration",
+          "MultipleOfMedian",
+          "Fraction",
+          "Presence",
+          "CombinedPositiveScore",
+          "ImmuneCellsScore",
+          "TumorProportionScore",
+          "ImmunoHistoChemicalScore",
+          "NuclearExpressionStatus"
+        ],
+        "title": "AnalyteResultType",
+        "type": "string"
       },
       "MeasureConversionSchema": {
         "properties": {

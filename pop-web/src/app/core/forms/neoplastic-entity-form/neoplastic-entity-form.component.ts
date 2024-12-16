@@ -9,7 +9,7 @@ import { Ribbon } from 'lucide-angular';
 import { 
   NeoplasticEntity, 
   NeoplasticEntitiesService,
-  NeoplasticRelationship, 
+  NeoplasticEntityRelationshipChoices, 
   NeoplasticEntityCreate
 } from '../../modules/openapi'
 
@@ -63,10 +63,10 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   public morphologyCodeFilter: MorphologicalBehaviors = '/3';
   public relatedPrimaries!: NeoplasticEntity[];
   public relationshipOptions = [
-    { name: 'Primary', code: NeoplasticRelationship.Primary },
-    { name: 'Metastatic', code: NeoplasticRelationship.Metastatic },
-    { name: 'Local recurrence', code: NeoplasticRelationship.LocalRecurrence },
-    { name: 'Regional recurrence', code: NeoplasticRelationship.RegionalRecurrence },
+    { name: 'Primary', code: NeoplasticEntityRelationshipChoices.Primary },
+    { name: 'Metastatic', code: NeoplasticEntityRelationshipChoices.Metastatic },
+    { name: 'Local recurrence', code: NeoplasticEntityRelationshipChoices.LocalRecurrence },
+    { name: 'Regional recurrence', code: NeoplasticEntityRelationshipChoices.RegionalRecurrence },
   ]
 
   ngOnInit() {
@@ -110,15 +110,15 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
 
   private onNeoplastiCRelationshipChange(relationship: string): void {
     // Update base filter for morphology codes     
-    if (relationship === NeoplasticRelationship.Metastatic) {
+    if (relationship === NeoplasticEntityRelationshipChoices.Metastatic) {
       this.morphologyCodeFilter = '/6'
     } else {
       this.morphologyCodeFilter = '/3'
     }  
-    this.requiresPrimary = relationship !== NeoplasticRelationship.Primary
+    this.requiresPrimary = relationship !== NeoplasticEntityRelationshipChoices.Primary
 
     const relatedPrimary = this.form.get('relatedPrimary')
-    if (relationship !== NeoplasticRelationship.Primary) {
+    if (relationship !== NeoplasticEntityRelationshipChoices.Primary) {
       relatedPrimary?.removeValidators(Validators.required);
     } else {
       relatedPrimary?.addValidators(Validators.required);
@@ -127,7 +127,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   };
 
   private getRelatedPrimaries() {
-    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, [NeoplasticRelationship.Primary]).subscribe(
+    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, [NeoplasticEntityRelationshipChoices.Primary]).subscribe(
       (response) => {
           this.relatedPrimaries = response.items
       }

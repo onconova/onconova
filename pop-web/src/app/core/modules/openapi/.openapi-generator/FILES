@@ -21,6 +21,8 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/analyte-details.ts
+model/analyte-result-type.ts
 model/binet-staging-create.ts
 model/binet-staging.ts
 model/breslow-depth-create.ts
@@ -46,8 +48,8 @@ model/measure-conversion-schema.ts
 model/measure-schema.ts
 model/models.ts
 model/neoplastic-entity-create.ts
+model/neoplastic-entity-relationship-choices.ts
 model/neoplastic-entity.ts
-model/neoplastic-relationship.ts
 model/new-sliding-token-schema.ts
 model/old-sliding-token-schema.ts
 model/paginated-neoplastic-entity.ts
@@ -68,9 +70,15 @@ model/rhabdomyosarcoma-clinical-group.ts
 model/riss-staging-create.ts
 model/riss-staging.ts
 model/sliding-token-schema.ts
+model/staging-domain.ts
 model/tnm-staging-create.ts
 model/tnm-staging.ts
 model/tumor-marker-create.ts
+model/tumor-marker-immune-cell-score-choices.ts
+model/tumor-marker-immunohistochemical-score-choices.ts
+model/tumor-marker-nuclear-expression-status-choices.ts
+model/tumor-marker-presence-choices.ts
+model/tumor-marker-tumor-proportion-score-choices.ts
 model/tumor-marker.ts
 model/user-credentials-schema.ts
 model/user-schema.ts

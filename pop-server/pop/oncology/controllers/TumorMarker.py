@@ -11,7 +11,7 @@ from pop.oncology.models import TumorMarker
 from pop.oncology.models.TumorMarker import AnalyteDetails, ANALYTES_DATA
 
 from django.shortcuts import get_object_or_404
-from typing import List
+from typing import List,Dict
 
 from pop.oncology.schemas import TumorMarkerSchema, TumorMarkerCreateSchema
 
@@ -92,17 +92,16 @@ class TumorMarkerController(ControllerBase):
         instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
         instance.delete()
         return 204, None
-    
-    
+
     @route.get(
         path='analytes/{analyteCode}/details', 
         response={
             200: AnalyteDetails,
             404: None,
         },
-        operation_id='getTumorMarkerAnalyteDetails',
+        operation_id='getTumorMarkerAnalyteDetailsByCode',
     )
-    def get_tumor_marker_analyte_details(self, analyteCode: str):
+    def get_tumor_marker_analyte_details_by_code(self, analyteCode: str):
         instance = ANALYTES_DATA.get(analyteCode)
         if instance is None:
             return 404, None

@@ -324,20 +324,27 @@ export class StagingsService implements StagingsServiceInterface {
     /**
      * Get All Stagings Matching The Query
      * @param caseId 
+     * @param stagingDomain 
      * @param limit 
      * @param offset 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getStagings(caseId?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>;
-    public getStagings(caseId?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>>;
-    public getStagings(caseId?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>>;
-    public getStagings(caseId?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>;
+    public getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>>;
+    public getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>>;
+    public getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>caseId, 'caseId');
+        }
+        if (stagingDomain) {
+            stagingDomain.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'stagingDomain');
+            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

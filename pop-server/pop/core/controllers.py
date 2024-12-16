@@ -106,6 +106,20 @@ class MeasuresController(ControllerBase):
             ]
         return 200, units
 
+    @route.get(
+        path="/{measureName}/units/default", 
+        operation_id='getMeasureDefaultUnits',
+        response={
+            200: str,
+            404: None
+        }, 
+    )
+    def get_measure_default_units(self, measureName: str):
+        measure = getattr(measures, measureName, None)
+        if measure is None:
+            return 404, None
+        return 200, measure.STANDARD_UNIT
+
 
     @route.post(
         path="/{measureName}/units/conversion", 

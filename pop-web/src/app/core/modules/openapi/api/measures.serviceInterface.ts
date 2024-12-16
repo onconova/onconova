@@ -32,6 +32,13 @@ export interface MeasuresServiceInterface {
     convertUnits(measureName: string, measureConversionSchema: MeasureConversionSchema, extraHttpRequestParams?: any): Observable<MeasureSchema>;
 
     /**
+     * Get Measure Default Units
+     * 
+     * @param measureName 
+     */
+    getMeasureDefaultUnits(measureName: string, extraHttpRequestParams?: any): Observable<string>;
+
+    /**
      * Get Measure Units
      * 
      * @param measureName 
