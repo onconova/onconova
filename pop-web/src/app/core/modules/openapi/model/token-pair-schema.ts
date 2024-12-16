@@ -9,11 +9,12 @@
  */
 
 
-export interface SlidingTokenSchema { 
+export interface TokenPairSchema { 
     /**
      * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
      */
     username: string;
-    token: string;
+    refresh: string;
+    access: string;
 }
 

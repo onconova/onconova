@@ -17,11 +17,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { NewSlidingTokenSchema } from '../model/new-sliding-token-schema';
+import { RefreshedTokenPairSchema } from '../model/refreshed-token-pair-schema';
 // @ts-ignore
-import { OldSlidingTokenSchema } from '../model/old-sliding-token-schema';
+import { TokenPairSchema } from '../model/token-pair-schema';
 // @ts-ignore
-import { SlidingTokenSchema } from '../model/sliding-token-schema';
+import { TokenRefreshSchema } from '../model/token-refresh-schema';
 // @ts-ignore
 import { UserCredentialsSchema } from '../model/user-credentials-schema';
 // @ts-ignore
@@ -102,14 +102,14 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Obtain Token
+     * Obtain Token Pair
      * @param userCredentialsSchema 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<SlidingTokenSchema>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<SlidingTokenSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<SlidingTokenSchema>>;
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TokenPairSchema>;
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TokenPairSchema>>;
+    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TokenPairSchema>>;
     public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (userCredentialsSchema === null || userCredentialsSchema === undefined) {
             throw new Error('Required parameter userCredentialsSchema was null or undefined when calling getSlidingToken.');
@@ -160,8 +160,8 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/sliding`;
-        return this.httpClient.request<SlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/auth/token/pair`;
+        return this.httpClient.request<TokenPairSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: userCredentialsSchema,
@@ -314,17 +314,17 @@ export class AuthService implements AuthServiceInterface {
     }
 
     /**
-     * Refresh Token
-     * @param oldSlidingTokenSchema 
+     * Refresh Token Pair
+     * @param tokenRefreshSchema 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<NewSlidingTokenSchema>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<NewSlidingTokenSchema>>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<NewSlidingTokenSchema>>;
-    public refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (oldSlidingTokenSchema === null || oldSlidingTokenSchema === undefined) {
-            throw new Error('Required parameter oldSlidingTokenSchema was null or undefined when calling refereshSlidingToken.');
+    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RefreshedTokenPairSchema>;
+    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RefreshedTokenPairSchema>>;
+    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RefreshedTokenPairSchema>>;
+    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (tokenRefreshSchema === null || tokenRefreshSchema === undefined) {
+            throw new Error('Required parameter tokenRefreshSchema was null or undefined when calling refereshSlidingToken.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -372,11 +372,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/sliding/refresh`;
-        return this.httpClient.request<NewSlidingTokenSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/auth/token/refresh`;
+        return this.httpClient.request<RefreshedTokenPairSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: oldSlidingTokenSchema,
+                body: tokenRefreshSchema,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

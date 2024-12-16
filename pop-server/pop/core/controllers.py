@@ -3,6 +3,7 @@ from datetime import datetime
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_jwt.controller import TokenObtainPairController
 from ninja_jwt.authentication import JWTAuth
+from ninja_jwt.tokens import AccessToken, RefreshToken
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -11,9 +12,9 @@ from typing import List
 
 from pop.core.schemas import (
     UserSchema, 
-    NewSlidingTokenSchema, 
-    OldSlidingTokenSchema,
-    SlidingTokenSchema, 
+    TokenRefreshSchema, 
+    RefreshedTokenPairSchema,
+    TokenPairSchema, 
     UserCredentialsSchema
 )
 from measurement.base import MeasureBase, BidimensionalMeasure
@@ -21,27 +22,29 @@ from pop.core.schemas import MeasureConversionSchema, MeasureSchema
 import pop.core.measures as measures
 
 
-@api_controller("/auth", tags=["Auth"])
-class AuthController(TokenObtainPairController):
-    auto_import = False
+@api_controller(
+    "/auth/token", 
+    tags=["Auth"]
+)
+class AuthController(ControllerBase):
 
     @route.post(
-        "/sliding",
-        response=SlidingTokenSchema,
+        "/pair",
+        response=TokenPairSchema,
         url_name="token_obtain_sliding",
         operation_id="getSlidingToken",
     )
-    def obtain_token(self, user_credentials: UserCredentialsSchema):
-        user_credentials.check_user_authentication_rule()
-        return user_credentials.to_response_schema()
+    def obtain_token_pair(self, credentials: UserCredentialsSchema):
+        credentials.check_user_authentication_rule()
+        return credentials.to_response_schema()
 
     @route.post(
-        "/sliding/refresh",
-        response=NewSlidingTokenSchema,
+        "/refresh",
+        response=RefreshedTokenPairSchema,
         url_name="token_refresh_sliding",
         operation_id="refereshSlidingToken",
     )
-    def refresh_token(self, refresh_token: OldSlidingTokenSchema):
+    def refresh_token_pair(self, refresh_token: TokenRefreshSchema):
         return refresh_token.to_response_schema()
     
     

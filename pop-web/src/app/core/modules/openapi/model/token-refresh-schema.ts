@@ -9,7 +9,7 @@
  */
 
 
-export interface NewSlidingTokenSchema { 
-    token: string;
+export interface TokenRefreshSchema { 
+    refresh: string;
 }
 

@@ -5,9 +5,9 @@ from .schemas import (
     MeasureSchema,
     MeasureConversionSchema,
     CodedConceptSchema, 
-    NewSlidingTokenSchema,
-    OldSlidingTokenSchema,  
-    SlidingTokenSchema, 
+    RefreshedTokenPairSchema,
+    TokenRefreshSchema,  
+    TokenPairSchema, 
     UserCredentialsSchema,
     Paginated
 )
@@ -26,9 +26,9 @@ __all__ = (
     CodedConceptSchema,
     UserSchema, 
     ResourceIdSchema,
-    NewSlidingTokenSchema, 
-    OldSlidingTokenSchema, 
-    SlidingTokenSchema, 
+    RefreshedTokenPairSchema, 
+    TokenRefreshSchema, 
+    TokenPairSchema, 
     Paginated,
     UserCredentialsSchema,
 )

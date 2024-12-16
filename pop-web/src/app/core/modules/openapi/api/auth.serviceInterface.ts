@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { NewSlidingTokenSchema } from '../model/models';
-import { OldSlidingTokenSchema } from '../model/models';
-import { SlidingTokenSchema } from '../model/models';
+import { RefreshedTokenPairSchema } from '../model/models';
+import { TokenPairSchema } from '../model/models';
+import { TokenRefreshSchema } from '../model/models';
 import { UserCredentialsSchema } from '../model/models';
 import { UserSchema } from '../model/models';
 
@@ -27,11 +27,11 @@ export interface AuthServiceInterface {
     configuration: Configuration;
 
     /**
-     * Obtain Token
+     * Obtain Token Pair
      * 
      * @param userCredentialsSchema 
      */
-    getSlidingToken(userCredentialsSchema: UserCredentialsSchema, extraHttpRequestParams?: any): Observable<SlidingTokenSchema>;
+    getSlidingToken(userCredentialsSchema: UserCredentialsSchema, extraHttpRequestParams?: any): Observable<TokenPairSchema>;
 
     /**
      * Get User By Id
@@ -47,10 +47,10 @@ export interface AuthServiceInterface {
     getUsers(extraHttpRequestParams?: any): Observable<Array<UserSchema>>;
 
     /**
-     * Refresh Token
+     * Refresh Token Pair
      * 
-     * @param oldSlidingTokenSchema 
+     * @param tokenRefreshSchema 
      */
-    refereshSlidingToken(oldSlidingTokenSchema: OldSlidingTokenSchema, extraHttpRequestParams?: any): Observable<NewSlidingTokenSchema>;
+    refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, extraHttpRequestParams?: any): Observable<RefreshedTokenPairSchema>;
 
 }

@@ -5,7 +5,7 @@ from pydantic import ConfigDict, SecretStr
 from django.contrib.auth import get_user_model
 
 from ninja_extra.schemas import NinjaPaginationResponseSchema
-from ninja_jwt.schema import TokenObtainSlidingInputSchema, TokenObtainSlidingOutputSchema, TokenRefreshSlidingInputSchema, TokenRefreshSlidingOutputSchema
+from ninja_jwt.schema import TokenObtainPairInputSchema, TokenObtainPairOutputSchema, TokenRefreshInputSchema, TokenRefreshOutputSchema
 from typing_extensions import Annotated
 
 UserModel = get_user_model()
@@ -30,7 +30,7 @@ class UserSchema(Schema):
     )
 
     
-class UserCredentialsSchema(TokenObtainSlidingInputSchema):
+class UserCredentialsSchema(TokenObtainPairInputSchema):
     username: str
     password: SecretStr
     # Schema config
@@ -38,22 +38,24 @@ class UserCredentialsSchema(TokenObtainSlidingInputSchema):
         title='UserCredentials',
     )
 
-class OldSlidingTokenSchema(TokenRefreshSlidingInputSchema):
+class TokenPairSchema(TokenObtainPairOutputSchema):
+
     # Schema config
     model_config = ConfigDict(
-        title='OldSlidingToken',
+        title='TokenPair',
     )
 
-class NewSlidingTokenSchema(TokenRefreshSlidingOutputSchema):
+
+class TokenRefreshSchema(TokenRefreshInputSchema):
     # Schema config
     model_config = ConfigDict(
-        title='OldSlidingToken',
+        title='TokenRefresh',
     )
 
-class SlidingTokenSchema(TokenObtainSlidingOutputSchema):
+class RefreshedTokenPairSchema(TokenRefreshOutputSchema):
     # Schema config
     model_config = ConfigDict(
-        title='SlidingToken',
+        title='RefreshedTokenPair',
     )
 
 class Paginated(NinjaPaginationResponseSchema):

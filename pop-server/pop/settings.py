@@ -75,9 +75,9 @@ SESSION_EXPIRE_SECONDS = 3600*12  # Sessions expire after 12 hours
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False # Close sessions when closing browsers
 
 NINJA_JWT = {
-    "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.SlidingToken",),
-    "SLIDING_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": datetime.timedelta(days=7),
+    "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.AccessToken","ninja_jwt.tokens.RefreshToken"),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
 
 # User time-limited edit permission expiration

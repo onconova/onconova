@@ -6,10 +6,10 @@
     "description": "Precision Oncology Platform API for exchange of research cancer data"
   },
   "paths": {
-    "/api/auth/sliding": {
+    "/api/auth/token/pair": {
       "post": {
         "operationId": "getSlidingToken",
-        "summary": "Obtain Token",
+        "summary": "Obtain Token Pair",
         "parameters": [],
         "responses": {
           "200": {
@@ -17,7 +17,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SlidingTokenSchema"
+                  "$ref": "#/components/schemas/TokenPairSchema"
                 }
               }
             }
@@ -38,10 +38,10 @@
         }
       }
     },
-    "/api/auth/sliding/refresh": {
+    "/api/auth/token/refresh": {
       "post": {
         "operationId": "refereshSlidingToken",
-        "summary": "Refresh Token",
+        "summary": "Refresh Token Pair",
         "parameters": [],
         "responses": {
           "200": {
@@ -49,7 +49,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NewSlidingTokenSchema"
+                  "$ref": "#/components/schemas/RefreshedTokenPairSchema"
                 }
               }
             }
@@ -62,7 +62,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OldSlidingTokenSchema"
+                "$ref": "#/components/schemas/TokenRefreshSchema"
               }
             }
           },
@@ -1453,7 +1453,7 @@
   },
   "components": {
     "schemas": {
-      "SlidingTokenSchema": {
+      "TokenPairSchema": {
         "properties": {
           "username": {
             "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
@@ -1461,16 +1461,21 @@
             "title": "Username",
             "type": "string"
           },
-          "token": {
-            "title": "Token",
+          "refresh": {
+            "title": "Refresh",
+            "type": "string"
+          },
+          "access": {
+            "title": "Access",
             "type": "string"
           }
         },
         "required": [
           "username",
-          "token"
+          "refresh",
+          "access"
         ],
-        "title": "SlidingToken",
+        "title": "TokenPair",
         "type": "object"
       },
       "UserCredentialsSchema": {
@@ -1493,30 +1498,42 @@
         "title": "UserCredentials",
         "type": "object"
       },
-      "NewSlidingTokenSchema": {
+      "RefreshedTokenPairSchema": {
         "properties": {
-          "token": {
-            "title": "Token",
+          "refresh": {
+            "title": "Refresh",
             "type": "string"
+          },
+          "access": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access"
           }
         },
         "required": [
-          "token"
+          "refresh",
+          "access"
         ],
-        "title": "OldSlidingToken",
+        "title": "RefreshedTokenPair",
         "type": "object"
       },
-      "OldSlidingTokenSchema": {
+      "TokenRefreshSchema": {
         "properties": {
-          "token": {
-            "title": "Token",
+          "refresh": {
+            "title": "Refresh",
             "type": "string"
           }
         },
         "required": [
-          "token"
+          "refresh"
         ],
-        "title": "OldSlidingToken",
+        "title": "TokenRefresh",
         "type": "object"
       },
       "UserSchema": {
