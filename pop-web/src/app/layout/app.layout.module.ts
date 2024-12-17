@@ -16,6 +16,11 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ButtonModule } from 'primeng/button';
 import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
+import { MenuModule } from 'primeng/menu';
+import { AvatarModule } from 'primeng/avatar';
+
+import { MessageService } from 'primeng/api';
+
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
 import { AppTopBarComponent } from './components/topbar/app.topbar.component';
@@ -23,7 +28,6 @@ import { AppFooterComponent } from './components/footer/app.footer.component';
 import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 
-import { MessageService } from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -40,6 +44,8 @@ import { MessageService } from 'primeng/api';
         HttpClientModule,
         InlineSVGModule,
         TieredMenuModule,
+        MenuModule,
+        AvatarModule,
         ButtonModule,
         MessagesModule,
         ToastModule,

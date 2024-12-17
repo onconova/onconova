@@ -6,7 +6,6 @@ import { AuthService } from '../../../auth/auth.service';
 import { Router } from '@angular/router';
 import { updatePreset } from '@primeng/themes';
 
-
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
@@ -29,38 +28,46 @@ export class AppTopBarComponent {
         public layoutService: LayoutService,
         private router: Router,
         private messageService: MessageService,
-        private authService: AuthService) { 
+        public authService: AuthService) { 
 
         this.profile_items = [
             {
-                label: 'Logout',
-                icon: 'pi pi-file',
-                command: () => {
-                    this.logout();
-                }
+                separator: true
             },
             {
-                label: 'Palette',
-                icon: 'pi pi-pencil',
-                command: () => {
-                    this.changePrimaryColor();
-                }
+                label: 'Profile',
+                items: [
+                    {
+                        label: 'Palette',
+                        icon: 'pi pi-pencil',
+                        command: () => {
+                            this.changePrimaryColor();
+                        }
+                    },
+                    {
+                        label: 'Logout',
+                        icon: 'pi pi-file',
+                        command: () => {
+                            this.logout();
+                        }
+                    },
+                ]
             },
         ];
     }
 
 
     ngOnInit(): void {
-    const darkModePreference = localStorage.getItem('darkMode');
-    if (darkModePreference === 'true') {
-        this.themeModeIcon = 'pi pi-moon';
-        const element = document.querySelector('html');
-        if (element) {
-            element.classList.add('dark-mode');
+        const darkModePreference = localStorage.getItem('darkMode');
+        if (darkModePreference === 'true') {
+            this.themeModeIcon = 'pi pi-moon';
+            const element = document.querySelector('html');
+            if (element) {
+                element.classList.add('dark-mode');
+            }
+        } else {
+            this.themeModeIcon = 'pi pi-sun';
         }
-    } else {
-        this.themeModeIcon = 'pi pi-sun';
-    }
     }
 
     toggleDarkMode() {

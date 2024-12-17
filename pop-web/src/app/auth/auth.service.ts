@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { AuthService as APIAuthService } from '../core/modules/openapi';
 import { Observable } from 'rxjs'
 import { tap, firstValueFrom } from 'rxjs';
-import { UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from '../core/modules/openapi/';
+import { UserSchema, UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from '../core/modules/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  public username: string | null = null;
 
   constructor(
     private apiAuth: APIAuthService,
@@ -23,18 +25,30 @@ export class AuthService {
       .pipe(tap((response: TokenPairSchema) => {
         this.setAccessToken(response.access);
         this.setRefreshToken(response.refresh);
+        this.setUsername(response.username);
     })) 
   }
   
   logout(): void {
+    localStorage.removeItem('pop_access_token');
     localStorage.removeItem('pop_access_token');
   }
 
   setAccessToken(token: string) {
     localStorage.setItem('pop_access_token', token);
   }
+
   setRefreshToken(token: string) {
     localStorage.setItem('pop_refresh_token', token);
+  }
+
+  setUsername(username: string) {
+    this.username = username;
+    localStorage.setItem('pop_logged_username', username);
+  }
+
+  getUsername(): string {
+    return this.username || localStorage.getItem('pop_logged_username') || '?';
   }
 
   getAccessToken(): string | null {

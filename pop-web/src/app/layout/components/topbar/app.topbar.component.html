@@ -23,7 +23,18 @@
         <p-button [icon]="themeModeIcon" [rounded]="true" [outlined]="true" (onClick)="toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
 
         <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
-        <p-tieredMenu #profile [model]="profile_items" [popup]="true" />
+        <p-menu #profile [model]="profile_items" [popup]="true">
+            <ng-template #start>
+                <div class="flex m-3">
+                    @let username = authService.getUsername();
+                    <p-avatar [label]="username.toUpperCase()[0]" size="large" class="mr-2" shape="circle" />
+                    <div class="flex-col my-auto">
+                        <div class="font-bold mb-0">{{username}}</div>
+                        <small>Admin</small>
+                    </div>
+                </div>
+            </ng-template>
+        </p-menu>
 
     </div>
 </div>
