@@ -37,6 +37,7 @@ class SchemaFactory(NinjaSchemaFactory):
         fields: Optional[List[str]] = None,
         exclude: Optional[List[str]] = None,
         expand: List[str] = None,
+        reverse_fields: List[str] = None,
         optional_fields: Optional[List[str]] = None,
         custom_fields: Optional[List[Tuple[str, Any, Any]]] = None,
         base_class: Type[Schema] = BaseSchema,
@@ -78,6 +79,9 @@ class SchemaFactory(NinjaSchemaFactory):
 
         model_fields_list = list(self._selected_model_fields(model, fields, exclude))
 
+        if reverse_fields: 
+            model_fields_list.extend([model._meta.get_field(reverse_field) for reverse_field in reverse_fields])
+
         if optional_fields:
             if optional_fields == "__all__":
                 optional_fields = [f.name for f in model_fields_list]
@@ -88,8 +92,9 @@ class SchemaFactory(NinjaSchemaFactory):
                 continue 
             field_name, (python_type, field_info) = get_schema_field(
                 fld,
-                expand=fld.name in (expand or []),
+                expand=(expand or dict()).get(fld.name),
                 optional=optional_fields and (fld.name in optional_fields),
+                exclude_related_fields=exclude,
             )
             definitions[field_name] = (python_type, field_info)
 

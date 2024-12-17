@@ -69,7 +69,7 @@ class TestGetSchemaField(TestCase):
         
     def test_relation_field_with_expand_true(self):
         field = self._create_foreign_key_field(model=self.MockModel)
-        schema_field_name, (python_type, field_info) = get_schema_field(field, expand=True)
+        schema_field_name, (python_type, field_info) = get_schema_field(field, expand='MockModel')
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self._assert_django_field_properties(field, field_info)
         self.assertIsInstance(python_type, type)
@@ -195,7 +195,7 @@ class TestSchemaFactory(TestCase):
         django_instance.updated_by.add(user2)
 
         # Create schema
-        schema = self.factory.create_schema(PatientCase, expand=['updated_by'])
+        schema = self.factory.create_schema(PatientCase, expand={'updated_by': 'UserSchema'})
         schema_instance = schema.model_validate(django_instance)
         # Assertion
         django_instance.updated_by.set([])

@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, List, Optional, Union, no_type_check
+from typing import Any, List, Dict, Optional, Union, no_type_check
 
 from django.db.models import Model as DjangoModel 
 
@@ -18,7 +18,8 @@ class MetaConf:
     fields: Optional[List[str]] = None
     exclude: Union[List[str], str, None] = None
     schema_name: str = None
-    expand: Optional[List[str]] = None
+    expand: Optional[Dict] = None
+    reverse_fields: Optional[List[str]] = None
     fields_optional: Union[List[str], str, None] = None
 
     @staticmethod
@@ -27,6 +28,7 @@ class MetaConf:
             meta = namespace["Meta"]
             model = meta.model
             fields = getattr(meta, "fields", None)
+            reverse_fields = getattr(meta, "reverse_fields", None)
             expand = getattr(meta, "expand", None)
             schema_name = getattr(meta, "name", name)
             exclude = getattr(meta, "exclude", None)
@@ -51,6 +53,7 @@ class MetaConf:
         return MetaConf(
             model=model,
             fields=fields,
+            reverse_fields=reverse_fields,
             schema_name=schema_name,
             exclude=exclude,
             expand=expand,
@@ -101,6 +104,7 @@ class ModelSchemaMetaclass(ResolverMetaclass):
                     fields=meta_conf.fields,
                     exclude=meta_conf.exclude,
                     expand=meta_conf.expand,
+                    reverse_fields=meta_conf.reverse_fields,
                     optional_fields=meta_conf.fields_optional,
                     custom_fields=custom_fields,
                     base_class=cls,

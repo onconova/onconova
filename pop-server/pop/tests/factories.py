@@ -1,4 +1,5 @@
 import factory
+from factory.fuzzy import FuzzyChoice
 import faker
 import random 
 
@@ -120,3 +121,30 @@ class RiskAssessmentFactory(factory.django.DjangoModelFactory):
     methodology = factory.SubFactory(make_terminology_factory(terminology.CancerRiskAssessmentMethod))
     risk = factory.SubFactory(make_terminology_factory(terminology.CancerRiskAssessmentClassification))
     created_by =  factory.SubFactory(UserFactory)
+
+
+class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SystemicTherapyMedication
+    
+    drug = factory.SubFactory(make_terminology_factory(terminology.AntineoplasticAgent))
+    route = factory.SubFactory(make_terminology_factory(terminology.DosageRoute))
+
+class SystemicTherapyFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SystemicTherapy
+
+    case = factory.SubFactory(PatientCaseFactory)
+    period = factory.LazyFunction(lambda: (faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
+    cycles = factory.LazyFunction(lambda: random.randint(2,25))
+    intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
+    role = factory.SubFactory(make_terminology_factory(terminology.TreatmentCategory))
+
+    @factory.post_generation
+    def medications(self, create, *args, **kwargs):
+        if not create:
+            # Simple build, or nothing to add, do nothing.
+            return
+
+        # Add the iterable of groups using bulk addition
+        [SystemicTherapyMedicationFactory(systemic_therapy=self) for _ in range(random.randint(1,3)) ]

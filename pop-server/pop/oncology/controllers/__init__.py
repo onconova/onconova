@@ -3,6 +3,7 @@ from .NeoplasticEntity import NeoplasticEntityController
 from .Staging import StagingController
 from .TumorMarker import TumorMarkerController
 from .RiskAssessment import RiskAssessmentController
+from .SystemicTherapy import SystemicTherapyController
 
 __all__ = (
     PatientCaseController,
@@ -10,4 +11,5 @@ __all__ = (
     StagingController,
     TumorMarkerController,
     RiskAssessmentController,
+    SystemicTherapyController,
 )

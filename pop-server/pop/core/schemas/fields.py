@@ -1,6 +1,7 @@
 from typing import Dict, List, Tuple, Optional
 import enum 
 
+from django.contrib.postgres.fields import DateRangeField
 from django.db.models.fields import Field as DjangoField
 from django.db.models import CharField
 from django.contrib.auth import get_user_model
@@ -14,8 +15,9 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, MeasureSchema
+from pop.core.schemas import BaseSchema, CodedConceptSchema, MeasureSchema, PeriodSchema
 from django_measurement.models import MeasurementField
+
 UserModel = get_user_model()
 
 DJANGO_TO_PYDANTIC_TYPES = {
@@ -27,7 +29,8 @@ def get_schema_field(
         field: DjangoField, 
         *, 
         expand: bool = False, 
-        optional: bool = False
+        optional: bool = False,
+        exclude_related_fields: List[str] = [],
     ) -> Tuple[type, FieldInfo]:
     """
     Returns a pydantic field from a django model field.
@@ -70,7 +73,12 @@ def get_schema_field(
         if expand:
             from pop.core.schemas import create_schema
             model = field.related_model
-            schema = create_schema(model)
+            if field.one_to_many:
+                if not exclude_related_fields:
+                    exclude_related_fields = []
+                exclude_related_fields.append(field.field.name)
+                print('exclude_related_fields', exclude_related_fields)
+            schema = create_schema(model, exclude=exclude_related_fields, name=expand)
             if not field.concrete and field.auto_created or field.null:
                 default = None
             if field.one_to_many or field.many_to_many:
@@ -111,6 +119,8 @@ def get_schema_field(
 
         if isinstance(field, MeasurementField):
             python_type = MeasureSchema
+        elif isinstance(field, DateRangeField):
+            python_type = PeriodSchema
         elif isinstance(field, CharField) and field.choices is not None:            
             schema_field_name = to_camel_case(django_field_name)
             enum_schema_name = f'{field.model.__name__ if hasattr(field, "model") else ""}{schema_field_name[0].upper()+schema_field_name[1:]}Choices'
@@ -136,8 +146,8 @@ def get_schema_field(
     if nullable:
         python_type = Optional[python_type] 
 
-    description = field.help_text or None
-    if field.verbose_name:
+    description = getattr(field,'help_text', None)
+    if  getattr(field,'verbose_name', None):
         title = title_if_lower(field.verbose_name)
 
 

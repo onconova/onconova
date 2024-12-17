@@ -2,6 +2,7 @@ from typing import Any,List, Tuple, Type, Optional
 
 from django.db.models import Model as DjangoModel
 from django.db.models import ManyToManyRel, ManyToOneRel, ForeignKey
+from django.contrib.postgres.fields import DateRangeField 
 
 from django_measurement.models import MeasurementField
 
@@ -57,6 +58,8 @@ class BaseSchema(PydanticBaseModel):
                     data[attr_name] = getattr(obj, attr_name)
 
             obj = data
+        from pprint import pprint 
+        pprint(obj)
         return super().model_validate(obj=obj, *args, **kwargs)
 
     def model_dump(self, *args, **kwargs):
@@ -97,6 +100,7 @@ class BaseSchema(PydanticBaseModel):
         model = model or self.__ormmodel__
         create = instance is None 
         m2m_relations = {}
+        o2m_relations = {}
         if create:
             instance = model()
         serialized_data = super().model_dump()
@@ -117,11 +121,18 @@ class BaseSchema(PydanticBaseModel):
             # Handle relational fields
             if field_meta.get('is_relation'):
                 related_model = orm_field.related_model
-                if field_meta.get('many_to_many') or field_meta.get('one_to_many'):
+                if field_meta.get('many_to_many'):
                     # Collect all related instances
                     m2m_relations[orm_field.name] = [
                         related_model.objects.get(id=item.get('id') if isinstance(item, dict) else item) for item in data
                     ]
+                    # Do not set many-to-many or one-to-many fields yet
+                    continue
+                elif field_meta.get('one_to_many'):
+                    related_schema = field.annotation.__args__[0]
+                    print('field.annotation', field.annotation.__args__[0])
+                    # Collect all related instances
+                    o2m_relations[orm_field] = {'schema': related_schema, 'entries': data }
                     # Do not set many-to-many or one-to-many fields yet
                     continue
                 else:
@@ -146,14 +157,23 @@ class BaseSchema(PydanticBaseModel):
                 if isinstance(orm_field, MeasurementField) and data is not None:
                     measure = orm_field.measurement
                     setattr(instance, orm_field.name, measure(**{data.get('unit'): data.get('value')}))
+                elif isinstance(orm_field, DateRangeField):
+                    setattr(instance, orm_field.name, (data['start'], data['end']))
                 else:
                     # Otherwise simply handle all other non-relational fields
                     setattr(instance, orm_field.name, data)
         # Save the model instance to the database    
         instance.save()
         # Set many-to-many
-        for orm_field, related_instances in m2m_relations.items():
-            getattr(instance, orm_field).set(related_instances)
+        for orm_field_name, related_instances in m2m_relations.items():
+            getattr(instance, orm_field_name).set(related_instances)
+        # Set one-to-many
+        for orm_field, data in o2m_relations.items():
+            related_schema = data['schema']
+            for entry in data['entries']:               
+                related_instance = orm_field.related_model(**{f'{orm_field.field.name}': instance})
+                related_schema.model_validate(entry).model_dump_django(instance=related_instance, user=user)
+                
         # Update the information on the requesting user        
         if user:
             if create:

@@ -1,0 +1,102 @@
+
+from django.db import models
+import django.contrib.postgres.fields as postgres
+from django.utils.translation import gettext_lazy as _
+
+from pop.core.models import BaseModel 
+from pop.oncology.models import PatientCase, NeoplasticEntity 
+import pop.terminology.fields as termfields 
+import pop.terminology.models as terminologies 
+
+class SystemicTherapy(BaseModel):
+
+    class TreatmentIntent(models.TextChoices):
+        CURATIVE = 'curative'
+        PALLIATIVE = 'palliative'
+
+    case = models.ForeignKey(
+        verbose_name = _('Patient case'),
+        help_text = _("Indicates the case of the patient who received the systemic therapy"),
+        to = PatientCase,
+        related_name = 'systemic_therapies',
+        on_delete = models.CASCADE,
+    )
+    period = postgres.DateRangeField(
+        verbose_name = _('Treatment period'),
+        help_text=_("Clinically-relevant period during which the therapy was administered to the patient."),
+    ) 
+    targeted_entities = models.ManyToManyField(
+        verbose_name = _('Targeted neoplastic entities'),
+        help_text = _("References to the neoplastic entities that were targeted by the systemic therapy"),
+        to = NeoplasticEntity,
+        related_name = 'systemic_therapies',
+    )
+    #protocol = ?
+    cycles = models.PositiveIntegerField(
+        verbose_name = _('Cycles'),
+        help_text = _("The total number of treatment cycles during the treatment period."),        
+    )
+    intent = models.CharField(
+        verbose_name = _('Intent'),
+        help_text = _("Treatment intent of the system therapy"),
+        choices = TreatmentIntent,
+        max_length=30,
+    )
+    role = termfields.CodedConceptField(
+        verbose_name = _('Treatment Role'),
+        help_text = _("Indicates the role of this therapy in the overall treatment strategy."),
+        terminology = terminologies.TreatmentCategory,
+        null=True, blank=True,
+    )
+    termination_reason = termfields.CodedConceptField(
+        verbose_name = _('Termination reason'),
+        help_text = _("Explanation for the premature or planned termination of the systemic therapy"),
+        terminology = terminologies.TreatmentTerminationReason,
+        null=True,blank=True,
+    )
+
+    @property
+    def description(self):
+        return f'{self.intent}'
+
+
+class SystemicTherapyMedication(BaseModel):
+
+    systemic_therapy = models.ForeignKey(
+        verbose_name = _('Systemic therapy'),
+        help_text = _("Indicates the case of the patient who received the systemic therapy"),
+        to = SystemicTherapy,
+        related_name = 'medications',
+        on_delete = models.CASCADE,
+    )
+    drug = termfields.CodedConceptField(
+        verbose_name=_('Antineoplastic Drug'),
+        help_text=_("Antineoplastic drug/medication administered to the patient"),
+        terminology = terminologies.AntineoplasticAgent,
+    )
+    route = termfields.CodedConceptField(
+        verbose_name = _('Route'),
+        help_text = _('Drug administration route'),
+        terminology = terminologies.DosageRoute,
+        blank = True, null=True,
+    )
+    route = termfields.CodedConceptField(
+        verbose_name = _('Route'),
+        help_text = _('Drug administration route'),
+        terminology = terminologies.DosageRoute,
+        blank = True, null=True,
+    )
+    used_offlabel = models.BooleanField(
+        verbose_name=_('Off-label use'),
+        help_text=_("Indicates whether a medication was used off-label at the time of administration"),
+        null=True, blank=True,
+    )
+    within_soc = models.BooleanField(
+        verbose_name = _('Within SOC'),
+        help_text = _("Indicates whether a medication was within standard of care (SOC) at the time of administration."),
+        null=True, blank=True,
+    )    
+    
+    @property
+    def description(self):
+        return f'{self.drug}'

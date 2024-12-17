@@ -83,7 +83,32 @@ class ApiControllerTestCase:
             f'Unexpected response status code: {response.status_code}'
         )
         return response
-    
+
+    def _remove_key_recursive(self, dictionary, keys_to_remove):
+        """
+        Recursively removes a key from a dictionary that contains lists.
+
+        Args:
+            dictionary (dict): The dictionary to remove the key from.
+            key_to_remove (str): The key to remove.
+
+        Returns:
+            dict: The updated dictionary with the key removed.
+        """
+        def __remove_key_recursive(d, key_to_remove):
+            for key, value in list(d.items()):
+                if key == key_to_remove:
+                    del d[key]
+                elif isinstance(value, dict):
+                    __remove_key_recursive(value, key_to_remove)
+                elif isinstance(value, list):
+                    for item in value:
+                        if isinstance(item, dict):
+                            __remove_key_recursive(item, key_to_remove)
+            return d 
+        for key_to_remove in keys_to_remove:
+            dictionary = __remove_key_recursive(dictionary, key_to_remove)
+        return dictionary
 
     @parameterized.expand(CONNECTION_SCENARIOS)
     def test_get_all(self, scenario, *config):            
@@ -97,8 +122,10 @@ class ApiControllerTestCase:
                     self.assertEqual(response.status_code, 200)
                     if 'items' in response.json():
                         entry = response.json()['items'][0]
-                    expected = self.SCHEMA[i].model_validate(instance).model_dump(exclude=['createdAt','updatedAt'])
-                    result = self.SCHEMA[i].model_validate(entry).model_dump(exclude=['createdAt','updatedAt'])
+                    expected = self.SCHEMA[i].model_validate(instance).model_dump()
+                    result = self.SCHEMA[i].model_validate(entry).model_dump()
+                    expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
+                    result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
                     self.assertEqual(expected, result)
                 self.MODEL[i].objects.all().delete()
 
@@ -112,8 +139,10 @@ class ApiControllerTestCase:
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
-                    expected = self.SCHEMA[i].model_validate(instance).model_dump(exclude=['createdAt','updatedAt'])
-                    result = self.SCHEMA[i].model_validate(response.json()).model_dump(exclude=['createdAt','updatedAt'])
+                    expected = self.SCHEMA[i].model_validate(instance).model_dump()
+                    result = self.SCHEMA[i].model_validate(response.json()).model_dump()
+                    expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
+                    result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
                     self.assertDictEqual(result, expected)
     
     @parameterized.expand(CONNECTION_SCENARIOS)
@@ -215,4 +244,11 @@ class TestRiskAssessmentController(ApiControllerTestCase, TestCase):
     MODEL = models.RiskAssessment
     SCHEMA = schemas.RiskAssessmentSchema
     CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema    
+    
+class TestSystemicTherapyController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/systemic-therapies'
+    FACTORY = factories.SystemicTherapyFactory
+    MODEL = models.SystemicTherapy
+    SCHEMA = schemas.SystemicTherapySchema
+    CREATE_SCHEMA = schemas.SystemicTherapyCreateSchema    
     

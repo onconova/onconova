@@ -3,13 +3,14 @@ from .schemas import (
     UserSchema, 
     ResourceIdSchema, 
     MeasureSchema,
+    PeriodSchema,
     MeasureConversionSchema,
     CodedConceptSchema, 
     RefreshedTokenPairSchema,
     TokenRefreshSchema,  
     TokenPairSchema, 
     UserCredentialsSchema,
-    Paginated
+    Paginated,
 )
 from .base import BaseSchema
 from .factory import create_schema, factory 
@@ -20,6 +21,7 @@ __all__ = (
     BaseSchema,
     create_schema,
     factory,
+    PeriodSchema,
     ModelSchema,
     MeasureSchema,
     MeasureConversionSchema,

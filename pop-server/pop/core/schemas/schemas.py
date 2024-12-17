@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import date
 from typing import Optional, List, Dict
 from ninja import Schema, Field
-from pydantic import ConfigDict, SecretStr
+from psycopg.types.range import Range as PostgresRange
+from pydantic import ConfigDict, SecretStr, AliasChoices, AliasPath, model_validator
 from django.contrib.auth import get_user_model
 
 from ninja_extra.schemas import NinjaPaginationResponseSchema
@@ -99,3 +100,28 @@ class CodedConceptSchema(Schema):
     model_config = ConfigDict(
         title='CodedConcept',
     )
+
+
+class PeriodSchema(Schema):  
+    start: date
+    end: Optional[date] = None
+    # Schema config
+    model_config = ConfigDict(
+        title='Period',
+    )
+    @model_validator(mode='before')
+    def validate_data(cls, obj):
+        period = obj._obj
+        if isinstance(period, tuple):
+            obj = {
+                'start': period[0], 
+                'end': period[1],
+            }
+        elif isinstance(period, PostgresRange):
+            obj = {
+                'start': period.lower, 
+                'end': period.upper,
+            }
+        print('period', obj)
+
+        return obj
