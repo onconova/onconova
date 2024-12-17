@@ -122,6 +122,4 @@ class PeriodSchema(Schema):
                 'start': period.lower, 
                 'end': period.upper,
             }
-        print('period', obj)
-
         return obj

@@ -1,32 +1,80 @@
-from pop.oncology.models import SystemicTherapy
-from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
-from pydantic import Field
+from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication
+from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS, create_schema
+from ninja import Schema
+from pydantic import Field, ConfigDict, BaseModel as PydanticBase
 from typing import List 
 
+from pop.core.models import BaseModel
 
-class SystemicTherapySchema(ModelSchema):
-    description: str = Field(description='Human-readable description of the systemic therapy') 
-    class Meta:
-        name = 'SystemicTherapy'
-        model = SystemicTherapy
-        fields = '__all__'
-        reverse_fields = [
-            'medications',
-        ] 
-        expand = {
-            'medications': 'SystemicTherapyMedication'
-        }
+BaseModelSchema = create_schema(
+    BaseModel, 
+    name='BaseModel',
+    fields=(*CREATE_IGNORED_FIELDS,),
+)
 
-class SystemicTherapyCreateSchema(ModelSchema):
-    class Meta:
-        name = 'SystemicTherapyCreate'
-        model = SystemicTherapy
-        exclude = (
-            *CREATE_IGNORED_FIELDS,
-        )
-        reverse_fields = [
-            'medications',
-        ] 
-        expand = {
-            'medications': 'SystemicTherapyMedicationCreate'
-        }
+class GetMixin(BaseModelSchema):
+    description: str = Field(description='Human-readable description') 
+    
+class CreateMixin(PydanticBase):
+    pass        
+
+class UpdateMixin(PydanticBase):
+    id: str = Field('Unique identifier of the resource to be updated')
+
+
+
+
+
+
+MedicationDynamicBase: Schema = create_schema(
+    SystemicTherapyMedication, 
+    name='SystemicTherapyMedicationCreate',
+    exclude=(*CREATE_IGNORED_FIELDS, 'systemic_therapy'),
+)
+
+SystemicTherapyDynamicBase: Schema = create_schema(
+    SystemicTherapy, 
+    name='SystemicTherapyCreate',
+    exclude=(*CREATE_IGNORED_FIELDS,),
+)
+
+class SystemicTherapyMedicationSchema(MedicationDynamicBase, GetMixin):
+    # Schema config
+    model_config = ConfigDict(
+        title='SystemicTherapyMedication',
+    )
+
+class SystemicTherapyMedicationCreateSchema(MedicationDynamicBase, CreateMixin):
+    # Schema config
+    model_config = ConfigDict(
+        title='SystemicTherapyMedicationCreate',
+    )
+
+class SystemicTherapyMedicationUpdateSchema(MedicationDynamicBase, UpdateMixin):
+    # Schema config
+    model_config = ConfigDict(
+        title='SystemicTherapyMedicationUpdate',
+    )
+
+
+
+class SystemicTherapySchema(SystemicTherapyDynamicBase, GetMixin):
+    medications: List[SystemicTherapyMedicationSchema] = Field(description='Medications administered during the systemic therapy')
+    # Schema config
+    model_config = ConfigDict(
+        title='SystemicTherapy',
+    )
+
+class SystemicTherapyCreateSchema(SystemicTherapyDynamicBase, CreateMixin):
+    medications: List[SystemicTherapyMedicationCreateSchema] = Field(description='Medications administered during the systemic therapy')
+    # Schema config
+    model_config = ConfigDict(
+        title='SystemicTherapyCreate',
+    )
+
+class SystemicTherapyUpdateSchema(SystemicTherapyDynamicBase, UpdateMixin):
+    medications: List[SystemicTherapyMedicationUpdateSchema] = Field(description='Medications administered during the systemic therapy')
+    # Schema config
+    model_config = ConfigDict(
+        title='SystemicTherapyCreate',
+    )

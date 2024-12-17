@@ -7,11 +7,12 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ResourceIdSchema, Paginated
-from pop.oncology.models import SystemicTherapy
+from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication
 
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 
-from pop.oncology.schemas import SystemicTherapySchema, SystemicTherapyCreateSchema
+from pop.oncology.schemas import SystemicTherapySchema, SystemicTherapyCreateSchema, SystemicTherapyUpdateSchema
 
 
 class QueryParameters(Schema):
@@ -65,18 +66,19 @@ class SystemicTherapyController(ControllerBase):
         return 200, SystemicTherapySchema.model_validate(instance)
 
     @route.put(
-        path='/{systemicTherapyId}', 
+        path='/', 
         response={
             204: None, 
             404: None
         },
-        operation_id='updateSystemicTherapyById',
+        operation_id='updateSystemicTherapy',
     )
-    def update_systemic_therapy(self, systemicTherapyId: str, payload: SystemicTherapyCreateSchema): # type: ignore
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-        instance = SystemicTherapyCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
+    def update_systemic_therapy(self, payload: SystemicTherapyUpdateSchema): # type: ignore
+        with transaction.atomic():
+            instance = get_object_or_404(SystemicTherapy, id=payload.id)
+            instance = SystemicTherapyUpdateSchema\
+                        .model_validate(payload.model_dump(exclude_unset=True))\
+                        .model_dump_django(instance=instance, user=self.context.request.user)
         return 204, None
 
     @route.delete(
