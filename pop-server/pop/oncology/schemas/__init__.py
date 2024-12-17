@@ -17,6 +17,7 @@ from .Staging import (
      LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
 from .TumorMarker import TumorMarkerSchema, TumorMarkerCreateSchema
+from .RiskAssessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
 
 __all__ = (
      # PatientCase schemas
@@ -40,4 +41,6 @@ __all__ = (
      LymphomaStagingSchema, LymphomaStagingCreateSchema,
      # Tumor marker schemas
      TumorMarkerSchema, TumorMarkerCreateSchema,
+     # Risk assessment schemas
+     RiskAssessmentSchema, RiskAssessmentCreateSchema
 )

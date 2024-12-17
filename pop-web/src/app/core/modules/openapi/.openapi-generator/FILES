@@ -11,6 +11,8 @@ api/neoplastic-entities.service.ts
 api/neoplastic-entities.serviceInterface.ts
 api/patient-cases.service.ts
 api/patient-cases.serviceInterface.ts
+api/risk-assessments.service.ts
+api/risk-assessments.serviceInterface.ts
 api/stagings.service.ts
 api/stagings.serviceInterface.ts
 api/terminology.service.ts
@@ -52,6 +54,7 @@ model/neoplastic-entity-relationship-choices.ts
 model/neoplastic-entity.ts
 model/paginated-neoplastic-entity.ts
 model/paginated-patient-case.ts
+model/paginated-risk-assessment.ts
 model/paginated-tumor-marker.ts
 model/paginated-union-tnm-staging-figo-staging-binet-staging-rai-staging-breslow-depth-clark-staging-iss-staging-riss-staging-gleason-grade-inss-stage-inrgss-stage-wilms-stage-rhabdomyosarcoma-clinical-group-lymphoma-staging-items-inner.ts
 model/paginated-union-tnm-staging-figo-staging-binet-staging-rai-staging-breslow-depth-clark-staging-iss-staging-riss-staging-gleason-grade-inss-stage-inrgss-stage-wilms-stage-rhabdomyosarcoma-clinical-group-lymphoma-staging.ts
@@ -66,6 +69,8 @@ model/resource-id-schema.ts
 model/response.ts
 model/rhabdomyosarcoma-clinical-group-create.ts
 model/rhabdomyosarcoma-clinical-group.ts
+model/risk-assessment-create.ts
+model/risk-assessment.ts
 model/riss-staging-create.ts
 model/riss-staging.ts
 model/staging-domain.ts

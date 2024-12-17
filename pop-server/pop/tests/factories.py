@@ -109,3 +109,14 @@ class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)    
     mass_concentration = factory.LazyFunction(lambda: measures.MassConcentration(g__l=random.random()))    
     created_by =  factory.SubFactory(UserFactory)
+
+
+
+class RiskAssessmentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.RiskAssessment
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    methodology = factory.SubFactory(make_terminology_factory(terminology.CancerRiskAssessmentMethod))
+    risk = factory.SubFactory(make_terminology_factory(terminology.CancerRiskAssessmentClassification))
+    created_by =  factory.SubFactory(UserFactory)

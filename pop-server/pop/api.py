@@ -8,6 +8,7 @@ from pop.oncology.controllers import (
     NeoplasticEntityController,
     StagingController,    
     TumorMarkerController,
+    RiskAssessmentController
 )
 
 
@@ -22,6 +23,7 @@ api.register_controllers(
     PatientCaseController,
     NeoplasticEntityController,
     StagingController,
+    RiskAssessmentController,
     TumorMarkerController,
     MeasuresController,
     TerminologyController,

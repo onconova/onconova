@@ -49,13 +49,13 @@ class ApiControllerTestCase:
         # Login the user and retrieve the JWT token
         auth_client = TestClient(AuthController)
         response = auth_client.post(
-            "/sliding", 
+            "/pair", 
             json={
                 "username": self.username, 
                 "password": self.password
             }, 
             secure=True)
-        token = response.json()["token"]
+        token = response.json()["access"]
         return {"Authorization": f"Bearer {str(token)}"}
 
     def call_api_endpoint(self, verb, route, expected_responses, authenticate, secure, data=None):        
@@ -207,4 +207,12 @@ class TestTumorMarkerController(ApiControllerTestCase, TestCase):
     MODEL = models.TumorMarker
     SCHEMA = schemas.TumorMarkerSchema
     CREATE_SCHEMA = schemas.TumorMarkerCreateSchema    
+    
+
+class TestRiskAssessmentController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/risk-assessments'
+    FACTORY = factories.RiskAssessmentFactory
+    MODEL = models.RiskAssessment
+    SCHEMA = schemas.RiskAssessmentSchema
+    CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema    
     

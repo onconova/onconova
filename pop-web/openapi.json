@@ -1034,6 +1034,212 @@
         ]
       }
     },
+    "/api/risk-assessments/": {
+      "post": {
+        "operationId": "createRiskAssessment",
+        "summary": "Create Risk Assessment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Risk Assessments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RiskAssessmentCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRiskAssessments",
+        "summary": "Get All Risk Assessments Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_RiskAssessment_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Risk Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/risk-assessments/{riskAssessmentId}": {
+      "delete": {
+        "operationId": "deleteRiskAssessmentById",
+        "summary": "Delete Risk Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "riskAssessmentId",
+            "schema": {
+              "title": "Riskassessmentid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Risk Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRiskAssessmentById",
+        "summary": "Get Risk Assessment By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "riskAssessmentId",
+            "schema": {
+              "title": "Riskassessmentid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiskAssessment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Risk Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateRiskAssessmentById",
+        "summary": "Update Risk Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "riskAssessmentId",
+            "schema": {
+              "title": "Riskassessmentid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Risk Assessments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RiskAssessmentCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/tumor-markers/": {
       "post": {
         "operationId": "createTumorMarker",
@@ -6115,6 +6321,286 @@
           "stage"
         ],
         "title": "WilmsStage",
+        "type": "object"
+      },
+      "RiskAssessmentCreate": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer risk is assesed",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the risk assessment was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "methodology": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Indicates the method or type of risk assessment",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "CancerRiskAssessmentMethod",
+            "title": "Assessment methodology"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Assessed risk",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "risk",
+            "terminology": "CancerRiskAssessmentClassification",
+            "title": "Risk"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Quantitative score used to classify the risk",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "score",
+            "title": "Score"
+          },
+          "assessedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were assessed to estimate the risk.",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "assessed_entities",
+            "title": "Assessed neoplastic entities",
+            "type": "array"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "methodology",
+          "risk"
+        ],
+        "title": "RiskAssessmentCreate",
+        "type": "object"
+      },
+      "Paginated_RiskAssessment_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RiskAssessment"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[RiskAssessment]",
+        "type": "object"
+      },
+      "RiskAssessment": {
+        "properties": {
+          "description": {
+            "description": "Human-readable description of the tumor marker",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "examples": [],
+            "expanded": false,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's cancer risk is assesed",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the risk assessment was performed and recorded.",
+            "examples": [],
+            "expanded": false,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "methodology": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Indicates the method or type of risk assessment",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "methodology",
+            "terminology": "CancerRiskAssessmentMethod",
+            "title": "Assessment methodology"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Assessed risk",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "risk",
+            "terminology": "CancerRiskAssessmentClassification",
+            "title": "Risk"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Quantitative score used to classify the risk",
+            "examples": [],
+            "expanded": false,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "score",
+            "title": "Score"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "assessedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were assessed to estimate the risk.",
+            "examples": [],
+            "expanded": false,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "assessed_entities",
+            "title": "Assessed neoplastic entities",
+            "type": "array"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "methodology",
+          "risk"
+        ],
+        "title": "RiskAssessment",
         "type": "object"
       },
       "MeasureSchema": {

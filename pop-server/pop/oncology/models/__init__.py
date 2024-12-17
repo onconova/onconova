@@ -8,6 +8,7 @@ from .Staging import (
     WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging
 )
 from .TumorMarker import TumorMarker
+from .RiskAssessment import RiskAssessment
 
 __all__ = (
     PatientCase,
@@ -27,5 +28,7 @@ __all__ = (
     INRGSSStage, 
     WilmsStage, 
     RhabdomyosarcomaClinicalGroup,
-    LymphomaStaging
+    LymphomaStaging,
+    TumorMarker,
+    RiskAssessment,
 )

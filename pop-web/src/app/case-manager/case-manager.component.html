@@ -37,7 +37,10 @@
 
         <app-case-manager-panel
             title="Risk Assessments"
-            icon="heart-pulse"/>
+            icon="heart-pulse"
+            [caseId]="caseId"
+            [formComponent]="RiskAssessmentFormComponent"
+            [service]="riskAssessmentService"/>
 
         <app-case-manager-panel
             title="Tumor Markers"
