@@ -58,8 +58,6 @@ class BaseSchema(PydanticBaseModel):
                     data[attr_name] = getattr(obj, attr_name)
 
             obj = data
-        from pprint import pprint 
-        pprint(obj)
         return super().model_validate(obj=obj, *args, **kwargs)
 
     def model_dump(self, *args, **kwargs):
@@ -93,15 +91,16 @@ class BaseSchema(PydanticBaseModel):
             model: Type[DjangoModel] = None, 
             instance: Optional[DjangoModel] = None, 
             user: Optional[DjangoModel]=None,
+            create: Optional[bool] = None,
     ) -> DjangoModel:
         """
         Creates a Django model instance from the current schema.
         """
         model = model or self.__ormmodel__
-        create = instance is None 
+        create = create if create is not None else instance is None 
         m2m_relations = {}
         o2m_relations = {}
-        if create:
+        if create and instance is None:
             instance = model()
         serialized_data = super().model_dump()
         for field_name, field in self.model_fields.items():
@@ -130,7 +129,6 @@ class BaseSchema(PydanticBaseModel):
                     continue
                 elif field_meta.get('one_to_many'):
                     related_schema = field.annotation.__args__[0]
-                    print('field.annotation', field.annotation.__args__[0])
                     # Collect all related instances
                     o2m_relations[orm_field] = {'schema': related_schema, 'entries': data }
                     # Do not set many-to-many or one-to-many fields yet

@@ -18,12 +18,6 @@ class GetMixin(BaseModelSchema):
 class CreateMixin(PydanticBase):
     pass        
 
-class UpdateMixin(PydanticBase):
-    id: str = Field('Unique identifier of the resource to be updated')
-
-
-
-
 
 
 MedicationDynamicBase: Schema = create_schema(
@@ -50,14 +44,6 @@ class SystemicTherapyMedicationCreateSchema(MedicationDynamicBase, CreateMixin):
         title='SystemicTherapyMedicationCreate',
     )
 
-class SystemicTherapyMedicationUpdateSchema(MedicationDynamicBase, UpdateMixin):
-    # Schema config
-    model_config = ConfigDict(
-        title='SystemicTherapyMedicationUpdate',
-    )
-
-
-
 class SystemicTherapySchema(SystemicTherapyDynamicBase, GetMixin):
     medications: List[SystemicTherapyMedicationSchema] = Field(description='Medications administered during the systemic therapy')
     # Schema config
@@ -66,14 +52,6 @@ class SystemicTherapySchema(SystemicTherapyDynamicBase, GetMixin):
     )
 
 class SystemicTherapyCreateSchema(SystemicTherapyDynamicBase, CreateMixin):
-    medications: List[SystemicTherapyMedicationCreateSchema] = Field(description='Medications administered during the systemic therapy')
-    # Schema config
-    model_config = ConfigDict(
-        title='SystemicTherapyCreate',
-    )
-
-class SystemicTherapyUpdateSchema(SystemicTherapyDynamicBase, UpdateMixin):
-    medications: List[SystemicTherapyMedicationUpdateSchema] = Field(description='Medications administered during the systemic therapy')
     # Schema config
     model_config = ConfigDict(
         title='SystemicTherapyCreate',

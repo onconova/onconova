@@ -19,7 +19,8 @@ from .Staging import (
 from .TumorMarker import TumorMarkerSchema, TumorMarkerCreateSchema
 from .RiskAssessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
 from .SystemicTherapy import (
-    SystemicTherapySchema, SystemicTherapyCreateSchema, SystemicTherapyUpdateSchema
+    SystemicTherapySchema, SystemicTherapyCreateSchema, 
+    SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
 )
 
 __all__ = (
@@ -47,5 +48,6 @@ __all__ = (
      # Risk assessment schemas
      RiskAssessmentSchema, RiskAssessmentCreateSchema,
      # Systemic therapy schemas 
-    SystemicTherapySchema, SystemicTherapyCreateSchema, SystemicTherapyUpdateSchema,
+    SystemicTherapySchema, SystemicTherapyCreateSchema, 
+    SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
 )

@@ -45,6 +45,12 @@ class ApiControllerTestCase:
         cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
         cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
         
+    def get_route_url(self, instance):
+        return f'/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.id}'
+        
     def _authenticate_user(self):
         # Login the user and retrieve the JWT token
         auth_client = TestClient(AuthController)
@@ -115,13 +121,15 @@ class ApiControllerTestCase:
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
-            response = self.call_api_endpoint(GET, f'/', *config)
+            response = self.call_api_endpoint(GET, self.get_route_url(instance), *config)
             with self.subTest(i=i):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
                     if 'items' in response.json():
                         entry = response.json()['items'][0]
+                    else:
+                        entry = response.json()[0]
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
                     result = self.SCHEMA[i].model_validate(entry).model_dump()
                     expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
@@ -134,7 +142,7 @@ class ApiControllerTestCase:
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
-            response = self.call_api_endpoint(GET, f'/{instance.id}', *config)
+            response = self.call_api_endpoint(GET, self.get_route_url_with_id(instance), *config)
             with self.subTest(i=i):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -150,7 +158,7 @@ class ApiControllerTestCase:
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
-            response = self.call_api_endpoint(DELETE, f'/{instance.id}', *config)
+            response = self.call_api_endpoint(DELETE, self.get_route_url_with_id(instance), *config)
             with self.subTest(i=i):       
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -163,7 +171,7 @@ class ApiControllerTestCase:
             instance = self.FACTORY[i](created_by=self.user)
             json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
             # Call the API endpoint.
-            response = self.call_api_endpoint(POST, f'/', *config, data=json_data)
+            response = self.call_api_endpoint(POST, self.get_route_url(instance), *config, data=json_data)
             with self.subTest(i=i):       
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -183,7 +191,7 @@ class ApiControllerTestCase:
                 creator = instance.created_by
                 json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
                 # Call the API endpoint
-                response = self.call_api_endpoint(PUT, f'/{instance.id}', *config, data=json_data)
+                response = self.call_api_endpoint(PUT, self.get_route_url_with_id(instance), *config, data=json_data)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 204) 
@@ -245,6 +253,7 @@ class TestRiskAssessmentController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.RiskAssessmentSchema
     CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema    
     
+    
 class TestSystemicTherapyController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/systemic-therapies'
     FACTORY = factories.SystemicTherapyFactory
@@ -252,3 +261,16 @@ class TestSystemicTherapyController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.SystemicTherapySchema
     CREATE_SCHEMA = schemas.SystemicTherapyCreateSchema    
     
+    
+class TestSystemicTherapyMedicationController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/systemic-therapies'
+    FACTORY = factories.SystemicTherapyMedicationFactory
+    MODEL = models.SystemicTherapyMedication
+    SCHEMA = schemas.SystemicTherapyMedicationSchema
+    CREATE_SCHEMA = schemas.SystemicTherapyMedicationCreateSchema    
+
+    def get_route_url(self, instance):
+        return f'/{instance.systemic_therapy.id}/medications/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.systemic_therapy.id}/medications/{instance.id}'

@@ -123,13 +123,6 @@ class RiskAssessmentFactory(factory.django.DjangoModelFactory):
     created_by =  factory.SubFactory(UserFactory)
 
 
-class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.SystemicTherapyMedication
-    
-    drug = factory.SubFactory(make_terminology_factory(terminology.AntineoplasticAgent))
-    route = factory.SubFactory(make_terminology_factory(terminology.DosageRoute))
-
 class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemicTherapy
@@ -140,11 +133,10 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
     role = factory.SubFactory(make_terminology_factory(terminology.TreatmentCategory))
 
-    @factory.post_generation
-    def medications(self, create, *args, **kwargs):
-        if not create:
-            # Simple build, or nothing to add, do nothing.
-            return
-
-        # Add the iterable of groups using bulk addition
-        [SystemicTherapyMedicationFactory(systemic_therapy=self) for _ in range(random.randint(1,3)) ]
+class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SystemicTherapyMedication
+    
+    systemic_therapy = factory.SubFactory(SystemicTherapyFactory)
+    drug = factory.SubFactory(make_terminology_factory(terminology.AntineoplasticAgent))
+    route = factory.SubFactory(make_terminology_factory(terminology.DosageRoute))
