@@ -261,7 +261,6 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
 
     # Define the path to the certificate bundle file
     certificate_bundle_path = env('CA_BUNDLE_CERT') if env('CA_BUNDLE_CERT') else None 
-    print('certificate_bundle_path', certificate_bundle_path)
     # Create a session for making the request
     session = requests.Session()
 

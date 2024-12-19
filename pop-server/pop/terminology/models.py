@@ -3,6 +3,7 @@ from django.contrib.postgres import fields as postgres
 from django.utils.translation import gettext_lazy as _    
 
 from pop.core.models import BaseModel
+from pop.terminology.utils import CodedConcept as CodedConceptSchema
 
 class CodedConcept(BaseModel):
     code = models.CharField(
@@ -126,7 +127,7 @@ class TreatmentTerminationReason(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-termination-reason-vs'
     description = 'Values used to describe the reasons for stopping a treatment or episode of care.'
     extension_concepts = [
-        {'code':'182992009','system':'http://snomed.info/sct','display':'Treatment completed','version':'http://snomed.info/sct/900000000000207008'},
+        CodedConceptSchema(code='182992009', system='http://snomed.info/sct',display='Treatment completed', version='http://snomed.info/sct/900000000000207008'),
     ] 
     
     def __str__(self):
@@ -136,6 +137,7 @@ class TreatmentTerminationReason(CodedConcept):
 class AntineoplasticAgent(CodedConcept):
     valueset =  None
     description = 'NCIT Antineoplastic agents'
+
     drugCategory = models.CharField(
         verbose_name=_('Drug class'),
         help_text=_('NCT-POT drug classification'),
@@ -163,8 +165,12 @@ class AntineoplasticAgent(CodedConcept):
         verbose_name=_('RxNorm code'),
         max_length=50, null=True, blank=True,
     )
+    drugbank = models.CharField(
+        verbose_name=_('Drugbank code'),
+        max_length=50, null=True, blank=True,
+    )
     extension_concepts = [
-        {'code': 'C128784', 'display': 'Bempegaldesleukin', 'system':'http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl'}
+        CodedConceptSchema(code='C128784', display='Bempegaldesleukin', system='http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl')
     ]
     def __str__(self):
         return self.display.capitalize()
@@ -274,8 +280,9 @@ class TNMStagingMethod(CodedConcept):
     valueset =  'https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-staging-method-vs.json'
     description = 'Method used for TNM staging, e.g., AJCC 6th, 7th, or 8th edition.'
     # Additional codes for an extensible valuset
-    extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
-
+    extension_concepts = [
+        CodedConceptSchema(code='1287211007',system='http://snomed.info/sct', display='No information available', version='http://snomed.info/sct/900000000000207008')
+    ]
     @classmethod
     def transform(cls, concept):
         label = concept.display
@@ -769,7 +776,9 @@ class ClinicalSignificanceOfGeneticVariation(CodedConcept):
     valueset =  'https://loinc.org/LL4034-6/'
     description = 'ACMG_Clinical significance of genetic variation '
     # Additional codes for an extensible valuset
-    extension_concepts = [{'code':'LA20926-4','system':'http://loinc.org/','display':'Ambiguous'}]
+    extension_concepts = [
+        CodedConceptSchema(code='LA20926-4', system='http://loinc.org/', display='Ambiguous')
+    ]
 
 
 class FunctionalEffect(CodedConcept):
@@ -788,15 +797,18 @@ class TreatmentCategory(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-treatment-categories'
     description = 'Codes representing the order in which different therapies are given to people as their disease progresses.'
     # Additional codes
-    extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
-
+    extension_concepts = [
+        CodedConceptSchema(code='1287211007', system='http://snomed.info/sct', display='No information available', version='http://snomed.info/sct/900000000000207008')
+    ]
     def __str__(self):
         return self.display.replace('therapy','').replace('care','').replace(' Therapy','').replace('treatment','').replace('drug','').replace('antineoplastic','')
 
 class CancerTreatmentResponseObservationMethod(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-cancer-treatment-response-observation-methods'
     description = 'Codes representing the observation methods to study the response of a cancer to treatment'
-    extension_concepts = [{'code':'1287211007','system':'http://snomed.info/sct','display':'No information available', 'version':'http://snomed.info/sct/900000000000207008'}]
+    extension_concepts = [
+        CodedConceptSchema(code='1287211007',system='http://snomed.info/sct', display='No information available', version='http://snomed.info/sct/900000000000207008')
+    ]
 
 
 class TreatmentResponseInterpretation(CodedConcept):
@@ -857,7 +869,7 @@ class HumanSpecimenType(CodedConcept):
         null=True,
     )
     extension_concepts = [
-        {'code':'1285453009','system':'http://snomed.info/sct','display':'Liquid biopsy'},
+        CodedConceptSchema(code='1285453009', system='http://snomed.info/sct', display='Liquid biopsy'),
     ] 
 
 

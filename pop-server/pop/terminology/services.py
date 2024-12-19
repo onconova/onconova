@@ -289,7 +289,7 @@ def collect_codedconcept_terminology(
         'AntineoplasticAgent': expand_AntineoplasticAgent_with_NCTPOT_mappings,
     }
     if CodedConcept_name in special_composer_function:
-        special_composer_function[CodedConcept_name]()
+        concepts = special_composer_function[CodedConcept_name]()
     else:
         if not getattr(CodedConceptModel,'valueset', None) and not getattr(CodedConceptModel,'codesystem', None):
             printYellow(f'⬤ - Skipping model <{CodedConcept_name}> without an associated valueset or codesystem. \t\t\t')
@@ -298,6 +298,9 @@ def collect_codedconcept_terminology(
             concepts = download_valueset(CodedConceptModel.valueset)
         else:
             concepts = download_codesystem(CodedConceptModel.codesystem).values()
+
+    for concept in CodedConceptModel.extension_concepts:
+        concepts.append(concept)
     print(f'\n✓ Collected a total of {len(concepts)} concepts.')
 
 

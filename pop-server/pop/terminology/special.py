@@ -1,5 +1,5 @@
 from pop.terminology.digestors import TerminologyDigestor, NCITDigestor
-from pop.terminology.models import CodedConcept
+from pop.terminology.utils import CodedConcept
 from pop.terminology.utils import parent_to_children, request_http_get
 from typing import List
 
@@ -113,15 +113,29 @@ def get_drug_terminology_mappings(drug_name: str) -> tuple:
     data = request_http_get(f'https://rxnav.nlm.nih.gov/REST/rxcui.json?name={drug_name}')
     rxnorm_code = data['idGroup'].get('rxnormId', [None])[0]
     if rxnorm_code:
-        # Get ATC code through the RxNorm API
-        data = request_http_get(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/property.json?propName=ATC')
-        atc_code = data['propConceptGroup']['propConcept'][-1]['propValue'] if data else None
-        # Get SNOMED CT code through the RxNorm API
-        data = request_http_get(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/property.json?propName=SNOMEDCT')
-        snomed_code = data['propConceptGroup']['propConcept'][-1]['propValue'] if data else None
+        print(f'\r• Querying RxNorm API for RXCUI-{rxnorm_code}... {" "*100}', end='')
+        # Get mapped coed through the RxNorm API
+        data = request_http_get(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/allProperties.json?prop=codes')
+        get_mapped_code = lambda system: next(
+            (prop['propValue'] for prop in data['propConceptGroup']['propConcept'] 
+             if prop['propName'] == system), None
+        )
+        snomed_code = get_mapped_code('SNOMEDCT')
+        atc_code = get_mapped_code('ATC')
+        drugbank_code = get_mapped_code('DRUGBANK')
+
+        brand_data = request_http_get(f'https://rxnav.nlm.nih.gov/REST/rxcui/{rxnorm_code}/related.json?tty=BN')
+        brand_names = []
+        for concept in brand_data['relatedGroup']['conceptGroup']:
+            for property in concept.get('conceptProperties', []):
+                brand_names.append(property['name'])
+                if property['synonym']:
+                    brand_names.append(property['synonym'])
     else:
-        atc_code, snomed_code = None, None
-    return rxnorm_code, atc_code, snomed_code
+        print(f'\r• No RxNorm entry for {drug_name}... {" "*100}', end='')
+        atc_code, snomed_code, drugbank_code = None, None, None
+        brand_names = []
+    return brand_names, rxnorm_code, atc_code, snomed_code, drugbank_code
 
 
 def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
@@ -145,7 +159,7 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
         nctpot_drug_class_id = nctpot_map.get(nctpot_drug.get('id'))
         nctpot_drug_class = nctpot_drug_classes.get(nctpot_drug_class_id, {})
         # Get RxNorm, ATC and SNOMED CT codes
-        rxnorm_code, atc_code, snomed_code = get_drug_terminology_mappings(concept.display)
+        brand_names, rxnorm_code, atc_code, snomed_code, drugbank_code = get_drug_terminology_mappings(concept.display)
         # Compose concept
         concepts[concept.code] = CodedConcept(
             code = concept.code,
@@ -153,13 +167,14 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
             system = concept.system,
             version = concept.version,
             parent = concept.parent,
-            synonyms = concept.synonyms + nctpot_drug.get('synonyms', []),
+            synonyms = concept.synonyms + nctpot_drug.get('synonyms', []) + brand_names,
             drugCategory = nctpot_drug_class.get('name'),
             drugDomain = nctpot_drug_class.get('domain'), 
             therapyCategory = nctpot_drug_class.get('therapy'), 
             atc = atc_code, 
             snomed = snomed_code, 
             rxnorm = rxnorm_code, 
+            drugbank = drugbank_code, 
         )
 
     def get_children_recursively(parent: str) -> None:
@@ -169,6 +184,7 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
         Args:
             parent (str): The parent concept code.
         """
+
         for child in ncit_children[parent]:
             _add_concept_with_NCTPOT_properties(child)
             get_children_recursively(child)
@@ -184,6 +200,7 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
     nctpot_map = NCTPOTDrugToClassDigestor().digest()
     nctpot_drug_classes = NCTPOTClassesDigestor().digest()
     # Add the concepts from the NCIT Antineoplastic agents tree
+    print(f'• Synchronizing antineoplastic agents...')
     get_children_recursively(ANTINEOPLASTIC_AGENTS_CODE)
 
     # Add other NCTPOT concepts not in the NCT Antineoplastic agents tree
