@@ -16,8 +16,17 @@ export interface NeoplasticEntity {
      * Human-readable description of the neoplastic entity
      */
     description: string;
+    /**
+     * 
+     */
     id: string;
+    /**
+     * 
+     */
     createdAt: string;
+    /**
+     * 
+     */
     updatedAt: string;
     createdById?: number | null;
     /**

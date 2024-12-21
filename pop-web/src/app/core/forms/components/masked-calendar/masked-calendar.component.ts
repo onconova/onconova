@@ -1,7 +1,7 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule, DatePipe} from '@angular/common';
-import { DatePicker, DatePickerTypeView } from 'primeng/datepicker';
+import { DatePicker, DatePickerTypeView} from 'primeng/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DateMaskDirective } from '../directives/date-mask-directive';
 import * as moment from 'moment'; 
@@ -31,15 +31,17 @@ export class MaskedCalendarComponent implements ControlValueAccessor {
     @Input() formControlName!: string;
     @Input() dateFormat: string = 'dd/mm/yy';
     @Input() placeholder: string = 'DD/MM/YYYY';
+    @Input() selectionMode: "single" | "multiple" | "range" | undefined = 'single';
     @Input() view: DatePickerTypeView = 'date';
 
+    private dateStringFormat: string = 'DD/MM/YYYY'
 
     public formControl: FormControl = new FormControl();
 
     writeValue(value: any): void {
         if (value) {
             const date = new Date(value);
-            value = moment(date).format(this.placeholder);
+            value = moment(date).format(this.dateStringFormat);
         }
         this.formControl.patchValue(value);
     }

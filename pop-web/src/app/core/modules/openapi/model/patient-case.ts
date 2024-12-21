@@ -15,8 +15,17 @@ export interface PatientCase {
      * Approximate age of the patient in years
      */
     age: number;
+    /**
+     * 
+     */
     id: string;
+    /**
+     * 
+     */
     createdAt: string;
+    /**
+     * 
+     */
     updatedAt: string;
     createdById?: number | null;
     /**

@@ -69,7 +69,9 @@
         </h5>
         <app-case-manager-panel
             title="Systemic Treatments"
-            icon="tablets"/>
+            icon="tablets"
+            [formComponent]="SystemicTherapyFormComponent"
+            [service]="systemicTherapyService"/>
             
         <app-case-manager-panel
             title="Surgical Procedures"

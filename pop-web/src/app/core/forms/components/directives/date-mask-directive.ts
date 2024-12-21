@@ -28,26 +28,42 @@ export class DateMaskDirective implements AfterViewInit {
     });
   }
   getPlaceholder(): string {
+    let date_placeholder
     if (this.primeCalendar.view == 'date') {
-      return '__/__/____';
+      date_placeholder =  '__/__/____';
     } else if (this.primeCalendar.view == 'month') {
-      return '__/____';
+      date_placeholder = '__/____';
     } else if (this.primeCalendar.view == 'year') {
-      return '____';
+      date_placeholder = '____';
     } else {
-      return '__/__/____ __:__'
+      date_placeholder = '__/__/____ __:__'
+    }
+    if (this.primeCalendar.selectionMode == 'single') {
+      return date_placeholder
+    } else if (this.primeCalendar.selectionMode == 'range') {
+      return `${date_placeholder} - ${date_placeholder}`
+    } else {
+      return date_placeholder
     }
   }
 
   getDateMask(): string {
+    let date_mask
     if (this.primeCalendar.view == 'date') {
-      return '99/99/9999';
+      date_mask = '99/99/9999';
     } else if (this.primeCalendar.view == 'month') {
-      return '99/9999';
+      date_mask = '99/9999';
     } else if (this.primeCalendar.view == 'year') {
-      return '9999';
+      date_mask = '9999';
     } else {
-      return '99/99/9999 99:99'
+      date_mask = '99/99/9999 99:99'
+    }
+    if (this.primeCalendar.selectionMode == 'single') {
+      return date_mask
+    } else if (this.primeCalendar.selectionMode == 'range') {
+      return `${date_mask} - ${date_mask}`
+    } else {
+      return date_mask
     }
   }
 }

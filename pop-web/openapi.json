@@ -1655,6 +1655,450 @@
           }
         ]
       }
+    },
+    "/api/systemic-therapies/": {
+      "post": {
+        "operationId": "createSystemicTherapy",
+        "summary": "Create Systemic Therapy",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SystemicTherapyCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getSystemicTherapies",
+        "summary": "Get All Systemic Therapies Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_SystemicTherapySchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/systemic-therapies/{systemicTherapyId}/medications/": {
+      "post": {
+        "operationId": "createSystemicTherapyMedication",
+        "summary": "Create Systemic Therapy Medication",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SystemicTherapyMedicationCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getSystemicTherapyMedications",
+        "summary": "Get Systemic Therapy Medications Matching The Query",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SystemicTherapyMedicationSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/systemic-therapies/{systemicTherapyId}": {
+      "delete": {
+        "operationId": "deleteSystemicTherapyById",
+        "summary": "Delete Systemic Therapy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getSystemicTherapyById",
+        "summary": "Get Systemic Therapy By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemicTherapySchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateSystemicTherapy",
+        "summary": "Update Systemic Therapy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SystemicTherapyCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/systemic-therapies/{systemicTherapyId}/medications/{medicationId}": {
+      "delete": {
+        "operationId": "deleteSystemicTherapyMedication",
+        "summary": "Delete Systemic Therapy Medication",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "medicationId",
+            "schema": {
+              "title": "Medicationid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getSystemicTherapyMedicationById",
+        "summary": "Get Systemic Therapy Medication By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "medicationId",
+            "schema": {
+              "title": "Medicationid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemicTherapyMedicationSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateSystemicTherapyMedication",
+        "summary": "Update Systemic Therapy Medication",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "systemicTherapyId",
+            "schema": {
+              "title": "Systemictherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "medicationId",
+            "schema": {
+              "title": "Medicationid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Systemic Therapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SystemicTherapyMedicationCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1871,7 +2315,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Gender for administrative purposes",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -1890,7 +2334,7 @@
             ],
             "description": "Race of the patient",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -1909,7 +2353,7 @@
             ],
             "description": "Sex assigned at birth",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -1926,8 +2370,9 @@
                 "type": "null"
               }
             ],
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -1938,7 +2383,7 @@
           "dateOfBirth": {
             "description": "Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -1959,7 +2404,7 @@
             ],
             "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -1977,7 +2422,7 @@
             ],
             "description": "Classification of the cause of death.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2059,8 +2504,9 @@
             "type": "integer"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -2070,8 +2516,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -2081,8 +2528,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -2102,7 +2550,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2112,7 +2560,7 @@
           "pseudoidentifier": {
             "description": "Pseudoidentifier of the patient",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 40,
@@ -2125,7 +2573,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Gender for administrative purposes",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2144,7 +2592,7 @@
             ],
             "description": "Race of the patient",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2163,7 +2611,7 @@
             ],
             "description": "Sex assigned at birth",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2180,8 +2628,9 @@
                 "type": "null"
               }
             ],
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2192,7 +2641,7 @@
           "dateOfBirth": {
             "description": "Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2204,7 +2653,7 @@
           "isDeceased": {
             "description": "Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -2224,7 +2673,7 @@
             ],
             "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -2242,7 +2691,7 @@
             ],
             "description": "Classification of the cause of death.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2254,7 +2703,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -2284,7 +2733,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's neoplasm(s) are recorded",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2296,7 +2745,7 @@
             "$ref": "#/components/schemas/NeoplasticEntityRelationshipChoices",
             "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 30,
@@ -2315,7 +2764,7 @@
             ],
             "description": "Reference to the primary neoplasm of which the neoplasm(s) originated from.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2325,7 +2774,7 @@
           "assertionDate": {
             "description": "The date on which the existence of the neoplasm(s) was first asserted or acknowledged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2338,7 +2787,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Anatomical location of the neoplasm(s)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2350,7 +2799,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2369,7 +2818,7 @@
             ],
             "description": "Morphologic differentitation characteristics of the neoplasm(s)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2388,7 +2837,7 @@
             ],
             "description": "Laterality qualifier for the location of the neoplasm(s)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2425,8 +2874,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -2436,8 +2886,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -2447,8 +2898,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -2468,7 +2920,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2478,7 +2930,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's neoplasm(s) are recorded",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2490,7 +2942,7 @@
             "$ref": "#/components/schemas/NeoplasticEntityRelationshipChoices",
             "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 30,
@@ -2509,7 +2961,7 @@
             ],
             "description": "Reference to the primary neoplasm of which the neoplasm(s) originated from.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2519,7 +2971,7 @@
           "assertionDate": {
             "description": "The date on which the existence of the neoplasm(s) was first asserted or acknowledged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2532,7 +2984,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Anatomical location of the neoplasm(s)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2544,7 +2996,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2563,7 +3015,7 @@
             ],
             "description": "Morphologic differentitation characteristics of the neoplasm(s)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2582,7 +3034,7 @@
             ],
             "description": "Laterality qualifier for the location of the neoplasm(s)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2594,7 +3046,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -2652,7 +3104,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2663,7 +3115,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2676,7 +3128,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -2691,7 +3143,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Binet stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2719,7 +3171,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2730,7 +3182,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2743,7 +3195,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -2757,7 +3209,7 @@
           "depth": {
             "description": "Breslow depth given in milimeters",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -2776,7 +3228,7 @@
             ],
             "description": "Whether the primary tumour presents ulceration",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -2803,7 +3255,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2814,7 +3266,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2827,7 +3279,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -2842,7 +3294,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Clark level stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2870,7 +3322,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2881,7 +3333,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2894,7 +3346,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -2909,7 +3361,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the FIGO stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2928,7 +3380,7 @@
             ],
             "description": "Methodology used for the FIGO staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2956,7 +3408,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -2967,7 +3419,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -2980,7 +3432,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -2995,7 +3447,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Gleason grade stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3023,7 +3475,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3034,7 +3486,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3047,7 +3499,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3062,7 +3514,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the INRGSS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3090,7 +3542,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3101,7 +3553,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3114,7 +3566,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3129,7 +3581,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the INSS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3157,7 +3609,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3168,7 +3620,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3181,7 +3633,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3196,7 +3648,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of theISS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3224,7 +3676,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3235,7 +3687,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3248,7 +3700,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3263,7 +3715,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Lymphoma stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3282,7 +3734,7 @@
             ],
             "description": "Methodology used for the Lymphoma staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3301,7 +3753,7 @@
             ],
             "description": "Bulky modifier indicating if the lymphoma has the presence of bulky disease.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -3319,7 +3771,7 @@
             ],
             "description": "Whether the staging was based on clinical or pathologic evidence.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -3330,7 +3782,7 @@
             "default": [],
             "description": "Qualifier acting as modifier for the lymphoma stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "$ref": "#/components/schemas/CodedConceptSchema"
@@ -3362,7 +3814,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3373,7 +3825,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3386,7 +3838,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3401,7 +3853,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the RISS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3429,7 +3881,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3440,7 +3892,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3453,7 +3905,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3468,7 +3920,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Rai stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3487,7 +3939,7 @@
             ],
             "description": "Methodology used for the Rai staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3515,7 +3967,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3526,7 +3978,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3539,7 +3991,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3554,7 +4006,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the rhabdomyosarcoma clinical group",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3582,7 +4034,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3593,7 +4045,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3606,7 +4058,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3621,7 +4073,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The information determined as a result of making the observation, if the information has a simple value",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3640,7 +4092,7 @@
             ],
             "description": "Methodology used for TNM staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3659,7 +4111,7 @@
             ],
             "description": "Whether the staging was based on pathological (true) or clinical (false) evidence.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -3677,7 +4129,7 @@
             ],
             "description": "T stage (extent of the primary tumor)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3696,7 +4148,7 @@
             ],
             "description": "N stage (degree of spread to regional lymph nodes)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3715,7 +4167,7 @@
             ],
             "description": "M stage (presence of distant metastasis)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3734,7 +4186,7 @@
             ],
             "description": "G stage (grade of the cancer cells)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3753,7 +4205,7 @@
             ],
             "description": "R stage (extent of residual tumor cells after operation)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3772,7 +4224,7 @@
             ],
             "description": "L stage (invasion into lymphatic vessels)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3791,7 +4243,7 @@
             ],
             "description": "V stage (invasion into venous vessels)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3810,7 +4262,7 @@
             ],
             "description": "Pn stage (invasion into adjunct nerves)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3829,7 +4281,7 @@
             ],
             "description": "S stage (serum tumor marker level)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3857,7 +4309,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3868,7 +4320,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -3881,7 +4333,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -3896,7 +4348,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Wilms stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -3947,8 +4399,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -3958,8 +4411,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -3969,8 +4423,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -3990,7 +4445,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4000,7 +4455,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4011,7 +4466,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4024,7 +4479,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4039,7 +4494,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4054,7 +4509,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Binet stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4092,8 +4547,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4103,8 +4559,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4114,8 +4571,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4135,7 +4593,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4145,7 +4603,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4156,7 +4614,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4169,7 +4627,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4184,7 +4642,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4198,7 +4656,7 @@
           "depth": {
             "description": "Breslow depth given in milimeters",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -4217,7 +4675,7 @@
             ],
             "description": "Whether the primary tumour presents ulceration",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -4252,8 +4710,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4263,8 +4722,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4274,8 +4734,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4295,7 +4756,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4305,7 +4766,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4316,7 +4777,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4329,7 +4790,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4344,7 +4805,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4359,7 +4820,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Clark level stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4394,8 +4855,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4405,8 +4867,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4416,8 +4879,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4437,7 +4901,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4447,7 +4911,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4458,7 +4922,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4471,7 +4935,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4486,7 +4950,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4501,7 +4965,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the FIGO stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4520,7 +4984,7 @@
             ],
             "description": "Methodology used for the FIGO staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4555,8 +5019,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4566,8 +5031,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4577,8 +5043,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4598,7 +5065,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4608,7 +5075,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4619,7 +5086,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4632,7 +5099,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4647,7 +5114,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4662,7 +5129,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Gleason grade stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4697,8 +5164,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4708,8 +5176,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4719,8 +5188,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4740,7 +5210,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4750,7 +5220,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4761,7 +5231,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4774,7 +5244,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4789,7 +5259,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4804,7 +5274,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the INRGSS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4839,8 +5309,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4850,8 +5321,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4861,8 +5333,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -4882,7 +5355,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4892,7 +5365,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4903,7 +5376,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -4916,7 +5389,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -4931,7 +5404,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -4946,7 +5419,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the INSS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -4981,8 +5454,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -4992,8 +5466,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5003,8 +5478,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5024,7 +5500,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5034,7 +5510,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5045,7 +5521,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -5058,7 +5534,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -5073,7 +5549,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -5088,7 +5564,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of theISS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5123,8 +5599,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -5134,8 +5611,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5145,8 +5623,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5166,7 +5645,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5176,7 +5655,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5187,7 +5666,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -5200,7 +5679,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -5215,7 +5694,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -5230,7 +5709,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Lymphoma stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5249,7 +5728,7 @@
             ],
             "description": "Methodology used for the Lymphoma staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5268,7 +5747,7 @@
             ],
             "description": "Bulky modifier indicating if the lymphoma has the presence of bulky disease.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -5286,7 +5765,7 @@
             ],
             "description": "Whether the staging was based on clinical or pathologic evidence.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -5297,7 +5776,7 @@
             "default": [],
             "description": "Qualifier acting as modifier for the lymphoma stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "$ref": "#/components/schemas/CodedConceptSchema"
@@ -5400,8 +5879,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -5411,8 +5891,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5422,8 +5903,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5443,7 +5925,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5453,7 +5935,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5464,7 +5946,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -5477,7 +5959,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -5492,7 +5974,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -5507,7 +5989,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the RISS stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5542,8 +6024,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -5553,8 +6036,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5564,8 +6048,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5585,7 +6070,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5595,7 +6080,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5606,7 +6091,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -5619,7 +6104,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -5634,7 +6119,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -5649,7 +6134,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Rai stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5668,7 +6153,7 @@
             ],
             "description": "Methodology used for the Rai staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5703,8 +6188,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -5714,8 +6200,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5725,8 +6212,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5746,7 +6234,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5756,7 +6244,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5767,7 +6255,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -5780,7 +6268,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -5795,7 +6283,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -5810,7 +6298,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the rhabdomyosarcoma clinical group",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5845,8 +6333,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -5856,8 +6345,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5867,8 +6357,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -5888,7 +6379,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5898,7 +6389,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5909,7 +6400,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -5922,7 +6413,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -5937,7 +6428,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -5952,7 +6443,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The information determined as a result of making the observation, if the information has a simple value",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5971,7 +6462,7 @@
             ],
             "description": "Methodology used for TNM staging",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -5990,7 +6481,7 @@
             ],
             "description": "Whether the staging was based on pathological (true) or clinical (false) evidence.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6008,7 +6499,7 @@
             ],
             "description": "T stage (extent of the primary tumor)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6027,7 +6518,7 @@
             ],
             "description": "N stage (degree of spread to regional lymph nodes)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6046,7 +6537,7 @@
             ],
             "description": "M stage (presence of distant metastasis)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6065,7 +6556,7 @@
             ],
             "description": "G stage (grade of the cancer cells)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6084,7 +6575,7 @@
             ],
             "description": "R stage (extent of residual tumor cells after operation)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6103,7 +6594,7 @@
             ],
             "description": "L stage (invasion into lymphatic vessels)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6122,7 +6613,7 @@
             ],
             "description": "V stage (invasion into venous vessels)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6141,7 +6632,7 @@
             ],
             "description": "Pn stage (invasion into adjunct nerves)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6160,7 +6651,7 @@
             ],
             "description": "S stage (serum tumor marker level)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6195,8 +6686,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -6206,8 +6698,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -6217,8 +6710,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -6238,7 +6732,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6248,7 +6742,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6259,7 +6753,7 @@
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -6272,7 +6766,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -6287,7 +6781,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were the focus of the staging.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -6302,7 +6796,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The value of the Wilms stage",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6328,7 +6822,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer risk is assesed",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6339,7 +6833,7 @@
           "date": {
             "description": "Clinically-relevant date at which the risk assessment was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -6352,7 +6846,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Indicates the method or type of risk assessment",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6364,7 +6858,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Assessed risk",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6383,7 +6877,7 @@
             ],
             "description": "Quantitative score used to classify the risk",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6394,7 +6888,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were assessed to estimate the risk.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -6444,8 +6938,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -6455,8 +6950,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -6466,8 +6962,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -6487,7 +6984,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6497,7 +6994,7 @@
           "caseId": {
             "description": "Indicates the case of the patient who's cancer risk is assesed",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6508,7 +7005,7 @@
           "date": {
             "description": "Clinically-relevant date at which the risk assessment was performed and recorded.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -6521,7 +7018,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Indicates the method or type of risk assessment",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6533,7 +7030,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "Assessed risk",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6552,7 +7049,7 @@
             ],
             "description": "Quantitative score used to classify the risk",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6563,7 +7060,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -6578,7 +7075,7 @@
             "default": [],
             "description": "References to the neoplastic entities that were assessed to estimate the risk.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -6626,7 +7123,7 @@
           "caseId": {
             "description": "Indicates the case of the patient related to the tumor marker result",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6637,7 +7134,7 @@
           "date": {
             "description": "Clinically-relevant date at which the tumor marker was analyzed.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -6650,7 +7147,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The chemical or biological substance/agent that is analyzed.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -6669,7 +7166,7 @@
             ],
             "description": "Mass concentration of the analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6687,7 +7184,7 @@
             ],
             "description": "Arbitrary concentration of the analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6705,7 +7202,7 @@
             ],
             "description": "Substance concentration of the analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6723,7 +7220,7 @@
             ],
             "description": "Analyte fraction (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6741,7 +7238,7 @@
             ],
             "description": "Multiples of the median analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6760,7 +7257,7 @@
             ],
             "description": "Categorization of the percentage of cells in a tumor that express PD-L1",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6779,7 +7276,7 @@
             ],
             "description": "Categorization of the percentage of PD-L1 positive immune cells",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6797,7 +7294,7 @@
             ],
             "description": "The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6816,7 +7313,7 @@
             ],
             "description": "Categorization of the number of analyte-positive cells in a sample",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6835,7 +7332,7 @@
             ],
             "description": "Whether an analyte has tested positive or negative.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6854,7 +7351,7 @@
             ],
             "description": "Categorization of the status of expression of the analyte",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -6865,7 +7362,7 @@
             "default": [],
             "description": "References to the neoplastic entities that are related or the focus of the tumor marker analysis.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -6963,8 +7460,9 @@
             "type": "string"
           },
           "id": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "maxLength": 64,
@@ -6974,8 +7472,9 @@
             "type": "string"
           },
           "createdAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -6985,8 +7484,9 @@
             "type": "string"
           },
           "updatedAt": {
+            "description": "",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date-time",
             "is_relation": false,
             "many_to_many": false,
@@ -7006,7 +7506,7 @@
             ],
             "description": "The user who created the original data",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -7016,7 +7516,7 @@
           "caseId": {
             "description": "Indicates the case of the patient related to the tumor marker result",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -7027,7 +7527,7 @@
           "date": {
             "description": "Clinically-relevant date at which the tumor marker was analyzed.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "format": "date",
             "is_relation": false,
             "many_to_many": false,
@@ -7040,7 +7540,7 @@
             "$ref": "#/components/schemas/CodedConceptSchema",
             "description": "The chemical or biological substance/agent that is analyzed.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "many_to_many": false,
             "one_to_many": false,
@@ -7059,7 +7559,7 @@
             ],
             "description": "Mass concentration of the analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7077,7 +7577,7 @@
             ],
             "description": "Arbitrary concentration of the analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7095,7 +7595,7 @@
             ],
             "description": "Substance concentration of the analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7113,7 +7613,7 @@
             ],
             "description": "Analyte fraction (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7131,7 +7631,7 @@
             ],
             "description": "Multiples of the median analyte (if revelant/measured)",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7150,7 +7650,7 @@
             ],
             "description": "Categorization of the percentage of cells in a tumor that express PD-L1",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7169,7 +7669,7 @@
             ],
             "description": "Categorization of the percentage of PD-L1 positive immune cells",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7187,7 +7687,7 @@
             ],
             "description": "The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7206,7 +7706,7 @@
             ],
             "description": "Categorization of the number of analyte-positive cells in a sample",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7225,7 +7725,7 @@
             ],
             "description": "Whether an analyte has tested positive or negative.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7244,7 +7744,7 @@
             ],
             "description": "Categorization of the status of expression of the analyte",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
@@ -7255,7 +7755,7 @@
             "default": [],
             "description": "The user(s) who updated the data since its creation",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "integer"
@@ -7270,7 +7770,7 @@
             "default": [],
             "description": "References to the neoplastic entities that are related or the focus of the tumor marker analysis.",
             "examples": [],
-            "expanded": false,
+            "expanded": null,
             "is_relation": true,
             "items": {
               "type": "string"
@@ -7358,6 +7858,598 @@
           "new_unit"
         ],
         "title": "MeasureConversion",
+        "type": "object"
+      },
+      "PeriodSchema": {
+        "properties": {
+          "start": {
+            "format": "date",
+            "title": "Start",
+            "type": "string"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          }
+        },
+        "required": [
+          "start"
+        ],
+        "title": "Period",
+        "type": "object"
+      },
+      "SystemicTherapyCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who received the systemic therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodSchema",
+            "description": "Clinically-relevant period during which the therapy was administered to the patient.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "period",
+            "title": "Treatment period"
+          },
+          "cycles": {
+            "description": "The total number of treatment cycles during the treatment period.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cycles",
+            "title": "Cycles",
+            "type": "integer"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/SystemicTherapyIntentChoices",
+            "description": "Treatment intent of the system therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "intent",
+            "title": "Intent"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indicates the role of this therapy in the overall treatment strategy.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "role",
+            "terminology": "TreatmentCategory",
+            "title": "Treatment Role"
+          },
+          "terminationReason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Explanation for the premature or planned termination of the systemic therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "termination_reason",
+            "terminology": "TreatmentTerminationReason",
+            "title": "Termination reason"
+          },
+          "targetedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were targeted by the systemic therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "targeted_entities",
+            "title": "Targeted neoplastic entities",
+            "type": "array"
+          }
+        },
+        "required": [
+          "caseId",
+          "period",
+          "cycles",
+          "intent"
+        ],
+        "title": "SystemicTherapyCreate",
+        "type": "object"
+      },
+      "SystemicTherapyIntentChoices": {
+        "enum": [
+          "curative",
+          "palliative"
+        ],
+        "title": "SystemicTherapyIntentChoices",
+        "type": "string"
+      },
+      "Paginated_SystemicTherapySchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SystemicTherapySchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[SystemicTherapySchema]",
+        "type": "object"
+      },
+      "SystemicTherapyMedicationSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "drug": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Antineoplastic drug/medication administered to the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "drug",
+            "terminology": "AntineoplasticAgent",
+            "title": "Antineoplastic Drug"
+          },
+          "route": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Drug administration route",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "route",
+            "terminology": "DosageRoute",
+            "title": "Route"
+          },
+          "usedOfflabel": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indicates whether a medication was used off-label at the time of administration",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "used_offlabel",
+            "title": "Off-label use"
+          },
+          "withinSoc": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indicates whether a medication was within standard of care (SOC) at the time of administration.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "within_soc",
+            "title": "Within SOC"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "drug"
+        ],
+        "title": "SystemicTherapyMedication",
+        "type": "object"
+      },
+      "SystemicTherapySchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who received the systemic therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodSchema",
+            "description": "Clinically-relevant period during which the therapy was administered to the patient.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "period",
+            "title": "Treatment period"
+          },
+          "cycles": {
+            "description": "The total number of treatment cycles during the treatment period.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cycles",
+            "title": "Cycles",
+            "type": "integer"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/SystemicTherapyIntentChoices",
+            "description": "Treatment intent of the system therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "intent",
+            "title": "Intent"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indicates the role of this therapy in the overall treatment strategy.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "role",
+            "terminology": "TreatmentCategory",
+            "title": "Treatment Role"
+          },
+          "terminationReason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Explanation for the premature or planned termination of the systemic therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "termination_reason",
+            "terminology": "TreatmentTerminationReason",
+            "title": "Termination reason"
+          },
+          "targetedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were targeted by the systemic therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "targeted_entities",
+            "title": "Targeted neoplastic entities",
+            "type": "array"
+          },
+          "medications": {
+            "description": "Medications administered during the systemic therapy",
+            "items": {
+              "$ref": "#/components/schemas/SystemicTherapyMedicationSchema"
+            },
+            "title": "Medications",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "period",
+          "cycles",
+          "intent",
+          "medications"
+        ],
+        "title": "SystemicTherapy",
+        "type": "object"
+      },
+      "SystemicTherapyMedicationCreateSchema": {
+        "properties": {
+          "drug": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Antineoplastic drug/medication administered to the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "drug",
+            "terminology": "AntineoplasticAgent",
+            "title": "Antineoplastic Drug"
+          },
+          "route": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Drug administration route",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "route",
+            "terminology": "DosageRoute",
+            "title": "Route"
+          },
+          "usedOfflabel": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indicates whether a medication was used off-label at the time of administration",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "used_offlabel",
+            "title": "Off-label use"
+          },
+          "withinSoc": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Indicates whether a medication was within standard of care (SOC) at the time of administration.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "within_soc",
+            "title": "Within SOC"
+          }
+        },
+        "required": [
+          "drug"
+        ],
+        "title": "SystemicTherapyMedicationCreate",
         "type": "object"
       }
     },

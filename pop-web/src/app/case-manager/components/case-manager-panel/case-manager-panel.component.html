@@ -33,7 +33,11 @@
                 <div (click)="showDrawer(entry)" class="cursor-pointer">
                     <div>
                         <small class="p-text-secondary">
-                            {{ entry.date || entry.assertionDate | date }}</small>
+                            {{ entry.date || entry.assertionDate | date }}
+                        </small>
+                        <small class="p-text-secondary">
+                            {{ entry.period?.start | date }} - {{ entry.period?.end | date }}
+                        </small>
                     </div>
                     <div>
                         {{ entry.description }}

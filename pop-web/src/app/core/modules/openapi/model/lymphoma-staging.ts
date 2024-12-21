@@ -16,8 +16,17 @@ export interface LymphomaStaging {
      * Human-readable description of the staging
      */
     description: string;
+    /**
+     * 
+     */
     id: string;
+    /**
+     * 
+     */
     createdAt: string;
+    /**
+     * 
+     */
     updatedAt: string;
     createdById?: number | null;
     /**

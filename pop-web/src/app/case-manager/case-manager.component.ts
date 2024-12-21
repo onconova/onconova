@@ -14,6 +14,7 @@ import {
     StagingsService,
     TumorMarkersService,
     RiskAssessmentsService,
+    SystemicTherapiesService,
 } from '../core/modules/openapi'
 
 import { 
@@ -21,6 +22,7 @@ import {
     StagingFormComponent,
     TumorMarkerFormComponent,
     RiskAssessmentFormComponent,
+    SystemicTherapyFormComponent,
 } from '../core/forms';
 
 import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
@@ -74,6 +76,7 @@ export class CaseManagerComponent implements OnInit {
     private stagingsService: StagingsService = inject(StagingsService);
     private tumorMarkersService: TumorMarkersService = inject(TumorMarkersService);
     private riskAssessmentsService: RiskAssessmentsService = inject(RiskAssessmentsService);
+    private systemicTherapiesService: SystemicTherapiesService = inject(SystemicTherapiesService);
     private messageService: MessageService = inject(MessageService) ;
 
     // Case properties
@@ -114,11 +117,20 @@ export class CaseManagerComponent implements OnInit {
         update: this.riskAssessmentsService.updateRiskAssessmentById.bind(this.riskAssessmentsService),
     };
 
+    // Case-specific data observables
+    public systemicTherapyService: DataService = {
+        get: this.systemicTherapiesService.getSystemicTherapies.bind(this.systemicTherapiesService),
+        create: this.systemicTherapiesService.createSystemicTherapy.bind(this.systemicTherapiesService),
+        delete: this.systemicTherapiesService.deleteSystemicTherapyById.bind(this.systemicTherapiesService),
+        update: this.systemicTherapiesService.updateSystemicTherapy.bind(this.systemicTherapiesService),
+    };
+
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
+    public SystemicTherapyFormComponent = SystemicTherapyFormComponent;
 
 
     ngOnInit() {

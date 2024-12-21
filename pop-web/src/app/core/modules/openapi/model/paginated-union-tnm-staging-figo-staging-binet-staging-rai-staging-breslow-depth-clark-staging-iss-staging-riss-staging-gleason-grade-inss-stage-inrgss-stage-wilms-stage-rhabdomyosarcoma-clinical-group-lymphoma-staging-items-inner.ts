@@ -30,8 +30,17 @@ export interface PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslo
      * Human-readable description of the staging
      */
     description: string;
+    /**
+     * 
+     */
     id: string;
+    /**
+     * 
+     */
     createdAt: string;
+    /**
+     * 
+     */
     updatedAt: string;
     createdById?: number;
     /**

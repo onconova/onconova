@@ -1,11 +1,13 @@
 import { Component, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { concatMap, forkJoin, map, of, tap } from 'rxjs';
 
 import { MessageService } from 'primeng/api';
 
 import { Ribbon } from 'lucide-angular';
 import { EmptyObject } from 'chart.js/dist/types/basic';
+import { Call } from '@angular/compiler';
 
 interface Resource {
     id: string;
@@ -33,6 +35,7 @@ export abstract class AbstractFormBase {
 
   abstract createService: CallableFunction;
   abstract updateService: CallableFunction;
+  public subformsServices: {payloads: CallableFunction, create: CallableFunction, update: CallableFunction}[] = [];
 
   abstract constructAPIPayload(data: any): any
 
@@ -46,7 +49,25 @@ export abstract class AbstractFormBase {
       // Send the data to the server's API
       if (this.initialData && this.initialData.id) {
         this.updateService(this.initialData.id, payload)
-          .pipe(takeUntilDestroyed(this.destroyRef))
+          .pipe(
+            concatMap((response: Resource) => {
+              // Handle the case where there are no secondService defined
+              if (!this.subformsServices || this.subformsServices.length === 0) {
+                return of(response);
+              }
+              // Use the returned resource ID as input for the second requests
+              return forkJoin(
+                this.subformsServices.flatMap((subformServices) => {
+                  return subformServices.payloads(data).map(
+                    (subformPayload: any) => subformServices.create(response.id, subformPayload)
+                  )
+                })
+              ).pipe(
+                map(() => response)
+              );
+            }),
+            takeUntilDestroyed(this.destroyRef)
+          )
           .subscribe({
             next: () => {
               // Report the successful creation of the resource
@@ -62,8 +83,26 @@ export abstract class AbstractFormBase {
           })
   
       } else {
-        this.createService(payload)
-          .pipe(takeUntilDestroyed(this.destroyRef))
+        this.createService(payload)        
+          .pipe(
+            concatMap((response: Resource) => {
+              // Handle the case where there are no secondService defined
+              if (!this.subformsServices || this.subformsServices.length === 0) {
+                return of(response);
+              }
+              // Use the returned resource ID as input for the second requests
+              return forkJoin(
+                this.subformsServices.flatMap((subformServices) => {
+                  return subformServices.payloads(data).map(
+                    (subformPayload: any) => subformServices.create(response.id, subformPayload)
+                  )
+                })
+              ).pipe(
+                map(() => response)
+              );
+            }),
+            takeUntilDestroyed(this.destroyRef)
+          )
           .subscribe({
             next: (response: Resource) => {
               // Report the successful creation of the resource

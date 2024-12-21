@@ -56,8 +56,12 @@ class SystemicTherapy(BaseModel):
     )
 
     @property
+    def drugs(self):
+        return [medication.drug for medication in self.medications.all()]
+
+    @property
     def description(self):
-        return f'{self.intent}'
+        return f'{self.intent} - {", ".join([drug.display for drug in self.drugs])}'
 
 
 class SystemicTherapyMedication(BaseModel):
@@ -73,12 +77,6 @@ class SystemicTherapyMedication(BaseModel):
         verbose_name=_('Antineoplastic Drug'),
         help_text=_("Antineoplastic drug/medication administered to the patient"),
         terminology = terminologies.AntineoplasticAgent,
-    )
-    route = termfields.CodedConceptField(
-        verbose_name = _('Route'),
-        help_text = _('Drug administration route'),
-        terminology = terminologies.DosageRoute,
-        blank = True, null=True,
     )
     route = termfields.CodedConceptField(
         verbose_name = _('Route'),

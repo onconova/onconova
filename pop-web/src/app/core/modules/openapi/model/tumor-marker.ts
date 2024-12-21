@@ -21,8 +21,17 @@ export interface TumorMarker {
      * Human-readable description of the tumor marker
      */
     description: string;
+    /**
+     * 
+     */
     id: string;
+    /**
+     * 
+     */
     createdAt: string;
+    /**
+     * 
+     */
     updatedAt: string;
     createdById?: number | null;
     /**

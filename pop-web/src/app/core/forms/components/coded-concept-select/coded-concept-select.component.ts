@@ -39,6 +39,7 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     @Input() formControlName!: string;
     @Input() showSynonyms: boolean = true;
     @Input() showCodes: boolean = false;
+    @Input() multiple: boolean = false;
     @Input() baseQuery: string = '';
     @Input() placeholder: string = 'Select or search an option';
 
@@ -97,4 +98,8 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     registerOnTouched(fn: any): void {
         this.formControl.valueChanges.subscribe(val => fn(val));
     }
+
+    conceptTrackBy(index: number, concept: CodedConceptSchema) {
+        return concept.code;
+       }
 }

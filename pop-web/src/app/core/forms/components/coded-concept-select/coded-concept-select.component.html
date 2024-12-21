@@ -4,7 +4,10 @@
   [showClear]="true"
   [forceSelection]="true"
   [suggestions]="filteredConcepts"
+  dataKey="code"
   (completeMethod)="filterConcepts($event)"
+  [multiple]="multiple"
+  [unique]="true"
   [placeholder]="placeholder"
   optionLabel="display"
   appendTo="body"
@@ -20,15 +23,18 @@
       </div>
       <div class="ml-3 mt-1 text-xs gap2">
         <div *ngIf="showSynonyms">
-          <ng-container *ngFor="let synonym of concept.synonyms; let i = index;">
+          <ng-container *ngFor="let synonym of concept.synonyms; let i = index; trackBy:conceptTrackBy">
             <div>
                 <b>syn.</b>
-                <span class="ml-1">{{ synonym }}</span>
+                <span class="ml-1">
+                  {{ (synonym.length>100)? (synonym  | slice:0:15)+'...':(synonym ) }}
+                </span>
             </div> 
           </ng-container>
         </div>
       </div>
   </div>
   </ng-template>
+
 </p-autoComplete>
   
