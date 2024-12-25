@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { AuthService } from './auth.service';
 import {Observable} from 'rxjs';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class AuthGuard implements CanActivate {
 
-  constructor(
-    private router: Router, 
-    private auth: AuthService) {}
+    private readonly router: Router = inject(Router);
+    private readonly auth: AuthService = inject(AuthService);
 
     canActivate(): Observable<boolean> | Promise<boolean> | boolean {
         return new Promise( (resolve, reject) => {

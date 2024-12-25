@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from "../../service/app.layout.service";
 import packageInfo from '../../../../../package.json';
@@ -6,10 +7,26 @@ import { AuthService } from '../../../auth/auth.service';
 import { Router } from '@angular/router';
 import { updatePreset } from '@primeng/themes';
 
+import { InlineSVGModule } from 'ng-inline-svg-2';
+
+import { Avatar } from 'primeng/avatar';
+import { Menu } from 'primeng/menu';
+import { Button } from 'primeng/button';
+
 @Component({
+    standalone: true,
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
-    providers: [MessageService]
+    providers: [
+        MessageService
+    ],
+    imports: [
+        CommonModule,
+        Avatar,
+        Menu,
+        Button,
+        InlineSVGModule,
+    ]
 })
 export class AppTopBarComponent {
     version = packageInfo.version;

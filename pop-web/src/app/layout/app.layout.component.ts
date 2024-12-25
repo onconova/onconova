@@ -1,13 +1,32 @@
 import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from "./service/app.layout.service";
-import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
+
+import { Avatar } from 'primeng/avatar';
+
+import { AppMenuComponent } from './components/menu/app.menu.component';
+import { AppMenuitemComponent } from './components/menu/components/menuitem/app.menuitem.component';
 import { AppTopBarComponent } from './components/topbar/app.topbar.component';
+import { AppFooterComponent } from './components/footer/app.footer.component';
+import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
 
 @Component({
+    standalone: true,
     selector: 'app-layout',
-    templateUrl: './app.layout.component.html'
+    templateUrl: './app.layout.component.html',
+    imports: [
+        CommonModule,
+        RouterModule,
+        Avatar,
+        AppMenuComponent,
+        AppMenuitemComponent,
+        AppTopBarComponent,
+        AppFooterComponent,
+        AppSidebarComponent,
+    ]
 })
 export class AppLayoutComponent implements OnDestroy {
 

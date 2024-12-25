@@ -58,6 +58,7 @@ yarn.lock
 
 # IDE-specific files
 .idea/
+.ideas/
 .vscode/
 *.iml
 
