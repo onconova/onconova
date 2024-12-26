@@ -4,7 +4,17 @@ import { LayoutService } from '../../../layout/service/app.layout.service'
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
+import { CommonModule } from '@angular/common';
+import { Button } from 'primeng/button';
+import { Checkbox } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
+import { Password } from 'primeng/password';
+import { InputText } from 'primeng/inputtext';
+import { Toast } from 'primeng/toast';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+
 @Component({
+    standalone: true,
     selector: 'app-login',
     templateUrl: './login.component.html',
     styles: [`
@@ -14,7 +24,17 @@ import { MessageService } from 'primeng/api';
             margin-right: 1rem;
             color: var(--primary-color) !important;
         }
-    `]
+    `],
+    imports:[
+        CommonModule,
+        FormsModule,
+        InlineSVGModule,
+        Button,
+        Checkbox,
+        Password,
+        InputText,
+        Toast,
+    ]
 })
 export class LoginComponent {
 

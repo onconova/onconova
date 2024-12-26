@@ -15,7 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
             (isAuthenticated) => {
             const isApiUrl = request.url.startsWith('https://localhost:4443/api');
             if (!isAuthenticated) (
-                router.navigate(['login'])
+                router.navigate(['auth','login'])
             )
             if (isApiUrl) {
                 request = request.clone({

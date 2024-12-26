@@ -1,33 +1,27 @@
 import { Routes } from '@angular/router';
 
-import { NotfoundComponent } from './core/notfound/notfound.component';
-import { AppLayoutComponent } from "./core/layout/app.layout.component";
 import { AuthGuard } from './core/auth/guards/auth.guard';
-
-import { CaseBrowserComponent } from './features/case-browser/case-browser.component';
-import { CaseManagerComponent } from './features/case-manager/case-manager.component';
-
 
 export const routes: Routes = [
     
     { 
-        path: 'login', 
-        loadChildren: () => import('./core/auth/pages/login/login.module').then(m => m.LoginModule),
+        path: 'auth', 
+        loadChildren: () => import('./core/auth/auth.routes').then(m => m.authRoutes),
     },
     {
         path: '', 
-        component: AppLayoutComponent,
+        loadComponent: () => import('./core/layout/app.layout.component').then(m => m.AppLayoutComponent),
         canActivate: [AuthGuard],
         children: [
             { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
             { path: 'cases', 
                 children: [
-                    { path: '', component: CaseBrowserComponent},
-                    { path: ':pseudoidentifier',  component: CaseManagerComponent }
+                    { path: '', loadComponent: () => import('./features/case-browser/case-browser.component').then(m => m.CaseBrowserComponent) },
+                    { path: ':pseudoidentifier',  loadComponent: () => import('./features/case-manager/case-manager.component').then(m => m.CaseManagerComponent) }
                 ]
             },
         ]
     },
-    { path: 'notfound', component: NotfoundComponent },
+    { path: 'notfound', loadComponent: () => import('./core/notfound/notfound.component').then(m => m.NotfoundComponent) },
     { path: '**', redirectTo: '/notfound' },
 ];
