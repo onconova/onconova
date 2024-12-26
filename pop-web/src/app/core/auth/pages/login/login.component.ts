@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { LayoutService } from '../../layout/service/app.layout.service'
+import { AuthService } from '../../services/auth.service';
+import { LayoutService } from '../../../layout/service/app.layout.service'
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 

@@ -8,7 +8,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Regenerate OpenAPI client
 
 ```bash
-rm -r src/app/core/modules/openapi && npx openapi-generator-cli generate -i openapi.json -g typescript-angular -o src/app/core/modules/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true --generate-alias-as-model
+rm -r src/app/shared/openapi && npx openapi-generator-cli generate -i openapi.json -g typescript-angular -o src/app/shared/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true --generate-alias-as-model
 ```
 
 

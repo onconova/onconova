@@ -7,7 +7,7 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 
-import { MeasuresService, MeasureSchema } from 'src/app/core/modules/openapi';
+import { MeasuresService, MeasureSchema } from 'src/app/shared/openapi';
 
 export interface MeasureUnit {
     unit: string 

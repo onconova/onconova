@@ -15,7 +15,7 @@ import {
     TumorMarkersService,
     RiskAssessmentsService,
     SystemicTherapiesService,
-} from '../core/modules/openapi'
+} from 'src/app/shared/openapi'
 
 import { 
     NeoplasticEntityFormComponent,
@@ -23,9 +23,9 @@ import {
     TumorMarkerFormComponent,
     RiskAssessmentFormComponent,
     SystemicTherapyFormComponent,
-} from '../core/forms';
+} from 'src/app/core/forms';
 
-import { ModalFormComponent } from '../core/components/modal-form/modal-form.component'
+import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
 import { CaseManagerPanelComponent } from './components/case-manager-panel/case-manager-panel.component'
 
 

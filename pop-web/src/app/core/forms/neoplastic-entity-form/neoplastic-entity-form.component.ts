@@ -11,7 +11,7 @@ import {
   NeoplasticEntitiesService,
   NeoplasticEntityRelationshipChoices, 
   NeoplasticEntityCreate
-} from '../../modules/openapi'
+} from '../../../shared/openapi'
 
 import { ButtonModule } from 'primeng/button';
 import { Select } from 'primeng/select';

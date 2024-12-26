@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 
-import { PatientCase, AuthService, NeoplasticEntity, NeoplasticEntitiesService } from '../../../core/modules/openapi';
+import { PatientCase, AuthService, NeoplasticEntity, NeoplasticEntitiesService } from 'src/app/shared/openapi';
 import { RouterModule } from '@angular/router';
 import { Observable, map, of } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { AvatarModule } from 'primeng/avatar';
 
 import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
 
-import { CancerIconComponent } from 'src/app/core/components/cancer-icon/cancer-icon.component';
+import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 
 /**
  * Represents a single case browser item.

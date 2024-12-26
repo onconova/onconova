@@ -28,7 +28,7 @@ import {
   TumorMarkerNuclearExpressionStatusChoices,
   TerminologyService,
   CodedConceptSchema,
-} from '../../modules/openapi'
+} from '../../../shared/openapi'
 
 import { 
   CodedConceptSelectComponent, 

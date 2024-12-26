@@ -25,7 +25,7 @@ import {
   StagingsService,
   NeoplasticEntity,
   NeoplasticEntitiesService,
-} from '../../modules/openapi'
+} from '../../../shared/openapi'
 
 import { ButtonModule } from 'primeng/button';
 import { Select } from 'primeng/select';

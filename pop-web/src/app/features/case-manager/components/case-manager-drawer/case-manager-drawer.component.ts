@@ -10,7 +10,7 @@ import { MenuItem } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 
-import { AuthService } from 'src/app/core/modules/openapi';
+import { AuthService } from 'src/app/shared/openapi';
 
 import { LucideAngularModule } from 'lucide-angular';
 import { map, first, Observable, share } from 'rxjs';

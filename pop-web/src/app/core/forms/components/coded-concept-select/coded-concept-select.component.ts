@@ -1,7 +1,7 @@
 import { inject, Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TerminologyService } from '../../../../core/modules/openapi/api/terminology.service';
-import { CodedConceptSchema } from '../../../../core/modules/openapi';
+import { TerminologyService } from '../../../../shared/openapi/api/terminology.service';
+import { CodedConceptSchema } from '../../../../shared/openapi';
 import { Subscription } from 'rxjs';
 
 import { CommonModule } from '@angular/common';

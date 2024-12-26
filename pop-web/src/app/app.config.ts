@@ -8,10 +8,9 @@ import { providePrimeNG } from 'primeng/config';
 import { AppThemePreset } from './app.preset';
 
 import { httpCacheInterceptor } from './core/interceptors/cache.interceptor';
-import { authInterceptor } from './auth/auth.interceptor';
-import { AuthGuard } from './auth/auth.guard';
+import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { BASE_PATH } from './core/modules/openapi';
+import { BASE_PATH } from './shared/openapi';
 
 
 export const appConfig: ApplicationConfig = {

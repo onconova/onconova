@@ -2,8 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from "../../service/app.layout.service";
-import packageInfo from '../../../../../package.json';
-import { AuthService } from '../../../auth/auth.service';
+import packageInfo from '../../../../../../package.json';
+import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { updatePreset } from '@primeng/themes';
 

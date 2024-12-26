@@ -1,5 +1,4 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { Avatar } from 'primeng/avatar';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @Component({
@@ -12,7 +11,6 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
     </div>
     `,
     imports: [
-        Avatar,
         InlineSVGModule,
     ]
 })

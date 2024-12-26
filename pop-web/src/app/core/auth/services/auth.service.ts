@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AuthService as APIAuthService } from '../core/modules/openapi';
+import { AuthService as APIAuthService } from 'src/app/shared/openapi';
 import { Observable } from 'rxjs'
 import { tap, firstValueFrom } from 'rxjs';
-import { UserSchema, UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from '../core/modules/openapi/';
+import { UserSchema, UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from 'src/app/shared/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({

@@ -23,7 +23,7 @@ import {
     SystemicTherapiesService,
     SystemicTherapySchema,
     SystemicTherapyIntentChoices
-} from '../../modules/openapi'
+} from '../../../shared/openapi'
 
 import { 
   CodedConceptSelectComponent, 

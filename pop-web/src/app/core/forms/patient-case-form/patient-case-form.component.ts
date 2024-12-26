@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatientCaseCreate, PatientCasesService, PatientCase } from '../../modules/openapi'
+import { PatientCaseCreate, PatientCasesService, PatientCase } from '../../../shared/openapi'
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';

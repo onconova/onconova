@@ -13,11 +13,11 @@ import { DataViewModule } from 'primeng/dataview';
 import { SkeletonModule } from 'primeng/skeleton';
 
 // Project dependencies
-import { PatientCase, PatientCasesService} from '../core/modules/openapi';
+import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
 import { CaseBrowserCardComponent } from './components/case-card/case-browser-item.component';
-import { PatientFormComponent } from '../core/forms';
-import { ModalFormComponent } from '../core/components/modal-form/modal-form.component';
-import { ModalFormService } from '../core/components/modal-form/modal-form.service';
+import { PatientFormComponent } from 'src/app/core/forms';
+import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
+import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 
 
 @Component({

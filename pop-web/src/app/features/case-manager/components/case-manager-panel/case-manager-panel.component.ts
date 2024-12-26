@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation, OnInit, inject  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, first } from 'rxjs';
-import { ModalFormService } from '../../../core/components/modal-form/modal-form.service';
+import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 
 import { Panel } from 'primeng/panel';
 import { AvatarModule } from 'primeng/avatar';
@@ -13,7 +13,6 @@ import { Timeline } from 'primeng/timeline';
 import { CaseManagerDrawerComponent } from '../case-manager-drawer/case-manager-drawer.component';
 
 import { LucideAngularModule } from 'lucide-angular';
-import { ModalFormComponent } from '../../../core/components/modal-form/modal-form.component'
 
 
 @Component({
@@ -23,7 +22,6 @@ import { ModalFormComponent } from '../../../core/components/modal-form/modal-fo
     styleUrl: './case-manager-panel.component.css',
     encapsulation: ViewEncapsulation.None,
     imports: [
-        ModalFormComponent,
         CaseManagerDrawerComponent,
         CommonModule,
         LucideAngularModule,

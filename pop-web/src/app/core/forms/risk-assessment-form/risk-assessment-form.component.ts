@@ -17,7 +17,7 @@ import {
     NeoplasticEntitiesService, 
     RiskAssessmentCreate,
     RiskAssessmentsService,
-} from '../../modules/openapi'
+} from '../../../shared/openapi'
 
 import { 
   CodedConceptSelectComponent, 
