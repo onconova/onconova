@@ -13,6 +13,8 @@ import { ConfirmationService } from 'primeng/api';
 import { AuthService } from 'src/app/shared/openapi';
 
 import { LucideAngularModule } from 'lucide-angular';
+import { LucideIconData } from 'lucide-angular/icons/types';
+
 import { map, first, Observable, share } from 'rxjs';
 
 
@@ -42,7 +44,7 @@ export class CaseManagerDrawerComponent {
     private confirmationService = inject(ConfirmationService)
 
     @Input() data!: any;
-    @Input() icon!: string;
+    @Input() icon!: LucideIconData;
     @Input() visible!: boolean;
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() delete = new EventEmitter<string>();

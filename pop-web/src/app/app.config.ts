@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -11,6 +11,7 @@ import { httpCacheInterceptor } from './core/interceptors/cache.interceptor';
 import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
+import { JDENTICON_CONFIG } from "ngx-jdenticon";
 
 
 export const appConfig: ApplicationConfig = {
@@ -18,7 +19,7 @@ export const appConfig: ApplicationConfig = {
         provideZoneChangeDetection({ 
             eventCoalescing: true 
         }), 
-        provideRouter(routes),
+        provideRouter(routes, withComponentInputBinding()),
         provideAnimationsAsync(),
         providePrimeNG({ 
             ripple: true,
@@ -36,5 +37,16 @@ export const appConfig: ApplicationConfig = {
             ]),
         ),
         { provide: BASE_PATH, useValue: 'https://localhost:4443' },
+        { provide: JDENTICON_CONFIG, useValue: {
+            hues: [0, 0],
+            lightness: {
+                color: [0.21, 0.9],
+                grayscale: [0.23, 0.62],
+            },
+            saturation: {
+                color: 0.80,
+                grayscale: 0.50,
+            },
+        }}
     ]
 };

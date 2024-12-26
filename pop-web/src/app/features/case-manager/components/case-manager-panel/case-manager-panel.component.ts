@@ -13,7 +13,7 @@ import { Timeline } from 'primeng/timeline';
 import { CaseManagerDrawerComponent } from '../case-manager-drawer/case-manager-drawer.component';
 
 import { LucideAngularModule } from 'lucide-angular';
-
+import { LucideIconData } from 'lucide-angular/icons/types';
 
 @Component({
     standalone: true,
@@ -38,7 +38,7 @@ export class CaseManagerPanelComponent implements OnInit {
     private messageService = inject(MessageService);
 
     @Input() title!: string;
-    @Input() icon!: string;
+    @Input() icon!: LucideIconData;
     @Input() caseId!: string;
     @Input() formComponent!: any;
     @Input() service!: any; 

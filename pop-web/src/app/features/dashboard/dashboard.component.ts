@@ -1,20 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
+
 
 @Component({
+    standalone: true,
     templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-
-    subscription!: Subscription;
-    
-    ngOnInit() {
-    }
-
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
+export class DashboardComponent {
 }

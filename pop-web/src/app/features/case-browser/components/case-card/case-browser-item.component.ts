@@ -15,22 +15,6 @@ import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
 
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 
-/**
- * Represents a single case browser item.
- *
- * This component is used to display information about a specific patient case in a case browser or list.
- * It takes a `PatientCase` object as input and fetches the usernames of the users who created and updated the case.
- *
- * @example
- * <app-case-browser-item [case]="patientCase"></app-case-browser-item>
- *
- * @property {PatientCase} case - The patient case object.
- * @property {Observable<string>} createdByUsername$ - An observable that emits the username of the user who created the case.
- * @property {Observable<string>[]} updatedByUsernames$ - An array of observables that emit the usernames of the users who updated the case.
- *
- * @dependencies
- * - AuthService: Used to fetch the usernames of the users who created and updated the case.
- */
 @Component({
     standalone: true,
     selector: 'app-case-browser-item',
@@ -44,23 +28,6 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
         DividerModule,
         ChipModule,
         CancerIconComponent,
-    ],
-    providers: [
-      { 
-        // Custom identicon style
-        provide: JDENTICON_CONFIG,
-        useValue: {
-            hues: [0, 0],
-          lightness: {
-            color: [0.21, 0.9],
-            grayscale: [0.23, 0.62],
-          },
-          saturation: {
-            color: 0.80,
-            grayscale: 0.50,
-          },
-        },
-      }
     ],
 })
 export class CaseBrowserCardComponent {

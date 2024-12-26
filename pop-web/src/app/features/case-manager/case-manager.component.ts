@@ -5,7 +5,13 @@ import { Observable, Subscription } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 
-import { NgxJdenticonModule, JDENTICON_CONFIG } from "ngx-jdenticon";
+import { NgxJdenticonModule } from "ngx-jdenticon";
+
+import { 
+    Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
+    Fingerprint, Tablets, Slice, Radiation, Cigarette, 
+    DiamondPlus, Activity, Presentation, ShieldAlert, 
+    Image, CircleGauge } from 'lucide-angular';
 
 import { 
     PatientCase, 
@@ -42,23 +48,6 @@ interface DataService {
     templateUrl: './case-manager.component.html',
     styleUrl: './case-manager.component.css',
     encapsulation: ViewEncapsulation.None,
-    providers: [
-        { 
-            // Custom identicon style
-            provide: JDENTICON_CONFIG,
-            useValue: {
-                hues: [0, 0],
-            lightness: {
-                color: [0.21, 0.9],
-                grayscale: [0.23, 0.62],
-            },
-            saturation: {
-                color: 0.80,
-                grayscale: 0.50,
-            },
-            },
-        }
-    ],
     imports: [
         CommonModule,
         CaseManagerPanelComponent,
@@ -132,6 +121,24 @@ export class CaseManagerComponent implements OnInit {
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
     public SystemicTherapyFormComponent = SystemicTherapyFormComponent;
 
+    public icons = {
+        neoplasticEntities: Ribbon,
+        stagings: Tags,
+        riskAssessments: HeartPulse,
+        tumorMarkers: TestTubeDiagonal,
+        genomicVariants: Dna,
+        genomicSignatures: Fingerprint,
+        systemicTherapies: Tablets,
+        surgeries: Slice, 
+        radiotherapies: Radiation,
+        lifestyle: Cigarette,
+        comorbidities: DiamondPlus,
+        vitals: Activity,
+        tumorBoards: Presentation,
+        adverseEvents: ShieldAlert,
+        treatmentResponses: Image, 
+        performanceStatus: CircleGauge,
+    }
 
     ngOnInit() {
         this.caseServiceSubscription = this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier).subscribe({

@@ -23,28 +23,28 @@
         </h5>
         <app-case-manager-panel
             title="Neoplastic Entities"
-            icon="ribbon"
+            [icon]="icons.neoplasticEntities"
             [caseId]="caseId"
             [formComponent]="NeoplasticEntityFormComponent"
             [service]="neoplasticEntityService"/>
             
         <app-case-manager-panel
             title="Stagings"
-            icon="tags"
+            [icon]="icons.stagings"
             [caseId]="caseId"
             [formComponent]="StagingFormComponent"
             [service]="stagingService"/>
 
         <app-case-manager-panel
             title="Risk Assessments"
-            icon="heart-pulse"
+            [icon]="icons.riskAssessments"
             [caseId]="caseId"
             [formComponent]="RiskAssessmentFormComponent"
             [service]="riskAssessmentService"/>
 
         <app-case-manager-panel
             title="Tumor Markers"
-            icon="test-tube-diagonal"
+            [icon]="icons.tumorMarkers"
             [formComponent]="TumorMarkerFormComponent"
             [service]="tumorMarkerService"/>
 
@@ -54,11 +54,11 @@
 
         <app-case-manager-panel
             title="Genomic Variants"
-            icon="dna"/>
+            [icon]="icons.genomicVariants"/>
 
         <app-case-manager-panel
             title="Genomic Signatures"
-            icon="fingerprint"/>
+            [icon]="icons.genomicSignatures"/>
 
     </div>
 
@@ -69,17 +69,17 @@
         </h5>
         <app-case-manager-panel
             title="Systemic Treatments"
-            icon="tablets"
+            [icon]="icons.systemicTherapies"
             [formComponent]="SystemicTherapyFormComponent"
             [service]="systemicTherapyService"/>
             
         <app-case-manager-panel
             title="Surgical Procedures"
-            icon="slice"/>
+            [icon]="icons.surgeries"/>
 
         <app-case-manager-panel
             title="Radiotherapies"
-            icon="radiation"/>
+            [icon]="icons.radiotherapies"/>
 
 
         <h5  class="font-bold mt-5">
@@ -88,15 +88,15 @@
 
         <app-case-manager-panel
             title="Lifestyle"
-            icon="cigarette"/>
+            [icon]="icons.lifestyle"/>
             
         <app-case-manager-panel
             title="Comorbidities"
-            icon="diamond-plus"/>
+            [icon]="icons.comorbidities"/>
 
         <app-case-manager-panel
             title="Vitals"
-            icon="activity"/>
+            [icon]="icons.vitals"/>
 
     </div>
 
@@ -108,19 +108,19 @@
 
         <app-case-manager-panel
             title="Tumor Boards"
-            icon="presentation"/>
+            [icon]="icons.tumorBoards"/>
             
         <app-case-manager-panel
             title="Adverse Events"
-            icon="shield-alert"/>
+            [icon]="icons.adverseEvents"/>
 
         <app-case-manager-panel
             title="Treatment Responses"
-            icon="image"/>
+            [icon]="icons.treatmentResponses"/>
 
         <app-case-manager-panel
             title="Performance Status"
-            icon="circle-gauge"/>
+            [icon]="icons.performanceStatus"/>
 
     </div>
 </div>

@@ -13,7 +13,7 @@ export const routes: Routes = [
         loadComponent: () => import('./core/layout/app.layout.component').then(m => m.AppLayoutComponent),
         canActivate: [AuthGuard],
         children: [
-            { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
+            { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'cases', 
                 children: [
                     { path: '', loadComponent: () => import('./features/case-browser/case-browser.component').then(m => m.CaseBrowserComponent) },
@@ -22,6 +22,10 @@ export const routes: Routes = [
             },
         ]
     },
-    { path: 'notfound', loadComponent: () => import('./core/notfound/notfound.component').then(m => m.NotfoundComponent) },
+    { 
+        path: 'notfound', 
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./core/notfound/notfound.component').then(m => m.NotfoundComponent) 
+    },
     { path: '**', redirectTo: '/notfound' },
 ];
