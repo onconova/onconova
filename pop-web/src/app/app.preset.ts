@@ -1,65 +1,49 @@
 import { definePreset } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 
+const shades: number[] = [50,100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+
+function get_color_scheme(color: string) {
+    return Object.fromEntries(
+        shades.map( (shade: number) => [shade, `{${color}.${shade}}`])
+    )
+}
+
+export const AppThemes = {
+    emerald: get_color_scheme('emerald'),
+    green: get_color_scheme('green'),
+    lime: get_color_scheme('lime'),
+    red: get_color_scheme('red'),
+    orange: get_color_scheme('orange'),
+    amber: get_color_scheme('amber'),
+    yellow: get_color_scheme('yellow'),
+    teal: get_color_scheme('teal'),
+    cyan: get_color_scheme('cyan'),
+    sky: get_color_scheme('sky'),
+    blue: get_color_scheme('blue'),
+    indigo: get_color_scheme('indigo'),
+    violet: get_color_scheme('violet'),
+    purple: get_color_scheme('purple'),
+    fuchsia: get_color_scheme('fuchsia'),
+    pink: get_color_scheme('pink'),
+    rose: get_color_scheme('rose'),
+}
+
 export const AppThemePreset = definePreset(Aura, {
     semantic: {
         colorScheme: {
             light: {
-                primary: {
-                    50: '{blue.50}',
-                    100: '{blue.100}',
-                    200: '{blue.200}',
-                    300: '{blue.300}',
-                    400: '{blue.400}',
-                    500: '{blue.500}',
-                    600: '{blue.600}',
-                    700: '{blue.700}',
-                    800: '{blue.800}',
-                    900: '{blue.900}',
-                    950: '{blue.950}'
-                },
+                primary: AppThemes.blue,
                 surface: {
                     0: '#ffffff',
-                    50: '{zinc.50}',
-                    100: '{zinc.100}',
-                    200: '{zinc.200}',
-                    300: '{zinc.300}',
-                    400: '{zinc.400}',
-                    500: '{zinc.500}',
-                    600: '{zinc.600}',
-                    700: '{zinc.700}',
-                    800: '{zinc.800}',
-                    900: '{zinc.900}',
-                    950: '{zinc.950}'
+                    ...get_color_scheme('zinc'),
                 }
             },
             dark: {
-                primary: {
-                    50: '{blue.50}',
-                    100: '{blue.100}',
-                    200: '{blue.200}',
-                    300: '{blue.300}',
-                    400: '{blue.400}',
-                    500: '{blue.500}',
-                    600: '{blue.600}',
-                    700: '{blue.700}',
-                    800: '{blue.800}',
-                    900: '{blue.900}',
-                    950: '{blue.950}'
-                },
+                primary: AppThemes.blue,
                 surface: {
                     0: '#ffffff',
-                    50: '{slate.50}',
-                    100: '{slate.100}',
-                    200: '{slate.200}',
-                    300: '{slate.300}',
-                    400: '{slate.400}',
-                    500: '{slate.500}',
-                    600: '{slate.600}',
-                    700: '{slate.700}',
-                    800: '{slate.800}',
-                    900: '{slate.900}',
-                    950: '{slate.950}'
+                    ...get_color_scheme('slate'),
                 }
             }
         }

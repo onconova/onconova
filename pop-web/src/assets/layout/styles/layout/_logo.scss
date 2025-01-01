@@ -1,6 +1,6 @@
 
 .pop-logo {
-    color: var(--p-primary-color);
+    color: var(--p-primary-color) !important;
 }
 
 .layout-topbar .pop-logo svg {
@@ -14,11 +14,4 @@
 }
 
 
-html.teal-theme .jdenticon {
-    filter: hue-rotate(174deg);
-}
-
-html .jdenticon {
-    filter: hue-rotate(213deg);
-}
   

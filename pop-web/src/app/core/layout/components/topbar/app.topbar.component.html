@@ -1,6 +1,6 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <div inlineSVG="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo" class="pop-logo mr-3"></div>
+        <div [inlineSVG]="layoutService.logo" alt="logo" class="pop-logo mr-3"></div>
         <div>
             <div class="layout-topbar-title text-xl">
                 Precision Oncology Platform
@@ -20,7 +20,7 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <p-button [icon]="themeModeIcon" [rounded]="true" [outlined]="true" (onClick)="toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
+        <p-button [icon]="layoutService.config.darkMode() ? 'pi pi-moon' : 'pi pi-sun'" [rounded]="true" [outlined]="true" (onClick)="layoutService.toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
 
         <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
         <p-menu #profile [model]="profile_items" [popup]="true">
@@ -38,3 +38,5 @@
 
     </div>
 </div>
+
+<app-settings-dialog></app-settings-dialog>

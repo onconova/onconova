@@ -5,7 +5,8 @@ import { LayoutService } from "../../service/app.layout.service";
 import packageInfo from '../../../../../../package.json';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
-import { updatePreset } from '@primeng/themes';
+
+import { SettingsDialogComponent } from '../settings/app.settings.component';
 
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
@@ -26,6 +27,7 @@ import { Button } from 'primeng/button';
         Menu,
         Button,
         InlineSVGModule,
+        SettingsDialogComponent,
     ]
 })
 export class AppTopBarComponent {
@@ -40,6 +42,8 @@ export class AppTopBarComponent {
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
+    
+    @ViewChild(SettingsDialogComponent) settingsDialog!: SettingsDialogComponent;
 
     constructor(
         public layoutService: LayoutService,
@@ -55,10 +59,10 @@ export class AppTopBarComponent {
                 label: 'Profile',
                 items: [
                     {
-                        label: 'Palette',
-                        icon: 'pi pi-pencil',
+                        label: 'Settings',
+                        icon: 'pi pi-cog',
                         command: () => {
-                            this.changePrimaryColor();
+                            this.showSettingsDialog();
                         }
                     },
                     {
@@ -75,62 +79,22 @@ export class AppTopBarComponent {
 
 
     ngOnInit(): void {
-        const darkModePreference = localStorage.getItem('darkMode');
-        if (darkModePreference === 'true') {
-            this.themeModeIcon = 'pi pi-moon';
-            const element = document.querySelector('html');
-            if (element) {
-                element.classList.add('dark-mode');
-            }
-        } else {
-            this.themeModeIcon = 'pi pi-sun';
-        }
+        // const darkModePreference = localStorage.getItem('darkMode');
+        // if (darkModePreference === 'true') {
+        //     this.themeModeIcon = 'pi pi-moon';
+        //     const element = document.querySelector('html');
+        //     if (element) {
+        //         element.classList.add('dark-mode');
+        //     }
+        // } else {
+        //     this.themeModeIcon = 'pi pi-sun';
+        // }
     }
 
-    toggleDarkMode() {
-        const element = document.querySelector('html');
-        if (element) {
-            this.themeModeIcon = this.themeModeIcon == 'pi pi-moon' ? 'pi pi-sun' : 'pi pi-moon'
-            element.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', element.classList.contains('dark-mode').toString());
-        }
+    showSettingsDialog() {
+        this.settingsDialog.showDialog()
     }
-
-
     
-    changePrimaryColor() {
-        const element = document.querySelector('html');
-        if (element) {
-            element.classList.toggle('teal-theme');
-        }
-        const scheme = {
-            50: '{teal.50}',
-            100: '{teal.100}',
-            200: '{teal.200}',
-            300: '{teal.300}',
-            400: '{teal.400}',
-            500: '{teal.500}',
-            600: '{teal.600}',
-            700: '{teal.700}',
-            800: '{teal.800}',
-            900: '{teal.900}',
-            950: '{teal.950}'
-        }
-        updatePreset(
-            {
-            semantic: {
-                colorScheme: {
-                    light: {
-                        primary: scheme
-                    },
-                    dark: {
-                        primary: scheme
-                    }
-                }
-            }
-        })
-    }
-
     logout() {
         this.authService.logout()
         this.router.navigate(['auth','login'])
