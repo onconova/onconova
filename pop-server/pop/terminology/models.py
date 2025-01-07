@@ -47,6 +47,8 @@ class CodedConcept(BaseModel):
         null=True, blank=True
     )
  
+    extension_concepts = []
+
     class Meta:
         unique_together=['code', 'system']
         abstract = True 
