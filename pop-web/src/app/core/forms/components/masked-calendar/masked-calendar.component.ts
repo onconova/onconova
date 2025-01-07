@@ -39,10 +39,16 @@ export class MaskedCalendarComponent implements ControlValueAccessor {
     public formControl: FormControl = new FormControl();
 
     writeValue(value: any): void {
-        if (value) {
+        if (value?.start || value?.end) {
+            const start_date = new Date(value.start);
+            const end_date = new Date(value.end);
+            value = `${moment(start_date).format(this.dateStringFormat)} - ${moment(end_date).format(this.dateStringFormat)}`;
+        }
+        else if (value) {
             const date = new Date(value);
             value = moment(date).format(this.dateStringFormat);
         }
+        console.log('DataField', value)
         this.formControl.patchValue(value);
     }
 
