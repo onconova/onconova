@@ -64,7 +64,9 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     public readonly createService = this.systemicTherapiesService.createSystemicTherapy.bind(this.systemicTherapiesService)
     public readonly updateService = this.systemicTherapiesService.updateSystemicTherapy.bind(this.systemicTherapiesService)
     override readonly subformsServices = [{
-        payloads: this.constructMedicationPayloads,
+        payloads: this.constructMedicationPayloads.bind(this),
+        deletedEntries: this.getDeletedMedications.bind(this),
+        delete: this.systemicTherapiesService.deleteSystemicTherapyMedication.bind(this.systemicTherapiesService),
         create: this.systemicTherapiesService.createSystemicTherapyMedication.bind(this.systemicTherapiesService),
         update: this.systemicTherapiesService.updateSystemicTherapyMedication.bind(this.systemicTherapiesService),
 }]
@@ -84,6 +86,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
 
     public medicationFormArray!: FormArray;
 
+    private deletedMedications: string[] = [];
 
     ngOnInit() {
         // Fetch any primary neoplastic entities that could be related to a new entry 
@@ -94,17 +97,31 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
 
     ngAfterViewInit() {
         this.form.get('drugs')?.valueChanges.subscribe((drugs: CodedConceptSchema[]) => {
+            // Add subforms for new drugs
             drugs.forEach((drug: CodedConceptSchema) => {
-                console.log('ADD subform for', drug)
-                this.medicationFormArray.push(this.constructMedicationSubform({drug: drug} as SystemicTherapyMedicationCreateSchema));
+                if (!this.medicationFormArray.value.map( (medication: SystemicTherapyMedicationSchema) => medication.drug ).includes(drug) ){
+                    this.medicationFormArray.push(this.constructMedicationSubform({drug: drug} as SystemicTherapyMedicationSchema));    
+                }
             });
+            // Remove subforms for drugs that are no longer selected
+            this.medicationFormArray.value.forEach((medication: SystemicTherapyMedicationSchema, index: number) => {
+                if (!drugs.includes(medication.drug)) {
+                    if (medication.id) {
+                        console.log('DELETE MEDICATION', medication.id)
+                        this.deletedMedications.push(medication.id);
+                    }
+                    this.medicationFormArray.removeAt(index);
+                }
+            })
         })
     }
 
     constructForm(): void {
 
         this.medicationFormArray = this.formBuilder.array((this.initialData?.medications || [])?.map(
-            (initialMedication: SystemicTherapyMedicationCreateSchema) => this.constructMedicationSubform(initialMedication)
+            (initialMedication: SystemicTherapyMedicationSchema) => {
+                return this.constructMedicationSubform(initialMedication)
+            }
         ))
         console.log('this.initialData', this.initialData)
         this.form = this.formBuilder.group({
@@ -114,19 +131,18 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             intent: [this.initialData?.intent,Validators.required],
             role: [this.initialData?.role],
             terminationReason: [this.initialData?.terminationReason],
-            drugs: [this.initialData?.medications.map((med:any) => med.drug),Validators.required],
+            drugs: [this.initialData?.medications?.map((med:any) => med.drug),Validators.required],
             medications: this.medicationFormArray,
         });
     }
 
-    constructMedicationSubform(initalData: SystemicTherapyMedicationCreateSchema) {
+    constructMedicationSubform(initalData: SystemicTherapyMedicationSchema) {
         return this.formBuilder.group({
+            id: [initalData.id],
             drug: [initalData.drug, Validators.required],
             route: [initalData.route],
         })
     }
-
-
 
     meditcationSubforms(): any[] {
         const formarray: FormArray = this.form.get('medications') as FormArray;
@@ -140,20 +156,27 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         console.log('constructAPIPayload', data)
         return {
             caseId: this.caseId,
-            targetedEntitiesIds: data.targetedEntitiesIds,
+            targetedEntitiesIds: data.targetedEntities,
             period: {
-            start: moment(data.period.split(' - ')[0], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
-            end: moment(data.period.split(' - ')[1], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            start: data.period.start? data.period.start: moment(data.period.split(' - ')[0], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            end: data.period.end? data.period.end: moment(data.period.split(' - ')[1], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
             },
             cycles: data.cycles,
             intent: data.intent,
         };
     }
 
-    constructMedicationPayloads(data: any): SystemicTherapyMedicationCreateSchema {
+    private constructMedicationPayloads(data: any): SystemicTherapyMedicationCreateSchema {
         return data.medications.map((subformData: any) => {return {
+            id: subformData.id,
             drug: subformData.drug,
+            route: subformData.route,
         }})
+    }
+
+    private getDeletedMedications(): string[] {
+        console.log('GET DELETED MEDS', this.deletedMedications)
+        return this.deletedMedications;
     }
 
     private getRelatedEntities(): void {

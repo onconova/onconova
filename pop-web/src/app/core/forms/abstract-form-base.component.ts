@@ -35,8 +35,8 @@ export abstract class AbstractFormBase {
 
   abstract createService: CallableFunction;
   abstract updateService: CallableFunction;
-  public subformsServices: {payloads: CallableFunction, create: CallableFunction, update: CallableFunction}[] = [];
-
+  public subformsServices: {payloads: CallableFunction, deletedEntries: CallableFunction, delete: CallableFunction, create: CallableFunction, update: CallableFunction}[] = [];
+  
   abstract constructAPIPayload(data: any): any
 
   onSave(): void {
@@ -59,12 +59,40 @@ export abstract class AbstractFormBase {
               return forkJoin(
                 this.subformsServices.flatMap((subformServices) => {
                   return subformServices.payloads(data).map(
-                    (subformPayload: any) => subformServices.create(response.id, subformPayload)
+                    (subformPayload: any) => {
+                      if (subformPayload.id) {
+                        console.log('UPDATE SUBENTRY', subformPayload.id)
+                        return subformServices.update(this.initialData.id, subformPayload.id, subformPayload)
+                      } else {
+                        console.log('CREATE SUBENTRY')
+                        return subformServices.create(this.initialData.id, subformPayload)
+                      }
+                    }
                   )
                 })
-              ).pipe(
-                map(() => response)
-              );
+              )
+              .pipe(
+                concatMap((response): any => {
+                  return forkJoin(
+                    this.subformsServices.flatMap((subformServices) => {
+                      const toBeDeleted = subformServices.deletedEntries()
+                      if (toBeDeleted.length == 0 ) {
+                        console.log('NOTHING TO DELETE')
+                        return of(response)
+                      }
+                      return toBeDeleted.map(
+                        (deletedEntryId: any) => {
+                          console.log('DELETE SUBENTRY', deletedEntryId)
+                          return subformServices.delete(this.initialData.id, deletedEntryId)
+                        }
+                      )
+                    })
+                  )
+                  .pipe(
+                    map(() => response)
+                  );
+                })
+              )
             }),
             takeUntilDestroyed(this.destroyRef)
           )
@@ -79,6 +107,7 @@ export abstract class AbstractFormBase {
               // Report any problems
               this.loading = false;  
               this.messageService.add({ severity: 'error', summary: 'Error ocurred while updating', detail: error.message });
+              console.error(error)
             }
           })
   
@@ -114,6 +143,7 @@ export abstract class AbstractFormBase {
               // Report any problems
               this.loading = false;  
               this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.message });
+              console.error(error)
             }
         })  
       }
