@@ -8167,6 +8167,150 @@
             "one_to_many": false,
             "orm_name": "within_soc",
             "title": "Within SOC"
+          },
+          "dosageMassConcentration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in mass concentration (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_mass_concentration",
+            "title": "Dosage - Mass concentration"
+          },
+          "dosageMass": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in a fixed mass (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_mass",
+            "title": "Dosage - Fixed Mass"
+          },
+          "dosageVolume": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in a volume (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_volume",
+            "title": "Dosage - Volume"
+          },
+          "dosageMassSurface": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in a mass per body surface area (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_mass_surface",
+            "title": "Dosage - Mass per body surface"
+          },
+          "dosageRateMassConcentration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in mass concentration (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_mass_concentration",
+            "title": "Dosage rate - Mass concentration"
+          },
+          "dosageRateMass": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in a fixed mass (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_mass",
+            "title": "Dosage rate - Fixed Mass"
+          },
+          "dosageRateVolume": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in a volume (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_volume",
+            "title": "Dosage rate - Volume"
+          },
+          "dosageRateMassSurface": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in a mass per body surface area (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_mass_surface",
+            "title": "Dosage rate - Mass per body surface"
           }
         },
         "required": [
@@ -8444,6 +8588,150 @@
             "one_to_many": false,
             "orm_name": "within_soc",
             "title": "Within SOC"
+          },
+          "dosageMassConcentration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in mass concentration (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_mass_concentration",
+            "title": "Dosage - Mass concentration"
+          },
+          "dosageMass": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in a fixed mass (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_mass",
+            "title": "Dosage - Fixed Mass"
+          },
+          "dosageVolume": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in a volume (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_volume",
+            "title": "Dosage - Volume"
+          },
+          "dosageMassSurface": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage of the medication expressed in a mass per body surface area (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_mass_surface",
+            "title": "Dosage - Mass per body surface"
+          },
+          "dosageRateMassConcentration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in mass concentration (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_mass_concentration",
+            "title": "Dosage rate - Mass concentration"
+          },
+          "dosageRateMass": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in a fixed mass (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_mass",
+            "title": "Dosage rate - Fixed Mass"
+          },
+          "dosageRateVolume": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in a volume (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_volume",
+            "title": "Dosage rate - Volume"
+          },
+          "dosageRateMassSurface": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dosage rate of the medication expressed in a mass per body surface area (if revelant/appliccable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dosage_rate_mass_surface",
+            "title": "Dosage rate - Mass per body surface"
           }
         },
         "required": [

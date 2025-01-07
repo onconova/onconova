@@ -84,6 +84,53 @@
                                 terminology="DosageRoute"
                                 [showSynonyms]="true"/>
                         </div>
+                        <div class="field">
+                            <label class="form-label required">Dosage type</label>
+                            <radio-select  
+                            formControlName="dosageType"
+                            [choices]="dosageTypeChoices"
+                            class="flex flex-wrap gap-4"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label">Dosage</label>
+                            <div class="no-entries-text" *ngIf="!control.value.dosageType">Select a dosage type first</div>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'Mass'" 
+                                formControlName="dosageMass"
+                                measure="Mass"/>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'MassConcentration'" 
+                                formControlName="dosageMassConcentration"
+                                measure="MassConcentration"/>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'Volume'" 
+                                formControlName="dosageVolume"
+                                measure="Volume"/>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'MassPerSurface'" 
+                                formControlName="dosageMassSurface"
+                                measure="MassPerArea"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label">Dosage rate</label>
+                            <div class="no-entries-text" *ngIf="!control.value.dosageType">Select a dosage type first</div>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'Mass'" 
+                                formControlName="dosageRateMass"
+                                measure="MassPerTime"/>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'MassConcentration'" 
+                                formControlName="dosageRateMassConcentration"
+                                measure="MassConcentrationPerTime"/>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'Volume'" 
+                                formControlName="dosageVolume"
+                                measure="VolumePerTime"/>
+                            <measure-input 
+                                *ngIf="control.value.dosageType == 'MassPerSurface'" 
+                                formControlName="dosageRateMassSurface"
+                                measure="MassPerAreaPerTime"/>
+                        </div>
                     </div>
                 </p-fieldset>
             </ng-container>

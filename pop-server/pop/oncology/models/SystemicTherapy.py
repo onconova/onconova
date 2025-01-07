@@ -3,10 +3,13 @@ from django.db import models
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
 
+from django_measurement.models import MeasurementField
+
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase, NeoplasticEntity 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
+import pop.core.measures as measures
 
 class SystemicTherapy(BaseModel):
 
@@ -61,7 +64,7 @@ class SystemicTherapy(BaseModel):
 
     @property
     def description(self):
-        return f'{self.intent} - {", ".join([drug.display for drug in self.drugs])}'
+        return f'{self.intent.capitalize()} - {"/".join([drug.display for drug in self.drugs])}'
 
 
 class SystemicTherapyMedication(BaseModel):
@@ -94,6 +97,54 @@ class SystemicTherapyMedication(BaseModel):
         help_text = _("Indicates whether a medication was within standard of care (SOC) at the time of administration."),
         null=True, blank=True,
     )    
+    dosage_mass_concentration = MeasurementField(
+        verbose_name= _('Dosage - Mass concentration'),
+        help_text = _('Dosage of the medication expressed in mass concentration (if revelant/appliccable)'),
+        measurement = measures.MassConcentration,
+        null=True, blank=True,
+    )
+    dosage_mass = MeasurementField(
+        verbose_name= _('Dosage - Fixed Mass'),
+        help_text = _('Dosage of the medication expressed in a fixed mass (if revelant/appliccable)'),
+        measurement = measures.Mass,
+        null=True, blank=True,
+    )
+    dosage_volume = MeasurementField(
+        verbose_name= _('Dosage - Volume'),
+        help_text = _('Dosage of the medication expressed in a volume (if revelant/appliccable)'),
+        measurement = measures.Volume,
+        null=True, blank=True,
+    )
+    dosage_mass_surface = MeasurementField(
+        verbose_name= _('Dosage - Mass per body surface'),
+        help_text = _('Dosage of the medication expressed in a mass per body surface area (if revelant/appliccable)'),
+        measurement = measures.MassPerArea,
+        null=True, blank=True,
+    )
+    dosage_rate_mass_concentration = MeasurementField(
+        verbose_name= _('Dosage rate - Mass concentration'),
+        help_text = _('Dosage rate of the medication expressed in mass concentration (if revelant/appliccable)'),
+        measurement = measures.MassConcentrationPerTime,
+        null=True, blank=True,
+    )
+    dosage_rate_mass = MeasurementField(
+        verbose_name= _('Dosage rate - Fixed Mass'),
+        help_text = _('Dosage rate of the medication expressed in a fixed mass (if revelant/appliccable)'),
+        measurement = measures.MassPerTime,
+        null=True, blank=True,
+    )
+    dosage_rate_volume = MeasurementField(
+        verbose_name= _('Dosage rate - Volume'),
+        help_text = _('Dosage rate of the medication expressed in a volume (if revelant/appliccable)'),
+        measurement = measures.VolumePerTime,
+        null=True, blank=True,
+    )
+    dosage_rate_mass_surface = MeasurementField(
+        verbose_name= _('Dosage rate - Mass per body surface'),
+        help_text = _('Dosage rate of the medication expressed in a mass per body surface area (if revelant/appliccable)'),
+        measurement = measures.MassPerAreaPerTime,
+        null=True, blank=True,
+    )
     
     @property
     def description(self):

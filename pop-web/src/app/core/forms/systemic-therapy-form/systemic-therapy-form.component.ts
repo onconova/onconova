@@ -32,6 +32,7 @@ import {
   ReferenceMultiSelect,
   RadioChoice,
   RadioSelectComponent,
+  MeasureInputComponent,
 } from '../../forms/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
@@ -49,6 +50,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     InputNumber,
     ButtonModule,
     Fieldset,
+    MeasureInputComponent,
     CodedConceptSelectComponent,
     ReferenceMultiSelect,
     RadioSelectComponent,
@@ -76,6 +78,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     public readonly icon = Tablets;
 
     private caseId!: string;
+    public medicationFormArray!: FormArray;
     public initialData: SystemicTherapySchema | any = {};
     public relatedEntities: NeoplasticEntity[] = []; 
 
@@ -84,7 +87,13 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         {name: 'Palliative', value: SystemicTherapyIntentChoices.Palliative},
     ]
 
-    public medicationFormArray!: FormArray;
+    public readonly dosageTypeChoices: RadioChoice[] = [
+        {name: 'Mass', value: 'Mass'},
+        {name: 'Volume', value: 'Volume'},
+        {name: 'Mass Concentration', value: 'MassConcentration'},
+        {name: 'Mass per surface', value: 'MassPerSurface'},
+    ]
+
 
     private deletedMedications: string[] = [];
 
@@ -107,7 +116,6 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             this.medicationFormArray.value.forEach((medication: SystemicTherapyMedicationSchema, index: number) => {
                 if (!drugs.includes(medication.drug)) {
                     if (medication.id) {
-                        console.log('DELETE MEDICATION', medication.id)
                         this.deletedMedications.push(medication.id);
                     }
                     this.medicationFormArray.removeAt(index);
@@ -141,7 +149,29 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             id: [initalData.id],
             drug: [initalData.drug, Validators.required],
             route: [initalData.route],
+            dosageType: [this.getInitialDosageType(initalData)],
+            dosageMass: [initalData.dosageMass],
+            dosageMassConcentration: [initalData.dosageMassConcentration],
+            dosageVolume: [initalData.dosageVolume],
+            dosageMassSurface: [initalData.dosageRateMassSurface],
+            dosageRateMass: [initalData.dosageRateMass],
+            dosageRateMassConcentration: [initalData.dosageRateMassConcentration],
+            dosageRateVolume: [initalData.dosageRateVolume],
+            dosageRateMassSurface: [initalData.dosageRateMassSurface],
         })
+    }
+
+    getInitialDosageType(data: SystemicTherapyMedicationSchema) {
+        if (data.dosageMass || data.dosageRateMass) {
+            return 'Mass'
+        } else if (data.dosageMassConcentration || data.dosageRateMassConcentration) {
+            return 'MassConcentration'
+        }  else if (data.dosageMassSurface || data.dosageRateMassSurface) {
+            return 'MassPerSurface'
+        }  else if (data.dosageVolume || data.dosageRateVolume) {
+            return 'Volume'
+        }
+        return null
     }
 
     meditcationSubforms(): any[] {
@@ -171,11 +201,18 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             id: subformData.id,
             drug: subformData.drug,
             route: subformData.route,
+            dosageMass: subformData.dosageMass,
+            dosageMassConcentration: subformData.dosageMassConcentration,
+            dosageVolume: subformData.dosageVolume,
+            dosageMassSurface: subformData.dosageRateMassSurface,
+            dosageRateMass: subformData.dosageRateMass,
+            dosageRateMassConcentration: subformData.dosageRateMassConcentration,
+            dosageRateVolume: subformData.dosageRateVolume,
+            dosageRateMassSurface: subformData.dosageRateMassSurface,
         }})
     }
 
     private getDeletedMedications(): string[] {
-        console.log('GET DELETED MEDS', this.deletedMedications)
         return this.deletedMedications;
     }
 

@@ -1,6 +1,6 @@
 from measurement.base import MeasureBase, BidimensionalMeasure
 
-from measurement.measures import Mass, Volume as VolumeBase
+from measurement.measures import Mass, Volume as VolumeBase, Time
 
 class Unit(MeasureBase):
     STANDARD_UNIT = 'IU'
@@ -31,6 +31,7 @@ class MultipleOfMedian(MeasureBase):
         'multiple_of_median': 'M.o.M',
     }
     
+
     
 class Volume(VolumeBase):
     STANDARD_UNIT = 'l'
@@ -56,7 +57,20 @@ class Volume(VolumeBase):
         'imperial_tbsp': 1.7758e-3,
         'imperial_tsp': 5.9194e-3,
     }
+    SI_UNITS = ['l']
 
+
+class Area(VolumeBase):
+    STANDARD_UNIT = 'square_meter'
+    UNITS = {
+        'square_millimeter': 1000000,
+        'square_centimeter': 10000,
+        'square_decimeter':  100,
+        'square_meter': 1,
+        'square_foot': 10.76391,
+        'square_inch': 1550.003,
+        'square_yard': 1.19599,
+    }
     
 class Fraction(MeasureBase):
     STANDARD_UNIT = '%'
@@ -74,7 +88,8 @@ class Fraction(MeasureBase):
         'ppb': 'parts_per_billion',
         'ppt': 'parts_per_trillion',
     }
-    
+
+
 class MassConcentration(BidimensionalMeasure):
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Volume
@@ -86,3 +101,24 @@ class SubstanceConcentration(BidimensionalMeasure):
 class ArbitraryConcentration(BidimensionalMeasure):
     PRIMARY_DIMENSION = Unit
     REFERENCE_DIMENSION = Volume
+
+class MassPerArea(BidimensionalMeasure):
+    PRIMARY_DIMENSION = Mass
+    REFERENCE_DIMENSION = Area
+
+
+class MassPerTime(BidimensionalMeasure):
+    PRIMARY_DIMENSION = Mass
+    REFERENCE_DIMENSION = Time
+
+class VolumePerTime(BidimensionalMeasure):
+    PRIMARY_DIMENSION = Volume
+    REFERENCE_DIMENSION = Time
+
+class MassConcentrationPerTime(BidimensionalMeasure):
+    PRIMARY_DIMENSION = MassConcentration
+    REFERENCE_DIMENSION = Time
+
+class MassPerAreaPerTime(BidimensionalMeasure):
+    PRIMARY_DIMENSION = MassPerArea
+    REFERENCE_DIMENSION = Time

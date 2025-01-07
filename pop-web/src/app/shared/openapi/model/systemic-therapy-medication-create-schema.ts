@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MeasureSchema } from './measure-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
@@ -18,5 +19,13 @@ export interface SystemicTherapyMedicationCreateSchema {
     route?: CodedConceptSchema | null;
     usedOfflabel?: boolean | null;
     withinSoc?: boolean | null;
+    dosageMassConcentration?: MeasureSchema | null;
+    dosageMass?: MeasureSchema | null;
+    dosageVolume?: MeasureSchema | null;
+    dosageMassSurface?: MeasureSchema | null;
+    dosageRateMassConcentration?: MeasureSchema | null;
+    dosageRateMass?: MeasureSchema | null;
+    dosageRateVolume?: MeasureSchema | null;
+    dosageRateMassSurface?: MeasureSchema | null;
 }
 
