@@ -1,0 +1,12 @@
+
+.coded-concept-synonyms-faded {
+    max-height: 5rem;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 44%, transparent 95%);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 44%, transparent 95%);
+}
+.coded-concept-synonyms-faded:hover{
+    transition: max-height 3s 2s ease;
+    max-height: fit-content;
+    mask-image: unset;
+    -webkit-mask-image: unset;
+}

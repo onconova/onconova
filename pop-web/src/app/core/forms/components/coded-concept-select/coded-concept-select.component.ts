@@ -16,6 +16,7 @@ interface AutoCompleteCompleteEvent {
 @Component({
     standalone: true,
     selector: 'coded-concept-select',
+    styleUrl: './coded-concept-select.component.css',
     templateUrl: './coded-concept-select.component.html',
     providers: [
         {
@@ -61,24 +62,39 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     }
 
     filterConcepts(event: AutoCompleteCompleteEvent) {
-        let filtered: CodedConceptSchema[] = []
         let query: string = `${this.baseQuery} ${event.query}`
-        filtered = [...this.concepts];
-        query.split(' ').forEach(word => {
-            if (word) {
-                filtered = filtered.filter((concept) => this.conceptMatchesQuery(concept, word.toLowerCase()));
-            }
-        })
-        this.filteredConcepts = filtered
+        if (query != ' ') {
+            // Calculate the scores
+            let scores: number[] = this.concepts.map((concept) => this.conceptQueryMatchingScore(concept, query.toLowerCase()));
+            // Filter the concepts based on non-zero scores
+            let filteredConcepts: CodedConceptSchema[] = this.concepts.filter((_, index) => scores[index] > 0);
+            // Sort the filtered concepts in descending order of score
+            filteredConcepts.sort((a, b) => scores[this.concepts.indexOf(b)] - scores[this.concepts.indexOf(a)]);
+            console.log(query, this.concepts.length, filteredConcepts.length)
+            this.filteredConcepts = filteredConcepts;
+        } else {
+            this.filteredConcepts = [...this.concepts];
+        }
     }
 
  
-    conceptMatchesQuery(concept: CodedConceptSchema, query: string): boolean {
-        return concept.code.toLowerCase().includes(query)
-            || 
-            concept.display != null && concept.display.toLowerCase().includes(query)
-            ||
-            (concept.synonyms != null && concept.synonyms.some((synonym:string) => synonym.toLowerCase().includes(query)));   
+    conceptQueryMatchingScore(concept: CodedConceptSchema, query: string): number {
+        // Scores to prioritize concept matching
+        const codeScore = 10;
+        const displayScore = 5;
+        const synonymScore = 1;
+        // Go over each word in the query string and accumulate the score value based on matches
+        let score: number  = 0;
+        query.split(' ').forEach(word => {
+            if (word) {
+                score += (concept.code.toLowerCase().includes(word) ? codeScore: 0)
+                + 
+                ((concept.display != null && concept.display.toLowerCase().includes(word)) ? displayScore: 0)
+                +
+                ((concept.synonyms != null && concept.synonyms.some((synonym:string) => synonym.toLowerCase().includes(word))) ? synonymScore: 0);
+            }
+        })   
+        return score
     }
 
 

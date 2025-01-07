@@ -22,7 +22,7 @@
         </small>
       </div>
       <div class="ml-3 mt-1 text-xs gap2">
-        <div *ngIf="showSynonyms">
+        <div *ngIf="showSynonyms" [ngClass]="concept.synonyms.length > 5 ? 'coded-concept-synonyms-faded' : ''">
           <ng-container *ngFor="let synonym of concept.synonyms; let i = index; trackBy:conceptTrackBy">
             <div>
                 <b>syn.</b>
