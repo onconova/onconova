@@ -3,7 +3,11 @@
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for an HTTPS dev server.
+```bash 
+ng serve --ssl --ssl-cert ../etc/certs/localhost.pem --ssl-key ../etc/certs/localhost-key.pem 
+```
+ Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Regenerate OpenAPI client
 
@@ -11,6 +15,11 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 rm -r src/app/shared/openapi && npx openapi-generator-cli generate -i openapi.json -g typescript-angular -o src/app/shared/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true --generate-alias-as-model
 ```
 
+## Generate a local development SSL certificate 
+
+```bash 
+sudo certbot certonly --standalone --preferred-challenges http -d localhost -d localhost
+```
 
 ## Build
 
