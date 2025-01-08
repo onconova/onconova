@@ -328,3 +328,11 @@ class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.PerformanceStatusCreateSchema    
     
     
+class TestLifestyleController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/lifestyles'
+    FACTORY = factories.LifestyleFactory
+    MODEL = models.Lifestyle
+    SCHEMA = schemas.LifestyleSchema
+    CREATE_SCHEMA = schemas.LifestyleCreateSchema    
+    
+    

@@ -3,7 +3,7 @@ from typing import Type, Optional
 from django.db.models import Model as DjangoModel
 from django.contrib.postgres.fields import DateRangeField 
 
-from django_measurement.models import MeasurementField
+from pop.core.fields import MeasurementField
 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
 

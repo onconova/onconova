@@ -14,6 +14,7 @@ from pop.oncology.controllers import (
     SurgeryController,
     RadiotherapyController,
     PerformanceStatusController,
+    LifestyleController,
 )
 
 
@@ -34,6 +35,7 @@ api.register_controllers(
     SurgeryController,
     RadiotherapyController,
     PerformanceStatusController,
+    LifestyleController,
     MeasuresController,
     TerminologyController,
 )

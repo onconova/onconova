@@ -181,7 +181,6 @@ class RadiotherapySettingFactory(factory.django.DjangoModelFactory):
     technique = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyTechnique))
 
 
-
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PerformanceStatus
@@ -190,5 +189,16 @@ class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     ecog_score = factory.LazyFunction(lambda: random.randint(0,5))
     karnofsky_score = factory.LazyFunction(lambda: random.randint(0,100))
 
+
+class LifestyleFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Lifestyle
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    smoking_status = factory.SubFactory(make_terminology_factory(terminology.SmokingStatus))
+    smoking_packyears = factory.LazyFunction(lambda: random.random())
+    smoking_quited = factory.LazyFunction(lambda: measures.Time(year=random.random()))    
+    alcohol_consumption = factory.SubFactory(make_terminology_factory(terminology.AlcoholConsumptionFrequency))
+    night_sleep = factory.LazyFunction(lambda: measures.Time(hour=random.random()))    
 
     

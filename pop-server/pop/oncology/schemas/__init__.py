@@ -29,6 +29,7 @@ from .Radiotherapy import (
     RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
 )
 from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
+from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 
 __all__ = (
      # PatientCase schemas
@@ -65,4 +66,6 @@ __all__ = (
     RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
      # Performance status schemas 
     PerformanceStatusSchema, PerformanceStatusCreateSchema,
+    # Lifestyle schemas
+    LifestyleSchema, LifestyleCreateSchema,
 )

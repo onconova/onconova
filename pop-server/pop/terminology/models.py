@@ -620,7 +620,7 @@ class HumanSpecimenCollectionSite(CodedConcept):
     description = 'Anatomical or acquired body sites (body structure)'
 
 
-class USCoreSmokingStatusObservationCodes(CodedConcept):
+class SmokingStatus(CodedConcept):
     valueset =  'https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.11.20.9.38/expansion'
     description = 'Current Smoking Status - IPS'
     def __str__(self):
@@ -933,6 +933,11 @@ class TumorMarkerTestResult(CodedConcept):
 class RecreationalDrug(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-recreational-drugs'
     description = 'Substances that people use to alter their mental state, often for pleasure or leisure, with effects ranging from relaxation and euphoria to hallucinations and altered perceptions.'
+
+
+class ExposureAgent(CodedConcept):
+    valueset = 'https://simplifier.net/pop/ValueSets/pop-exposure-agents'
+    description = 'Agents to which a person is exposed as part of their occupation or environment'
 
 
 class AdverseEventMitigationTreatmentAdjustment(CodedConcept):
