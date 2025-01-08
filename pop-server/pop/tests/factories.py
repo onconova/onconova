@@ -135,8 +135,19 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.SystemicTherapyMedication
-    
+        model = models.SystemicTherapyMedication    
     systemic_therapy = factory.SubFactory(SystemicTherapyFactory)
     drug = factory.SubFactory(make_terminology_factory(terminology.AntineoplasticAgent))
     route = factory.SubFactory(make_terminology_factory(terminology.DosageRoute))
+
+
+class PerformanceStatusFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.PerformanceStatus
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    ecog_score = factory.LazyFunction(lambda: random.randint(0,5))
+    karnofsky_score = factory.LazyFunction(lambda: random.randint(0,100))
+
+
+    

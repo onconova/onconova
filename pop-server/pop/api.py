@@ -10,6 +10,8 @@ from pop.oncology.controllers import (
     TumorMarkerController,
     RiskAssessmentController,
     SystemicTherapyController,
+    SystemicTherapyController,
+    PerformanceStatusController,
 )
 
 
@@ -29,4 +31,5 @@ api.register_controllers(
     MeasuresController,
     TerminologyController,
     SystemicTherapyController,
+    PerformanceStatusController,
 )

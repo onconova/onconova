@@ -22,6 +22,7 @@ from .SystemicTherapy import (
     SystemicTherapySchema, SystemicTherapyCreateSchema, 
     SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
 )
+from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
 
 __all__ = (
      # PatientCase schemas
@@ -50,4 +51,6 @@ __all__ = (
      # Systemic therapy schemas 
     SystemicTherapySchema, SystemicTherapyCreateSchema, 
     SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
+     # Performanc status schemas 
+    PerformanceStatusSchema, PerformanceStatusCreateSchema,
 )

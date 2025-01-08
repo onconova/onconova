@@ -4,6 +4,7 @@ from .Staging import StagingController
 from .TumorMarker import TumorMarkerController
 from .RiskAssessment import RiskAssessmentController
 from .SystemicTherapy import SystemicTherapyController
+from .PerformanceStatus import PerformanceStatusController
 
 __all__ = (
     PatientCaseController,
@@ -12,4 +13,5 @@ __all__ = (
     TumorMarkerController,
     RiskAssessmentController,
     SystemicTherapyController,
+    PerformanceStatusController,
 )
