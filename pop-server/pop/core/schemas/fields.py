@@ -16,7 +16,7 @@ from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.core.schemas import CodedConceptSchema, MeasureSchema, PeriodSchema
-from django_measurement.models import MeasurementField
+from pop.core.fields import MeasurementField
 
 UserModel = get_user_model()
 

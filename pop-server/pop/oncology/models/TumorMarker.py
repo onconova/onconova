@@ -6,7 +6,7 @@ from pydantic import BaseModel as PydanticBaseModel
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from django_measurement.models import MeasurementField
+from pop.core.fields import MeasurementField
 
 from pop.core.models import BaseModel 
 import pop.core.measures as measures

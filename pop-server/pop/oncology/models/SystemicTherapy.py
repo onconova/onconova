@@ -3,7 +3,7 @@ from django.db import models
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
 
-from django_measurement.models import MeasurementField
+from pop.core.fields import MeasurementField
 
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase, NeoplasticEntity 
