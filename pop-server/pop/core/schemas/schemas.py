@@ -1,13 +1,12 @@
 from datetime import date
 from typing import Optional, List, Dict
-from ninja import Schema, Field
+from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
-from pydantic import ConfigDict, SecretStr, AliasChoices, AliasPath, model_validator
+from pydantic import Field, ConfigDict, SecretStr,model_validator
 from django.contrib.auth import get_user_model
 
 from ninja_extra.schemas import NinjaPaginationResponseSchema
 from ninja_jwt.schema import TokenObtainPairInputSchema, TokenObtainPairOutputSchema, TokenRefreshInputSchema, TokenRefreshOutputSchema
-from typing_extensions import Annotated
 
 UserModel = get_user_model()
 
@@ -18,6 +17,7 @@ CREATE_IGNORED_FIELDS = (
     'created_by', 
     'updated_by',
 )  
+
 
 class UserSchema(Schema):
     id: int

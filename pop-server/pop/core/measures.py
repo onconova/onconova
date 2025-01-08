@@ -32,6 +32,16 @@ class MultipleOfMedian(MeasureBase):
     }
     
 
+class RadiationDose(MeasureBase):
+    STANDARD_UNIT = 'Gy'
+    UNITS = {
+        'Gy': 1.0,
+    }
+    ALIAS = {
+        'gray': 'Gy',
+    }
+    SI_UNITS = ['Gy']
+    
     
 class Volume(VolumeBase):
     STANDARD_UNIT = 'l'

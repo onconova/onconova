@@ -12,6 +12,7 @@ from .RiskAssessment import RiskAssessment
 from .SystemicTherapy import SystemicTherapy, SystemicTherapyMedication
 from .PerformanceStatus import PerformanceStatus
 from .Surgery import Surgery
+from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 
 __all__ = (
     PatientCase,
@@ -37,4 +38,7 @@ __all__ = (
     SystemicTherapy, SystemicTherapyMedication,
     PerformanceStatus,
     Surgery,
+    Radiotherapy, 
+    RadiotherapyDosage, 
+    RadiotherapySetting,
 )

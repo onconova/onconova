@@ -154,6 +154,34 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
     outcome = factory.SubFactory(make_terminology_factory(terminology.ProcedureOutcome))
 
 
+
+class RadiotherapyFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Radiotherapy
+
+    case = factory.SubFactory(PatientCaseFactory)
+    period = factory.LazyFunction(lambda: (faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
+    sessions = factory.LazyFunction(lambda: random.randint(2,25))
+    intent = FuzzyChoice(models.Radiotherapy.TreatmentIntent)
+
+class RadiotherapyDosageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.RadiotherapyDosage    
+    radiotherapy = factory.SubFactory(RadiotherapyFactory)
+    fractions = factory.LazyFunction(lambda: random.randint(2,25))
+    dose = factory.LazyFunction(lambda: measures.RadiationDose(Gy=random.random()))    
+    irradiated_volume = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyTreatmentLocation))
+    irradiated_volume_morphology = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyVolumeType))
+
+class RadiotherapySettingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.RadiotherapySetting    
+    radiotherapy = factory.SubFactory(RadiotherapyFactory)
+    modality = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyModality))
+    technique = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyTechnique))
+
+
+
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PerformanceStatus

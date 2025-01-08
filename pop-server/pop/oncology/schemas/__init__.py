@@ -22,8 +22,13 @@ from .SystemicTherapy import (
     SystemicTherapySchema, SystemicTherapyCreateSchema, 
     SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
 )
-from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
 from .Surgery import SurgerySchema, SurgeryCreateSchema 
+from .Radiotherapy import (
+    RadiotherapySchema, RadiotherapyCreateSchema, 
+    RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema,
+    RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
+)
+from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
 
 __all__ = (
      # PatientCase schemas
@@ -52,8 +57,12 @@ __all__ = (
      # Systemic therapy schemas 
     SystemicTherapySchema, SystemicTherapyCreateSchema, 
     SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
+    # Surgery schemas
+    SurgerySchema, SurgeryCreateSchema,
+    # Radiotherapy schemas
+    RadiotherapySchema, RadiotherapyCreateSchema, 
+    RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema,
+    RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
      # Performance status schemas 
     PerformanceStatusSchema, PerformanceStatusCreateSchema,
-    # Surgery schemas
-    SurgerySchema, SurgeryCreateSchema 
 )

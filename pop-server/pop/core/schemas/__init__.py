@@ -13,6 +13,7 @@ from .schemas import (
     Paginated,
 )
 from .base import BaseSchema
+from .mixin import BaseModelSchema, GetMixin, CreateMixin
 from .factory import create_schema, factory 
 from .metaclass import ModelSchema
 
@@ -33,4 +34,5 @@ __all__ = (
     TokenPairSchema, 
     Paginated,
     UserCredentialsSchema,
+    BaseModelSchema, GetMixin, CreateMixin,
 )

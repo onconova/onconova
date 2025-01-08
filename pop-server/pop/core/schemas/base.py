@@ -1,7 +1,6 @@
-from typing import Any,List, Tuple, Type, Optional
+from typing import Type, Optional
 
 from django.db.models import Model as DjangoModel
-from django.db.models import ManyToManyRel, ManyToOneRel, ForeignKey
 from django.contrib.postgres.fields import DateRangeField 
 
 from django_measurement.models import MeasurementField

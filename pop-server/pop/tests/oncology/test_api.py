@@ -282,7 +282,44 @@ class TestSurgeryController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.SurgerySchema
     CREATE_SCHEMA = schemas.SurgeryCreateSchema    
     
+
     
+class TestRadiotherapyController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/radiotherapies'
+    FACTORY = factories.RadiotherapyFactory
+    MODEL = models.Radiotherapy
+    SCHEMA = schemas.RadiotherapySchema
+    CREATE_SCHEMA = schemas.RadiotherapyCreateSchema    
+    
+    
+class TestRadiotherapyDosageController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/radiotherapies'
+    FACTORY = factories.RadiotherapyDosageFactory
+    MODEL = models.RadiotherapyDosage
+    SCHEMA = schemas.RadiotherapyDosageSchema
+    CREATE_SCHEMA = schemas.RadiotherapyDosageCreateSchema    
+
+    def get_route_url(self, instance):
+        return f'/{instance.radiotherapy.id}/dosages/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.radiotherapy.id}/dosages/{instance.id}'
+    
+
+class TestRadiotherapySettingController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/radiotherapies'
+    FACTORY = factories.RadiotherapySettingFactory
+    MODEL = models.RadiotherapySetting
+    SCHEMA = schemas.RadiotherapySettingSchema
+    CREATE_SCHEMA = schemas.RadiotherapySettingCreateSchema    
+
+    def get_route_url(self, instance):
+        return f'/{instance.radiotherapy.id}/settings/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.radiotherapy.id}/settings/{instance.id}'
+    
+        
 class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/performance-status'
     FACTORY = factories.PerformanceStatusFactory
