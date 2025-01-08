@@ -275,6 +275,14 @@ class TestSystemicTherapyMedicationController(ApiControllerTestCase, TestCase):
     def get_route_url_with_id(self, instance):
         return f'/{instance.systemic_therapy.id}/medications/{instance.id}'
 
+class TestSurgeryController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/surgeries'
+    FACTORY = factories.SurgeryFactory
+    MODEL = models.Surgery
+    SCHEMA = schemas.SurgerySchema
+    CREATE_SCHEMA = schemas.SurgeryCreateSchema    
+    
+    
 class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/performance-status'
     FACTORY = factories.PerformanceStatusFactory

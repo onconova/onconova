@@ -11,6 +11,7 @@ from .TumorMarker import TumorMarker
 from .RiskAssessment import RiskAssessment
 from .SystemicTherapy import SystemicTherapy, SystemicTherapyMedication
 from .PerformanceStatus import PerformanceStatus
+from .Surgery import Surgery
 
 __all__ = (
     PatientCase,
@@ -35,4 +36,5 @@ __all__ = (
     RiskAssessment,
     SystemicTherapy, SystemicTherapyMedication,
     PerformanceStatus,
+    Surgery,
 )

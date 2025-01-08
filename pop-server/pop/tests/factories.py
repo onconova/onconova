@@ -141,6 +141,19 @@ class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
     route = factory.SubFactory(make_terminology_factory(terminology.DosageRoute))
 
 
+class SurgeryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Surgery
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    procedure = factory.SubFactory(make_terminology_factory(terminology.SurgicalProcedure))
+    intent = FuzzyChoice(models.Surgery.TreatmentIntent)
+    bodysite = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
+    bodysite_qualifier = factory.SubFactory(make_terminology_factory(terminology.BodyLocationQualifier))
+    bodysite_laterality = factory.SubFactory(make_terminology_factory(terminology.LateralityQualifier))
+    outcome = factory.SubFactory(make_terminology_factory(terminology.ProcedureOutcome))
+
+
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PerformanceStatus
