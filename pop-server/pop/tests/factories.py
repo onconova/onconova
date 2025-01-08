@@ -154,7 +154,6 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
     outcome = factory.SubFactory(make_terminology_factory(terminology.ProcedureOutcome))
 
 
-
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Radiotherapy
@@ -201,4 +200,17 @@ class LifestyleFactory(factory.django.DjangoModelFactory):
     alcohol_consumption = factory.SubFactory(make_terminology_factory(terminology.AlcoholConsumptionFrequency))
     night_sleep = factory.LazyFunction(lambda: measures.Time(hour=random.random()))    
 
+
+
+class FamilyHistoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.FamilyHistory
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    relationship = factory.SubFactory(make_terminology_factory(terminology.FamilyMemberType))
+    had_cancer = factory.LazyFunction(lambda: random.randint(0,10) > 5)
+    contributed_to_death = factory.LazyFunction(lambda: random.randint(0,10) > 5)
+    onset_age = factory.LazyFunction(lambda: random.randint(25,95))
+    topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
+    morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
     

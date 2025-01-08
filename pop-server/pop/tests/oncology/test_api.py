@@ -291,7 +291,6 @@ class TestRadiotherapyController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.RadiotherapySchema
     CREATE_SCHEMA = schemas.RadiotherapyCreateSchema    
     
-    
 class TestRadiotherapyDosageController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/radiotherapies'
     FACTORY = factories.RadiotherapyDosageFactory
@@ -335,4 +334,12 @@ class TestLifestyleController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.LifestyleSchema
     CREATE_SCHEMA = schemas.LifestyleCreateSchema    
     
+    
+    
+class TestFamilyHistoryController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/family-histories'
+    FACTORY = factories.FamilyHistoryFactory
+    MODEL = models.FamilyHistory
+    SCHEMA = schemas.FamilyHistorySchema
+    CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema    
     

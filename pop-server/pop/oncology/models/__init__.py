@@ -14,6 +14,7 @@ from .Surgery import Surgery
 from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 from .PerformanceStatus import PerformanceStatus
 from .Lifestyle import Lifestyle
+from .FamilyHistory import FamilyHistory
 
 __all__ = (
     PatientCase,
@@ -43,4 +44,5 @@ __all__ = (
     RadiotherapyDosage, 
     RadiotherapySetting,
     Lifestyle,
+    FamilyHistory,
 )

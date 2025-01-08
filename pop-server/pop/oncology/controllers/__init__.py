@@ -8,6 +8,7 @@ from .PerformanceStatus import PerformanceStatusController
 from .Surgery import SurgeryController
 from .Radiotherapy import RadiotherapyController
 from .Lifestyle import LifestyleController
+from .FamilyHistory import FamilyHistoryController
 
 __all__ = (
     PatientCaseController,
@@ -20,4 +21,5 @@ __all__ = (
     SurgeryController,
     RadiotherapyController,
     LifestyleController,
+    FamilyHistoryController,
 )
