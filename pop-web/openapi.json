@@ -1486,176 +1486,6 @@
         ]
       }
     },
-    "/api/measures/{measureName}/units/conversion": {
-      "post": {
-        "operationId": "convertUnits",
-        "summary": "Convert Units",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "measureName",
-            "schema": {
-              "title": "Measurename",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeasureSchema"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "tags": [
-          "Measures"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MeasureConversionSchema"
-              }
-            }
-          },
-          "required": true
-        }
-      }
-    },
-    "/api/measures/{measureName}/units/default": {
-      "get": {
-        "operationId": "getMeasureDefaultUnits",
-        "summary": "Get Measure Default Units",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "measureName",
-            "schema": {
-              "title": "Measurename",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response",
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "tags": [
-          "Measures"
-        ]
-      }
-    },
-    "/api/measures/{measureName}/units": {
-      "get": {
-        "operationId": "getMeasureUnits",
-        "summary": "Get Measure Units",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "measureName",
-            "schema": {
-              "title": "Measurename",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "title": "Response",
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "tags": [
-          "Measures"
-        ]
-      }
-    },
-    "/api/terminologies/{terminologyName}/concepts": {
-      "get": {
-        "operationId": "getTerminologyConcepts",
-        "summary": "Get Terminology Concepts",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "terminologyName",
-            "schema": {
-              "title": "Terminologyname",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "query",
-            "schema": {
-              "title": "Query",
-              "type": "string"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CodedConceptSchema"
-                  },
-                  "title": "Response",
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Terminology"
-        ],
-        "security": [
-          {
-            "JWTAuth": []
-          }
-        ]
-      }
-    },
     "/api/systemic-therapies/": {
       "post": {
         "operationId": "createSystemicTherapy",
@@ -2093,6 +1923,1682 @@
           },
           "required": true
         },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/surgeries/": {
+      "post": {
+        "operationId": "createSurgery",
+        "summary": "Create Surgery",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Surgeries"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurgeryCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getSurgeries",
+        "summary": "Get All Surgeries Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_Surgery_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Surgeries"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/surgeries/{surgeryId}": {
+      "delete": {
+        "operationId": "deleteSurgeryById",
+        "summary": "Delete Surgery",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "surgeryId",
+            "schema": {
+              "title": "Surgeryid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Surgeries"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getSurgeryById",
+        "summary": "Get Surgery By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "surgeryId",
+            "schema": {
+              "title": "Surgeryid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Surgery"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Surgeries"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateSurgeryById",
+        "summary": "Update Surgery",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "surgeryId",
+            "schema": {
+              "title": "Surgeryid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Surgeries"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurgeryCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/radiotherapies/": {
+      "post": {
+        "operationId": "createRadiotherapy",
+        "summary": "Create Radiotherapy",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RadiotherapyCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRadiotherapies",
+        "summary": "Get All Radiotherapies Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_RadiotherapySchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/radiotherapies/{radiotherapyId}/dosages/": {
+      "post": {
+        "operationId": "createRadiotherapyDosage",
+        "summary": "Create Radiotherapy Dosage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RadiotherapyDosageCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRadiotherapyDosages",
+        "summary": "Get Radiotherapy Dosages Matching The Query",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RadiotherapyDosageSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/radiotherapies/{radiotherapyId}/settings/": {
+      "post": {
+        "operationId": "createRadiotherapySetting",
+        "summary": "Create Radiotherapy Setting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RadiotherapySettingCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRadiotherapySettings",
+        "summary": "Get Radiotherapy Settings Matching The Query",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RadiotherapySettingSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/radiotherapies/{radiotherapyId}": {
+      "delete": {
+        "operationId": "deleteRadiotherapyById",
+        "summary": "Delete Radiotherapy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRadiotherapyById",
+        "summary": "Get Radiotherapy By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RadiotherapySchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateRadiotherapy",
+        "summary": "Update Radiotherapy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RadiotherapyCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/radiotherapies/{radiotherapyId}/dosages/{dosageId}": {
+      "delete": {
+        "operationId": "deleteRadiotherapyDosage",
+        "summary": "Delete Radiotherapy Dosage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dosageId",
+            "schema": {
+              "title": "Dosageid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRadiotherapyDosageById",
+        "summary": "Get Radiotherapy Dosage By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dosageId",
+            "schema": {
+              "title": "Dosageid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RadiotherapyDosageSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateRadiotherapyDosage",
+        "summary": "Update Radiotherapy Dosage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "dosageId",
+            "schema": {
+              "title": "Dosageid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RadiotherapyDosageCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/radiotherapies/{radiotherapyId}/settings/{settingId}": {
+      "delete": {
+        "operationId": "deleteRadiotherapySetting",
+        "summary": "Delete Radiotherapy Setting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "settingId",
+            "schema": {
+              "title": "Settingid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getRadiotherapySettingById",
+        "summary": "Get Radiotherapy Setting By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "settingId",
+            "schema": {
+              "title": "Settingid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RadiotherapySettingSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateRadiotherapySetting",
+        "summary": "Update Radiotherapy Setting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "radiotherapyId",
+            "schema": {
+              "title": "Radiotherapyid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "settingId",
+            "schema": {
+              "title": "Settingid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Radiotherapies"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RadiotherapySettingCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/performance-status/": {
+      "post": {
+        "operationId": "createPerformanceStatus",
+        "summary": "Create Performance Status",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Performance Status"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerformanceStatusCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getPerformanceStatus",
+        "summary": "Get All Performance Status Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_PerformanceStatus_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Performance Status"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/performance-status/{performanceStatusId}": {
+      "delete": {
+        "operationId": "deletePerformanceStatus",
+        "summary": "Delete Performance Status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "performanceStatusId",
+            "schema": {
+              "title": "Performancestatusid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Performance Status"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getPerformanceStatusById",
+        "summary": "Get Performance Status By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "performanceStatusId",
+            "schema": {
+              "title": "Performancestatusid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerformanceStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Performance Status"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updatePerformanceStatusById",
+        "summary": "Update Performance Status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "performanceStatusId",
+            "schema": {
+              "title": "Performancestatusid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Performance Status"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PerformanceStatusCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/lifestyles/": {
+      "post": {
+        "operationId": "createLifestyle",
+        "summary": "Create Lifestyle",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Lifestyles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LifestyleCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getLifestyles",
+        "summary": "Get All Lifestyles Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_LifestyleSchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Lifestyles"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/lifestyles/{lifestyleId}": {
+      "delete": {
+        "operationId": "deleteLifestyleById",
+        "summary": "Delete Lifestyle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lifestyleId",
+            "schema": {
+              "title": "Lifestyleid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Lifestyles"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getLifestyleById",
+        "summary": "Get Lifestyle By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lifestyleId",
+            "schema": {
+              "title": "Lifestyleid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LifestyleSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Lifestyles"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateLifestyleById",
+        "summary": "Update Lifestyle",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lifestyleId",
+            "schema": {
+              "title": "Lifestyleid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Lifestyles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LifestyleCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/family-histories/": {
+      "post": {
+        "operationId": "createFamilyHistory",
+        "summary": "Create Family History",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Family Histories"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyHistoryCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getFamilyHistories",
+        "summary": "Get All Family Member Histories Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_FamilyHistorySchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Family Histories"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/family-histories/{familyHistoryId}": {
+      "delete": {
+        "operationId": "deleteFamilyHistoryById",
+        "summary": "Delete Family History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "familyHistoryId",
+            "schema": {
+              "title": "Familyhistoryid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Family Histories"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getFamilyHistoryById",
+        "summary": "Get Family History By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "familyHistoryId",
+            "schema": {
+              "title": "Familyhistoryid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FamilyHistorySchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Family Histories"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateFamilyHistory",
+        "summary": "Update Family History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "familyHistoryId",
+            "schema": {
+              "title": "Familyhistoryid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Family Histories"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FamilyHistoryCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/measures/{measureName}/units/conversion": {
+      "post": {
+        "operationId": "convertUnits",
+        "summary": "Convert Units",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "measureName",
+            "schema": {
+              "title": "Measurename",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeasureSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Measures"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MeasureConversionSchema"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/measures/{measureName}/units/default": {
+      "get": {
+        "operationId": "getMeasureDefaultUnits",
+        "summary": "Get Measure Default Units",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "measureName",
+            "schema": {
+              "title": "Measurename",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Measures"
+        ]
+      }
+    },
+    "/api/measures/{measureName}/units": {
+      "get": {
+        "operationId": "getMeasureUnits",
+        "summary": "Get Measure Units",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "measureName",
+            "schema": {
+              "title": "Measurename",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Measures"
+        ]
+      }
+    },
+    "/api/terminologies/{terminologyName}/concepts": {
+      "get": {
+        "operationId": "getTerminologyConcepts",
+        "summary": "Get Terminology Concepts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "terminologyName",
+            "schema": {
+              "title": "Terminologyname",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "title": "Query",
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CodedConceptSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Terminology"
+        ],
         "security": [
           {
             "JWTAuth": []
@@ -7837,29 +9343,6 @@
         "title": "AnalyteResultType",
         "type": "string"
       },
-      "MeasureConversionSchema": {
-        "properties": {
-          "value": {
-            "title": "Value",
-            "type": "number"
-          },
-          "unit": {
-            "title": "Unit",
-            "type": "string"
-          },
-          "new_unit": {
-            "title": "New Unit",
-            "type": "string"
-          }
-        },
-        "required": [
-          "value",
-          "unit",
-          "new_unit"
-        ],
-        "title": "MeasureConversion",
-        "type": "object"
-      },
       "PeriodSchema": {
         "properties": {
           "start": {
@@ -8738,6 +10221,2194 @@
           "drug"
         ],
         "title": "SystemicTherapyMedicationCreate",
+        "type": "object"
+      },
+      "SurgeryCreate": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who received the surgical procedure",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date of the surgical procedure.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "procedure": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The specific surgical procedure that was performed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "procedure",
+            "terminology": "SurgicalProcedure",
+            "title": "Surgical procedure"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/SurgeryIntentChoices",
+            "description": "Therapeutic intent of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "intent",
+            "title": "Intent"
+          },
+          "bodysite": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Anatomical location of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bodysite",
+            "terminology": "CancerTopography",
+            "title": "Anatomical location"
+          },
+          "bodysiteQualifier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "General qualifier for the anatomical location of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bodysite_qualifier",
+            "terminology": "BodyLocationQualifier",
+            "title": "Anatomical location qualifier"
+          },
+          "bodysiteLaterality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Laterality for the anatomical location of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bodysite_laterality",
+            "terminology": "LateralityQualifier",
+            "title": "Anatomical location laterality"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The outcome of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "outcome",
+            "terminology": "ProcedureOutcome",
+            "title": "Outcome"
+          },
+          "targetedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were targeted by the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "targeted_entities",
+            "title": "Targeted neoplastic entities",
+            "type": "array"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "procedure",
+          "intent"
+        ],
+        "title": "SurgeryCreate",
+        "type": "object"
+      },
+      "SurgeryIntentChoices": {
+        "enum": [
+          "curative",
+          "palliative"
+        ],
+        "title": "SurgeryIntentChoices",
+        "type": "string"
+      },
+      "Paginated_Surgery_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Surgery"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[Surgery]",
+        "type": "object"
+      },
+      "Surgery": {
+        "properties": {
+          "description": {
+            "description": "Human-readable description of the surgery",
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who received the surgical procedure",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date of the surgical procedure.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "procedure": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "The specific surgical procedure that was performed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "procedure",
+            "terminology": "SurgicalProcedure",
+            "title": "Surgical procedure"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/SurgeryIntentChoices",
+            "description": "Therapeutic intent of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "intent",
+            "title": "Intent"
+          },
+          "bodysite": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Anatomical location of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bodysite",
+            "terminology": "CancerTopography",
+            "title": "Anatomical location"
+          },
+          "bodysiteQualifier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "General qualifier for the anatomical location of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bodysite_qualifier",
+            "terminology": "BodyLocationQualifier",
+            "title": "Anatomical location qualifier"
+          },
+          "bodysiteLaterality": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Laterality for the anatomical location of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "bodysite_laterality",
+            "terminology": "LateralityQualifier",
+            "title": "Anatomical location laterality"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The outcome of the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "outcome",
+            "terminology": "ProcedureOutcome",
+            "title": "Outcome"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "targetedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were targeted by the surgery",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "targeted_entities",
+            "title": "Targeted neoplastic entities",
+            "type": "array"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date",
+          "procedure",
+          "intent"
+        ],
+        "title": "Surgery",
+        "type": "object"
+      },
+      "RadiotherapyCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who received the radiotherapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodSchema",
+            "description": "Clinically-relevant period during which the radiotherapy was administered to the patient.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "period",
+            "title": "Treatment period"
+          },
+          "sessions": {
+            "description": "The total number of radiotherapy sessions over the treatment period.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "sessions",
+            "title": "Total sessions",
+            "type": "integer"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/RadiotherapyIntentChoices",
+            "description": "Treatment intent of the system therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "intent",
+            "title": "Intent"
+          },
+          "terminationReason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Explanation for the premature or planned termination of the radiotherapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "termination_reason",
+            "terminology": "TreatmentTerminationReason",
+            "title": "Termination reason"
+          },
+          "targetedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were targeted by the radiotherapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "targeted_entities",
+            "title": "Targeted neoplastic entities",
+            "type": "array"
+          }
+        },
+        "required": [
+          "caseId",
+          "period",
+          "sessions",
+          "intent"
+        ],
+        "title": "RadiotherapyCreate",
+        "type": "object"
+      },
+      "RadiotherapyIntentChoices": {
+        "enum": [
+          "curative",
+          "palliative"
+        ],
+        "title": "RadiotherapyIntentChoices",
+        "type": "string"
+      },
+      "Paginated_RadiotherapySchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RadiotherapySchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[RadiotherapySchema]",
+        "type": "object"
+      },
+      "RadiotherapyDosageSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "fractions": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The total number of radiotherapy fractions delivered over the treatment period.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "fractions",
+            "title": "Total fractions"
+          },
+          "dose": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total radiation dose delivered over the full radiotherapy course",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dose",
+            "title": "Total radiation dose"
+          },
+          "irradiatedVolume": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Anatomical location of the irradiated volume",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "irradiated_volume",
+            "terminology": "RadiotherapyTreatmentLocation",
+            "title": "Irradiated volume"
+          },
+          "irradiatedVolumeMorphology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Morphology of the anatomical location of the irradiated volume",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "irradiated_volume_morphology",
+            "terminology": "RadiotherapyVolumeType",
+            "title": "Irradiated volume morphology"
+          },
+          "irradiatedVolumeQualifier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "General qualifier for the anatomical location of the irradiated volume",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "irradiated_volume_qualifier",
+            "terminology": "RadiotherapyTreatmentLocationQualifier",
+            "title": "Irradiated volume qualifier"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "irradiatedVolume"
+        ],
+        "title": "RadiotherapyDosage",
+        "type": "object"
+      },
+      "RadiotherapySchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who received the radiotherapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodSchema",
+            "description": "Clinically-relevant period during which the radiotherapy was administered to the patient.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "period",
+            "title": "Treatment period"
+          },
+          "sessions": {
+            "description": "The total number of radiotherapy sessions over the treatment period.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "sessions",
+            "title": "Total sessions",
+            "type": "integer"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/RadiotherapyIntentChoices",
+            "description": "Treatment intent of the system therapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 30,
+            "one_to_many": false,
+            "orm_name": "intent",
+            "title": "Intent"
+          },
+          "terminationReason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Explanation for the premature or planned termination of the radiotherapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "termination_reason",
+            "terminology": "TreatmentTerminationReason",
+            "title": "Termination reason"
+          },
+          "targetedEntitiesIds": {
+            "default": [],
+            "description": "References to the neoplastic entities that were targeted by the radiotherapy",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "string"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "targeted_entities",
+            "title": "Targeted neoplastic entities",
+            "type": "array"
+          },
+          "dosages": {
+            "description": "Radiation doses administered during the radiotherapy",
+            "items": {
+              "$ref": "#/components/schemas/RadiotherapyDosageSchema"
+            },
+            "title": "Dosages",
+            "type": "array"
+          },
+          "settings": {
+            "description": "Settings of the radiotherapy irradiation procedure",
+            "items": {
+              "$ref": "#/components/schemas/RadiotherapySettingSchema"
+            },
+            "title": "Settings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "period",
+          "sessions",
+          "intent",
+          "dosages",
+          "settings"
+        ],
+        "title": "Radiotherapy",
+        "type": "object"
+      },
+      "RadiotherapySettingSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "modality": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Modality of external beam or brachytherapy radiation procedures",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "modality",
+            "terminology": "RadiotherapyModality",
+            "title": "Modality"
+          },
+          "technique": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Technique of external beam or brachytherapy radiation procedures",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "technique",
+            "terminology": "RadiotherapyTechnique",
+            "title": "Technique"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "modality",
+          "technique"
+        ],
+        "title": "RadiotherapySetting",
+        "type": "object"
+      },
+      "RadiotherapyDosageCreateSchema": {
+        "properties": {
+          "fractions": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The total number of radiotherapy fractions delivered over the treatment period.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "fractions",
+            "title": "Total fractions"
+          },
+          "dose": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Total radiation dose delivered over the full radiotherapy course",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dose",
+            "title": "Total radiation dose"
+          },
+          "irradiatedVolume": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Anatomical location of the irradiated volume",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "irradiated_volume",
+            "terminology": "RadiotherapyTreatmentLocation",
+            "title": "Irradiated volume"
+          },
+          "irradiatedVolumeMorphology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Morphology of the anatomical location of the irradiated volume",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "irradiated_volume_morphology",
+            "terminology": "RadiotherapyVolumeType",
+            "title": "Irradiated volume morphology"
+          },
+          "irradiatedVolumeQualifier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "General qualifier for the anatomical location of the irradiated volume",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "irradiated_volume_qualifier",
+            "terminology": "RadiotherapyTreatmentLocationQualifier",
+            "title": "Irradiated volume qualifier"
+          }
+        },
+        "required": [
+          "irradiatedVolume"
+        ],
+        "title": "RadiotherapyDosageCreate",
+        "type": "object"
+      },
+      "RadiotherapySettingCreateSchema": {
+        "properties": {
+          "modality": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Modality of external beam or brachytherapy radiation procedures",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "modality",
+            "terminology": "RadiotherapyModality",
+            "title": "Modality"
+          },
+          "technique": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Technique of external beam or brachytherapy radiation procedures",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "technique",
+            "terminology": "RadiotherapyTechnique",
+            "title": "Technique"
+          }
+        },
+        "required": [
+          "modality",
+          "technique"
+        ],
+        "title": "RadiotherapySettingCreate",
+        "type": "object"
+      },
+      "PerformanceStatusCreate": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's performance status is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the performance score was performed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "ecogScore": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ECOG Performance Status Score",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "ecog_score",
+            "title": "ECOG Score"
+          },
+          "karnofskyScore": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Karnofsky Performance Status Score",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "karnofsky_score",
+            "title": "Karnofsky Score"
+          }
+        },
+        "required": [
+          "caseId",
+          "date"
+        ],
+        "title": "PerformanceStatusCreate",
+        "type": "object"
+      },
+      "Paginated_PerformanceStatus_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PerformanceStatus"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[PerformanceStatus]",
+        "type": "object"
+      },
+      "PerformanceStatus": {
+        "properties": {
+          "description": {
+            "description": "Human-readable description of the performance status",
+            "title": "Description",
+            "type": "string"
+          },
+          "ecog_interpretation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Official interpretation of the ECOG score"
+          },
+          "karnofsky_interpretation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Official interpretation of the Karnofsky score"
+          },
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's performance status is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the performance score was performed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "ecogScore": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ECOG Performance Status Score",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "ecog_score",
+            "title": "ECOG Score"
+          },
+          "karnofskyScore": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Karnofsky Performance Status Score",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "karnofsky_score",
+            "title": "Karnofsky Score"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          }
+        },
+        "required": [
+          "description",
+          "ecog_interpretation",
+          "karnofsky_interpretation",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "caseId",
+          "date"
+        ],
+        "title": "PerformanceStatus",
+        "type": "object"
+      },
+      "LifestyleCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's lifetyle was assessed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "smokingStatus": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Frequency of alcohol consumption",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "smoking_status",
+            "terminology": "SmokingStatus",
+            "title": "Alcohol consumption"
+          },
+          "smokingPackyears": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Smoking pack-years (if applicable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "smoking_packyears",
+            "title": "Smoking packyears"
+          },
+          "smokingQuited": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated time since quitting smoking (if applicable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "smoking_quited",
+            "title": "Time since quitted smoking"
+          },
+          "alcoholConsumption": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Frequency of alcohol consumption",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "alcohol_consumption",
+            "terminology": "AlcoholConsumptionFrequency",
+            "title": "Alcohol consumption"
+          },
+          "nightSleep": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated average sleep time per night",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "night_sleep",
+            "title": "Night sleep"
+          },
+          "recreationalDrugss": {
+            "default": [],
+            "description": "Any recreational drug(s) used by the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "recreational_drugs",
+            "terminology": "RecreationalDrug",
+            "title": "Recreational drugs",
+            "type": "array"
+          },
+          "exposuress": {
+            "default": [],
+            "description": "Environmental or occupational exposures to hazards or carcinogenic agents",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "exposures",
+            "terminology": "ExposureAgent",
+            "title": "Exposures",
+            "type": "array"
+          }
+        },
+        "required": [
+          "caseId",
+          "date"
+        ],
+        "title": "LifestyleCreate",
+        "type": "object"
+      },
+      "LifestyleSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's lifetyle was assessed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "smokingStatus": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Frequency of alcohol consumption",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "smoking_status",
+            "terminology": "SmokingStatus",
+            "title": "Alcohol consumption"
+          },
+          "smokingPackyears": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Smoking pack-years (if applicable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "smoking_packyears",
+            "title": "Smoking packyears"
+          },
+          "smokingQuited": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated time since quitting smoking (if applicable)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "smoking_quited",
+            "title": "Time since quitted smoking"
+          },
+          "alcoholConsumption": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Frequency of alcohol consumption",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "alcohol_consumption",
+            "terminology": "AlcoholConsumptionFrequency",
+            "title": "Alcohol consumption"
+          },
+          "nightSleep": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated average sleep time per night",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "night_sleep",
+            "title": "Night sleep"
+          },
+          "recreationalDrugss": {
+            "default": [],
+            "description": "Any recreational drug(s) used by the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "recreational_drugs",
+            "terminology": "RecreationalDrug",
+            "title": "Recreational drugs",
+            "type": "array"
+          },
+          "exposuress": {
+            "default": [],
+            "description": "Environmental or occupational exposures to hazards or carcinogenic agents",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "exposures",
+            "terminology": "ExposureAgent",
+            "title": "Exposures",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date"
+        ],
+        "title": "Lifestyle",
+        "type": "object"
+      },
+      "Paginated_LifestyleSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LifestyleSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[LifestyleSchema]",
+        "type": "object"
+      },
+      "FamilyHistoryCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's family's history is being recorded",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's family history was assessed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "relationship": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Relationship to the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "relationship",
+            "terminology": "FamilyMemberType",
+            "title": "Relationship"
+          },
+          "hadCancer": {
+            "description": "Whether the family member has a history of cancer",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "had_cancer",
+            "title": "Had cancer",
+            "type": "boolean"
+          },
+          "contributedToDeath": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the cancer contributed to the cause of death of the family member",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "contributed_to_death",
+            "title": "Contributed to death"
+          },
+          "onsetAge": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Age at which the family member's cancer manifested",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "onset_age",
+            "title": "Onset age"
+          },
+          "topography": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated or actual topography of the family member's cancer",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "topography",
+            "terminology": "CancerTopography",
+            "title": "Topography"
+          },
+          "morphology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Morphology of the family member's cancer (if known)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "morphology",
+            "terminology": "CancerMorphology",
+            "title": "Morphology"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "relationship",
+          "hadCancer"
+        ],
+        "title": "FamilyHistoryCreate",
+        "type": "object"
+      },
+      "FamilyHistorySchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's family's history is being recorded",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's family history was assessed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "relationship": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Relationship to the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "relationship",
+            "terminology": "FamilyMemberType",
+            "title": "Relationship"
+          },
+          "hadCancer": {
+            "description": "Whether the family member has a history of cancer",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "had_cancer",
+            "title": "Had cancer",
+            "type": "boolean"
+          },
+          "contributedToDeath": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Whether the cancer contributed to the cause of death of the family member",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "contributed_to_death",
+            "title": "Contributed to death"
+          },
+          "onsetAge": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Age at which the family member's cancer manifested",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "onset_age",
+            "title": "Onset age"
+          },
+          "topography": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estimated or actual topography of the family member's cancer",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "topography",
+            "terminology": "CancerTopography",
+            "title": "Topography"
+          },
+          "morphology": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Morphology of the family member's cancer (if known)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "morphology",
+            "terminology": "CancerMorphology",
+            "title": "Morphology"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "relationship",
+          "hadCancer"
+        ],
+        "title": "FamilyHistory",
+        "type": "object"
+      },
+      "Paginated_FamilyHistorySchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FamilyHistorySchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[FamilyHistorySchema]",
+        "type": "object"
+      },
+      "MeasureConversionSchema": {
+        "properties": {
+          "value": {
+            "title": "Value",
+            "type": "number"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "new_unit": {
+            "title": "New Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "unit",
+          "new_unit"
+        ],
+        "title": "MeasureConversion",
         "type": "object"
       }
     },
