@@ -23,6 +23,7 @@ import {
     SystemicTherapiesService,
     PerformanceStatusService,
     SurgeriesService,
+    LifestylesService,
 } from 'src/app/shared/openapi'
 
 import { 
@@ -33,6 +34,7 @@ import {
     SystemicTherapyFormComponent,
     PerformanceStatusFormComponent,
     SurgeryFormComponent,
+    LifestyleFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -72,7 +74,8 @@ export class CaseManagerComponent implements OnInit {
     private systemicTherapiesService: SystemicTherapiesService = inject(SystemicTherapiesService);
     private performanceStatiiService: PerformanceStatusService = inject(PerformanceStatusService);
     private surgeriesService: SurgeriesService = inject(SurgeriesService);
-    private messageService: MessageService = inject(MessageService) ;
+    private lifestylesService: LifestylesService = inject(LifestylesService);
+    private messageService: MessageService = inject(MessageService);
 
     // Case properties
     @Input() public pseudoidentifier: string = '';
@@ -135,6 +138,13 @@ export class CaseManagerComponent implements OnInit {
         delete: this.surgeriesService.deleteSurgeryById.bind(this.surgeriesService),
         update: this.surgeriesService.updateSurgeryById.bind(this.surgeriesService),
     };
+    // Case-specific data observables
+    public lifestyleService: DataService = {
+        get: this.lifestylesService.getLifestyles.bind(this.lifestylesService),
+        create: this.lifestylesService.createLifestyle.bind(this.lifestylesService),
+        delete: this.lifestylesService.deleteLifestyleById.bind(this.lifestylesService),
+        update: this.lifestylesService.updateLifestyleById.bind(this.lifestylesService),
+    };
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
@@ -144,6 +154,7 @@ export class CaseManagerComponent implements OnInit {
     public SystemicTherapyFormComponent = SystemicTherapyFormComponent;
     public PerformanceStatusFormComponent =PerformanceStatusFormComponent;
     public SurgeryFormComponent = SurgeryFormComponent;
+    public LifestyleFormComponent = LifestyleFormComponent;
 
     public icons = {
         neoplasticEntities: Ribbon,

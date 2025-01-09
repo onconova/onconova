@@ -1,0 +1,83 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label">Date</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label">Smoking status</label>
+            <coded-concept-select 
+                formControlName="smokingStatus"
+                terminology="SmokingStatus"
+                [showSynonyms]="false"/>
+            <control-error controlName="smokingStatus"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.smokingStatus?.code && !smokingStatusCodeClassification.neverSmoker !== form.value.smokingStatus?.code">
+            <label class="form-label">Smoking pack-years</label>
+            <measure-input 
+                formControlName="smokingPackyears"
+                measure="Time"/>
+            <control-error controlName="smokingPackyears"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.smokingStatus?.code && smokingStatusCodeClassification.exSmoker === form.value.smokingStatus?.code">
+            <label class="form-label">Time since quitting smoking</label>
+            <measure-input 
+                formControlName="smokingQuited"
+                measure="Time"/>
+            <control-error controlName="smokingQuited"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Alcohol consumption</label>
+            <coded-concept-select 
+                formControlName="alcoholConsumption"
+                terminology="AlcoholConsumptionFrequency"
+                [showSynonyms]="true"/>
+            <control-error controlName="alcoholConsumption"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Recreational drugs</label>
+            <coded-concept-select 
+                formControlName="recreationalDrugs"
+                terminology="RecreationalDrug"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <control-error controlName="recreationalDrugs"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Night sleep</label>
+            <measure-input 
+                formControlName="nightSleep"
+                measure="Time"/>
+            <control-error controlName="nightSleep"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Environmental or occupational exposure(s)</label>
+            <coded-concept-select 
+                formControlName="exposures"
+                terminology="ExposureAgent"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <control-error controlName="exposures"></control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

@@ -623,8 +623,10 @@ class HumanSpecimenCollectionSite(CodedConcept):
 class SmokingStatus(CodedConcept):
     valueset =  'https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.11.20.9.38/expansion'
     description = 'Current Smoking Status - IPS'
-    def __str__(self):
-        return self.display.replace(' (finding)','')
+    @classmethod
+    def transform(cls, concept):
+        concept.display = concept.display.replace(' (finding)','')
+        return concept
 
 
 class CauseOfDeath(CodedConcept):

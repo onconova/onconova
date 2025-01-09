@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as moment from 'moment'; 
 
-import { CircleGauge } from 'lucide-angular';
+import { Slice } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
@@ -61,7 +61,7 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
 
     public readonly title: string = 'Surgery';
     public readonly subtitle: string = 'Add new surgery';
-    public readonly icon = CircleGauge;
+    public readonly icon = Slice;
 
     private caseId!: string;
     public initialData: SurgeryCreate | any = {};
