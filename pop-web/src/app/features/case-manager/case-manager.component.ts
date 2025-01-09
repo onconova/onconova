@@ -21,6 +21,7 @@ import {
     TumorMarkersService,
     RiskAssessmentsService,
     SystemicTherapiesService,
+    PerformanceStatusService,
 } from 'src/app/shared/openapi'
 
 import { 
@@ -29,6 +30,7 @@ import {
     TumorMarkerFormComponent,
     RiskAssessmentFormComponent,
     SystemicTherapyFormComponent,
+    PerformanceStatusFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -66,6 +68,7 @@ export class CaseManagerComponent implements OnInit {
     private tumorMarkersService: TumorMarkersService = inject(TumorMarkersService);
     private riskAssessmentsService: RiskAssessmentsService = inject(RiskAssessmentsService);
     private systemicTherapiesService: SystemicTherapiesService = inject(SystemicTherapiesService);
+    private performanceStatiiService: PerformanceStatusService = inject(PerformanceStatusService) ;
     private messageService: MessageService = inject(MessageService) ;
 
     // Case properties
@@ -114,12 +117,21 @@ export class CaseManagerComponent implements OnInit {
         update: this.systemicTherapiesService.updateSystemicTherapy.bind(this.systemicTherapiesService),
     };
 
+    // Case-specific data observables
+    public performanceStatusService: DataService = {
+        get: this.performanceStatiiService.getPerformanceStatus.bind(this.performanceStatiiService),
+        create: this.performanceStatiiService.createPerformanceStatus.bind(this.performanceStatiiService),
+        delete: this.performanceStatiiService.deletePerformanceStatus.bind(this.performanceStatiiService),
+        update: this.performanceStatiiService.updatePerformanceStatusById.bind(this.performanceStatiiService),
+    };
+
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
     public SystemicTherapyFormComponent = SystemicTherapyFormComponent;
+    public PerformanceStatusFormComponent =PerformanceStatusFormComponent;
 
     public icons = {
         neoplasticEntities: Ribbon,
