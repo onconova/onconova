@@ -149,7 +149,7 @@ def expand_valueset(valuesetdef: ValueSetSchema) -> List[CodedConcept]:
         # Iterate through the existing expansion and add to concepts list
         for concept in valuesetdef.expansion.contains:
             concepts.append(
-                CodedConcept(code=concept.code, system=concept.system, version=concept.version)
+                CodedConcept(code=concept.code, display=concept.display, system=concept.system, version=concept.version)
             )
     # Otherwise, process the composition rules
     elif valuesetdef.compose and valuesetdef.compose.include:
@@ -277,7 +277,7 @@ def collect_codedconcept_terminology(
     # Reset all model entries if requested    
     if force_reset and write_db:
         CodedConceptModel.objects.all().delete()
-        print(f"\n✓ Removed all valueset entries")
+        print(f"\n✓ Removed all model entries")
     
     # Skip valuesets that already contain entries, if requested
     if skip_existing and CodedConceptModel.objects.count() > 0:
@@ -309,7 +309,6 @@ def collect_codedconcept_terminology(
             if concept and concept.display:
                 concept.synonyms.append(concept.display)
                 concept = CodedConceptModel.transform(concept)    
-                print(concept.code, concept.display)            
 
     # Keep track of the update process
     new_concepts = 0
@@ -362,7 +361,7 @@ def collect_codedconcept_terminology(
     if len(dangling_concepts) > 0 and not prune_dangling:
         printYellow(f'⬤ - Ignored {len(dangling_concepts)} dangling concepts already present in the <{CodedConcept_name}> model table. \t\t\t')
     if (len(concepts) - new_concepts - updated_concepts) > 0:
-        printYellow(f'⬤ - Ignored {len(concepts) - new_concepts} collected concepts already present in the <{CodedConcept_name}> model table. \t\t\t')
+        printYellow(f'⬤ - Ignored {len(concepts) - new_concepts - updated_concepts} collected concepts already present in the <{CodedConcept_name}> model table. \t\t\t')
     if len(concepts) == 0:
         printRed(f'❌ - Something went wrong. No concepts were found for this model. \t\t\t')
 
