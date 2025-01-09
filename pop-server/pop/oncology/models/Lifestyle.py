@@ -60,12 +60,14 @@ class Lifestyle(BaseModel):
         help_text = _("Any recreational drug(s) used by the patient"),
         terminology = terminologies.RecreationalDrug,  
         multiple = True,
+        null = True, blank = True
     ) 
     exposures = termfields.CodedConceptField(
         verbose_name = _('Exposures'),
         help_text = _("Environmental or occupational exposures to hazards or carcinogenic agents"),
         terminology = terminologies.ExposureAgent,  
         multiple = True,
+        null = True, blank = True
     ) 
     
     @property

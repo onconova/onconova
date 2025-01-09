@@ -77,7 +77,6 @@ def get_schema_field(
                 if not exclude_related_fields:
                     exclude_related_fields = []
                 exclude_related_fields.append(field.field.name)
-                print('exclude_related_fields', exclude_related_fields)
             schema = create_schema(model, exclude=exclude_related_fields, name=expand)
             if not field.concrete and field.auto_created or field.null:
                 default = None
@@ -95,7 +94,7 @@ def get_schema_field(
                 internal_type = related_model._meta.get_field('id').get_internal_type()
                 django_field_name += '_id'
 
-            if not field.concrete and field.auto_created or field.null or optional:
+            if not field.concrete and field.auto_created or field.null or field.blank or optional:
                 default = None
                 nullable = True
 
@@ -104,7 +103,8 @@ def get_schema_field(
 
             if field.one_to_many or field.many_to_many:
                 python_type = List[related_type] 
-                django_field_name += 's'
+                if not django_field_name.endswith('s'):
+                    django_field_name += 's'
                 default=[]
             else:
                 python_type = related_type

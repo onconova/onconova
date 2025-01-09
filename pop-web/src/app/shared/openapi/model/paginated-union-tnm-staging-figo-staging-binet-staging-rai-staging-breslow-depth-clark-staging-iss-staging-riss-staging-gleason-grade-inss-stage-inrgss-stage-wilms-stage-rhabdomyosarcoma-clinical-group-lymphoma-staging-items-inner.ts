@@ -83,7 +83,7 @@ export interface PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslo
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifierss?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConceptSchema>;
 }
 export namespace PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStagingItemsInner {
     export type StagingDomainEnum = 'lymphoma';

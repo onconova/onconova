@@ -5284,7 +5284,7 @@
             "orm_name": "pathological",
             "title": "Pathological staging"
           },
-          "modifierss": {
+          "modifiers": {
             "default": [],
             "description": "Qualifier acting as modifier for the lymphoma stage",
             "examples": [],
@@ -7278,7 +7278,7 @@
             "orm_name": "pathological",
             "title": "Pathological staging"
           },
-          "modifierss": {
+          "modifiers": {
             "default": [],
             "description": "Qualifier acting as modifier for the lymphoma stage",
             "examples": [],
@@ -11729,37 +11729,51 @@
             "orm_name": "night_sleep",
             "title": "Night sleep"
           },
-          "recreationalDrugss": {
+          "recreationalDrugs": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "default": [],
             "description": "Any recreational drug(s) used by the patient",
             "examples": [],
             "expanded": null,
             "is_relation": true,
-            "items": {
-              "$ref": "#/components/schemas/CodedConceptSchema"
-            },
             "many_to_many": true,
             "one_to_many": false,
             "orm_name": "recreational_drugs",
             "terminology": "RecreationalDrug",
-            "title": "Recreational drugs",
-            "type": "array"
+            "title": "Recreational drugs"
           },
-          "exposuress": {
+          "exposures": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "default": [],
             "description": "Environmental or occupational exposures to hazards or carcinogenic agents",
             "examples": [],
             "expanded": null,
             "is_relation": true,
-            "items": {
-              "$ref": "#/components/schemas/CodedConceptSchema"
-            },
             "many_to_many": true,
             "one_to_many": false,
             "orm_name": "exposures",
             "terminology": "ExposureAgent",
-            "title": "Exposures",
-            "type": "array"
+            "title": "Exposures"
           }
         },
         "required": [
@@ -11960,37 +11974,51 @@
             "orm_name": "night_sleep",
             "title": "Night sleep"
           },
-          "recreationalDrugss": {
+          "recreationalDrugs": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "default": [],
             "description": "Any recreational drug(s) used by the patient",
             "examples": [],
             "expanded": null,
             "is_relation": true,
-            "items": {
-              "$ref": "#/components/schemas/CodedConceptSchema"
-            },
             "many_to_many": true,
             "one_to_many": false,
             "orm_name": "recreational_drugs",
             "terminology": "RecreationalDrug",
-            "title": "Recreational drugs",
-            "type": "array"
+            "title": "Recreational drugs"
           },
-          "exposuress": {
+          "exposures": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "default": [],
             "description": "Environmental or occupational exposures to hazards or carcinogenic agents",
             "examples": [],
             "expanded": null,
             "is_relation": true,
-            "items": {
-              "$ref": "#/components/schemas/CodedConceptSchema"
-            },
             "many_to_many": true,
             "one_to_many": false,
             "orm_name": "exposures",
             "terminology": "ExposureAgent",
-            "title": "Exposures",
-            "type": "array"
+            "title": "Exposures"
           }
         },
         "required": [

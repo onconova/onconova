@@ -46,13 +46,7 @@ export interface LifestyleSchema {
     smokingQuited?: MeasureSchema | null;
     alcoholConsumption?: CodedConceptSchema | null;
     nightSleep?: MeasureSchema | null;
-    /**
-     * Any recreational drug(s) used by the patient
-     */
-    recreationalDrugss?: Array<CodedConceptSchema>;
-    /**
-     * Environmental or occupational exposures to hazards or carcinogenic agents
-     */
-    exposuress?: Array<CodedConceptSchema>;
+    recreationalDrugs?: Array<CodedConceptSchema> | null;
+    exposures?: Array<CodedConceptSchema> | null;
 }
 

@@ -120,10 +120,16 @@ class BaseSchema(PydanticBaseModel):
             if field_meta.get('is_relation'):
                 related_model = orm_field.related_model
                 if field_meta.get('many_to_many'):
-                    # Collect all related instances
-                    m2m_relations[orm_field.name] = [
-                        related_model.objects.get(id=item.get('id') if isinstance(item, dict) else item) for item in data
-                    ]
+                    if issubclass(related_model, CodedConcept): 
+                        # Collect all related instances
+                        m2m_relations[orm_field.name] = [
+                            related_model.objects.get(code=concept.get('code'), system=concept.get('system')) for concept in data or []
+                        ]
+                    else:
+                        # Collect all related instances
+                        m2m_relations[orm_field.name] = [
+                            related_model.objects.get(id=item.get('id') if isinstance(item, dict) else item) for item in data or []
+                        ]
                     # Do not set many-to-many or one-to-many fields yet
                     continue
                 elif field_meta.get('one_to_many'):

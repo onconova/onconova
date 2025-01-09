@@ -93,8 +93,8 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
             smokingQuited: data.smokingQuited,
             alcoholConsumption: data.alcoholConsumption,
             nightSleep: data.nightSleep,
-            recreationalDrugss: data.recreationalDrugs,
-            exposuress: data.exposures,
+            recreationalDrugs: data.recreationalDrugs,
+            exposures: data.exposures,
         };
     }
 

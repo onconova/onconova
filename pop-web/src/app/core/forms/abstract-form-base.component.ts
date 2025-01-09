@@ -45,7 +45,7 @@ export abstract class AbstractFormBase {
       // Prepare the data according to the API scheme
       const data = this.form.value
       const payload = this.constructAPIPayload(data)
-
+      console.log('PAYLOAD', payload)
       // Send the data to the server's API
       if (this.initialData && this.initialData.id) {
         this.updateService(this.initialData.id, payload)

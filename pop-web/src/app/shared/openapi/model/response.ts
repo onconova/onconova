@@ -83,7 +83,7 @@ export interface Response {
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifierss?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConceptSchema>;
 }
 export namespace Response {
     export type StagingDomainEnum = 'lymphoma';

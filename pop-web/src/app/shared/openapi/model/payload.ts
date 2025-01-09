@@ -62,7 +62,7 @@ export interface Payload {
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifierss?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConceptSchema>;
 }
 export namespace Payload {
     export type StagingDomainEnum = 'lymphoma';
