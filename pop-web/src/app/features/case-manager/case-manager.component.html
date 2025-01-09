@@ -75,7 +75,9 @@
             
         <app-case-manager-panel
             title="Surgical Procedures"
-            [icon]="icons.surgeries"/>
+            [icon]="icons.surgeries"
+            [formComponent]="SurgeryFormComponent"
+            [service]="surgeryService"/>
 
         <app-case-manager-panel
             title="Radiotherapies"

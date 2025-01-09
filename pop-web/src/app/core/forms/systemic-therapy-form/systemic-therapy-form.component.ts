@@ -98,7 +98,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     private deletedMedications: string[] = [];
 
     ngOnInit() {
-        // Fetch any primary neoplastic entities that could be related to a new entry 
+        // Fetch any neoplastic entities that could be related to a new entry 
         this.getRelatedEntities()
         // Construct the form 
         this.constructForm()
