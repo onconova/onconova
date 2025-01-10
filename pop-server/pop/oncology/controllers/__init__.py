@@ -9,6 +9,7 @@ from .Surgery import SurgeryController
 from .Radiotherapy import RadiotherapyController
 from .Lifestyle import LifestyleController
 from .FamilyHistory import FamilyHistoryController
+from .GenomicVariant import GenomicVariantController
 
 __all__ = (
     PatientCaseController,
@@ -22,4 +23,5 @@ __all__ = (
     RadiotherapyController,
     LifestyleController,
     FamilyHistoryController,
+    GenomicVariantController,
 )

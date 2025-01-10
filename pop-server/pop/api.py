@@ -16,6 +16,7 @@ from pop.oncology.controllers import (
     PerformanceStatusController,
     LifestyleController,
     FamilyHistoryController,
+    GenomicVariantController,
 )
 
 
@@ -36,6 +37,7 @@ api.register_controllers(
     SurgeryController,
     RadiotherapyController,
     PerformanceStatusController,
+    GenomicVariantController,
     LifestyleController,
     FamilyHistoryController,
     MeasuresController,

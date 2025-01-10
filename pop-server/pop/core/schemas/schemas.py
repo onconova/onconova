@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Union
 from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
 from pydantic import Field, ConfigDict, SecretStr,model_validator
@@ -102,6 +102,28 @@ class CodedConceptSchema(Schema):
     )
 
 
+class RangeSchema(Schema):  
+    start: Union[int, float]
+    end: Optional[Union[int, float]] = None
+    # Schema config
+    model_config = ConfigDict(
+        title='Range',
+    )
+    @model_validator(mode='before')
+    def validate_data(cls, obj):
+        range = obj._obj
+        if isinstance(range, tuple):
+            obj = {
+                'start': range[0], 
+                'end': range[1],
+            }
+        elif isinstance(range, PostgresRange):
+            obj = {
+                'start': range.lower, 
+                'end': range.upper,
+            }
+        return obj
+    
 class PeriodSchema(Schema):  
     start: date
     end: Optional[date] = None

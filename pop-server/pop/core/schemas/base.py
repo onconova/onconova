@@ -1,7 +1,7 @@
 from typing import Type, Optional
 
 from django.db.models import Model as DjangoModel
-from django.contrib.postgres.fields import DateRangeField 
+from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.core.fields import MeasurementField
 
@@ -160,7 +160,7 @@ class BaseSchema(PydanticBaseModel):
                 if isinstance(orm_field, MeasurementField) and data is not None:
                     measure = orm_field.measurement
                     setattr(instance, orm_field.name, measure(**{data.get('unit'): data.get('value')}))
-                elif isinstance(orm_field, DateRangeField):
+                elif isinstance(orm_field, (DateRangeField, BigIntegerRangeField)) and data is not None:
                     setattr(instance, orm_field.name, (data['start'], data['end']))
                 else:
                     # Otherwise simply handle all other non-relational fields

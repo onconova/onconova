@@ -319,6 +319,14 @@ class TestRadiotherapySettingController(ApiControllerTestCase, TestCase):
         return f'/{instance.radiotherapy.id}/settings/{instance.id}'
     
         
+class TestGenomicVariantController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/genomic-variants'
+    FACTORY = factories.GenomicVariantFactory
+    MODEL = models.GenomicVariant
+    SCHEMA = schemas.GenomicVariantSchema
+    CREATE_SCHEMA = schemas.GenomicVariantCreateSchema    
+    
+        
 class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/performance-status'
     FACTORY = factories.PerformanceStatusFactory

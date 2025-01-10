@@ -1,7 +1,7 @@
 from typing import Dict, List, Tuple, Optional
 import enum 
 
-from django.contrib.postgres.fields import DateRangeField
+from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from django.db.models.fields import Field as DjangoField
 from django.db.models import CharField
 from django.contrib.auth import get_user_model
@@ -15,7 +15,7 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, MeasureSchema, PeriodSchema
+from pop.core.schemas import CodedConceptSchema, MeasureSchema, PeriodSchema, RangeSchema
 from pop.core.fields import MeasurementField
 
 UserModel = get_user_model()
@@ -121,6 +121,8 @@ def get_schema_field(
             python_type = MeasureSchema
         elif isinstance(field, DateRangeField):
             python_type = PeriodSchema
+        elif isinstance(field, BigIntegerRangeField):
+            python_type = RangeSchema
         elif isinstance(field, CharField) and field.choices is not None:            
             schema_field_name = to_camel_case(django_field_name)
             enum_schema_name = f'{field.model.__name__ if hasattr(field, "model") else ""}{schema_field_name[0].upper()+schema_field_name[1:]}Choices'

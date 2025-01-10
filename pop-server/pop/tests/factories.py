@@ -179,6 +179,28 @@ class RadiotherapySettingFactory(factory.django.DjangoModelFactory):
     modality = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyModality))
     technique = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyTechnique))
 
+class GenomicVariantFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.GenomicVariant    
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    gene_panel = factory.LazyFunction(faker.company)
+    assessment = FuzzyChoice(models.GenomicVariant.GenomicVariantAssessment)
+    confidence = FuzzyChoice(models.GenomicVariant.GenomicVariantConfidence)
+    clinical_relevance = FuzzyChoice(models.GenomicVariant.GenomicVariantClinicalRelevance)
+    analysis_method = factory.SubFactory(make_terminology_factory(terminology.StructuralVariantAnalysisMethod))
+    cytogenetic_location = factory.LazyFunction(lambda: f'{random.randint(1,22)}p{random.randint(11,22)}')
+    genomic_refseq = factory.LazyFunction(lambda: f'NG000{random.randint(100,999)}.{random.randint(1,9)}')
+    transcript_refseq = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}')
+    coding_hgsv = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}:c.{random.randint(10,10000)}C>T')
+    protein_hgsv = factory.LazyFunction(lambda: f'NP000{random.randint(100,999)}.{random.randint(1,9)}:p.{random.randint(10,10000)}Lys>Val')
+    aminoacid_change_type = factory.SubFactory(make_terminology_factory(terminology.AminoAcidChangeType))
+    molecular_consequence = factory.SubFactory(make_terminology_factory(terminology.MolecularConsequence))
+    copy_number = factory.LazyFunction(lambda: random.randint(1,9))
+    allele_frequency = factory.LazyFunction(lambda: random.randint(0,100)/100)
+    allele_depth = factory.LazyFunction(lambda: random.randint(0,99999))
+    zygosity = factory.SubFactory(make_terminology_factory(terminology.Zygosity))
+    exact_genomic_coordinates = factory.LazyFunction(lambda: (random.randint(0,9999), random.randint(9999,99999999)))
 
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     class Meta:

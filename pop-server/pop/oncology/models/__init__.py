@@ -15,6 +15,7 @@ from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 from .PerformanceStatus import PerformanceStatus
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
+from .GenomicVariant import GenomicVariant
 
 __all__ = (
     PatientCase,
@@ -45,4 +46,5 @@ __all__ = (
     RadiotherapySetting,
     Lifestyle,
     FamilyHistory,
+    GenomicVariant,
 )

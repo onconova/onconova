@@ -724,7 +724,7 @@ class GeneticVariantSource(CodedConcept):
     description = 'Genomic source class'
 
 
-class GeneticVariantAllelicState(CodedConcept):
+class Zygosity(CodedConcept):
     valueset =  'https://loinc.org/LL381-5/'
     description = 'Genetic variant allelic state'
 
@@ -776,7 +776,7 @@ class MedicationUsageSuggestion(CodedConcept):
     description = 'Medication usage suggestion'
 
 
-class ClinicalSignificanceOfGeneticVariation(CodedConcept):
+class VariantClinicalSignificance(CodedConcept):
     valueset =  'https://loinc.org/LL4034-6/'
     description = 'ACMG_Clinical significance of genetic variation '
     # Additional codes for an extensible valuset

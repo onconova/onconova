@@ -31,7 +31,7 @@ from .Radiotherapy import (
 from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
 from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
-
+from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
 
 __all__ = (
      # PatientCase schemas
@@ -72,4 +72,6 @@ __all__ = (
     LifestyleSchema, LifestyleCreateSchema,
     # Family member history schemas 
     FamilyHistorySchema, FamilyHistoryCreateSchema, 
+    # Genomics schemas 
+    GenomicVariantSchema, GenomicVariantCreateSchema, 
 )
