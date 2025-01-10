@@ -236,3 +236,50 @@ class FamilyHistoryFactory(factory.django.DjangoModelFactory):
     topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
     morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
     
+
+class TumorMutationalBurdenFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TumorMutationalBurden
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    value = factory.LazyFunction(lambda: random.randint(25,95)/5)
+    status = FuzzyChoice(models.TumorMutationalBurden.TumorMutationalBurdenStatus)
+
+class LossOfHeterozygosityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.LossOfHeterozygosity
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    value = factory.LazyFunction(lambda: float(random.randint(0,100)))
+
+class MicrosatelliteInstabilityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.MicrosatelliteInstability
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    value = factory.SubFactory(make_terminology_factory(terminology.MicrosatelliteInstabilityState))
+
+class HomologousRecombinationDeficiencyFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.HomologousRecombinationDeficiency
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    value = factory.LazyFunction(lambda: random.randint(0,100)*1.0)
+    interpretation = FuzzyChoice(models.HomologousRecombinationDeficiency.HomologousRecombinationDeficiencyPresence)
+
+class TumorNeoantigenBurdenFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TumorNeoantigenBurden
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    value = factory.LazyFunction(lambda: random.randint(0,50)/6)
+
+class AneuploidScoreFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.AneuploidScore
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    value = factory.LazyFunction(lambda: random.randint(0,36))
+
+
+

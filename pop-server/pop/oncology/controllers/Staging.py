@@ -6,12 +6,12 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema, Paginated
-from pop.oncology.models import Staging, StagingDomain
-
 from django.shortcuts import get_object_or_404
 from typing import List, Union
+from typing_extensions import TypeAliasType
 
+from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.oncology.models import Staging, StagingDomain
 from pop.oncology.schemas import (
      TNMStagingSchema, TNMStagingCreateSchema,
      FIGOStagingSchema, FIGOStagingCreateSchema,
@@ -29,7 +29,7 @@ from pop.oncology.schemas import (
      LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
 
-STAGING_SCHEMAS = (
+RESPONSE_SCHEMAS = (
     TNMStagingSchema, 
     FIGOStagingSchema,
     BinetStagingSchema, 
@@ -46,7 +46,7 @@ STAGING_SCHEMAS = (
     LymphomaStagingSchema,
 )
 
-CREATE_STAGING_SCHEMAS = (
+PAYLOAD_SCHEMAS = (
     TNMStagingCreateSchema, 
     FIGOStagingCreateSchema,
     BinetStagingCreateSchema,
@@ -63,9 +63,8 @@ CREATE_STAGING_SCHEMAS = (
     LymphomaStagingCreateSchema,
 )
 
-AnyOfResponseSchemas = Union[STAGING_SCHEMAS]
-
-AnyOfPayloadSchemas = Union[CREATE_STAGING_SCHEMAS]
+AnyResponseSchemas = TypeAliasType('AnyStaging',Union[RESPONSE_SCHEMAS]) # type: ignore# type: ignore
+AnyPayloadSchemas = Union[PAYLOAD_SCHEMAS]
 
 class QueryParameters(Schema):
     case__id: str = Field(None, alias='caseId')
@@ -88,7 +87,7 @@ class StagingController(ControllerBase):
     @route.get(
         path='/', 
         response={
-            200: Paginated[AnyOfResponseSchemas],
+            200: Paginated[AnyResponseSchemas],
         },
         exclude_none=True,
         operation_id='getStagings',
@@ -99,7 +98,7 @@ class StagingController(ControllerBase):
         for (lookup, value) in query:
             if value is not None:
                 queryset = queryset.filter(**{lookup: value})
-        return [cast_to_model_schema(staging.get_domain_staging(), STAGING_SCHEMAS) for staging in queryset]
+        return [cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS) for staging in queryset]
 
 
     @route.post(
@@ -109,14 +108,14 @@ class StagingController(ControllerBase):
         },
         operation_id='createStaging',
     )
-    def create_staging(self, payload: AnyOfPayloadSchemas): # type: ignore
+    def create_staging(self, payload: AnyPayloadSchemas): # type: ignore
         instance = payload.model_dump_django(user=self.context.request.user)
         return 201, ResourceIdSchema(id=instance.id)
 
     @route.get(
         path='/{stagingId}', 
         response={
-            200: AnyOfResponseSchemas, 
+            200: AnyResponseSchemas, 
             404: None
         },
         exclude_none=True,
@@ -124,7 +123,7 @@ class StagingController(ControllerBase):
         )
     def get_staging_by_id(self, stagingId: str): 
         instance = get_object_or_404(Staging, id=stagingId)
-        return 200, cast_to_model_schema(instance.get_domain_staging(), STAGING_SCHEMAS)
+        return 200, cast_to_model_schema(instance.get_domain_staging(), RESPONSE_SCHEMAS)
 
 
     @route.put(
@@ -135,9 +134,9 @@ class StagingController(ControllerBase):
         },
         operation_id='updateStagingById',
     )
-    def update_staging(self, stagingId: str, payload: AnyOfPayloadSchemas): # type: ignore
+    def update_staging(self, stagingId: str, payload: AnyPayloadSchemas): # type: ignore
         instance = get_object_or_404(Staging, id=stagingId)
-        instance = cast_to_model_schema(instance.get_domain_staging(), CREATE_STAGING_SCHEMAS, payload)\
+        instance = cast_to_model_schema(instance.get_domain_staging(), PAYLOAD_SCHEMAS, payload)\
                     .model_dump_django(instance=instance.get_domain_staging(), user=self.context.request.user)
         return 204, None
 

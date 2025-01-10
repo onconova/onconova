@@ -32,6 +32,14 @@ from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateS
 from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
 from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
+from .GenomicSignature import (
+    TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
+    MicrosatelliteInstabilitySchema, MicrosatelliteInstabilityCreateSchema,
+    LossOfHeterozygositySchema, LossOfHeterozygosityCreateSchema,
+    HomologousRecombinationDeficiencySchema, HomologousRecombinationDeficiencyCreateSchema,
+    TumorNeoantigenBurdenSchema, TumorNeoantigenBurdenCreateSchema,
+    AneuploidScoreSchema, AneuploidScoreCreateSchema,
+)
 
 __all__ = (
      # PatientCase schemas
@@ -72,6 +80,13 @@ __all__ = (
     LifestyleSchema, LifestyleCreateSchema,
     # Family member history schemas 
     FamilyHistorySchema, FamilyHistoryCreateSchema, 
-    # Genomics schemas 
-    GenomicVariantSchema, GenomicVariantCreateSchema, 
+    # Genomic variant schemas 
+    GenomicVariantSchema, GenomicVariantCreateSchema,
+    # Genomic signature schemas
+    TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
+    MicrosatelliteInstabilitySchema, MicrosatelliteInstabilityCreateSchema,
+    LossOfHeterozygositySchema, LossOfHeterozygosityCreateSchema,
+    HomologousRecombinationDeficiencySchema, HomologousRecombinationDeficiencyCreateSchema,
+    TumorNeoantigenBurdenSchema, TumorNeoantigenBurdenCreateSchema,
+    AneuploidScoreSchema, AneuploidScoreCreateSchema,
 )

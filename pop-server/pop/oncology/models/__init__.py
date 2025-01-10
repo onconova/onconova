@@ -16,35 +16,40 @@ from .PerformanceStatus import PerformanceStatus
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
 from .GenomicVariant import GenomicVariant
+from .GenomicSignature import (
+    GenomicSignatureTypes,
+    GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
+    LossOfHeterozygosity, HomologousRecombinationDeficiency, TumorNeoantigenBurden,
+    AneuploidScore,
+)
 
 __all__ = (
+    # Patient case
     PatientCase,
+    # Neoplastic entity    
     NeoplasticEntity,
-    Staging,
-    StagingDomain,
-    TNMStaging,
-    FIGOStaging, 
-    BinetStaging,
-    RaiStaging, 
-    BreslowDepth, 
-    ClarkStaging, 
-    ISSStaging,
-    RISSStaging, 
-    GleasonGrade, 
-    INSSStage, 
-    INRGSSStage, 
-    WilmsStage, 
-    RhabdomyosarcomaClinicalGroup,
-    LymphomaStaging,
+    # Stagings
+    Staging, StagingDomain, TNMStaging, FIGOStaging, BinetStaging, RaiStaging, BreslowDepth, ClarkStaging, ISSStaging,
+    RISSStaging, GleasonGrade, INSSStage, INRGSSStage, WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging,
+    # Tumor marker
     TumorMarker,
+    # Risk assessment
     RiskAssessment,
+    # Systemic therapy
     SystemicTherapy, SystemicTherapyMedication,
+    # Performance status
     PerformanceStatus,
+    # Surgerry
     Surgery,
-    Radiotherapy, 
-    RadiotherapyDosage, 
-    RadiotherapySetting,
+    # Radiotherapy
+    Radiotherapy, RadiotherapyDosage, RadiotherapySetting,
+    # Lifestyle
     Lifestyle,
+    # Family history
     FamilyHistory,
+    # Genomic variant
     GenomicVariant,
+    # Genomic signatures
+    GenomicSignatureTypes,GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
+    LossOfHeterozygosity, HomologousRecombinationDeficiency, TumorNeoantigenBurden, AneuploidScore,
 )

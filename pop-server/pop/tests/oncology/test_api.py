@@ -350,4 +350,40 @@ class TestFamilyHistoryController(ApiControllerTestCase, TestCase):
     MODEL = models.FamilyHistory
     SCHEMA = schemas.FamilyHistorySchema
     CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema    
+
+
+class TestGenomicSignatureController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/genomic-signatures'
+    FACTORY = [
+        factories.TumorMutationalBurdenFactory, 
+        factories.LossOfHeterozygosityFactory,
+        factories.MicrosatelliteInstabilityFactory,
+        factories.HomologousRecombinationDeficiencyFactory,
+        factories.TumorNeoantigenBurdenFactory,
+        factories.AneuploidScoreFactory,
+    ]
+    MODEL = [
+        models.TumorMutationalBurden, 
+        models.LossOfHeterozygosity,
+        models.MicrosatelliteInstability,
+        models.HomologousRecombinationDeficiency,
+        models.TumorNeoantigenBurden,
+        models.AneuploidScore,
+    ]
+    SCHEMA = [
+        schemas.TumorMutationalBurdenSchema, 
+        schemas.LossOfHeterozygositySchema,
+        schemas.MicrosatelliteInstabilitySchema,
+        schemas.HomologousRecombinationDeficiencySchema,
+        schemas.TumorNeoantigenBurdenSchema,
+        schemas.AneuploidScoreSchema,
+    ]
+    CREATE_SCHEMA = [
+        schemas.TumorMutationalBurdenCreateSchema, 
+        schemas.LossOfHeterozygosityCreateSchema,
+        schemas.MicrosatelliteInstabilityCreateSchema,
+        schemas.HomologousRecombinationDeficiencyCreateSchema,
+        schemas.TumorNeoantigenBurdenCreateSchema,
+        schemas.AneuploidScoreCreateSchema,
+    ]
     
