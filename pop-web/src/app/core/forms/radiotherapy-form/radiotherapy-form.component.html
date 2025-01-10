@@ -1,0 +1,116 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="flex flex-wrap">
+
+            <div class="field">
+                <label class="form-label required">Treatment period</label>
+                <masked-calendar 
+                    formControlName="period"
+                    selectionMode="range"
+                    placeholder="DD/MM/YYYY - DD/MM/YYYY"
+                />
+                <control-error controlName="period"></control-error>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Neoplastic entities targeted</label>
+            <reference-multiselect 
+            formControlName="targetedEntities"
+            [references]="relatedEntities"/>
+            <control-error controlName="targetedEntities"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Intent</label>
+            <radio-select  
+            formControlName="intent"
+            [choices]="intentChoices"
+            class="flex flex-wrap gap-4"/>
+            <control-error controlName="intent"></control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label required">Total sessions</label>
+            <p-inputnumber 
+            formControlName="sessions"
+            placeholder="Enter value" 
+            useGrouping="false"
+            suffix=" session(s)"/>
+            <control-error controlName="sessions"></control-error>
+        </div>
+        
+        <div class="field">
+            <label class="form-label">Termination reason</label>
+            <coded-concept-select 
+                formControlName="terminationReason"
+                terminology="TreatmentTerminationReason"
+                [showSynonyms]="false"/>
+            <control-error controlName="terminationReason"></control-error>
+        </div>
+
+        <div formArrayName="dosages">
+            <ng-container *ngFor="let control of dosageFormArray.controls; let i = index" >
+                <p-fieldset legend="Dosage" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
+                    <div class="mt-3">
+                        <div class="field">
+                            <label class="form-label required">Irradiated bodysite</label>
+                            <coded-concept-select 
+                                formControlName="irradiatedVolume"
+                                terminology="RadiotherapyTreatmentLocation"
+                                [showSynonyms]="true"/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="form-label required">Fractions delivered to the bodysite</label>
+                        <p-inputnumber 
+                            formControlName="fractions"
+                            placeholder="Enter value" 
+                            useGrouping="false"
+                            suffix=" fraction(s)"/>
+                    </div>
+                    <div class="field">
+                        <label class="form-label required">Total radiation dose delivered</label>
+                        <measure-input 
+                            formControlName="dose"
+                            measure="RadiationDose"/>
+                    </div>
+                </p-fieldset>
+            </ng-container>
+        </div>
+        
+
+        <div formArrayName="settings">
+            <ng-container *ngFor="let control of settingsFormArray.controls; let i = index" >
+                <p-fieldset  legend="MOdality & Technique" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
+                    <div class="mt-3">
+                        <div class="field">
+                            <label class="form-label required">Modality</label>
+                            <coded-concept-select 
+                                formControlName="modality"
+                                terminology="RadiotherapyModality"
+                                [showSynonyms]="true"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label required">Technique</label>
+                            <coded-concept-select 
+                                formControlName="technique"
+                                terminology="RadiotherapyTechnique"
+                                [showSynonyms]="true"/>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </ng-container>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-4"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

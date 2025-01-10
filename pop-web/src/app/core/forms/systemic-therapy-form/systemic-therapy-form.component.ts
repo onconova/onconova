@@ -188,11 +188,12 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             caseId: this.caseId,
             targetedEntitiesIds: data.targetedEntities,
             period: {
-            start: data.period.start? data.period.start: moment(data.period.split(' - ')[0], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
-            end: data.period.end? data.period.end: moment(data.period.split(' - ')[1], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+                start: data.period.start? data.period.start: moment(data.period.split(' - ')[0], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+                end: data.period.end? data.period.end: moment(data.period.split(' - ')[1], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
             },
             cycles: data.cycles,
             intent: data.intent,
+            terminationReason: data.terminationReason,
         };
     }
 

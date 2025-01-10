@@ -24,6 +24,7 @@ import {
     PerformanceStatusService,
     SurgeriesService,
     LifestylesService,
+    RadiotherapiesService,
 } from 'src/app/shared/openapi'
 
 import { 
@@ -35,6 +36,7 @@ import {
     PerformanceStatusFormComponent,
     SurgeryFormComponent,
     LifestyleFormComponent,
+    RadiotherapyFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -75,6 +77,7 @@ export class CaseManagerComponent implements OnInit {
     private performanceStatiiService: PerformanceStatusService = inject(PerformanceStatusService);
     private surgeriesService: SurgeriesService = inject(SurgeriesService);
     private lifestylesService: LifestylesService = inject(LifestylesService);
+    private radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
     private messageService: MessageService = inject(MessageService);
 
     // Case properties
@@ -139,6 +142,13 @@ export class CaseManagerComponent implements OnInit {
         update: this.surgeriesService.updateSurgeryById.bind(this.surgeriesService),
     };
     // Case-specific data observables
+    public radiotherapyService: DataService = {
+        get: this.radiotherapiesService.getRadiotherapies.bind(this.radiotherapiesService),
+        create: this.radiotherapiesService.createRadiotherapy.bind(this.radiotherapiesService),
+        delete: this.radiotherapiesService.deleteRadiotherapyById.bind(this.radiotherapiesService),
+        update: this.radiotherapiesService.updateRadiotherapy.bind(this.radiotherapiesService),
+    };
+    // Case-specific data observables
     public lifestyleService: DataService = {
         get: this.lifestylesService.getLifestyles.bind(this.lifestylesService),
         create: this.lifestylesService.createLifestyle.bind(this.lifestylesService),
@@ -155,6 +165,7 @@ export class CaseManagerComponent implements OnInit {
     public PerformanceStatusFormComponent =PerformanceStatusFormComponent;
     public SurgeryFormComponent = SurgeryFormComponent;
     public LifestyleFormComponent = LifestyleFormComponent;
+    public RadiotherapyFormComponent = RadiotherapyFormComponent;
 
     public icons = {
         neoplasticEntities: Ribbon,
