@@ -24,8 +24,8 @@ import { INSSStage } from './inss-stage';
 import { LymphomaStaging } from './lymphoma-staging';
 
 
-export interface PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStagingItemsInner { 
-    stagingDomain?: PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStagingItemsInner.StagingDomainEnum;
+export interface AnyStaging { 
+    stagingDomain?: AnyStaging.StagingDomainEnum;
     /**
      * Human-readable description of the staging
      */
@@ -85,7 +85,7 @@ export interface PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslo
      */
     modifiers?: Array<CodedConceptSchema>;
 }
-export namespace PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStagingItemsInner {
+export namespace AnyStaging {
     export type StagingDomainEnum = 'lymphoma';
     export const StagingDomainEnum = {
         Lymphoma: 'lymphoma' as StagingDomainEnum

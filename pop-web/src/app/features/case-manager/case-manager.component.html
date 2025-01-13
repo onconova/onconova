@@ -54,7 +54,9 @@
 
         <app-case-manager-panel
             title="Genomic Variants"
-            [icon]="icons.genomicVariants"/>
+            [icon]="icons.genomicVariants"
+            [formComponent]="GenomicVariantFormComponent"
+            [service]="genomicVariantService"/>
 
         <app-case-manager-panel
             title="Genomic Signatures"

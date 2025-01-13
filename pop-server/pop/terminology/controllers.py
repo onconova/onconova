@@ -28,5 +28,5 @@ class TerminologyController(ControllerBase):
             queryset = queryset.filter(
                 Q(code__icontains=query) | Q(display__icontains=query) | Q(synonyms__contains=[query])
             ).distinct()
-        return queryset
+        return queryset[:100]
 

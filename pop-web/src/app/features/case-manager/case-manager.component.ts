@@ -25,6 +25,8 @@ import {
     SurgeriesService,
     LifestylesService,
     RadiotherapiesService,
+    GenomicVariantsService,
+    GenomicSignaturesService
 } from 'src/app/shared/openapi'
 
 import { 
@@ -37,6 +39,7 @@ import {
     SurgeryFormComponent,
     LifestyleFormComponent,
     RadiotherapyFormComponent,
+    GenomicVariantFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -78,6 +81,8 @@ export class CaseManagerComponent implements OnInit {
     private surgeriesService: SurgeriesService = inject(SurgeriesService);
     private lifestylesService: LifestylesService = inject(LifestylesService);
     private radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
+    private genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
+    private genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     private messageService: MessageService = inject(MessageService);
 
     // Case properties
@@ -155,6 +160,13 @@ export class CaseManagerComponent implements OnInit {
         delete: this.lifestylesService.deleteLifestyleById.bind(this.lifestylesService),
         update: this.lifestylesService.updateLifestyleById.bind(this.lifestylesService),
     };
+    // Case-specific data observables
+    public genomicVariantService: DataService = {
+        get: this.genomicVariantsService.getGenomicVariants.bind(this.genomicVariantsService),
+        create: this.genomicVariantsService.createGenomicVariant.bind(this.genomicVariantsService),
+        delete: this.genomicVariantsService.deleteGenomicVariant.bind(this.genomicVariantsService),
+        update: this.genomicVariantsService.updateGenomicVariant.bind(this.genomicVariantsService),
+    };
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
@@ -166,6 +178,7 @@ export class CaseManagerComponent implements OnInit {
     public SurgeryFormComponent = SurgeryFormComponent;
     public LifestyleFormComponent = LifestyleFormComponent;
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
+    public GenomicVariantFormComponent = GenomicVariantFormComponent;
 
     public icons = {
         neoplasticEntities: Ribbon,

@@ -11,10 +11,10 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging } from '../model/models';
+import { AnyStaging } from '../model/models';
+import { PaginatedAnyStaging } from '../model/models';
 import { Payload } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
-import { Response } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -44,7 +44,7 @@ export interface StagingsServiceInterface {
      * 
      * @param stagingId 
      */
-    getStagingById(stagingId: string, extraHttpRequestParams?: any): Observable<Response>;
+    getStagingById(stagingId: string, extraHttpRequestParams?: any): Observable<AnyStaging>;
 
     /**
      * Get All Stagings Matching The Query
@@ -54,7 +54,7 @@ export interface StagingsServiceInterface {
      * @param limit 
      * @param offset 
      */
-    getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedUnionTNMStagingFIGOStagingBinetStagingRaiStagingBreslowDepthClarkStagingISSStagingRISSStagingGleasonGradeINSSStageINRGSSStageWilmsStageRhabdomyosarcomaClinicalGroupLymphomaStaging>;
+    getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedAnyStaging>;
 
     /**
      * Update Staging

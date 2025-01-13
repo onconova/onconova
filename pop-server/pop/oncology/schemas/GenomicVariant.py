@@ -4,7 +4,7 @@ from ninja import Schema
 
 GenomicVariantBase: Schema = create_schema(
     GenomicVariant, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
+    exclude=(*CREATE_IGNORED_FIELDS, 'is_vus', 'is_pathogenic'),
 )
 
 class GenomicVariantSchema(GenomicVariantBase, GetMixin):

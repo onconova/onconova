@@ -818,7 +818,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_Union_TNMStaging__FIGOStaging__BinetStaging__RaiStaging__BreslowDepth__ClarkStaging__ISSStaging__RISSStaging__GleasonGrade__INSSStage__INRGSSStage__WilmsStage__RhabdomyosarcomaClinicalGroup__LymphomaStaging__"
+                  "$ref": "#/components/schemas/Paginated_AnyStaging_"
                 }
               }
             }
@@ -886,51 +886,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TNMStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/FIGOStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/BinetStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/RaiStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/BreslowDepth"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ClarkStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ISSStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/RISSStaging"
-                    },
-                    {
-                      "$ref": "#/components/schemas/GleasonGrade"
-                    },
-                    {
-                      "$ref": "#/components/schemas/INSSStage"
-                    },
-                    {
-                      "$ref": "#/components/schemas/INRGSSStage"
-                    },
-                    {
-                      "$ref": "#/components/schemas/WilmsStage"
-                    },
-                    {
-                      "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroup"
-                    },
-                    {
-                      "$ref": "#/components/schemas/LymphomaStaging"
-                    }
-                  ],
-                  "title": "Response"
+                  "$ref": "#/components/schemas/AnyStaging"
                 }
               }
             }
@@ -3012,6 +2968,479 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/PerformanceStatusCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/genomic-variants/": {
+      "post": {
+        "operationId": "createGenomicVariant",
+        "summary": "Create Genomic Variant",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Genomic Variants"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenomicVariantCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getGenomicVariants",
+        "summary": "Get All Genomic Variants Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_GenomicVariantSchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Genomic Variants"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/genomic-variants/{genomicVariantId}": {
+      "delete": {
+        "operationId": "deleteGenomicVariant",
+        "summary": "Delete Genomic Variant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genomicVariantId",
+            "schema": {
+              "title": "Genomicvariantid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Genomic Variants"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getGenomicVariantById",
+        "summary": "Get Genomic Variant By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genomicVariantId",
+            "schema": {
+              "title": "Genomicvariantid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenomicVariantSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Genomic Variants"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateGenomicVariant",
+        "summary": "Update Genomic Variant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genomicVariantId",
+            "schema": {
+              "title": "Genomicvariantid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Genomic Variants"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenomicVariantCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/genomic-signatures/": {
+      "post": {
+        "operationId": "createGenomicSignature",
+        "summary": "Create Genomic Signature",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Genomic Signatures"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/TumorMutationalBurdenCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MicrosatelliteInstabilityCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/LossOfHeterozygosityCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/HomologousRecombinationDeficiencyCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/TumorNeoantigenBurdenCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AneuploidScoreCreateSchema"
+                  }
+                ],
+                "title": "Payload"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getGenomicSignatures",
+        "summary": "Get All Genomic Signatures Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "stagingDomain",
+            "schema": {
+              "items": {
+                "enum": [
+                  "tumor_mutational_burden",
+                  "loss_of_heterozygosity",
+                  "microsatellite_instability",
+                  "homologous_recombination_deficiency",
+                  "tumor_neoantigen_burden",
+                  "aneuploid_score"
+                ],
+                "title": "GenomicSignatureTypes",
+                "type": "string"
+              },
+              "title": "Stagingdomain",
+              "type": "array"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_AnyGenomicSignature_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Genomic Signatures"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/genomic-signatures/{genomicSignatureId}": {
+      "delete": {
+        "operationId": "deleteGenomicSignatureById",
+        "summary": "Delete Genomic Signature",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genomicSignatureId",
+            "schema": {
+              "title": "Genomicsignatureid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Genomic Signatures"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getGenomicSignatureById",
+        "summary": "Get Genomic Signature By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genomicSignatureId",
+            "schema": {
+              "title": "Genomicsignatureid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnyGenomicSignature"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Genomic Signatures"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateGenomicSignatureById",
+        "summary": "Update Genomic Signature",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genomicSignatureId",
+            "schema": {
+              "title": "Genomicsignatureid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Genomic Signatures"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/TumorMutationalBurdenCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MicrosatelliteInstabilityCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/LossOfHeterozygosityCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/HomologousRecombinationDeficiencyCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/TumorNeoantigenBurdenCreateSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AneuploidScoreCreateSchema"
+                  }
+                ],
+                "title": "Payload"
               }
             }
           },
@@ -5891,6 +6320,52 @@
         "title": "StagingDomain",
         "type": "string"
       },
+      "AnyStaging": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TNMStaging"
+          },
+          {
+            "$ref": "#/components/schemas/FIGOStaging"
+          },
+          {
+            "$ref": "#/components/schemas/BinetStaging"
+          },
+          {
+            "$ref": "#/components/schemas/RaiStaging"
+          },
+          {
+            "$ref": "#/components/schemas/BreslowDepth"
+          },
+          {
+            "$ref": "#/components/schemas/ClarkStaging"
+          },
+          {
+            "$ref": "#/components/schemas/ISSStaging"
+          },
+          {
+            "$ref": "#/components/schemas/RISSStaging"
+          },
+          {
+            "$ref": "#/components/schemas/GleasonGrade"
+          },
+          {
+            "$ref": "#/components/schemas/INSSStage"
+          },
+          {
+            "$ref": "#/components/schemas/INRGSSStage"
+          },
+          {
+            "$ref": "#/components/schemas/WilmsStage"
+          },
+          {
+            "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroup"
+          },
+          {
+            "$ref": "#/components/schemas/LymphomaStaging"
+          }
+        ]
+      },
       "BinetStaging": {
         "properties": {
           "stagingDomain": {
@@ -7307,7 +7782,7 @@
         "title": "LymphomaStaging",
         "type": "object"
       },
-      "Paginated_Union_TNMStaging__FIGOStaging__BinetStaging__RaiStaging__BreslowDepth__ClarkStaging__ISSStaging__RISSStaging__GleasonGrade__INSSStage__INRGSSStage__WilmsStage__RhabdomyosarcomaClinicalGroup__LymphomaStaging__": {
+      "Paginated_AnyStaging_": {
         "properties": {
           "count": {
             "title": "Count",
@@ -7315,50 +7790,7 @@
           },
           "items": {
             "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/TNMStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/FIGOStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/BinetStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/RaiStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/BreslowDepth"
-                },
-                {
-                  "$ref": "#/components/schemas/ClarkStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/ISSStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/RISSStaging"
-                },
-                {
-                  "$ref": "#/components/schemas/GleasonGrade"
-                },
-                {
-                  "$ref": "#/components/schemas/INSSStage"
-                },
-                {
-                  "$ref": "#/components/schemas/INRGSSStage"
-                },
-                {
-                  "$ref": "#/components/schemas/WilmsStage"
-                },
-                {
-                  "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroup"
-                },
-                {
-                  "$ref": "#/components/schemas/LymphomaStaging"
-                }
-              ]
+              "$ref": "#/components/schemas/AnyStaging"
             },
             "title": "Items",
             "type": "array"
@@ -7368,7 +7800,7 @@
           "count",
           "items"
         ],
-        "title": "Paginated[Union[TNMStaging, FIGOStaging, BinetStaging, RaiStaging, BreslowDepth, ClarkStaging, ISSStaging, RISSStaging, GleasonGrade, INSSStage, INRGSSStage, WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging]]",
+        "title": "Paginated[AnyStaging]",
         "type": "object"
       },
       "RISSStaging": {
@@ -11610,6 +12042,2488 @@
           "date"
         ],
         "title": "PerformanceStatus",
+        "type": "object"
+      },
+      "GenomicVariantAssessmentChoices": {
+        "enum": [
+          "present",
+          "absent",
+          "no-call",
+          "indeterminate"
+        ],
+        "title": "GenomicVariantAssessmentChoices",
+        "type": "string"
+      },
+      "GenomicVariantClinicalRelevanceChoices": {
+        "enum": [
+          "pathogenic",
+          "likely_pathogenic",
+          "uncertain_significance",
+          "ambiguous",
+          "likely_benign",
+          "benign"
+        ],
+        "title": "GenomicVariantClinicalRelevanceChoices",
+        "type": "string"
+      },
+      "GenomicVariantConfidenceChoices": {
+        "enum": [
+          "low",
+          "high",
+          "indeterminate"
+        ],
+        "title": "GenomicVariantConfidenceChoices",
+        "type": "string"
+      },
+      "GenomicVariantCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who' genomic variant is described",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the genomic variant was detected and/or reported.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "genePanel": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Commercial or official name of the gene panel tested to identify the variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gene_panel",
+            "title": "Gene panel"
+          },
+          "assessment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenomicVariantAssessmentChoices",
+                "maxLength": 15
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "assessment",
+            "title": "Assessment"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenomicVariantConfidenceChoices",
+                "maxLength": 15
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "confidence",
+            "title": "Confidence"
+          },
+          "analysisMethod": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Analysis method used to detect the variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "analysis_method",
+            "terminology": "StructuralVariantAnalysisMethod",
+            "title": "Analysis method"
+          },
+          "clinicalRelevance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenomicVariantClinicalRelevanceChoices"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the clinical relevance or pathogenicity of the variant.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "clinical_relevance",
+            "title": "Clinical relevance"
+          },
+          "cytogeneticLocation": {
+            "anyOf": [
+              {
+                "maxLength": 60,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The genetic address of the variant specifying the relevant chromosomal region.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cytogenetic_location",
+            "title": "Cytogenetic location"
+          },
+          "genomeAssemblyVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The reference genome assembly versionused in this analysis.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "genome_assembly_version",
+            "terminology": "ReferenceGenomeBuild",
+            "title": "Genome assembly version"
+          },
+          "genomicRefseq": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\n            Identifier the transcript reference sequence, which includes transcribed and non transcribed stretches. \n            Can be an NCBI's RefSeq ('NC_...' or 'NG...'), and LRG ('LRG...')",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "genomic_refseq",
+            "title": "Genomic RefSeq"
+          },
+          "transcriptRefseq": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\n            Identifier the transcript reference sequence, which includes transcribed and non transcribed stretches. \n            Can be an NCBI's RefSeq ('NM_...' or 'NG...'), Ensembl ('ENST...'), and LRG ('LRG...' plus 't1' to indicate transcript)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "transcript_refseq",
+            "title": "Transcript RefSeq"
+          },
+          "codingHgsv": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C\u003ET",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "coding_hgsv",
+            "title": "Coding DNA change expression (cHGVS)"
+          },
+          "proteinHgsv": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression, e.g. NP_000050.2:p.(Asn1836Lys)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "protein_hgsv",
+            "title": "Protein/aminoacid change expression (pHGVS)"
+          },
+          "genomicHgsv": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description of the genomic (gDNA) sequence change using a valid HGVS-formatted expression, e.g. NC_000016.9:g.2124200_2138612dup",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "genomic_hgsv",
+            "title": "Genomic change expression (gHGVS)"
+          },
+          "dnaChangeType": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the DNA change type of the variant.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dna_change_type",
+            "terminology": "DnaChangeType",
+            "title": "Coding DNA change type"
+          },
+          "aminoacidChangeType": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the amino acid change type",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "aminoacid_change_type",
+            "terminology": "AminoAcidChangeType",
+            "title": "Aminoacid change type"
+          },
+          "molecularConsequence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "molecular_consequence",
+            "terminology": "MolecularConsequence",
+            "title": "Molecular consequence"
+          },
+          "copyNumber": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "copy_number",
+            "title": "Copy number"
+          },
+          "alleleFrequency": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "allele_frequency",
+            "title": "Allele frequency"
+          },
+          "alleleDepth": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "allele_depth",
+            "title": "Allele depth (reads)"
+          },
+          "zygosity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The observed level of occurrence of the variant in the set of chromosomes.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "zygosity",
+            "terminology": "Zygosity",
+            "title": "Zygosity"
+          },
+          "inheritance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Variant inheritance origin (if known).",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "inheritance",
+            "terminology": "VariantInheritance",
+            "title": "Inheritance"
+          },
+          "coordinateSystem": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Genomic coordinate system used for identifying nucleotides or amino acids within a sequence.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "coordinate_system",
+            "terminology": "GenomicCoordinateSystem",
+            "title": "Coordinate system"
+          },
+          "exactGenomicCoordinates": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RangeSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The exact integer-based genomic coordinates of the start and end of the variant region. \"High\" can be omitted for single nucleotide variants.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "exact_genomic_coordinates",
+            "title": "Exact genomic coordinates"
+          },
+          "innerGenomicCoordinates": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RangeSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The genomic coordinates of the narrowest genomic range in which the variant might reside. Used when the exact boundaries of the variant are not clear.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "inner_genomic_coordinates",
+            "title": "Inner genomic coordinates"
+          },
+          "outerGenomicCoordinates": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RangeSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The genomic coordinates of the widest genomic range in which the variant might reside. Used when the exact boundaries of the variant are not clear.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "outer_genomic_coordinates",
+            "title": "Outer genomic coordinates"
+          },
+          "clinvar": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accession number in the ClinVar variant database, given for cross-reference.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "clinvar",
+            "title": "ClinVar accession number"
+          },
+          "genes": {
+            "default": [],
+            "description": "Gene(s) affected by this variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "genes",
+            "terminology": "Gene",
+            "title": "Gene(s)",
+            "type": "array"
+          },
+          "chromosomes": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": [],
+            "description": "Chromosome(s) affected by this variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "chromosomes",
+            "terminology": "ChromosomeIdentifier",
+            "title": "Chromosome(s)"
+          }
+        },
+        "required": [
+          "caseId",
+          "date"
+        ],
+        "title": "GenomicVariantCreate",
+        "type": "object"
+      },
+      "RangeSchema": {
+        "properties": {
+          "start": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End"
+          }
+        },
+        "required": [
+          "start"
+        ],
+        "title": "Range",
+        "type": "object"
+      },
+      "GenomicVariantSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who' genomic variant is described",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the genomic variant was detected and/or reported.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "genePanel": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Commercial or official name of the gene panel tested to identify the variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gene_panel",
+            "title": "Gene panel"
+          },
+          "assessment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenomicVariantAssessmentChoices",
+                "maxLength": 15
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "assessment",
+            "title": "Assessment"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenomicVariantConfidenceChoices",
+                "maxLength": 15
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "confidence",
+            "title": "Confidence"
+          },
+          "analysisMethod": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Analysis method used to detect the variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "analysis_method",
+            "terminology": "StructuralVariantAnalysisMethod",
+            "title": "Analysis method"
+          },
+          "clinicalRelevance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GenomicVariantClinicalRelevanceChoices"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the clinical relevance or pathogenicity of the variant.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "clinical_relevance",
+            "title": "Clinical relevance"
+          },
+          "cytogeneticLocation": {
+            "anyOf": [
+              {
+                "maxLength": 60,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The genetic address of the variant specifying the relevant chromosomal region.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cytogenetic_location",
+            "title": "Cytogenetic location"
+          },
+          "genomeAssemblyVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The reference genome assembly versionused in this analysis.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "genome_assembly_version",
+            "terminology": "ReferenceGenomeBuild",
+            "title": "Genome assembly version"
+          },
+          "genomicRefseq": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\n            Identifier the transcript reference sequence, which includes transcribed and non transcribed stretches. \n            Can be an NCBI's RefSeq ('NC_...' or 'NG...'), and LRG ('LRG...')",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "genomic_refseq",
+            "title": "Genomic RefSeq"
+          },
+          "transcriptRefseq": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "\n            Identifier the transcript reference sequence, which includes transcribed and non transcribed stretches. \n            Can be an NCBI's RefSeq ('NM_...' or 'NG...'), Ensembl ('ENST...'), and LRG ('LRG...' plus 't1' to indicate transcript)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "transcript_refseq",
+            "title": "Transcript RefSeq"
+          },
+          "codingHgsv": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C\u003ET",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "coding_hgsv",
+            "title": "Coding DNA change expression (cHGVS)"
+          },
+          "proteinHgsv": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression, e.g. NP_000050.2:p.(Asn1836Lys)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "protein_hgsv",
+            "title": "Protein/aminoacid change expression (pHGVS)"
+          },
+          "genomicHgsv": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Description of the genomic (gDNA) sequence change using a valid HGVS-formatted expression, e.g. NC_000016.9:g.2124200_2138612dup",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "genomic_hgsv",
+            "title": "Genomic change expression (gHGVS)"
+          },
+          "dnaChangeType": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the DNA change type of the variant.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "dna_change_type",
+            "terminology": "DnaChangeType",
+            "title": "Coding DNA change type"
+          },
+          "aminoacidChangeType": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the amino acid change type",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "aminoacid_change_type",
+            "terminology": "AminoAcidChangeType",
+            "title": "Aminoacid change type"
+          },
+          "molecularConsequence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "molecular_consequence",
+            "terminology": "MolecularConsequence",
+            "title": "Molecular consequence"
+          },
+          "copyNumber": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "copy_number",
+            "title": "Copy number"
+          },
+          "alleleFrequency": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "allele_frequency",
+            "title": "Allele frequency"
+          },
+          "alleleDepth": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "allele_depth",
+            "title": "Allele depth (reads)"
+          },
+          "zygosity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The observed level of occurrence of the variant in the set of chromosomes.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "zygosity",
+            "terminology": "Zygosity",
+            "title": "Zygosity"
+          },
+          "inheritance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Variant inheritance origin (if known).",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "inheritance",
+            "terminology": "VariantInheritance",
+            "title": "Inheritance"
+          },
+          "coordinateSystem": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Genomic coordinate system used for identifying nucleotides or amino acids within a sequence.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "coordinate_system",
+            "terminology": "GenomicCoordinateSystem",
+            "title": "Coordinate system"
+          },
+          "exactGenomicCoordinates": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RangeSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The exact integer-based genomic coordinates of the start and end of the variant region. \"High\" can be omitted for single nucleotide variants.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "exact_genomic_coordinates",
+            "title": "Exact genomic coordinates"
+          },
+          "innerGenomicCoordinates": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RangeSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The genomic coordinates of the narrowest genomic range in which the variant might reside. Used when the exact boundaries of the variant are not clear.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "inner_genomic_coordinates",
+            "title": "Inner genomic coordinates"
+          },
+          "outerGenomicCoordinates": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RangeSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The genomic coordinates of the widest genomic range in which the variant might reside. Used when the exact boundaries of the variant are not clear.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "outer_genomic_coordinates",
+            "title": "Outer genomic coordinates"
+          },
+          "clinvar": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Accession number in the ClinVar variant database, given for cross-reference.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "clinvar",
+            "title": "ClinVar accession number"
+          },
+          "genes": {
+            "default": [],
+            "description": "Gene(s) affected by this variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "genes",
+            "terminology": "Gene",
+            "title": "Gene(s)",
+            "type": "array"
+          },
+          "chromosomes": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": [],
+            "description": "Chromosome(s) affected by this variant",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "chromosomes",
+            "terminology": "ChromosomeIdentifier",
+            "title": "Chromosome(s)"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date"
+        ],
+        "title": "GenomicVariant",
+        "type": "object"
+      },
+      "Paginated_GenomicVariantSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/GenomicVariantSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[GenomicVariantSchema]",
+        "type": "object"
+      },
+      "AneuploidScoreCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "integer"
+          },
+          "category": {
+            "const": "aneuploid_score",
+            "default": "aneuploid_score",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "AneuploidScoreCreate",
+        "type": "object"
+      },
+      "HomologousRecombinationDeficiencyCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Homologous recombination deficiency (HRD) score value",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value"
+          },
+          "interpretation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HomologousRecombinationDeficiencyInterpretationChoices"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Homologous recombination deficiency (HRD) interpretation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "interpretation",
+            "title": "Interpretation"
+          },
+          "category": {
+            "const": "homologous_recombination_deficiency",
+            "default": "homologous_recombination_deficiency",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caseId",
+          "date"
+        ],
+        "title": "HomologousRecombinationDeficiencyCreate",
+        "type": "object"
+      },
+      "HomologousRecombinationDeficiencyInterpretationChoices": {
+        "enum": [
+          "positive",
+          "negative",
+          "indeterminate"
+        ],
+        "title": "HomologousRecombinationDeficiencyInterpretationChoices",
+        "type": "string"
+      },
+      "LossOfHeterozygosityCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "Loss of heterozygosity (LOH) as a percentage",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "number"
+          },
+          "category": {
+            "const": "loss_of_heterozygosity",
+            "default": "loss_of_heterozygosity",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "LossOfHeterozygosityCreate",
+        "type": "object"
+      },
+      "MicrosatelliteInstabilityCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Microsatellite instability (MSI) classification",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "terminology": "MicrosatelliteInstabilityState",
+            "title": "Value"
+          },
+          "category": {
+            "const": "microsatellite_instability",
+            "default": "microsatellite_instability",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "MicrosatelliteInstabilityCreate",
+        "type": "object"
+      },
+      "TumorMutationalBurdenCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "The actual tumor mutational burden (TMB) value in mutations/Mb",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "number"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMutationalBurdenStatusChoices"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cclassification of the tumor mutational burden (TMB) status",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "status",
+            "title": "Status"
+          },
+          "category": {
+            "const": "tumor_mutational_burden",
+            "default": "tumor_mutational_burden",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "TumorMutationalBurdenCreate",
+        "type": "object"
+      },
+      "TumorMutationalBurdenStatusChoices": {
+        "enum": [
+          "low",
+          "high",
+          "intermediate",
+          "indeterminate"
+        ],
+        "title": "TumorMutationalBurdenStatusChoices",
+        "type": "string"
+      },
+      "TumorNeoantigenBurdenCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "number"
+          },
+          "category": {
+            "const": "tumor_neoantigen_burden",
+            "default": "tumor_neoantigen_burden",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "TumorNeoantigenBurdenCreate",
+        "type": "object"
+      },
+      "GenomicSignatureTypes": {
+        "enum": [
+          "tumor_mutational_burden",
+          "loss_of_heterozygosity",
+          "microsatellite_instability",
+          "homologous_recombination_deficiency",
+          "tumor_neoantigen_burden",
+          "aneuploid_score"
+        ],
+        "title": "GenomicSignatureTypes",
+        "type": "string"
+      },
+      "AneuploidScoreSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "integer"
+          },
+          "category": {
+            "const": "aneuploid_score",
+            "default": "aneuploid_score",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "AneuploidScore",
+        "type": "object"
+      },
+      "AnyGenomicSignature": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/MicrosatelliteInstabilitySchema"
+          },
+          {
+            "$ref": "#/components/schemas/TumorMutationalBurdenSchema"
+          },
+          {
+            "$ref": "#/components/schemas/LossOfHeterozygositySchema"
+          },
+          {
+            "$ref": "#/components/schemas/HomologousRecombinationDeficiencySchema"
+          },
+          {
+            "$ref": "#/components/schemas/TumorNeoantigenBurdenSchema"
+          },
+          {
+            "$ref": "#/components/schemas/AneuploidScoreSchema"
+          }
+        ]
+      },
+      "HomologousRecombinationDeficiencySchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Homologous recombination deficiency (HRD) score value",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value"
+          },
+          "interpretation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HomologousRecombinationDeficiencyInterpretationChoices"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Homologous recombination deficiency (HRD) interpretation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "interpretation",
+            "title": "Interpretation"
+          },
+          "category": {
+            "const": "homologous_recombination_deficiency",
+            "default": "homologous_recombination_deficiency",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date"
+        ],
+        "title": "HomologousRecombinationDeficiency",
+        "type": "object"
+      },
+      "LossOfHeterozygositySchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "Loss of heterozygosity (LOH) as a percentage",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "number"
+          },
+          "category": {
+            "const": "loss_of_heterozygosity",
+            "default": "loss_of_heterozygosity",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "LossOfHeterozygosity",
+        "type": "object"
+      },
+      "MicrosatelliteInstabilitySchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Microsatellite instability (MSI) classification",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "terminology": "MicrosatelliteInstabilityState",
+            "title": "Value"
+          },
+          "category": {
+            "const": "microsatellite_instability",
+            "default": "microsatellite_instability",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "MicrosatelliteInstability",
+        "type": "object"
+      },
+      "Paginated_AnyGenomicSignature_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AnyGenomicSignature"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[AnyGenomicSignature]",
+        "type": "object"
+      },
+      "TumorMutationalBurdenSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "The actual tumor mutational burden (TMB) value in mutations/Mb",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "number"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TumorMutationalBurdenStatusChoices"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cclassification of the tumor mutational burden (TMB) status",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "status",
+            "title": "Status"
+          },
+          "category": {
+            "const": "tumor_mutational_burden",
+            "default": "tumor_mutational_burden",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "TumorMutationalBurden",
+        "type": "object"
+      },
+      "TumorNeoantigenBurdenSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's lifestyle is assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "value": {
+            "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "value",
+            "title": "Value",
+            "type": "number"
+          },
+          "category": {
+            "const": "tumor_neoantigen_burden",
+            "default": "tumor_neoantigen_burden",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "value"
+        ],
+        "title": "TumorNeoantigenBurden",
         "type": "object"
       },
       "LifestyleCreateSchema": {

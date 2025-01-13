@@ -1,0 +1,69 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Gene(s)</label>
+            <coded-concept-select 
+                formControlName="genes"
+                terminology="Gene"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <control-error controlName="genes"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Chromosome(s)</label>
+            <coded-concept-select 
+                formControlName="chromosomes"
+                terminology="ChromosomeIdentifier"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <control-error controlName="chromosomes"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Analysis method</label>
+            <coded-concept-select 
+                formControlName="analysisMethod"
+                terminology="StructuralVariantAnalysisMethod"
+                [showSynonyms]="false"/>
+            <control-error controlName="analysisMethod"></control-error>
+        </div>
+
+        <!-- <div class="field">
+            <label class="form-label">Clinical relevance (pathogeneicity)</label>
+            <coded-concept-select 
+                formControlName="clinicalRelevance"
+                terminology="GenomicVariantClinicalRelevance"
+                [showSynonyms]="false"/>
+            <control-error controlName="clinicalRelevance"></control-error>
+        </div> -->
+
+        <div class="field">
+            <label class="form-label">Genomic assembly version</label>
+            <coded-concept-select 
+                formControlName="genomeAssemblyVersion"
+                terminology="ReferenceGenomeBuild"
+                [showSynonyms]="false"/>
+            <control-error controlName="genomeAssemblyVersion"></control-error>
+        </div>
+
+
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>
