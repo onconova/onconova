@@ -15,6 +15,7 @@ from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 from .PerformanceStatus import PerformanceStatus
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
+from .Comorbidities import ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory
 from .GenomicVariant import GenomicVariant
 from .GenomicSignature import (
     GenomicSignatureTypes,
@@ -45,6 +46,8 @@ __all__ = (
     Radiotherapy, RadiotherapyDosage, RadiotherapySetting,
     # Lifestyle
     Lifestyle,
+    # Comorbidities
+    ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory,
     # Family history
     FamilyHistory,
     # Genomic variant

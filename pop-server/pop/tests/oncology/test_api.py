@@ -343,13 +343,20 @@ class TestLifestyleController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.LifestyleCreateSchema    
     
     
-    
 class TestFamilyHistoryController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/family-histories'
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
     SCHEMA = schemas.FamilyHistorySchema
     CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema    
+
+
+class TestComorbiditiesAssessmentController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/comorbidities-assessments'
+    FACTORY = factories.ComorbiditiesAssessmentFactory
+    MODEL = models.ComorbiditiesAssessment
+    SCHEMA = schemas.ComorbiditiesAssessmentSchema
+    CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreateSchema    
 
 
 class TestGenomicSignatureController(ApiControllerTestCase, TestCase):

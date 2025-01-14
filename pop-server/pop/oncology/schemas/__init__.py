@@ -31,6 +31,7 @@ from .Radiotherapy import (
 from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
 from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
+from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema
 from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
 from .GenomicSignature import (
     TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
@@ -80,6 +81,8 @@ __all__ = (
     LifestyleSchema, LifestyleCreateSchema,
     # Family member history schemas 
     FamilyHistorySchema, FamilyHistoryCreateSchema, 
+    # Comorbidities
+    ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema,
     # Genomic variant schemas 
     GenomicVariantSchema, GenomicVariantCreateSchema,
     # Genomic signature schemas

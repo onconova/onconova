@@ -282,4 +282,11 @@ class AneuploidScoreFactory(factory.django.DjangoModelFactory):
     value = factory.LazyFunction(lambda: random.randint(0,36))
 
 
+class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ComorbiditiesAssessment
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    indexCondition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
+    panel = FuzzyChoice(models.ComorbiditiesPanel)
 
