@@ -433,7 +433,7 @@ class ComorbiditiesAssessment(BaseModel):
     )
     date = models.DateField(
         verbose_name = _('Assessment date'),
-        help_text=_("Clinically-relevant date at which the patient's family history was assessed and recorded."),
+        help_text=_("Clinically-relevant date at which the patient's comorbidities were assessed and recorded."),
     ) 
     indexCondition = models.ForeignKey(
         verbose_name = _('Index neoplastic entity'),

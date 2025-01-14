@@ -1,5 +1,5 @@
 from measurement.base import MeasureBase, BidimensionalMeasure
-from measurement.measures import Mass, Volume as VolumeBase
+from measurement.measures import Mass, Volume as VolumeBase, Distance, Temperature
 
 def get_measurement(measure, value, unit=None, original_unit=None):
     unit = unit or measure.STANDARD_UNIT
@@ -40,7 +40,28 @@ class MultipleOfMedian(MeasureBase):
     ALIAS = {
         'multiple_of_median': 'M.o.M',
     }
-    
+
+
+class Pressure(MeasureBase):
+    STANDARD_UNIT = 'Pa'
+    UNITS = {
+        'Pa': 1,
+        'atm': 9.869250513319517e-6,
+        'mmHg': 0.00750062,
+        'psi': 0.000145038,
+        'bar': 1.0000018082621e-5,
+        'Torr': 0.0075006303913072412681,
+        
+    }
+    ALIAS = {
+        'Pascal': 'Pa',
+        'atmospheres': 'atm',
+        'milimetre of mercury': 'mmHg',
+        'pund per square inch': 'psi',
+        'Bar': 'bar',
+        'torr ': 'Torr',
+    }
+    SI_UNITS = ['Pa']    
 
 class RadiationDose(MeasureBase):
     STANDARD_UNIT = 'Gy'
@@ -174,3 +195,4 @@ class MassConcentrationPerTime(BidimensionalMeasure):
 class MassPerAreaPerTime(BidimensionalMeasure):
     PRIMARY_DIMENSION = MassPerArea
     REFERENCE_DIMENSION = Time
+

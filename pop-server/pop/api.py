@@ -18,6 +18,7 @@ from pop.oncology.controllers import (
     ComorbiditiesAssessmentController,
     ComorbiditiesPanelsController,
     FamilyHistoryController,
+    VitalsController,
     GenomicVariantController,
     GenomicSignatureController,
 )
@@ -46,6 +47,7 @@ api.register_controllers(
     FamilyHistoryController,
     ComorbiditiesAssessmentController,
     ComorbiditiesPanelsController,
+    VitalsController,
     MeasuresController,
     TerminologyController,
 )

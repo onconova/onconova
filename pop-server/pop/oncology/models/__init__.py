@@ -16,6 +16,7 @@ from .PerformanceStatus import PerformanceStatus
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
 from .Comorbidities import ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory
+from .Vitals import Vitals
 from .GenomicVariant import GenomicVariant
 from .GenomicSignature import (
     GenomicSignatureTypes,
@@ -50,6 +51,8 @@ __all__ = (
     ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory,
     # Family history
     FamilyHistory,
+    # Vitals 
+    Vitals,
     # Genomic variant
     GenomicVariant,
     # Genomic signatures

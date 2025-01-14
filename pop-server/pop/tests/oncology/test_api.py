@@ -351,6 +351,14 @@ class TestFamilyHistoryController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema    
 
 
+class TestVitalsController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/vitals'
+    FACTORY = factories.VitalsFactory
+    MODEL = models.Vitals
+    SCHEMA = schemas.VitalsSchema
+    CREATE_SCHEMA = schemas.VitalsCreateSchema    
+
+
 class TestComorbiditiesAssessmentController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/comorbidities-assessments'
     FACTORY = factories.ComorbiditiesAssessmentFactory

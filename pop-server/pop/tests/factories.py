@@ -290,3 +290,15 @@ class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     indexCondition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
     panel = FuzzyChoice(models.ComorbiditiesPanel)
 
+class VitalsFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Vitals
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    height = factory.LazyFunction(lambda: measures.Distance(cm=random.randint(150,190)))  
+    weight = factory.LazyFunction(lambda: measures.Mass(g=random.randint(55000, 95000)))     
+    blood_pressure_systolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(100, 120)))     
+    blood_pressure_diastolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(65, 85)))     
+    temperature = factory.LazyFunction(lambda: measures.Temperature(c=random.randint(37, 40)))     
+
+

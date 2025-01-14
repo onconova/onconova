@@ -10,6 +10,7 @@ from .Radiotherapy import RadiotherapyController
 from .Lifestyle import LifestyleController
 from .FamilyHistory import FamilyHistoryController
 from .Comorbidities import ComorbiditiesAssessmentController, ComorbiditiesPanelsController
+from .Vitals import VitalsController
 from .GenomicVariant import GenomicVariantController
 from .GenomicSignature import GenomicSignatureController
 
