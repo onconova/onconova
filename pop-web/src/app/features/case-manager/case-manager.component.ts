@@ -11,7 +11,7 @@ import {
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
     Fingerprint, Tablets, Slice, Radiation, Cigarette, 
     DiamondPlus, Activity, Presentation, ShieldAlert, 
-    Image, CircleGauge } from 'lucide-angular';
+    Image, CircleGauge, History } from 'lucide-angular';
 
 import { 
     PatientCase, 
@@ -24,6 +24,7 @@ import {
     PerformanceStatusService,
     SurgeriesService,
     LifestylesService,
+    FamilyHistoriesService,
     RadiotherapiesService,
     GenomicVariantsService,
     GenomicSignaturesService
@@ -38,6 +39,7 @@ import {
     PerformanceStatusFormComponent,
     SurgeryFormComponent,
     LifestyleFormComponent,
+    FamilyHistoryFormComponent,
     RadiotherapyFormComponent,
     GenomicVariantFormComponent,
     GenomicSignatureFormComponent,
@@ -81,6 +83,7 @@ export class CaseManagerComponent implements OnInit {
     private performanceStatiiService: PerformanceStatusService = inject(PerformanceStatusService);
     private surgeriesService: SurgeriesService = inject(SurgeriesService);
     private lifestylesService: LifestylesService = inject(LifestylesService);
+    private familyHistoriesService: FamilyHistoriesService = inject(FamilyHistoriesService);
     private radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
     private genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
     private genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
@@ -162,6 +165,13 @@ export class CaseManagerComponent implements OnInit {
         update: this.lifestylesService.updateLifestyleById.bind(this.lifestylesService),
     };
     // Case-specific data observables
+    public familyHistoryService: DataService = {
+        get: this.familyHistoriesService.getFamilyHistories.bind(this.familyHistoriesService),
+        create: this.familyHistoriesService.createFamilyHistory.bind(this.familyHistoriesService),
+        delete: this.familyHistoriesService.deleteFamilyHistoryById.bind(this.familyHistoriesService),
+        update: this.familyHistoriesService.updateFamilyHistory.bind(this.familyHistoriesService),
+    };
+    // Case-specific data observables
     public genomicVariantService: DataService = {
         get: this.genomicVariantsService.getGenomicVariants.bind(this.genomicVariantsService),
         create: this.genomicVariantsService.createGenomicVariant.bind(this.genomicVariantsService),
@@ -185,6 +195,7 @@ export class CaseManagerComponent implements OnInit {
     public PerformanceStatusFormComponent =PerformanceStatusFormComponent;
     public SurgeryFormComponent = SurgeryFormComponent;
     public LifestyleFormComponent = LifestyleFormComponent;
+    public FamilyHistoryFormComponent = FamilyHistoryFormComponent;
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
     public GenomicVariantFormComponent = GenomicVariantFormComponent;
     public GenomicSignatureFormComponent = GenomicSignatureFormComponent;
@@ -200,6 +211,7 @@ export class CaseManagerComponent implements OnInit {
         surgeries: Slice, 
         radiotherapies: Radiation,
         lifestyle: Cigarette,
+        familyHistory: History,
         comorbidities: DiamondPlus,
         vitals: Activity,
         tumorBoards: Presentation,

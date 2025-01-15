@@ -6,7 +6,7 @@ import { Observable,map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as moment from 'moment'; 
 
-import { TestTubeDiagonal } from 'lucide-angular';
+import { HeartPulse } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
@@ -54,9 +54,9 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   public readonly createService = this.riskAssessmentsService.createRiskAssessment.bind(this.riskAssessmentsService)
   public readonly updateService = this.riskAssessmentsService.updateRiskAssessmentById.bind(this.riskAssessmentsService)
 
-  public readonly title: string = 'Tumor Marker'
-  public readonly subtitle: string = 'Add new tumor marker'
-  public readonly icon = TestTubeDiagonal;
+  public readonly title: string = 'Risk Assessment'
+  public readonly subtitle: string = 'Add new risk assessment'
+  public readonly icon = HeartPulse;
 
   private caseId!: string;
   public initialData: RiskAssessmentCreate | any = {};
