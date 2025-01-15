@@ -40,6 +40,7 @@ import {
     LifestyleFormComponent,
     RadiotherapyFormComponent,
     GenomicVariantFormComponent,
+    GenomicSignatureFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -167,6 +168,13 @@ export class CaseManagerComponent implements OnInit {
         delete: this.genomicVariantsService.deleteGenomicVariant.bind(this.genomicVariantsService),
         update: this.genomicVariantsService.updateGenomicVariant.bind(this.genomicVariantsService),
     };
+    // Case-specific data observables
+    public genomicSignatureService: DataService = {
+        get: this.genomicSignaturesService.getGenomicSignatures.bind(this.genomicSignaturesService),
+        create: this.genomicSignaturesService.createGenomicSignature.bind(this.genomicSignaturesService),
+        delete: this.genomicSignaturesService.deleteGenomicSignatureById.bind(this.genomicSignaturesService),
+        update: this.genomicSignaturesService.updateGenomicSignatureById.bind(this.genomicSignaturesService),
+    };
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
@@ -179,6 +187,7 @@ export class CaseManagerComponent implements OnInit {
     public LifestyleFormComponent = LifestyleFormComponent;
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
     public GenomicVariantFormComponent = GenomicVariantFormComponent;
+    public GenomicSignatureFormComponent = GenomicSignatureFormComponent;
 
     public icons = {
         neoplasticEntities: Ribbon,

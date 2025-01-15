@@ -1,0 +1,126 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Genomic signature category</label>
+            <p-select  
+                formControlName="category"
+                [options]="signatrureCategoryChoices"
+                optionLabel="name"
+                placeholder="Select a category"
+                appendTo="body" 
+                optionValue="value"/>
+            <control-error controlName="category"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.TumorMutationalBurden">
+            <label class="form-label required">Value</label>
+            <p-inputnumber 
+                formControlName="tumorMutationalBurdenValue"
+                placeholder="Enter value" 
+                suffix=" Muts/Mb"
+                mode="decimal"
+                [min]="0"
+                [minFractionDigits]="1"
+                [maxFractionDigits]="3"/>
+            <control-error controlName="tumorMutationalBurdenValue"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.TumorMutationalBurden">
+            <label class="form-label">Status</label>
+            <radio-select  
+                formControlName="tumorMutationalBurdenStatus"
+                [choices]="tumorMutationalBurdernStatusChoices"
+                class="flex flex-wrap gap-4"/>
+            <control-error controlName="tumorMutationalBurdenStatus"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.MicrosatelliteInstability">
+            <label class="form-label required">Value</label>
+            <coded-concept-select 
+                formControlName="microsatelliteInstabilityValue"
+                terminology="MicrosatelliteInstabilityState"
+                [showSynonyms]="false"/>    
+            <control-error controlName="microsatelliteInstabilityValue"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.LossOfHeterozygosity">
+            <label class="form-label required">Value</label>
+            <p-inputnumber 
+                formControlName="lossOfHeterozygosityValue"
+                placeholder="Enter value" 
+                suffix="%"
+                mode="decimal"
+                [min]="0"
+                [max]="100"
+                [minFractionDigits]="1"
+                [maxFractionDigits]="3"/>
+            <control-error controlName="lossOfHeterozygosityValue"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.HomologousRecombinationDeficiency">
+            <label class="form-label">Value</label>
+            <p-inputnumber 
+                formControlName="homologousRecombinationDeficiencyValue"
+                placeholder="Enter value" 
+                suffix=" Neoantigens/Mb"
+                mode="decimal"
+                [min]="0"
+                [minFractionDigits]="1"
+                [maxFractionDigits]="3"/>
+            <control-error controlName="homologousRecombinationDeficiencyValue"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.HomologousRecombinationDeficiency">
+            <label class="form-label">Interpretation</label>
+            <radio-select  
+                formControlName="homologousRecombinationDeficiencyInterpretation"
+                [choices]="homologousRecombinationDeficiencyInterpretationChoices"
+                class="flex flex-wrap gap-4"/>
+            <control-error controlName="homologousRecombinationDeficiencyInterpretation"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.TumorNeoantigenBurden">
+            <label class="form-label required">Value</label>
+            <p-inputnumber 
+                formControlName="tumorNeoantigenBurdenValue"
+                placeholder="Enter value" 
+                suffix=" Neoantigens/Mb"
+                mode="decimal"
+                [min]="0"
+                [minFractionDigits]="1"
+                [maxFractionDigits]="3"/>
+            <control-error controlName="tumorNeoantigenBurdenValue"></control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.category == genomicSignatureTypes.AneuploidScore">
+            <label class="form-label required">Value</label>
+            <p-inputnumber 
+                formControlName="aneuploidScoreValue"
+                placeholder="Enter value" 
+                suffix=" altered arms"
+                mode="decimal"
+                [min]="0"
+                [max]="39"
+                [minFractionDigits]="0"
+                [maxFractionDigits]="3"/>
+            <control-error controlName="aneuploidScoreValue"></control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

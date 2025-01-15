@@ -152,7 +152,7 @@ class HomologousRecombinationDeficiency(GenomicSignature):
     
     @property
     def description(self):
-        return f'HRD: {self.value}'
+        return f'HRD: {self.value or self.interpretation}'
 
 
 class TumorNeoantigenBurden(GenomicSignature):
@@ -186,7 +186,7 @@ class AneuploidScore(GenomicSignature):
     )
     value = models.SmallIntegerField(
         verbose_name = _('Value'),
-        help_text = _('The actual tumor neoantigen burden (TNB) value in neoantigens/Mb'),
+        help_text = _('The actual aneuploid score (AS) value in total altered arms'),
         validators = [MinValueValidator(0), MaxValueValidator(39)],
     )
     
