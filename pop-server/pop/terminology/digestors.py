@@ -392,8 +392,8 @@ class HGNCGenesDigestor(TerminologyDigestor):
         code = row['hgnc_id']
         display = row['symbol']
         # Compile all synonyms
-        synonyms = [ensure_within_string_limits(synonym) for synonym in row['alias_symbol'].split('|') + row['alias_name'].split('|')]
-        olds = [ensure_within_string_limits(synonym) for synonym in row['prev_symbol'].split('|') + row['prev_name'].split('|')]
+        synonyms = [ensure_within_string_limits(synonym) for synonym in row['alias_symbol'].split('|') + row['alias_name'].split('|') if synonym]
+        olds = [ensure_within_string_limits(synonym) for synonym in row['prev_symbol'].split('|') + row['prev_name'].split('|') if synonym]
         # Add the concept
         self.concepts[code] = CodedConcept(
             code=code,

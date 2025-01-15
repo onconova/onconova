@@ -7,10 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Weight } from './weight';
 
 
-export interface QueryParameters { 
-    query?: string;
-    codes?: Array<string>;
+export interface ComorbidityPanelCategory { 
+    label: string;
+    codes: Array<string>;
+    weight: Weight;
 }
 

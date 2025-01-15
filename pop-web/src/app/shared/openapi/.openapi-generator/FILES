@@ -1,10 +1,11 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
 api/auth.service.ts
 api/auth.serviceInterface.ts
+api/comorbidities-assessments.service.ts
+api/comorbidities-assessments.serviceInterface.ts
 api/family-histories.service.ts
 api/family-histories.serviceInterface.ts
 api/genomic-signatures.service.ts
@@ -35,6 +36,8 @@ api/terminology.service.ts
 api/terminology.serviceInterface.ts
 api/tumor-markers.service.ts
 api/tumor-markers.serviceInterface.ts
+api/vitals.service.ts
+api/vitals.serviceInterface.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -52,6 +55,11 @@ model/breslow-depth.ts
 model/clark-staging-create.ts
 model/clark-staging.ts
 model/coded-concept-schema.ts
+model/comorbidities-assessment-create-schema.ts
+model/comorbidities-assessment-panel-choices.ts
+model/comorbidities-assessment-schema.ts
+model/comorbidities-panel-schema.ts
+model/comorbidity-panel-category.ts
 model/end.ts
 model/family-history-create-schema.ts
 model/family-history-schema.ts
@@ -69,6 +77,7 @@ model/gleason-grade.ts
 model/homologous-recombination-deficiency-create-schema.ts
 model/homologous-recombination-deficiency-interpretation-choices.ts
 model/homologous-recombination-deficiency-schema.ts
+model/index.ts
 model/input.ts
 model/inrgss-stage-create.ts
 model/inrgss-stage.ts
@@ -92,6 +101,8 @@ model/neoplastic-entity-relationship-choices.ts
 model/neoplastic-entity.ts
 model/paginated-any-genomic-signature.ts
 model/paginated-any-staging.ts
+model/paginated-coded-concept-schema.ts
+model/paginated-comorbidities-assessment-schema.ts
 model/paginated-family-history-schema.ts
 model/paginated-genomic-variant-schema.ts
 model/paginated-lifestyle-schema.ts
@@ -103,6 +114,7 @@ model/paginated-risk-assessment.ts
 model/paginated-surgery.ts
 model/paginated-systemic-therapy-schema.ts
 model/paginated-tumor-marker.ts
+model/paginated-vitals-schema.ts
 model/patient-case-create.ts
 model/patient-case.ts
 model/payload.ts
@@ -157,6 +169,9 @@ model/tumor-neoantigen-burden-create-schema.ts
 model/tumor-neoantigen-burden-schema.ts
 model/user-credentials-schema.ts
 model/user-schema.ts
+model/vitals-create-schema.ts
+model/vitals-schema.ts
+model/weight.ts
 model/wilms-stage-create.ts
 model/wilms-stage.ts
 param.ts

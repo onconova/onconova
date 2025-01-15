@@ -1,11 +1,12 @@
-import { inject, Component, Input, forwardRef } from '@angular/core';
+import { inject, Component, Input, forwardRef, DestroyRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TerminologyService } from '../../../../shared/openapi/api/terminology.service';
 import { CodedConceptSchema } from '../../../../shared/openapi';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Button } from 'primeng/button';
 import { ReactiveFormsModule } from '@angular/forms';
 
 interface AutoCompleteCompleteEvent {
@@ -30,6 +31,7 @@ interface AutoCompleteCompleteEvent {
         FormsModule, 
         ReactiveFormsModule,
         AutoCompleteModule,
+        Button,
     ]
 })
 export class CodedConceptSelectComponent implements ControlValueAccessor {
@@ -48,35 +50,59 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     public formControl: FormControl = new FormControl();
     public concepts!: CodedConceptSchema[];
     public filteredConcepts!: CodedConceptSchema[];
-    private conceptsSubscription!: Subscription;
-
-
+    public conceptsCount!: number;
+    public conceptsLimit: number = 10;
+    private readonly destroyRef = inject(DestroyRef);
+    
     ngOnInit() {
-        this.conceptsSubscription = this.terminologyService.getTerminologyConcepts(this.terminology).subscribe({
+        this.getTerminologyConcepts()
+    }
+
+    getTerminologyConcepts() {
+        this.terminologyService.getTerminologyConcepts(this.terminology)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
             next: data => {
-                this.concepts = data;
-                this.filteredConcepts = data;
+                this.concepts = data.items;
+                this.filteredConcepts = this.concepts;
+                this.conceptsCount = data.count;
             }
         });
-
     }
 
     filterConcepts(event: AutoCompleteCompleteEvent) {
-        let query: string = `${this.baseQuery} ${event.query}`
-        if (query != ' ') {
-            // Calculate the scores
-            let scores: number[] = this.concepts.map((concept) => this.conceptQueryMatchingScore(concept, query.toLowerCase()));
-            // Filter the concepts based on non-zero scores
-            let filteredConcepts: CodedConceptSchema[] = this.concepts.filter((_, index) => scores[index] > 0);
-            // Sort the filtered concepts in descending order of score
-            filteredConcepts.sort((a, b) => scores[this.concepts.indexOf(b)] - scores[this.concepts.indexOf(a)]);
-            console.log(query, this.concepts.length, filteredConcepts.length)
-            this.filteredConcepts = filteredConcepts;
-        } else {
-            this.filteredConcepts = [...this.concepts];
+        let query: string = this.baseQuery ? `${this.baseQuery}${event.query}` : event.query; 
+        this.getTerminologyConcepts()
+        if (query != '') {
+            if (query && this.conceptsCount >= this.conceptsLimit) {
+                this.terminologyService.getTerminologyConcepts(this.terminology, query)
+                .pipe(takeUntilDestroyed(this.destroyRef))
+                .subscribe({            
+                    next: data => {                    
+                        this.filteredConcepts = this.filterAndSortConcepts(data.items, query);
+                        this.conceptsCount = data.count;
+                    }
+                })
+            } else {
+                this.filteredConcepts = this.filterAndSortConcepts(this.concepts, query)
+            }
         }
     }
 
+
+    filterAndSortConcepts(concepts: CodedConceptSchema[], query: string) {
+        let filteredConcepts = [...concepts];
+        if (query != '') {
+            // Calculate the scores
+            let scores: number[] = concepts.map((concept) => this.conceptQueryMatchingScore(concept, query.toLowerCase()));
+            // Filter the concepts based on non-zero scores
+            filteredConcepts = concepts.filter((_, index) => scores[index] > 0);
+            // Sort the filtered concepts in descending order of score
+            filteredConcepts.sort((a, b) => scores[concepts.indexOf(b)] - scores[concepts.indexOf(a)]);
+        } 
+        console.log('FILTERED', filteredConcepts.length)
+        return filteredConcepts
+    }
  
     conceptQueryMatchingScore(concept: CodedConceptSchema, query: string): number {
         // Scores to prioritize concept matching
@@ -96,12 +122,6 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
         })   
         return score
     }
-
-
-    ngOnDestroy(): void {
-        this.conceptsSubscription.unsubscribe();
-    }
-
 
     writeValue(value: any): void {
         this.formControl.patchValue(value);

@@ -35,6 +35,11 @@
       </div>
   </div>
   </ng-template>
+  <ng-template #footer *ngIf="conceptsCount >= conceptsLimit && concepts.length == filteredConcepts.length">
+      <div class="px-3 py-3 text-xs p-text-secondary">
+          Showing first 100 out of {{ conceptsCount }} entries. Please refine your search.
+      </div>
+  </ng-template>
 
 </p-autoComplete>
   

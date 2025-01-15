@@ -9,8 +9,6 @@
  */
 
 
-export interface QueryParameters { 
-    query?: string;
-    codes?: Array<string>;
+export interface Weight { 
 }
 

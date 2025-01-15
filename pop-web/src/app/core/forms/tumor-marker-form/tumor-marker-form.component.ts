@@ -82,7 +82,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
 
   public readonly analyteResultTypes = AnalyteResultType;
   public readonly analytes$: Observable<CodedConceptSchema[]> = this.terminologyService.getTerminologyConcepts('TumorMarkerAnalyte').pipe(
-    map((analytes) => analytes || [])
+    map((data) => data.items || [])
   );
   public readonly analyteResultTypeChoices: RadioChoice[] = [
     { name: 'Mass Concentration', value: AnalyteResultType.MassConcentration }, 

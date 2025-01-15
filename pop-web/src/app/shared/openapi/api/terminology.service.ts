@@ -17,7 +17,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { CodedConceptSchema } from '../model/coded-concept-schema';
+import { PaginatedCodedConceptSchema } from '../model/paginated-coded-concept-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -97,13 +97,16 @@ export class TerminologyService implements TerminologyServiceInterface {
      * Get Terminology Concepts
      * @param terminologyName 
      * @param query 
+     * @param codes 
+     * @param limit 
+     * @param offset 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTerminologyConcepts(terminologyName: string, query?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<CodedConceptSchema>>;
-    public getTerminologyConcepts(terminologyName: string, query?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<CodedConceptSchema>>>;
-    public getTerminologyConcepts(terminologyName: string, query?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<CodedConceptSchema>>>;
-    public getTerminologyConcepts(terminologyName: string, query?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCodedConceptSchema>;
+    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCodedConceptSchema>>;
+    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCodedConceptSchema>>;
+    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (terminologyName === null || terminologyName === undefined) {
             throw new Error('Required parameter terminologyName was null or undefined when calling getTerminologyConcepts.');
         }
@@ -113,15 +116,22 @@ export class TerminologyService implements TerminologyServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>query, 'query');
         }
+        if (codes) {
+            codes.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'codes');
+            })
+        }
+        if (limit !== undefined && limit !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>limit, 'limit');
+        }
+        if (offset !== undefined && offset !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>offset, 'offset');
+        }
 
         let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -158,7 +168,7 @@ export class TerminologyService implements TerminologyServiceInterface {
         }
 
         let localVarPath = `/api/terminologies/${this.configuration.encodeParam({name: "terminologyName", value: terminologyName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/concepts`;
-        return this.httpClient.request<Array<CodedConceptSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedCodedConceptSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

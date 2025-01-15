@@ -7,10 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface QueryParameters { 
-    query?: string;
-    codes?: Array<string>;
+export interface PaginatedCodedConceptSchema { 
+    count: number;
+    items: Array<CodedConceptSchema>;
 }
 

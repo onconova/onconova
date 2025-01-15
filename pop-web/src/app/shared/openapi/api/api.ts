@@ -1,6 +1,9 @@
 export * from './auth.service';
 import { AuthService } from './auth.service';
 export * from './auth.serviceInterface';
+export * from './comorbidities-assessments.service';
+import { ComorbiditiesAssessmentsService } from './comorbidities-assessments.service';
+export * from './comorbidities-assessments.serviceInterface';
 export * from './family-histories.service';
 import { FamilyHistoriesService } from './family-histories.service';
 export * from './family-histories.serviceInterface';
@@ -46,4 +49,7 @@ export * from './terminology.serviceInterface';
 export * from './tumor-markers.service';
 import { TumorMarkersService } from './tumor-markers.service';
 export * from './tumor-markers.serviceInterface';
-export const APIS = [AuthService, FamilyHistoriesService, GenomicSignaturesService, GenomicVariantsService, LifestylesService, MeasuresService, NeoplasticEntitiesService, PatientCasesService, PerformanceStatusService, RadiotherapiesService, RiskAssessmentsService, StagingsService, SurgeriesService, SystemicTherapiesService, TerminologyService, TumorMarkersService];
+export * from './vitals.service';
+import { VitalsService } from './vitals.service';
+export * from './vitals.serviceInterface';
+export const APIS = [AuthService, ComorbiditiesAssessmentsService, FamilyHistoriesService, GenomicSignaturesService, GenomicVariantsService, LifestylesService, MeasuresService, NeoplasticEntitiesService, PatientCasesService, PerformanceStatusService, RadiotherapiesService, RiskAssessmentsService, StagingsService, SurgeriesService, SystemicTherapiesService, TerminologyService, TumorMarkersService, VitalsService];

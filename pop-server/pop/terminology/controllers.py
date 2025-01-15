@@ -2,12 +2,13 @@ from typing import List
 
 from django.db.models import Q
 
-from ninja import Field, Schema
+from ninja import Field, Schema, Query
 from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
+from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
  
-from pop.core.schemas.fields import CodedConceptSchema
+from pop.core.schemas import Paginated, CodedConceptSchema
 from pop.terminology import models as terminologies
 
 
@@ -18,18 +19,19 @@ class QueryParameters(Schema):
 
 @api_controller(
     "/terminologies", 
-    auth=[JWTAuth()], 
+    # auth=[JWTAuth()], 
     tags=["Terminology"]
 )
 class TerminologyController(ControllerBase):
     @route.get(
         path='/{terminologyName}/concepts', 
         response={
-            200: List[CodedConceptSchema]
+            200: Paginated[CodedConceptSchema]
         },
         operation_id='getTerminologyConcepts',
     )
-    def get_terminology_concepts(self, terminologyName: str, query: str = None):
+    @paginate()
+    def get_terminology_concepts(self, terminologyName: str, query: Query[QueryParameters]):
         queryset = getattr(terminologies, terminologyName).objects.all()
         if query.query_string: 
             queryset = queryset.filter(
@@ -37,5 +39,5 @@ class TerminologyController(ControllerBase):
             ).distinct()
         if query.codes:
             queryset = queryset.filter(code__in=query.codes).distinct()
-        return queryset[:100]
+        return queryset
 

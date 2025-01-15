@@ -3865,6 +3865,449 @@
         ]
       }
     },
+    "/api/comorbidities-assessments/": {
+      "post": {
+        "operationId": "createComorbiditiesAssessment",
+        "summary": "Create Comorbidities Assessment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComorbiditiesAssessmentCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getComorbiditiesAssessments",
+        "summary": "Get All Comorbidities Assessments Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_ComorbiditiesAssessmentSchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/comorbidities-assessments/{comorbiditiesAssessmentId}": {
+      "delete": {
+        "operationId": "deleteComorbiditiesAssessment",
+        "summary": "Delete Comorbidities Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "comorbiditiesAssessmentId",
+            "schema": {
+              "title": "Comorbiditiesassessmentid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getComorbiditiesAssessmentById",
+        "summary": "Get Comorbidities Assessment By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "comorbiditiesAssessmentId",
+            "schema": {
+              "title": "Comorbiditiesassessmentid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComorbiditiesAssessmentSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateComorbiditiesAssessment",
+        "summary": "Update Comorbidities Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "comorbiditiesAssessmentId",
+            "schema": {
+              "title": "Comorbiditiesassessmentid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComorbiditiesAssessmentCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/comorbidities-panels/": {
+      "get": {
+        "operationId": "getComorbiditiesPanels",
+        "summary": "Get All Comorbidities Panels",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ComorbiditiesPanelSchema"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/vitals/": {
+      "post": {
+        "operationId": "createVitals",
+        "summary": "Create Vitals",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Vitals"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VitalsCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getVitals",
+        "summary": "Get All Vitals Matching The Query",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_VitalsSchema_"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Vitals"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/vitals/{vitalsId}": {
+      "delete": {
+        "operationId": "deleteVitalsById",
+        "summary": "Delete Vitals",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vitalsId",
+            "schema": {
+              "title": "Vitalsid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Vitals"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getVitalsById",
+        "summary": "Get Vitals By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vitalsId",
+            "schema": {
+              "title": "Vitalsid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VitalsSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Vitals"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updateVitalsById",
+        "summary": "Update Vitals",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vitalsId",
+            "schema": {
+              "title": "Vitalsid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Vitals"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VitalsCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/measures/{measureName}/units/conversion": {
       "post": {
         "operationId": "convertUnits",
@@ -4007,6 +4450,40 @@
               "type": "string"
             },
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "codes",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Codes",
+              "type": "array"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -4015,11 +4492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CodedConceptSchema"
-                  },
-                  "title": "Response",
-                  "type": "array"
+                  "$ref": "#/components/schemas/Paginated_CodedConceptSchema_"
                 }
               }
             }
@@ -4027,11 +4500,6 @@
         },
         "tags": [
           "Terminology"
-        ],
-        "security": [
-          {
-            "JWTAuth": []
-          }
         ]
       }
     }
@@ -4402,9 +4870,16 @@
       },
       "QueryParameters": {
         "properties": {
-          "caseId": {
-            "title": "Caseid",
+          "query": {
+            "title": "Query",
             "type": "string"
+          },
+          "codes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Codes",
+            "type": "array"
           }
         },
         "title": "QueryParameters",
@@ -15330,6 +15805,749 @@
         "title": "Paginated[FamilyHistorySchema]",
         "type": "object"
       },
+      "ComorbiditiesAssessmentCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's comorbidities are being recorded",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's comorbidities were assessed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "indexConditionId": {
+            "description": "The primary neoplastic entity against which comorbidities are assessed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "indexCondition",
+            "title": "Index neoplastic entity",
+            "type": "string"
+          },
+          "panel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComorbiditiesAssessmentPanelChoices",
+                "maxLength": 30
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Comorbidities panel",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "panel",
+            "title": "Panel"
+          },
+          "presents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": [],
+            "description": "Present comorbid conditions",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "present",
+            "terminology": "ICD10Condition",
+            "title": "Present comorbid conditions"
+          },
+          "absents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": [],
+            "description": "Absent comorbid conditions",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "absent",
+            "terminology": "ICD10Condition",
+            "title": "Absent comorbid conditions"
+          }
+        },
+        "required": [
+          "caseId",
+          "date",
+          "indexConditionId"
+        ],
+        "title": "ComorbiditiesAssessmentCreate",
+        "type": "object"
+      },
+      "ComorbiditiesAssessmentPanelChoices": {
+        "enum": [
+          "Charlson",
+          "Elixhauser",
+          "NCI"
+        ],
+        "title": "ComorbiditiesAssessmentPanelChoices",
+        "type": "string"
+      },
+      "ComorbiditiesAssessmentSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's comorbidities are being recorded",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the patient's comorbidities were assessed and recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "indexConditionId": {
+            "description": "The primary neoplastic entity against which comorbidities are assessed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "indexCondition",
+            "title": "Index neoplastic entity",
+            "type": "string"
+          },
+          "panel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComorbiditiesAssessmentPanelChoices",
+                "maxLength": 30
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Comorbidities panel",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "panel",
+            "title": "Panel"
+          },
+          "presents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": [],
+            "description": "Present comorbid conditions",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "present",
+            "terminology": "ICD10Condition",
+            "title": "Present comorbid conditions"
+          },
+          "absents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CodedConceptSchema"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": [],
+            "description": "Absent comorbid conditions",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "absent",
+            "terminology": "ICD10Condition",
+            "title": "Absent comorbid conditions"
+          },
+          "index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Comorbidity score",
+            "title": "Index"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date",
+          "indexConditionId"
+        ],
+        "title": "ComorbiditiesAssessment",
+        "type": "object"
+      },
+      "Paginated_ComorbiditiesAssessmentSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ComorbiditiesAssessmentSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[ComorbiditiesAssessmentSchema]",
+        "type": "object"
+      },
+      "ComorbiditiesPanelSchema": {
+        "properties": {
+          "name": {
+            "description": "Comorbidity panel name",
+            "title": "Name",
+            "type": "string"
+          },
+          "categories": {
+            "description": "Comorbidity panel categories",
+            "items": {
+              "$ref": "#/components/schemas/ComorbidityPanelCategory"
+            },
+            "title": "Categories",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "ComorbiditiesPanel",
+        "type": "object"
+      },
+      "ComorbidityPanelCategory": {
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "codes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Codes",
+            "type": "array"
+          },
+          "weight": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Weight"
+          }
+        },
+        "required": [
+          "label",
+          "codes",
+          "weight"
+        ],
+        "title": "ComorbidityPanelCategory",
+        "type": "object"
+      },
+      "VitalsCreateSchema": {
+        "properties": {
+          "caseId": {
+            "description": "Indicates the case of the patient who's vitals are assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the vitals were recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Height of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "height",
+            "title": "Height"
+          },
+          "weight": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Weight of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "weight",
+            "title": "Weight"
+          },
+          "bloodPressureSystolic": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Systolic blood pressure of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "blood_pressure_systolic",
+            "title": "Systolic blood pressure"
+          },
+          "bloodPressureDiastolic": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Diastolic blood pressure of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "blood_pressure_diastolic",
+            "title": "Diastolic blood pressure"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Temperature of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "temperature",
+            "title": "Temperature"
+          }
+        },
+        "required": [
+          "caseId",
+          "date"
+        ],
+        "title": "VitalsCreate",
+        "type": "object"
+      },
+      "Paginated_VitalsSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/VitalsSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[VitalsSchema]",
+        "type": "object"
+      },
+      "VitalsSchema": {
+        "properties": {
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          },
+          "description": {
+            "description": "Human-readable description",
+            "title": "Description",
+            "type": "string"
+          },
+          "caseId": {
+            "description": "Indicates the case of the patient who's vitals are assesed",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "case",
+            "title": "Patient case",
+            "type": "string"
+          },
+          "date": {
+            "description": "Clinically-relevant date at which the vitals were recorded.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date",
+            "title": "Assessment date",
+            "type": "string"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Height of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "height",
+            "title": "Height"
+          },
+          "weight": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Weight of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "weight",
+            "title": "Weight"
+          },
+          "bloodPressureSystolic": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Systolic blood pressure of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "blood_pressure_systolic",
+            "title": "Systolic blood pressure"
+          },
+          "bloodPressureDiastolic": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Diastolic blood pressure of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "blood_pressure_diastolic",
+            "title": "Diastolic blood pressure"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MeasureSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Temperature of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "temperature",
+            "title": "Temperature"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "description",
+          "caseId",
+          "date"
+        ],
+        "title": "Vitals",
+        "type": "object"
+      },
       "MeasureConversionSchema": {
         "properties": {
           "value": {
@@ -15351,6 +16569,27 @@
           "new_unit"
         ],
         "title": "MeasureConversion",
+        "type": "object"
+      },
+      "Paginated_CodedConceptSchema_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[CodedConceptSchema]",
         "type": "object"
       }
     },

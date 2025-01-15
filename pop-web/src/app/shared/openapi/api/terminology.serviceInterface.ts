@@ -11,7 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { CodedConceptSchema } from '../model/models';
+import { PaginatedCodedConceptSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -27,7 +27,10 @@ export interface TerminologyServiceInterface {
      * 
      * @param terminologyName 
      * @param query 
+     * @param codes 
+     * @param limit 
+     * @param offset 
      */
-    getTerminologyConcepts(terminologyName: string, query?: string, extraHttpRequestParams?: any): Observable<Array<CodedConceptSchema>>;
+    getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedCodedConceptSchema>;
 
 }

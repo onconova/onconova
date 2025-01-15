@@ -94,7 +94,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
         // Add the interpretration
         this.terminologyService.getTerminologyConcepts('ECOGPerformanceStatusInterpretation').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: data => {
-                data.forEach(
+                data.items.forEach(
                     (concept: CodedConceptSchema, idx: number) => {
                         this.ecogScores[idx].label = `${this.ecogScores[idx].label} | ${concept.display || ''}`;
                     }
@@ -103,7 +103,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
         });
         this.terminologyService.getTerminologyConcepts('KarnofskyPerformanceStatusInterpretation').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: data => {
-                data.forEach(
+                data.items.forEach(
                     (concept: CodedConceptSchema, idx: number) => {
                         this.karnofskyScores[idx].label = `${this.karnofskyScores[idx].label} | ${concept.display || ''}`;
                     }

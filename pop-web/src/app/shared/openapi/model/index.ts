@@ -9,8 +9,9 @@
  */
 
 
-export interface QueryParameters { 
-    query?: string;
-    codes?: Array<string>;
+/**
+ * Comorbidity score
+ */
+export interface Index { 
 }
 

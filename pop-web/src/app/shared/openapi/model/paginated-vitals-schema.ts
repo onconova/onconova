@@ -7,10 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { VitalsSchema } from './vitals-schema';
 
 
-export interface QueryParameters { 
-    query?: string;
-    codes?: Array<string>;
+export interface PaginatedVitalsSchema { 
+    count: number;
+    items: Array<VitalsSchema>;
 }
 
