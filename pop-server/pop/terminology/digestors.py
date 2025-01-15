@@ -265,11 +265,13 @@ class LOINCDigestor(TerminologyDigestor):
                     self.concepts[list_code] = CodedConcept(
                         code = list_code,
                         display = list_display,
+                        system=self.CANONICAL_URL,
                     )     
                     answer_lists_codes_included.append(list_code)                
                 self.concepts[answer_code] = CodedConcept(
                     code = answer_code,
                     display = answer_display,
+                    system=self.CANONICAL_URL,
                 )        
             if self.verbose:
                 print(f'\r• Sucessfully digested all answer lists')
