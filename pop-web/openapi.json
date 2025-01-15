@@ -12745,7 +12745,7 @@
             "orm_name": "transcript_refseq",
             "title": "Transcript RefSeq"
           },
-          "codingHgsv": {
+          "codingHgvs": {
             "anyOf": [
               {
                 "maxLength": 500,
@@ -12761,10 +12761,10 @@
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "coding_hgsv",
+            "orm_name": "coding_hgvs",
             "title": "Coding DNA change expression (cHGVS)"
           },
-          "proteinHgsv": {
+          "proteinHgvs": {
             "anyOf": [
               {
                 "maxLength": 500,
@@ -12780,10 +12780,10 @@
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "protein_hgsv",
+            "orm_name": "protein_hgvs",
             "title": "Protein/aminoacid change expression (pHGVS)"
           },
-          "genomicHgsv": {
+          "genomicHgvs": {
             "anyOf": [
               {
                 "maxLength": 500,
@@ -12799,7 +12799,7 @@
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "genomic_hgsv",
+            "orm_name": "genomic_hgvs",
             "title": "Genomic change expression (gHGVS)"
           },
           "dnaChangeType": {
@@ -13392,7 +13392,7 @@
             "orm_name": "transcript_refseq",
             "title": "Transcript RefSeq"
           },
-          "codingHgsv": {
+          "codingHgvs": {
             "anyOf": [
               {
                 "maxLength": 500,
@@ -13408,10 +13408,10 @@
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "coding_hgsv",
+            "orm_name": "coding_hgvs",
             "title": "Coding DNA change expression (cHGVS)"
           },
-          "proteinHgsv": {
+          "proteinHgvs": {
             "anyOf": [
               {
                 "maxLength": 500,
@@ -13427,10 +13427,10 @@
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "protein_hgsv",
+            "orm_name": "protein_hgvs",
             "title": "Protein/aminoacid change expression (pHGVS)"
           },
-          "genomicHgsv": {
+          "genomicHgvs": {
             "anyOf": [
               {
                 "maxLength": 500,
@@ -13446,7 +13446,7 @@
             "is_relation": false,
             "many_to_many": false,
             "one_to_many": false,
-            "orm_name": "genomic_hgsv",
+            "orm_name": "genomic_hgvs",
             "title": "Genomic change expression (gHGVS)"
           },
           "dnaChangeType": {

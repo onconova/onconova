@@ -10,6 +10,14 @@ label.required::after {
     margin-bottom: 1rem;
 }
 
+.muted-text {
+    color: color-mix(in srgb, var(--p-text-muted-color), transparent 25%);
+}
+
+.help-text {
+    color: color-mix(in srgb, var(--p-text-muted-color), transparent 25%);
+}
+
 .p-select{
     display: flex !important;
 }

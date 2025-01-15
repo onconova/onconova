@@ -7,6 +7,7 @@ import { BehaviorSubject, Subscription, distinctUntilChanged, merge } from 'rxjs
 
 export const defaultErrors = {
     required: () => `This field is required`,
+    pattern: () => `This field has an invalid format`,
 }
 
 export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
@@ -43,7 +44,6 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
             .pipe(distinctUntilChanged())
             .subscribe(() => {
               const controlErrors = control.errors;
-  
               if (controlErrors) {
                 const firstKey = Object.keys(controlErrors)[0];
                 const getError = this.errors[firstKey];

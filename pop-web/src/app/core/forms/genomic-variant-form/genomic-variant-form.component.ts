@@ -11,10 +11,14 @@ import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { 
     GenomicVariantCreateSchema,
     GenomicVariantsService,
+    GenomicVariantClinicalRelevanceChoices,
+    GenomicVariantConfidenceChoices,
+    GenomicVariantAssessmentChoices,
 } from '../../../shared/openapi'
 
 import { 
@@ -40,6 +44,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     MaskedCalendarComponent,
     Fluid,
     InputNumber,
+    InputTextModule,
     ButtonModule,
     ReferenceMultiSelect,
     CodedConceptSelectComponent,
@@ -63,6 +68,28 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     public initialData: GenomicVariantCreateSchema | any = {};
     
 
+    public confidenceChoices: RadioChoice[] = [
+        {name: 'Low', value: GenomicVariantConfidenceChoices.Low},
+        {name: 'High', value: GenomicVariantConfidenceChoices.High},
+        {name: 'Indeterminate', value: GenomicVariantConfidenceChoices.Indeterminate},
+    ]
+
+    public assessmentChoices: RadioChoice[] = [
+        {name: 'Present', value: GenomicVariantAssessmentChoices.Present},
+        {name: 'Absent', value: GenomicVariantAssessmentChoices.Absent},
+        {name: 'No Call', value: GenomicVariantAssessmentChoices.NoCall},
+        {name: 'Indeterminate', value: GenomicVariantAssessmentChoices.Indeterminate},
+    ]
+
+    public clinicalRelevanceChoices: RadioChoice[] = [
+        {name: 'Pathogenic', value: GenomicVariantClinicalRelevanceChoices.Pathogenic},
+        {name: 'Likely pathogenic', value: GenomicVariantClinicalRelevanceChoices.LikelyPathogenic},
+        {name: 'Benign', value: GenomicVariantClinicalRelevanceChoices.Benign},
+        {name: 'Likely benign', value: GenomicVariantClinicalRelevanceChoices.LikelyBenign},
+        {name: 'Ambiguous', value: GenomicVariantClinicalRelevanceChoices.Ambiguous},
+        {name: 'Uncertain significance', value: GenomicVariantClinicalRelevanceChoices.UncertainSignificance},
+    ]
+
     ngOnInit() {
         // Construct the form 
         this.constructForm();
@@ -78,13 +105,13 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             clinicalRelevance: [this.initialData?.clinicalRelevance], 
             genes: [this.initialData?.genes,Validators.required],     
             chromosomes: [this.initialData?.chromosomes],     
-            cytogeneticLocation: [this.initialData?.cytogeneticLocation],     
+            cytogeneticLocation: [this.initialData?.cytogeneticLocation,Validators.pattern('^([1-9]|1[0-9]|2[0-2]|X|Y)([pq])(\\d+)(\\d+)(?:\\.(\\d+))?$')],     
             genomeAssemblyVersion: [this.initialData?.genomeAssemblyVersion],   
-            genomicRefseq: [this.initialData?.genomicRefseq],      
-            transcriptRefseq: [this.initialData?.transcriptRefseq],      
-            codingHgsv: [this.initialData?.codingHgsv],         
-            proteinHgsv: [this.initialData?.proteinHgsv],         
-            genomicHgsv: [this.initialData?.genomicHgsv],         
+            genomicRefseq: [this.initialData?.genomicRefseq, Validators.pattern('^(NG|NC|LRG)(.*)$')],      
+            transcriptRefseq: [this.initialData?.transcriptRefseq, Validators.pattern('^(NM|NG|ENST|LRG)(.*)$')],      
+            codingHgsv: [this.initialData?.codingHgsv, Validators.pattern('^(.*):c\\.(.*)$')],         
+            proteinHgvs: [this.initialData?.proteinHgvs, Validators.pattern('^(.*):p\\.(.*)$')],         
+            genomicHgvs: [this.initialData?.genomicHgvs, Validators.pattern('^(.*):g\\.(.*)$')],         
             dnaChangeType: [this.initialData?.dnaChangeType],         
             aminoacidChangeType: [this.initialData?.aminoacidChangeType],         
             molecularConsequence: [this.initialData?.molecularConsequence],        
@@ -94,9 +121,12 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             zygosity: [this.initialData?.zygosity],        
             inheritance: [this.initialData?.inheritance],        
             coordinateSystem: [this.initialData?.coordinateSystem],        
-            exactGenomicCoordinates: [this.initialData?.exactGenomicCoordinates],             
-            innerGenomicCoordinates: [this.initialData?.innerGenomicCoordinates],             
-            outerGenomicCoordinates: [this.initialData?.outerGenomicCoordinates],             
+            exactGenomicCoordinatesStart: [this.initialData?.exactGenomicCoordinates?.start],             
+            exactGenomicCoordinatesEnd: [this.initialData?.exactGenomicCoordinates?.end],             
+            innerGenomicCoordinatesStart: [this.initialData?.innerGenomicCoordinates?.start],             
+            innerGenomicCoordinatesEnd: [this.initialData?.innerGenomicCoordinates?.end],             
+            outerGenomicCoordinatesStart: [this.initialData?.outerGenomicCoordinates?.start],             
+            outerGenomicCoordinatesEnd: [this.initialData?.outerGenomicCoordinates?.end],             
             clinvar: [this.initialData?.clinvar],             
         });
     }
@@ -117,16 +147,16 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             genomeAssemblyVersion: data.genomeAssemblyVersion,   
             genomicRefseq: data.genomicRefseq,   
             transcriptRefseq: data.transcriptRefseq,   
-            codingHgsv: data.codingHgsv,   
-            proteinHgsv: data.proteinHgsv,   
-            genomicHgsv: data.genomicHgsv,   
+            codingHgvs: data.codingHgsv,   
+            proteinHgvs: data.proteinHgsv,   
+            genomicHgvs: data.genomicHgsv,   
             dnaChangeType: data.dnaChangeType,   
             aminoacidChangeType: data.aminoacidChangeType,   
             molecularConsequence: data.molecularConsequence,   
             coordinateSystem: data.coordinateSystem,    
-            exactGenomicCoordinates: data.exactGenomicCoordinates,    
-            innerGenomicCoordinates: data.innerGenomicCoordinates,    
-            outerGenomicCoordinates: data.outerGenomicCoordinates,    
+            exactGenomicCoordinates: data.exactGenomicCoordinatesStart && data.exactGenomicCoordinatesEnd ? {start: data.exactGenomicCoordinatesStart, end: data.exactGenomicCoordinatesEnd}: null,   
+            innerGenomicCoordinates: data.innerGenomicCoordinatesStart && data.innerGenomicCoordinatesEnd ? {start: data.innerGenomicCoordinatesStart, end: data.innerGenomicCoordinatesEnd}: null,  
+            outerGenomicCoordinates: data.outerGenomicCoordinatesStart && data.outerGenomicCoordinatesEnd ? {start: data.outerGenomicCoordinatesStart, end: data.outerGenomicCoordinatesEnd}: null, 
             clinvar: data.clinvar,    
             alleleFrequency: data.alleleFrequency,   
             copyNumber: data.copyNumber,   

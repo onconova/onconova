@@ -138,7 +138,7 @@ class GenomicVariant(BaseModel):
         ),
         max_length = 200,
         validators = [RegexValidator(
-            r"^(?:NG|NC|LRG|)(.*)$", 
+            r"^(?:NG|NC|LRG)(.*)$", 
             "The string should be a valid transcript RefSeq identifier.")
         ],
         null = True, blank = True,
@@ -151,12 +151,12 @@ class GenomicVariant(BaseModel):
         ),
         max_length = 200,
         validators = [RegexValidator(
-            r"^(?:NM|NG|ENST|LRG|)(.*)$", 
+            r"^(?:NM|NG|ENST|LRG)(.*)$", 
             "The string should be a valid transcript RefSeq identifier.")
         ],
         null = True, blank = True,
     )
-    coding_hgsv = models.CharField(
+    coding_hgvs = models.CharField(
         verbose_name=_('Coding DNA change expression (cHGVS)'),
         help_text=_("Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C>T"),
         max_length=500,
@@ -166,7 +166,7 @@ class GenomicVariant(BaseModel):
             "The string should be a valid coding DNA HGVS expression.")
         ],
     )
-    protein_hgsv = models.CharField(
+    protein_hgvs = models.CharField(
         verbose_name=_('Protein/aminoacid change expression (pHGVS)'),
         help_text=_("Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression, e.g. NP_000050.2:p.(Asn1836Lys)"),
         max_length=500,
@@ -176,7 +176,7 @@ class GenomicVariant(BaseModel):
             "The string should be a valid protein HGVS expression.")
         ],
     )
-    genomic_hgsv = models.CharField(
+    genomic_hgvs = models.CharField(
         verbose_name=_('Genomic change expression (gHGVS)'),
         help_text=_("Description of the genomic (gDNA) sequence change using a valid HGVS-formatted expression, e.g. NC_000016.9:g.2124200_2138612dup"),
         max_length=500,
@@ -293,8 +293,8 @@ class GenomicVariant(BaseModel):
     
     @property
     def aminoacid_change(self):
-        if self.protein_hgsv:
-            protein_change = ' ' + self.protein_hgsv.split(':p.')[-1]
+        if self.protein_hgvs:
+            protein_change = ' ' + self.protein_hgvs.split(':p.')[-1]
             if "?" in protein_change: 
                 return None
             return protein_change

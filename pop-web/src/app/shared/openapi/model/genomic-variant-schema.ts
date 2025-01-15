@@ -53,9 +53,9 @@ export interface GenomicVariantSchema {
     genomeAssemblyVersion?: CodedConceptSchema | null;
     genomicRefseq?: string | null;
     transcriptRefseq?: string | null;
-    codingHgsv?: string | null;
-    proteinHgsv?: string | null;
-    genomicHgsv?: string | null;
+    codingHgvs?: string | null;
+    proteinHgvs?: string | null;
+    genomicHgvs?: string | null;
     dnaChangeType?: CodedConceptSchema | null;
     aminoacidChangeType?: CodedConceptSchema | null;
     molecularConsequence?: CodedConceptSchema | null;
