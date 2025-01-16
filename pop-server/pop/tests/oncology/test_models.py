@@ -2,6 +2,7 @@ from datetime import datetime, date, timedelta
 
 from django.test import TestCase
 from django.db.utils import IntegrityError
+from pop.core import measures
 import pop.oncology.models as oncology
 import pop.terminology.models as terminology
 
@@ -50,4 +51,14 @@ class NeoplasticEntityModelTest(TestCase):
     def test_metastatic_neoplasm_can_have_related_primary(self):
         self.metastatic_neoplasm.related_primary = factories.PrimaryNeoplasticEntityFactory()
         self.assertIsNone(self.metastatic_neoplasm.save())
+        
+class VitalsModelTest(TestCase):
+    
+    def setUp(self):
+        self.vitals = factories.VitalsFactory()
+    
+    def test_body_mass_index_is_properly_generated(self):
+        self.vitals.save()
+        expected_bmi = self.vitals.weight.kg/(self.vitals.height.m*self.vitals.height.m)
+        self.assertAlmostEqual(self.vitals.body_mass_index.kg__square_meter, expected_bmi)
         

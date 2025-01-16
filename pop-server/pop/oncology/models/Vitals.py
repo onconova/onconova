@@ -35,15 +35,15 @@ class Vitals(BaseModel):
         default_unit = 'kg',
         null=True, blank=True,
     )
-    # body_mass_index = models.GeneratedField(
-    #     verbose_name = _('Bodymass'),
-    #     help_text = _("Bodymass index of the patient"),
-    #     expression = models.F('weight') / 1000 / (models.F('height') * models.F('height')),
-    #     output_field = MeasurementField(
-    #         measurement = measures.MassPerArea,
-    #     ),
-    #     db_persist = True
-    # )
+    body_mass_index = models.GeneratedField(
+        verbose_name = _('Bodymass'),
+        help_text = _("Bodymass index of the patient"),
+        expression = models.F('weight') / (models.F('height') * models.F('height')),
+        output_field = MeasurementField(
+            measurement = measures.MassPerArea,
+        ),
+        db_persist = True
+    )
     blood_pressure_systolic = MeasurementField(
         verbose_name = _('Systolic blood pressure'),
         help_text = _("Systolic blood pressure of the patient"),

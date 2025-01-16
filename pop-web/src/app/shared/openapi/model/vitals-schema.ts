@@ -45,5 +45,9 @@ export interface VitalsSchema {
     bloodPressureSystolic?: MeasureSchema | null;
     bloodPressureDiastolic?: MeasureSchema | null;
     temperature?: MeasureSchema | null;
+    /**
+     * Bodymass index of the patient
+     */
+    body_mass_index: MeasureSchema;
 }
 

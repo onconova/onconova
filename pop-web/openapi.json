@@ -16579,6 +16579,10 @@
             "one_to_many": false,
             "orm_name": "temperature",
             "title": "Temperature"
+          },
+          "body_mass_index": {
+            "$ref": "#/components/schemas/MeasureSchema",
+            "description": "Bodymass index of the patient"
           }
         },
         "required": [
@@ -16587,7 +16591,8 @@
           "updatedAt",
           "description",
           "caseId",
-          "date"
+          "date",
+          "body_mass_index"
         ],
         "title": "Vitals",
         "type": "object"

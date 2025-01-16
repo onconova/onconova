@@ -26,6 +26,7 @@ import {
     LifestylesService,
     ComorbiditiesAssessmentsService,
     FamilyHistoriesService,
+    VitalsService,
     RadiotherapiesService,
     GenomicVariantsService,
     GenomicSignaturesService
@@ -41,6 +42,7 @@ import {
     SurgeryFormComponent,
     LifestyleFormComponent,
     FamilyHistoryFormComponent,
+    VitalsFormComponent,
     ComorbiditiesAssessmentFormComponent,
     RadiotherapyFormComponent,
     GenomicVariantFormComponent,
@@ -90,6 +92,7 @@ export class CaseManagerComponent implements OnInit {
     private radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
     private genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
     private genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
+    private vitalsCoreService: VitalsService = inject(VitalsService);
     private messageService: MessageService = inject(MessageService);
 
     // Case properties
@@ -195,6 +198,13 @@ export class CaseManagerComponent implements OnInit {
         delete: this.genomicSignaturesService.deleteGenomicSignatureById.bind(this.genomicSignaturesService),
         update: this.genomicSignaturesService.updateGenomicSignatureById.bind(this.genomicSignaturesService),
     };
+    // Case-specific data observables
+    public vitalsService: DataService = {
+        get: this.vitalsCoreService.getVitals.bind(this.vitalsCoreService),
+        create: this.vitalsCoreService.createVitals.bind(this.vitalsCoreService),
+        delete: this.vitalsCoreService.deleteVitalsById.bind(this.vitalsCoreService),
+        update: this.vitalsCoreService.updateVitalsById.bind(this.vitalsCoreService),
+    };
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
@@ -206,6 +216,7 @@ export class CaseManagerComponent implements OnInit {
     public SurgeryFormComponent = SurgeryFormComponent;
     public LifestyleFormComponent = LifestyleFormComponent;
     public FamilyHistoryFormComponent = FamilyHistoryFormComponent;
+    public VitalsFormComponent = VitalsFormComponent;
     public ComorbiditiesAssessmentFormComponent = ComorbiditiesAssessmentFormComponent;
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
     public GenomicVariantFormComponent = GenomicVariantFormComponent;

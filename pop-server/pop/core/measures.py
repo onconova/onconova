@@ -2,8 +2,21 @@ from measurement.base import MeasureBase, BidimensionalMeasure
 from measurement.measures import Mass, Volume as VolumeBase, Distance, Temperature
 
 def get_measurement(measure, value, unit=None, original_unit=None):
-    unit = unit or measure.STANDARD_UNIT
+    """
+    Creates a measurement object with the specified value and unit.
 
+    Args:
+        measure (MeasureBase): The measure class to be instantiated.
+        value (float): The numerical value of the measurement.
+        unit (str, optional): The unit of the measurement. Defaults to the measure's standard unit.
+        original_unit (str, optional): The original unit of the measurement, if different from `unit`.
+
+    Returns:
+        MeasureBase: An instance of the measure class with the specified value and unit.
+    """
+    # If unit is not specified use the class' standard unit
+    unit = unit or measure.STANDARD_UNIT
+    # Construct measurement
     m = measure(**{unit: value})
     if original_unit:
         m.unit = original_unit
@@ -13,6 +26,19 @@ def get_measurement(measure, value, unit=None, original_unit=None):
 
 
 class Unit(MeasureBase):
+    """
+    International Unit (IU) of measurement.
+
+    Notes
+    -----
+    The International Unit (IU) is a unit of measurement that is used to quantify the activity of certain substances, such as vitamins and hormones. It is defined as the amount of the substance that is needed to produce a specific biological effect.
+
+    Examples
+    --------
+    >>> unit = Unit(10)
+    >>> print(unit)
+    10 IU
+    """
     STANDARD_UNIT = 'IU'
     UNITS = {
         'IU': 1.0,
@@ -23,6 +49,25 @@ class Unit(MeasureBase):
     SI_UNITS = ['IU']
 
 class Substance(MeasureBase):
+    """
+    A measurement of substance.
+
+    The substance is a base physical quantity and the International System of Units (SI) defines the mole (mol) as its unit.
+
+    Examples
+    --------
+    >>> substance = Substance(1)
+    >>> print(substance)
+    1 mol
+
+    >>> substance = Substance(1, 'mol')
+    >>> print(substance)
+    1 mol
+
+    >>> substance = Substance(1, 'gram')
+    >>> print(substance)
+    0.016042773999999998 mol
+    """
     STANDARD_UNIT = 'mol'
     UNITS = {
         'mol': 1.0,
@@ -33,6 +78,26 @@ class Substance(MeasureBase):
     SI_UNITS = ['mol']
 
 class MultipleOfMedian(MeasureBase):
+    """
+    A measure of quantity as a multiple of the median.
+
+    Notes
+    -----
+    The Multiple of Median (M.o.M) is a measure of quantity that is
+    relative to the median value of a specific population. It is
+    commonly used to express the value of a particular quantity in
+    terms of the median value of the population.
+
+    Examples
+    --------
+    >>> mom = MultipleOfMedian(10)
+    >>> print(mom)
+    10 M.o.M
+
+    >>> mom = MultipleOfMedian(10, 'M.o.M')
+    >>> print(mom)
+    10 M.o.M
+    """
     STANDARD_UNIT = 'M.o.M'
     UNITS = {
         'M.o.M': 1.0,
@@ -43,6 +108,21 @@ class MultipleOfMedian(MeasureBase):
 
 
 class Pressure(MeasureBase):
+    """
+    A measure of pressure.
+
+    The Pressure class is used for representing and converting pressure
+    values in various units. The standard unit is Pascal (Pa).
+
+    Examples
+    --------
+    >>> pressure = Pressure(Pa=100)
+    >>> print(pressure)
+    100 Pa
+
+    >>> pressure.convert_to('atm')
+    0.0009869250513319517 atm
+    """
     STANDARD_UNIT = 'Pa'
     UNITS = {
         'Pa': 1,
@@ -51,7 +131,6 @@ class Pressure(MeasureBase):
         'psi': 0.000145038,
         'bar': 1.0000018082621e-5,
         'Torr': 0.0075006303913072412681,
-        
     }
     ALIAS = {
         'Pascal': 'Pa',
@@ -61,9 +140,24 @@ class Pressure(MeasureBase):
         'Bar': 'bar',
         'torr ': 'Torr',
     }
-    SI_UNITS = ['Pa']    
+    SI_UNITS = ['Pa']
 
 class RadiationDose(MeasureBase):
+    """
+    A measure of radiation dose.
+
+    The RadiationDose class is used for representing and converting radiation
+    dose values in various units. The standard unit is Gray (Gy).
+
+    Examples
+    --------
+    >>> radiation_dose = RadiationDose(Gy=10)
+    >>> print(radiation_dose)
+    10 Gy
+
+    >>> radiation_dose.convert_to('Rad')
+    100 Rad
+    """
     STANDARD_UNIT = 'Gy'
     UNITS = {
         'Gy': 1.0,
@@ -75,13 +169,20 @@ class RadiationDose(MeasureBase):
     
 
 class Time(MeasureBase):
+    """
+    A measure of time.
 
-    """ Time measurements (generally for multidimensional measures).
+    The Time class is used for representing and converting time values in
+    various units. The standard unit is seconds (s).
 
-    Please do not use this for handling durations of time unrelated to
-    measure classes -- python's built-in datetime module has much better
-    functionality for handling intervals of time than this class provides.
+    Examples
+    --------
+    >>> time = Time(s=10)
+    >>> print(time)
+    10 s
 
+    >>> time.convert_to('min')
+    0.166666667 min
     """
     STANDARD_UNIT = 's'
     UNITS = {
@@ -107,6 +208,20 @@ class Time(MeasureBase):
 
     
 class Volume(VolumeBase):
+    """
+    Represents a measurement of volume.
+
+    The Volume class is used for representing and converting volume
+    values in various units. The standard unit is liter (l).
+
+    Examples:
+        >>> volume = Volume(l=1)
+        >>> print(volume)
+        1 l
+
+        >>> volume.convert_to('cubic_meter')
+        0.001 cubic_meter
+    """
     STANDARD_UNIT = 'l'
     UNITS = {
         'us_g': 3.78541,
@@ -118,7 +233,7 @@ class Volume(VolumeBase):
         'us_tsp': 4.9289e-3,
         'cubic_millimeter': 0.000001,
         'cubic_centimeter': 0.001,
-        'cubic_decimeter':  0.001,
+        'cubic_decimeter': 0.001,
         'cubic_meter': 1000,
         'l': 1,
         'cubic_foot': 28.3168,
@@ -133,7 +248,22 @@ class Volume(VolumeBase):
     SI_UNITS = ['l']
 
 
-class Area(VolumeBase):
+class Area(MeasureBase):
+    """
+    Represents an area measurement.
+
+    The Area class is used for representing and converting area values
+    in various units. The standard unit is square meter (m^2).
+
+    Examples:
+        >>> area = Area(square_meter=1)
+        >>> print(area)
+        1 m^2
+
+        >>> area.convert_to('square_foot')
+        10.76391 square_foot
+
+    """
     STANDARD_UNIT = 'square_meter'
     UNITS = {
         'square_millimeter': 1000000,
@@ -146,6 +276,21 @@ class Area(VolumeBase):
     }
     
 class Fraction(MeasureBase):
+    """
+    Represents a fraction measurement.
+
+    The Fraction class is used for representing and converting fraction values
+    in various units. The standard unit is percentage (%).
+
+    Examples:
+        >>> fraction = Fraction(percentage=1)
+        >>> print(fraction)
+        1.0 %
+
+        >>> fraction.convert_to('parts_per_million')
+        10000.0 parts_per_million
+
+    """
     STANDARD_UNIT = '%'
     UNITS = {
         '%': 1.0,
@@ -164,35 +309,159 @@ class Fraction(MeasureBase):
 
 
 class MassConcentration(BidimensionalMeasure):
+    """
+    Represents a measurement of mass concentration.
+
+    The MassConcentration class is used for representing and converting mass
+    concentration values in various units. The standard unit is gram per liter
+    (g/l).
+
+    Examples:
+        >>> mass_concentration = MassConcentration(g_per_l=1)
+        >>> print(mass_concentration)
+        1 g/l
+
+        >>> mass_concentration.convert_to('mg_per_dl')
+        100.0 mg/dl
+
+    """
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Volume
 
 class SubstanceConcentration(BidimensionalMeasure):
+    """
+    Represents a measurement of substance concentration.
+
+    The SubstanceConcentration class is used for representing and converting
+    substance concentration values in various units. The standard unit is mole
+    per liter (mol/l).
+
+    Examples:
+        >>> substance_concentration = SubstanceConcentration(mol_per_l=1)
+        >>> print(substance_concentration)
+        1 mol/l
+
+        >>> substance_concentration.convert_to('mmol_per_l')
+        1000.0 mmol/l
+
+    """
     PRIMARY_DIMENSION = Substance
     REFERENCE_DIMENSION = Volume
 
 class ArbitraryConcentration(BidimensionalMeasure):
+    """
+    Represents a measurement of arbitrary concentration.
+
+    The ArbitraryConcentration class is used for representing and converting
+    arbitrary concentration values in various units.
+
+    Examples:
+        >>> arbitrary_concentration = ArbitraryConcentration(Unit=1)
+        >>> print(arbitrary_concentration)
+        1 Unit/Volume
+
+        >>> arbitrary_concentration.convert_to('another_unit')
+        X another_unit
+    """
     PRIMARY_DIMENSION = Unit
     REFERENCE_DIMENSION = Volume
 
 class MassPerArea(BidimensionalMeasure):
+    """
+    Represents a measurement of mass per area.
+
+    The MassPerArea class is used for representing and converting mass per area
+    values in various units. The standard unit is gram per square meter (g/m^2).
+
+    Examples:
+        >>> mass_per_area = MassPerArea(g_per_m2=1)
+        >>> print(mass_per_area)
+        1 g/m^2
+
+        >>> mass_per_area.convert_to('mg_per_cm2')
+        10.0 mg/cm^2
+
+    """
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Area
 
 
 class MassPerTime(BidimensionalMeasure):
+    """
+    Represents a measurement of mass per time.
+
+    The MassPerTime class is used for representing and converting mass per time
+    values in various units. The standard unit is gram per second (g/s).
+
+    Examples:
+        >>> mass_per_time = MassPerTime(g_per_s=1)
+        >>> print(mass_per_time)
+        1 g/s
+
+        >>> mass_per_time.convert_to('mg_per_min')
+        60000.0 mg/min
+
+    """
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Time
 
 class VolumePerTime(BidimensionalMeasure):
+    """
+    Represents a measurement of volume per time.
+
+    The VolumePerTime class is used for representing and converting volume per time
+    values in various units. The standard unit is cubic meter per second (m^3/s).
+
+    Examples:
+        >>> volume_per_time = VolumePerTime(m3_per_s=1)
+        >>> print(volume_per_time)
+        1 m^3/s
+
+        >>> volume_per_time.convert_to('l_per_min')
+        60000.0 l/min
+
+    """
     PRIMARY_DIMENSION = Volume
     REFERENCE_DIMENSION = Time
 
 class MassConcentrationPerTime(BidimensionalMeasure):
+    """
+    Represents a measurement of mass concentration per time.
+
+    The MassConcentrationPerTime class is used for representing and converting
+    mass concentration per time values in various units. The standard unit is
+    gram per liter per second (g/l/s).
+
+    Examples:
+        >>> mass_concentration_per_time = MassConcentrationPerTime(g_per_l_per_s=1)
+        >>> print(mass_concentration_per_time)
+        1 g/l/s
+
+        >>> mass_concentration_per_time.convert_to('mg_per_dl_per_min')
+        6000.0 mg/dl/min
+
+    """
     PRIMARY_DIMENSION = MassConcentration
     REFERENCE_DIMENSION = Time
 
 class MassPerAreaPerTime(BidimensionalMeasure):
+    """
+    Represents a measurement of mass per area per time.
+
+    The MassPerAreaPerTime class is used for representing and converting mass
+    per area per time values in various units. The standard unit is gram per 
+    square meter per second (g/m^2/s).
+
+    Examples:
+        >>> mass_per_area_per_time = MassPerAreaPerTime(g_per_m2_per_s=1)
+        >>> print(mass_per_area_per_time)
+        1 g/m^2/s
+
+        >>> mass_per_area_per_time.convert_to('mg_per_cm2_per_min')
+        10.0 mg/cm^2/min
+
+    """
+    
     PRIMARY_DIMENSION = MassPerArea
     REFERENCE_DIMENSION = Time
 
