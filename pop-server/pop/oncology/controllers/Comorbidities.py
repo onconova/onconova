@@ -7,12 +7,13 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ResourceIdSchema, Paginated
-from pop.oncology.models import ComorbiditiesAssessment
+from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
+from pop.terminology.models import ICD10Condition
 
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema
+from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
 
 
 class QueryParameters(Schema):
@@ -127,8 +128,35 @@ class ComorbiditiesPanelsController(ControllerBase):
     )
     def get_all_comorbidities_panels(self): # type: ignore
         return [
-            ComorbiditiesPanelSchema(name=name, categories=panel.categories.values())
+            ComorbiditiesPanelSchema(name=name, categories=[
+                ComorbidityPanelCategory(
+                    label=category.label,
+                    conditions=list(ICD10Condition.objects.filter(codes__in=category.codes))
+                )
+                for category in panel.categories.values()
+            ])
             for name, panel in ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.items()
         ]
+    
+    @route.get(
+        path='/{panel}', 
+        response={
+            200: ComorbiditiesPanelSchema, 
+        },
+        operation_id='getComorbiditiesPanelsByName',
+    )
+    def get_comorbidities_panel_by_name(self, panel: ComorbiditiesPanel): # type: ignore
+        panel_details = ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.get(panel)
+        if not panel_details:
+            return 404
+        return 200, ComorbiditiesPanelSchema(name=panel, categories=[
+                ComorbidityPanelCategory(
+                    label=category.label,
+                    default=ICD10Condition.objects.filter(code=category.default).first(),
+                    conditions=list(ICD10Condition.objects.filter(code__in=category.codes))
+                )
+                for category in panel_details.categories.values()
+            ]
+        )
 
 

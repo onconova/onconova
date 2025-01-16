@@ -108,7 +108,9 @@
         
         <app-case-manager-panel
             title="Comorbidities"
-            [icon]="icons.comorbidities"/>
+            [icon]="icons.comorbidities"
+            [formComponent]="ComorbiditiesAssessmentFormComponent"
+            [service]="comorbiditiesAssessmentService"/>
 
         <app-case-manager-panel
             title="Vitals"

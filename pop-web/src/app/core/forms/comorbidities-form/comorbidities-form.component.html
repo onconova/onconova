@@ -1,0 +1,84 @@
+<p-fluid>
+    <form  id="comorbidities-form" [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the risk assessment</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+        
+        <div class="field">
+            <label class="form-label required">Index condition</label>
+            <p-select 
+                [options]="relatedEntities" 
+                formControlName="indexCondition"
+                optionLabel="description" 
+                optionValue="id"
+                placeholder="Select an option" />
+            <control-error controlName="indexCondition"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Comorbidities panel</label>
+            <p-select 
+                [options]="comorbiditiesAssessmentPanelChoices" 
+                formControlName="panel"
+                optionLabel="name" 
+                optionValue="value"
+                placeholder="Select an option" />
+            <control-error controlName="panel"></control-error>
+        </div>
+        <ng-container *ngIf="!form.value.panel">
+            <div class="field">
+                <label class="form-label required">Present comorbid conditions</label>
+                <coded-concept-select 
+                    formControlName="presentConditions"
+                    terminology="ICD10Condition"
+                    [showSynonyms]="true"
+                    [multiple]="true"/>
+                <control-error controlName="presentConditions"></control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label required">Absent comorbid conditions</label>
+                <coded-concept-select 
+                    formControlName="absentConditions"
+                    terminology="ICD10Condition"
+                    [showSynonyms]="true"
+                    [multiple]="true"/>
+                <control-error controlName="absentConditions"></control-error>
+            </div>
+        </ng-container>
+
+    </form>
+
+        <ng-container *ngIf="form.value.panel">
+            @for (category of panelForm; track category.label) {
+                <div class="field flex">                    
+                    <p-toggleswitch [(ngModel)]="category.checked"/>
+                    <label class="form-label ml-2 my-auto">{{category.label}}</label>
+                </div>
+                <div *ngIf="category.checked" class="field mt-3 ml-3">
+                    <label>Please specify the condition:</label>
+                    <p-select 
+                    [(ngModel)]="category.selected"
+                    [options]="category.conditions"
+                    optionLabel="display"
+                    placeholder="Select an option"
+                    appendTo="body"/>
+                </div>
+            } 
+        </ng-container>
+
+        <button 
+            pButton pRipple 
+            type="submit" 
+            label="Save" 
+            form="comorbidities-form"
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid"></button>
+            
+</p-fluid>

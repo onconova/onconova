@@ -51,7 +51,7 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     public concepts!: CodedConceptSchema[];
     public filteredConcepts!: CodedConceptSchema[];
     public conceptsCount!: number;
-    public conceptsLimit: number = 10;
+    public conceptsLimit: number = 100;
     private readonly destroyRef = inject(DestroyRef);
     
     ngOnInit() {

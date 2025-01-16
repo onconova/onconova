@@ -4102,6 +4102,48 @@
         ]
       }
     },
+    "/api/comorbidities-panels/{panel}": {
+      "get": {
+        "operationId": "getComorbiditiesPanelsByName",
+        "summary": "Get Comorbidities Panel By Name",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "panel",
+            "schema": {
+              "enum": [
+                "Charlson",
+                "Elixhauser",
+                "NCI"
+              ],
+              "title": "ComorbiditiesPanel",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComorbiditiesPanelSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Comorbidities Assessments"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/vitals/": {
       "post": {
         "operationId": "createVitals",
@@ -13787,7 +13829,7 @@
             "type": "string"
           },
           "value": {
-            "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
+            "description": "The actual aneuploid score (AS) value in total altered arms",
             "examples": [],
             "expanded": null,
             "is_relation": false,
@@ -14241,7 +14283,7 @@
             "type": "string"
           },
           "value": {
-            "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
+            "description": "The actual aneuploid score (AS) value in total altered arms",
             "examples": [],
             "expanded": null,
             "is_relation": false,
@@ -15860,7 +15902,7 @@
             "orm_name": "panel",
             "title": "Panel"
           },
-          "presents": {
+          "presentConditions": {
             "anyOf": [
               {
                 "items": {
@@ -15879,11 +15921,11 @@
             "is_relation": true,
             "many_to_many": true,
             "one_to_many": false,
-            "orm_name": "present",
+            "orm_name": "present_conditions",
             "terminology": "ICD10Condition",
             "title": "Present comorbid conditions"
           },
-          "absents": {
+          "absentConditions": {
             "anyOf": [
               {
                 "items": {
@@ -15902,7 +15944,7 @@
             "is_relation": true,
             "many_to_many": true,
             "one_to_many": false,
-            "orm_name": "absent",
+            "orm_name": "absent_conditions",
             "terminology": "ICD10Condition",
             "title": "Absent comorbid conditions"
           }
@@ -16053,7 +16095,7 @@
             "orm_name": "panel",
             "title": "Panel"
           },
-          "presents": {
+          "presentConditions": {
             "anyOf": [
               {
                 "items": {
@@ -16072,11 +16114,11 @@
             "is_relation": true,
             "many_to_many": true,
             "one_to_many": false,
-            "orm_name": "present",
+            "orm_name": "present_conditions",
             "terminology": "ICD10Condition",
             "title": "Present comorbid conditions"
           },
-          "absents": {
+          "absentConditions": {
             "anyOf": [
               {
                 "items": {
@@ -16095,7 +16137,7 @@
             "is_relation": true,
             "many_to_many": true,
             "one_to_many": false,
-            "orm_name": "absent",
+            "orm_name": "absent_conditions",
             "terminology": "ICD10Condition",
             "title": "Absent comorbid conditions"
           },
@@ -16176,32 +16218,34 @@
             "title": "Label",
             "type": "string"
           },
-          "codes": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Codes",
-            "type": "array"
+          "default": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Default choice for category"
           },
-          "weight": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "number"
-              }
-            ],
-            "title": "Weight"
+          "conditions": {
+            "items": {
+              "$ref": "#/components/schemas/CodedConceptSchema"
+            },
+            "title": "Conditions",
+            "type": "array"
           }
         },
         "required": [
           "label",
-          "codes",
-          "weight"
+          "default",
+          "conditions"
         ],
         "title": "ComorbidityPanelCategory",
         "type": "object"
+      },
+      "ComorbiditiesPanel": {
+        "enum": [
+          "Charlson",
+          "Elixhauser",
+          "NCI"
+        ],
+        "title": "ComorbiditiesPanel",
+        "type": "string"
       },
       "VitalsCreateSchema": {
         "properties": {

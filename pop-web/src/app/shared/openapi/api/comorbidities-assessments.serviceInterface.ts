@@ -63,6 +63,13 @@ export interface ComorbiditiesAssessmentsServiceInterface {
     getComorbiditiesPanels(extraHttpRequestParams?: any): Observable<Array<ComorbiditiesPanelSchema>>;
 
     /**
+     * Get Comorbidities Panel By Name
+     * 
+     * @param panel 
+     */
+    getComorbiditiesPanelsByName(panel: 'Charlson' | 'Elixhauser' | 'NCI', extraHttpRequestParams?: any): Observable<ComorbiditiesPanelSchema>;
+
+    /**
      * Update Comorbidities Assessment
      * 
      * @param comorbiditiesAssessmentId 

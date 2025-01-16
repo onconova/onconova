@@ -7,12 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Weight } from './weight';
+import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface ComorbidityPanelCategory { 
     label: string;
-    codes: Array<string>;
-    weight: Weight;
+    /**
+     * Default choice for category
+     */
+    'default': CodedConceptSchema;
+    conditions: Array<CodedConceptSchema>;
 }
 

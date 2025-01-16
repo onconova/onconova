@@ -24,6 +24,7 @@ import {
     PerformanceStatusService,
     SurgeriesService,
     LifestylesService,
+    ComorbiditiesAssessmentsService,
     FamilyHistoriesService,
     RadiotherapiesService,
     GenomicVariantsService,
@@ -40,6 +41,7 @@ import {
     SurgeryFormComponent,
     LifestyleFormComponent,
     FamilyHistoryFormComponent,
+    ComorbiditiesAssessmentFormComponent,
     RadiotherapyFormComponent,
     GenomicVariantFormComponent,
     GenomicSignatureFormComponent,
@@ -83,6 +85,7 @@ export class CaseManagerComponent implements OnInit {
     private performanceStatiiService: PerformanceStatusService = inject(PerformanceStatusService);
     private surgeriesService: SurgeriesService = inject(SurgeriesService);
     private lifestylesService: LifestylesService = inject(LifestylesService);
+    private comorbiditiesAssessmentsService: ComorbiditiesAssessmentsService = inject(ComorbiditiesAssessmentsService);
     private familyHistoriesService: FamilyHistoriesService = inject(FamilyHistoriesService);
     private radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
     private genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
@@ -172,6 +175,13 @@ export class CaseManagerComponent implements OnInit {
         update: this.familyHistoriesService.updateFamilyHistory.bind(this.familyHistoriesService),
     };
     // Case-specific data observables
+    public comorbiditiesAssessmentService: DataService = {
+        get: this.comorbiditiesAssessmentsService.getComorbiditiesAssessments.bind(this.comorbiditiesAssessmentsService),
+        create: this.comorbiditiesAssessmentsService.createComorbiditiesAssessment.bind(this.comorbiditiesAssessmentsService),
+        delete: this.comorbiditiesAssessmentsService.deleteComorbiditiesAssessment.bind(this.comorbiditiesAssessmentsService),
+        update: this.comorbiditiesAssessmentsService.updateComorbiditiesAssessment.bind(this.comorbiditiesAssessmentsService),
+    };
+    // Case-specific data observables
     public genomicVariantService: DataService = {
         get: this.genomicVariantsService.getGenomicVariants.bind(this.genomicVariantsService),
         create: this.genomicVariantsService.createGenomicVariant.bind(this.genomicVariantsService),
@@ -196,6 +206,7 @@ export class CaseManagerComponent implements OnInit {
     public SurgeryFormComponent = SurgeryFormComponent;
     public LifestyleFormComponent = LifestyleFormComponent;
     public FamilyHistoryFormComponent = FamilyHistoryFormComponent;
+    public ComorbiditiesAssessmentFormComponent = ComorbiditiesAssessmentFormComponent;
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
     public GenomicVariantFormComponent = GenomicVariantFormComponent;
     public GenomicSignatureFormComponent = GenomicSignatureFormComponent;

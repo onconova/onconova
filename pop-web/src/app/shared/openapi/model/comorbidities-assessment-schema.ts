@@ -47,8 +47,8 @@ export interface ComorbiditiesAssessmentSchema {
      */
     indexConditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
-    presents?: Array<CodedConceptSchema> | null;
-    absents?: Array<CodedConceptSchema> | null;
+    presentConditions?: Array<CodedConceptSchema> | null;
+    absentConditions?: Array<CodedConceptSchema> | null;
     index?: Index | null;
 }
 export namespace ComorbiditiesAssessmentSchema {

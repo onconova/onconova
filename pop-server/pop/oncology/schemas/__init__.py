@@ -32,7 +32,7 @@ from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateS
 from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
 from .Vitals import VitalsSchema, VitalsCreateSchema
-from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema
+from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
 from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
 from .GenomicSignature import (
     TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
@@ -85,7 +85,7 @@ __all__ = (
     # Vitals 
     VitalsSchema, VitalsCreateSchema,
     # Comorbidities
-    ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema,
+    ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory,
     # Genomic variant schemas 
     GenomicVariantSchema, GenomicVariantCreateSchema,
     # Genomic signature schemas

@@ -25,8 +25,8 @@ export interface ComorbiditiesAssessmentCreateSchema {
      */
     indexConditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
-    presents?: Array<CodedConceptSchema> | null;
-    absents?: Array<CodedConceptSchema> | null;
+    presentConditions?: Array<CodedConceptSchema> | null;
+    absentConditions?: Array<CodedConceptSchema> | null;
 }
 export namespace ComorbiditiesAssessmentCreateSchema {
 }

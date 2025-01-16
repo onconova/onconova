@@ -59,6 +59,7 @@ model/comorbidities-assessment-create-schema.ts
 model/comorbidities-assessment-panel-choices.ts
 model/comorbidities-assessment-schema.ts
 model/comorbidities-panel-schema.ts
+model/comorbidities-panel.ts
 model/comorbidity-panel-category.ts
 model/end.ts
 model/family-history-create-schema.ts
@@ -171,7 +172,6 @@ model/user-credentials-schema.ts
 model/user-schema.ts
 model/vitals-create-schema.ts
 model/vitals-schema.ts
-model/weight.ts
 model/wilms-stage-create.ts
 model/wilms-stage.ts
 param.ts

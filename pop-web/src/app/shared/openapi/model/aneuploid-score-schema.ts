@@ -40,7 +40,7 @@ export interface AneuploidScoreSchema {
      */
     date: string;
     /**
-     * The actual tumor neoantigen burden (TNB) value in neoantigens/Mb
+     * The actual aneuploid score (AS) value in total altered arms
      */
     value: number;
     category?: AneuploidScoreSchema.CategoryEnum;
