@@ -10,6 +10,10 @@ import pop.core.measures as measures
 import pop.oncology.models as models
 import pop.terminology.models as terminology
 
+import sys
+
+def is_running_pytest():
+    return "pytest" in sys.modules
 
 faker = faker.Faker()
 
@@ -21,12 +25,15 @@ def make_terminology_factory(terminology, code_iterator=None):
     if not code_iterator:
         code_iterator = [f"{terminology.__name__.lower()}-code-{n+1}" for n in range(4)]
     display_iterator = [code.replace('-code',' ').replace('-',' ').capitalize() for code in code_iterator]
-    return factory.make_factory(terminology,
-        code = factory.Iterator(code_iterator),
-        display = factory.Iterator(display_iterator),
-        system = f'http://test.org/codesystem/{terminology.__name__.lower()}',
-        FACTORY_CLASS=TerminologyFactory,
-    )
+    if is_running_pytest():
+        return factory.SubFactory(factory.make_factory(terminology,
+            code = factory.Iterator(code_iterator),
+            display = factory.Iterator(display_iterator),
+            system = f'http://test.org/codesystem/{terminology.__name__.lower()}',
+            FACTORY_CLASS=TerminologyFactory,
+        ))
+    else:
+        return factory.LazyFunction(lambda: terminology.objects.all()[random.randint(0,terminology.objects.count()-1)])
 
 class GroupFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -46,13 +53,18 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PatientCase
     date_of_birth = factory.LazyFunction(lambda: faker.date_of_birth(minimum_age=25, maximum_age=100))
-    gender = factory.SubFactory(make_terminology_factory(terminology.AdministrativeGender))
-    race = factory.SubFactory(make_terminology_factory(terminology.RaceCategory))
-    sex_at_birth = factory.SubFactory(make_terminology_factory(terminology.BirthSex))
+    gender = make_terminology_factory(terminology.AdministrativeGender)
+    race = make_terminology_factory(terminology.RaceCategory)
+    sex_at_birth = make_terminology_factory(terminology.BirthSex)
     date_of_death = factory.LazyFunction(lambda: faker.date_this_decade() if random.random() > 0.5 else None)
-    cause_of_death = factory.SubFactory(make_terminology_factory(terminology.CauseOfDeath))
+    cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
     created_by =  factory.SubFactory(UserFactory)
 
+    @factory.post_generation
+    def updated_by(self, create, extracted, **kwargs):
+        if not create:
+            return
+        self.updated_by.add(self.created_by)
 
 
 class PrimaryNeoplasticEntityFactory(factory.django.DjangoModelFactory):
@@ -61,10 +73,10 @@ class PrimaryNeoplasticEntityFactory(factory.django.DjangoModelFactory):
     relationship = 'primary'
     case = factory.SubFactory(PatientCaseFactory)
     assertion_date = factory.LazyFunction(lambda: faker.date())
-    topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
-    morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
-    differentitation = factory.LazyFunction(lambda: make_terminology_factory(terminology.HistologyDifferentiation)() if random.random() > 0.75 else None)
-    laterality = factory.LazyFunction(lambda: make_terminology_factory(terminology.LateralityQualifier)() if random.random() > 0.75 else None)
+    topography = make_terminology_factory(terminology.CancerTopography)
+    morphology = make_terminology_factory(terminology.CancerMorphology)
+    differentitation = make_terminology_factory(terminology.HistologyDifferentiation) 
+    laterality = make_terminology_factory(terminology.LateralityQualifier)
     created_by =  factory.SubFactory(UserFactory)
 
 
@@ -75,10 +87,10 @@ class MetastaticNeoplasticEntityFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     assertion_date = factory.LazyFunction(lambda: faker.date())
     related_primary = factory.SubFactory(PrimaryNeoplasticEntityFactory)
-    topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
-    morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
-    differentitation = factory.LazyFunction(lambda: make_terminology_factory(terminology.HistologyDifferentiation)() if random.random() > 0.75 else None)
-    laterality = factory.LazyFunction(lambda: make_terminology_factory(terminology.LateralityQualifier)() if random.random() > 0.75 else None)
+    topography = make_terminology_factory(terminology.CancerTopography)
+    morphology = make_terminology_factory(terminology.CancerMorphology)
+    differentitation = make_terminology_factory(terminology.HistologyDifferentiation) 
+    laterality = make_terminology_factory(terminology.LateralityQualifier)
     created_by =  factory.SubFactory(UserFactory)
 
 
@@ -87,8 +99,8 @@ class TNMStagingFactory(factory.django.DjangoModelFactory):
         model = models.TNMStaging
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    stage = factory.SubFactory(make_terminology_factory(terminology.TNMStage, code_iterator=[f"tnm-stage-{n+1}-code" for n in range(5)]))
-    methodology = factory.SubFactory(make_terminology_factory(terminology.TNMStagingMethod))
+    stage = make_terminology_factory(terminology.TNMStage, code_iterator=[f"tnm-stage-{n+1}-code" for n in range(5)])
+    methodology = make_terminology_factory(terminology.TNMStagingMethod)
     created_by =  factory.SubFactory(UserFactory)
 
 class FIGOStagingFactory(factory.django.DjangoModelFactory):
@@ -96,8 +108,8 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
         model = models.FIGOStaging
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    stage = factory.SubFactory(make_terminology_factory(terminology.FIGOStage, code_iterator=[f"figo-stage-{n+1}-code" for n in range(5)]))
-    methodology = factory.SubFactory(make_terminology_factory(terminology.FIGOStagingMethod))
+    stage = make_terminology_factory(terminology.FIGOStage, code_iterator=[f"figo-stage-{n+1}-code" for n in range(5)])
+    methodology = make_terminology_factory(terminology.FIGOStagingMethod)
     created_by =  factory.SubFactory(UserFactory)
 
 
@@ -105,7 +117,7 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
 class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TumorMarker
-    analyte = factory.SubFactory(make_terminology_factory(terminology.TumorMarkerAnalyte))
+    analyte = make_terminology_factory(terminology.TumorMarkerAnalyte)
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
     mass_concentration = factory.LazyFunction(lambda: measures.MassConcentration(g__l=random.random()))    
@@ -118,8 +130,8 @@ class RiskAssessmentFactory(factory.django.DjangoModelFactory):
         model = models.RiskAssessment
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    methodology = factory.SubFactory(make_terminology_factory(terminology.CancerRiskAssessmentMethod))
-    risk = factory.SubFactory(make_terminology_factory(terminology.CancerRiskAssessmentClassification))
+    methodology = make_terminology_factory(terminology.CancerRiskAssessmentMethod)
+    risk = make_terminology_factory(terminology.CancerRiskAssessmentClassification)
     created_by =  factory.SubFactory(UserFactory)
 
 
@@ -131,14 +143,14 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     period = factory.LazyFunction(lambda: (faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
     cycles = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
-    role = factory.SubFactory(make_terminology_factory(terminology.TreatmentCategory))
+    role = make_terminology_factory(terminology.TreatmentCategory)
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemicTherapyMedication    
     systemic_therapy = factory.SubFactory(SystemicTherapyFactory)
-    drug = factory.SubFactory(make_terminology_factory(terminology.AntineoplasticAgent))
-    route = factory.SubFactory(make_terminology_factory(terminology.DosageRoute))
+    drug = make_terminology_factory(terminology.AntineoplasticAgent)
+    route = make_terminology_factory(terminology.DosageRoute)
 
 
 class SurgeryFactory(factory.django.DjangoModelFactory):
@@ -146,12 +158,12 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
         model = models.Surgery
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    procedure = factory.SubFactory(make_terminology_factory(terminology.SurgicalProcedure))
+    procedure = make_terminology_factory(terminology.SurgicalProcedure)
     intent = FuzzyChoice(models.Surgery.TreatmentIntent)
-    bodysite = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
-    bodysite_qualifier = factory.SubFactory(make_terminology_factory(terminology.BodyLocationQualifier))
-    bodysite_laterality = factory.SubFactory(make_terminology_factory(terminology.LateralityQualifier))
-    outcome = factory.SubFactory(make_terminology_factory(terminology.ProcedureOutcome))
+    bodysite = make_terminology_factory(terminology.CancerTopography)
+    bodysite_qualifier = make_terminology_factory(terminology.BodyLocationQualifier)
+    bodysite_laterality = make_terminology_factory(terminology.LateralityQualifier)
+    outcome = make_terminology_factory(terminology.ProcedureOutcome)
 
 
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
@@ -169,15 +181,15 @@ class RadiotherapyDosageFactory(factory.django.DjangoModelFactory):
     radiotherapy = factory.SubFactory(RadiotherapyFactory)
     fractions = factory.LazyFunction(lambda: random.randint(2,25))
     dose = factory.LazyFunction(lambda: measures.RadiationDose(Gy=random.random()))    
-    irradiated_volume = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyTreatmentLocation))
-    irradiated_volume_morphology = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyVolumeType))
+    irradiated_volume = make_terminology_factory(terminology.RadiotherapyTreatmentLocation)
+    irradiated_volume_morphology = make_terminology_factory(terminology.RadiotherapyVolumeType)
 
 class RadiotherapySettingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.RadiotherapySetting    
     radiotherapy = factory.SubFactory(RadiotherapyFactory)
-    modality = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyModality))
-    technique = factory.SubFactory(make_terminology_factory(terminology.RadiotherapyTechnique))
+    modality = make_terminology_factory(terminology.RadiotherapyModality)
+    technique = make_terminology_factory(terminology.RadiotherapyTechnique)
 
 class GenomicVariantFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -188,18 +200,18 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     assessment = FuzzyChoice(models.GenomicVariant.GenomicVariantAssessment)
     confidence = FuzzyChoice(models.GenomicVariant.GenomicVariantConfidence)
     clinical_relevance = FuzzyChoice(models.GenomicVariant.GenomicVariantClinicalRelevance)
-    analysis_method = factory.SubFactory(make_terminology_factory(terminology.StructuralVariantAnalysisMethod))
+    analysis_method = make_terminology_factory(terminology.StructuralVariantAnalysisMethod)
     cytogenetic_location = factory.LazyFunction(lambda: f'{random.randint(1,22)}p{random.randint(11,22)}')
     genomic_refseq = factory.LazyFunction(lambda: f'NG000{random.randint(100,999)}.{random.randint(1,9)}')
     transcript_refseq = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}')
-    coding_hgsv = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}:c.{random.randint(10,10000)}C>T')
-    protein_hgsv = factory.LazyFunction(lambda: f'NP000{random.randint(100,999)}.{random.randint(1,9)}:p.{random.randint(10,10000)}Lys>Val')
-    aminoacid_change_type = factory.SubFactory(make_terminology_factory(terminology.AminoAcidChangeType))
-    molecular_consequence = factory.SubFactory(make_terminology_factory(terminology.MolecularConsequence))
+    coding_hgvs = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}:c.{random.randint(10,10000)}C>T')
+    protein_hgvs = factory.LazyFunction(lambda: f'NP000{random.randint(100,999)}.{random.randint(1,9)}:p.{random.randint(10,10000)}Lys>Val')
+    aminoacid_change_type = make_terminology_factory(terminology.AminoAcidChangeType)
+    molecular_consequence = make_terminology_factory(terminology.MolecularConsequence)
     copy_number = factory.LazyFunction(lambda: random.randint(1,9))
     allele_frequency = factory.LazyFunction(lambda: random.randint(0,100)/100)
     allele_depth = factory.LazyFunction(lambda: random.randint(0,99999))
-    zygosity = factory.SubFactory(make_terminology_factory(terminology.Zygosity))
+    zygosity = make_terminology_factory(terminology.Zygosity)
     exact_genomic_coordinates = factory.LazyFunction(lambda: (random.randint(0,9999), random.randint(9999,99999999)))
 
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):
@@ -216,10 +228,10 @@ class LifestyleFactory(factory.django.DjangoModelFactory):
         model = models.Lifestyle
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    smoking_status = factory.SubFactory(make_terminology_factory(terminology.SmokingStatus))
+    smoking_status = make_terminology_factory(terminology.SmokingStatus)
     smoking_packyears = factory.LazyFunction(lambda: random.random())
     smoking_quited = factory.LazyFunction(lambda: measures.Time(year=random.random()))    
-    alcohol_consumption = factory.SubFactory(make_terminology_factory(terminology.AlcoholConsumptionFrequency))
+    alcohol_consumption = make_terminology_factory(terminology.AlcoholConsumptionFrequency)
     night_sleep = factory.LazyFunction(lambda: measures.Time(hour=random.random()))    
 
 
@@ -229,12 +241,12 @@ class FamilyHistoryFactory(factory.django.DjangoModelFactory):
         model = models.FamilyHistory
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    relationship = factory.SubFactory(make_terminology_factory(terminology.FamilyMemberType))
+    relationship = make_terminology_factory(terminology.FamilyMemberType)
     had_cancer = factory.LazyFunction(lambda: random.randint(0,10) > 5)
     contributed_to_death = factory.LazyFunction(lambda: random.randint(0,10) > 5)
     onset_age = factory.LazyFunction(lambda: random.randint(25,95))
-    topography = factory.SubFactory(make_terminology_factory(terminology.CancerTopography))
-    morphology = factory.SubFactory(make_terminology_factory(terminology.CancerMorphology))
+    topography = make_terminology_factory(terminology.CancerTopography)
+    morphology = make_terminology_factory(terminology.CancerMorphology)
     
 
 class TumorMutationalBurdenFactory(factory.django.DjangoModelFactory):
@@ -257,7 +269,7 @@ class MicrosatelliteInstabilityFactory(factory.django.DjangoModelFactory):
         model = models.MicrosatelliteInstability
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    value = factory.SubFactory(make_terminology_factory(terminology.MicrosatelliteInstabilityState))
+    value = make_terminology_factory(terminology.MicrosatelliteInstabilityState)
 
 class HomologousRecombinationDeficiencyFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -295,10 +307,36 @@ class VitalsFactory(factory.django.DjangoModelFactory):
         model = models.Vitals
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    height = factory.LazyFunction(lambda: measures.Distance(cm=random.randint(150,190)))  
-    weight = factory.LazyFunction(lambda: measures.Mass(g=random.randint(55000, 95000)))     
+    height = factory.LazyFunction(lambda: measures.Distance(m=random.randint(150,190)/100))  
+    weight = factory.LazyFunction(lambda: measures.Mass(kg=random.randint(55, 95)))     
     blood_pressure_systolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(100, 120)))     
     blood_pressure_diastolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(65, 85)))     
     temperature = factory.LazyFunction(lambda: measures.Temperature(c=random.randint(37, 40)))     
 
 
+def fake_complete_case():
+    case = PatientCaseFactory.create()
+    PrimaryNeoplasticEntityFactory.create(case=case)
+    if random.randint(0,100) > 40:
+        MetastaticNeoplasticEntityFactory.create(case=case)
+    TNMStagingFactory.create(case=case)
+    for _ in range(random.randint(0,4)):
+        systemic_therapy = SystemicTherapyFactory.create(case=case)
+        for _ in range(random.randint(1,3)):
+            SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy)
+    for _ in range(random.randint(0,2)):
+        radiotherapy = RadiotherapyFactory.create(case=case)
+        for _ in range(random.randint(1,3)):
+            RadiotherapyDosageFactory.create(radiotherapy=radiotherapy)
+    for _ in range(random.randint(0,4)):
+        TumorMarkerTestFactory.create(case=case)
+    for _ in range(random.randint(0,12)):
+        GenomicVariantFactory.create(case=case)
+    if random.randint(0,100) > 50:
+        TumorMutationalBurdenFactory.create(case=case)
+    if random.randint(0,100) > 50:
+        LossOfHeterozygosityFactory.create(case=case)
+    if random.randint(0,100) > 50:
+        MicrosatelliteInstabilityFactory.create(case=case)
+    FamilyHistoryFactory.create(case=case)
+    return case

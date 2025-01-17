@@ -35,9 +35,11 @@ class TumorMarkerController(ControllerBase):
     @paginate()
     def get_all_tumor_markers_matching_the_query(self, query: Query[QueryParameters]):
         queryset = TumorMarker.objects.all().order_by('-date')
+        print('GETALL', query)
         for (lookup, value) in query:
             if value is not None:
                 queryset = queryset.filter(**{lookup: value})
+                print('FILTER', lookup, value)
         return [TumorMarkerSchema.model_validate(instance) for instance in queryset]
 
     @route.post(

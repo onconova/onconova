@@ -1,7 +1,7 @@
-import { OnInit } from '@angular/core';
+import { OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { LayoutService } from '../../service/app.layout.service';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 import { AppMenuitemComponent } from './components/menuitem/app.menuitem.component';
 
@@ -17,8 +17,7 @@ import { AppMenuitemComponent } from './components/menuitem/app.menuitem.compone
 export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
-
-    constructor(public layoutService: LayoutService) { }
+    private readonly authService: AuthService = inject(AuthService);
 
     ngOnInit() {
         this.model = [
@@ -31,8 +30,8 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Case Management',
                 items: [
-                    { label: 'Case Browser', icon: 'pi pi-fw pi-search', routerLink: ['/cases'] },
-                    { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/cases/browser'] },
+                    { label: 'Case Browser', icon: 'pi pi-fw pi-search', routerLink: ['/cases/search'] },
+                    { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/cases/search/', this.authService.getUsername()] },
                     { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/uikit/formlayout'] },
                 ]
             },

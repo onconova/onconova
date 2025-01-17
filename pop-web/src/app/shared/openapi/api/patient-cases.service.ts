@@ -397,6 +397,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param ageLte 
      * @param ageGte 
      * @param pseudoidentifier 
+     * @param manager 
      * @param deceased 
      * @param gender 
      * @param born 
@@ -405,10 +406,10 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedPatientCase>;
-    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedPatientCase>>;
-    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedPatientCase>>;
-    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, manager?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedPatientCase>;
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, manager?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedPatientCase>>;
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, manager?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedPatientCase>>;
+    public getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, manager?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (ageLte !== undefined && ageLte !== null) {
@@ -422,6 +423,10 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         if (pseudoidentifier !== undefined && pseudoidentifier !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pseudoidentifier, 'pseudoidentifier');
+        }
+        if (manager !== undefined && manager !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>manager, 'manager');
         }
         if (deceased !== undefined && deceased !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

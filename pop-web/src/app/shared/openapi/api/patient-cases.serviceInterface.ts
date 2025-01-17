@@ -59,13 +59,14 @@ export interface PatientCasesServiceInterface {
      * @param ageLte 
      * @param ageGte 
      * @param pseudoidentifier 
+     * @param manager 
      * @param deceased 
      * @param gender 
      * @param born 
      * @param limit 
      * @param offset 
      */
-    getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+    getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, manager?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
 
     /**
      * Update Patient Case

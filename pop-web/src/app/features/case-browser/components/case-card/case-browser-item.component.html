@@ -1,7 +1,7 @@
 
 <div 
     class="case-browser-card card flex flex-column sm:flex-row sm:align-items-center p-3 gap-3 mb-3" 
-    [routerLink]="['/cases', case.pseudoidentifier]" 
+    [routerLink]="['/cases/management', case.pseudoidentifier]" 
     target="_blank">
     
     <!-- Identicon -->
@@ -9,20 +9,19 @@
         <svg class="jdenticon" width="4rem" height="4rem" [data-jdenticon-value]="[case.pseudoidentifier]"></svg>
     </p-avatar>
 
-    <div class="flex flex-column" style="width: 10%">
+    <div class="flex flex-column" style="width: 13%">
         <div class="text-xl mb-1 font-bold" style="font-family: monospace;">{{case.pseudoidentifier}}</div>
-        <div class="flex">
-            {{ case.gender.display }}, {{case.age}} years 
-            <span *ngIf="case.isDeceased">, †</span>
+        <div >
+            {{ case.gender.display }}, {{case.age}} years <span *ngIf="case.isDeceased">, †</span>
         </div>
     </div>
 
     <p-divider layout="vertical" />
 
-    <div class="flex flex-column" style="width: 20%">
+    <div class="flex flex-column" style="width: 25%">
         <ng-container *ngIf="primaryEntity$ | async as primaryEntity; else pending">
             <div class="flex gap-2">
-                <cancer-icon [topography]="primaryEntity.topography.code"></cancer-icon>
+                <cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></cancer-icon>
                 <div class="my-auto">{{ primaryEntity.description }}</div>
             </div>
         </ng-container>

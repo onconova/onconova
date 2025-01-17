@@ -25,6 +25,7 @@ class QueryParameters(Schema):
     db_age__lte: int = Field(None, alias='age_lte')
     db_age__gte: int = Field(None, alias='age_gte')
     pseudoidentifier__icontains: str = Field(None, alias='pseudoidentifier')
+    created_by__username: str = Field(None, alias='manager') 
     is_deceased: bool = Field(None, alias='deceased')
     gender__code__in: List[GenderEnum] = Field(None, alias="gender")
     date_of_birth: date = Field(None, alias="born")

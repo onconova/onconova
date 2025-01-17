@@ -210,6 +210,15 @@
           },
           {
             "in": "query",
+            "name": "manager",
+            "schema": {
+              "title": "Manager",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "deceased",
             "schema": {
               "title": "Deceased",

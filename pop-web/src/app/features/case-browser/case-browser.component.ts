@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, inject, Input, ViewEncapsulation  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, first, of, Observable, catchError } from 'rxjs';
@@ -47,6 +47,9 @@ export class CaseBrowserComponent implements OnInit {
   private modalFormService = inject(ModalFormService)
   private messageService = inject(MessageService) 
 
+
+  @Input() public manager: string | undefined;
+
   // Pagination settings
   public pageSizeChoices: number[] = [10, 25, 50, 100];
   public pageSize: number = this.pageSizeChoices[0];
@@ -72,8 +75,9 @@ export class CaseBrowserComponent implements OnInit {
  * MessageService.
  */
   refreshCases() {
+    console.log('this.filterByUsername',this.manager)
     this.cases$ = this.patientCasesService
-    .getPatientCases()
+    .getPatientCases(undefined, undefined, undefined, this.manager)
     .pipe(
       map(page => page.items),
       first(),

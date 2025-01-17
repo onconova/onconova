@@ -7,7 +7,7 @@ from pop.terminology.models import AdministrativeGender as MockCodedConcept
 class TestDescendsFromLookup(TestCase):
 
     def setUp(self):
-        factory = make_terminology_factory(MockCodedConcept)
+        factory = make_terminology_factory(MockCodedConcept).get_factory()
         self.concept = factory()
         self.parent = factory()
         self.uncle = factory()
