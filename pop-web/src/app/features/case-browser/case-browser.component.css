@@ -1,15 +1,27 @@
 .p-dataview .p-dataview-content{
     background: none !important;
 }
-.case-browser-card {
+.loading-card, .case-browser-card {
     background: var(--p-dataview-content-background);
+}
+.case-browser-card {
     border-left: solid 4px var(--p-dataview-header-border-color);
 }
 .case-browser-card:hover {
     border-left: solid 4px var(--p-primary-color);
-    cursor: pointer;
 }
 .p-avatar {
     line-height: 0 !important;
     padding: 1rem;
+}
+p-inputicon.pi.pi-search.p-inputicon {
+    top: 1.2rem !important; 
+}
+app-case-browser-item {
+    display: block !important;
+    width: fit-content !important;
+    margin: auto !important;
+}
+.diagnosis-text {
+    color: light-dark(var(--p-primary-950), var(--p-primary-50));
 }

@@ -121,7 +121,7 @@ export class CaseManagerPanelComponent implements OnInit {
                 this.refreshEntries()
                 this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
             },
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error loading case', detail: error.message })
+            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.message })
         })
     }
 }

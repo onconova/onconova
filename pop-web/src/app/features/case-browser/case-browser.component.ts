@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
@@ -37,6 +38,7 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
     ButtonModule,
     DataViewModule,
     SkeletonModule,
+    DividerModule,
   ],
 })
 
@@ -51,35 +53,30 @@ export class CaseBrowserComponent implements OnInit {
   @Input() public manager: string | undefined;
 
   // Pagination settings
-  public pageSizeChoices: number[] = [10, 25, 50, 100];
+  public pageSizeChoices: number[] = [15, 30, 45, 60];
   public pageSize: number = this.pageSizeChoices[0];
   public totalCases: number = 0;
+  public currentOffset: number = 0;
+  public loadingCases: boolean = true;
+  public searchQuery: string = "";
 
   // Observables
   public cases$!: Observable<PatientCase[]> 
 
-/**
- * Initializes the component by refreshing the list of patient cases.
- */
   ngOnInit() {
     this.refreshCases();
   }
 
-/**
- * Refreshes the list of patient cases.
- *
- * This method fetches patient cases from the PatientCaseService and updates
- * the `cases$` observable with the resulting list of cases. It maps the
- * paginated response to extract the case items and handles any errors that
- * occur during the fetch process by displaying an error message using the
- * MessageService.
- */
   refreshCases() {
-    console.log('this.filterByUsername',this.manager)
+    this.loadingCases=true;
     this.cases$ = this.patientCasesService
-    .getPatientCases(undefined, undefined, undefined, this.manager)
+    .getPatientCases(undefined, undefined, this.searchQuery, this.manager, undefined, undefined, undefined, this.pageSize, this.currentOffset)
     .pipe(
-      map(page => page.items),
+      map(page => {
+        this.loadingCases=false;
+        this.totalCases = page.count;
+        return page.items
+      }),
       first(),
       catchError(error => {
         // Report any problems
@@ -89,17 +86,25 @@ export class CaseBrowserComponent implements OnInit {
     )
    }
 
-
-  /**
-   * Opens a modal form for creating a new patient case.
-   *
-   * When the user clicks the "New Case" button, this method is called. It
-   * opens a modal form using the ModalFormService, passing in the
-   * PatientFormComponent as the form component to display, and an empty
-   * object as the data to pass to the form.
-   */
+   setPaginationAndRefresh(event: any) {
+      this.currentOffset = event.first;
+      this.pageSize = event.rows;
+      this.refreshCases()
+   }
+   
   openNewCaseForm() {    
     this.modalFormService.open(PatientFormComponent, { /* optional data */ });
   }
+
+
+  deleteCase(id: string) {
+    this.patientCasesService.deletePatientCaseById(id).pipe(first()).subscribe({
+        complete: () => {
+            this.refreshCases()
+            this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
+        },
+        error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.message })
+    })
+}
 
 }

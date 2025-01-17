@@ -12,14 +12,3 @@
     font-size: .9rem;
     font-weight: bold;
 }
-.delete-action div,
-.delete-action span{
-    color: var(--p-button-outlined-danger-color) !important;
-}
-.delete-action:hover div,
-.delete-action:hover span{
-    color: var(--p-button-outlined-danger-color) !important;
-}
-.delete-action:hover div{
-    background-color: var(--p-button-outlined-danger-active-background)  !important;
-}

@@ -1,72 +1,114 @@
 
-<div 
-    class="case-browser-card card flex flex-column sm:flex-row sm:align-items-center p-3 gap-3 mb-3" 
-    [routerLink]="['/cases/management', case.pseudoidentifier]" 
-    target="_blank">
+<div class="case-browser-card card flex-column flex-grow-0 p-3 gap-3 mb-3" style="width: 30rem;">
     
-    <!-- Identicon -->
-    <p-avatar size="xlarge" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
-        <svg class="jdenticon" width="4rem" height="4rem" [data-jdenticon-value]="[case.pseudoidentifier]"></svg>
-    </p-avatar>
+    <div class="flex gap-3">
+        <!-- Identicon -->
+        <p-avatar size="xlarge" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
+            <svg class="jdenticon" width="4rem" height="4rem" [data-jdenticon-value]="[case.pseudoidentifier]"></svg>
+        </p-avatar>
 
-    <div class="flex flex-column" style="width: 13%">
-        <div class="text-xl mb-1 font-bold" style="font-family: monospace;">{{case.pseudoidentifier}}</div>
-        <div >
-            {{ case.gender.display }}, {{case.age}} years <span *ngIf="case.isDeceased">, †</span>
+        <div class="flex flex-column my-auto monospace" style="width: 75%">
+            <div class="text-xl font-bold" style="font-family: monospace;">{{case.pseudoidentifier}}</div>
+            <div class="text-muted font-medium">
+                {{ case.gender.display }}, {{case.age}} years<span *ngIf="case.isDeceased">, †</span>
+            </div>
         </div>
+
+        <p-knob 
+            [ngModel]="completionProgress" 
+            [readonly]="true" 
+            valueTemplate="{value}%"
+            [size]="60"/>
+
     </div>
 
-    <p-divider layout="vertical" />
+    <p-divider layout="horizontal" />
 
-    <div class="flex flex-column" style="width: 25%">
-        <ng-container *ngIf="primaryEntity$ | async as primaryEntity; else pending">
-            <div class="flex gap-2">
+    <div class="flex flex-column mb-3 diagnosis-text">
+        @let primaryEntity = primaryEntity$ | async;
+        <small class="text-muted mb-1">Diagnosis</small>
+        <ng-container *ngIf="!loadingDiagnosis else diagnosisSkeleton">
+            <div *ngIf="primaryEntity" class="flex gap-2">
                 <cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></cancer-icon>
-                <div class="my-auto">{{ primaryEntity.description }}</div>
+                <div class="diagnosis-text my-auto">{{ primaryEntity.description }}</div>
+            </div>
+            <div *ngIf="!primaryEntity"> 
+                <div class="diagnosis-text">-</div>
             </div>
         </ng-container>
-        <ng-template #pending>
-            <div>Diagnosis pending</div>
-            <div>No further information available</div>
+        <ng-template #diagnosisSkeleton>
+            <p-skeleton [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
         </ng-template>
     </div>
 
-    <p-divider layout="vertical"/>
+    <div class="flex gap-4">
+        <div class="flex flex-column mb-3 diagnosis-text">
+            @let latestStaging = latestStaging$ | async;
+            <small class="text-muted mb-1">Staging</small>
+            <ng-container *ngIf="!loadingStaging else stagingSkeleton">
+                <div *ngIf="latestStaging">
+                    <div class="diagnosis-text my-auto">{{ latestStaging.description }}</div>
+                </div>
+                <div *ngIf="!latestStaging"> 
+                    <div class="diagnosis-text">-</div>
+                </div>
+            </ng-container>
+            <ng-template #stagingSkeleton>
+                <p-skeleton [style]="{ width: '10rem', height: '1rem' }"></p-skeleton>      
+            </ng-template>
+        </div>
 
-    <div class="flex flex-column text-center gap-3" >
-        Created
-        <div class="">{{ case.createdAt | date }}</div>
+        <div class="flex flex-column mb-3 diagnosis-text">
+            @let latestTherapyLine = latestTherapyLine$ | async;
+            <small class="text-muted mb-1">Therapy Line</small>
+            <ng-container *ngIf="!loadingStaging else therapyLineSkeleton">
+                <div *ngIf="latestTherapyLine">
+                    <div class="diagnosis-text my-auto">{{ latestTherapyLine }}</div>
+                </div>
+                <div *ngIf="!latestTherapyLine"> 
+                    <div class="diagnosis-text">-</div>
+                </div>
+            </ng-container>
+            <ng-template #therapyLineSkeleton>
+                <p-skeleton [style]="{ width: '10rem', height: '1rem' }"></p-skeleton>      
+            </ng-template>
+        </div>
     </div>
-    <div class="flex flex-column text-center gap-2" *ngIf="this.case.createdById" >
-        Manager
-        <ng-container *ngIf="createdByUsername$ | async as username">
-            <p-avatar 
-                label="{{ username[0].toUpperCase() }}" 
-                size="normal" 
-                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                title="{{ username }}" 
-                shape="circle"/>
-        </ng-container>
-    </div>
-    <div class="flex flex-column text-center gap-2"> 
-        Contributors
-        <p-avatarGroup styleClass="my-auto">
-            <ng-container *ngFor="let username$ of updatedByUsernames$;">
-                <ng-container *ngIf="username$ | async as username">
-                    <p-avatar 
-                    label="{{ username[0].toUpperCase() }}" 
+
+
+
+    <div class="flex gap-5">
+
+        <div class="flex flex-column align-items-center	gap-1" *ngIf="this.case.createdById" >
+            <small class="text-muted">Manager</small>
+            <ng-container *ngIf="createdByUsername$ | async as username">
+                <p-avatar 
+                    label="{{ username[0].toUpperCase() }}{{ username[1].toUpperCase() }}" 
                     size="normal" 
-                    shape="circle"
+                    class="manager-avatar"
                     [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
                     title="{{ username }}" 
-                    />
-                </ng-container>
+                    shape="circle"/>
             </ng-container>
-            <p-avatar *ngIf="case.updatedByIds && case.updatedByIds.length > 2"
-                label="+2" 
-                shape="circle"
-                size="normal" 
-                [style]="{ 'background-color': 'grey', color: '#ffffff' }" />
-        </p-avatarGroup> 
+        </div>
+
+        <div class="flex-column align-items-center text-muted my-auto">
+            <div>
+                <small>Created</small>
+            </div>
+            <div class="text-center">
+                <small class="font-semibold">{{ case.createdAt | date:'MMM dd' }}</small>
+            </div> 
+            <div class="text-center">
+                <small class="font-semibold">{{ case.createdAt | date:'yyyy' }}</small>
+            </div> 
+        </div>
+
+        <p-confirmdialog />
+        <p-splitbutton
+            label="Open case management"
+            class="mt-auto"
+            dropdownIcon="pi pi-cog" [model]="actionItems"
+            (onClick)="openCaseManagement()" />
     </div>
 </div>

@@ -1,45 +1,79 @@
-<div class="flex mb-5">
-    <!-- Button to add new cases -->
-    <p-button (onClick)="openNewCaseForm()" label="New case" class="ml-3 ml-auto"></p-button>
+<div class="flex">
+    <h1 class="mb-0">{{ manager ? 'My Cases' : 'Case Search'}}</h1>
 </div>
 
 
 <!-- use ngTemplateOutlet to conditionally render templates -->
-<ng-container *ngIf="cases$ | async as cases; else loading">
-    <div class="my-3 ml-3">
-        <span class="font-bold">{{cases.length}}</span> matching cases found
+    <div class="flex">
+ 
+        <div class="my-auto ml-3">
+            <span class="font-bold text-2xl">{{totalCases}}</span> <span class="ml-2 ">(Patient cases)</span>
+        </div>        
+        <div class="flex ml-auto">
+    
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery" (ngModelChange)="refreshCases()" />
+            </p-iconfield>
+            <!-- Button to add new cases -->
+            <p-button 
+                (onClick)="openNewCaseForm()" 
+                label="New case" 
+                class="ml-3"
+                icon="pi pi-plus"/>
+        </div>
     </div>
+    
+    <p-divider></p-divider>
+    
+
+    <!-- Skeleton loader -->
+    <ng-container *ngIf="loadingCases">
+        <div class="grid gap-5 mt-5">
+            <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
+                <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
+                    <div class="flex my-3">
+                        <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
+                        <div class="flex flex-column mx-3">
+                            <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
+                            <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-4">
+                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                    </div>
+                    <div class="my-3 mb-5">
+                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                    </div>
+                    <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    @let cases = cases$ | async;
     <p-dataView 
-        [value]="cases"
+        [value]="cases || undefined"
         [paginator]="true" 
         [rows]="pageSize" 
+        layout="grid"
+        sortField="createdAt"
+        lazy="true"
         [rowsPerPageOptions]="pageSizeChoices"
         [totalRecords]="totalCases"
-        class="no-background"
-    >
-        <ng-template #list let-cases>
-            <div class="grid grid-nogutter">
-                <div class="col-12" *ngFor="let case of cases; let first = first" class="col-12">
-                    <app-case-browser-item [case]="case"></app-case-browser-item>
+        (onLazyLoad)="setPaginationAndRefresh($event)"
+        class="no-background">
+
+        <ng-template #grid let-cases>
+            <div class="grid ">
+                <div class="col p-2"*ngFor="let case of cases; let first = first" >
+                    <app-case-browser-item 
+                    [case]="case"
+                    (delete)="deleteCase($event)"/>
                 </div>
             </div>
         </ng-template>
     </p-dataView>
-</ng-container>
 
-<!-- Skeleton loader -->
-<ng-template #loading>
-    <div>
-        <ng-container *ngFor="let _ of [].constructor(20); let first=first">
-            <div class="flex flex-row  p-4 gap-3" [ngClass]="{ 'border-top-1 surface-border': !first }">
-                <p-skeleton [style]="{ width: '4rem', height: '4rem'}"></p-skeleton>
-                <div class="flex flex-column">
-                    <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1rem'}"></p-skeleton>    
-                    <p-skeleton [style]="{ width: '20rem', height: '1rem' }"></p-skeleton>      
-                </div>
-            </div>
-        </ng-container>
-    </div>
-</ng-template>
 
 <app-dynamic-modal-form (saveEvent)="refreshCases()"></app-dynamic-modal-form>

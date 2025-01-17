@@ -51,7 +51,7 @@ class PatientCaseController(ControllerBase):
         for (lookup,value) in query:
             if value is not None:
                 queryset = queryset.filter(**{lookup: value})
-        return [PatientCaseSchema.model_validate(instance) for instance in queryset]
+        return queryset
 
     @route.post(
         path='/', 
