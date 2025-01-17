@@ -60,11 +60,6 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
     created_by =  factory.SubFactory(UserFactory)
 
-    @factory.post_generation
-    def updated_by(self, create, extracted, **kwargs):
-        if not create:
-            return
-        self.updated_by.add(self.created_by)
 
 
 class PrimaryNeoplasticEntityFactory(factory.django.DjangoModelFactory):
