@@ -67,7 +67,7 @@
         <ng-template #grid let-cases>
             <div class="grid ">
                 <div class="col p-2"*ngFor="let case of cases; let first = first" >
-                    <app-case-browser-item 
+                    <app-case-search-item 
                     [case]="case"
                     (delete)="deleteCase($event)"/>
                 </div>

@@ -1,13 +1,13 @@
 .p-dataview .p-dataview-content{
     background: none !important;
 }
-.loading-card, .case-browser-card {
+.loading-card, .case-search-card {
     background: var(--p-dataview-content-background);
 }
-.case-browser-card {
+.case-search-card {
     border-left: solid 4px var(--p-dataview-header-border-color);
 }
-.case-browser-card:hover {
+.case-search-card:hover {
     border-left: solid 4px var(--p-primary-color);
 }
 .p-avatar {
@@ -17,7 +17,7 @@
 p-inputicon.pi.pi-search.p-inputicon {
     top: 1.2rem !important; 
 }
-app-case-browser-item {
+app-case-search-item {
     display: block !important;
     width: fit-content !important;
     margin: auto !important;

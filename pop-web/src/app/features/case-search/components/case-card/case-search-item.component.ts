@@ -23,8 +23,8 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 
 @Component({
     standalone: true,
-    selector: 'app-case-browser-item',
-    templateUrl: './case-browser-item.component.html',
+    selector: 'app-case-search-item',
+    templateUrl: './case-search-item.component.html',
     styles: `
         .manager-avatar.p-avatar {
             color: var(--p-primary-500) !important;

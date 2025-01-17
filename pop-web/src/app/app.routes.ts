@@ -16,8 +16,8 @@ export const routes: Routes = [
             { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'cases', 
                 children: [
-                    { path: 'search', loadComponent: () => import('./features/case-browser/case-browser.component').then(m => m.CaseBrowserComponent) },
-                    { path: 'search/:manager', loadComponent: () => import('./features/case-browser/case-browser.component').then(m => m.CaseBrowserComponent) },
+                    { path: 'search', loadComponent: () => import('./features/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
+                    { path: 'search/:manager', loadComponent: () => import('./features/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
                     { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/case-manager/case-manager.component').then(m => m.CaseManagerComponent) }
                 ]
             },

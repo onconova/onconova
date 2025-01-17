@@ -15,7 +15,7 @@ import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
-import { CaseBrowserCardComponent } from './components/case-card/case-browser-item.component';
+import { CaseBrowserCardComponent } from './components/case-card/case-search-item.component';
 import { PatientFormComponent } from 'src/app/core/forms';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
@@ -23,8 +23,8 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
 
 @Component({
   standalone: true,
-  templateUrl: './case-browser.component.html',
-  styleUrl: './case-browser.component.css',
+  templateUrl: './case-search.component.html',
+  styleUrl: './case-search.component.css',
   encapsulation: ViewEncapsulation.None,
   imports: [
     CaseBrowserCardComponent,
