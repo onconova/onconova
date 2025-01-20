@@ -17,11 +17,34 @@
     </div>
 
     <p-divider />
-
-    <div *ngFor="let property of properties">
-        <div class="property">
+    <div *ngFor="let property of data | getObjectProperties;">
+        <div *ngIf="property" class="property">
             <small class="property-label">{{ property.label | titlecase }}</small>
-            <div>{{ property.value }}</div> 
+
+            <ng-container *ngIf="isCodeableConcept(property.value)">
+                <p-tree 
+                    [value]="property.value | getConceptTree"/>
+            </ng-container>
+
+            <ng-container *ngIf="isArray(property.value) && isObject(property.value[0])">
+
+                <ng-container *ngFor="let propertyObject of property.value">
+                    <div class="ml-3" *ngFor="let subproperty of propertyObject | getObjectProperties;">  
+                        <small class="property-label">{{ subproperty?.label | titlecase }}</small>
+                        <ng-container *ngIf="!isCodeableConcept(subproperty?.value)">
+                            <div>{{ subproperty?.value  }}</div> 
+                        </ng-container>
+                        <ng-container *ngIf="isCodeableConcept(subproperty?.value)">
+                            <p-tree 
+                                [value]="subproperty?.value | getConceptTree"/>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="!isCodeableConcept(property.value) && !isArray(property.value) && !isObject(property.value[0])">
+                <div>{{ property.value }}</div> 
+            </ng-container>
         </div>
     </div>
 

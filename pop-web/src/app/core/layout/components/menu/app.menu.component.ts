@@ -1,8 +1,10 @@
 import { OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Location, LocationStrategy } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
+import { BASE_PATH } from 'src/app/shared/openapi';
 import { AppMenuitemComponent } from './components/menuitem/app.menuitem.component';
 
 @Component({
@@ -18,6 +20,7 @@ export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
     private readonly authService: AuthService = inject(AuthService);
+    private readonly location: Location = inject(Location);
 
     ngOnInit() {
         this.model = [
@@ -38,16 +41,16 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Cohort Analysis',
                 items: [
-                    { label: 'Cohort Builder', icon: 'pi pi-fw pi-hammer', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Cohort Analysis', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Cohort Extraction', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Cohort Builder', icon: 'pi pi-fw pi-hammer', routerLink: ['/notfound'] },
+                    { label: 'Cohort Analysis', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/notfound'] },
+                    { label: 'Cohort Extraction', icon: 'pi pi-fw pi-table', routerLink: ['/notfound'] },
                 ]
             },
             {
                 label: 'Others',
                 items: [
-                    { label: 'Terminology', icon: 'pi pi-fw pi-book', routerLink: ['/uikit/formlayout'] },
-                    { label: 'API Docs', icon: 'pi pi-fw pi-code', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Terminology', icon: 'pi pi-fw pi-book', routerLink: ['/notfound'] },
+                    { label: 'API Docs', icon: 'pi pi-fw pi-code', url: `https://localhost:4443/api/docs#/` },
                 ]
             }
         ];

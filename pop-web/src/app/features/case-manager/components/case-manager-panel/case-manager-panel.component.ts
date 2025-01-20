@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef  } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef,ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, first, of, map, startWith} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,6 +30,7 @@ import { compileClassDebugInfo } from '@angular/compiler';
     templateUrl: './case-manager-panel.component.html',
     styleUrl: './case-manager-panel.component.css',
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CaseManagerDrawerComponent,
         CommonModule,

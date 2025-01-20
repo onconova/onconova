@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ViewEncapsulation, inject  } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewEncapsulation, inject, ChangeDetectionStrategy, Pipe,PipeTransform  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DrawerModule } from 'primeng/drawer';
@@ -9,14 +9,65 @@ import { SplitButton } from 'primeng/splitbutton';
 import { MenuItem } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { Tree } from 'primeng/tree';
 
-import { AuthService } from 'src/app/shared/openapi';
+import { AuthService, CodedConceptSchema } from 'src/app/shared/openapi';
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 
 import { map, first, Observable, share } from 'rxjs';
 
+
+@Pipe({
+    standalone: true,
+    name: 'getConceptTree'
+  })
+export class GetConceptTreePipe implements PipeTransform {
+  
+    transform(concept: CodedConceptSchema) {
+        let nodes =  [{
+            key: '0',
+            label: concept.display,
+            children: [
+                { key: '0-0', label: 'Code', icon: 'pi pi-qr-code', children:[
+                    { key: '0-0-0', label: concept.code, style: 'font-family: monospace; font-size: .8rem'}
+                ]},
+                { key: '0-1', label: 'Code System', icon: 'pi pi-link', children:[
+                    { key: '0-1-0', label: concept.system, style: 'font-family: monospace; font-size: .8rem'}
+                ]},
+                { key: '0-2', label: `Synonyms`, icon: 'pi pi-language', children: concept.synonyms?.map((synonym, index) => (
+                    {key: `0-2-${index}`, label: synonym}
+                ))},
+            ]
+        }]
+        return nodes
+    }
+}
+
+
+@Pipe({
+    standalone: true,
+    name: 'getObjectProperties'
+  })
+export class getObjectPropertiesPipe implements PipeTransform {
+  
+    transform(object: object) {
+        return Object.entries(object).map(
+            (pair) => {
+                let key = pair[0]
+                let value = pair[1] 
+                if (!value || ['caseId', 'createdById', 'updatedByIds', 'id', 'createdAt', 'updatedAt', 'description'].includes(key)) {
+                    return null
+                }
+                return {
+                    label: key.replace(/([A-Z])/g, " $1"),
+                    value: value
+                }
+            }
+        )
+    }
+}
 
 @Component({
     standalone: true,
@@ -27,6 +78,7 @@ import { map, first, Observable, share } from 'rxjs';
     providers: [
         ConfirmationService,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CommonModule,
         LucideAngularModule,
@@ -34,6 +86,9 @@ import { map, first, Observable, share } from 'rxjs';
         AvatarModule,
         DividerModule,
         Button,
+        GetConceptTreePipe,
+        getObjectPropertiesPipe,
+        Tree,
         SplitButton,
         ConfirmDialog,
     ]
@@ -54,6 +109,10 @@ export class CaseManagerDrawerComponent {
     public createdBy$!: Observable<string>
     public lastUpdatedBy$!: Observable<string>
 
+    public readonly isCodeableConcept = (value: CodedConceptSchema): value is CodedConceptSchema => !!value?.code;
+    public readonly isObject = (x: any) => typeof x === 'object' && !Array.isArray(x) && x !== null
+    public readonly isArray = (x: any) => x instanceof Array
+
     public actionItems: MenuItem[] =  [
         {
             label: 'Delete',
@@ -72,28 +131,12 @@ export class CaseManagerDrawerComponent {
         },
     ]
 
+
     prepareDisplayData() {
         this.createdBy$ = this.userService.getUserById(this.data.createdById).pipe(map(user => user.username), first())
         this.lastUpdatedBy$ = this.userService.getUserById(this.data.updatedByIds[this.data.updatedByIds.length-1]).pipe(map(user => user.username), first())
-        this.properties = []
-        Object.entries(this.data).forEach(
-            (pair) => {
-                let key = pair[0]
-                let value = pair[1] 
-                if (!value || ['caseId', 'createdById', 'updatedByIds', 'id', 'createdAt', 'updatedAt', 'description'].includes(key)) {
-                    return
-                }
-                if (value instanceof Object && 'display' in value) {
-                    value = value['display'];
-                }
-                console.log(key, value)
-                this.properties.push({
-                    label: key.replace(/([A-Z])/g, " $1"),
-                    value: value
-                })
-            }
-        )
     }
+
 
 
     confirmDelete(event: any) {
@@ -121,6 +164,8 @@ export class CaseManagerDrawerComponent {
             }
         });
     }
+
+
 
 
 }

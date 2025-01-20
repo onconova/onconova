@@ -12,3 +12,8 @@
     font-size: .9rem;
     font-weight: bold;
 }
+.p-tree-root {
+    margin-left: -2rem;
+    margin-top: -1rem;
+    margin-bottom: -1rem;
+}

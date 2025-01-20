@@ -1,0 +1,9 @@
+
+
+.illustration {
+    color: var(--p-primary-color);
+    width: 30rem;
+}
+.illustration .shadows {
+   color: red !important; 
+}
