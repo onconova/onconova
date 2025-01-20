@@ -79,8 +79,8 @@ export class CaseManagerPanelComponent implements OnInit {
             this.menuItems$ = this.patienCaseService.getPatientCaseDataCompletionStatus(this.caseId, this.category).pipe(
                 map((completed: PatientCaseDataCompletionStatusSchema) => {
                     this.completed = completed.status;
-                    this.completedBy = completed.username;
-                    this.completedAt = completed.timestamp;
+                    this.completedBy = completed.username as string;
+                    this.completedAt = completed.timestamp as string;
                     return this.getMenuItems(this.completed)
                 }),
                 startWith(this.getMenuItems(false))

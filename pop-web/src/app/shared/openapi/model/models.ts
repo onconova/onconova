@@ -72,6 +72,8 @@ export * from './paginated-systemic-therapy-schema';
 export * from './paginated-tumor-marker';
 export * from './paginated-vitals-schema';
 export * from './patient-case';
+export * from './patient-case-bundle';
+export * from './patient-case-bundle-create';
 export * from './patient-case-create';
 export * from './patient-case-data-categories';
 export * from './patient-case-data-completion-status-schema';

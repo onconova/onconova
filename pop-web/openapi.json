@@ -299,6 +299,43 @@
         ]
       }
     },
+    "/api/patient-cases/bundle": {
+      "post": {
+        "operationId": "createPatientCaseBundleById",
+        "summary": "Create Patient Case Bundle",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientCaseBundleCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/patient-cases/{caseId}/data-completion/{category}": {
       "post": {
         "operationId": "createPatientCaseDataCompletion",
@@ -594,6 +631,43 @@
           },
           "required": true
         },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/patient-cases/bundle/{caseId}": {
+      "get": {
+        "operationId": "getPatientCaseBundleById",
+        "summary": "Get Patient Case Bundle By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientCaseBundle"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
         "security": [
           {
             "JWTAuth": []
@@ -5385,57 +5459,6 @@
         "title": "PatientCase",
         "type": "object"
       },
-      "PatientCaseDataCategories": {
-        "enum": [
-          "comorbidities-assessments",
-          "family-histories",
-          "genomic-signatures",
-          "genomic-variants",
-          "lifestyles",
-          "comorbidities",
-          "neoplastic-entities",
-          "performance-status",
-          "radiotherapies",
-          "risk-assessments",
-          "stagings",
-          "surgeries",
-          "systemic-therapies",
-          "tumor-markers",
-          "vitals",
-          "tumor-board-reviews",
-          "adverse-events",
-          "therapy-responses"
-        ],
-        "title": "PatientCaseDataCategories",
-        "type": "string"
-      },
-      "PatientCaseDataCompletionStatusSchema": {
-        "properties": {
-          "status": {
-            "description": "Boolean indicating whether the data category has been marked as completed",
-            "title": "Status",
-            "type": "boolean"
-          },
-          "username": {
-            "description": "Username of the person who marked the category as completed",
-            "title": "Username",
-            "type": "string"
-          },
-          "timestamp": {
-            "description": "Username of the person who marked the category as completed",
-            "format": "date-time",
-            "title": "Timestamp",
-            "type": "string"
-          }
-        },
-        "required": [
-          "status",
-          "username",
-          "timestamp"
-        ],
-        "title": "PatientCaseDataCompletionStatusSchema",
-        "type": "object"
-      },
       "NeoplasticEntityCreate": {
         "properties": {
           "caseId": {
@@ -5573,6 +5596,220 @@
         ],
         "title": "NeoplasticEntityRelationshipChoices",
         "type": "string"
+      },
+      "PatientCaseBundleCreate": {
+        "properties": {
+          "neoplasticEntities": {
+            "description": "Neoplastic entities",
+            "items": {
+              "$ref": "#/components/schemas/NeoplasticEntityCreate"
+            },
+            "title": "Neoplasticentities",
+            "type": "array"
+          },
+          "pseudoidentifier": {
+            "description": "Pseudoidentifier of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 40,
+            "one_to_many": false,
+            "orm_name": "pseudoidentifier",
+            "title": "Pseudoidentifier",
+            "type": "string"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Gender for administrative purposes",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender",
+            "terminology": "AdministrativeGender",
+            "title": "Gender"
+          },
+          "race": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Race of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "race",
+            "terminology": "RaceCategory",
+            "title": "Race"
+          },
+          "sexAtBirth": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Sex assigned at birth",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "sex_at_birth",
+            "terminology": "BirthSex",
+            "title": "Birth sex"
+          },
+          "genderIdentity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender_identity",
+            "terminology": "GenderIdentity",
+            "title": "Gender identity"
+          },
+          "dateOfBirth": {
+            "description": "Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_birth",
+            "title": "Date of birth",
+            "type": "string"
+          },
+          "dateOfDeath": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_death",
+            "title": "Date of death"
+          },
+          "causeOfDeath": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the cause of death.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cause_of_death",
+            "terminology": "CauseOfDeath",
+            "title": "Cause of death"
+          }
+        },
+        "required": [
+          "neoplasticEntities",
+          "pseudoidentifier",
+          "gender",
+          "dateOfBirth"
+        ],
+        "title": "PatientCaseBundleCreate",
+        "type": "object"
+      },
+      "PatientCaseDataCategories": {
+        "enum": [
+          "comorbidities-assessments",
+          "family-histories",
+          "genomic-signatures",
+          "genomic-variants",
+          "lifestyles",
+          "comorbidities",
+          "neoplastic-entities",
+          "performance-status",
+          "radiotherapies",
+          "risk-assessments",
+          "stagings",
+          "surgeries",
+          "systemic-therapies",
+          "tumor-markers",
+          "vitals",
+          "tumor-board-reviews",
+          "adverse-events",
+          "therapy-responses"
+        ],
+        "title": "PatientCaseDataCategories",
+        "type": "string"
+      },
+      "PatientCaseDataCompletionStatusSchema": {
+        "properties": {
+          "status": {
+            "description": "Boolean indicating whether the data category has been marked as completed",
+            "title": "Status",
+            "type": "boolean"
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Username of the person who marked the category as completed",
+            "title": "Username"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Username of the person who marked the category as completed",
+            "title": "Timestamp"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "PatientCaseDataCompletionStatusSchema",
+        "type": "object"
       },
       "NeoplasticEntity": {
         "properties": {
@@ -5778,6 +6015,247 @@
           "morphology"
         ],
         "title": "NeoplasticEntity",
+        "type": "object"
+      },
+      "PatientCaseBundle": {
+        "properties": {
+          "age": {
+            "description": "Approximate age of the patient in years",
+            "title": "Age",
+            "type": "integer"
+          },
+          "neoplasticEntities": {
+            "description": "Neoplastic entities",
+            "items": {
+              "$ref": "#/components/schemas/NeoplasticEntity"
+            },
+            "title": "Neoplasticentities",
+            "type": "array"
+          },
+          "id": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 64,
+            "one_to_many": false,
+            "orm_name": "id",
+            "title": "Id",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_at",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "format": "date-time",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "updated_at",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "createdById": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The user who created the original data",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "created_by",
+            "title": "Created By"
+          },
+          "pseudoidentifier": {
+            "description": "Pseudoidentifier of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "maxLength": 40,
+            "one_to_many": false,
+            "orm_name": "pseudoidentifier",
+            "title": "Pseudoidentifier",
+            "type": "string"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/CodedConceptSchema",
+            "description": "Gender for administrative purposes",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender",
+            "terminology": "AdministrativeGender",
+            "title": "Gender"
+          },
+          "race": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Race of the patient",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "race",
+            "terminology": "RaceCategory",
+            "title": "Race"
+          },
+          "sexAtBirth": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Sex assigned at birth",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "sex_at_birth",
+            "terminology": "BirthSex",
+            "title": "Birth sex"
+          },
+          "genderIdentity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "gender_identity",
+            "terminology": "GenderIdentity",
+            "title": "Gender identity"
+          },
+          "dateOfBirth": {
+            "description": "Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
+            "examples": [],
+            "expanded": null,
+            "format": "date",
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_birth",
+            "title": "Date of birth",
+            "type": "string"
+          },
+          "isDeceased": {
+            "description": "Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "is_deceased",
+            "title": "Is deceased",
+            "type": "boolean"
+          },
+          "dateOfDeath": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": false,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "date_of_death",
+            "title": "Date of death"
+          },
+          "causeOfDeath": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConceptSchema"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Classification of the cause of death.",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "many_to_many": false,
+            "one_to_many": false,
+            "orm_name": "cause_of_death",
+            "terminology": "CauseOfDeath",
+            "title": "Cause of death"
+          },
+          "updatedByIds": {
+            "default": [],
+            "description": "The user(s) who updated the data since its creation",
+            "examples": [],
+            "expanded": null,
+            "is_relation": true,
+            "items": {
+              "type": "integer"
+            },
+            "many_to_many": true,
+            "one_to_many": false,
+            "orm_name": "updated_by",
+            "title": "Updated By",
+            "type": "array"
+          }
+        },
+        "required": [
+          "age",
+          "neoplasticEntities",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "pseudoidentifier",
+          "gender",
+          "dateOfBirth",
+          "isDeceased"
+        ],
+        "title": "PatientCaseBundle",
         "type": "object"
       },
       "Paginated_NeoplasticEntity_": {

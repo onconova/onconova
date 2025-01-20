@@ -1,9 +1,15 @@
+@let case = case$ | async;
 
 <div class="mb-3">
     <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
+    <p-button
+        label="Export case"
+        [style]="{'float': 'right'}"
+        [disabled]="!case"
+        icon="pi pi-file-export"
+        (click)="downloadCaseBundle(case?.id || '')"/>
 </div>
 
-@let case = case$ | async;
 <!-- Case summary -->
 <div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
     <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', padding: '0', 'margin': 'auto 0'}" >

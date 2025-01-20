@@ -18,7 +18,8 @@ export const routes: Routes = [
                 children: [
                     { path: 'search', loadComponent: () => import('./features/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
                     { path: 'search/:manager', loadComponent: () => import('./features/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
-                    { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/case-manager/case-manager.component').then(m => m.CaseManagerComponent) }
+                    { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/case-manager/case-manager.component').then(m => m.CaseManagerComponent) },
+                    { path: 'import', loadComponent: () => import('./features/case-importer/case-importer.component').then(m => m.CaseImporterComponent) },
                 ]
             },
         ]

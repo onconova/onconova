@@ -1,0 +1,116 @@
+
+<h1>Case Import Interface</h1>
+
+<p class="w-50">
+Import cases quickly and easily with our intuitive interface. Simply select the file you want to import,
+choose your options, and let the system do the rest. Track the progress of your import and get notified when it's complete.
+</p>
+
+<div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color)">
+    <p-stepper [value]="1">
+        <p-step-item [value]="1">
+            <p-step>Select the import data format</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+                        <div class="flex flex-column gap-2">
+                            <h6 class="text-muted font-semibold mb-1">POP JSON Format</h6> 
+                            <p>
+                                Select this option if you have a file in our internal POP JSON format. This format is specific to our system and is used for
+                                 storing and processing cases. If you've exported cases from our system previously, they'll be in POP JSON format. You can
+                                import these files directly into the system without needing to convert them.
+                            </p>
+                            <h6 class="text-muted font-semibold my-1">FHIR JSON Format</h6> 
+                            <p>
+                                Select this option if you have a file in FHIR (Fast Healthcare Interoperability Resources) JSON format. 
+                                FHIR is a standardized format for exchanging healthcare data, and using this format ensures that your data is compatible 
+                                with other healthcare systems. If you're importing data from another healthcare system or application, it's likely in FHIR
+                                JSON format.
+                            </p>
+                            <label class="field-label required">Choose a data format</label>
+                            <p-selectbutton 
+                                [options]="importOptions" 
+                                [(ngModel)]="importFormat" 
+                                optionLabel="label" 
+                                optionValue="value" 
+                                aria-labelledby="basic" />
+                        </div>
+                    </div>
+                    <div class="py-4">
+                        <p-button label="Next" (onClick)="activateCallback(2)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="2">
+            <p-step>Upload the file</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-column gap-2">
+                        <label class="field-label required">Select the file to be imported</label>
+
+                        <p-button [label]="importFormat=='pop+json' ? 'Load POP JSON' : 'Load FHIR JSON'" icon="pi pi-upload" (click)="fileInput.click()"/>
+                        <input
+                        type="file"
+                        accept=".json"
+                        #fileInput
+                        style="display: none"
+                        (change)="onFileChange($event);  activateCallback(3);"
+                        />
+                    
+                    </div>
+                    <div class="flex pt-4 justify-between">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="3">
+            <p-step>Review the data</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+
+                        <div>
+                            <p-panel header="Import Content" *ngIf="jsonContent">
+                                <p-tabs value="0">
+                                    <p-tablist>
+                                        <p-tab value="0">Parsed</p-tab>
+                                        <p-tab value="1">JSON</p-tab>
+                                        <p-tab value="2">Raw</p-tab>
+                                    </p-tablist>
+                                    <p-tabpanels>
+                                        <p-tabpanel value="0">
+                                            <p class="m-0">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                                                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                                                anim id est laborum.
+                                            </p>
+                                        </p-tabpanel>
+                                        <p-tabpanel value="1">
+                                            <ngx-json-viewer [json]="jsonContent" [expanded]="false"></ngx-json-viewer>
+                                        </p-tabpanel>
+                                        <p-tabpanel value="2">
+                                            <pre> {{ jsonContent | json }} </pre>
+                                        </p-tabpanel>
+                                    </p-tabpanels>
+                                </p-tabs>
+                            </p-panel>
+                        </div>
+                    </div>
+                    <div class="flex pt-4 justify-start">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                        <p-button label="Import case" icon="pi pi-pi-cloud-upload" iconPos="right" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        
+    </p-stepper>
+</div>

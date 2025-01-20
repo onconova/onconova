@@ -116,6 +116,8 @@ model/paginated-surgery.ts
 model/paginated-systemic-therapy-schema.ts
 model/paginated-tumor-marker.ts
 model/paginated-vitals-schema.ts
+model/patient-case-bundle-create.ts
+model/patient-case-bundle.ts
 model/patient-case-create.ts
 model/patient-case-data-categories.ts
 model/patient-case-data-completion-status-schema.ts

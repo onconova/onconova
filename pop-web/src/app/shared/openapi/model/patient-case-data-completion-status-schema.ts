@@ -14,13 +14,7 @@ export interface PatientCaseDataCompletionStatusSchema {
      * Boolean indicating whether the data category has been marked as completed
      */
     status: boolean;
-    /**
-     * Username of the person who marked the category as completed
-     */
-    username: string;
-    /**
-     * Username of the person who marked the category as completed
-     */
-    timestamp: string;
+    username?: string | null;
+    timestamp?: string | null;
 }
 

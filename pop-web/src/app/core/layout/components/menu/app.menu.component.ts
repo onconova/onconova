@@ -32,7 +32,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Search Cases', icon: 'pi pi-fw pi-search', routerLink: ['/cases/search'] },
                     { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/cases/search/', this.authService.getUsername()] },
-                    { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/cases/import'] },
                 ]
             },
             {

@@ -13,6 +13,8 @@ import { Observable }                                        from 'rxjs';
 
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
+import { PatientCaseBundle } from '../model/models';
+import { PatientCaseBundleCreate } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
 import { PatientCaseDataCompletionStatusSchema } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
@@ -32,6 +34,13 @@ export interface PatientCasesServiceInterface {
      * @param patientCaseCreate 
      */
     createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+
+    /**
+     * Create Patient Case Bundle
+     * 
+     * @param patientCaseBundleCreate 
+     */
+    createPatientCaseBundleById(patientCaseBundleCreate: PatientCaseBundleCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
      * Create Patient Case Data Completion
@@ -55,6 +64,13 @@ export interface PatientCasesServiceInterface {
      * @param category 
      */
     deletePatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Get Patient Case Bundle By Id
+     * 
+     * @param caseId 
+     */
+    getPatientCaseBundleById(caseId: string, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
 
     /**
      * Get Patient Case By Id

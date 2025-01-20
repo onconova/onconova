@@ -26,7 +26,7 @@ export class CancerIconComponent {
         'colon.svg': ['C18', 'C19', 'C20',],
         'anus.svg': ['C21', 'C48'],
         'liver.svg': ['C22',],
-        'ballbladder.svg': ['C23',],
+        'gallbladder.svg': ['C23',],
         'pancreas.svg': ['C25',],
         'lungs.svg': ['C37', 'C33', 'C34', 'C39'],
         'ears_nose_and_throat.svg': ['C30', 'C31', 'C32'],

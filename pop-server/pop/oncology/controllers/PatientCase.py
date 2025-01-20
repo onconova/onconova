@@ -12,7 +12,11 @@ from datetime import date
 
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
-from pop.oncology.schemas import PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionStatusSchema
+from pop.oncology.schemas import (
+    PatientCaseSchema, PatientCaseCreateSchema, 
+    PatientCaseDataCompletionStatusSchema, 
+    PatientCaseBundleSchema, PatientCaseBundleCreateSchema
+)
 
 class GenderEnum(Enum):
     male = 'male'
@@ -152,3 +156,31 @@ class PatientCaseController(ControllerBase):
         instance = get_object_or_404(PatientCaseDataCompletion, case__id=caseId, category=category)
         instance.delete()
         return 204, None
+
+
+
+    @route.get(
+        path='/bundle/{caseId}', 
+        response={
+            201: PatientCaseBundleSchema,
+        },
+        operation_id='getPatientCaseBundleById',
+    )
+    def get_patient_case_bundle_by_id(self, caseId: str):
+        from pop.oncology.schemas import NeoplasticEntitySchema
+        case = get_object_or_404(PatientCase, id=caseId)
+        response = PatientCaseBundleSchema.model_validate(case)
+        response.neoplasticEntities = [NeoplasticEntitySchema.model_validate(entry) for entry in case.neoplastic_entities.all()],
+        return response 
+
+    @route.post(
+        path='/bundle', 
+        response={
+            201: ResourceIdSchema,
+        },
+        operation_id='createPatientCaseBundleById',
+    )
+    def create_patient_case_bundle(self, payload: PatientCaseBundleCreateSchema):
+        instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
+        return 201, ResourceIdSchema(id=instance.id)
+ 

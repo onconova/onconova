@@ -84,12 +84,13 @@ interface DataService {
         KnobModule,
         Divider,
         SkeletonModule,
-    ]
+    ],
+    providers: [MessageService]
 })
 export class CaseManagerComponent implements OnInit {
 
     // Injected dependencies
-    private caseService: PatientCasesService = inject(PatientCasesService);;
+    private caseService: PatientCasesService = inject(PatientCasesService);
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);
     private tumorMarkersService: TumorMarkersService = inject(TumorMarkersService);
@@ -255,8 +256,23 @@ export class CaseManagerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.case$ = this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier)
+        this.case$ = this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier);
     }
 
+    downloadCaseBundle(caseId: string) {
+        this.caseService.getPatientCaseBundleById(caseId).subscribe({
+            next: (response) => {
+                const blob = new Blob([JSON.stringify(response)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `case-bundle-${caseId}.json`;
+                // a.click();
+                window.open(url, '_blank'); // Use window.open() instead of a.click()
+
+                URL.revokeObjectURL(url);
+              },
+        })
+    }
 
 }
