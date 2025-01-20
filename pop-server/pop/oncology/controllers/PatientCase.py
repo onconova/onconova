@@ -12,7 +12,7 @@ from datetime import date
 
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
-from pop.oncology.schemas import PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionSchema
+from pop.oncology.schemas import PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionStatusSchema
 
 class GenderEnum(Enum):
     male = 'male'
@@ -117,12 +117,17 @@ class PatientCaseController(ControllerBase):
     @route.get(
         path='/{caseId}/data-completion/{category}', 
         response={
-            201: bool,
+            201: PatientCaseDataCompletionStatusSchema,
         },
         operation_id='getPatientCaseDataCompletionStatus',
     )
     def get_patient_case_data_completion_status(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
-        return PatientCaseDataCompletion.objects.filter(case__id=caseId, category=category).exists()
+        category_completion = PatientCaseDataCompletion.objects.filter(case__id=caseId, category=category).first()
+        return PatientCaseDataCompletionStatusSchema(
+                status=category_completion is not None,
+                username=category_completion.created_by.username if category_completion else None,
+                timestamp=category_completion.created_at if category_completion else None,
+        )
         
     @route.post(
         path='/{caseId}/data-completion/{category}', 
@@ -132,7 +137,7 @@ class PatientCaseController(ControllerBase):
         operation_id='createPatientCaseDataCompletion',
     )
     def create_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
-        instance = PatientCaseDataCompletion.objects.create(case=get_object_or_404(PatientCase,id=caseId), category=category)
+        instance = PatientCaseDataCompletion.objects.create(case=get_object_or_404(PatientCase,id=caseId), category=category, created_by=self.context.request.user)
         return 201, ResourceIdSchema(id=instance.id)
     
     @route.delete(

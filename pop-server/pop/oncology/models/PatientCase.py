@@ -242,7 +242,7 @@ class PatientCaseDataCompletion(BaseModel):
 
     @property
     def description(self):
-        return f'Category <{self.category}> for case {self.case.id} marked as completed by {self.createdBy.username} on {self.created_at}'
+        return f'Category <{self.category}> for case {self.case.id} marked as completed by {self.created_by.username} on {self.created_at}'
     
     class Meta:
         constraints = [

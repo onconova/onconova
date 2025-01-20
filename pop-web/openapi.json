@@ -473,8 +473,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "Response",
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/PatientCaseDataCompletionStatusSchema"
                 }
               }
             }
@@ -5409,6 +5408,33 @@
         ],
         "title": "PatientCaseDataCategories",
         "type": "string"
+      },
+      "PatientCaseDataCompletionStatusSchema": {
+        "properties": {
+          "status": {
+            "description": "Boolean indicating whether the data category has been marked as completed",
+            "title": "Status",
+            "type": "boolean"
+          },
+          "username": {
+            "description": "Username of the person who marked the category as completed",
+            "title": "Username",
+            "type": "string"
+          },
+          "timestamp": {
+            "description": "Username of the person who marked the category as completed",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "username",
+          "timestamp"
+        ],
+        "title": "PatientCaseDataCompletionStatusSchema",
+        "type": "object"
       },
       "NeoplasticEntityCreate": {
         "properties": {

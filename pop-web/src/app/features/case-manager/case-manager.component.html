@@ -5,11 +5,11 @@
 
 @let case = case$ | async;
 <!-- Case summary -->
-<div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color); ">
+<div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
     <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', padding: '0', 'margin': 'auto 0'}" >
         <svg class="jdenticon my-auto" [data-jdenticon-value]="pseudoidentifier"></svg>
     </p-avatar>
-    <div class="ml-3 m-auto">
+    <div class="ml-3 my-auto">
         <span class="text-muted">CASE MANAGEMENT</span>
         <h2 class="text-monospace my-0">
             {{ pseudoidentifier }}
@@ -23,20 +23,6 @@
         </div>       
     </div>
     <p-divider layout="vertical"></p-divider>
-    <div class="text-center ml-auto">
-        <small class="text-muted">Data completion</small>
-        <ng-container *ngIf="case">
-            <p-knob 
-            [ngModel]="case.dataCompletionRate" 
-            [readonly]="true" 
-            valueTemplate="{value}%"
-            styleClass="completion-rate-knob"
-            [size]="60"/>    
-        </ng-container>
-        <ng-container *ngIf="!case">
-            <p-skeleton width="4rem" height="4rem" styleClass="mx-auto" />
-        </ng-container>
-    </div> 
 
     <div class="">
         <div class="text-left ml-5">

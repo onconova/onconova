@@ -14,6 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
+import { PatientCaseDataCompletionStatusSchema } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
 
 
@@ -75,7 +76,7 @@ export interface PatientCasesServiceInterface {
      * @param caseId 
      * @param category 
      */
-    getPatientCaseDataCompletionStatus(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<boolean>;
+    getPatientCaseDataCompletionStatus(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<PatientCaseDataCompletionStatusSchema>;
 
     /**
      * Get All Patient Cases Matching The Query

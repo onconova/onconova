@@ -16,17 +16,17 @@
                 {{ title }}
             </span>
             <p-badge [value]="entries.length" [severity]="entries.length ? 'primary' : 'secondary'" />
-            <i *ngIf="complete" class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>
+            <i *ngIf="completed" class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>
         </div>
-
         @let menuItems = menuItems$ | async;
         <span 
             class="pi pi-cog cursor-pointer ml-auto my-auto" 
             style="color: var(--p-button-text-secondary-color)" 
             (click)="menu.toggle($event)"></span>
+        <p-confirmdialog />
         <p-menu #menu 
-            [model]="menuItems || getMenuItems()" 
-            [popup]="true"/>
+        [model]="menuItems || getMenuItems()" 
+        [popup]="true"/>
     </ng-template>
     
 

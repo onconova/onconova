@@ -1,4 +1,4 @@
-from .PatientCase import PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionSchema
+from .PatientCase import PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionStatusSchema
 from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 from .Staging import (
      TNMStagingSchema, TNMStagingCreateSchema,
@@ -45,7 +45,7 @@ from .GenomicSignature import (
 
 __all__ = (
      # PatientCase schemas
-     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionSchema,
+     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionStatusSchema,
      # Neoplastic entity schemas
      NeoplasticEntitySchema, NeoplasticEntityCreateSchema,
      # Staging schemas
