@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from django.db.models.fields import Field as DjangoField
 from django.db.models import CharField
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
 
 
 from ninja.orm.fields import TYPES as BASE_TYPES, title_if_lower, create_m2m_link_type
@@ -68,6 +69,10 @@ def get_schema_field(
         expanded = expand,
     )
     
+    is_array_field = isinstance(field, ArrayField)
+    if is_array_field:
+        field = field.base_field
+
     # Handle relation fields
     if field.is_relation:
         if expand:
@@ -108,7 +113,7 @@ def get_schema_field(
                 default=[]
             else:
                 python_type = related_type
-
+    
     else:
         
         # Handle non-relation fields
@@ -141,6 +146,11 @@ def get_schema_field(
                 default_factory = field.default
             else:
                 default = field.default
+
+    if is_array_field:
+        if not django_field_name.endswith('s'):
+            django_field_name += 's'
+        python_type = List[python_type]
 
     if default_factory:
         default = PydanticUndefined

@@ -1,7 +1,6 @@
 <p-panel 
     [toggleable]="true" 
-    [collapsed]="true" 
-    toggler="header" 
+    [collapsed]="false" 
     collapseIcon="pi pi-angle-down" 
     expandIcon="pi pi-angle-up" 
     styleClass="mb-3">
@@ -17,10 +16,14 @@
                 {{ title }}
             </span>
             <p-badge [value]="entries.length" [severity]="entries.length ? 'primary' : 'secondary'" />
+            <i *ngIf="complete" class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>
         </div>
 
         <span class="pi pi-cog cursor-pointer ml-auto my-auto" style="color: var(--p-button-text-secondary-color)" (click)="menu.toggle($event)"></span>
-        <p-menu #menu id="config_menu" [model]="menuItems" [popup]="true" />
+        @let menuItems = menuItems$ | async;
+        <p-menu #menu 
+            [model]="menuItems || getMenuItems()" 
+            [popup]="true"/>
     </ng-template>
     
 
@@ -32,10 +35,10 @@
             <ng-template pTemplate="content" let-entry>
                 <div (click)="showDrawer(entry)" class="cursor-pointer">
                     <div>
-                        <small class="p-text-secondary">
+                        <small class="text-muted">
                             {{ entry.date || entry.assertionDate | date }}
                         </small>
-                        <small class="p-text-secondary">
+                        <small class="text-muted">
                             {{ entry.period?.start | date }} - {{ entry.period?.end | date }}
                         </small>
                     </div>

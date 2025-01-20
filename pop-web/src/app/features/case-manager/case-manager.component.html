@@ -26,28 +26,32 @@
             [icon]="icons.neoplasticEntities"
             [caseId]="caseId"
             [formComponent]="NeoplasticEntityFormComponent"
-            [service]="neoplasticEntityService"/>
+            [service]="neoplasticEntityService"
+            [category]="PatientCaseDataCategories.NeoplasticEntities"/>
             
         <app-case-manager-panel
             title="Stagings"
             [icon]="icons.stagings"
             [caseId]="caseId"
             [formComponent]="StagingFormComponent"
-            [service]="stagingService"/>
+            [service]="stagingService"
+            [category]="PatientCaseDataCategories.Stagings"/>
 
         <app-case-manager-panel
             title="Risk Assessments"
             [icon]="icons.riskAssessments"
             [caseId]="caseId"
             [formComponent]="RiskAssessmentFormComponent"
-            [service]="riskAssessmentService"/>
+            [service]="riskAssessmentService"
+            [category]="PatientCaseDataCategories.RiskAssessments"/>
 
         <app-case-manager-panel
             title="Tumor Markers"
             [icon]="icons.tumorMarkers"
             [caseId]="caseId"
             [formComponent]="TumorMarkerFormComponent"
-            [service]="tumorMarkerService"/>
+            [service]="tumorMarkerService"
+            [category]="PatientCaseDataCategories.TumorMarkers"/>
 
         <h5  class="font-bold mt-5">
             Genomics
@@ -58,14 +62,16 @@
             [icon]="icons.genomicVariants"
             [caseId]="caseId"
             [formComponent]="GenomicVariantFormComponent"
-            [service]="genomicVariantService"/>
+            [service]="genomicVariantService"
+            [category]="PatientCaseDataCategories.GenomicVariants"/>
 
         <app-case-manager-panel
             title="Genomic Signatures"
             [icon]="icons.genomicSignatures"
             [caseId]="caseId"
             [formComponent]="GenomicSignatureFormComponent"
-            [service]="genomicSignatureService"/>
+            [service]="genomicSignatureService"
+            [category]="PatientCaseDataCategories.GenomicSignatures"/>
 
     </div>
 
@@ -79,21 +85,24 @@
             [icon]="icons.systemicTherapies"
             [caseId]="caseId"
             [formComponent]="SystemicTherapyFormComponent"
-            [service]="systemicTherapyService"/>
+            [service]="systemicTherapyService"
+            [category]="PatientCaseDataCategories.SystemicTherapies"/>
             
         <app-case-manager-panel
             title="Surgical Procedures"
             [icon]="icons.surgeries"
             [caseId]="caseId"
             [formComponent]="SurgeryFormComponent"
-            [service]="surgeryService"/>
+            [service]="surgeryService"
+            [category]="PatientCaseDataCategories.Surgeries"/>
 
         <app-case-manager-panel
             title="Radiotherapies"
             [icon]="icons.radiotherapies"
             [caseId]="caseId"
             [formComponent]="RadiotherapyFormComponent"
-            [service]="radiotherapyService"/>
+            [service]="radiotherapyService"
+            [category]="PatientCaseDataCategories.Radiotherapies"/>
 
 
         <h5  class="font-bold mt-5">
@@ -105,28 +114,32 @@
             [icon]="icons.lifestyle"
             [caseId]="caseId"
             [formComponent]="LifestyleFormComponent"
-            [service]="lifestyleService"/>
+            [service]="lifestyleService"
+            [category]="PatientCaseDataCategories.Lifestyles"/>
             
         <app-case-manager-panel
             title="Familiy History"
             [icon]="icons.familyHistory"
             [caseId]="caseId"
             [formComponent]="FamilyHistoryFormComponent"
-            [service]="familyHistoryService"/>
+            [service]="familyHistoryService"
+            [category]="PatientCaseDataCategories.FamilyHistories"/>
         
         <app-case-manager-panel
             title="Comorbidities"
             [icon]="icons.comorbidities"
             [caseId]="caseId"
             [formComponent]="ComorbiditiesAssessmentFormComponent"
-            [service]="comorbiditiesAssessmentService"/>
+            [service]="comorbiditiesAssessmentService"
+            [category]="PatientCaseDataCategories.Comorbidities"/>
 
         <app-case-manager-panel
             title="Vitals"
             [icon]="icons.vitals"
             [caseId]="caseId"
             [formComponent]="VitalsFormComponent"
-            [service]="vitalsService"/>
+            [service]="vitalsService"
+            [category]="PatientCaseDataCategories.Vitals"/>
 
     </div>
 
@@ -139,24 +152,28 @@
         <app-case-manager-panel
             title="Tumor Boards"
             [icon]="icons.tumorBoards"
-            [caseId]="caseId"/>
+            [caseId]="caseId"
+            [category]="PatientCaseDataCategories.TumorBoardReviews"/>
             
         <app-case-manager-panel
             title="Adverse Events"
             [icon]="icons.adverseEvents"
-            [caseId]="caseId"/>
+            [caseId]="caseId"
+            [category]="PatientCaseDataCategories.AdverseEvents"/>
 
         <app-case-manager-panel
             title="Treatment Responses"
             [icon]="icons.treatmentResponses"
-            [caseId]="caseId"/>
+            [caseId]="caseId"
+            [category]="PatientCaseDataCategories.TherapyResponses"/>
 
         <app-case-manager-panel
             title="Performance Status"
             [icon]="icons.performanceStatus"
             [caseId]="caseId"
             [formComponent]="PerformanceStatusFormComponent"
-            [service]="performanceStatusService"/>
+            [service]="performanceStatusService"
+            [category]="PatientCaseDataCategories.PerformanceStatus"/>
 
     </div>
 </div>

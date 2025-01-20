@@ -1,4 +1,4 @@
-from .PatientCase import PatientCase
+from .PatientCase import PatientCase, PatientCaseDataCompletion
 from .NeoplasticEntity import NeoplasticEntity
 from .Staging import (
     StagingDomain,
@@ -27,7 +27,7 @@ from .GenomicSignature import (
 
 __all__ = (
     # Patient case
-    PatientCase,
+    PatientCase, PatientCaseDataCompletion,
     # Neoplastic entity    
     NeoplasticEntity,
     # Stagings

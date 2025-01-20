@@ -1,10 +1,8 @@
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 
 from django.test import TestCase
 from django.db.utils import IntegrityError
-from pop.core import measures
-import pop.oncology.models as oncology
-import pop.terminology.models as terminology
+from pop.oncology.models.PatientCase import PatientCaseDataCompletion
 
 import pop.tests.factories as factories
 
@@ -37,6 +35,12 @@ class PatientCaseModelTest(TestCase):
         delta = self.patient.date_of_death - self.patient.date_of_birth
         self.assertLess(self.patient.age - delta.days/365, 1)
 
+    def test_data_completion_rate_based_on_completed_categories(self):
+        self.patient
+        factories.PatientCaseDataCompletionFactory(case=self.patient)
+        expected = self.patient.completed_data_categories.count() / PatientCaseDataCompletion.DATA_CATEGORIES_COUNT * 100
+        self.assertTrue(self.patient.completed_data_categories.count()>0)
+        self.assertAlmostEqual(self.patient.data_completion_rate, round(expected))
 
 class NeoplasticEntityModelTest(TestCase):
     

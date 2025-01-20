@@ -17,3 +17,6 @@
 .no-entries-text {
     color: color-mix(in srgb, var(--p-text-muted-color), transparent 25%);
 }
+.completed-category .pi-star-fill {
+    color: var(--p-primary-color) !important;
+}

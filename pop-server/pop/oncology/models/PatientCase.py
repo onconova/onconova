@@ -2,7 +2,8 @@ import random
 import string
 
 from django.db import models 
-from django.db.models import Q, F, Func, ExpressionWrapper, Case, When, Value
+from django.contrib.postgres.fields import ArrayField
+from django.db.models import Q, F, Func, ExpressionWrapper, Case, When, Value, Count
 from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel 
@@ -36,9 +37,14 @@ class PatientCaseManager(models.Manager):
                     function="EXTRACT",
                     template="EXTRACT(YEAR FROM %(expressions)s)"
                 ),
-                output_field=models.IntegerField()
-            )
-        )
+                output_field=models.IntegerField(),
+            ),
+            db_data_completion_rate=models.functions.Round(
+                models.functions.Cast(
+                    Count('completed_data_categories'), output_field=models.FloatField()
+                ) / PatientCaseDataCompletion.DATA_CATEGORIES_COUNT * 100
+            ),
+)
 
 class PatientCase(BaseModel):
     """
@@ -92,7 +98,7 @@ class PatientCase(BaseModel):
         verbose_name = _('Is deceased'),
         help_text = _("Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)"),
         expression = Case(
-            When(Q(date_of_death__isnull = False) | Q(cause_of_death__isnull = False), then = Value(True)),  
+                When(Q(date_of_death__isnull = False) | Q(cause_of_death__isnull = False), then = Value(True)),  
             default = Value(False),
             output_field = models.BooleanField(),
         ),
@@ -120,8 +126,24 @@ class PatientCase(BaseModel):
         """
         Calculate the age of the patient based on the date_of_birth and current date
         or date of death, if available. The age is computed at the database level.
+
+        Returns:
+            float: The age this patient case.
         """
         return self.__class__.objects.filter(pk=self.pk).values('db_age')[0]['db_age']
+    
+    @property
+    def data_completion_rate(self):
+        """
+        Calculate the data completion rate of the patient case.
+
+        Retrieves the data completion rate for this patient case from the database,
+        indicating the percentage of data categories that have been completed.
+
+        Returns:
+            float: The percentage of data categories completed for this patient case.
+        """
+        return self.__class__.objects.filter(pk=self.pk).values('db_data_completion_rate')[0]['db_data_completion_rate']
     
     def _generate_random_id(self):
         """
@@ -176,4 +198,57 @@ class PatientCase(BaseModel):
                 name='date_of_death_must_be_first_of_month',
                 violation_error_message='Birthdate must be the first day of the month',
             ),
+        ]
+
+
+class PatientCaseDataCompletion(BaseModel):
+        
+    class PatientCaseDataCategories(models.TextChoices):
+        COMORBIDITIES_ASSESSMENTS = 'comorbidities-assessments'
+        FAMILY_HISTORIES = 'family-histories'
+        GENOMIC_SIGNATURES = 'genomic-signatures'
+        GENOMIC_VARIANTS = 'genomic-variants'
+        LIFESTYLES = 'lifestyles'
+        COMORBIDITIES = 'comorbidities'
+        NEOPLASTIC_ENTITIES = 'neoplastic-entities'
+        PERFORMANCE_STATUS = 'performance-status'
+        RADIOTHERAPIES = 'radiotherapies'
+        RISK_ASSESSMENTS = 'risk-assessments'
+        STAGINS = 'stagings'
+        SURGERIES = 'surgeries'
+        SYSTEMIC_THERAPIES = 'systemic-therapies'
+        TUMOR_MARKERS = 'tumor-markers'
+        VITALS = 'vitals'
+        TUMOR_BOARD_REVIEWS = 'tumor-board-reviews'
+        ADVERSE_EVENTS = 'adverse-events'
+        THERAPY_RESPONSES = 'therapy-responses'
+
+    DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
+
+    case = models.ForeignKey(
+        verbose_name = _('Patient case'),
+        help_text = _("Patient case who's data category has been marked as completed."),
+        to=PatientCase, 
+        on_delete=models.CASCADE, 
+        related_name='completed_data_categories'
+    )
+    category = models.CharField(
+        verbose_name = _('Finalized data category'),
+        help_text = _("Indicates the categories of a patient case, whose data entries are deemed to be complete and/or up-to-date with the primary records."),
+        max_length = 500,
+        choices = PatientCaseDataCategories, 
+        blank = True
+    )
+
+    @property
+    def description(self):
+        return f'Category <{self.category}> for case {self.case.id} marked as completed by {self.createdBy.username} on {self.created_at}'
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['case', 'category'],
+                name='unique_data_categories',
+                violation_error_message='Data categories cannot be repeated for a patient case'
+            )
         ]

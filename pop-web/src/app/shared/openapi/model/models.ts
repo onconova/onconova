@@ -73,6 +73,7 @@ export * from './paginated-tumor-marker';
 export * from './paginated-vitals-schema';
 export * from './patient-case';
 export * from './patient-case-create';
+export * from './patient-case-data-categories';
 export * from './payload';
 export * from './payload1';
 export * from './performance-status';

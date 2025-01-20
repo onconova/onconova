@@ -299,6 +299,197 @@
         ]
       }
     },
+    "/api/patient-cases/{caseId}/data-completion/{category}": {
+      "post": {
+        "operationId": "createPatientCaseDataCompletion",
+        "summary": "Create Patient Case Data Completion",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "category",
+            "schema": {
+              "enum": [
+                "comorbidities-assessments",
+                "family-histories",
+                "genomic-signatures",
+                "genomic-variants",
+                "lifestyles",
+                "comorbidities",
+                "neoplastic-entities",
+                "performance-status",
+                "radiotherapies",
+                "risk-assessments",
+                "stagings",
+                "surgeries",
+                "systemic-therapies",
+                "tumor-markers",
+                "vitals",
+                "tumor-board-reviews",
+                "adverse-events",
+                "therapy-responses"
+              ],
+              "title": "PatientCaseDataCategories",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceIdSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deletePatientCaseDataCompletion",
+        "summary": "Delete Patient Case Data Completion",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "category",
+            "schema": {
+              "enum": [
+                "comorbidities-assessments",
+                "family-histories",
+                "genomic-signatures",
+                "genomic-variants",
+                "lifestyles",
+                "comorbidities",
+                "neoplastic-entities",
+                "performance-status",
+                "radiotherapies",
+                "risk-assessments",
+                "stagings",
+                "surgeries",
+                "systemic-therapies",
+                "tumor-markers",
+                "vitals",
+                "tumor-board-reviews",
+                "adverse-events",
+                "therapy-responses"
+              ],
+              "title": "PatientCaseDataCategories",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getPatientCaseDataCompletionStatus",
+        "summary": "Get Patient Case Data Completion Status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "caseId",
+            "schema": {
+              "title": "Caseid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "category",
+            "schema": {
+              "enum": [
+                "comorbidities-assessments",
+                "family-histories",
+                "genomic-signatures",
+                "genomic-variants",
+                "lifestyles",
+                "comorbidities",
+                "neoplastic-entities",
+                "performance-status",
+                "radiotherapies",
+                "risk-assessments",
+                "stagings",
+                "surgeries",
+                "systemic-therapies",
+                "tumor-markers",
+                "vitals",
+                "tumor-board-reviews",
+                "adverse-events",
+                "therapy-responses"
+              ],
+              "title": "PatientCaseDataCategories",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response",
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
     "/api/patient-cases/{caseId}": {
       "delete": {
         "operationId": "deletePatientCaseById",
@@ -4964,6 +5155,11 @@
             "title": "Age",
             "type": "integer"
           },
+          "dataCompletionRate": {
+            "description": "Percentage indicating the completeness of a case in terms of its data.",
+            "title": "Datacompletionrate",
+            "type": "number"
+          },
           "id": {
             "description": "",
             "examples": [],
@@ -5178,6 +5374,7 @@
         },
         "required": [
           "age",
+          "dataCompletionRate",
           "id",
           "createdAt",
           "updatedAt",
@@ -5188,6 +5385,30 @@
         ],
         "title": "PatientCase",
         "type": "object"
+      },
+      "PatientCaseDataCategories": {
+        "enum": [
+          "comorbidities-assessments",
+          "family-histories",
+          "genomic-signatures",
+          "genomic-variants",
+          "lifestyles",
+          "comorbidities",
+          "neoplastic-entities",
+          "performance-status",
+          "radiotherapies",
+          "risk-assessments",
+          "stagings",
+          "surgeries",
+          "systemic-therapies",
+          "tumor-markers",
+          "vitals",
+          "tumor-board-reviews",
+          "adverse-events",
+          "therapy-responses"
+        ],
+        "title": "PatientCaseDataCategories",
+        "type": "string"
       },
       "NeoplasticEntityCreate": {
         "properties": {
@@ -12406,7 +12627,7 @@
             "title": "Description",
             "type": "string"
           },
-          "ecog_interpretation": {
+          "ecogInterpretation": {
             "anyOf": [
               {
                 "$ref": "#/components/schemas/CodedConceptSchema"
@@ -12417,7 +12638,7 @@
             ],
             "description": "Official interpretation of the ECOG score"
           },
-          "karnofsky_interpretation": {
+          "karnofskyInterpretation": {
             "anyOf": [
               {
                 "$ref": "#/components/schemas/CodedConceptSchema"
@@ -12559,8 +12780,8 @@
         },
         "required": [
           "description",
-          "ecog_interpretation",
-          "karnofsky_interpretation",
+          "ecogInterpretation",
+          "karnofskyInterpretation",
           "id",
           "createdAt",
           "updatedAt",

@@ -15,8 +15,8 @@ export interface PerformanceStatus {
      * Human-readable description of the performance status
      */
     description: string;
-    ecog_interpretation: CodedConceptSchema | null;
-    karnofsky_interpretation: CodedConceptSchema | null;
+    ecogInterpretation: CodedConceptSchema | null;
+    karnofskyInterpretation: CodedConceptSchema | null;
     /**
      * 
      */

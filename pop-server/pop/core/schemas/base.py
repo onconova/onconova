@@ -51,12 +51,13 @@ class BaseSchema(PydanticBaseModel):
                 else:
                     data[field.name] = getattr(obj, field.name) 
             for attr_name in dir(obj.__class__):  # dir() inspects class attributes
-                if not attr_name in cls.model_fields: continue
+                if not to_camel_case(attr_name) in cls.model_fields: continue
                 attr = getattr(obj.__class__, attr_name, None)
                 if isinstance(attr, property):  # Check if it is a property
                     data[attr_name] = getattr(obj, attr_name)
 
             obj = data
+        print('VALIDATION', obj)
         return super().model_validate(obj=obj, *args, **kwargs)
 
     def model_dump(self, *args, **kwargs):

@@ -16,6 +16,7 @@ import {
 import { 
     PatientCase, 
     PatientCasesService,
+    PatientCaseDataCategories,
     NeoplasticEntitiesService,
     StagingsService,
     TumorMarkersService,
@@ -59,7 +60,6 @@ interface DataService {
     delete: CallableFunction;
     update: CallableFunction;
 }
-
 
 @Component({
     standalone: true,
@@ -221,6 +221,8 @@ export class CaseManagerComponent implements OnInit {
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
     public GenomicVariantFormComponent = GenomicVariantFormComponent;
     public GenomicSignatureFormComponent = GenomicSignatureFormComponent;
+
+    public readonly PatientCaseDataCategories = PatientCaseDataCategories; 
 
     public icons = {
         neoplasticEntities: Ribbon,

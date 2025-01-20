@@ -52,15 +52,19 @@ class UserFactory(factory.django.DjangoModelFactory):
 class PatientCaseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PatientCase
+    created_by =  factory.SubFactory(UserFactory)
     date_of_birth = factory.LazyFunction(lambda: faker.date_of_birth(minimum_age=25, maximum_age=100))
     gender = make_terminology_factory(terminology.AdministrativeGender)
     race = make_terminology_factory(terminology.RaceCategory)
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
     date_of_death = factory.LazyFunction(lambda: faker.date_this_decade() if random.random() > 0.5 else None)
     cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
-    created_by =  factory.SubFactory(UserFactory)
 
-
+class PatientCaseDataCompletionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.PatientCaseDataCompletion
+    case = factory.SubFactory(PatientCaseFactory)
+    category = factory.LazyFunction(lambda: [category for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories)[0:random.randint(1,3)]])
 
 class PrimaryNeoplasticEntityFactory(factory.django.DjangoModelFactory):
     class Meta:

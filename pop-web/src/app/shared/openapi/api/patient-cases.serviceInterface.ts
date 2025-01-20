@@ -33,11 +33,27 @@ export interface PatientCasesServiceInterface {
     createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
+     * Create Patient Case Data Completion
+     * 
+     * @param caseId 
+     * @param category 
+     */
+    createPatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+
+    /**
      * Delete Patient Case
      * 
      * @param caseId 
      */
     deletePatientCaseById(caseId: string, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Delete Patient Case Data Completion
+     * 
+     * @param caseId 
+     * @param category 
+     */
+    deletePatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Patient Case By Id
@@ -52,6 +68,14 @@ export interface PatientCasesServiceInterface {
      * @param pseudoidentifier 
      */
     getPatientCaseByPseudoidentifier(pseudoidentifier: string, extraHttpRequestParams?: any): Observable<PatientCase>;
+
+    /**
+     * Get Patient Case Data Completion Status
+     * 
+     * @param caseId 
+     * @param category 
+     */
+    getPatientCaseDataCompletionStatus(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<boolean>;
 
     /**
      * Get All Patient Cases Matching The Query

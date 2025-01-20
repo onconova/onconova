@@ -6,14 +6,13 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema, Paginated
-from pop.oncology.models import PatientCase
-
 from django.shortcuts import get_object_or_404
 from typing import List
 from datetime import date 
 
-from pop.oncology.schemas import PatientCaseSchema, PatientCaseCreateSchema
+from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.oncology.models import PatientCase, PatientCaseDataCompletion
+from pop.oncology.schemas import PatientCaseSchema, PatientCaseCreateSchema, PatientCaseDataCompletionSchema
 
 class GenderEnum(Enum):
     male = 'male'
@@ -73,8 +72,7 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCaseById',
         )
     def get_patient_case_by_id(self, caseId: str): 
-        instance = get_object_or_404(PatientCase, id=caseId)
-        return 200, PatientCaseSchema.model_validate(instance)
+        return get_object_or_404(PatientCase, id=caseId)
 
     @route.get(
         path='/pseudo/{pseudoidentifier}', 
@@ -85,9 +83,8 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCaseByPseudoidentifier',
         )
     def get_patient_case_by_pseudoidentifier(self, pseudoidentifier: str): 
-        instance = get_object_or_404(PatientCase, pseudoidentifier=pseudoidentifier.strip())
-        return 200, PatientCaseSchema.model_validate(instance)
-    
+        return get_object_or_404(PatientCase, pseudoidentifier=pseudoidentifier.strip())
+        
     @route.put(
         path='/{caseId}', 
         response={
@@ -117,3 +114,36 @@ class PatientCaseController(ControllerBase):
         return 204, None
     
 
+    @route.get(
+        path='/{caseId}/data-completion/{category}', 
+        response={
+            201: bool,
+        },
+        operation_id='getPatientCaseDataCompletionStatus',
+    )
+    def get_patient_case_data_completion_status(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
+        return PatientCaseDataCompletion.objects.filter(case__id=caseId, category=category).exists()
+        
+    @route.post(
+        path='/{caseId}/data-completion/{category}', 
+        response={
+            201: ResourceIdSchema,
+        },
+        operation_id='createPatientCaseDataCompletion',
+    )
+    def create_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
+        instance = PatientCaseDataCompletion.objects.create(case=get_object_or_404(PatientCase,id=caseId), category=category)
+        return 201, ResourceIdSchema(id=instance.id)
+    
+    @route.delete(
+        path='/{caseId}/data-completion/{category}', 
+        response={
+            204: None, 
+            404: None,
+        },
+        operation_id='deletePatientCaseDataCompletion',
+    )
+    def delete_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
+        instance = get_object_or_404(PatientCaseDataCompletion, case__id=caseId, category=category)
+        instance.delete()
+        return 204, None
