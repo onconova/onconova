@@ -1,180 +1,238 @@
+
+<div class="mb-3">
+    <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
+</div>
+
+@let case = case$ | async;
 <!-- Case summary -->
-<div class="card flex py-4 " style="background: var(--p-content-background); color: var(--p-text-color); width: 50%;">
-    <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', padding: '0'}" >
-        <svg class="jdenticon my-auto" [data-jdenticon-value]="[pseudoidentifier]"></svg>
+<div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color); ">
+    <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', padding: '0', 'margin': 'auto 0'}" >
+        <svg class="jdenticon my-auto" [data-jdenticon-value]="pseudoidentifier"></svg>
     </p-avatar>
-    <div class="ml-3">
-        CASE MANAGEMENT
-        <h2 class="mb-0" style="font-family: monospace;">
+    <div class="ml-3 m-auto">
+        <span class="text-muted">CASE MANAGEMENT</span>
+        <h2 class="text-monospace my-0">
             {{ pseudoidentifier }}
         </h2>
         <div *ngIf="case">
             {{ case.gender.display }}, 
             {{ case.age }} years
         </div>
+        <div *ngIf="!case"> 
+            <p-skeleton width="7rem" height="1.2rem" />
+        </div>       
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="text-center ml-auto">
+        <small class="text-muted">Data completion</small>
+        <ng-container *ngIf="case">
+            <p-knob 
+            [ngModel]="case.dataCompletionRate" 
+            [readonly]="true" 
+            valueTemplate="{value}%"
+            styleClass="completion-rate-knob"
+            [size]="60"/>    
+        </ng-container>
+        <ng-container *ngIf="!case">
+            <p-skeleton width="4rem" height="4rem" styleClass="mx-auto" />
+        </ng-container>
+    </div> 
+
+    <div class="">
+        <div class="text-left ml-5">
+            <small class="text-muted">Created</small>
+            <div>
+                <span *ngIf="case">{{ case.createdAt | date }}</span>      
+                <p-skeleton *ngIf="!case" width="7rem" height="1.5rem" />
+            </div>
+        </div> 
+
+        <div class="text-left ml-5 mt-1">
+            <small class="text-muted">Last updated</small>
+            <div>
+                <span *ngIf="case">{{ case.updatedAt | date }}</span>      
+                <p-skeleton *ngIf="!case" width="7rem" height="1.5rem"/>
+            </div>
+        </div> 
     </div>
 </div>
 
 <!-- Case content -->
-<div class="grid" *ngIf="caseId"> 
-    <div class="col-12 md:col-6 lg:col-4">
-        <h5 class="font-bold">
-            Cancer Characterization
-        </h5>
-        <app-case-manager-panel
-            title="Neoplastic Entities"
-            [icon]="icons.neoplasticEntities"
-            [caseId]="caseId"
-            [formComponent]="NeoplasticEntityFormComponent"
-            [service]="neoplasticEntityService"
-            [category]="PatientCaseDataCategories.NeoplasticEntities"/>
+ <ng-container *ngIf="case">
+    <div class="grid"> 
+        <div class="col-12 md:col-6 lg:col-4">
+            <h5 class="font-bold">
+                Cancer Characterization
+            </h5>
+            <app-case-manager-panel
+                title="Neoplastic Entities"
+                [icon]="icons.neoplasticEntities"
+                [caseId]="case.id"
+                [formComponent]="NeoplasticEntityFormComponent"
+                [service]="neoplasticEntityService"
+                [category]="PatientCaseDataCategories.NeoplasticEntities"/>
+                
+            <app-case-manager-panel
+                title="Stagings"
+                [icon]="icons.stagings"
+                [caseId]="case.id"
+                [formComponent]="StagingFormComponent"
+                [service]="stagingService"
+                [category]="PatientCaseDataCategories.Stagings"/>
+
+            <app-case-manager-panel
+                title="Risk Assessments"
+                [icon]="icons.riskAssessments"
+                [caseId]="case.id"
+                [formComponent]="RiskAssessmentFormComponent"
+                [service]="riskAssessmentService"
+                [category]="PatientCaseDataCategories.RiskAssessments"/>
+
+            <app-case-manager-panel
+                title="Tumor Markers"
+                [icon]="icons.tumorMarkers"
+                [caseId]="case.id"
+                [formComponent]="TumorMarkerFormComponent"
+                [service]="tumorMarkerService"
+                [category]="PatientCaseDataCategories.TumorMarkers"/>
+
+            <h5  class="font-bold mt-5">
+                Genomics
+            </h5>
+
+            <app-case-manager-panel
+                title="Genomic Variants"
+                [icon]="icons.genomicVariants"
+                [caseId]="case.id"
+                [formComponent]="GenomicVariantFormComponent"
+                [service]="genomicVariantService"
+                [category]="PatientCaseDataCategories.GenomicVariants"/>
+
+            <app-case-manager-panel
+                title="Genomic Signatures"
+                [icon]="icons.genomicSignatures"
+                [caseId]="case.id"
+                [formComponent]="GenomicSignatureFormComponent"
+                [service]="genomicSignatureService"
+                [category]="PatientCaseDataCategories.GenomicSignatures"/>
+
+        </div>
+
+
+        <div class="col-12 md:col-6 lg:col-4">
+            <h5 class="font-bold">
+                Therapy
+            </h5>
+            <app-case-manager-panel
+                title="Systemic Treatments"
+                [icon]="icons.systemicTherapies"
+                [caseId]="case.id"
+                [formComponent]="SystemicTherapyFormComponent"
+                [service]="systemicTherapyService"
+                [category]="PatientCaseDataCategories.SystemicTherapies"/>
+                
+            <app-case-manager-panel
+                title="Surgical Procedures"
+                [icon]="icons.surgeries"
+                [caseId]="case.id"
+                [formComponent]="SurgeryFormComponent"
+                [service]="surgeryService"
+                [category]="PatientCaseDataCategories.Surgeries"/>
+
+            <app-case-manager-panel
+                title="Radiotherapies"
+                [icon]="icons.radiotherapies"
+                [caseId]="case.id"
+                [formComponent]="RadiotherapyFormComponent"
+                [service]="radiotherapyService"
+                [category]="PatientCaseDataCategories.Radiotherapies"/>
+
+
+            <h5  class="font-bold mt-5">
+                Profile
+            </h5>
+
+            <app-case-manager-panel
+                title="Lifestyle"
+                [icon]="icons.lifestyle"
+                [caseId]="case.id"
+                [formComponent]="LifestyleFormComponent"
+                [service]="lifestyleService"
+                [category]="PatientCaseDataCategories.Lifestyles"/>
+                
+            <app-case-manager-panel
+                title="Familiy History"
+                [icon]="icons.familyHistory"
+                [caseId]="case.id"
+                [formComponent]="FamilyHistoryFormComponent"
+                [service]="familyHistoryService"
+                [category]="PatientCaseDataCategories.FamilyHistories"/>
             
-        <app-case-manager-panel
-            title="Stagings"
-            [icon]="icons.stagings"
-            [caseId]="caseId"
-            [formComponent]="StagingFormComponent"
-            [service]="stagingService"
-            [category]="PatientCaseDataCategories.Stagings"/>
+            <app-case-manager-panel
+                title="Comorbidities"
+                [icon]="icons.comorbidities"
+                [caseId]="case.id"
+                [formComponent]="ComorbiditiesAssessmentFormComponent"
+                [service]="comorbiditiesAssessmentService"
+                [category]="PatientCaseDataCategories.Comorbidities"/>
 
-        <app-case-manager-panel
-            title="Risk Assessments"
-            [icon]="icons.riskAssessments"
-            [caseId]="caseId"
-            [formComponent]="RiskAssessmentFormComponent"
-            [service]="riskAssessmentService"
-            [category]="PatientCaseDataCategories.RiskAssessments"/>
+            <app-case-manager-panel
+                title="Vitals"
+                [icon]="icons.vitals"
+                [caseId]="case.id"
+                [formComponent]="VitalsFormComponent"
+                [service]="vitalsService"
+                [category]="PatientCaseDataCategories.Vitals"/>
 
-        <app-case-manager-panel
-            title="Tumor Markers"
-            [icon]="icons.tumorMarkers"
-            [caseId]="caseId"
-            [formComponent]="TumorMarkerFormComponent"
-            [service]="tumorMarkerService"
-            [category]="PatientCaseDataCategories.TumorMarkers"/>
+        </div>
 
-        <h5  class="font-bold mt-5">
-            Genomics
-        </h5>
 
-        <app-case-manager-panel
-            title="Genomic Variants"
-            [icon]="icons.genomicVariants"
-            [caseId]="caseId"
-            [formComponent]="GenomicVariantFormComponent"
-            [service]="genomicVariantService"
-            [category]="PatientCaseDataCategories.GenomicVariants"/>
+        <div class="col-12 md:col-6 lg:col-4">
+            <h5 class="font-bold">
+                Clinical Observations
+            </h5>
 
-        <app-case-manager-panel
-            title="Genomic Signatures"
-            [icon]="icons.genomicSignatures"
-            [caseId]="caseId"
-            [formComponent]="GenomicSignatureFormComponent"
-            [service]="genomicSignatureService"
-            [category]="PatientCaseDataCategories.GenomicSignatures"/>
+            <app-case-manager-panel
+                title="Tumor Boards"
+                [icon]="icons.tumorBoards"
+                [caseId]="case.id"
+                [category]="PatientCaseDataCategories.TumorBoardReviews"/>
+                
+            <app-case-manager-panel
+                title="Adverse Events"
+                [icon]="icons.adverseEvents"
+                [caseId]="case.id"
+                [category]="PatientCaseDataCategories.AdverseEvents"/>
 
+            <app-case-manager-panel
+                title="Treatment Responses"
+                [icon]="icons.treatmentResponses"
+                [caseId]="case.id"
+                [category]="PatientCaseDataCategories.TherapyResponses"/>
+
+            <app-case-manager-panel
+                title="Performance Status"
+                [icon]="icons.performanceStatus"
+                [caseId]="case.id"
+                [formComponent]="PerformanceStatusFormComponent"
+                [service]="performanceStatusService"
+                [category]="PatientCaseDataCategories.PerformanceStatus"/>
+
+        </div>
     </div>
+    <app-dynamic-modal-form [caseId]="case.id"></app-dynamic-modal-form>
+</ng-container>
 
-
-    <div class="col-12 md:col-6 lg:col-4">
-        <h5 class="font-bold">
-            Therapy
-        </h5>
-        <app-case-manager-panel
-            title="Systemic Treatments"
-            [icon]="icons.systemicTherapies"
-            [caseId]="caseId"
-            [formComponent]="SystemicTherapyFormComponent"
-            [service]="systemicTherapyService"
-            [category]="PatientCaseDataCategories.SystemicTherapies"/>
-            
-        <app-case-manager-panel
-            title="Surgical Procedures"
-            [icon]="icons.surgeries"
-            [caseId]="caseId"
-            [formComponent]="SurgeryFormComponent"
-            [service]="surgeryService"
-            [category]="PatientCaseDataCategories.Surgeries"/>
-
-        <app-case-manager-panel
-            title="Radiotherapies"
-            [icon]="icons.radiotherapies"
-            [caseId]="caseId"
-            [formComponent]="RadiotherapyFormComponent"
-            [service]="radiotherapyService"
-            [category]="PatientCaseDataCategories.Radiotherapies"/>
-
-
-        <h5  class="font-bold mt-5">
-            Profile
-        </h5>
-
-        <app-case-manager-panel
-            title="Lifestyle"
-            [icon]="icons.lifestyle"
-            [caseId]="caseId"
-            [formComponent]="LifestyleFormComponent"
-            [service]="lifestyleService"
-            [category]="PatientCaseDataCategories.Lifestyles"/>
-            
-        <app-case-manager-panel
-            title="Familiy History"
-            [icon]="icons.familyHistory"
-            [caseId]="caseId"
-            [formComponent]="FamilyHistoryFormComponent"
-            [service]="familyHistoryService"
-            [category]="PatientCaseDataCategories.FamilyHistories"/>
-        
-        <app-case-manager-panel
-            title="Comorbidities"
-            [icon]="icons.comorbidities"
-            [caseId]="caseId"
-            [formComponent]="ComorbiditiesAssessmentFormComponent"
-            [service]="comorbiditiesAssessmentService"
-            [category]="PatientCaseDataCategories.Comorbidities"/>
-
-        <app-case-manager-panel
-            title="Vitals"
-            [icon]="icons.vitals"
-            [caseId]="caseId"
-            [formComponent]="VitalsFormComponent"
-            [service]="vitalsService"
-            [category]="PatientCaseDataCategories.Vitals"/>
-
+<ng-container *ngIf="!case">
+    <div class="grid">
+        <ng-container *ngFor="let n of [].constructor(6);">
+            <div class="col-12 md:col-6 lg:col-4">
+                <p-skeleton width="10rem" height="2rem" styleClass="mt-4" />
+                <p-skeleton height="5rem" styleClass="mt-3"/>
+                <p-skeleton height="5rem" styleClass="mt-3"/>
+                <p-skeleton height="5rem" styleClass="mt-3"/>
+                <p-skeleton height="5rem" styleClass="mt-3"/>
+            </div>
+        </ng-container>
     </div>
-
-
-    <div class="col-12 md:col-6 lg:col-4">
-        <h5 class="font-bold">
-            Clinical Observations
-        </h5>
-
-        <app-case-manager-panel
-            title="Tumor Boards"
-            [icon]="icons.tumorBoards"
-            [caseId]="caseId"
-            [category]="PatientCaseDataCategories.TumorBoardReviews"/>
-            
-        <app-case-manager-panel
-            title="Adverse Events"
-            [icon]="icons.adverseEvents"
-            [caseId]="caseId"
-            [category]="PatientCaseDataCategories.AdverseEvents"/>
-
-        <app-case-manager-panel
-            title="Treatment Responses"
-            [icon]="icons.treatmentResponses"
-            [caseId]="caseId"
-            [category]="PatientCaseDataCategories.TherapyResponses"/>
-
-        <app-case-manager-panel
-            title="Performance Status"
-            [icon]="icons.performanceStatus"
-            [caseId]="caseId"
-            [formComponent]="PerformanceStatusFormComponent"
-            [service]="performanceStatusService"
-            [category]="PatientCaseDataCategories.PerformanceStatus"/>
-
-    </div>
-</div>
-<app-dynamic-modal-form [caseId]="caseId"></app-dynamic-modal-form>
+</ng-container>

@@ -66,3 +66,7 @@ p {
 .text-muted {
     color: color-mix(in srgb, var(--p-content-color), transparent 35%) !important;
 }
+
+.text-monospace {
+    font-family: monospace;
+}

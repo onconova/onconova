@@ -19,8 +19,11 @@
             <i *ngIf="complete" class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>
         </div>
 
-        <span class="pi pi-cog cursor-pointer ml-auto my-auto" style="color: var(--p-button-text-secondary-color)" (click)="menu.toggle($event)"></span>
         @let menuItems = menuItems$ | async;
+        <span 
+            class="pi pi-cog cursor-pointer ml-auto my-auto" 
+            style="color: var(--p-button-text-secondary-color)" 
+            (click)="menu.toggle($event)"></span>
         <p-menu #menu 
             [model]="menuItems || getMenuItems()" 
             [popup]="true"/>

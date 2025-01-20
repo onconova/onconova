@@ -1,9 +1,15 @@
 import { Component, OnInit, Input, ViewEncapsulation, inject  } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Observable, Subscription } from 'rxjs'; 
+import { CommonModule, Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Observable, delay } from 'rxjs'; 
 
 import { MessageService } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
+import { SkeletonModule } from 'primeng/skeleton';
+import { Button } from 'primeng/button';
+import { KnobModule } from 'primeng/knob';
+import { Divider } from 'primeng/divider';
 
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
@@ -68,17 +74,22 @@ interface DataService {
     encapsulation: ViewEncapsulation.None,
     imports: [
         CommonModule,
+        FormsModule,
+        RouterModule,
         CaseManagerPanelComponent,
         ModalFormComponent,
         NgxJdenticonModule,
         AvatarModule,
+        Button,
+        KnobModule,
+        Divider,
+        SkeletonModule,
     ]
 })
 export class CaseManagerComponent implements OnInit {
 
     // Injected dependencies
     private caseService: PatientCasesService = inject(PatientCasesService);;
-    private caseServiceSubscription!: Subscription;
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);
     private tumorMarkersService: TumorMarkersService = inject(TumorMarkersService);
@@ -93,12 +104,11 @@ export class CaseManagerComponent implements OnInit {
     private genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
     private genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     private vitalsCoreService: VitalsService = inject(VitalsService);
-    private messageService: MessageService = inject(MessageService);
+    public location: Location = inject(Location);
 
     // Case properties
     @Input() public pseudoidentifier: string = '';
-    public case!: PatientCase;
-    public caseId!: string;
+    public case$!: Observable<PatientCase>;
 
     // Case-specific data observables
     public neoplasticEntityService: DataService = {
@@ -245,22 +255,7 @@ export class CaseManagerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.caseServiceSubscription = this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier).subscribe({
-            next: (data) => {
-                this.case = data;
-                // Get internal case ID used for API requests
-                this.caseId = this.case.id;
-                // Get data observables for this specific case 
-            },
-            error: (error) => {
-                // Report any problems
-                this.messageService.add({ severity: 'error', summary: 'Error loading case', detail: error.message });
-            }
-        })
-    }
-
-    ngOnDestroy() {
-        this.caseServiceSubscription.unsubscribe()
+        this.case$ = this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier)
     }
 
 
