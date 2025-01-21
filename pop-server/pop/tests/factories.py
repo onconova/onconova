@@ -198,7 +198,7 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
     grade = factory.LazyFunction(lambda: random.randint(0,5))
-    event = make_terminology_factory(terminology.CTCAETerms)
+    event = make_terminology_factory(terminology.AdverseEventTerm)
     is_serious = factory.LazyFunction(lambda: random.randint(0,2)>1)
     is_expected = factory.LazyFunction(lambda: random.randint(0,2)>1)
     outcome = FuzzyChoice(models.AdverseEvent.AdverseEventOutcome)
