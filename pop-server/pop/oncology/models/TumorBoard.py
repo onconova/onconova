@@ -116,7 +116,7 @@ class MolecularTumorBoard(TumorBoard):
             max_length=15,
         ),
         blank=True,
-        default=[], 
+        default=list, 
     )
     reviewed_reports = ArrayField(
         verbose_name='Reviewed genomics reports',
@@ -124,7 +124,7 @@ class MolecularTumorBoard(TumorBoard):
             max_length=500,
         ),
         blank=True,
-        default=[],
+        default=list,
     )
        
     @property
@@ -176,21 +176,21 @@ class MolecularTherapeuticRecommendation(BaseModel):
         help_text = _('Genomic variants that support the recommendation'),
         to = GenomicVariant,
         related_name='+',
-        null=True, blank=True,
+        blank=True,
     )
     supporting_genomic_signatures = models.ManyToManyField(
         verbose_name = _('Supporting genomic signatures'),
         help_text = _('Genomic signatures that support the recommendation'),
         to = GenomicSignature,
         related_name='+',
-        null=True, blank=True,
+        blank=True,
     )
     supporting_tumor_markers = models.ManyToManyField(
         verbose_name = _('Supporting tumor markers'),
         help_text = _('Tumor markers that support the recommendation'),
         to = TumorMarker,
         related_name='+',
-        null=True, blank=True,
+        blank=True,
     )
   
     @property
