@@ -34,6 +34,7 @@ requests = "2.32.0"
 fhir-resources = "7.1.0" 
 cachetools = "5.5.0"
 tqdm = "4.67.0"
+xlsx2csv = "0.8.4"
 # Testing
 pytest-django = "4.5.2"
 factory_boy = "3.3.1"

@@ -14,6 +14,7 @@ from .Surgery import Surgery
 from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 from .PerformanceStatus import PerformanceStatus
 from .TreatmentResponse import TreatmentResponse
+from .AdverseEvent import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
 from .Comorbidities import ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory
@@ -54,6 +55,8 @@ __all__ = (
     ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory,
     # Family history
     FamilyHistory,
+    # Adverse events
+    AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation,
     # Vitals 
     Vitals,
     # Genomic variant

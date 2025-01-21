@@ -10,7 +10,7 @@ from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.terminology.digestors import DIGESTORS
 from pop.terminology.utils import CodedConcept, request_http_get, parent_to_children, printYellow, printGreen, printRed
 from pop.terminology.resolver import resolve_canonical_url
-from pop.terminology.special import expand_AntineoplasticAgent_with_NCTPOT_mappings
+from pop.terminology.special import expand_AntineoplasticAgent_with_NCTPOT_mappings, expand_ctcae_terms
 from enum import Enum
 from typing import List, Type
 from tqdm import tqdm 
@@ -287,6 +287,7 @@ def collect_codedconcept_terminology(
     # Determine which valueset model to synchronize and compile concepts accordingly
     special_composer_function = {
         'AntineoplasticAgent': expand_AntineoplasticAgent_with_NCTPOT_mappings,
+        'AdverseEventTerm': expand_ctcae_terms,
     }
     if CodedConcept_name in special_composer_function:
         concepts = special_composer_function[CodedConcept_name]()

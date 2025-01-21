@@ -1,6 +1,6 @@
 from pop.terminology.digestors import TerminologyDigestor, NCITDigestor
 from pop.terminology.utils import CodedConcept
-from pop.terminology.utils import parent_to_children, request_http_get
+from pop.terminology.utils import parent_to_children, request_http_get, ensure_within_string_limits
 from typing import List
 
 class NCTPOTDrugToClassDigestor(TerminologyDigestor):
@@ -211,3 +211,41 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
             _add_concept_with_NCTPOT_properties(concept)
     return list(concepts.values())
     
+    
+
+
+class CTCAETermsDigestor(TerminologyDigestor):
+    """
+    Digestor for CTCAE MedDRA terms.
+    
+    Attributes:
+        LABEL (str): Identifier for the digestor.
+        FILENAME (str): Name of the file containing drug to drug class mappings.
+    """
+    LABEL = 'ctcae'
+    FILENAME = 'ctcae.csv'
+    CANONICAL_URL = 'http://terminology.hl7.org/CodeSystem/MDRAE'
+
+    def _digest_concept_row(self, row: dict[str, str]) -> None:
+        """
+        Processes a single row of drug to drug class mapping.
+
+        Args:
+            row (dict): A dictionary representing a single row with keys 'id_drugClass' and 'id_drug'.
+        """
+        # Get core coding elements
+        code = row['MedDRA Code']
+        display = ensure_within_string_limits(row['CTCAE Term'])
+        # Add the concept
+        self.concepts[code] = CodedConcept(
+            code = code,
+            display = display,
+            definition = row['Definition'],
+            properties = {
+                f'grade{n}': row[f'Grade {n}   '] for n in range(1,6)
+            },
+            system=self.CANONICAL_URL,
+        )
+
+def expand_ctcae_terms() -> List[CodedConcept]:
+    return CTCAETermsDigestor().digest().values()

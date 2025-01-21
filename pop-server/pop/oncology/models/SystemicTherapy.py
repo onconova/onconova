@@ -71,7 +71,7 @@ class SystemicTherapyMedication(BaseModel):
 
     systemic_therapy = models.ForeignKey(
         verbose_name = _('Systemic therapy'),
-        help_text = _("Indicates the case of the patient who received the systemic therapy"),
+        help_text = _("The systemic therapy to which this medication belongs to"),
         to = SystemicTherapy,
         related_name = 'medications',
         on_delete = models.CASCADE,

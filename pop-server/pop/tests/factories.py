@@ -191,6 +191,39 @@ class RadiotherapySettingFactory(factory.django.DjangoModelFactory):
     technique = make_terminology_factory(terminology.RadiotherapyTechnique)
 
 
+class AdverseEventFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.AdverseEvent
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    grade = factory.LazyFunction(lambda: random.randint(0,5))
+    event = make_terminology_factory(terminology.CTCAETerms)
+    is_serious = factory.LazyFunction(lambda: random.randint(0,2)>1)
+    is_expected = factory.LazyFunction(lambda: random.randint(0,2)>1)
+    outcome = FuzzyChoice(models.AdverseEvent.AdverseEventOutcome)
+
+class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.AdverseEventSuspectedCause
+
+    adverse_event = factory.SubFactory(AdverseEventFactory)
+    radiotherapy = factory.SubFactory(RadiotherapyFactory)
+    causality = FuzzyChoice(models.AdverseEventSuspectedCause.AdverseEventCausality)
+
+
+class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.AdverseEventMitigation
+
+    adverse_event = factory.SubFactory(AdverseEventFactory)
+    category = FuzzyChoice(models.AdverseEventMitigation.AdverseEventMitigationCategory)
+    adjustment = make_terminology_factory(terminology.AdverseEventMitigationTreatmentAdjustment)
+    drug = make_terminology_factory(terminology.AdverseEventMitigationDrug)
+    procedure = make_terminology_factory(terminology.AdverseEventMitigationProcedure)
+    management = make_terminology_factory(terminology.AdverseEventMitigationManagement)
+
+
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TreatmentResponse

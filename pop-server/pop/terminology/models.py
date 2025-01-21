@@ -667,15 +667,8 @@ class AdverseEventSeriousness(CodedConcept):
     description = 'An adverse event is classified as serious or non-serious.'
 
 
-class CTCAETerms(CodedConcept):
-    valueset =  'artifacts/CTCAE_v5.0.xlsx'
+class AdverseEventTerm(CodedConcept):
     description = 'The NCI Common Terminology Criteria for Adverse Events (CTCAE) is utilized for Adverse Event (AE) reporting.'
-    grade1 = models.CharField(max_length=800, null=True, blank=True)
-    grade2 = models.CharField(max_length=800, null=True, blank=True)
-    grade3 = models.CharField(max_length=800, null=True, blank=True)
-    grade4 = models.CharField(max_length=800, null=True, blank=True)
-    grade5 = models.CharField(max_length=800, null=True, blank=True)
- 
 
 class AdverseEventRelatedness(CodedConcept):
     valueset =  'https://build.fhir.org/ig/standardhealth/fsh-ae/ValueSet-adverse-event-relatedness-value-set.json'

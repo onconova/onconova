@@ -33,6 +33,11 @@ from .Radiotherapy import (
     RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
 )
 from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
+from .AdverseEvent import (
+    AdverseEventSchema, AdverseEventCreateSchema,
+    AdverseEventSuspectedCauseSchema, AdverseEventSuspectedCauseCreateSchema,
+    AdverseEventMitigationSchema, AdverseEventMitigationCreateSchema
+)
 from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
 from .Vitals import VitalsSchema, VitalsCreateSchema
@@ -83,6 +88,10 @@ __all__ = (
     RadiotherapySchema, RadiotherapyCreateSchema, 
     RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema,
     RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
+    # Adverse event schemas 
+    AdverseEventSchema, AdverseEventCreateSchema,
+    AdverseEventSuspectedCauseSchema, AdverseEventSuspectedCauseCreateSchema,
+    AdverseEventMitigationSchema, AdverseEventMitigationCreateSchema,    
     # Treatment response schemas 
     TreatmentResponseSchema, TreatmentResponseCreateSchema,
     # Performance status schemas 

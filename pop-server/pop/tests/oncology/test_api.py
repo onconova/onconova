@@ -325,6 +325,41 @@ class TestTreatmentResponseController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.TreatmentResponseSchema
     CREATE_SCHEMA = schemas.TreatmentResponseCreateSchema    
     
+    
+class TestAdverseEventController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/adverse-events'
+    FACTORY = factories.AdverseEventFactory
+    MODEL = models.AdverseEvent
+    SCHEMA = schemas.AdverseEventSchema
+    CREATE_SCHEMA = schemas.AdverseEventCreateSchema    
+    
+class TestAdverseEventSuspectedCauseController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/adverse-events'
+    FACTORY = factories.AdverseEventSuspectedCauseFactory
+    MODEL = models.AdverseEventSuspectedCause
+    SCHEMA = schemas.AdverseEventSuspectedCauseSchema
+    CREATE_SCHEMA = schemas.AdverseEventSuspectedCauseCreateSchema    
+
+    def get_route_url(self, instance):
+        return f'/{instance.adverse_event.id}/suspected-causes/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}'
+    
+
+class TestAdverseEventMitigationController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/adverse-events'
+    FACTORY = factories.AdverseEventMitigationFactory
+    MODEL = models.AdverseEventMitigation
+    SCHEMA = schemas.AdverseEventMitigationSchema
+    CREATE_SCHEMA = schemas.AdverseEventMitigationCreateSchema    
+
+    def get_route_url(self, instance):
+        return f'/{instance.adverse_event.id}/mitigations/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.adverse_event.id}/mitigations/{instance.id}'
+    
         
 class TestGenomicVariantController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/genomic-variants'
