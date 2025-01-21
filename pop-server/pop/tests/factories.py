@@ -239,7 +239,6 @@ class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
     conducted_molecular_comparison = factory.LazyFunction(lambda: random.randint(0,2)>1)  
     conducted_cup_characterization = factory.LazyFunction(lambda: random.randint(0,2)>1) 
     characterized_cup = factory.LazyFunction(lambda: random.randint(0,2)>1) 
-    recommended_clinical_trials = factory.LazyFunction(lambda: [f'NCT{random.randint(11111111,99999999)}' for _ in range(random.randint(1,3))]) 
 
 class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -249,6 +248,7 @@ class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactor
     expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
     off_label_use = factory.LazyFunction(lambda: random.randint(0,2)>1) 
     within_soc = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    clinical_trials = factory.LazyFunction(lambda: [f'NCT{random.randint(11111111,99999999)}' for _ in range(random.randint(1,3))]) 
 
 
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):

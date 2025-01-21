@@ -108,16 +108,6 @@ class MolecularTumorBoard(TumorBoard):
         help_text = _('Whether the cancer of unknown primary (CUP) characterization was successful.'),        
         null=True, blank=True,
     )
-    recommended_clinical_trials = ArrayField(
-        verbose_name = _('Recommended clinical trials'),
-        help_text = _('Clinical trials (NCT-Iddentifiers) recommended by the board for enrollment'),
-        base_field = models.CharField(
-            validators = [RegexValidator(r'^NCT\d{8}$')],
-            max_length=15,
-        ),
-        blank=True,
-        default=list, 
-    )
     reviewed_reports = ArrayField(
         verbose_name='Reviewed genomics reports',
         base_field=models.CharField(
@@ -160,6 +150,16 @@ class MolecularTherapeuticRecommendation(BaseModel):
         help_text=_('Drugs(s) being recommended'),
         terminology = terminologies.AntineoplasticAgent,
         multiple = True,
+    )
+    clinical_trials = ArrayField(
+        verbose_name = _('Recommended clinical trials'),
+        help_text = _('Clinical trials (NCT-Iddentifiers) recommended by the board for enrollment'),
+        base_field = models.CharField(
+            validators = [RegexValidator(r'^NCT\d{8}$')],
+            max_length=15,
+        ),
+        blank=True,
+        default=list, 
     )
     off_label_use = models.BooleanField(
         verbose_name = _('Off-label use'),
