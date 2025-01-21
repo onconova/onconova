@@ -11,6 +11,7 @@ from .Lifestyle import LifestyleController
 from .FamilyHistory import FamilyHistoryController
 from .Comorbidities import ComorbiditiesAssessmentController, ComorbiditiesPanelsController
 from .Vitals import VitalsController
+from .TreatmentResponse import TreatmentResponseController
 from .GenomicVariant import GenomicVariantController
 from .GenomicSignature import GenomicSignatureController
 
@@ -30,4 +31,6 @@ __all__ = (
     GenomicSignatureController,
     ComorbiditiesAssessmentController,
     ComorbiditiesPanelsController,
+    VitalsController,
+    TreatmentResponseController,
 )

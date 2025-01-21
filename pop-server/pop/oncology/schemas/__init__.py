@@ -36,6 +36,7 @@ from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateS
 from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
 from .Vitals import VitalsSchema, VitalsCreateSchema
+from .TreatmentResponse import TreatmentResponseSchema, TreatmentResponseCreateSchema
 from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
 from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
 from .GenomicSignature import (
@@ -82,7 +83,9 @@ __all__ = (
     RadiotherapySchema, RadiotherapyCreateSchema, 
     RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema,
     RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
-     # Performance status schemas 
+    # Treatment response schemas 
+    TreatmentResponseSchema, TreatmentResponseCreateSchema,
+    # Performance status schemas 
     PerformanceStatusSchema, PerformanceStatusCreateSchema,
     # Lifestyle schemas
     LifestyleSchema, LifestyleCreateSchema,

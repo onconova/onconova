@@ -21,6 +21,7 @@ from pop.oncology.controllers import (
     VitalsController,
     GenomicVariantController,
     GenomicSignatureController,
+    TreatmentResponseController,
 )
 
 
@@ -40,6 +41,7 @@ api.register_controllers(
     SystemicTherapyController,
     SurgeryController,
     RadiotherapyController,
+    TreatmentResponseController,
     PerformanceStatusController,
     GenomicVariantController,
     GenomicSignatureController,
@@ -50,4 +52,5 @@ api.register_controllers(
     VitalsController,
     MeasuresController,
     TerminologyController,
+    
 )

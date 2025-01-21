@@ -13,6 +13,7 @@ from .SystemicTherapy import SystemicTherapy, SystemicTherapyMedication
 from .Surgery import Surgery
 from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 from .PerformanceStatus import PerformanceStatus
+from .TreatmentResponse import TreatmentResponse
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
 from .Comorbidities import ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory
@@ -41,10 +42,12 @@ __all__ = (
     SystemicTherapy, SystemicTherapyMedication,
     # Performance status
     PerformanceStatus,
-    # Surgerry
+    # Surgery
     Surgery,
     # Radiotherapy
     Radiotherapy, RadiotherapyDosage, RadiotherapySetting,
+    # Treatment Response
+    TreatmentResponse,
     # Lifestyle
     Lifestyle,
     # Comorbidities

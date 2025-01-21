@@ -282,7 +282,6 @@ class TestSurgeryController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.SurgerySchema
     CREATE_SCHEMA = schemas.SurgeryCreateSchema    
     
-
     
 class TestRadiotherapyController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/radiotherapies'
@@ -317,6 +316,14 @@ class TestRadiotherapySettingController(ApiControllerTestCase, TestCase):
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.radiotherapy.id}/settings/{instance.id}'
+    
+    
+class TestTreatmentResponseController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/treatment-responses'
+    FACTORY = factories.TreatmentResponseFactory
+    MODEL = models.TreatmentResponse
+    SCHEMA = schemas.TreatmentResponseSchema
+    CREATE_SCHEMA = schemas.TreatmentResponseCreateSchema    
     
         
 class TestGenomicVariantController(ApiControllerTestCase, TestCase):

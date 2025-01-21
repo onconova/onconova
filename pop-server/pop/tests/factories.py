@@ -190,6 +190,18 @@ class RadiotherapySettingFactory(factory.django.DjangoModelFactory):
     modality = make_terminology_factory(terminology.RadiotherapyModality)
     technique = make_terminology_factory(terminology.RadiotherapyTechnique)
 
+
+class TreatmentResponseFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TreatmentResponse
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    recist = make_terminology_factory(terminology.CancerTreatmentResponse)
+    recist_interpreted = factory.LazyFunction(lambda: random.randint(0,100)>50)
+    methodology = make_terminology_factory(terminology.CancerTreatmentResponseObservationMethod)
+    assessed_bodysite = make_terminology_factory(terminology.ObservationBodySite)
+
+
 class GenomicVariantFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.GenomicVariant    
