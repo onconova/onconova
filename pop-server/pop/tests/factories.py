@@ -224,6 +224,33 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
     management = make_terminology_factory(terminology.AdverseEventMitigationManagement)
 
 
+
+class TumorBoardFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.UnspecifiedTumorBoard
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+
+class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.MolecularTumorBoard
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    conducted_molecular_comparison = factory.LazyFunction(lambda: random.randint(0,2)>1)  
+    conducted_cup_characterization = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    characterized_cup = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    recommended_clinical_trials = factory.LazyFunction(lambda: [f'NCT{random.randint(11111111,99999999)}' for _ in range(random.randint(1,3))]) 
+
+class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.MolecularTherapeuticRecommendation
+    molecular_tumor_board = factory.SubFactory(MolecularTumorBoardFactory)
+    action = make_terminology_factory(terminology.MedicationUsageSuggestion)
+    expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
+    off_label_use = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    within_soc = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+
+
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TreatmentResponse

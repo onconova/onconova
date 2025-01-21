@@ -14,6 +14,7 @@ from .Surgery import Surgery
 from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 from .PerformanceStatus import PerformanceStatus
 from .TreatmentResponse import TreatmentResponse
+from .TumorBoard import TumorBoard, UnspecifiedTumorBoard, MolecularTumorBoard, MolecularTherapeuticRecommendation
 from .AdverseEvent import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
 from .Lifestyle import Lifestyle
 from .FamilyHistory import FamilyHistory
@@ -55,6 +56,8 @@ __all__ = (
     ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory,
     # Family history
     FamilyHistory,
+    # Tumor boards
+    TumorBoard, MolecularTumorBoard, UnspecifiedTumorBoard, MolecularTherapeuticRecommendation,
     # Adverse events
     AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation,
     # Vitals 

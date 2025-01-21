@@ -23,6 +23,8 @@ from pop.oncology.controllers import (
     GenomicSignatureController,
     AdverseEventController,
     TreatmentResponseController,
+    TumorBoardController,
+    MolecularTherapeuticRecommendationController,
 )
 
 
@@ -44,6 +46,8 @@ api.register_controllers(
     RadiotherapyController,
     AdverseEventController,
     TreatmentResponseController,
+    TumorBoardController,
+    MolecularTherapeuticRecommendationController,
     PerformanceStatusController,
     GenomicVariantController,
     GenomicSignatureController,

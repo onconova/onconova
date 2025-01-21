@@ -820,7 +820,11 @@ class CancerTreatmentResponse(CodedConcept):
 
 class MolecularTumorBoardRecommendation(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-molecular-tumor-board-recommendations'
-    description = 'Codes representing MTB recommendations'
+    description = 'Codes representing molecular tumor board recommendations'
+
+class TumorBoardRecommendation(CodedConcept):
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-tumor-board-recommendations'
+    description = 'Codes representing  tumor board  recommendations'
 
 
 class ICD10Condition(CodedConcept):

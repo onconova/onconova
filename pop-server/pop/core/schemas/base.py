@@ -57,7 +57,6 @@ class BaseSchema(PydanticBaseModel):
                     data[attr_name] = getattr(obj, attr_name)
 
             obj = data
-        print('VALIDATION', obj)
         return super().model_validate(obj=obj, *args, **kwargs)
 
     def model_dump(self, *args, **kwargs):

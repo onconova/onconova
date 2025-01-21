@@ -42,6 +42,11 @@ from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
 from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
 from .Vitals import VitalsSchema, VitalsCreateSchema
 from .TreatmentResponse import TreatmentResponseSchema, TreatmentResponseCreateSchema
+from .TumorBoard import (
+    UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,
+    MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
+    MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema
+)
 from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
 from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
 from .GenomicSignature import (
@@ -94,6 +99,10 @@ __all__ = (
     AdverseEventMitigationSchema, AdverseEventMitigationCreateSchema,    
     # Treatment response schemas 
     TreatmentResponseSchema, TreatmentResponseCreateSchema,
+    # Tumor board schemas 
+    UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,
+    MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
+    MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema,
     # Performance status schemas 
     PerformanceStatusSchema, PerformanceStatusCreateSchema,
     # Lifestyle schemas

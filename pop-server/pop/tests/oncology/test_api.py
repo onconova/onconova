@@ -368,6 +368,39 @@ class TestGenomicVariantController(ApiControllerTestCase, TestCase):
     SCHEMA = schemas.GenomicVariantSchema
     CREATE_SCHEMA = schemas.GenomicVariantCreateSchema    
     
+
+class TestTumorBoardController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/tumor-boards'
+    FACTORY = [
+        factories.TumorBoardFactory,
+        factories.MolecularTumorBoardFactory,
+    ]
+    MODEL = [
+        models.UnspecifiedTumorBoard,
+        models.MolecularTumorBoard,
+    ]
+    SCHEMA = [
+        schemas.UnspecifiedTumorBoardSchema,
+        schemas.MolecularTumorBoardSchema,
+    ]
+    CREATE_SCHEMA = [
+        schemas.UnspecifiedTumorBoardCreateSchema,
+        schemas.MolecularTumorBoardCreateSchema,
+    ]
+    
+class TestMolecularTherapeuticRecommendationController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/molecular-tumor-boards'
+    FACTORY = factories.MolecularTherapeuticRecommendationFactory
+    MODEL = models.MolecularTherapeuticRecommendation
+    SCHEMA = schemas.MolecularTherapeuticRecommendationSchema
+    CREATE_SCHEMA = schemas.MolecularTherapeuticRecommendationCreateSchema    
+    
+    def get_route_url(self, instance):
+        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/'
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}'
+    
         
 class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/performance-status'

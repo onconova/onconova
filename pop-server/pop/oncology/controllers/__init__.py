@@ -13,6 +13,7 @@ from .Comorbidities import ComorbiditiesAssessmentController, ComorbiditiesPanel
 from .Vitals import VitalsController
 from .AdverseEvent import AdverseEventController
 from .TreatmentResponse import TreatmentResponseController
+from .TumorBoard import TumorBoardController, MolecularTherapeuticRecommendationController
 from .GenomicVariant import GenomicVariantController
 from .GenomicSignature import GenomicSignatureController
 
@@ -35,4 +36,6 @@ __all__ = (
     VitalsController,
     TreatmentResponseController,
     AdverseEventController,
+    TumorBoardController,
+    MolecularTherapeuticRecommendationController,
 )
