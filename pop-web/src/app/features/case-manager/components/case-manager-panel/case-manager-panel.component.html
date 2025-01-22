@@ -15,7 +15,9 @@
             <span style="font-size: 1.1rem;">
                 {{ title }}
             </span>
-            <p-badge [value]="entries.length" [severity]="entries.length ? 'primary' : 'secondary'" />
+            <p-badge 
+                [value]="loadingData ? '-' : entries.length" 
+                [severity]="entries.length ? 'primary' : 'secondary'" />
             <i *ngIf="completed" class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>
         </div>
         @let menuItems = menuItems$ | async;
@@ -31,10 +33,17 @@
     
 
     <div class="ml-2">
-        <div *ngIf="entries.length == 0" class="no-entries-text">
+        <div *ngIf="loadingData" class="no-entries-text">
+            <p-skeleton width="100%" styleClass="mb-2" />
+            <p-skeleton width="100%" styleClass="mb-2" />
+        </div>
+        <div *ngIf="!loadingData && entries.length == 0" class="no-entries-text">
             No entries associated with this case
         </div>
-        <p-timeline [value]="entries" *ngIf="entries.length > 0" class="mt-2">
+        <p-timeline 
+            *ngIf="!loadingData &&  entries.length > 0" 
+            [value]="entries" 
+            class="mt-2">
             <ng-template pTemplate="content" let-entry>
                 <div (click)="showDrawer(entry)" class="cursor-pointer">
                     <div>

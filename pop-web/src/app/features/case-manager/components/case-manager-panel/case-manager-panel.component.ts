@@ -13,6 +13,7 @@ import { Timeline } from 'primeng/timeline';
 import { MenuItem } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { Skeleton } from 'primeng/skeleton';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
@@ -38,6 +39,7 @@ import { compileClassDebugInfo } from '@angular/compiler';
         AvatarModule,
         Menu,
         BadgeModule,
+        Skeleton,
         Timeline,
         ConfirmDialog,
     ],
@@ -58,6 +60,7 @@ export class CaseManagerPanelComponent implements OnInit {
     @Input() formComponent!: any;
     @Input() category!: PatientCaseDataCategories;
     @Input() service!: any; 
+    public loadingData: boolean = false;
     public data$!: Observable<any>;
     public menuItems$: Observable<MenuItem[]> = of(this.getMenuItems());
     public completed: boolean = false;
@@ -93,13 +96,16 @@ export class CaseManagerPanelComponent implements OnInit {
       }
 
     refreshEntries() {
+        this.loadingData = true;
         this.data$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: (response: any) => {
-                console.log(response)
                 this.entries = response.items;
             },
             error: (error: Error) => {
                 console.log(error)
+            },
+            complete: () => {
+                this.loadingData = false;
             }
         })
     }
