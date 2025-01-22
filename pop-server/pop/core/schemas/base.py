@@ -1,11 +1,10 @@
-from typing import Type, Optional
-
 from django.db.models import Model as DjangoModel
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.core.fields import MeasurementField
 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
+from typing import Optional, List, get_args, get_origin, Type, Any
 
 from pop.terminology.models import CodedConcept
 
@@ -34,6 +33,30 @@ class BaseSchema(PydanticBaseModel):
     )
 
     @classmethod
+    def extract_related_model(cls,field) -> Optional[Type[PydanticBaseModel]]:
+        """
+        Extracts the related Pydantic model from a FieldInfo object.
+        
+        Args:
+            field_info (FieldInfo): A Pydantic FieldInfo object to analyze.
+        
+        Returns:
+            Optional[Type[BaseModel]]: The related Pydantic model, or None if no model is found.
+        """
+        def get_model_from_type(typ: Any) -> Optional[Type[PydanticBaseModel]]:
+            origin = get_origin(typ)
+            if origin is not None:  # If the type is a generic like List or Optional
+                for arg in get_args(typ):
+                    model = get_model_from_type(arg)
+                    if model:
+                        return model
+            elif isinstance(typ, type) and issubclass(typ, PydanticBaseModel):  # Base case: direct Pydantic model
+                return typ
+            return None
+        field_info = cls.model_fields.get(to_camel_case(field.name))
+        return get_model_from_type(field_info.annotation)
+
+    @classmethod
     def model_validate(cls, obj=None, *args, **kwargs):
         if isinstance(obj, DjangoModel):
             data = {}
@@ -42,12 +65,15 @@ class BaseSchema(PydanticBaseModel):
                     expanded =  to_camel_case(field.name) in cls.model_fields
                     if field.one_to_many or field.many_to_many:
                         data[field.name if expanded else field.name + '_ids'] = [
-                            related_object if expanded else related_object.id for related_object in getattr(obj, field.name).all()
+                            cls.extract_related_model(field).model_validate(related_object) if expanded else related_object.id for related_object in getattr(obj, field.name).all()
                         ]
                     else:
                         related_object =  getattr(obj, field.name)
                         if related_object:
-                            data[field.name if expanded else field.name + '_id'] = related_object if expanded else related_object.id
+                            if expanded:
+                                data[field.name] = cls.extract_related_model(field).model_validate(related_object)
+                            else:
+                                data[field.name + '_id'] = related_object.id
                 else:
                     data[field.name] = getattr(obj, field.name) 
             for attr_name in dir(obj.__class__):  # dir() inspects class attributes

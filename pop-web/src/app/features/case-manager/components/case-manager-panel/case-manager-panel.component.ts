@@ -30,7 +30,6 @@ import { compileClassDebugInfo } from '@angular/compiler';
     templateUrl: './case-manager-panel.component.html',
     styleUrl: './case-manager-panel.component.css',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CaseManagerDrawerComponent,
         CommonModule,

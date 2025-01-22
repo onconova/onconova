@@ -818,13 +818,25 @@ class CancerTreatmentResponse(CodedConcept):
     description = 'Codes representing the RECIST results'
 
 
-class MolecularTumorBoardRecommendation(CodedConcept):
-    valueset =  'https://simplifier.net/pop/ValueSets/pop-molecular-tumor-board-recommendations'
-    description = 'Codes representing molecular tumor board recommendations'
-
 class TumorBoardRecommendation(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-tumor-board-recommendations'
     description = 'Codes representing  tumor board  recommendations'
+    extension_concepts = [
+        CodedConceptSchema(code='LA14020-4', system='http://loinc.org/', display='Genetic counseling recommended'),
+        CodedConceptSchema(code='LA14021-2', system='http://loinc.org/', display='Confirmatory testing recommended'),
+        CodedConceptSchema(code='LA14022-0', system='http://loinc.org/', display='Additional testing recommended'),
+    ]
+class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
+    class MolecularTumorBoardRecommendationManager(models.Manager):
+        def get_queryset(self):
+            # Apply filtering criteria for MolecularTumorBoardRecommendation
+            return super().get_queryset().filter(
+                # Example filter: Add your specific filtering conditions here
+                code__in=['LA14020-4', 'LA14021-2', 'LA14022-0']
+            )    
+    objects = MolecularTumorBoardRecommendationManager()
+    class Meta:
+        proxy = True
 
 
 class ICD10Condition(CodedConcept):

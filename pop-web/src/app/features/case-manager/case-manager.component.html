@@ -188,7 +188,9 @@
                 title="Tumor Boards"
                 [icon]="icons.tumorBoards"
                 [caseId]="case.id"
-                [category]="PatientCaseDataCategories.TumorBoardReviews"/>
+                [category]="PatientCaseDataCategories.TumorBoardReviews"
+                [formComponent]="TumorBoardFormComponent"
+                [service]="tumorBoardService"/>
                 
             <app-case-manager-panel
                 title="Adverse Events"

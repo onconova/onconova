@@ -17,27 +17,27 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { AnyGenomicSignature } from '../model/any-genomic-signature';
-// @ts-ignore
-import { PaginatedAnyGenomicSignature } from '../model/paginated-any-genomic-signature';
-// @ts-ignore
-import { Payload2 } from '../model/payload2';
+import { PaginatedTreatmentResponseSchema } from '../model/paginated-treatment-response-schema';
 // @ts-ignore
 import { ResourceIdSchema } from '../model/resource-id-schema';
+// @ts-ignore
+import { TreatmentResponseCreateSchema } from '../model/treatment-response-create-schema';
+// @ts-ignore
+import { TreatmentResponseSchema } from '../model/treatment-response-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    GenomicSignaturesServiceInterface
-} from './genomic-signatures.serviceInterface';
+    TreatmentResponsesServiceInterface
+} from './treatment-responses.serviceInterface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class GenomicSignaturesService implements GenomicSignaturesServiceInterface {
+export class TreatmentResponsesService implements TreatmentResponsesServiceInterface {
 
     protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -100,17 +100,17 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
     }
 
     /**
-     * Create Genomic Signature
-     * @param payload2 
+     * Create Treatment Response
+     * @param treatmentResponseCreateSchema 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createGenomicSignature(payload2: Payload2, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createGenomicSignature(payload2: Payload2, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createGenomicSignature(payload2: Payload2, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
-    public createGenomicSignature(payload2: Payload2, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (payload2 === null || payload2 === undefined) {
-            throw new Error('Required parameter payload2 was null or undefined when calling createGenomicSignature.');
+    public createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
+    public createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
+    public createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (treatmentResponseCreateSchema === null || treatmentResponseCreateSchema === undefined) {
+            throw new Error('Required parameter treatmentResponseCreateSchema was null or undefined when calling createTreatmentResponse.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -165,11 +165,11 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
             }
         }
 
-        let localVarPath = `/api/genomic-signatures/`;
+        let localVarPath = `/api/treatment-responses/`;
         return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: payload2,
+                body: treatmentResponseCreateSchema,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -181,17 +181,17 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
     }
 
     /**
-     * Delete Genomic Signature
-     * @param genomicSignatureId 
+     * Delete Treatment Response
+     * @param treatmentRresponseId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteGenomicSignatureById(genomicSignatureId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteGenomicSignatureById(genomicSignatureId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteGenomicSignatureById(genomicSignatureId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteGenomicSignatureById(genomicSignatureId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (genomicSignatureId === null || genomicSignatureId === undefined) {
-            throw new Error('Required parameter genomicSignatureId was null or undefined when calling deleteGenomicSignatureById.');
+    public deleteTreatmentResponse(treatmentRresponseId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteTreatmentResponse(treatmentRresponseId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteTreatmentResponse(treatmentRresponseId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteTreatmentResponse(treatmentRresponseId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (treatmentRresponseId === null || treatmentRresponseId === undefined) {
+            throw new Error('Required parameter treatmentRresponseId was null or undefined when calling deleteTreatmentResponse.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -236,7 +236,7 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
             }
         }
 
-        let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/treatment-responses/${this.configuration.encodeParam({name: "treatmentRresponseId", value: treatmentRresponseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -251,17 +251,17 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
     }
 
     /**
-     * Get Genomic Signature By Id
-     * @param genomicSignatureId 
+     * Get Treatment Response By Id
+     * @param treatmentRresponseId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getGenomicSignatureById(genomicSignatureId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AnyGenomicSignature>;
-    public getGenomicSignatureById(genomicSignatureId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AnyGenomicSignature>>;
-    public getGenomicSignatureById(genomicSignatureId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AnyGenomicSignature>>;
-    public getGenomicSignatureById(genomicSignatureId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (genomicSignatureId === null || genomicSignatureId === undefined) {
-            throw new Error('Required parameter genomicSignatureId was null or undefined when calling getGenomicSignatureById.');
+    public getTreatmentResponseById(treatmentRresponseId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TreatmentResponseSchema>;
+    public getTreatmentResponseById(treatmentRresponseId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TreatmentResponseSchema>>;
+    public getTreatmentResponseById(treatmentRresponseId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TreatmentResponseSchema>>;
+    public getTreatmentResponseById(treatmentRresponseId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (treatmentRresponseId === null || treatmentRresponseId === undefined) {
+            throw new Error('Required parameter treatmentRresponseId was null or undefined when calling getTreatmentResponseById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -307,8 +307,8 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
             }
         }
 
-        let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<AnyGenomicSignature>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/treatment-responses/${this.configuration.encodeParam({name: "treatmentRresponseId", value: treatmentRresponseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<TreatmentResponseSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -322,29 +322,22 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
     }
 
     /**
-     * Get All Genomic Signatures Matching The Query
+     * Get All Treatment Responses Matching The Query
      * @param caseId 
-     * @param stagingDomain 
      * @param limit 
      * @param offset 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getGenomicSignatures(caseId?: string, stagingDomain?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedAnyGenomicSignature>;
-    public getGenomicSignatures(caseId?: string, stagingDomain?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedAnyGenomicSignature>>;
-    public getGenomicSignatures(caseId?: string, stagingDomain?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedAnyGenomicSignature>>;
-    public getGenomicSignatures(caseId?: string, stagingDomain?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTreatmentResponses(caseId?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedTreatmentResponseSchema>;
+    public getTreatmentResponses(caseId?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedTreatmentResponseSchema>>;
+    public getTreatmentResponses(caseId?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedTreatmentResponseSchema>>;
+    public getTreatmentResponses(caseId?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>caseId, 'caseId');
-        }
-        if (stagingDomain) {
-            stagingDomain.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'stagingDomain');
-            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -398,8 +391,8 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
             }
         }
 
-        let localVarPath = `/api/genomic-signatures/`;
-        return this.httpClient.request<PaginatedAnyGenomicSignature>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/treatment-responses/`;
+        return this.httpClient.request<PaginatedTreatmentResponseSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -414,21 +407,21 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
     }
 
     /**
-     * Update Genomic Signature
-     * @param genomicSignatureId 
-     * @param payload2 
+     * Update Treatment Response
+     * @param treatmentRresponseId 
+     * @param treatmentResponseCreateSchema 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateGenomicSignatureById(genomicSignatureId: string, payload2: Payload2, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public updateGenomicSignatureById(genomicSignatureId: string, payload2: Payload2, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public updateGenomicSignatureById(genomicSignatureId: string, payload2: Payload2, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public updateGenomicSignatureById(genomicSignatureId: string, payload2: Payload2, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (genomicSignatureId === null || genomicSignatureId === undefined) {
-            throw new Error('Required parameter genomicSignatureId was null or undefined when calling updateGenomicSignatureById.');
+    public updateTreatmentResponse(treatmentRresponseId: string, treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateTreatmentResponse(treatmentRresponseId: string, treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateTreatmentResponse(treatmentRresponseId: string, treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateTreatmentResponse(treatmentRresponseId: string, treatmentResponseCreateSchema: TreatmentResponseCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (treatmentRresponseId === null || treatmentRresponseId === undefined) {
+            throw new Error('Required parameter treatmentRresponseId was null or undefined when calling updateTreatmentResponse.');
         }
-        if (payload2 === null || payload2 === undefined) {
-            throw new Error('Required parameter payload2 was null or undefined when calling updateGenomicSignatureById.');
+        if (treatmentResponseCreateSchema === null || treatmentResponseCreateSchema === undefined) {
+            throw new Error('Required parameter treatmentResponseCreateSchema was null or undefined when calling updateTreatmentResponse.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -482,11 +475,11 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
             }
         }
 
-        let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/treatment-responses/${this.configuration.encodeParam({name: "treatmentRresponseId", value: treatmentRresponseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: payload2,
+                body: treatmentResponseCreateSchema,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

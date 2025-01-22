@@ -121,7 +121,7 @@ class PatientCaseController(ControllerBase):
     @route.get(
         path='/{caseId}/data-completion/{category}', 
         response={
-            201: PatientCaseDataCompletionStatusSchema,
+            200: PatientCaseDataCompletionStatusSchema,
         },
         operation_id='getPatientCaseDataCompletionStatus',
     )
@@ -162,7 +162,7 @@ class PatientCaseController(ControllerBase):
     @route.get(
         path='/bundle/{caseId}', 
         response={
-            201: PatientCaseBundleSchema,
+            200: PatientCaseBundleSchema,
         },
         operation_id='getPatientCaseBundleById',
     )
@@ -171,7 +171,7 @@ class PatientCaseController(ControllerBase):
         case = get_object_or_404(PatientCase, id=caseId)
         response = PatientCaseBundleSchema.model_validate(case)
         response.neoplasticEntities = [NeoplasticEntitySchema.model_validate(entry) for entry in case.neoplastic_entities.all()],
-        return response 
+        return 200, response 
 
     @route.post(
         path='/bundle', 

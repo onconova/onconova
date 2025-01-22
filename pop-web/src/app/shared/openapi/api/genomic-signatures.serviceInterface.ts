@@ -13,7 +13,7 @@ import { Observable }                                        from 'rxjs';
 
 import { AnyGenomicSignature } from '../model/models';
 import { PaginatedAnyGenomicSignature } from '../model/models';
-import { Payload1 } from '../model/models';
+import { Payload2 } from '../model/models';
 import { ResourceIdSchema } from '../model/models';
 
 
@@ -28,9 +28,9 @@ export interface GenomicSignaturesServiceInterface {
     /**
      * Create Genomic Signature
      * 
-     * @param payload1 
+     * @param payload2 
      */
-    createGenomicSignature(payload1: Payload1, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createGenomicSignature(payload2: Payload2, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
 
     /**
      * Delete Genomic Signature
@@ -60,8 +60,8 @@ export interface GenomicSignaturesServiceInterface {
      * Update Genomic Signature
      * 
      * @param genomicSignatureId 
-     * @param payload1 
+     * @param payload2 
      */
-    updateGenomicSignatureById(genomicSignatureId: string, payload1: Payload1, extraHttpRequestParams?: any): Observable<{}>;
+    updateGenomicSignatureById(genomicSignatureId: string, payload2: Payload2, extraHttpRequestParams?: any): Observable<{}>;
 
 }

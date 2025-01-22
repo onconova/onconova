@@ -36,7 +36,10 @@ import {
     VitalsService,
     RadiotherapiesService,
     GenomicVariantsService,
-    GenomicSignaturesService
+    GenomicSignaturesService,
+    AdverseEventsService,
+    TumorBoardsService,
+    TreatmentResponsesService
 } from 'src/app/shared/openapi'
 
 import { 
@@ -54,6 +57,7 @@ import {
     RadiotherapyFormComponent,
     GenomicVariantFormComponent,
     GenomicSignatureFormComponent,
+    TumorBoardFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -105,6 +109,9 @@ export class CaseManagerComponent implements OnInit {
     private genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
     private genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     private vitalsCoreService: VitalsService = inject(VitalsService);
+    private adverseEventsService: AdverseEventsService = inject(AdverseEventsService);
+    private tumorBoardsService: TumorBoardsService = inject(TumorBoardsService);
+    private treatmentResponsesService: TreatmentResponsesService = inject(TreatmentResponsesService);
     public location: Location = inject(Location);
 
     // Case properties
@@ -216,6 +223,27 @@ export class CaseManagerComponent implements OnInit {
         delete: this.vitalsCoreService.deleteVitalsById.bind(this.vitalsCoreService),
         update: this.vitalsCoreService.updateVitalsById.bind(this.vitalsCoreService),
     };
+    // Case-specific data observables
+    public adverseEventService: DataService = {
+        get: this.adverseEventsService.getAdverseEvents.bind(this.adverseEventsService),
+        create: this.adverseEventsService.createAdverseEvent.bind(this.adverseEventsService),
+        delete: this.adverseEventsService.deleteAdverseEventById.bind(this.adverseEventsService),
+        update: this.adverseEventsService.updateAdverseEvent.bind(this.adverseEventsService),
+    };
+    // Case-specific data observables
+    public tumorBoardService: DataService = {
+        get: this.tumorBoardsService.getTumorBoards.bind(this.tumorBoardsService),
+        create: this.tumorBoardsService.createTumorBoard.bind(this.tumorBoardsService),
+        delete: this.tumorBoardsService.deleteTumorBoardById.bind(this.tumorBoardsService),
+        update: this.tumorBoardsService.updateTumorBoardById.bind(this.tumorBoardsService),
+    };
+    // Case-specific data observables
+    public treatmentResponseService: DataService = {
+        get: this.treatmentResponsesService.getTreatmentResponses.bind(this.treatmentResponsesService),
+        create: this.treatmentResponsesService.createTreatmentResponse.bind(this.treatmentResponsesService),
+        delete: this.treatmentResponsesService.deleteTreatmentResponse.bind(this.treatmentResponsesService),
+        update: this.treatmentResponsesService.updateTreatmentResponse.bind(this.treatmentResponsesService),
+    };
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
@@ -232,6 +260,7 @@ export class CaseManagerComponent implements OnInit {
     public RadiotherapyFormComponent = RadiotherapyFormComponent;
     public GenomicVariantFormComponent = GenomicVariantFormComponent;
     public GenomicSignatureFormComponent = GenomicSignatureFormComponent;
+    public TumorBoardFormComponent = TumorBoardFormComponent;
 
     public readonly PatientCaseDataCategories = PatientCaseDataCategories; 
 

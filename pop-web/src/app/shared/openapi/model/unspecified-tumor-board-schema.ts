@@ -7,12 +7,31 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MolecularTumorBoardCreateSchema } from './molecular-tumor-board-create-schema';
-import { UnspecifiedTumorBoardCreateSchema } from './unspecified-tumor-board-create-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface Payload1 { 
+export interface UnspecifiedTumorBoardSchema { 
+    /**
+     * 
+     */
+    id: string;
+    /**
+     * 
+     */
+    createdAt: string;
+    /**
+     * 
+     */
+    updatedAt: string;
+    createdById?: number | null;
+    /**
+     * The user(s) who updated the data since its creation
+     */
+    updatedByIds?: Array<number>;
+    /**
+     * Human-readable description
+     */
+    description: string;
     /**
      * Indicates the case of the patient which was discussed at the tumor board
      */
@@ -25,21 +44,13 @@ export interface Payload1 {
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema>;
-    category?: Payload1.CategoryEnum;
-    conductedMolecularComparison?: boolean;
-    molecularComparisonMatchId?: string;
-    conductedCupCharacterization?: boolean;
-    characterizedCup?: boolean;
-    /**
-     * 
-     */
-    reviewedReports: Array<string>;
+    recommendations?: Array<CodedConceptSchema> | null;
+    category?: UnspecifiedTumorBoardSchema.CategoryEnum;
 }
-export namespace Payload1 {
-    export type CategoryEnum = 'molecular';
+export namespace UnspecifiedTumorBoardSchema {
+    export type CategoryEnum = 'unspecified';
     export const CategoryEnum = {
-        Molecular: 'molecular' as CategoryEnum
+        Unspecified: 'unspecified' as CategoryEnum
     };
 }
 

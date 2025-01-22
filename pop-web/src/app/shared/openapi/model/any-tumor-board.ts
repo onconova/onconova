@@ -7,12 +7,34 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MolecularTumorBoardCreateSchema } from './molecular-tumor-board-create-schema';
-import { UnspecifiedTumorBoardCreateSchema } from './unspecified-tumor-board-create-schema';
+import { UnspecifiedTumorBoardSchema } from './unspecified-tumor-board-schema';
+import { MolecularTherapeuticRecommendationSchema } from './molecular-therapeutic-recommendation-schema';
+import { MolecularTumorBoardSchema } from './molecular-tumor-board-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
-export interface Payload1 { 
+export interface AnyTumorBoard { 
+    /**
+     * 
+     */
+    id: string;
+    /**
+     * 
+     */
+    createdAt: string;
+    /**
+     * 
+     */
+    updatedAt: string;
+    createdById?: number;
+    /**
+     * The user(s) who updated the data since its creation
+     */
+    updatedByIds?: Array<number>;
+    /**
+     * Human-readable description
+     */
+    description: string;
     /**
      * Indicates the case of the patient which was discussed at the tumor board
      */
@@ -26,7 +48,7 @@ export interface Payload1 {
      */
     relatedEntitiesIds?: Array<string>;
     recommendations?: Array<CodedConceptSchema>;
-    category?: Payload1.CategoryEnum;
+    category?: AnyTumorBoard.CategoryEnum;
     conductedMolecularComparison?: boolean;
     molecularComparisonMatchId?: string;
     conductedCupCharacterization?: boolean;
@@ -35,8 +57,12 @@ export interface Payload1 {
      * 
      */
     reviewedReports: Array<string>;
+    /**
+     * Therapeutic recommendations of the molecular tumor board
+     */
+    therapeuticRecommendations: Array<MolecularTherapeuticRecommendationSchema>;
 }
-export namespace Payload1 {
+export namespace AnyTumorBoard {
     export type CategoryEnum = 'molecular';
     export const CategoryEnum = {
         Molecular: 'molecular' as CategoryEnum

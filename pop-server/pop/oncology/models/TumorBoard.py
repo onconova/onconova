@@ -119,7 +119,7 @@ class MolecularTumorBoard(TumorBoard):
        
     @property
     def description(self):
-        recommendations = len(self.recommended_clinical_trials) +  self.therapeutic_recommendations.count() + self.recommendations.count()
+        recommendations = self.therapeutic_recommendations.count() + self.recommendations.count()
         if recommendations==0: recommendations = 'no' 
         return f'MTB review with {recommendations} recommendations'
 
@@ -133,16 +133,17 @@ class MolecularTherapeuticRecommendation(BaseModel):
         related_name = 'therapeutic_recommendations',
         on_delete = models.CASCADE,                
     )
-    action = termfields.CodedConceptField(
-        verbose_name=_('Suggested usage'),
-        help_text=_('Suggested use of the recommended medication'),
-        terminology = terminologies.MedicationUsageSuggestion,
-        null=True, blank=True,
-    )
     expected_effect = termfields.CodedConceptField(
         verbose_name=_('Expected medication action'),
         help_text=_('Classification of the expected effect of the drug'),
         terminology = terminologies.ExpectedDrugAction,
+        null=True, blank=True,
+    )
+    clinical_trial = models.CharField(
+        verbose_name = _('Recommended clinical trial'),
+        help_text = _('Clinical trial (NCT-Iddentifier) recommended by the board for enrollment'),
+        validators = [RegexValidator(r'^NCT\d{8}$')],
+        max_length=15,
         null=True, blank=True,
     )
     drugs = termfields.CodedConceptField(
@@ -150,16 +151,7 @@ class MolecularTherapeuticRecommendation(BaseModel):
         help_text=_('Drugs(s) being recommended'),
         terminology = terminologies.AntineoplasticAgent,
         multiple = True,
-    )
-    clinical_trials = ArrayField(
-        verbose_name = _('Recommended clinical trials'),
-        help_text = _('Clinical trials (NCT-Iddentifiers) recommended by the board for enrollment'),
-        base_field = models.CharField(
-            validators = [RegexValidator(r'^NCT\d{8}$')],
-            max_length=15,
-        ),
-        blank=True,
-        default=list, 
+        null=True, blank=True,
     )
     off_label_use = models.BooleanField(
         verbose_name = _('Off-label use'),
@@ -200,12 +192,8 @@ class MolecularTherapeuticRecommendation(BaseModel):
     @property
     def description(self):
         drugs = [med.display for med in self.drugs.all()]
-        if self.action:
-            action = self.action
-            return f'Recommended {action} of {" and ".join(drugs)}'
-        else:
-            expected_effect = ''
-            if self.expected_effect:
-                expected_effect == f'due to expected {self.expected_effect.display.lower()}'
-            return f'Recommended {" and ".join(drugs)}{expected_effect}'
+        expected_effect = ''
+        if self.expected_effect:
+            expected_effect == f'due to expected {self.expected_effect.display.lower()}'
+        return f'Recommended {" and ".join(drugs)}{expected_effect}'
 

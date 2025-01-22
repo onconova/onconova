@@ -19,7 +19,7 @@ export interface PatientCaseBundle {
     /**
      * Neoplastic entities
      */
-    neoplasticEntities: Array<NeoplasticEntity>;
+    neoplasticEntities?: Array<NeoplasticEntity>;
     /**
      * 
      */
