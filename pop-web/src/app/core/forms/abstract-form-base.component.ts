@@ -35,7 +35,14 @@ export abstract class AbstractFormBase {
 
   abstract createService: CallableFunction;
   abstract updateService: CallableFunction;
-  public subformsServices: {payloads: CallableFunction, deletedEntries: CallableFunction, delete: CallableFunction, create: CallableFunction, update: CallableFunction}[] = [];
+  public subformsServices: {
+    condition?: CallableFunction | null,
+    payloads: CallableFunction, 
+    deletedEntries: CallableFunction, 
+    delete: CallableFunction, 
+    create: CallableFunction, 
+    update: CallableFunction
+  }[] = [];
   
   abstract constructAPIPayload(data: any): any
 
@@ -45,7 +52,6 @@ export abstract class AbstractFormBase {
       // Prepare the data according to the API scheme
       const data = this.form.value
       const payload = this.constructAPIPayload(data)
-      console.log('PAYLOAD', payload)
       // Send the data to the server's API
       if (this.initialData && this.initialData.id) {
         this.updateService(this.initialData.id, payload)
@@ -58,34 +64,38 @@ export abstract class AbstractFormBase {
               // Use the returned resource ID as input for the second requests
               return forkJoin(
                 this.subformsServices.flatMap((subformServices) => {
-                  return subformServices.payloads(data).map(
-                    (subformPayload: any) => {
-                      if (subformPayload.id) {
-                        console.log('UPDATE SUBENTRY', subformPayload.id)
-                        return subformServices.update(this.initialData.id, subformPayload.id, subformPayload)
-                      } else {
-                        console.log('CREATE SUBENTRY')
-                        return subformServices.create(this.initialData.id, subformPayload)
+                  if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
+                    return subformServices.payloads(data).map(
+                      (subformPayload: any) => {
+                        if (subformPayload.id) {
+                          return subformServices.update(this.initialData.id, subformPayload.id, subformPayload)
+                        } else {
+                          return subformServices.create(this.initialData.id, subformPayload)
+                        }
                       }
-                    }
-                  )
+                    )
+                  } else {
+                    return of(response)
+                  }
                 })
               )
               .pipe(
                 concatMap((response): any => {
                   return forkJoin(
                     this.subformsServices.flatMap((subformServices) => {
-                      const toBeDeleted = subformServices.deletedEntries()
-                      if (toBeDeleted.length == 0 ) {
-                        console.log('NOTHING TO DELETE')
+                      if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
+                        const toBeDeleted = subformServices.deletedEntries()
+                        if (toBeDeleted.length == 0 ) {
+                          return of(response)
+                        }
+                        return toBeDeleted.map(
+                          (deletedEntryId: any) => {
+                            return subformServices.delete(this.initialData.id, deletedEntryId)
+                          }
+                        )
+                      } else {
                         return of(response)
                       }
-                      return toBeDeleted.map(
-                        (deletedEntryId: any) => {
-                          console.log('DELETE SUBENTRY', deletedEntryId)
-                          return subformServices.delete(this.initialData.id, deletedEntryId)
-                        }
-                      )
                     })
                   )
                   .pipe(
@@ -122,9 +132,13 @@ export abstract class AbstractFormBase {
               // Use the returned resource ID as input for the second requests
               return forkJoin(
                 this.subformsServices.flatMap((subformServices) => {
-                  return subformServices.payloads(data).map(
-                    (subformPayload: any) => subformServices.create(response.id, subformPayload)
-                  )
+                  if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
+                    return subformServices.payloads(data).map(
+                      (subformPayload: any) => subformServices.create(response.id, subformPayload)
+                    )
+                  } else {
+                    return of(response);
+                  }
                 })
               ).pipe(
                 map(() => response)

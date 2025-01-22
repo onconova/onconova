@@ -43,6 +43,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
   standalone: true,
   selector: 'radiotherapy-form',
   templateUrl: './radiotherapy-form.component.html',
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -70,14 +71,14 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
     override readonly subformsServices = [
         {
             payloads: this.constructDosagePayloads.bind(this),
-            deletedEntries: this.getDeletedMedications.bind(this),
+            deletedEntries: this.getDeletedDosages.bind(this),
             delete: this.radiotherapiesService.deleteRadiotherapyDosage.bind(this.radiotherapiesService),
             create: this.radiotherapiesService.createRadiotherapyDosage.bind(this.radiotherapiesService),
             update: this.radiotherapiesService.updateRadiotherapyDosage.bind(this.radiotherapiesService),
         },
         {
             payloads: this.constructSettingsPayloads.bind(this),
-            deletedEntries: this.getDeletedMedications.bind(this),
+            deletedEntries: this.getDeletedSettings.bind(this),
             delete: this.radiotherapiesService.deleteRadiotherapySetting.bind(this.radiotherapiesService),
             create: this.radiotherapiesService.createRadiotherapySetting.bind(this.radiotherapiesService),
             update: this.radiotherapiesService.updateRadiotherapySetting.bind(this.radiotherapiesService),
@@ -107,12 +108,11 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
         this.getRelatedEntities()
         // Construct the form 
         this.constructForm()
-        this.dosageFormArray.push(this.constructDosageSubform(null))
     }
 
     constructForm(): void {
 
-        this.dosageFormArray = this.formBuilder.array((this.initialData?.dosages || [])?.map(
+        this.dosageFormArray = this.formBuilder.array((this.initialData?.dosages || [null])?.map(
             (initialDosage: RadiotherapyDosageSchema) => {
                 return this.constructDosageSubform(initialDosage)
             }
@@ -155,7 +155,6 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
 
 
     constructAPIPayload(data: any): RadiotherapyCreateSchema {    
-        console.log('constructAPIPayload', data)
         return {
             caseId: this.caseId,
             targetedEntitiesIds: data.targetedEntities,
@@ -187,7 +186,32 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
             technique: subformData.technique, 
         }})
     }
-    private getDeletedMedications(): string[] {
+
+    public addSetting() {
+        this.settingsFormArray.push(this.constructSettingsSubform({} as RadiotherapySettingSchema));
+    }
+
+    public removeSetting(index: number) {
+        const settingValue = this.settingsFormArray.value[index];
+        if (settingValue?.id) {
+            this.deletedRadiotherapySettings.push(settingValue.id);
+        }
+        this.settingsFormArray.removeAt(index);
+    }
+
+    public addDosage() {
+        this.dosageFormArray.push(this.constructDosageSubform({} as RadiotherapyDosageSchema));
+    }
+
+    public removeDosage(index: number) {
+        const dosageValue = this.dosageFormArray.value[index];
+        if (dosageValue?.id) {
+            this.deletedRadiotherapyDosages.push(dosageValue.id);
+        }
+        this.dosageFormArray.removeAt(index);
+    }
+
+    private getDeletedDosages(): string[] {
         return this.deletedRadiotherapyDosages;
     }
 

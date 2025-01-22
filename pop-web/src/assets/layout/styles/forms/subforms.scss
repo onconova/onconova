@@ -1,0 +1,18 @@
+.subform-remove-button > button{ 
+    top: -1rem;
+    float: right;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    background: none !important;
+    color: white;
+    font-size: .9rem !important;
+    border: none !important;
+}
+.subform-remove-button > button:hover {
+    color: var(--p-button-danger-background) !important;
+}
+.subform-add-button > button{
+    margin: 1rem 0;
+    width: fit-content;
+} 
