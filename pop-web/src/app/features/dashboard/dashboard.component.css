@@ -1,6 +1,15 @@
 
+.banner {
+    background-color: light-dark(var(--p-primary-100), var(--p-primary-900))!important;
+}
+
+div.illustration {
+    height: 0;
+    transform: translateY(-10rem) scaleX(-1);
+}
 
 .illustration {
+    scale: 1.15;
     color: var(--p-primary-color);
     width: 30rem;
 }
