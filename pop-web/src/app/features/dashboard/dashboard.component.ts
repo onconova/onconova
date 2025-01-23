@@ -5,6 +5,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { DialogModule } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { RandomPaperComponent } from './components/random-paper/random-paper.component';
 
 @Component({
     standalone: true,
@@ -15,7 +16,8 @@ import { CardModule } from 'primeng/card';
         InlineSVGModule,
         CardModule,
         Button,
-        DialogModule
+        DialogModule,
+        RandomPaperComponent
     ],
 })
 export class DashboardComponent {

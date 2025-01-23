@@ -1,0 +1,19 @@
+<p-card styleClass="mt-5" [style]="{width: '90%'}">
+    @let paper = paper$ | async;
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    <div  class="paper-details flex">
+        <div [inlineSVG]="illustration" class="illustration-papers ml-3"></div>
+        <div class="my-auto ml-3 flex flex-column" style="width: 100%;">
+            <h3 class="mb-0">Paper of the Day - <span>{{ today | date }}</span></h3>
+            <p-divider></p-divider>
+            <p-skeleton *ngIf="!paper" width="100%" height="7rem" />
+            <div *ngIf="paper" >
+                <h5 class="mb-1"><i>{{ paper.title[0] }}</i></h5>
+                <p class="mb-3"> {{ paper.author[0].family }} et al., {{ paper['container-title'] }}, {{ paper['journal-issue']?.issue || '?' }}, {{ paper['published-print']?.['date-parts'][0][0] || '' }}</p>
+                <a [href]="paper.URL" target="_blank"><p-button label="Access the publication"/></a>
+            </div>
+        </div>
+    </div>
+</p-card>
