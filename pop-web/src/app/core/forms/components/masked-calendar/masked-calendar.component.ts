@@ -35,7 +35,8 @@ export class MaskedCalendarComponent implements ControlValueAccessor {
     @Input() view: DatePickerTypeView = 'date';
 
     private dateStringFormat: string = 'DD/MM/YYYY'
-
+    public readonly minDate: Date = moment().subtract(200, 'years').toDate();
+    public readonly maxDate: Date = moment().toDate();
     public formControl: FormControl = new FormControl();
 
     writeValue(value: any): void {
