@@ -14443,42 +14443,6 @@
   "title": "Grade",
   "type": "integer"
   },
-  "isSerious": {
-  "anyOf": [
-  {
-  "type": "boolean"
-  },
-  {
-  "type": "null"
-  }
-  ],
-  "description": "Indicates whether the adverse event was classified as serious.",
-  "examples": [],
-  "expanded": null,
-  "is_relation": false,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "is_serious",
-  "title": "Is serious?"
-  },
-  "isExpected": {
-  "anyOf": [
-  {
-  "type": "boolean"
-  },
-  {
-  "type": "null"
-  }
-  ],
-  "description": "Indicates whether the adverse event was expected or unexpected.",
-  "examples": [],
-  "expanded": null,
-  "is_relation": false,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "is_expected",
-  "title": "Is expected?"
-  },
   "outcome": {
   "$ref": "#/components/schemas/AdverseEventOutcomeChoices",
   "description": "The date when the adverse event ended or returned to baseline.",
@@ -14509,17 +14473,6 @@
   "one_to_many": false,
   "orm_name": "date_resolved",
   "title": "Date resolved"
-  },
-  "isResolved": {
-  "description": "Indicates whether the adverse event has been resolved",
-  "examples": [],
-  "expanded": null,
-  "is_relation": false,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "is_resolved",
-  "title": "Is resolved",
-  "type": "boolean"
   }
   },
   "required": [
@@ -14527,8 +14480,7 @@
   "date",
   "event",
   "grade",
-  "outcome",
-  "isResolved"
+  "outcome"
   ],
   "title": "AdverseEventCreate",
   "type": "object"
@@ -14851,42 +14803,6 @@
   "title": "Grade",
   "type": "integer"
   },
-  "isSerious": {
-  "anyOf": [
-  {
-  "type": "boolean"
-  },
-  {
-  "type": "null"
-  }
-  ],
-  "description": "Indicates whether the adverse event was classified as serious.",
-  "examples": [],
-  "expanded": null,
-  "is_relation": false,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "is_serious",
-  "title": "Is serious?"
-  },
-  "isExpected": {
-  "anyOf": [
-  {
-  "type": "boolean"
-  },
-  {
-  "type": "null"
-  }
-  ],
-  "description": "Indicates whether the adverse event was expected or unexpected.",
-  "examples": [],
-  "expanded": null,
-  "is_relation": false,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "is_expected",
-  "title": "Is expected?"
-  },
   "outcome": {
   "$ref": "#/components/schemas/AdverseEventOutcomeChoices",
   "description": "The date when the adverse event ended or returned to baseline.",
@@ -14917,17 +14833,6 @@
   "one_to_many": false,
   "orm_name": "date_resolved",
   "title": "Date resolved"
-  },
-  "isResolved": {
-  "description": "Indicates whether the adverse event has been resolved",
-  "examples": [],
-  "expanded": null,
-  "is_relation": false,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "is_resolved",
-  "title": "Is resolved",
-  "type": "boolean"
   },
   "suspectedCauses": {
   "description": "Suspected causes of the adverse event",
@@ -14962,7 +14867,6 @@
   "event",
   "grade",
   "outcome",
-  "isResolved",
   "suspectedCauses",
   "mitigations"
   ],
@@ -16105,20 +16009,27 @@
   "title": "Within SOC"
   },
   "drugs": {
+  "anyOf": [
+  {
+  "items": {
+  "$ref": "#/components/schemas/CodedConceptSchema"
+  },
+  "type": "array"
+  },
+  {
+  "type": "null"
+  }
+  ],
   "default": [],
   "description": "Drugs(s) being recommended",
   "examples": [],
   "expanded": null,
   "is_relation": true,
-  "items": {
-  "$ref": "#/components/schemas/CodedConceptSchema"
-  },
   "many_to_many": true,
   "one_to_many": false,
   "orm_name": "drugs",
   "terminology": "AntineoplasticAgent",
-  "title": "Drug(s)",
-  "type": "array"
+  "title": "Drug(s)"
   },
   "supportingGenomicVariantsIds": {
   "anyOf": [
@@ -16707,20 +16618,27 @@
   "title": "Within SOC"
   },
   "drugs": {
+  "anyOf": [
+  {
+  "items": {
+  "$ref": "#/components/schemas/CodedConceptSchema"
+  },
+  "type": "array"
+  },
+  {
+  "type": "null"
+  }
+  ],
   "default": [],
   "description": "Drugs(s) being recommended",
   "examples": [],
   "expanded": null,
   "is_relation": true,
-  "items": {
-  "$ref": "#/components/schemas/CodedConceptSchema"
-  },
   "many_to_many": true,
   "one_to_many": false,
   "orm_name": "drugs",
   "terminology": "AntineoplasticAgent",
-  "title": "Drug(s)",
-  "type": "array"
+  "title": "Drug(s)"
   },
   "supportingGenomicVariantsIds": {
   "anyOf": [

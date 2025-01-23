@@ -6,7 +6,7 @@ from typing import List
 
 AdverseEventBase: Schema = create_schema(
     AdverseEvent, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
+    exclude=(*CREATE_IGNORED_FIELDS, 'is_resolved'),
 )
 
 AdverseEventSuspectedCauseBase: Schema = create_schema(

@@ -45,16 +45,6 @@ class AdverseEvent(BaseModel):
         help_text = _("The grade associated with the severity of an adverse event, using CTCAE criteria."),
         validators = [MinValueValidator(0), MaxValueValidator(5)]
     )
-    is_serious = models.BooleanField(
-        verbose_name = _('Is serious?'),
-        help_text = _('Indicates whether the adverse event was classified as serious.'),
-        blank = True, null = True,
-    ) 
-    is_expected = models.BooleanField(
-        verbose_name = _('Is expected?'),
-        help_text = _('Indicates whether the adverse event was expected or unexpected.'),
-        blank = True, null = True,
-    ) 
     outcome = models.CharField(
         verbose_name = _('Date resolved'),
         help_text = _("The date when the adverse event ended or returned to baseline."),
@@ -81,7 +71,7 @@ class AdverseEvent(BaseModel):
     @property
     def description(self):
         causes = ' and '.join([cause.description for cause in self.suspected_causes.all()])
-        return ' '.join([self.event.display, causes])
+        return ' '.join([self.event.display,f'(grade {self.grade})', causes])
 
 
 class AdverseEventSuspectedCause(BaseModel):
@@ -147,7 +137,7 @@ class AdverseEventSuspectedCause(BaseModel):
 
     @property
     def description(self):
-        return f'{self.causality.replace("-"," ").capitalize()} {self.cause}'
+        return f'{self.causality.replace("-"," ").capitalize()} to {self.cause}'
     
 
 

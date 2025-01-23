@@ -28,17 +28,11 @@ export interface AdverseEventCreateSchema {
      * The grade associated with the severity of an adverse event, using CTCAE criteria.
      */
     grade: number;
-    isSerious?: boolean | null;
-    isExpected?: boolean | null;
     /**
      * The date when the adverse event ended or returned to baseline.
      */
     outcome: AdverseEventOutcomeChoices;
     dateResolved?: string | null;
-    /**
-     * Indicates whether the adverse event has been resolved
-     */
-    isResolved: boolean;
 }
 export namespace AdverseEventCreateSchema {
 }

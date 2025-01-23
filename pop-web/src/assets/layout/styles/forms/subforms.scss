@@ -1,11 +1,11 @@
 .subform-remove-button > button{ 
-    top: -1rem;
+    top: -.5rem;
     float: right;
     height: 1.5rem;
     width: 1.5rem;
     border-radius: 50%;
     background: none !important;
-    color: white;
+    color: var(--p-text-color);
     font-size: .9rem !important;
     border: none !important;
 }

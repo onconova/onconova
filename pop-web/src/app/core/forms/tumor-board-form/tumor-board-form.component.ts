@@ -6,7 +6,7 @@ import { forkJoin, map, Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as moment from 'moment'; 
 
-import { Fingerprint } from 'lucide-angular';
+import { Presentation } from 'lucide-angular';
 
 import { Fieldset } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
@@ -93,7 +93,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
 
     public readonly title: string = 'Tumor Board';
     public readonly subtitle: string = 'Add new tumor board';
-    public readonly icon = Fingerprint;
+    public readonly icon = Presentation;
 
     private caseId!: string;
     public molecularTherapeuticRecommendationsFormArray!: FormArray;

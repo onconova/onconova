@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import { Ribbon } from 'lucide-angular';
 import { EmptyObject } from 'chart.js/dist/types/basic';
 import { Call } from '@angular/compiler';
+import { PatientCase } from 'src/app/shared/openapi';
 
 interface Resource {
     id: string;
@@ -53,60 +54,47 @@ export abstract class AbstractFormBase {
       const data = this.form.value
       const payload = this.constructAPIPayload(data)
       // Send the data to the server's API
-      if (this.initialData && this.initialData.id) {
-        this.updateService(this.initialData.id, payload)
-          .pipe(
-            concatMap((response: Resource) => {
-              // Handle the case where there are no secondService defined
-              if (!this.subformsServices || this.subformsServices.length === 0) {
-                return of(response);
+      const updating = this.initialData && this.initialData.id;
+      if (updating) {
+
+        let subformsUpdates$ = this.subformsServices.flatMap((subformServices) => {
+          if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
+            return subformServices.payloads(data).map(
+              (subformPayload: any) => {
+                if (subformPayload.id) {
+                  return subformServices.update(this.initialData.id, subformPayload.id, subformPayload)
+                } else {
+                  return subformServices.create(this.initialData.id, subformPayload)
+                }
               }
-              // Use the returned resource ID as input for the second requests
-              return forkJoin(
-                this.subformsServices.flatMap((subformServices) => {
-                  if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
-                    return subformServices.payloads(data).map(
-                      (subformPayload: any) => {
-                        if (subformPayload.id) {
-                          return subformServices.update(this.initialData.id, subformPayload.id, subformPayload)
-                        } else {
-                          return subformServices.create(this.initialData.id, subformPayload)
-                        }
-                      }
-                    )
-                  } else {
-                    return of(response)
-                  }
-                })
-              )
-              .pipe(
-                concatMap((response): any => {
-                  return forkJoin(
-                    this.subformsServices.flatMap((subformServices) => {
-                      if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
-                        const toBeDeleted = subformServices.deletedEntries()
-                        if (toBeDeleted.length == 0 ) {
-                          return of(response)
-                        }
-                        return toBeDeleted.map(
-                          (deletedEntryId: any) => {
-                            return subformServices.delete(this.initialData.id, deletedEntryId)
-                          }
-                        )
-                      } else {
-                        return of(response)
-                      }
-                    })
-                  )
-                  .pipe(
-                    map(() => response)
-                  );
-                })
-              )
-            }),
-            takeUntilDestroyed(this.destroyRef)
+            )
+          } else {
+            return []
+          }
+        }
+      );
+
+      let subformDeletions$ = this.subformsServices.flatMap((subformServices, index) => {
+        if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
+          const toBeDeleted = subformServices.deletedEntries()
+          if (toBeDeleted.length == 0 ) {
+            return []
+          }
+          return toBeDeleted.map(
+            (deletedEntryId: any) => subformServices.delete(this.initialData.id, deletedEntryId)
           )
-          .subscribe({
+        } else {
+          return []
+        }
+      })
+
+      forkJoin([
+          this.updateService(this.initialData.id, payload),
+          ...subformsUpdates$,
+          ...subformDeletions$,
+      ]).pipe(
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe({
             next: () => {
               // Report the successful creation of the resource
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + this.initialData.id });
@@ -122,43 +110,42 @@ export abstract class AbstractFormBase {
           })
   
       } else {
+
         this.createService(payload)        
-          .pipe(
-            concatMap((response: Resource) => {
-              // Handle the case where there are no secondService defined
-              if (!this.subformsServices || this.subformsServices.length === 0) {
-                return of(response);
-              }
-              // Use the returned resource ID as input for the second requests
-              return forkJoin(
-                this.subformsServices.flatMap((subformServices) => {
-                  if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
-                    return subformServices.payloads(data).map(
-                      (subformPayload: any) => subformServices.create(response.id, subformPayload)
-                    )
-                  } else {
-                    return of(response);
-                  }
-                })
-              ).pipe(
-                map(() => response)
-              );
-            }),
-            takeUntilDestroyed(this.destroyRef)
-          )
-          .subscribe({
-            next: (response: Resource) => {
-              // Report the successful creation of the resource
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.id });
-              this.loading = false;  
-              this.save.emit();
-            },
-            error: (error: Error) => {
-              // Report any problems
-              this.loading = false;  
-              this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.message });
-              console.error(error)
+        .pipe(
+          map((response: Resource) => {
+            // Handle the case where there are no secondService defined
+            if (!this.subformsServices || this.subformsServices.length === 0) {
+              return of(response);
             }
+            // Use the returned resource ID as input for the second requests
+            return forkJoin(
+              ...this.subformsServices.flatMap((subformServices) => {
+                if (!subformServices?.condition || (subformServices?.condition && subformServices.condition(data))) {
+                  return subformServices.payloads(data).map(
+                    (subformPayload: any) => subformServices.create(response.id, subformPayload)
+                  )
+                } else {
+                  return [];
+                }
+              })
+            )
+          }),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe({
+          next: (response: Resource) => {
+            // Report the successful creation of the resource
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.id });
+            this.loading = false;  
+            this.save.emit();
+          },
+          error: (error: Error) => {
+            // Report any problems
+            this.loading = false;  
+            this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.message });
+            console.error(error)
+          }
         })  
       }
     }

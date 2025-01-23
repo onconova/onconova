@@ -31,7 +31,7 @@ export class RadioSelectComponent implements ControlValueAccessor {
     
     @Input() formControlName!: string;
     @Input() choices: RadioChoice[] = [];
-    @Input() class!: string;
+    @Input() class: string = 'flex flex-wrap gap-4';
 
     public formControl = new FormControl<RadioChoice|null>(null);
 

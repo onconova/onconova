@@ -58,6 +58,7 @@ import {
     GenomicVariantFormComponent,
     GenomicSignatureFormComponent,
     TumorBoardFormComponent,
+    AdverseEventFormComponent,
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
@@ -89,7 +90,6 @@ interface DataService {
         Divider,
         SkeletonModule,
     ],
-    providers: [MessageService]
 })
 export class CaseManagerComponent implements OnInit {
 
@@ -261,6 +261,7 @@ export class CaseManagerComponent implements OnInit {
     public GenomicVariantFormComponent = GenomicVariantFormComponent;
     public GenomicSignatureFormComponent = GenomicSignatureFormComponent;
     public TumorBoardFormComponent = TumorBoardFormComponent;
+    public AdverseEventFormComponent = AdverseEventFormComponent;
 
     public readonly PatientCaseDataCategories = PatientCaseDataCategories; 
 

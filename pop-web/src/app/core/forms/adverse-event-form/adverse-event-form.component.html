@@ -1,0 +1,155 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the event</label>
+            <masked-calendar 
+                formControlName="date"
+            />
+            <control-error controlName="date"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Adverse event</label>
+            <coded-concept-select 
+                formControlName="event"
+                terminology="AdverseEventTerm"
+                [showSynonyms]="false"/>
+            <control-error controlName="event"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Grade</label>
+            <div *ngIf="!form.value.event">
+                Please select an adverse event first
+            </div>
+            <div *ngIf="form.value.event">
+                <div *ngFor="let option of form.value.event | getEventGrades" class="field-checkbox">
+                    <p-radiobutton 
+                        [inputId]="option.description" 
+                        [value]="option.grade" 
+                        formControlName="grade" />
+                    <label [for]="option.description" class="ml-2">
+                        Grade {{ option.grade }}
+                        <br>
+                        <small class="text-muted">{{ option.description }}</small>
+                    </label>
+                </div>
+            </div>
+            <control-error controlName="grade"></control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Outcome</label>
+            <p-select 
+            [options]="outcomeChoices" 
+            formControlName="outcome"
+            optionLabel="name" 
+            optionValue="value"
+            appendTo="body"
+            placeholder="Select an option" />
+            <control-error controlName="outcome"></control-error>
+        </div>
+
+
+        <div class="field" *ngIf="form.value.outcome === AdverseEventOutcomeChoices.Resolved || form.value.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae">
+            <label for="date" class="form-label required">Date when the event was resolved</label>
+            <masked-calendar 
+                formControlName="dateResolved"/>
+            <control-error controlName="dateResolved"></control-error>
+        </div>
+        
+
+        <div formArrayName="suspectedCauses">
+            <ng-container *ngFor="let control of suspectedCausesFormArray.controls; let i = index" >
+                <p-fieldset legend="Suspected cause" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
+                    <p-button icon="pi pi-times" (click)="removeSuspectedCause(i)" class="subform-remove-button"/>
+
+                    @let relatedSuspectedCauses = relatedSuspectedCauses$ | async;
+                    <div class="field">
+                        <label class="form-label required">Suspect</label>
+                        <p-select 
+                        [options]="relatedSuspectedCauses || []" 
+                        formControlName="cause"
+                        optionLabel="description" 
+                        optionValue="id"
+                        appendTo="body"
+                        placeholder="Select an option" />
+                    </div>
+
+                    <div class="field">
+                        <label class="form-label required">Causality</label>
+                        <p-select 
+                        [options]="causalityChoices" 
+                        formControlName="causality"
+                        optionLabel="name" 
+                        optionValue="value"
+                        appendTo="body"
+                        placeholder="Select an option" />
+                    </div>
+
+                </p-fieldset>
+            </ng-container>
+            <p-button icon="pi pi-plus" label="Add suspected cause" (click)="addSuspectedCause()" class="subform-add-button"/>
+        </div>
+        
+
+        <div formArrayName="mitigations">
+            <ng-container *ngFor="let control of mitigationsFormArray.controls; let i = index" >
+                <p-fieldset  legend="Mitigation" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
+                    <p-button icon="pi pi-times" (click)="removeMitigation(i)" class="subform-remove-button"/>
+
+                    <div class="field">
+                        <label class="form-label required">Mitigation strategy</label>
+                        <radio-select  
+                        formControlName="category"
+                        [choices]="mitigationCategoryChoices"
+                        class="flex flex-column gap-1"/>
+                    </div>        
+
+                    <div class="field" *ngIf="control.value.category === AdverseEventMitigationCategoryChoices.Adjustment">
+                        <label class="form-label required">Type of Adjustment</label>
+                        <coded-concept-select 
+                            formControlName="adjustment"
+                            terminology="AdverseEventMitigationTreatmentAdjustment"
+                            [showSynonyms]="false"/>
+                    </div>
+
+                    <div class="field" *ngIf="control.value.category === AdverseEventMitigationCategoryChoices.Pharmacological">
+                        <label class="form-label">Pharmacological treatment</label>
+                        <coded-concept-select 
+                            formControlName="drug"
+                            terminology="AdverseEventMitigationDrug"
+                            [showSynonyms]="true"/>
+                    </div>
+
+                    <div class="field" *ngIf="control.value.category === AdverseEventMitigationCategoryChoices.Procedure">
+                        <label class="form-label">Procedure</label>
+                        <coded-concept-select 
+                            formControlName="procedure"
+                            terminology="AdverseEventMitigationProcedure"
+                            [showSynonyms]="false"/>
+                    </div>
+
+                    <div class="field">
+                        <label class="form-label">Management</label>
+                        <coded-concept-select 
+                            formControlName="management"
+                            terminology="AdverseEventMitigationManagement"
+                            [showSynonyms]="false"/>
+                    </div>
+                    
+                </p-fieldset>
+            </ng-container>
+            <p-button icon="pi pi-plus" label="Add mitigation" (click)="addMitigation()" class="subform-add-button"/>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-4"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

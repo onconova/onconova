@@ -15,10 +15,7 @@ export interface MolecularTherapeuticRecommendationCreateSchema {
     clinicalTrial?: string | null;
     offLabelUse?: boolean | null;
     withinSoc?: boolean | null;
-    /**
-     * Drugs(s) being recommended
-     */
-    drugs?: Array<CodedConceptSchema>;
+    drugs?: Array<CodedConceptSchema> | null;
     supportingGenomicVariantsIds?: Array<string> | null;
     supportingGenomicSignaturesIds?: Array<string> | null;
     supportingTumorMarkersIds?: Array<string> | null;

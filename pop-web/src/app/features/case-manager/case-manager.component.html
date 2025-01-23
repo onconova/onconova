@@ -196,7 +196,9 @@
                 title="Adverse Events"
                 [icon]="icons.adverseEvents"
                 [caseId]="case.id"
-                [category]="PatientCaseDataCategories.AdverseEvents"/>
+                [category]="PatientCaseDataCategories.AdverseEvents"
+                [formComponent]="AdverseEventFormComponent"
+                [service]="adverseEventService"/>
 
             <app-case-manager-panel
                 title="Treatment Responses"

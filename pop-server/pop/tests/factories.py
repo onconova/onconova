@@ -199,8 +199,6 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)    
     grade = factory.LazyFunction(lambda: random.randint(0,5))
     event = make_terminology_factory(terminology.AdverseEventTerm)
-    is_serious = factory.LazyFunction(lambda: random.randint(0,2)>1)
-    is_expected = factory.LazyFunction(lambda: random.randint(0,2)>1)
     outcome = FuzzyChoice(models.AdverseEvent.AdverseEventOutcome)
 
 class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
@@ -248,7 +246,7 @@ class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactor
     expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
     off_label_use = factory.LazyFunction(lambda: random.randint(0,2)>1) 
     within_soc = factory.LazyFunction(lambda: random.randint(0,2)>1) 
-    clinical_trials = factory.LazyFunction(lambda: [f'NCT{random.randint(11111111,99999999)}' for _ in range(random.randint(1,3))]) 
+    clinical_trial = factory.LazyFunction(lambda: f'NCT{random.randint(11111111,99999999)}') 
 
 
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):
