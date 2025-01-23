@@ -1,18 +1,40 @@
 
-.banner {
+div.banner.p-card {
     background-color: light-dark(var(--p-primary-100), var(--p-primary-900))!important;
+    max-width: 1000px;
 }
-
+div.banner-content {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+div.banner-content-text {
+    width: 65%;
+} 
 div.illustration {
-    height: 0;
-    transform: translateY(-10rem) scaleX(-1);
+    position: absolute;
+    right: 0%;
+    transform: translateY(-11rem) scaleX(-1);
+    width: 22rem;
 }
 
 .illustration {
-    scale: 1.15;
     color: var(--p-primary-color);
-    width: 30rem;
 }
-.illustration .shadows {
-   color: red !important; 
+
+@media (max-width: 1100px) {
+    div.banner-content-text {
+        width: 55%;
+    } 
+    div.illustration {
+        width: 24rem;
+    }
+}
+@media (max-width: 800px) {
+    div.banner-content-text {
+        width: 100%;
+    } 
+    div.illustration {
+        display: none;
+    }
 }
