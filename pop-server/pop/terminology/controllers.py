@@ -1,6 +1,7 @@
 from typing import List
 
-from django.db.models import Q
+from django.db.models import Q, Value, Case, When, F, Func, IntegerField, CharField
+from django.db.models.expressions import RawSQL
 
 from ninja import Field, Schema, Query
 from ninja_extra import route, api_controller
@@ -13,8 +14,15 @@ from pop.terminology import models as terminologies
 
 
 class QueryParameters(Schema):
-    query_string: str = Field(None, alias='query')
+    search_term: str = Field(None, alias='query')
     codes: List[str] = Field(None, alias='codes') # type: ignore
+
+def get_matching_score_expression(query, score): 
+    return Case(
+        When(query, then=Value(score)),
+        default=Value(0),
+        output_field=IntegerField(),
+    )
 
 
 @api_controller(
@@ -33,10 +41,36 @@ class TerminologyController(ControllerBase):
     @paginate()
     def get_terminology_concepts(self, terminologyName: str, query: Query[QueryParameters]):
         queryset = getattr(terminologies, terminologyName).objects.all()
-        if query.query_string: 
-            queryset = queryset.filter(
-                Q(code__icontains=query.query_string) | Q(display__icontains=query.query_string) | Q(synonyms__contains=[query.query_string])
-            ).distinct()
+        if query.search_term: 
+            # Prepare the search term
+            search_term = query.search_term.strip()
+            # Query matching criteria
+            match_code = Q(code__icontains=search_term)
+            match_display = Q(display__icontains=search_term)
+            match_synonyms = Q(synonym_match=True)
+            # Prepare the filtered queryset
+            queryset = queryset.annotate(
+                # Aggreagate the matching of the search term against all synonyms in the array
+                synonym_match=RawSQL(
+                    """
+                    EXISTS (
+                        SELECT 1
+                        FROM unnest(synonyms) AS synonym
+                        WHERE synonym ILIKE %s
+                    )
+                    """,
+                    params=[f"%{search_term}%"]
+                )
+            ).filter( 
+                match_code | match_display | match_synonyms
+            ).distinct().annotate(
+                matching_score = (
+                    get_matching_score_expression(match_code, 10) +
+                    get_matching_score_expression(match_display, 5) +
+                    get_matching_score_expression(match_synonyms, 1)
+                )
+            ).order_by('-matching_score')
+
         if query.codes:
             queryset = queryset.filter(code__in=query.codes).distinct()
         return queryset
