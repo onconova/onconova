@@ -42,11 +42,12 @@ class TreatmentResponse(BaseModel):
         help_text = _('Method used to assess and classify the treatment response'),
         terminology = terminologies.CancerTreatmentResponseObservationMethod,
     )
-    assessed_bodysite = termfields.CodedConceptField(
+    assessed_bodysites = termfields.CodedConceptField(
         verbose_name = _('Assessed anatomical location'),
         help_text = _('Anatomical location assessed to determine the treatment response'),
         terminology = terminologies.ObservationBodySite,
         null = True, blank = True,
+        multiple = True,
     )
     
     @property

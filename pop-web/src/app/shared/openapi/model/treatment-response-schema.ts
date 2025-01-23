@@ -49,10 +49,10 @@ export interface TreatmentResponseSchema {
      * Method used to assess and classify the treatment response
      */
     methodology: CodedConceptSchema;
-    assessedBodysite?: CodedConceptSchema | null;
     /**
      * References to the neoplastic entities that were assesed for treatment response
      */
     assessedEntitiesIds?: Array<string>;
+    assessedBodysites?: Array<CodedConceptSchema> | null;
 }
 

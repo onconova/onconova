@@ -15344,25 +15344,6 @@
   "terminology": "CancerTreatmentResponseObservationMethod",
   "title": "Assessment method"
   },
-  "assessedBodysite": {
-  "anyOf": [
-  {
-  "$ref": "#/components/schemas/CodedConceptSchema"
-  },
-  {
-  "type": "null"
-  }
-  ],
-  "description": "Anatomical location assessed to determine the treatment response",
-  "examples": [],
-  "expanded": null,
-  "is_relation": true,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "assessed_bodysite",
-  "terminology": "ObservationBodySite",
-  "title": "Assessed anatomical location"
-  },
   "assessedEntitiesIds": {
   "default": [],
   "description": "References to the neoplastic entities that were assesed for treatment response",
@@ -15377,6 +15358,29 @@
   "orm_name": "assessed_entities",
   "title": "Assessed neoplastic entities",
   "type": "array"
+  },
+  "assessedBodysites": {
+  "anyOf": [
+  {
+  "items": {
+  "$ref": "#/components/schemas/CodedConceptSchema"
+  },
+  "type": "array"
+  },
+  {
+  "type": "null"
+  }
+  ],
+  "default": [],
+  "description": "Anatomical location assessed to determine the treatment response",
+  "examples": [],
+  "expanded": null,
+  "is_relation": true,
+  "many_to_many": true,
+  "one_to_many": false,
+  "orm_name": "assessed_bodysites",
+  "terminology": "ObservationBodySite",
+  "title": "Assessed anatomical location"
   }
   },
   "required": [
@@ -15550,25 +15554,6 @@
   "terminology": "CancerTreatmentResponseObservationMethod",
   "title": "Assessment method"
   },
-  "assessedBodysite": {
-  "anyOf": [
-  {
-  "$ref": "#/components/schemas/CodedConceptSchema"
-  },
-  {
-  "type": "null"
-  }
-  ],
-  "description": "Anatomical location assessed to determine the treatment response",
-  "examples": [],
-  "expanded": null,
-  "is_relation": true,
-  "many_to_many": false,
-  "one_to_many": false,
-  "orm_name": "assessed_bodysite",
-  "terminology": "ObservationBodySite",
-  "title": "Assessed anatomical location"
-  },
   "assessedEntitiesIds": {
   "default": [],
   "description": "References to the neoplastic entities that were assesed for treatment response",
@@ -15583,6 +15568,29 @@
   "orm_name": "assessed_entities",
   "title": "Assessed neoplastic entities",
   "type": "array"
+  },
+  "assessedBodysites": {
+  "anyOf": [
+  {
+  "items": {
+  "$ref": "#/components/schemas/CodedConceptSchema"
+  },
+  "type": "array"
+  },
+  {
+  "type": "null"
+  }
+  ],
+  "default": [],
+  "description": "Anatomical location assessed to determine the treatment response",
+  "examples": [],
+  "expanded": null,
+  "is_relation": true,
+  "many_to_many": true,
+  "one_to_many": false,
+  "orm_name": "assessed_bodysites",
+  "terminology": "ObservationBodySite",
+  "title": "Assessed anatomical location"
   }
   },
   "required": [

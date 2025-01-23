@@ -204,7 +204,9 @@
                 title="Treatment Responses"
                 [icon]="icons.treatmentResponses"
                 [caseId]="case.id"
-                [category]="PatientCaseDataCategories.TherapyResponses"/>
+                [category]="PatientCaseDataCategories.TherapyResponses"
+                [formComponent]="TreatmentResponseFormComponent"
+                [service]="treatmentResponseService"/>
 
             <app-case-manager-panel
                 title="Performance Status"
