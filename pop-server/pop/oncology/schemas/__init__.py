@@ -1,5 +1,6 @@
+from pop.core.schemas import create_filters_schema
 from .PatientCase import (
-    PatientCaseSchema, PatientCaseCreateSchema, 
+    PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 
     PatientCaseBundleSchema, PatientCaseBundleCreateSchema
 )
@@ -58,9 +59,26 @@ from .GenomicSignature import (
     AneuploidScoreSchema, AneuploidScoreCreateSchema,
 )
 
+PatientCaseFilters = create_filters_schema(schema = PatientCaseSchema)
+NeoplasticEntityFilters = create_filters_schema(schema = NeoplasticEntitySchema)
+TumorMarkerFilters = create_filters_schema(schema = TumorMarkerSchema)
+RiskAssessmentFilters = create_filters_schema(schema = RiskAssessmentSchema)
+SystemicTherapyFilters = create_filters_schema(schema = SystemicTherapySchema)
+SurgeryFilters = create_filters_schema(schema = SurgerySchema)
+RadiotherapyFilters = create_filters_schema(schema = RadiotherapySchema)
+AdverseEventFilters = create_filters_schema(schema = AdverseEventSchema)
+TreatmentResponseFilters = create_filters_schema(schema = TreatmentResponseSchema)
+UnspecifiedTumorBoardFilters = create_filters_schema(schema = UnspecifiedTumorBoardSchema)
+PerformanceStatusFilters = create_filters_schema(schema = PerformanceStatusSchema)
+LifestyleFilters = create_filters_schema(schema = LifestyleSchema)
+VitalsFilters = create_filters_schema(schema = VitalsSchema)
+ComorbiditiesAssessmentFilters = create_filters_schema(schema = ComorbiditiesAssessmentSchema)
+GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema)
+
+
 __all__ = (
      # PatientCase schemas
-     PatientCaseSchema, PatientCaseCreateSchema, 
+     PatientCaseSchema, PatientCaseCreateSchema,
      PatientCaseDataCompletionStatusSchema, 
      PatientCaseBundleSchema, PatientCaseBundleCreateSchema,
      # Neoplastic entity schemas
@@ -104,7 +122,7 @@ __all__ = (
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema,
     # Performance status schemas 
-    PerformanceStatusSchema, PerformanceStatusCreateSchema,
+    PerformanceStatusSchema, PerformanceStatusCreateSchema, PerformanceStatusFilters,
     # Lifestyle schemas
     LifestyleSchema, LifestyleCreateSchema,
     # Family member history schemas 
@@ -122,4 +140,20 @@ __all__ = (
     HomologousRecombinationDeficiencySchema, HomologousRecombinationDeficiencyCreateSchema,
     TumorNeoantigenBurdenSchema, TumorNeoantigenBurdenCreateSchema,
     AneuploidScoreSchema, AneuploidScoreCreateSchema,
+    # Filters
+    PatientCaseFilters,
+    NeoplasticEntityFilters,
+    TumorMarkerFilters,
+    RiskAssessmentFilters,
+    SystemicTherapyFilters,
+    SurgeryFilters,
+    RadiotherapyFilters,
+    AdverseEventFilters,
+    TreatmentResponseFilters,
+    UnspecifiedTumorBoardFilters,
+    PerformanceStatusFilters,
+    LifestyleFilters,
+    VitalsFilters,
+    ComorbiditiesAssessmentFilters,
+    GenomicVariantFilters,
 )

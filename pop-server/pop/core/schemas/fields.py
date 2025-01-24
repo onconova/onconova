@@ -1,5 +1,7 @@
-from typing import Dict, List, Tuple, Optional
+from typing import Literal, List, Tuple, Optional
 import enum 
+import warnings
+from datetime import date, datetime
 
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from django.db.models.fields import Field as DjangoField
@@ -179,6 +181,396 @@ def get_schema_field(
             json_schema_extra=json_schema_extra,
         ),
     )
+
+
+from dataclasses import dataclass 
+from enum import Enum
+
+
+class FilterEnum(Enum):
+    
+    @classmethod
+    def values(cls):
+        return [c.value for c in cls]
+
+@dataclass
+class LookupDetails:
+    django_lookup: str
+    value_type: str
+    name: str 
+    description: str = ''
+    negative: bool = False 
+
+    def invert_logic(self, name, description):
+        return LookupDetails(
+            name = name,
+            description=description,
+            value_type=self.value_type,
+            django_lookup = self.django_lookup,
+            negative = not self.negative
+        )
+
+class StringFilters(FilterEnum):
+    matches = LookupDetails(
+        name='',
+        value_type = str, 
+        django_lookup = 'exact',
+        description = 'Filter for full text matches',
+    )
+    notMatches = matches.invert_logic(
+        name='not',
+        description = 'Filter for full text mismatches'
+    )
+    contains = LookupDetails(
+        name='contains',
+        value_type = str, 
+        django_lookup = 'contains',
+        description = 'Filter for partial text matches'
+    )
+    notContains = contains.invert_logic(
+        name='not.contains',
+        description = 'Filter for partial text mismatches'
+    )
+    beginsWith = LookupDetails(
+        name='beginsWith',
+        value_type = str, 
+        django_lookup = 'begins_with',
+        description = 'Filter for entries starting with the text'
+    )
+    notBeginsWith = beginsWith.invert_logic(
+        name='not.beginsWith',
+        description = 'Filter for entries not starting with the text'
+    )
+    endsWith = LookupDetails(
+        name='endsWith',
+        value_type = str, 
+        django_lookup = 'ends_with',
+        description = 'Filter for entries ending with the text'
+    )
+    notEndsWith = endsWith.invert_logic(
+        name = 'not.endsWith',
+        description = 'Filter for entries not ending with the text'
+    )
+    
+
+class NullFilters(FilterEnum):
+    exists = LookupDetails(
+        name = 'exists',
+        value_type = str, 
+        django_lookup = 'is_null',
+        negative = True,
+        description = 'Filter for entries without a value'
+    )
+    notExists = exists.invert_logic(
+        name='not.exists',
+        description = 'Filter for entries with a value'
+    )
+    
+class DateFilters(FilterEnum):
+    before = LookupDetails(
+        name='before',
+        value_type=date,
+        django_lookup='lt',
+        description='Filter for entries with dates before the specified value'
+    )
+    after = LookupDetails(
+        name='after',
+        value_type=date,
+        django_lookup='gt',
+        description='Filter for entries with dates after the specified value'
+    )
+    onOrBefore = LookupDetails(
+        name='onOrBefore',
+        value_type=date,
+        django_lookup='lte',
+        description='Filter for entries with dates on or before the specified value'
+    )
+    onOrAfter = LookupDetails(
+        name='onOrAfter',
+        value_type=date,
+        django_lookup='gte',
+        description='Filter for entries with dates on or after the specified value'
+    )
+    on = LookupDetails(
+        name='on',
+        value_type=date,
+        django_lookup='exact',
+        description='Filter for entries with dates exactly matching the specified value'
+    )
+    notOn = on.invert_logic(
+        name='not.on',
+        description='Filter for entries with dates not matching the specified value'
+    )
+    between = LookupDetails(
+        name='between',
+        value_type=Tuple[date,date],  # A tuple of two ISO 8601 date strings
+        django_lookup='range',
+        description='Filter for entries with dates between two specified values (inclusive)'
+    )
+    noBetween = between.invert_logic(
+        name='not.between',
+        description='Filter for entries with dates not between two specified values (inclusive)'
+    )
+    
+    
+class IntegerFilters(FilterEnum):
+    lessThan = LookupDetails(
+        name='lessThan',
+        value_type=int, 
+        django_lookup='lt',
+        description='Filter for entries with values less than the specified value'
+    )
+    lessThanOrEqual = LookupDetails(
+        name='lessThanOrEqual',
+        value_type=int, 
+        django_lookup='lte',
+        description='Filter for entries with values less than or equal to the specified value'
+    )
+    greaterThan = LookupDetails(
+        name='greaterThan',
+        value_type=int, 
+        django_lookup='gt',
+        description='Filter for entries with values greater than the specified value'
+    )
+    greaterThanOrEqual = LookupDetails(
+        name='greaterThanOrEqual',
+        value_type=int,  
+        django_lookup='gte',
+        description='Filter for entries with values greater than or equal to the specified value'
+    )
+    equal = LookupDetails(
+        name='equal',
+        value_type=int, 
+        django_lookup='exact',
+        description='Filter for entries with values exactly equal to the specified value'
+    )
+    notEqual = equal.invert_logic(
+        name='not.equal',
+        description='Filter for entries with values not equal to the specified value'
+    )
+    between = LookupDetails(
+        name='between',
+        value_type=Tuple[int, int], 
+        django_lookup='range',
+        description='Filter for entries with values between two specified values (inclusive)'
+    )
+    valueExists = LookupDetails(
+        name='exists',
+        value_type=int, 
+        django_lookup='isnull',
+        negative=True,
+        description='Filter for entries where the value exists'
+    )
+    valueNotExists = valueExists.invert_logic(
+        name='not.exists',
+        description='Filter for entries where the value does not exist'
+    )
+
+class FloatFilters(FilterEnum):
+    lessThan = LookupDetails(
+        name='lessThan',
+        value_type=float, 
+        django_lookup='lt',
+        description='Filter for entries with values less than the specified value'
+    )
+    lessThanOrEqual = LookupDetails(
+        name='lessThanOrEqual',
+        value_type=float, 
+        django_lookup='lte',
+        description='Filter for entries with values less than or equal to the specified value'
+    )
+    greaterThan = LookupDetails(
+        name='greaterThan',
+        value_type=float, 
+        django_lookup='gt',
+        description='Filter for entries with values greater than the specified value'
+    )
+    greaterThanOrEqual = LookupDetails(
+        name='greaterThanOrEqual',
+        value_type=float,  
+        django_lookup='gte',
+        description='Filter for entries with values greater than or equal to the specified value'
+    )
+    equal = LookupDetails(
+        name='equal',
+        value_type=float, 
+        django_lookup='exact',
+        description='Filter for entries with values exactly equal to the specified value'
+    )
+    notEqual = equal.invert_logic(
+        name='not.equal',
+        description='Filter for entries with values not equal to the specified value'
+    )
+    between = LookupDetails(
+        name='between',
+        value_type=Tuple[float, float], 
+        django_lookup='range',
+        description='Filter for entries with values between two specified values (inclusive)'
+    )
+    valueExists = LookupDetails(
+        name='exists',
+        value_type=float, 
+        django_lookup='isnull',
+        negative=True,
+        description='Filter for entries where the value exists'
+    )
+    valueNotExists = valueExists.invert_logic(
+        name='not.exists',
+        description='Filter for entries where the value does not exist'
+    )
+    
+class BooleanFilters(FilterEnum):
+    equals = LookupDetails(
+        name='',
+        value_type = bool, 
+        django_lookup = 'equals',
+        description = 'Filter for yes/no statement',
+    )
+    
+    
+class ReferenceFilters(FilterEnum):
+    equals = LookupDetails(
+        name='',
+        value_type = str, 
+        django_lookup = 'equals',
+        description = 'Filter for a matching reference Id',
+    )
+    notEquals = equals.invert_logic(
+        name='not.equals',
+        description = 'Filter for a mismatching reference Id',
+    )
+    oneOf = LookupDetails(
+        name='oneOf',
+        value_type = List[str], 
+        django_lookup = 'in',
+        description = 'Filter for a subset of matching reference Ids',
+    )
+    notOneOf = oneOf.invert_logic(
+        name='not.oneOf',
+        description = 'Filter for a subset of mismatching reference Ids',
+    )
+    
+class CodedConceptFilters(FilterEnum):
+    codeEquals = LookupDetails(
+        name='code',
+        value_type = str, 
+        django_lookup = 'code',
+        description = 'Filter for a matching code',
+    )
+    codeIncludes = LookupDetails(
+        name='code.includes',
+        value_type = List[str], 
+        django_lookup = 'code__in',
+        description = 'Filter for a matching set of codes',
+    )
+    codeContains = LookupDetails(
+        name='code.contains',
+        value_type = List[str], 
+        django_lookup = 'code__in',
+        description = 'Filter for partially matching codes',
+    )
+    displayEquals = LookupDetails(
+        name='display',
+        value_type = str, 
+        django_lookup = 'display',
+        description = 'Filter for a fully matching concept text',
+    )
+    displayContains = LookupDetails(
+        name='display.contains',
+        value_type = str, 
+        django_lookup = 'display__icontains',
+        description = 'Filter for a partially matching concept text',
+    )
+    codeDescendsFrom = LookupDetails(
+        name='code.descendsFrom',
+        value_type = List[str], 
+        django_lookup = 'descendsfrom__code',
+        description = 'Filter for all child concept of a given code',
+    )
+    
+FILTERS_MAP = {
+    str: StringFilters.values(),
+    type(Enum): StringFilters.values(),
+    date: DateFilters.values(),
+    datetime: DateFilters.values(),
+    int: IntegerFilters.values(),
+    float: FloatFilters.values(),
+    MeasureSchema: FloatFilters.values(),
+    bool: BooleanFilters.values(),
+    CodedConceptSchema: CodedConceptFilters.values(),
+}
+
+from typing import Union, get_args, get_origin
+from ninja import Schema 
+def get_schema_field_filters(field_name: str, field: FieldInfo):
+    
+    # Get schema field annotation 
+    annotation = field.annotation
+
+    # Check if field is optional
+    if is_literal(annotation):
+        return []
+
+    filters = [] 
+    # Check if field is optional
+    if is_optional(annotation):
+        filters += NullFilters.values() 
+        annotation = get_args(annotation)[0]
+
+        
+    # Add the filters for the corresponding type        
+    filters += FILTERS_MAP.get(annotation, [])
+    if field_name.endswith('Id') or field_name.endswith('Ids'):
+        filters += ReferenceFilters.values() 
+    if is_list(annotation):
+        list_type = get_args(annotation)[0]
+        # if issubclass(list_type, Schema):
+        #     return get_schema_field_filters(list_type)
+    if is_enum(annotation):
+        filters.append(LookupDetails(
+            name='',
+            value_type = annotation, 
+            django_lookup = '',
+            description = 'Filter for one of the value choices',
+        ))
+        filters.append(LookupDetails(
+            name='allOf',
+            value_type = List[annotation], 
+            django_lookup = 'in',
+            description = 'Filter for some of the value choices',
+        ))
+    if not filters:
+        warnings.warn(f"No filters defined for field type: {annotation} of {annotation.__class__}")
+    
+    # Construct the Pydantic fields for each filter
+    return [ 
+        (
+            f'{field_name}.{filter.name}' if filter.name else field_name, 
+            ( filter.value_type, FieldInfo(
+                default=None,
+                description=f'{field.title} - {filter.description}',
+                json_schema_extra={
+                    'negative': filter.negative,
+                    'django_lookup': f'{field.alias}__{filter.django_lookup}',
+                }
+            ))
+        )
+        for filter in filters
+    ]
+
+
+def is_optional(field):
+    return get_origin(field) is Union and \
+           type(None) in get_args(field)
+
+def is_list(field):
+    return get_origin(field) is List 
+
+def is_enum(field):
+    return field.__class__ is type(Enum)
+
+def is_literal(field):
+    return get_origin(field) is Literal 
 
 def to_camel_case(string: str) -> str:
     """

@@ -12,7 +12,7 @@ from pop.oncology.models import NeoplasticEntity
 from django.shortcuts import get_object_or_404
 from typing import List
 
-from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
+from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateSchema, NeoplasticEntityFilters
 
 
 class QueryParameters(Schema):
@@ -34,10 +34,11 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='getNeoplasticEntities',
     )
     @paginate()
-    def get_all_neoplastic_entities_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]):
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
-        for (lookup, value) in query:
+        for (filter, value) in query:
             if value is not None:
+                lookup = NeoplasticEntityFilters.get_django_lookup(filter)
                 queryset = queryset.filter(**{lookup: value})
         return [NeoplasticEntitySchema.model_validate(instance) for instance in queryset]
 

@@ -30,7 +30,6 @@ class TestGetSchemaField(TestCase):
         return field
     
     def _assert_django_field_properties(self, django_field, field_info):
-        print(field_info.json_schema_extra)
         self.assertEqual(field_info.json_schema_extra.get('orm_name'), django_field.name)
         self.assertEqual(field_info.json_schema_extra.get('many_to_many'), bool(django_field.many_to_many))
         self.assertEqual(field_info.json_schema_extra.get('one_to_many'), bool(django_field.one_to_many))
@@ -202,6 +201,4 @@ class TestSchemaFactory(TestCase):
         self.assertEqual([user['username'] for user in schema_instance.model_dump()['updatedBy']],  [user1.username, user2.username])
         self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.first(), user1)
         self.assertEqual(schema_instance.model_dump_django(instance=django_instance).updated_by.last(), user2)
-        
-
         

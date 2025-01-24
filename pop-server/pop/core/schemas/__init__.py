@@ -14,16 +14,16 @@ from .schemas import (
 )
 from .base import BaseSchema, ConfigDict
 from .mixin import BaseModelSchema, GetMixin, CreateMixin
-from .factory import create_schema, factory
-from .metaclass import ModelSchema
+from .factory import create_schema, create_filters_schema, factory
+from .metaclass import ModelSchema, ModelFilterSchema
 
 __all__ = (
     CREATE_IGNORED_FIELDS,
     BaseSchema,
-    create_schema,
+    create_schema, create_filters_schema,
     factory,
     PeriodSchema, RangeSchema,
-    ModelSchema,
+    ModelSchema, ModelFilterSchema,
     MeasureSchema,
     MeasureConversionSchema,
     CodedConceptSchema,

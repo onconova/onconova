@@ -11,7 +11,7 @@ from pop.oncology.models import PerformanceStatus
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import PerformanceStatusSchema, PerformanceStatusCreateSchema
+from pop.oncology.schemas import PerformanceStatusSchema, PerformanceStatusCreateSchema, PerformanceStatusFilters
 
 
 class QueryParameters(Schema):
@@ -32,10 +32,11 @@ class PerformanceStatusController(ControllerBase):
         operation_id='getPerformanceStatus',
     )
     @paginate()
-    def get_all_performance_status_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters]):
         queryset = PerformanceStatus.objects.all().order_by('-date')
-        for (lookup, value) in query:
+        for (filter, value) in query:
             if value is not None:
+                lookup = PerformanceStatusFilters.get_django_lookup(filter)
                 queryset = queryset.filter(**{lookup: value})
         return [PerformanceStatusSchema.model_validate(instance) for instance in queryset]
 

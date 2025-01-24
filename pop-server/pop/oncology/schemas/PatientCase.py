@@ -1,6 +1,6 @@
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from datetime import datetime
-from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
+from pop.core.schemas import ModelSchema, ModelFilterSchema, CREATE_IGNORED_FIELDS, create_filters_schema
 from ninja import Schema
 from pydantic import Field, AliasChoices
 from typing import Optional, List
@@ -11,10 +11,11 @@ class PatientCaseDataCompletionStatusSchema(Schema):
     timestamp: Optional[datetime] = Field(None,description='Username of the person who marked the category as completed')
 
 class PatientCaseSchema(ModelSchema):
-    age: int = Field(description='Approximate age of the patient in years') 
+    age: int = Field(title='Age', alias='db_age', description='Approximate age of the patient in years', json_schema_extra={'django_field': 'db_age'}) 
     dataCompletionRate: float = Field(
+        title='Data completion rate',
         description='Percentage indicating the completeness of a case in terms of its data.', 
-        alias='data_completion_rate',
+        alias='db_data_completion_rate',
         validation_alias=AliasChoices('dataCompletionRate', 'data_completion_rate'),
     ) 
 
@@ -32,7 +33,6 @@ class PatientCaseCreateSchema(ModelSchema):
             'pseudoidentifier', 
             'is_deceased',
         )
-
 
 from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 
@@ -56,3 +56,4 @@ class PatientCaseBundleCreateSchema(ModelSchema):
             *CREATE_IGNORED_FIELDS,
             'is_deceased',
         )
+    

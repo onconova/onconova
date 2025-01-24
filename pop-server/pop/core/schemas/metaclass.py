@@ -7,7 +7,7 @@ from ninja.schema import ResolverMetaclass
 from ninja.errors import ConfigError
 from pydantic.dataclasses import dataclass
 
-from pop.core.schemas.factory import create_schema
+from pop.core.schemas.factory import create_schema, create_filters_schema
 from pop.core.schemas.base import BaseSchema 
 
 _is_modelschema_class_defined = False
@@ -115,8 +115,16 @@ class ModelSchemaMetaclass(ResolverMetaclass):
         return cls
 
 
+
 class ModelSchema(BaseSchema, metaclass=ModelSchemaMetaclass):
     pass
+
+class ModelFilterSchema(BaseSchema):
+
+    @classmethod
+    def get_django_lookup(cls, filter_name):
+        filter_info = cls.model_fields.get(filter_name)
+        return filter_info.json_schema_extra.get('django_lookup')
 
 
 _is_modelschema_class_defined = True

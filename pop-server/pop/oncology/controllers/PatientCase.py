@@ -7,32 +7,14 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
-from typing import List
-from datetime import date 
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ResourceIdSchema, Paginated, ModelFilterSchema
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
-    PatientCaseSchema, PatientCaseCreateSchema, 
+    PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,
     PatientCaseDataCompletionStatusSchema, 
     PatientCaseBundleSchema, PatientCaseBundleCreateSchema
 )
-
-class GenderEnum(Enum):
-    male = 'male'
-    female = 'female'
-    unknown = 'unknown'
-
-
-class QueryParameters(Schema):
-    db_age__lte: int = Field(None, alias='age_lte')
-    db_age__gte: int = Field(None, alias='age_gte')
-    pseudoidentifier__icontains: str = Field(None, alias='pseudoidentifier')
-    created_by__username: str = Field(None, alias='manager') 
-    is_deceased: bool = Field(None, alias='deceased')
-    gender__code__in: List[GenderEnum] = Field(None, alias="gender")
-    date_of_birth: date = Field(None, alias="born")
-
 
 @api_controller(
     'patient-cases/', 
@@ -49,10 +31,11 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCases',
     )
     @paginate()
-    def get_all_patient_cases_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters]):
         queryset = PatientCase.objects.all().order_by('-created_at')
-        for (lookup,value) in query:
+        for (filter,value) in query:
             if value is not None:
+                lookup = PatientCaseFilters.get_django_lookup(filter)
                 queryset = queryset.filter(**{lookup: value})
         return queryset
 

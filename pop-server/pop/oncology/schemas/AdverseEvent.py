@@ -1,5 +1,5 @@
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin
+from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ModelFilterSchema
 from ninja import Schema
 from pydantic import Field, ConfigDict, AliasChoices
 from typing import List 
@@ -18,6 +18,7 @@ AdverseEventMitigationBase: Schema = create_schema(
     AdverseEventMitigation, 
     exclude=(*CREATE_IGNORED_FIELDS, 'adverse_event'),
 )
+
 
 class AdverseEventSuspectedCauseSchema(AdverseEventSuspectedCauseBase, GetMixin):
     model_config = ConfigDict(title='AdverseEventSuspectedCause')
@@ -42,3 +43,5 @@ class AdverseEventSchema(AdverseEventBase, GetMixin):
 
 class AdverseEventCreateSchema(AdverseEventBase, CreateMixin):
     model_config = ConfigDict(title='AdverseEventCreate')
+    
+    

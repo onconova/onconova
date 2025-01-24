@@ -33,7 +33,8 @@ def make_terminology_factory(terminology, code_iterator=None):
             FACTORY_CLASS=TerminologyFactory,
         ))
     else:
-        return factory.LazyFunction(lambda: terminology.objects.all()[random.randint(0,terminology.objects.count()-1)])
+        concepts_count = terminology.objects.count()
+        return factory.LazyFunction(lambda: terminology.objects.all()[random.randint(0,concepts_count-1)]) if concepts_count else None
 
 class GroupFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -242,7 +243,6 @@ class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactor
     class Meta:
         model = models.MolecularTherapeuticRecommendation
     molecular_tumor_board = factory.SubFactory(MolecularTumorBoardFactory)
-    action = make_terminology_factory(terminology.MedicationUsageSuggestion)
     expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
     off_label_use = factory.LazyFunction(lambda: random.randint(0,2)>1) 
     within_soc = factory.LazyFunction(lambda: random.randint(0,2)>1) 
@@ -257,7 +257,6 @@ class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     recist = make_terminology_factory(terminology.CancerTreatmentResponse)
     recist_interpreted = factory.LazyFunction(lambda: random.randint(0,100)>50)
     methodology = make_terminology_factory(terminology.CancerTreatmentResponseObservationMethod)
-    assessed_bodysite = make_terminology_factory(terminology.ObservationBodySite)
 
 
 class GenomicVariantFactory(factory.django.DjangoModelFactory):

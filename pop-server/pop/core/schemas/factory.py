@@ -8,7 +8,7 @@ from ninja.errors import ConfigError
 from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
 
-from pop.core.schemas.fields import get_schema_field
+from pop.core.schemas.fields import get_schema_field, get_schema_field_filters
 from pop.core.schemas.base import BaseSchema
 
 
@@ -26,7 +26,7 @@ class SchemaFactory(NinjaSchemaFactory):
         IGNORE_FIELDS (List[str]): A list of field names to ignore when creating schemas.
     """
 
-    IGNORE_FIELDS = ['auto_id']
+    IGNORE_FIELDS = ['auto_id', ]
     
     def create_schema(
         self,
@@ -118,6 +118,51 @@ class SchemaFactory(NinjaSchemaFactory):
         return schema
 
 
+    def create_filters_schema(
+        self,
+        schema: Type[BaseSchema],
+        *,
+        name: str = "",
+        depth: int = 0,
+        fields: Optional[List[str]] = None,
+        exclude: Optional[List[str]] = None,
+        base_class: Type[Schema] = BaseSchema,
+    ) -> Type[Schema]:
+
+        name = name or schema.__name__
+    
+        if fields and exclude:
+            raise ConfigError("Only one of 'fields' or 'exclude' should be set.")
+
+        key = self.get_key(
+            schema, name, depth, fields, exclude, None, None
+        )
+        if key in self.schemas:
+            return self.schemas[key]
+
+        definitions = {}
+        for field_name, field_info in schema.model_fields.items():
+            if field_name in ['description']:
+                continue
+            schema_fields = get_schema_field_filters(field_name, field_info)
+            for field_name, (python_type, field_info) in schema_fields:
+                definitions[field_name] = (python_type, field_info)
+
+        if name in self.schema_names:
+            name = self._get_unique_name(name)
+
+        schema: Type[Schema] = create_pydantic_model(
+            name,
+            __base__=base_class,
+            __module__=base_class.__module__,
+            __validators__={},
+            **definitions,
+        )
+        self.schemas[key] = schema
+        self.schema_names.add(name)
+        return schema
+
 factory = SchemaFactory()
 create_schema = factory.create_schema
+create_filters_schema = factory.create_filters_schema
 
