@@ -3,7 +3,7 @@
 import django.contrib.postgres.fields.ranges
 import django.core.validators
 import django.db.models.deletion
-import pop.core.fields
+import pop.core.measures.fields
 import measurement.measures.time
 import pop.core.measures
 from django.conf import settings
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('fractions', models.PositiveIntegerField(blank=True, help_text='The total number of radiotherapy fractions delivered over the treatment period.', null=True, verbose_name='Total fractions')),
-                ('dose', pop.core.fields.MeasurementField(blank=True, help_text='Total radiation dose delivered over the full radiotherapy course', measurement=pop.core.measures.RadiationDose, null=True, verbose_name='Total radiation dose')),
+                ('dose', pop.core.measures.fields.MeasurementField(blank=True, help_text='Total radiation dose delivered over the full radiotherapy course', measurement=pop.core.measures.RadiationDose, null=True, verbose_name='Total radiation dose')),
             ],
             options={
                 'abstract': False,
@@ -95,7 +95,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('date', models.DateField(help_text="Clinically-relevant date at which the patient's lifetyle was assessed and recorded.", verbose_name='Assessment date')),
                 ('smoking_packyears', models.FloatField(blank=True, help_text='Smoking pack-years (if applicable)', null=True, verbose_name='Smoking packyears')),
-                ('smoking_quited', pop.core.fields.MeasurementField(blank=True, help_text='Estimated time since quitting smoking (if applicable)', measurement=measurement.measures.time.Time, null=True, verbose_name='Time since quitted smoking')),
+                ('smoking_quited', pop.core.measures.fields.MeasurementField(blank=True, help_text='Estimated time since quitting smoking (if applicable)', measurement=measurement.measures.time.Time, null=True, verbose_name='Time since quitted smoking')),
                 ('sleep_hours_per_night', models.FloatField(blank=True, help_text='Estimated average number of sleep hours per night', null=True, verbose_name='Sleep hours per night')),
                 ('alcohol_consumption', models.ForeignKey(blank=True, help_text='Frequency of alcohol consumption', null=True, on_delete=django.db.models.deletion.PROTECT, related_name='+', to='terminology.alcoholconsumptionfrequency', verbose_name='Alcohol consumption')),
                 ('case', models.ForeignKey(help_text="Indicates the case of the patient who's lifestyle is assesed", on_delete=django.db.models.deletion.CASCADE, related_name='lifestyles', to='oncology.patientcase', verbose_name='Patient case')),

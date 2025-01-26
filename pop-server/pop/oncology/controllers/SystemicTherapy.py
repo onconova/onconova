@@ -12,11 +12,8 @@ from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from pop.oncology.schemas import SystemicTherapySchema, SystemicTherapyCreateSchema, SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema
+from pop.oncology.schemas import SystemicTherapySchema, SystemicTherapyCreateSchema, SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema, SystemicTherapyFilters
 
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
 
 @api_controller(
     'systemic-therapies/', 
@@ -33,12 +30,9 @@ class SystemicTherapyController(ControllerBase):
         operation_id='getSystemicTherapies',
     )
     @paginate()
-    def get_all_systemic_therapies_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]): # type: ignore
         queryset = SystemicTherapy.objects.all().order_by('-period')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [SystemicTherapySchema.model_validate(instance) for instance in queryset]
+        return [SystemicTherapySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

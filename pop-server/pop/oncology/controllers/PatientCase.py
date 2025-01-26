@@ -31,13 +31,9 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCases',
     )
     @paginate()
-    def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters]):
+    def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters]):  # type: ignore
         queryset = PatientCase.objects.all().order_by('-created_at')
-        for (filter,value) in query:
-            if value is not None:
-                lookup = PatientCaseFilters.get_django_lookup(filter)
-                queryset = queryset.filter(**{lookup: value})
-        return queryset
+        return query.apply_filters(queryset)
 
     @route.post(
         path='/', 

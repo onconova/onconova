@@ -16,6 +16,7 @@ from pop.oncology.schemas import (
     AdverseEventSchema, AdverseEventCreateSchema,
     AdverseEventSuspectedCauseSchema, AdverseEventSuspectedCauseCreateSchema,
     AdverseEventMitigationSchema, AdverseEventMitigationCreateSchema,    
+    AdverseEventFilters
 )
 
 
@@ -37,7 +38,7 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEvents',
     )
     @paginate()
-    def get_all_adverse_events_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters]):  # type: ignore
         queryset = AdverseEvent.objects.all().order_by('-date')
         for (lookup, value) in query:
             if value is not None:

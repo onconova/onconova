@@ -1,5 +1,5 @@
 from pop.oncology.models import Surgery
-from pop.core.schemas import ModelSchema, MeasureSchema, CREATE_IGNORED_FIELDS
+from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
 from pydantic import Field
 
 class SurgerySchema(ModelSchema):

@@ -1,7 +1,8 @@
 from ninja_jwt.controller import NinjaJWTDefaultController
 from ninja_extra import NinjaExtraAPI
 
-from pop.core.controllers import AuthController, UsersController, MeasuresController
+from pop.core.controllers import AuthController, UsersController
+from pop.core.measures.controllers import MeasuresController
 from pop.terminology.controllers import TerminologyController
 from pop.oncology.controllers import (
     PatientCaseController,

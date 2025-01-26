@@ -16,10 +16,11 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, MeasureSchema, PeriodSchema, RangeSchema
+from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
+from pop.core.measures import MeasureSchema
 from pop.core.schemas import filters as schema_filters
 from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case
-from pop.core.fields import MeasurementField
+from pop.core.measures.fields import MeasurementField
 
 UserModel = get_user_model()
 

@@ -4,7 +4,7 @@ import django.db.models.deletion
 import measurement.measures.distance
 import measurement.measures.mass
 import measurement.measures.temperature
-import pop.core.fields
+import pop.core.measures.fields
 import pop.core.measures
 from django.conf import settings
 from django.db import migrations, models
@@ -31,11 +31,11 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('date', models.DateField(help_text='Clinically-relevant date at which the vitals were recorded.', verbose_name='Assessment date')),
-                ('height', pop.core.fields.MeasurementField(blank=True, help_text='Height of the patient', measurement=measurement.measures.distance.Distance, null=True, verbose_name='Height')),
-                ('weight', pop.core.fields.MeasurementField(blank=True, help_text='Weight of the patient', measurement=measurement.measures.mass.Mass, null=True, verbose_name='Weight')),
-                ('blood_pressure_systolic', pop.core.fields.MeasurementField(blank=True, help_text='Systolic blood pressure of the patient', measurement=pop.core.measures.Pressure, null=True, verbose_name='Systolic blood pressure')),
-                ('blood_pressure_diastolic', pop.core.fields.MeasurementField(blank=True, help_text='Diastolic blood pressure of the patient', measurement=pop.core.measures.Pressure, null=True, verbose_name='Diastolic blood pressure')),
-                ('temperature', pop.core.fields.MeasurementField(blank=True, help_text='Temperature of the patient', measurement=measurement.measures.temperature.Temperature, null=True, verbose_name='Temperature')),
+                ('height', pop.core.measures.fields.MeasurementField(blank=True, help_text='Height of the patient', measurement=measurement.measures.distance.Distance, null=True, verbose_name='Height')),
+                ('weight', pop.core.measures.fields.MeasurementField(blank=True, help_text='Weight of the patient', measurement=measurement.measures.mass.Mass, null=True, verbose_name='Weight')),
+                ('blood_pressure_systolic', pop.core.measures.fields.MeasurementField(blank=True, help_text='Systolic blood pressure of the patient', measurement=pop.core.measures.Pressure, null=True, verbose_name='Systolic blood pressure')),
+                ('blood_pressure_diastolic', pop.core.measures.fields.MeasurementField(blank=True, help_text='Diastolic blood pressure of the patient', measurement=pop.core.measures.Pressure, null=True, verbose_name='Diastolic blood pressure')),
+                ('temperature', pop.core.measures.fields.MeasurementField(blank=True, help_text='Temperature of the patient', measurement=measurement.measures.temperature.Temperature, null=True, verbose_name='Temperature')),
                 ('case', models.ForeignKey(help_text="Indicates the case of the patient who's vitals are assesed", on_delete=django.db.models.deletion.CASCADE, related_name='vitals', to='oncology.patientcase', verbose_name='Patient case')),
                 ('created_by', models.ForeignKey(help_text='The user who created the original data', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
                 ('updated_by', models.ManyToManyField(help_text='The user(s) who updated the data since its creation', related_name='+', to=settings.AUTH_USER_MODEL)),

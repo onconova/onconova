@@ -1,5 +1,6 @@
 from pop.oncology.models import Vitals
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict, MeasureSchema
+from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
+from pop.core.measures import MeasureSchema
 from ninja import Schema, Field
 
 VitalsBase: Schema = create_schema(

@@ -1,7 +1,7 @@
 from django.db.models import Model as DjangoModel
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
-from pop.core.fields import MeasurementField
+from pop.core.measures.fields import MeasurementField
 from pop.core.utils import to_camel_case 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
 from typing import Optional, List, get_args, get_origin, Type, Any

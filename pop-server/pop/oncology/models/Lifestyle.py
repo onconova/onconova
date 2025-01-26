@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 from pop.core.models import BaseModel 
-from pop.core.fields import MeasurementField
+from pop.core.measures.fields import MeasurementField
 from pop.oncology.models import PatientCase 
 import pop.core.measures as measures
 import pop.terminology.fields as termfields 
