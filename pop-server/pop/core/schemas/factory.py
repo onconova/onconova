@@ -9,7 +9,7 @@ from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
 
 from pop.core.schemas.fields import get_schema_field, get_schema_field_filters
-from pop.core.schemas.base import BaseSchema
+from pop.core.schemas.base import BaseSchema, FiltersBaseSchema
 
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
@@ -126,7 +126,7 @@ class SchemaFactory(NinjaSchemaFactory):
         depth: int = 0,
         fields: Optional[List[str]] = None,
         exclude: Optional[List[str]] = None,
-        base_class: Type[Schema] = BaseSchema,
+        base_class: Type[Schema] = FiltersBaseSchema,
     ) -> Type[Schema]:
 
         name = name or schema.__name__

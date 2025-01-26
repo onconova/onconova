@@ -59,21 +59,22 @@ from .GenomicSignature import (
     AneuploidScoreSchema, AneuploidScoreCreateSchema,
 )
 
-PatientCaseFilters = create_filters_schema(schema = PatientCaseSchema)
-NeoplasticEntityFilters = create_filters_schema(schema = NeoplasticEntitySchema)
-TumorMarkerFilters = create_filters_schema(schema = TumorMarkerSchema)
-RiskAssessmentFilters = create_filters_schema(schema = RiskAssessmentSchema)
-SystemicTherapyFilters = create_filters_schema(schema = SystemicTherapySchema)
-SurgeryFilters = create_filters_schema(schema = SurgerySchema)
-RadiotherapyFilters = create_filters_schema(schema = RadiotherapySchema)
-AdverseEventFilters = create_filters_schema(schema = AdverseEventSchema)
-TreatmentResponseFilters = create_filters_schema(schema = TreatmentResponseSchema)
-UnspecifiedTumorBoardFilters = create_filters_schema(schema = UnspecifiedTumorBoardSchema)
-PerformanceStatusFilters = create_filters_schema(schema = PerformanceStatusSchema)
-LifestyleFilters = create_filters_schema(schema = LifestyleSchema)
-VitalsFilters = create_filters_schema(schema = VitalsSchema)
-ComorbiditiesAssessmentFilters = create_filters_schema(schema = ComorbiditiesAssessmentSchema)
-GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema)
+# Filter schemas
+PatientCaseFilters = create_filters_schema(schema = PatientCaseSchema, name='PatientCaseFilters')
+NeoplasticEntityFilters = create_filters_schema(schema = NeoplasticEntitySchema, name='NeoplasticEntityFilters')
+TumorMarkerFilters = create_filters_schema(schema = TumorMarkerSchema, name='TumorMarkerFilters')
+RiskAssessmentFilters = create_filters_schema(schema = RiskAssessmentSchema, name='RiskAssessmentFilters')
+SystemicTherapyFilters = create_filters_schema(schema = SystemicTherapySchema, name='SystemicTherapyFilters')
+SurgeryFilters = create_filters_schema(schema = SurgerySchema, name='SurgeryFilters')
+RadiotherapyFilters = create_filters_schema(schema = RadiotherapySchema, name='RadiotherapyFilters')
+AdverseEventFilters = create_filters_schema(schema = AdverseEventSchema, name='AdverseEventFilters')
+TreatmentResponseFilters = create_filters_schema(schema = TreatmentResponseSchema, name='TreatmentResponseFilters')
+UnspecifiedTumorBoardFilters = create_filters_schema(schema = UnspecifiedTumorBoardSchema, name='UnspecifiedTumorBoardFilters')
+PerformanceStatusFilters = create_filters_schema(schema = PerformanceStatusSchema, name='PerformanceStatusFilters')
+LifestyleFilters = create_filters_schema(schema = LifestyleSchema, name='LifestyleFilters')
+VitalsFilters = create_filters_schema(schema = VitalsSchema, name='VitalsFilters')
+ComorbiditiesAssessmentFilters = create_filters_schema(schema = ComorbiditiesAssessmentSchema, name='ComorbiditiesAssessmentFilters')
+GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema, name='GenomicVariantFilters')
 
 
 __all__ = (
@@ -122,7 +123,7 @@ __all__ = (
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema,
     # Performance status schemas 
-    PerformanceStatusSchema, PerformanceStatusCreateSchema, PerformanceStatusFilters,
+    PerformanceStatusSchema, PerformanceStatusCreateSchema,
     # Lifestyle schemas
     LifestyleSchema, LifestyleCreateSchema,
     # Family member history schemas 

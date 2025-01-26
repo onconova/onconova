@@ -2,26 +2,30 @@ from django.db.models import Model as DjangoModel
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.core.fields import MeasurementField
-
+from pop.core.utils import to_camel_case 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
 from typing import Optional, List, get_args, get_origin, Type, Any
 
+from ninja.params import Query
+from django.db.models.query import QuerySet
+
 from pop.terminology.models import CodedConcept
 
-def to_camel_case(string: str) -> str:
-    """
-    Convert a string from snake_case to camelCase.
 
-    Args:
-        string (str): The string to convert.
 
-    Returns:
-        str: The converted string.
-    """
-    return ''.join([
-        word if n==0 else word.capitalize()
-            for n,word in enumerate(string.split('_'))
-    ])
+class FiltersBaseSchema(PydanticBaseModel):
+
+    def apply_filters(self, queryset: QuerySet):
+        print(self.__class__.__name__)
+        for filter_name, filter_value in self.model_dump().items():
+            if not filter_value:
+                continue
+            filter_info = self.model_fields.get(filter_name)
+            lookup = filter_info.json_schema_extra.get('django_lookup')
+            if lookup:
+                queryset = queryset.filter(**{lookup: filter_value})
+        return queryset
+
 
 class BaseSchema(PydanticBaseModel):
     """
