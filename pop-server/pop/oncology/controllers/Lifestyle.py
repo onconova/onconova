@@ -9,11 +9,8 @@ from pop.oncology.models import Lifestyle
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import LifestyleSchema, LifestyleCreateSchema
+from pop.oncology.schemas import LifestyleSchema, LifestyleCreateSchema, LifestyleFilters
 
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
 
 @api_controller(
     'lifestyles/', 
@@ -30,12 +27,9 @@ class LifestyleController(ControllerBase):
         operation_id='getLifestyles',
     )
     @paginate()
-    def get_all_lifestyles_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters]): # type: ignore
         queryset = Lifestyle.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [LifestyleSchema.model_validate(instance) for instance in queryset]
+        return [LifestyleSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

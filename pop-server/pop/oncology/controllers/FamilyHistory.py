@@ -12,11 +12,7 @@ from pop.oncology.models import FamilyHistory
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from pop.oncology.schemas import FamilyHistorySchema, FamilyHistoryCreateSchema
-
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import FamilyHistorySchema, FamilyHistoryCreateSchema, FamilyHistoryFilters
 
 @api_controller(
     'family-histories/', 
@@ -33,12 +29,9 @@ class FamilyHistoryController(ControllerBase):
         operation_id='getFamilyHistories',
     )
     @paginate()
-    def get_all_family_member_histories_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters]): # type: ignore
         queryset = FamilyHistory.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [FamilyHistorySchema.model_validate(instance) for instance in queryset]
+        return [FamilyHistorySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

@@ -9,11 +9,7 @@ from pop.oncology.models import TreatmentResponse
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import TreatmentResponseSchema, TreatmentResponseCreateSchema
-
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import TreatmentResponseSchema, TreatmentResponseCreateSchema, TreatmentResponseFilters
 
 @api_controller(
     'treatment-responses/', 
@@ -30,12 +26,9 @@ class TreatmentResponseController(ControllerBase):
         operation_id='getTreatmentResponses',
     )
     @paginate()
-    def get_all_treatment_responses_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]): # type: ignore
         queryset = TreatmentResponse.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [TreatmentResponseSchema.model_validate(instance) for instance in queryset]
+        return [TreatmentResponseSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

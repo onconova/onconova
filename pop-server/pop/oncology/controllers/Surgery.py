@@ -9,10 +9,7 @@ from pop.oncology.models import Surgery
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import SurgerySchema, SurgeryCreateSchema
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import SurgerySchema, SurgeryCreateSchema, SurgeryFilters
 
 @api_controller(
     'surgeries/', 
@@ -29,12 +26,9 @@ class SurgeryController(ControllerBase):
         operation_id='getSurgeries',
     )
     @paginate()
-    def get_all_surgeries_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters]): # type: ignore
         queryset = Surgery.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [SurgerySchema.model_validate(instance) for instance in queryset]
+        return [SurgerySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

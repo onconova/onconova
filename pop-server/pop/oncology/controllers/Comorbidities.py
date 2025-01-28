@@ -13,11 +13,7 @@ from pop.terminology.models import ICD10Condition
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
-
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory, ComorbiditiesAssessmentFilters
 
 @api_controller(
     'comorbidities-assessments/', 
@@ -34,12 +30,9 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id='getComorbiditiesAssessments',
     )
     @paginate()
-    def get_all_comorbidities_assessments_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters]): # type: ignore
         queryset = ComorbiditiesAssessment.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [ComorbiditiesAssessmentSchema.model_validate(instance) for instance in queryset]
+        return [ComorbiditiesAssessmentSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

@@ -1,5 +1,6 @@
 from pop.oncology.models.Staging import (
     StagingDomain,
+    Staging,
     FIGOStaging, 
     TNMStaging,
     BinetStaging,
@@ -18,6 +19,16 @@ from pop.oncology.models.Staging import (
 from pop.core.schemas import ModelSchema, CodedConceptSchema, CREATE_IGNORED_FIELDS
 from typing import Literal
 from pydantic import Field 
+
+class StagingSchema(ModelSchema):
+    stagingDomain: StagingDomain = Field(description='Staging domain')
+    description: str = Field(description='Human-readable description of the staging') 
+    stage: CodedConceptSchema = Field(description='Classificiation of the stage')
+
+    class Meta:
+        name = 'Staging'
+        model = Staging
+        fields = '__all__'
 
 class TNMStagingSchema(ModelSchema):
     stagingDomain: Literal[StagingDomain.TNM] = StagingDomain.TNM # type: ignore

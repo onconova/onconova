@@ -9,11 +9,8 @@ from pop.oncology.models import GenomicVariant
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import GenomicVariantSchema, GenomicVariantCreateSchema
+from pop.oncology.schemas import GenomicVariantSchema, GenomicVariantCreateSchema, GenomicVariantFilters
 
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
 
 @api_controller(
     'genomic-variants/', 
@@ -30,12 +27,9 @@ class GenomicVariantController(ControllerBase):
         operation_id='getGenomicVariants',
     )
     @paginate()
-    def get_all_genomic_variants_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters]): # type: ignore
         queryset = GenomicVariant.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [GenomicVariantSchema.model_validate(instance) for instance in queryset]
+        return [GenomicVariantSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

@@ -13,20 +13,21 @@ from typing_extensions import TypeAliasType
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import Staging, StagingDomain
 from pop.oncology.schemas import (
-     TNMStagingSchema, TNMStagingCreateSchema,
-     FIGOStagingSchema, FIGOStagingCreateSchema,
-     BinetStagingSchema, BinetStagingCreateSchema,
-     RaiStagingSchema, RaiStagingCreateSchema,
-     BreslowDepthSchema, BreslowDepthCreateSchema,
-     ClarkStagingSchema, ClarkStagingCreateSchema,
-     ISSStagingSchema, ISSStagingCreateSchema,
-     RISSStagingSchema, RISSStagingCreateSchema, 
-     GleasonGradeSchema, GleasonGradeCreateSchema,
-     INSSStageSchema, INSSStageCreateSchema, 
-     INRGSSStageSchema, INRGSSStageCreateSchema,
-     WilmsStageSchema, WilmsStageCreateSchema,
-     RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
-     LymphomaStagingSchema, LymphomaStagingCreateSchema,
+    StagingFilters,
+    TNMStagingSchema, TNMStagingCreateSchema,
+    FIGOStagingSchema, FIGOStagingCreateSchema,
+    BinetStagingSchema, BinetStagingCreateSchema,
+    RaiStagingSchema, RaiStagingCreateSchema,
+    BreslowDepthSchema, BreslowDepthCreateSchema,
+    ClarkStagingSchema, ClarkStagingCreateSchema,
+    ISSStagingSchema, ISSStagingCreateSchema,
+    RISSStagingSchema, RISSStagingCreateSchema, 
+    GleasonGradeSchema, GleasonGradeCreateSchema,
+    INSSStageSchema, INSSStageCreateSchema, 
+    INRGSSStageSchema, INRGSSStageCreateSchema,
+    WilmsStageSchema, WilmsStageCreateSchema,
+    RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
+    LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
 
 RESPONSE_SCHEMAS = (
@@ -66,10 +67,6 @@ PAYLOAD_SCHEMAS = (
 AnyResponseSchemas = TypeAliasType('AnyStaging',Union[RESPONSE_SCHEMAS]) # type: ignore# type: ignore
 AnyPayloadSchemas = Union[PAYLOAD_SCHEMAS]
 
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
-    stagingDomain: List[StagingDomain] = Field(None, alias='stagingDomain')
-
 def cast_to_model_schema(model_instance, schemas, payload=None):
     return next((
         schema.model_validate(payload or model_instance)
@@ -93,12 +90,9 @@ class StagingController(ControllerBase):
         operation_id='getStagings',
     )
     @paginate()
-    def get_all_stagings_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_stagings_matching_the_query(self, query: Query[StagingFilters]): # type: ignore
         queryset = Staging.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS) for staging in queryset]
+        return [cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS) for staging in query.apply_filters(queryset)]
 
 
     @route.post(

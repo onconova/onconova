@@ -19,10 +19,6 @@ from pop.oncology.schemas import (
     AdverseEventFilters
 )
 
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
-
 @api_controller(
     'adverse-events/', 
     auth=[JWTAuth()], 
@@ -40,10 +36,7 @@ class AdverseEventController(ControllerBase):
     @paginate()
     def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters]):  # type: ignore
         queryset = AdverseEvent.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [AdverseEventSchema.model_validate(instance) for instance in queryset]
+        return [AdverseEventSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

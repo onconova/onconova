@@ -11,11 +11,8 @@ from pop.oncology.models import RiskAssessment
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import RiskAssessmentSchema, RiskAssessmentCreateSchema
+from pop.oncology.schemas import RiskAssessmentSchema, RiskAssessmentCreateSchema, RiskAssessmentFilters
 
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
 
 @api_controller(
     'risk-assessments/', 
@@ -32,12 +29,9 @@ class RiskAssessmentController(ControllerBase):
         operation_id='getRiskAssessments',
     )
     @paginate()
-    def get_all_risk_assessments_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters]): # type: ignore
         queryset = RiskAssessment.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [RiskAssessmentSchema.model_validate(instance) for instance in queryset]
+        return [RiskAssessmentSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

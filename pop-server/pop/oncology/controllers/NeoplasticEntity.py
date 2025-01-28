@@ -15,10 +15,6 @@ from typing import List
 from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateSchema, NeoplasticEntityFilters
 
 
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
-    relationship__in: List[NeoplasticEntitySchema.model_fields['relationship'].annotation] = Field(None, alias='type') # type: ignore
-
 @api_controller(
     'neoplastic-entities/', 
     auth=[JWTAuth()], 
@@ -34,13 +30,9 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='getNeoplasticEntities',
     )
     @paginate()
-    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]):
+    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]): # type: ignore
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
-        for (filter, value) in query:
-            if value is not None:
-                lookup = NeoplasticEntityFilters.get_django_lookup(filter)
-                queryset = queryset.filter(**{lookup: value})
-        return [NeoplasticEntitySchema.model_validate(instance) for instance in queryset]
+        return [NeoplasticEntitySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

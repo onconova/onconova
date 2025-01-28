@@ -3,6 +3,7 @@ from typing import Literal
 from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
 from pop.oncology.models import (
     GenomicSignatureTypes,
+    GenomicSignature,
     TumorMutationalBurden,
     MicrosatelliteInstability,
     LossOfHeterozygosity,
@@ -10,6 +11,16 @@ from pop.oncology.models import (
     TumorNeoantigenBurden,
     AneuploidScore,
 )
+
+GenomicSignatureBase: Schema = create_schema(
+    GenomicSignature, 
+    exclude=(*CREATE_IGNORED_FIELDS,),
+)
+
+class GenomicSignatureSchema(GenomicSignatureBase, GetMixin):
+    category: GenomicSignatureTypes
+    model_config = ConfigDict(title='GenomicSignature')
+
 
 TumorMutationalBurdenBase: Schema = create_schema(
     TumorMutationalBurden, 

@@ -12,6 +12,7 @@ from typing_extensions import TypeAliasType
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
 from pop.oncology.schemas import (
+    GenomicSignatureFilters,
     TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
     MicrosatelliteInstabilitySchema, MicrosatelliteInstabilityCreateSchema,
     LossOfHeterozygositySchema, LossOfHeterozygosityCreateSchema,
@@ -41,10 +42,6 @@ PAYLOAD_SCHEMAS = (
 AnyResponseSchemas = TypeAliasType('AnyGenomicSignature', Union[RESPONSE_SCHEMAS]) # type: ignore# type: ignore
 AnyPayloadSchemas = Union[PAYLOAD_SCHEMAS]
 
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
-    stagingDomain: List[GenomicSignatureTypes] = Field(None, alias='stagingDomain')
-
 def cast_to_model_schema(model_instance, schemas, payload=None):
     return next((
         schema.model_validate(payload or model_instance)
@@ -68,12 +65,9 @@ class GenomicSignatureController(ControllerBase):
         operation_id='getGenomicSignatures',
     )
     @paginate()
-    def get_all_genomic_signatures_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters]): # type: ignore
         queryset = GenomicSignature.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [cast_to_model_schema(staging.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS) for staging in queryset]
+        return [cast_to_model_schema(staging.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS) for staging in query.apply_filters(queryset)]
 
 
     @route.post(

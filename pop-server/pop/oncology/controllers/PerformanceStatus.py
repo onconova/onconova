@@ -14,9 +14,6 @@ from django.shortcuts import get_object_or_404
 from pop.oncology.schemas import PerformanceStatusSchema, PerformanceStatusCreateSchema, PerformanceStatusFilters
 
 
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
-
 @api_controller(
     'performance-status/', 
     auth=[JWTAuth()], 
@@ -32,13 +29,9 @@ class PerformanceStatusController(ControllerBase):
         operation_id='getPerformanceStatus',
     )
     @paginate()
-    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters]):
+    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters]): # type: ignore
         queryset = PerformanceStatus.objects.all().order_by('-date')
-        for (filter, value) in query:
-            if value is not None:
-                lookup = PerformanceStatusFilters.get_django_lookup(filter)
-                queryset = queryset.filter(**{lookup: value})
-        return [PerformanceStatusSchema.model_validate(instance) for instance in queryset]
+        return [PerformanceStatusSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

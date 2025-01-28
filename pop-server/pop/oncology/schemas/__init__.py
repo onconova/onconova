@@ -6,20 +6,21 @@ from .PatientCase import (
 )
 from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 from .Staging import (
-     TNMStagingSchema, TNMStagingCreateSchema,
-     FIGOStagingSchema, FIGOStagingCreateSchema,
-     BinetStagingSchema, BinetStagingCreateSchema,
-     RaiStagingSchema, RaiStagingCreateSchema,
-     BreslowDepthSchema, BreslowDepthCreateSchema,
-     ClarkStagingSchema, ClarkStagingCreateSchema,
-     ISSStagingSchema, ISSStagingCreateSchema,
-     RISSStagingSchema, RISSStagingCreateSchema, 
-     GleasonGradeSchema, GleasonGradeCreateSchema,
-     INSSStageSchema, INSSStageCreateSchema, 
-     INRGSSStageSchema, INRGSSStageCreateSchema,
-     WilmsStageSchema, WilmsStageCreateSchema,
-     RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
-     LymphomaStagingSchema, LymphomaStagingCreateSchema,
+    StagingSchema,
+    TNMStagingSchema, TNMStagingCreateSchema,
+    FIGOStagingSchema, FIGOStagingCreateSchema,
+    BinetStagingSchema, BinetStagingCreateSchema,
+    RaiStagingSchema, RaiStagingCreateSchema,
+    BreslowDepthSchema, BreslowDepthCreateSchema,
+    ClarkStagingSchema, ClarkStagingCreateSchema,
+    ISSStagingSchema, ISSStagingCreateSchema,
+    RISSStagingSchema, RISSStagingCreateSchema, 
+    GleasonGradeSchema, GleasonGradeCreateSchema,
+    INSSStageSchema, INSSStageCreateSchema, 
+    INRGSSStageSchema, INRGSSStageCreateSchema,
+    WilmsStageSchema, WilmsStageCreateSchema,
+    RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
+    LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
 from .TumorMarker import TumorMarkerSchema, TumorMarkerCreateSchema
 from .RiskAssessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
@@ -51,6 +52,7 @@ from .TumorBoard import (
 from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
 from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
 from .GenomicSignature import (
+    GenomicSignatureSchema,
     TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
     MicrosatelliteInstabilitySchema, MicrosatelliteInstabilityCreateSchema,
     LossOfHeterozygositySchema, LossOfHeterozygosityCreateSchema,
@@ -63,6 +65,7 @@ from .GenomicSignature import (
 PatientCaseFilters = create_filters_schema(schema = PatientCaseSchema, name='PatientCaseFilters')
 NeoplasticEntityFilters = create_filters_schema(schema = NeoplasticEntitySchema, name='NeoplasticEntityFilters')
 TumorMarkerFilters = create_filters_schema(schema = TumorMarkerSchema, name='TumorMarkerFilters')
+StagingFilters = create_filters_schema(schema = StagingSchema, name='StagingFilters')
 RiskAssessmentFilters = create_filters_schema(schema = RiskAssessmentSchema, name='RiskAssessmentFilters')
 SystemicTherapyFilters = create_filters_schema(schema = SystemicTherapySchema, name='SystemicTherapyFilters')
 SurgeryFilters = create_filters_schema(schema = SurgerySchema, name='SurgeryFilters')
@@ -72,10 +75,11 @@ TreatmentResponseFilters = create_filters_schema(schema = TreatmentResponseSchem
 UnspecifiedTumorBoardFilters = create_filters_schema(schema = UnspecifiedTumorBoardSchema, name='UnspecifiedTumorBoardFilters')
 PerformanceStatusFilters = create_filters_schema(schema = PerformanceStatusSchema, name='PerformanceStatusFilters')
 LifestyleFilters = create_filters_schema(schema = LifestyleSchema, name='LifestyleFilters')
+FamilyHistoryFilters = create_filters_schema(schema = FamilyHistorySchema, name='FamilyHistoryFilters')
 VitalsFilters = create_filters_schema(schema = VitalsSchema, name='VitalsFilters')
 ComorbiditiesAssessmentFilters = create_filters_schema(schema = ComorbiditiesAssessmentSchema, name='ComorbiditiesAssessmentFilters')
 GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema, name='GenomicVariantFilters')
-
+GenomicSignatureFilters = create_filters_schema(schema=GenomicSignatureSchema, name='GenomicSignatureFilters')
 
 __all__ = (
      # PatientCase schemas
@@ -135,6 +139,7 @@ __all__ = (
     # Genomic variant schemas 
     GenomicVariantSchema, GenomicVariantCreateSchema,
     # Genomic signature schemas
+    GenomicSignatureSchema,
     TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
     MicrosatelliteInstabilitySchema, MicrosatelliteInstabilityCreateSchema,
     LossOfHeterozygositySchema, LossOfHeterozygosityCreateSchema,
@@ -146,6 +151,7 @@ __all__ = (
     NeoplasticEntityFilters,
     TumorMarkerFilters,
     RiskAssessmentFilters,
+    StagingFilters,
     SystemicTherapyFilters,
     SurgeryFilters,
     RadiotherapyFilters,
@@ -157,4 +163,5 @@ __all__ = (
     VitalsFilters,
     ComorbiditiesAssessmentFilters,
     GenomicVariantFilters,
+    GenomicSignatureFilters,
 )

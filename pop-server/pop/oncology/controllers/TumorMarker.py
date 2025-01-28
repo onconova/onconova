@@ -13,10 +13,7 @@ from pop.oncology.models.TumorMarker import AnalyteDetails, ANALYTES_DATA
 from django.shortcuts import get_object_or_404
 from typing import List,Dict
 
-from pop.oncology.schemas import TumorMarkerSchema, TumorMarkerCreateSchema
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import TumorMarkerSchema, TumorMarkerCreateSchema, TumorMarkerFilters
 
 @api_controller(
     'tumor-markers/', 
@@ -33,14 +30,9 @@ class TumorMarkerController(ControllerBase):
         operation_id='getTumorMarkers',
     )
     @paginate()
-    def get_all_tumor_markers_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters]): # type: ignore
         queryset = TumorMarker.objects.all().order_by('-date')
-        print('GETALL', query)
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-                print('FILTER', lookup, value)
-        return [TumorMarkerSchema.model_validate(instance) for instance in queryset]
+        return [TumorMarkerSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

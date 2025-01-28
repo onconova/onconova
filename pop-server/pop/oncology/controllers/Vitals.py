@@ -9,10 +9,7 @@ from pop.oncology.models import Vitals
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import VitalsSchema, VitalsCreateSchema
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import VitalsSchema, VitalsCreateSchema, VitalsFilters
 
 @api_controller(
     'vitals/', 
@@ -29,12 +26,9 @@ class VitalsController(ControllerBase):
         operation_id='getVitals',
     )
     @paginate()
-    def get_all_vitals_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_vitals_matching_the_query(self, query: Query[VitalsFilters]): # type: ignore
         queryset = Vitals.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [VitalsSchema.model_validate(instance) for instance in queryset]
+        return [VitalsSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 

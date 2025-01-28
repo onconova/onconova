@@ -12,11 +12,12 @@ from pop.oncology.models import Radiotherapy, RadiotherapyDosage, RadiotherapySe
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from pop.oncology.schemas import RadiotherapySchema, RadiotherapyCreateSchema, RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema, RadiotherapySettingSchema, RadiotherapySettingCreateSchema
-
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
+from pop.oncology.schemas import (
+    RadiotherapyFilters,
+    RadiotherapySchema, RadiotherapyCreateSchema, 
+    RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema, 
+    RadiotherapySettingSchema, RadiotherapySettingCreateSchema
+)
 
 @api_controller(
     'radiotherapies/', 
@@ -33,12 +34,9 @@ class RadiotherapyController(ControllerBase):
         operation_id='getRadiotherapies',
     )
     @paginate()
-    def get_all_radiotherapies_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_radiotherapies_matching_the_query(self, query: Query[RadiotherapyFilters]): # type: ignore
         queryset = Radiotherapy.objects.all().order_by('-period')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [RadiotherapySchema.model_validate(instance) for instance in queryset]
+        return [RadiotherapySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
         path='/', 
