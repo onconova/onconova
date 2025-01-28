@@ -78,9 +78,8 @@ class GenomicSignatureController(ControllerBase):
         operation_id='createGenomicSignature',
     )
     def create_genomic_signature(self, payload: AnyPayloadSchemas): # type: ignore
-        instance = payload.model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
-
+        return payload.model_dump_django(user=self.context.request.user)
+        
     @route.get(
         path='/{genomicSignatureId}', 
         response={
@@ -92,22 +91,22 @@ class GenomicSignatureController(ControllerBase):
         )
     def get_genomic_signature_by_id(self, genomicSignatureId: str): 
         instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
-        return 200, cast_to_model_schema(instance.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS)
+        return cast_to_model_schema(instance.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS)
 
 
     @route.put(
         path='/{genomicSignatureId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateGenomicSignatureById',
     )
     def update_genomic_signature(self, genomicSignatureId: str, payload: AnyPayloadSchemas): # type: ignore
         instance = get_object_or_404(GenomicSignature, id=genomicSignatureId).get_discriminated_genomic_signature()
-        instance = payload.model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
+        
     @route.delete(
         path='/{genomicSignatureId}', 
         response={

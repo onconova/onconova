@@ -29,7 +29,8 @@ class LifestyleController(ControllerBase):
     @paginate()
     def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters]): # type: ignore
         queryset = Lifestyle.objects.all().order_by('-date')
-        return [LifestyleSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
+
 
     @route.post(
         path='', 
@@ -39,10 +40,8 @@ class LifestyleController(ControllerBase):
         operation_id='createLifestyle',
     )
     def create_lifestyle(self, payload: LifestyleCreateSchema): # type: ignore
-        instance = LifestyleCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
+        
 
     @route.get(
         path='/{lifestyleId}', 
@@ -53,24 +52,21 @@ class LifestyleController(ControllerBase):
         operation_id='getLifestyleById',
     )
     def get_lifestyle_by_id(self, lifestyleId: str):
-        instance = get_object_or_404(Lifestyle, id=lifestyleId)
-        return 200, LifestyleSchema.model_validate(instance)
-
+        return get_object_or_404(Lifestyle, id=lifestyleId)
+        
+        
     @route.put(
         path='/{lifestyleId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateLifestyleById',
     )
     def update_lifestyle(self, lifestyleId: str, payload: LifestyleCreateSchema): # type: ignore
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
-        instance = LifestyleCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
     @route.delete(
         path='/{lifestyleId}', 
         response={
@@ -80,7 +76,6 @@ class LifestyleController(ControllerBase):
         operation_id='deleteLifestyleById',
     )
     def delete_lifestyle(self, lifestyleId: str):
-        instance = get_object_or_404(Lifestyle, id=lifestyleId)
-        instance.delete()
+        get_object_or_404(Lifestyle, id=lifestyleId).delete()
         return 204, None
     

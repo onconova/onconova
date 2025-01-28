@@ -68,8 +68,7 @@ class TumorBoardController(ControllerBase):
         operation_id='createTumorBoard',
     )
     def create_tumor_board(self, payload: AnyPayloadSchemas): # type: ignore
-        instance = payload.model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{tumorBoardId}', 
@@ -87,17 +86,16 @@ class TumorBoardController(ControllerBase):
 
     @route.put(
         path='/{tumorBoardId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateTumorBoardById',
     )
     def update_tumor_board(self, tumorBoardId: str, payload: AnyPayloadSchemas): # type: ignore
         instance = get_object_or_404(TumorBoard, id=tumorBoardId).specialized_tumor_board
-        instance = payload.model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
     @route.delete(
         path='/{tumorBoardId}', 
         response={
@@ -129,9 +127,8 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         operation_id='getMolecularTherapeuticRecommendations',
     )
     def get_molecular_tumor_board_therapeutic_recommendations_matching_the_query(self, tumorBoardId: str): # type: ignore
-        queryset = get_object_or_404(MolecularTumorBoard, id=tumorBoardId).therapeutic_recommendations.all()
-        return 200, [MolecularTherapeuticRecommendationSchema.model_validate(entry) for entry in queryset]
-
+        return get_object_or_404(MolecularTumorBoard, id=tumorBoardId).therapeutic_recommendations.all()
+        
 
     @route.get(
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}', 
@@ -143,9 +140,8 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         operation_id='getMOlecularTherapeuticRecommendationById',
         )
     def get_molecular_tumor_board_therapeutic_recommendation_by_id(self, tumorBoardId: str, recommendationId: str): 
-        instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
-        return 200, MolecularTherapeuticRecommendationSchema.model_validate(instance)
-
+        return get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
+        
     @route.post(
         path='/{tumorBoardId}/therapeutic-recommendations', 
         response={
@@ -155,26 +151,25 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
     )
     def create_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, payload: MolecularTherapeuticRecommendationCreateSchema): # type: ignore
         instance = MolecularTherapeuticRecommendation(molecular_tumor_board=get_object_or_404(MolecularTumorBoard, id=tumorBoardId))
-        instance = MolecularTherapeuticRecommendationCreateSchema\
+        return MolecularTherapeuticRecommendationCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        
 
     @route.put(
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}', 
-        response={
-            204: ModifiedResourceSchema,
+       response={
+            200: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateMolecularTherapeuticRecommendation',
     )
     def update_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, recommendationId: str, payload: MolecularTherapeuticRecommendationCreateSchema): # type: ignore
         instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
-        instance = MolecularTherapeuticRecommendationCreateSchema\
+        return MolecularTherapeuticRecommendationCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ModifiedResourceSchema(id=instance.id)
-
+        
     @route.delete(
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}', 
         response={

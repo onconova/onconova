@@ -32,7 +32,7 @@ class SystemicTherapyController(ControllerBase):
     @paginate()
     def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]): # type: ignore
         queryset = SystemicTherapy.objects.all().order_by('-period')
-        return [SystemicTherapySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -42,11 +42,8 @@ class SystemicTherapyController(ControllerBase):
         operation_id='createSystemicTherapy',
     )
     def create_systemic_therapy(self, payload: SystemicTherapyCreateSchema): # type: ignore
-        instance = SystemicTherapyCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
-    
+        return payload.model_dump_django(user=self.context.request.user)
+     
     @route.get(
         path='/{systemicTherapyId}', 
         response={
@@ -56,24 +53,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id='getSystemicTherapyById',
     )
     def get_systemic_therapy_by_id(self, systemicTherapyId: str):
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-        return 200, SystemicTherapySchema.model_validate(instance)
-
-    @route.put(
-        path='', 
-        response={
-            204: None, 
-            404: None
-        },
-        operation_id='updateSystemicTherapy',
-    )
-    def update_systemic_therapy(self, payload: SystemicTherapyCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(SystemicTherapy, id=payload.id)
-            instance = SystemicTherapyCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return get_object_or_404(SystemicTherapy, id=systemicTherapyId)
 
     @route.delete(
         path='/{systemicTherapyId}', 
@@ -84,26 +64,21 @@ class SystemicTherapyController(ControllerBase):
         operation_id='deleteSystemicTherapyById',
     )
     def delete_systemic_therapy(self, systemicTherapyId: str):
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-        instance.delete()
+        get_object_or_404(SystemicTherapy, id=systemicTherapyId).delete()
         return 204, None
     
     
     @route.put(
         path='/{systemicTherapyId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateSystemicTherapy',
     )
     def update_systemic_therapy(self, systemicTherapyId: str, payload: SystemicTherapyCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-            instance = SystemicTherapyCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
     
 
 
@@ -116,8 +91,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id='getSystemicTherapyMedications',
     )
     def get_systemic_therapy_medications_matching_the_query(self, systemicTherapyId: str): # type: ignore
-        queryset = get_object_or_404(SystemicTherapy, id=systemicTherapyId).medications.all()
-        return 200, [SystemicTherapyMedicationSchema.model_validate(entry) for entry in queryset]
+        return get_object_or_404(SystemicTherapy, id=systemicTherapyId).medications.all()
 
 
     @route.get(
@@ -129,40 +103,32 @@ class SystemicTherapyController(ControllerBase):
         operation_id='getSystemicTherapyMedicationById',
     )
     def get_systemic_therapy_medication_by_id(self, systemicTherapyId: str, medicationId: str): # type: ignore
-        instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
-        return 200, SystemicTherapyMedicationSchema.model_validate(instance)
+        return get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
 
     @route.post(
         path='/{systemicTherapyId}/medications', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
         },
         operation_id='createSystemicTherapyMedication',
     )
     def create_systemic_therapy_medication(self, systemicTherapyId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
         instance = SystemicTherapyMedication(systemic_therapy=get_object_or_404(SystemicTherapy, id=systemicTherapyId))
-        instance = SystemicTherapyMedicationCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ModifiedResourceSchema(id=instance.id)
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
+        
 
     @route.put(
         path='/{systemicTherapyId}/medications/{medicationId}', 
-        response={
-            204: ModifiedResourceSchema,
+       response={
+            200: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateSystemicTherapyMedication',
     )
     def update_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
         instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
-        instance = SystemicTherapyMedicationCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ModifiedResourceSchema(id=instance.id)
-    
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
 
     @route.delete(
         path='/{systemicTherapyId}/medications/{medicationId}', 
@@ -173,7 +139,6 @@ class SystemicTherapyController(ControllerBase):
         operation_id='deleteSystemicTherapyMedication',
     )
     def delete_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str):
-        instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
-        instance.delete()
+        get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId).delete()
         return 204, None
     

@@ -29,7 +29,8 @@ class GenomicVariantController(ControllerBase):
     @paginate()
     def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters]): # type: ignore
         queryset = GenomicVariant.objects.all().order_by('-date')
-        return [GenomicVariantSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
+
 
     @route.post(
         path='', 
@@ -39,10 +40,8 @@ class GenomicVariantController(ControllerBase):
         operation_id='createGenomicVariant',
     )
     def create_genomic_variant(self, payload: GenomicVariantCreateSchema): # type: ignore
-        instance = GenomicVariantCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
+        
 
     @route.get(
         path='/{genomicVariantId}', 
@@ -53,24 +52,22 @@ class GenomicVariantController(ControllerBase):
         operation_id='getGenomicVariantById',
     )
     def get_genomic_variant_by_id(self, genomicVariantId: str):
-        instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        return 200, GenomicVariantSchema.model_validate(instance)
+        return get_object_or_404(GenomicVariant, id=genomicVariantId)
+        
 
     @route.put(
         path='/{genomicVariantId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateGenomicVariant',
     )
     def update_genomic_variant(self, genomicVariantId: str, payload: GenomicVariantCreateSchema): # type: ignore
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        instance = GenomicVariantCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
+        
     @route.delete(
         path='/{genomicVariantId}', 
         response={
@@ -80,7 +77,6 @@ class GenomicVariantController(ControllerBase):
         operation_id='deleteGenomicVariant',
     )
     def delete_genomic_variant(self, genomicVariantId: str):
-        instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        instance.delete()
+        get_object_or_404(GenomicVariant, id=genomicVariantId).delete()
         return 204, None
     

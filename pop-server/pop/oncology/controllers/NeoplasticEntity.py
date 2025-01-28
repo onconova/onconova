@@ -32,7 +32,7 @@ class NeoplasticEntityController(ControllerBase):
     @paginate()
     def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]): # type: ignore
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
-        return [NeoplasticEntitySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -42,11 +42,8 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='createNeoplasticEntity',
     )
     def create_neoplastic_entity(self, payload: NeoplasticEntityCreateSchema): # type: ignore
-        instance = NeoplasticEntityCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
-
+        return payload.model_dump_django(user=self.context.request.user)
+        
     @route.get(
         path='/{entityId}', 
         response={
@@ -56,24 +53,20 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='getNeoplasticEntityById',
     )
     def get_neoplastic_entity_by_id(self, entityId: str):
-        instance = get_object_or_404(NeoplasticEntity, id=entityId)
-        return 200, NeoplasticEntitySchema.model_validate(instance)
-
+        return get_object_or_404(NeoplasticEntity, id=entityId)
+        
     @route.put(
         path='/{entityId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateNeoplasticEntityById',
     )
     def update_neoplastic_entity(self, entityId: str, payload: NeoplasticEntityCreateSchema): # type: ignore
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
-        instance = NeoplasticEntityCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
     @route.delete(
         path='/{entityId}', 
         response={
@@ -83,7 +76,6 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='deleteNeoplasticEntityById',
     )
     def delete_neoplastic_entity(self, entityId: str):
-        instance = get_object_or_404(NeoplasticEntity, id=entityId)
-        instance.delete()
+        get_object_or_404(NeoplasticEntity, id=entityId).delete()
         return 204, None
     

@@ -28,7 +28,7 @@ class SurgeryController(ControllerBase):
     @paginate()
     def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters]): # type: ignore
         queryset = Surgery.objects.all().order_by('-date')
-        return [SurgerySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -38,10 +38,7 @@ class SurgeryController(ControllerBase):
         operation_id='createSurgery',
     )
     def create_surgery(self, payload: SurgeryCreateSchema): # type: ignore
-        instance = SurgeryCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{surgeryId}', 
@@ -52,23 +49,19 @@ class SurgeryController(ControllerBase):
         operation_id='getSurgeryById',
     )
     def get_surgery_by_id(self, surgeryId: str):
-        instance = get_object_or_404(Surgery, id=surgeryId)
-        return 200, SurgerySchema.model_validate(instance)
+        return get_object_or_404(Surgery, id=surgeryId)
 
     @route.put(
         path='/{surgeryId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateSurgeryById',
     )
     def update_surgery(self, surgeryId: str, payload: SurgeryCreateSchema): # type: ignore
         instance = get_object_or_404(Surgery, id=surgeryId)
-        instance = SurgeryCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
 
     @route.delete(
         path='/{surgeryId}', 
@@ -79,7 +72,6 @@ class SurgeryController(ControllerBase):
         operation_id='deleteSurgeryById',
     )
     def delete_surgery(self, surgeryId: str):
-        instance = get_object_or_404(Surgery, id=surgeryId)
-        instance.delete()
+        get_object_or_404(Surgery, id=surgeryId).delete()
         return 204, None
     

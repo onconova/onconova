@@ -31,7 +31,7 @@ class FamilyHistoryController(ControllerBase):
     @paginate()
     def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters]): # type: ignore
         queryset = FamilyHistory.objects.all().order_by('-date')
-        return [FamilyHistorySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -41,11 +41,9 @@ class FamilyHistoryController(ControllerBase):
         operation_id='createFamilyHistory',
     )
     def create_family_history(self, payload: FamilyHistoryCreateSchema): # type: ignore
-        instance = FamilyHistoryCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
-    
+        return payload.model_dump_django(user=self.context.request.user)
+        
+
     @route.get(
         path='/{familyHistoryId}', 
         response={
@@ -55,24 +53,8 @@ class FamilyHistoryController(ControllerBase):
         operation_id='getFamilyHistoryById',
     )
     def get_family_history_by_id(self, familyHistoryId: str):
-        instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
-        return 200, FamilyHistorySchema.model_validate(instance)
-
-    @route.put(
-        path='', 
-        response={
-            204: None, 
-            404: None
-        },
-        operation_id='updateFamilyHistory',
-    )
-    def update_family_history(self, payload: FamilyHistoryCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(FamilyHistory, id=payload.id)
-            instance = FamilyHistoryCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return get_object_or_404(FamilyHistory, id=familyHistoryId)
+        
 
     @route.delete(
         path='/{familyHistoryId}', 
@@ -83,24 +65,18 @@ class FamilyHistoryController(ControllerBase):
         operation_id='deleteFamilyHistoryById',
     )
     def delete_family_history(self, familyHistoryId: str):
-        instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
-        instance.delete()
+        get_object_or_404(FamilyHistory, id=familyHistoryId).delete()
         return 204, None
     
     
     @route.put(
         path='/{familyHistoryId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateFamilyHistory',
     )
     def update_family_history(self, familyHistoryId: str, payload: FamilyHistoryCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
-            instance = FamilyHistoryCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-    
+        instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)

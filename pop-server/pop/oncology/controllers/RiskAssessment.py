@@ -31,7 +31,7 @@ class RiskAssessmentController(ControllerBase):
     @paginate()
     def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters]): # type: ignore
         queryset = RiskAssessment.objects.all().order_by('-date')
-        return [RiskAssessmentSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -41,10 +41,7 @@ class RiskAssessmentController(ControllerBase):
         operation_id='createRiskAssessment',
     )
     def create_risk_assessment(self, payload: RiskAssessmentCreateSchema): # type: ignore
-        instance = RiskAssessmentCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{riskAssessmentId}', 
@@ -55,23 +52,19 @@ class RiskAssessmentController(ControllerBase):
         operation_id='getRiskAssessmentById',
     )
     def get_risk_assessment_by_id(self, riskAssessmentId: str):
-        instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
-        return 200, RiskAssessmentSchema.model_validate(instance)
+        return get_object_or_404(RiskAssessment, id=riskAssessmentId)
 
     @route.put(
         path='/{riskAssessmentId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateRiskAssessmentById',
     )
     def update_risk_assessment(self, riskAssessmentId: str, payload: RiskAssessmentCreateSchema): # type: ignore
         instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
-        instance = RiskAssessmentCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
 
     @route.delete(
         path='/{riskAssessmentId}', 
@@ -82,7 +75,6 @@ class RiskAssessmentController(ControllerBase):
         operation_id='deleteRiskAssessmentById',
     )
     def delete_risk_assessment(self, riskAssessmentId: str):
-        instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
-        instance.delete()
+        get_object_or_404(RiskAssessment, id=riskAssessmentId).delete()
         return 204, None
     

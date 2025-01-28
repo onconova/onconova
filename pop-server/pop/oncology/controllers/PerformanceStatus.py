@@ -31,7 +31,7 @@ class PerformanceStatusController(ControllerBase):
     @paginate()
     def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters]): # type: ignore
         queryset = PerformanceStatus.objects.all().order_by('-date')
-        return [PerformanceStatusSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -41,10 +41,7 @@ class PerformanceStatusController(ControllerBase):
         operation_id='createPerformanceStatus',
     )
     def create_performance_status(self, payload: PerformanceStatusCreateSchema): # type: ignore
-        instance = PerformanceStatusCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{performanceStatusId}', 
@@ -55,23 +52,19 @@ class PerformanceStatusController(ControllerBase):
         operation_id='getPerformanceStatusById',
     )
     def get_performance_status_by_id(self, performanceStatusId: str):
-        instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
-        return 200, PerformanceStatusSchema.model_validate(instance)
+        return get_object_or_404(PerformanceStatus, id=performanceStatusId)
 
     @route.put(
         path='/{performanceStatusId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updatePerformanceStatusById',
     )
     def update_performance_status(self, performanceStatusId: str, payload: PerformanceStatusCreateSchema): # type: ignore
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
-        instance = PerformanceStatusCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
 
     @route.delete(
         path='/{performanceStatusId}', 
@@ -82,7 +75,6 @@ class PerformanceStatusController(ControllerBase):
         operation_id='deletePerformanceStatus',
     )
     def delete_performance_status(self, performanceStatusId: str):
-        instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
-        instance.delete()
+        get_object_or_404(PerformanceStatus, id=performanceStatusId).delete()
         return 204, None
     

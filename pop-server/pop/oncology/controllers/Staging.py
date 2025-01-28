@@ -103,8 +103,7 @@ class StagingController(ControllerBase):
         operation_id='createStaging',
     )
     def create_staging(self, payload: AnyPayloadSchemas): # type: ignore
-        instance = payload.model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{stagingId}', 
@@ -117,22 +116,21 @@ class StagingController(ControllerBase):
         )
     def get_staging_by_id(self, stagingId: str): 
         instance = get_object_or_404(Staging, id=stagingId)
-        return 200, cast_to_model_schema(instance.get_domain_staging(), RESPONSE_SCHEMAS)
+        return cast_to_model_schema(instance.get_domain_staging(), RESPONSE_SCHEMAS)
 
 
     @route.put(
         path='/{stagingId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateStagingById',
     )
     def update_staging(self, stagingId: str, payload: AnyPayloadSchemas): # type: ignore
         instance = get_object_or_404(Staging, id=stagingId)
-        instance = cast_to_model_schema(instance.get_domain_staging(), PAYLOAD_SCHEMAS, payload)\
+        return cast_to_model_schema(instance.get_domain_staging(), PAYLOAD_SCHEMAS, payload)\
                     .model_dump_django(instance=instance.get_domain_staging(), user=self.context.request.user)
-        return 204, None
 
     @route.delete(
         path='/{stagingId}', 

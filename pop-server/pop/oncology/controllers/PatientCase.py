@@ -43,8 +43,7 @@ class PatientCaseController(ControllerBase):
         operation_id='createPatientCase',
     )
     def create_patient_case(self, payload: PatientCaseCreateSchema):
-        instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{caseId}', 
@@ -70,19 +69,18 @@ class PatientCaseController(ControllerBase):
         
     @route.put(
         path='/{caseId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updatePatientCaseById',
     )
     def update_patient_case(self, caseId: str, payload: PatientCaseCreateSchema): # type: ignore
         instance = get_object_or_404(PatientCase, id=caseId)
-        instance = PatientCaseCreateSchema\
+        return PatientCaseCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+       
     @route.delete(
         path='/{caseId}', 
         response={
@@ -120,9 +118,8 @@ class PatientCaseController(ControllerBase):
         operation_id='createPatientCaseDataCompletion',
     )
     def create_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
-        instance = PatientCaseDataCompletion.objects.create(case=get_object_or_404(PatientCase,id=caseId), category=category, created_by=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
-    
+        return PatientCaseDataCompletion.objects.create(case=get_object_or_404(PatientCase,id=caseId), category=category, created_by=self.context.request.user)
+        
     @route.delete(
         path='/{caseId}/data-completion/{category}', 
         response={
@@ -160,6 +157,5 @@ class PatientCaseController(ControllerBase):
         operation_id='createPatientCaseBundleById',
     )
     def create_patient_case_bundle(self, payload: PatientCaseBundleCreateSchema):
-        instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
  

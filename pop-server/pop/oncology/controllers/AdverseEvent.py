@@ -70,27 +70,21 @@ class AdverseEventController(ControllerBase):
         operation_id='deleteAdverseEventById',
     )
     def delete_adverse_event(self, adverseEventId: str):
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-        instance.delete()
+        get_object_or_404(AdverseEvent, id=adverseEventId).delete()
         return 204, None
     
     
     @route.put(
         path='/{adverseEventId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateAdverseEvent',
     )
     def update_adverse_event(self, adverseEventId: str, payload: AdverseEventCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-            instance = AdverseEventCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-    
+        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)    
 
 
     @route.get(
@@ -102,8 +96,8 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEventSuspectedCauses',
     )
     def get_adverse_event_suspected_causes_matching_the_query(self, adverseEventId: str): # type: ignore
-        queryset = get_object_or_404(AdverseEvent, id=adverseEventId).suspected_causes.all()
-        return 200, [AdverseEventSuspectedCauseSchema.model_validate(entry) for entry in queryset]
+        return get_object_or_404(AdverseEvent, id=adverseEventId).suspected_causes.all()
+        
 
 
     @route.get(
@@ -115,40 +109,31 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEventSuspectedCauseById',
     )
     def get_adverse_event_suspected_cause_by_id(self, adverseEventId: str, causeId: str): # type: ignore
-        instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
-        return 200, AdverseEventSuspectedCauseSchema.model_validate(instance)
+        return get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
 
     @route.post(
         path='/{adverseEventId}/suspected-causes', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
         },
         operation_id='createAdverseEventSuspectedCause',
     )
     def create_adverse_event_suspected_cause(self, adverseEventId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
         instance = AdverseEventSuspectedCause(adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId))
-        instance = AdverseEventSuspectedCauseCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ModifiedResourceSchema(id=instance.id)
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
 
     @route.put(
         path='/{adverseEventId}/suspected-causes/{causeId}', 
-        response={
-            204: ModifiedResourceSchema,
+       response={
+            200: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateAdverseEventSuspectedCause',
     )
     def update_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
         instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
-        instance = AdverseEventSuspectedCauseCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ModifiedResourceSchema(id=instance.id)
-    
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+
 
     @route.delete(
         path='/{adverseEventId}/suspected-causes/{causeId}', 
@@ -159,11 +144,8 @@ class AdverseEventController(ControllerBase):
         operation_id='deleteAdverseEventSuspectedCause',
     )
     def delete_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str):
-        instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
-        instance.delete()
+        get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId).delete()
         return 204, None
-    
-    
     
     
     @route.get(
@@ -175,9 +157,8 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEventMitigations',
     )
     def get_adverse_event_mitigations_matching_the_query(self, adverseEventId: str): # type: ignore
-        queryset = get_object_or_404(AdverseEvent, id=adverseEventId).mitigations.all()
-        return queryset
-
+        return get_object_or_404(AdverseEvent, id=adverseEventId).mitigations.all()
+        
 
     @route.get(
         path='/{adverseEventId}/mitigations/{mitigationId}', 
@@ -194,32 +175,24 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
         },
         operation_id='createAdverseEventMitigation',
     )
     def create_adverse_event_mitigation(self, adverseEventId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
         instance = AdverseEventMitigation(adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId))
-        instance = AdverseEventMitigationCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ModifiedResourceSchema(id=instance.id)
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
 
     @route.put(
         path='/{adverseEventId}/mitigations/{mitigationId}', 
-        response={
-            204: ModifiedResourceSchema,
+       response={
+            200: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateAdverseEventMitigation',
     )
     def update_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
         instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
-        instance = AdverseEventMitigationCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
     
 
     @route.delete(
@@ -231,7 +204,6 @@ class AdverseEventController(ControllerBase):
         operation_id='deleteAdverseEventMitigation',
     )
     def delete_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str):
-        instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
-        instance.delete()
+        get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId).delete()
         return 204, None
     

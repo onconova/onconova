@@ -32,7 +32,7 @@ class TumorMarkerController(ControllerBase):
     @paginate()
     def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters]): # type: ignore
         queryset = TumorMarker.objects.all().order_by('-date')
-        return [TumorMarkerSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -42,10 +42,8 @@ class TumorMarkerController(ControllerBase):
         operation_id='createTumorMarker',
     )
     def create_tumor_marker(self, payload: TumorMarkerCreateSchema): # type: ignore
-        instance = TumorMarkerCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
+        
 
     @route.get(
         path='/{tumorMarkerId}', 
@@ -56,24 +54,22 @@ class TumorMarkerController(ControllerBase):
         operation_id='getTumorMarkerById',
     )
     def get_tumor_marker_by_id(self, tumorMarkerId: str):
-        instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
-        return 200, TumorMarkerSchema.model_validate(instance)
-
+        return get_object_or_404(TumorMarker, id=tumorMarkerId)
+        
+        
     @route.put(
         path='/{tumorMarkerId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateTumorMarkerById',
     )
     def update_neoplastic_entity(self, tumorMarkerId: str, payload: TumorMarkerCreateSchema): # type: ignore
         instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
-        instance = TumorMarkerCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
+        
     @route.delete(
         path='/{tumorMarkerId}', 
         response={
@@ -83,8 +79,7 @@ class TumorMarkerController(ControllerBase):
         operation_id='deleteTumorMarkerById',
     )
     def delete_tumor_marker(self, tumorMarkerId: str):
-        instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
-        instance.delete()
+        get_object_or_404(TumorMarker, id=tumorMarkerId).delete()
         return 204, None
 
     @route.get(

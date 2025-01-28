@@ -32,7 +32,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @paginate()
     def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters]): # type: ignore
         queryset = ComorbiditiesAssessment.objects.all().order_by('-date')
-        return [ComorbiditiesAssessmentSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -42,11 +42,10 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id='createComorbiditiesAssessment',
     )
     def create_comorbidities_assessment(self, payload: ComorbiditiesAssessmentCreateSchema): # type: ignore
-        instance = ComorbiditiesAssessmentCreateSchema\
+        return ComorbiditiesAssessmentCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
-    
+        
     @route.get(
         path='/{comorbiditiesAssessmentId}', 
         response={
@@ -56,24 +55,8 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id='getComorbiditiesAssessmentById',
     )
     def get_comorbidities_assessment_by_id(self, comorbiditiesAssessmentId: str):
-        instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
-        return 200, ComorbiditiesAssessmentSchema.model_validate(instance)
-
-    @route.put(
-        path='', 
-        response={
-            204: None, 
-            404: None
-        },
-        operation_id='updateComorbiditiesAssessment',
-    )
-    def update_comorbidities_assessment(self, payload: ComorbiditiesAssessmentCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(ComorbiditiesAssessment, id=payload.id)
-            instance = ComorbiditiesAssessmentCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
+        
 
     @route.delete(
         path='/{comorbiditiesAssessmentId}', 
@@ -91,20 +74,18 @@ class ComorbiditiesAssessmentController(ControllerBase):
     
     @route.put(
         path='/{comorbiditiesAssessmentId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateComorbiditiesAssessment',
     )
     def update_comorbidities_assessment(self, comorbiditiesAssessmentId: str, payload: ComorbiditiesAssessmentCreateSchema): # type: ignore
         with transaction.atomic():
             instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
-            instance = ComorbiditiesAssessmentCreateSchema\
+            return ComorbiditiesAssessmentCreateSchema\
                         .model_validate(payload.model_dump(exclude_unset=True))\
                         .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-    
 
 @api_controller(
     'comorbidities-panels', 

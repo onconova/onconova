@@ -28,7 +28,7 @@ class TreatmentResponseController(ControllerBase):
     @paginate()
     def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]): # type: ignore
         queryset = TreatmentResponse.objects.all().order_by('-date')
-        return [TreatmentResponseSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
@@ -38,10 +38,7 @@ class TreatmentResponseController(ControllerBase):
         operation_id='createTreatmentResponse',
     )
     def create_treatment_response(self, payload: TreatmentResponseCreateSchema): # type: ignore
-        instance = TreatmentResponseCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
-        return 201, ModifiedResourceSchema(id=instance.id)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{treatmentRresponseId}', 
@@ -52,24 +49,21 @@ class TreatmentResponseController(ControllerBase):
         operation_id='getTreatmentResponseById',
     )
     def get_treatment_response_by_id(self, treatmentRresponseId: str):
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
-        return 200, TreatmentResponseSchema.model_validate(instance)
+        return get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+
 
     @route.put(
         path='/{treatmentRresponseId}', 
-        response={
-            204: None, 
-            404: None
+       response={
+            200: ModifiedResourceSchema,
+            404: None,
         },
         operation_id='updateTreatmentResponse',
     )
     def update_treatment_response(self, treatmentRresponseId: str, payload: TreatmentResponseCreateSchema): # type: ignore
         instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
-        instance = TreatmentResponseCreateSchema\
-                    .model_validate(payload.model_dump(exclude_unset=True))\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
-
+        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        
     @route.delete(
         path='/{treatmentRresponseId}', 
         response={
@@ -79,7 +73,6 @@ class TreatmentResponseController(ControllerBase):
         operation_id='deleteTreatmentResponse',
     )
     def delete_treatment_response(self, treatmentRresponseId: str):
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
-        instance.delete()
+        get_object_or_404(TreatmentResponse, id=treatmentRresponseId).delete()
         return 204, None
     
