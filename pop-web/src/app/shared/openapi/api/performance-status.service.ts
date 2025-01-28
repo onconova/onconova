@@ -23,7 +23,7 @@ import { PerformanceStatus } from '../model/performance-status';
 // @ts-ignore
 import { PerformanceStatusCreate } from '../model/performance-status-create';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -105,9 +105,9 @@ export class PerformanceStatusService implements PerformanceStatusServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (performanceStatusCreate === null || performanceStatusCreate === undefined) {
             throw new Error('Required parameter performanceStatusCreate was null or undefined when calling createPerformanceStatus.');
@@ -166,7 +166,7 @@ export class PerformanceStatusService implements PerformanceStatusServiceInterfa
         }
 
         let localVarPath = `/api/performance-status/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: performanceStatusCreate,

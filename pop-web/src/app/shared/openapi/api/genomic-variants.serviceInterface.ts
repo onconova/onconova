@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { GenomicVariantCreateSchema } from '../model/models';
 import { GenomicVariantSchema } from '../model/models';
 import { PaginatedGenomicVariantSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface GenomicVariantsServiceInterface {
      * 
      * @param genomicVariantCreateSchema 
      */
-    createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Genomic Variant

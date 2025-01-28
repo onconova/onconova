@@ -19,7 +19,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { PaginatedVitalsSchema } from '../model/paginated-vitals-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 // @ts-ignore
 import { VitalsCreateSchema } from '../model/vitals-create-schema';
 // @ts-ignore
@@ -105,9 +105,9 @@ export class VitalsService implements VitalsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createVitals(vitalsCreateSchema: VitalsCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (vitalsCreateSchema === null || vitalsCreateSchema === undefined) {
             throw new Error('Required parameter vitalsCreateSchema was null or undefined when calling createVitals.');
@@ -166,7 +166,7 @@ export class VitalsService implements VitalsServiceInterface {
         }
 
         let localVarPath = `/api/vitals/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: vitalsCreateSchema,

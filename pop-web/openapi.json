@@ -152,7 +152,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -310,7 +310,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -386,7 +386,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -726,7 +726,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -951,7 +951,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -1274,7 +1274,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -1480,7 +1480,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -1726,7 +1726,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -1830,7 +1830,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -2130,7 +2130,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -2170,7 +2170,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -2376,7 +2376,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -2480,7 +2480,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -2572,7 +2572,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -2872,7 +2872,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3018,7 +3018,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3058,7 +3058,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3162,7 +3162,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3254,7 +3254,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3554,7 +3554,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3700,7 +3700,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3740,7 +3740,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -3946,7 +3946,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -4195,7 +4195,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -4380,7 +4380,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -4420,7 +4420,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -4626,7 +4626,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -4832,7 +4832,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -5099,7 +5099,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -5305,7 +5305,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -5511,7 +5511,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -5790,7 +5790,7 @@
   "content": {
   "application/json": {
   "schema": {
-  "$ref": "#/components/schemas/ResourceIdSchema"
+  "$ref": "#/components/schemas/ModifiedResourceSchema"
   }
   }
   }
@@ -6311,7 +6311,7 @@
   "title": "User",
   "type": "object"
   },
-  "ResourceIdSchema": {
+  "ModifiedResourceSchema": {
   "properties": {
   "id": {
   "title": "Id",

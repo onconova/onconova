@@ -15,7 +15,7 @@ import { ComorbiditiesAssessmentCreateSchema } from '../model/models';
 import { ComorbiditiesAssessmentSchema } from '../model/models';
 import { ComorbiditiesPanelSchema } from '../model/models';
 import { PaginatedComorbiditiesAssessmentSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -31,7 +31,7 @@ export interface ComorbiditiesAssessmentsServiceInterface {
      * 
      * @param comorbiditiesAssessmentCreateSchema 
      */
-    createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Comorbidities Assessment

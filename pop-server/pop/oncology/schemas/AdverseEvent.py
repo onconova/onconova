@@ -1,5 +1,5 @@
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ModelFilterSchema
+from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin
 from ninja import Schema
 from pydantic import Field, ConfigDict, AliasChoices
 from typing import List 

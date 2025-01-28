@@ -8,7 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
 
-from pop.core.schemas import ResourceIdSchema, Paginated, ModelFilterSchema
+from pop.core.schemas import ModifiedResourceSchema, Paginated, ModelFilterSchema
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,
@@ -38,13 +38,13 @@ class PatientCaseController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ResourceIdSchema
+            201: ModifiedResourceSchema
         },
         operation_id='createPatientCase',
     )
     def create_patient_case(self, payload: PatientCaseCreateSchema):
         instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
     @route.get(
         path='/{caseId}', 
@@ -115,13 +115,13 @@ class PatientCaseController(ControllerBase):
     @route.post(
         path='/{caseId}/data-completion/{category}', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
         },
         operation_id='createPatientCaseDataCompletion',
     )
     def create_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
         instance = PatientCaseDataCompletion.objects.create(case=get_object_or_404(PatientCase,id=caseId), category=category, created_by=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
     
     @route.delete(
         path='/{caseId}/data-completion/{category}', 
@@ -155,11 +155,11 @@ class PatientCaseController(ControllerBase):
     @route.post(
         path='/bundle', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
         },
         operation_id='createPatientCaseBundleById',
     )
     def create_patient_case_bundle(self, payload: PatientCaseBundleCreateSchema):
         instance = PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
  

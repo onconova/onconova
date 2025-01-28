@@ -19,7 +19,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { PaginatedRiskAssessment } from '../model/paginated-risk-assessment';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 // @ts-ignore
 import { RiskAssessment } from '../model/risk-assessment';
 // @ts-ignore
@@ -105,9 +105,9 @@ export class RiskAssessmentsService implements RiskAssessmentsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (riskAssessmentCreate === null || riskAssessmentCreate === undefined) {
             throw new Error('Required parameter riskAssessmentCreate was null or undefined when calling createRiskAssessment.');
@@ -166,7 +166,7 @@ export class RiskAssessmentsService implements RiskAssessmentsServiceInterface {
         }
 
         let localVarPath = `/api/risk-assessments/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: riskAssessmentCreate,

@@ -6,7 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
 from pop.terminology.models import ICD10Condition
 
@@ -37,7 +37,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ResourceIdSchema
+            201: ModifiedResourceSchema
         },
         operation_id='createComorbiditiesAssessment',
     )
@@ -45,7 +45,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         instance = ComorbiditiesAssessmentCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
     
     @route.get(
         path='/{comorbiditiesAssessmentId}', 

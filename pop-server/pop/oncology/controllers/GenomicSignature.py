@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from typing import List, Union, TypeAlias 
 from typing_extensions import TypeAliasType
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
 from pop.oncology.schemas import (
     GenomicSignatureFilters,
@@ -73,13 +73,13 @@ class GenomicSignatureController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
         },
         operation_id='createGenomicSignature',
     )
     def create_genomic_signature(self, payload: AnyPayloadSchemas): # type: ignore
         instance = payload.model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
     @route.get(
         path='/{genomicSignatureId}', 

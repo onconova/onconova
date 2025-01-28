@@ -31,7 +31,7 @@ import { AdverseEventSuspectedCauseSchema } from '../model/adverse-event-suspect
 // @ts-ignore
 import { PaginatedAdverseEventSchema } from '../model/paginated-adverse-event-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -113,9 +113,9 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (adverseEventCreateSchema === null || adverseEventCreateSchema === undefined) {
             throw new Error('Required parameter adverseEventCreateSchema was null or undefined when calling createAdverseEvent.');
@@ -174,7 +174,7 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         }
 
         let localVarPath = `/api/adverse-events/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: adverseEventCreateSchema,
@@ -195,9 +195,9 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (adverseEventId === null || adverseEventId === undefined) {
             throw new Error('Required parameter adverseEventId was null or undefined when calling createAdverseEventMitigation.');
@@ -259,7 +259,7 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: adverseEventMitigationCreateSchema,
@@ -280,9 +280,9 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (adverseEventId === null || adverseEventId === undefined) {
             throw new Error('Required parameter adverseEventId was null or undefined when calling createAdverseEventSuspectedCause.');
@@ -344,7 +344,7 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: adverseEventSuspectedCauseCreateSchema,
@@ -1116,9 +1116,9 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (adverseEventId === null || adverseEventId === undefined) {
             throw new Error('Required parameter adverseEventId was null or undefined when calling updateAdverseEventMitigation.');
@@ -1183,7 +1183,7 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ResourceIdSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: adverseEventMitigationCreateSchema,
@@ -1205,9 +1205,9 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (adverseEventId === null || adverseEventId === undefined) {
             throw new Error('Required parameter adverseEventId was null or undefined when calling updateAdverseEventSuspectedCause.');
@@ -1272,7 +1272,7 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ResourceIdSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: adverseEventSuspectedCauseCreateSchema,

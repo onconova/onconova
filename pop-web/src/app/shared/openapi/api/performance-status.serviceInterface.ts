@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { PaginatedPerformanceStatus } from '../model/models';
 import { PerformanceStatus } from '../model/models';
 import { PerformanceStatusCreate } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface PerformanceStatusServiceInterface {
      * 
      * @param performanceStatusCreate 
      */
-    createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Performance Status

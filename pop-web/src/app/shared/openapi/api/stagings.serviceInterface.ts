@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { AnyStaging } from '../model/models';
 import { PaginatedAnyStaging } from '../model/models';
 import { Payload } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface StagingsServiceInterface {
      * 
      * @param payload 
      */
-    createStaging(payload: Payload, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createStaging(payload: Payload, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Staging

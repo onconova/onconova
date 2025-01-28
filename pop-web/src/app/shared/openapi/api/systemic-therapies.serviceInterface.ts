@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { PaginatedSystemicTherapySchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { SystemicTherapyCreateSchema } from '../model/models';
 import { SystemicTherapyMedicationCreateSchema } from '../model/models';
 import { SystemicTherapyMedicationSchema } from '../model/models';
@@ -32,7 +32,7 @@ export interface SystemicTherapiesServiceInterface {
      * 
      * @param systemicTherapyCreateSchema 
      */
-    createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Systemic Therapy Medication
@@ -40,7 +40,7 @@ export interface SystemicTherapiesServiceInterface {
      * @param systemicTherapyId 
      * @param systemicTherapyMedicationCreateSchema 
      */
-    createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Systemic Therapy
@@ -103,6 +103,6 @@ export interface SystemicTherapiesServiceInterface {
      * @param medicationId 
      * @param systemicTherapyMedicationCreateSchema 
      */
-    updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

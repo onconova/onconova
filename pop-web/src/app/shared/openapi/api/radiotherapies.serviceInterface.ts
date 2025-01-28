@@ -18,7 +18,7 @@ import { RadiotherapyDosageSchema } from '../model/models';
 import { RadiotherapySchema } from '../model/models';
 import { RadiotherapySettingCreateSchema } from '../model/models';
 import { RadiotherapySettingSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -34,7 +34,7 @@ export interface RadiotherapiesServiceInterface {
      * 
      * @param radiotherapyCreateSchema 
      */
-    createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Radiotherapy Dosage
@@ -42,7 +42,7 @@ export interface RadiotherapiesServiceInterface {
      * @param radiotherapyId 
      * @param radiotherapyDosageCreateSchema 
      */
-    createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Radiotherapy Setting
@@ -50,7 +50,7 @@ export interface RadiotherapiesServiceInterface {
      * @param radiotherapyId 
      * @param radiotherapySettingCreateSchema 
      */
-    createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Radiotherapy
@@ -136,7 +136,7 @@ export interface RadiotherapiesServiceInterface {
      * @param dosageId 
      * @param radiotherapyDosageCreateSchema 
      */
-    updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Radiotherapy Setting
@@ -145,6 +145,6 @@ export interface RadiotherapiesServiceInterface {
      * @param settingId 
      * @param radiotherapySettingCreateSchema 
      */
-    updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

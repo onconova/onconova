@@ -23,7 +23,7 @@ import { GenomicVariantSchema } from '../model/genomic-variant-schema';
 // @ts-ignore
 import { PaginatedGenomicVariantSchema } from '../model/paginated-genomic-variant-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -105,9 +105,9 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (genomicVariantCreateSchema === null || genomicVariantCreateSchema === undefined) {
             throw new Error('Required parameter genomicVariantCreateSchema was null or undefined when calling createGenomicVariant.');
@@ -166,7 +166,7 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         }
 
         let localVarPath = `/api/genomic-variants/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: genomicVariantCreateSchema,

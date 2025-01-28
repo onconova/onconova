@@ -23,7 +23,7 @@ import { LifestyleSchema } from '../model/lifestyle-schema';
 // @ts-ignore
 import { PaginatedLifestyleSchema } from '../model/paginated-lifestyle-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -105,9 +105,9 @@ export class LifestylesService implements LifestylesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (lifestyleCreateSchema === null || lifestyleCreateSchema === undefined) {
             throw new Error('Required parameter lifestyleCreateSchema was null or undefined when calling createLifestyle.');
@@ -166,7 +166,7 @@ export class LifestylesService implements LifestylesServiceInterface {
         }
 
         let localVarPath = `/api/lifestyles/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: lifestyleCreateSchema,

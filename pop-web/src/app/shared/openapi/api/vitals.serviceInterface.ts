@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { PaginatedVitalsSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { VitalsCreateSchema } from '../model/models';
 import { VitalsSchema } from '../model/models';
 
@@ -30,7 +30,7 @@ export interface VitalsServiceInterface {
      * 
      * @param vitalsCreateSchema 
      */
-    createVitals(vitalsCreateSchema: VitalsCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createVitals(vitalsCreateSchema: VitalsCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Vitals

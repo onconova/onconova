@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { PaginatedTreatmentResponseSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { TreatmentResponseCreateSchema } from '../model/models';
 import { TreatmentResponseSchema } from '../model/models';
 
@@ -30,7 +30,7 @@ export interface TreatmentResponsesServiceInterface {
      * 
      * @param treatmentResponseCreateSchema 
      */
-    createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Treatment Response

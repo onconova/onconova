@@ -6,7 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
 
 from django.shortcuts import get_object_or_404
@@ -41,7 +41,7 @@ class RadiotherapyController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ResourceIdSchema
+            201: ModifiedResourceSchema
         },
         operation_id='createRadiotherapy',
     )
@@ -49,7 +49,7 @@ class RadiotherapyController(ControllerBase):
         instance = RadiotherapyCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
     
     @route.get(
         path='/{radiotherapyId}', 
@@ -139,7 +139,7 @@ class RadiotherapyController(ControllerBase):
     @route.post(
         path='/{radiotherapyId}/dosages', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
             404: None,
         },
         operation_id='createRadiotherapyDosage',
@@ -149,13 +149,13 @@ class RadiotherapyController(ControllerBase):
         instance = RadiotherapyDosageCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
 
     @route.put(
         path='/{radiotherapyId}/dosages/{dosageId}', 
         response={
-            204: ResourceIdSchema,
+            204: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateRadiotherapyDosage',
@@ -165,7 +165,7 @@ class RadiotherapyController(ControllerBase):
         instance = RadiotherapyDosageCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ResourceIdSchema(id=instance.id)
+        return 204, ModifiedResourceSchema(id=instance.id)
     
 
     @route.delete(
@@ -212,7 +212,7 @@ class RadiotherapyController(ControllerBase):
     @route.post(
         path='/{radiotherapyId}/settings', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
             404: None,
         },
         operation_id='createRadiotherapySetting',
@@ -222,13 +222,13 @@ class RadiotherapyController(ControllerBase):
         instance = RadiotherapySettingCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
 
     @route.put(
         path='/{radiotherapyId}/settings/{settingId}', 
         response={
-            204: ResourceIdSchema,
+            204: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateRadiotherapySetting',
@@ -238,7 +238,7 @@ class RadiotherapyController(ControllerBase):
         instance = RadiotherapySettingCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ResourceIdSchema(id=instance.id)
+        return 204, ModifiedResourceSchema(id=instance.id)
     
 
     @route.delete(

@@ -31,7 +31,7 @@ import { RadiotherapySettingCreateSchema } from '../model/radiotherapy-setting-c
 // @ts-ignore
 import { RadiotherapySettingSchema } from '../model/radiotherapy-setting-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -113,9 +113,9 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (radiotherapyCreateSchema === null || radiotherapyCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapyCreateSchema was null or undefined when calling createRadiotherapy.');
@@ -174,7 +174,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         }
 
         let localVarPath = `/api/radiotherapies/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: radiotherapyCreateSchema,
@@ -195,9 +195,9 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling createRadiotherapyDosage.');
@@ -259,7 +259,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: radiotherapyDosageCreateSchema,
@@ -280,9 +280,9 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling createRadiotherapySetting.');
@@ -344,7 +344,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: radiotherapySettingCreateSchema,
@@ -1116,9 +1116,9 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling updateRadiotherapyDosage.');
@@ -1183,7 +1183,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages/${this.configuration.encodeParam({name: "dosageId", value: dosageId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ResourceIdSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: radiotherapyDosageCreateSchema,
@@ -1205,9 +1205,9 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling updateRadiotherapySetting.');
@@ -1272,7 +1272,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings/${this.configuration.encodeParam({name: "settingId", value: settingId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ResourceIdSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: radiotherapySettingCreateSchema,

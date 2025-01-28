@@ -23,7 +23,7 @@ import { FamilyHistorySchema } from '../model/family-history-schema';
 // @ts-ignore
 import { PaginatedFamilyHistorySchema } from '../model/paginated-family-history-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -105,9 +105,9 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (familyHistoryCreateSchema === null || familyHistoryCreateSchema === undefined) {
             throw new Error('Required parameter familyHistoryCreateSchema was null or undefined when calling createFamilyHistory.');
@@ -166,7 +166,7 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
         }
 
         let localVarPath = `/api/family-histories/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: familyHistoryCreateSchema,

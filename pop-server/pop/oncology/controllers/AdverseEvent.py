@@ -6,7 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
 
 from django.shortcuts import get_object_or_404
@@ -36,20 +36,19 @@ class AdverseEventController(ControllerBase):
     @paginate()
     def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters]):  # type: ignore
         queryset = AdverseEvent.objects.all().order_by('-date')
-        return [AdverseEventSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
+        return query.apply_filters(queryset)
 
     @route.post(
         path='', 
         response={
-            201: ResourceIdSchema
+            201: ModifiedResourceSchema
         },
         operation_id='createAdverseEvent',
     )
     def create_adverse_event(self, payload: AdverseEventCreateSchema): # type: ignore
-        instance = AdverseEventCreateSchema\
+        return AdverseEventCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
     
     @route.get(
         path='/{adverseEventId}', 
@@ -60,24 +59,7 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEventById',
     )
     def get_adverse_event_by_id(self, adverseEventId: str):
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-        return 200, AdverseEventSchema.model_validate(instance)
-
-    @route.put(
-        path='', 
-        response={
-            204: None, 
-            404: None
-        },
-        operation_id='updateAdverseEvent',
-    )
-    def update_adverse_event(self, payload: AdverseEventCreateSchema): # type: ignore
-        with transaction.atomic():
-            instance = get_object_or_404(AdverseEvent, id=payload.id)
-            instance = AdverseEventCreateSchema\
-                        .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, None
+        return get_object_or_404(AdverseEvent, id=adverseEventId)
 
     @route.delete(
         path='/{adverseEventId}', 
@@ -139,7 +121,7 @@ class AdverseEventController(ControllerBase):
     @route.post(
         path='/{adverseEventId}/suspected-causes', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
             404: None,
         },
         operation_id='createAdverseEventSuspectedCause',
@@ -149,13 +131,13 @@ class AdverseEventController(ControllerBase):
         instance = AdverseEventSuspectedCauseCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
 
     @route.put(
         path='/{adverseEventId}/suspected-causes/{causeId}', 
         response={
-            204: ResourceIdSchema,
+            204: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateAdverseEventSuspectedCause',
@@ -165,7 +147,7 @@ class AdverseEventController(ControllerBase):
         instance = AdverseEventSuspectedCauseCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ResourceIdSchema(id=instance.id)
+        return 204, ModifiedResourceSchema(id=instance.id)
     
 
     @route.delete(
@@ -194,7 +176,7 @@ class AdverseEventController(ControllerBase):
     )
     def get_adverse_event_mitigations_matching_the_query(self, adverseEventId: str): # type: ignore
         queryset = get_object_or_404(AdverseEvent, id=adverseEventId).mitigations.all()
-        return 200, [AdverseEventMitigationSchema.model_validate(entry) for entry in queryset]
+        return queryset
 
 
     @route.get(
@@ -206,13 +188,12 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEventMitigationById',
     )
     def get_adverse_event_mitigation_by_id(self, adverseEventId: str, mitigationId: str): # type: ignore
-        instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
-        return 200, AdverseEventMitigationSchema.model_validate(instance)
-
+        return get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
+        
     @route.post(
         path='/{adverseEventId}/mitigations', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
             404: None,
         },
         operation_id='createAdverseEventMitigation',
@@ -222,13 +203,13 @@ class AdverseEventController(ControllerBase):
         instance = AdverseEventMitigationCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user, create=True)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
 
     @route.put(
         path='/{adverseEventId}/mitigations/{mitigationId}', 
         response={
-            204: ResourceIdSchema,
+            204: ModifiedResourceSchema,
             404: None,
         },
         operation_id='updateAdverseEventMitigation',
@@ -238,7 +219,7 @@ class AdverseEventController(ControllerBase):
         instance = AdverseEventMitigationCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django(instance=instance, user=self.context.request.user)
-        return 204, ResourceIdSchema(id=instance.id)
+        return 204, ModifiedResourceSchema(id=instance.id)
     
 
     @route.delete(

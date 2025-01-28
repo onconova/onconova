@@ -23,7 +23,7 @@ import { NeoplasticEntityCreate } from '../model/neoplastic-entity-create';
 // @ts-ignore
 import { PaginatedNeoplasticEntity } from '../model/paginated-neoplastic-entity';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -105,9 +105,9 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (neoplasticEntityCreate === null || neoplasticEntityCreate === undefined) {
             throw new Error('Required parameter neoplasticEntityCreate was null or undefined when calling createNeoplasticEntity.');
@@ -166,7 +166,7 @@ export class NeoplasticEntitiesService implements NeoplasticEntitiesServiceInter
         }
 
         let localVarPath = `/api/neoplastic-entities/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: neoplasticEntityCreate,

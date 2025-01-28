@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from typing import List, Union
 from typing_extensions import TypeAliasType
 
-from pop.core.schemas import ResourceIdSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Staging, StagingDomain
 from pop.oncology.schemas import (
     StagingFilters,
@@ -98,13 +98,13 @@ class StagingController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ResourceIdSchema,
+            201: ModifiedResourceSchema,
         },
         operation_id='createStaging',
     )
     def create_staging(self, payload: AnyPayloadSchemas): # type: ignore
         instance = payload.model_dump_django(user=self.context.request.user)
-        return 201, ResourceIdSchema(id=instance.id)
+        return 201, ModifiedResourceSchema(id=instance.id)
 
     @route.get(
         path='/{stagingId}', 

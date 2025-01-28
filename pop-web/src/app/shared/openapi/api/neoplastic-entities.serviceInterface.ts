@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { NeoplasticEntity } from '../model/models';
 import { NeoplasticEntityCreate } from '../model/models';
 import { PaginatedNeoplasticEntity } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface NeoplasticEntitiesServiceInterface {
      * 
      * @param neoplasticEntityCreate 
      */
-    createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Neoplastic Entity

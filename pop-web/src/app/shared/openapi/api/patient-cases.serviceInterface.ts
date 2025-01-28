@@ -17,7 +17,7 @@ import { PatientCaseBundle } from '../model/models';
 import { PatientCaseBundleCreate } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
 import { PatientCaseDataCompletionStatusSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -33,14 +33,14 @@ export interface PatientCasesServiceInterface {
      * 
      * @param patientCaseCreate 
      */
-    createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Patient Case Bundle
      * 
      * @param patientCaseBundleCreate 
      */
-    createPatientCaseBundleById(patientCaseBundleCreate: PatientCaseBundleCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPatientCaseBundleById(patientCaseBundleCreate: PatientCaseBundleCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Patient Case Data Completion
@@ -48,7 +48,7 @@ export interface PatientCasesServiceInterface {
      * @param caseId 
      * @param category 
      */
-    createPatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createPatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Patient Case

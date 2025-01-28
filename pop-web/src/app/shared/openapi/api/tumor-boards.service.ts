@@ -27,7 +27,7 @@ import { PaginatedAnyTumorBoard } from '../model/paginated-any-tumor-board';
 // @ts-ignore
 import { Payload1 } from '../model/payload1';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -110,9 +110,9 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling createMolecularTherapeuticRecommendation.');
@@ -174,7 +174,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         }
 
         let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: molecularTherapeuticRecommendationCreateSchema,
@@ -194,9 +194,9 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTumorBoard(payload1: Payload1, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createTumorBoard(payload1: Payload1, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createTumorBoard(payload1: Payload1, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createTumorBoard(payload1: Payload1, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createTumorBoard(payload1: Payload1, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createTumorBoard(payload1: Payload1, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createTumorBoard(payload1: Payload1, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (payload1 === null || payload1 === undefined) {
             throw new Error('Required parameter payload1 was null or undefined when calling createTumorBoard.');
@@ -255,7 +255,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         }
 
         let localVarPath = `/api/tumor-boards/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: payload1,
@@ -730,9 +730,9 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling updateMolecularTherapeuticRecommendation.');
@@ -797,7 +797,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         }
 
         let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/${this.configuration.encodeParam({name: "recommendationId", value: recommendationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ResourceIdSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: molecularTherapeuticRecommendationCreateSchema,

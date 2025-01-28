@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { PaginatedRiskAssessment } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { RiskAssessment } from '../model/models';
 import { RiskAssessmentCreate } from '../model/models';
 
@@ -30,7 +30,7 @@ export interface RiskAssessmentsServiceInterface {
      * 
      * @param riskAssessmentCreate 
      */
-    createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Risk Assessment

@@ -1,5 +1,6 @@
 from datetime import date
 from typing import Optional, List, Dict, Union
+from uuid import UUID
 from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
 from pydantic import Field, ConfigDict, SecretStr,model_validator
@@ -62,11 +63,12 @@ class RefreshedTokenPairSchema(TokenRefreshOutputSchema):
 class Paginated(NinjaPaginationResponseSchema):
     pass
 
-class ResourceIdSchema(Schema):
-    id: str 
+class ModifiedResourceSchema(Schema):
+    id: UUID = Field()
+    description: Optional[str] = Field(None)
     # Schema config
     model_config = ConfigDict(
-        title='ResourceId',
+        title='ModifiedResource',
     )
 
 class CodedConceptSchema(Schema):  

@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { AnyGenomicSignature } from '../model/models';
 import { PaginatedAnyGenomicSignature } from '../model/models';
 import { Payload2 } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface GenomicSignaturesServiceInterface {
      * 
      * @param payload2 
      */
-    createGenomicSignature(payload2: Payload2, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createGenomicSignature(payload2: Payload2, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Genomic Signature

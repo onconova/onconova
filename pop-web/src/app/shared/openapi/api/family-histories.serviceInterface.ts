@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { FamilyHistoryCreateSchema } from '../model/models';
 import { FamilyHistorySchema } from '../model/models';
 import { PaginatedFamilyHistorySchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface FamilyHistoriesServiceInterface {
      * 
      * @param familyHistoryCreateSchema 
      */
-    createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Family History

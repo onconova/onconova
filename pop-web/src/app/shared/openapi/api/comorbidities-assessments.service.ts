@@ -25,7 +25,7 @@ import { ComorbiditiesPanelSchema } from '../model/comorbidities-panel-schema';
 // @ts-ignore
 import { PaginatedComorbiditiesAssessmentSchema } from '../model/paginated-comorbidities-assessment-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -107,9 +107,9 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (comorbiditiesAssessmentCreateSchema === null || comorbiditiesAssessmentCreateSchema === undefined) {
             throw new Error('Required parameter comorbiditiesAssessmentCreateSchema was null or undefined when calling createComorbiditiesAssessment.');
@@ -168,7 +168,7 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         }
 
         let localVarPath = `/api/comorbidities-assessments/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: comorbiditiesAssessmentCreateSchema,

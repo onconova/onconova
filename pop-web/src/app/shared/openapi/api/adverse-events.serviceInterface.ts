@@ -18,7 +18,7 @@ import { AdverseEventSchema } from '../model/models';
 import { AdverseEventSuspectedCauseCreateSchema } from '../model/models';
 import { AdverseEventSuspectedCauseSchema } from '../model/models';
 import { PaginatedAdverseEventSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -34,7 +34,7 @@ export interface AdverseEventsServiceInterface {
      * 
      * @param adverseEventCreateSchema 
      */
-    createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createAdverseEvent(adverseEventCreateSchema: AdverseEventCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Adverse Event Mitigation
@@ -42,7 +42,7 @@ export interface AdverseEventsServiceInterface {
      * @param adverseEventId 
      * @param adverseEventMitigationCreateSchema 
      */
-    createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createAdverseEventMitigation(adverseEventId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Adverse Event Suspected Cause
@@ -50,7 +50,7 @@ export interface AdverseEventsServiceInterface {
      * @param adverseEventId 
      * @param adverseEventSuspectedCauseCreateSchema 
      */
-    createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createAdverseEventSuspectedCause(adverseEventId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Adverse Event
@@ -136,7 +136,7 @@ export interface AdverseEventsServiceInterface {
      * @param mitigationId 
      * @param adverseEventMitigationCreateSchema 
      */
-    updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    updateAdverseEventMitigation(adverseEventId: string, mitigationId: string, adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Adverse Event Suspected Cause
@@ -145,6 +145,6 @@ export interface AdverseEventsServiceInterface {
      * @param causeId 
      * @param adverseEventSuspectedCauseCreateSchema 
      */
-    updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    updateAdverseEventSuspectedCause(adverseEventId: string, causeId: string, adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

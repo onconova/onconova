@@ -19,7 +19,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { PaginatedSystemicTherapySchema } from '../model/paginated-systemic-therapy-schema';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 // @ts-ignore
 import { SystemicTherapyCreateSchema } from '../model/systemic-therapy-create-schema';
 // @ts-ignore
@@ -109,9 +109,9 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (systemicTherapyCreateSchema === null || systemicTherapyCreateSchema === undefined) {
             throw new Error('Required parameter systemicTherapyCreateSchema was null or undefined when calling createSystemicTherapy.');
@@ -170,7 +170,7 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         }
 
         let localVarPath = `/api/systemic-therapies/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: systemicTherapyCreateSchema,
@@ -191,9 +191,9 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
             throw new Error('Required parameter systemicTherapyId was null or undefined when calling createSystemicTherapyMedication.');
@@ -255,7 +255,7 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         }
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: systemicTherapyMedicationCreateSchema,
@@ -807,9 +807,9 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
             throw new Error('Required parameter systemicTherapyId was null or undefined when calling updateSystemicTherapyMedication.');
@@ -874,7 +874,7 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         }
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/${this.configuration.encodeParam({name: "medicationId", value: medicationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ResourceIdSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: systemicTherapyMedicationCreateSchema,

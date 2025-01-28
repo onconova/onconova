@@ -14,7 +14,7 @@ import { Observable }                                        from 'rxjs';
 import { LifestyleCreateSchema } from '../model/models';
 import { LifestyleSchema } from '../model/models';
 import { PaginatedLifestyleSchema } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -30,7 +30,7 @@ export interface LifestylesServiceInterface {
      * 
      * @param lifestyleCreateSchema 
      */
-    createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Lifestyle

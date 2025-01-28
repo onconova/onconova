@@ -16,7 +16,7 @@ import { MolecularTherapeuticRecommendationCreateSchema } from '../model/models'
 import { MolecularTherapeuticRecommendationSchema } from '../model/models';
 import { PaginatedAnyTumorBoard } from '../model/models';
 import { Payload1 } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -33,14 +33,14 @@ export interface TumorBoardsServiceInterface {
      * @param tumorBoardId 
      * @param molecularTherapeuticRecommendationCreateSchema 
      */
-    createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Tumor Board
      * 
      * @param payload1 
      */
-    createTumorBoard(payload1: Payload1, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createTumorBoard(payload1: Payload1, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Molecular Tumor Board Therapeutic Recommendation
@@ -96,7 +96,7 @@ export interface TumorBoardsServiceInterface {
      * @param recommendationId 
      * @param molecularTherapeuticRecommendationCreateSchema 
      */
-    updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Tumor Board

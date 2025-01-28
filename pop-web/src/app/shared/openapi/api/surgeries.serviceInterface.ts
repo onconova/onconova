@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { PaginatedSurgery } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { Surgery } from '../model/models';
 import { SurgeryCreate } from '../model/models';
 
@@ -30,7 +30,7 @@ export interface SurgeriesServiceInterface {
      * 
      * @param surgeryCreate 
      */
-    createSurgery(surgeryCreate: SurgeryCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createSurgery(surgeryCreate: SurgeryCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Surgery

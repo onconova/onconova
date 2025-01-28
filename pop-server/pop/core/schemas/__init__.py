@@ -1,7 +1,7 @@
 from .schemas import (
     CREATE_IGNORED_FIELDS,
     UserSchema, 
-    ResourceIdSchema, 
+    ModifiedResourceSchema, 
     PeriodSchema, RangeSchema,
     CodedConceptSchema, 
     RefreshedTokenPairSchema,
@@ -24,7 +24,7 @@ __all__ = (
     ModelSchema, ModelFilterSchema,
     CodedConceptSchema,
     UserSchema, 
-    ResourceIdSchema,
+    ModifiedResourceSchema,
     RefreshedTokenPairSchema, 
     TokenRefreshSchema, 
     TokenPairSchema, 

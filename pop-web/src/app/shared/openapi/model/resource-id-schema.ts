@@ -9,7 +9,7 @@
  */
 
 
-export interface ResourceIdSchema { 
+export interface ModifiedResourceSchema { 
     id: string;
 }
 

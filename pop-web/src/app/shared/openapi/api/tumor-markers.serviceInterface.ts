@@ -13,7 +13,7 @@ import { Observable }                                        from 'rxjs';
 
 import { AnalyteDetails } from '../model/models';
 import { PaginatedTumorMarker } from '../model/models';
-import { ResourceIdSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { TumorMarker } from '../model/models';
 import { TumorMarkerCreate } from '../model/models';
 
@@ -31,7 +31,7 @@ export interface TumorMarkersServiceInterface {
      * 
      * @param tumorMarkerCreate 
      */
-    createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, extraHttpRequestParams?: any): Observable<ResourceIdSchema>;
+    createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Tumor Marker

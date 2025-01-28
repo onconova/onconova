@@ -21,7 +21,7 @@ import { AnalyteDetails } from '../model/analyte-details';
 // @ts-ignore
 import { PaginatedTumorMarker } from '../model/paginated-tumor-marker';
 // @ts-ignore
-import { ResourceIdSchema } from '../model/resource-id-schema';
+import { ModifiedResourceSchema } from '../model/resource-id-schema';
 // @ts-ignore
 import { TumorMarker } from '../model/tumor-marker';
 // @ts-ignore
@@ -107,9 +107,9 @@ export class TumorMarkersService implements TumorMarkersServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ResourceIdSchema>;
-    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ResourceIdSchema>>;
-    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ResourceIdSchema>>;
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
     public createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (tumorMarkerCreate === null || tumorMarkerCreate === undefined) {
             throw new Error('Required parameter tumorMarkerCreate was null or undefined when calling createTumorMarker.');
@@ -168,7 +168,7 @@ export class TumorMarkersService implements TumorMarkersServiceInterface {
         }
 
         let localVarPath = `/api/tumor-markers/`;
-        return this.httpClient.request<ResourceIdSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: tumorMarkerCreate,
