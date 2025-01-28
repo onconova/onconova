@@ -76,15 +76,15 @@ class DescendsFrom(models.Lookup):
 		# Construct the recursive CTE query
 		recursive_cte = f"""
 		WITH RECURSIVE descendants AS (
-			SELECT auto_id
+			SELECT id
 			FROM {table}
-			WHERE auto_id = {rhs}
+			WHERE id = {rhs}
 			UNION ALL
-			SELECT t.auto_id
+			SELECT t.id
 			FROM {table} AS t
-			INNER JOIN descendants AS d ON t.parent_id = d.auto_id
+			INNER JOIN descendants AS d ON t.parent_id = d.id
 		)
-		SELECT auto_id FROM descendants
+		SELECT id FROM descendants
 		"""
 
 		# Return the SQL query and parameters
