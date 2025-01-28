@@ -16,7 +16,7 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
+from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema, UserSchema
 from pop.core.measures import MeasureSchema
 from pop.core.schemas import filters as schema_filters
 from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case
@@ -64,9 +64,8 @@ def get_schema_field(
     python_type = None
     related_type = None
     examples = []    
-    json_schema_extra = {
-        'x-expanded': expand,
-    }
+    json_schema_extra = {}
+    expanded = expand
     
     is_array_field = isinstance(field, ArrayField)
     if is_array_field:
@@ -94,6 +93,10 @@ def get_schema_field(
             if issubclass(related_model, CodedConceptModel):
                 json_schema_extra['x-terminology'] = related_model.__name__
                 related_type = CodedConceptSchema   
+            elif issubclass(related_model, UserModel):
+                expanded = True
+                related_type = UserSchema   
+                
             else:
                 internal_type = related_model._meta.get_field('id').get_internal_type()
                 django_field_name += '_id'
@@ -175,7 +178,10 @@ def get_schema_field(
             examples=examples,
             description=description,
             max_length=max_length,
-            json_schema_extra=json_schema_extra,
+            json_schema_extra={
+                **json_schema_extra,
+                'x-expanded': expanded,
+            },
         ),
     )
 
