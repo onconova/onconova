@@ -1,10 +1,10 @@
-from django.db.models import Model as DjangoModel
+from django.db.models import Model as DjangoModel, Field as DjangoField
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.core.measures.fields import MeasurementField
 from pop.core.utils import to_camel_case 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
-from typing import Optional, List, get_args, get_origin, Type, Any
+from typing import Optional, Dict, get_args, get_origin, Type, Any, Union
 
 from ninja.params import Query
 from django.db.models.query import QuerySet
@@ -16,15 +16,89 @@ from pop.terminology.models import CodedConcept
 class FiltersBaseSchema(PydanticBaseModel):
 
     def apply_filters(self, queryset: QuerySet):
-        print(self.__class__.__name__)
         for filter_name, filter_value in self.model_dump().items():
             if not filter_value:
                 continue
             filter_info = self.model_fields.get(filter_name)
-            lookup = filter_info.json_schema_extra.get('django_lookup')
+            lookup = filter_info.json_schema_extra.get('x-orm-lookup')
             if lookup:
                 queryset = queryset.filter(**{lookup: filter_value})
         return queryset
+
+
+
+class OrmMetadataMixin:
+    __orm_model__: Type[DjangoModel] = None
+    __orm_meta__: Dict[str, Type[DjangoField]] = None
+
+    @classmethod
+    def set_orm_metadata(cls, **metadata: Dict[str, DjangoField]):
+        """
+        Sets the ORM metadata of the class.
+
+        The ORM metadata is a dictionary mapping field names to Django model
+        fields. This method is used by the ModelSchema metaclass to set the
+        ORM metadata of the class.
+
+        Args:
+            **metadata: A dictionary of keyword arguments where the key is a
+                string and the value is a Django model field instance.
+
+        Raises:
+            TypeError: If the value of any keyword argument is not a Django model
+                field instance.
+        """
+        for field in metadata.values():
+            if not isinstance(field, DjangoField):
+                raise TypeError('The set_orm_metadata only accepts keyword-argument pairs containing Django model field instances.')
+        cls.__orm_meta__ = metadata
+
+    @classmethod
+    def get_orm_metadata(cls):
+        """
+        Returns a dictionary mapping field names to Django model fields.
+
+        The dictionary is the ORM metadata of the class.
+
+        Returns:
+            A dictionary of keyword arguments where the key is a string and the
+                value is a Django model field instance.
+        """
+        return cls.__orm_meta__
+
+    @classmethod
+    def set_orm_model(cls, model: Union[None, Type[DjangoModel]]):
+        """
+        Sets the ORM model class for the schema.
+
+        This method assigns a Django model class to the schema, allowing it to
+        interact with the database representation of that model. It ensures that
+        the provided model is a valid Django model class.
+
+        Args:
+            model (Union[None, Type[DjangoModel]]): The Django model class to set
+                as the ORM model. If None, no model is set.
+
+        Raises:
+            TypeError: If the provided model is not a Django model class.
+        """
+        if model is not None:
+            if not isinstance(model, type) and not issubclass(model, DjangoModel):
+                raise TypeError('The set_orm_model method only accept a Django model class as argument.')
+        cls.__orm_model__ = model
+
+    @classmethod
+    def get_orm_model(cls):
+        """
+        Returns the Django model class that is associated with the schema.
+
+        Returns:
+            The Django model class associated with the schema, or None if no model
+            is associated.
+        """
+        return cls.__orm_model__
+    
+
 
 
 class BaseSchema(PydanticBaseModel):
@@ -35,6 +109,23 @@ class BaseSchema(PydanticBaseModel):
         from_attributes=True,
         populate_by_name = True,
     )
+
+    def model_dump(self, *args, **kwargs):
+        """
+        Override the Pydantic `model_dump` method to exclude `None` values.
+        """
+        kwargs.update({'exclude_none': True})
+        return super().model_dump(*args, **kwargs)
+    
+    def model_dump_json(self, *args, **kwargs):
+        """
+        Override the Pydantic `model_dump_json` method to exclude `None` values.
+        """
+        # Update kwargs to use aliases and exclude None values
+        kwargs.update({'exclude_none': True})
+        # Call the superclass method with updated arguments
+        return super().model_dump_json(*args, **kwargs)
+
 
     @classmethod
     def extract_related_model(cls,field) -> Optional[Type[PydanticBaseModel]]:
@@ -62,72 +153,108 @@ class BaseSchema(PydanticBaseModel):
 
     @classmethod
     def model_validate(cls, obj=None, *args, **kwargs):
-        if isinstance(obj, DjangoModel):
-            data = {}
-            for field in obj._meta.get_fields():
-                if field.is_relation:
-                    expanded =  to_camel_case(field.name) in cls.model_fields
-                    if field.one_to_many or field.many_to_many:
-                        if not hasattr(obj, field.name):
-                            continue
-                        data[field.name if expanded else field.name + '_ids'] = [
-                            cls.extract_related_model(field).model_validate(related_object) if expanded else related_object.id for related_object in getattr(obj, field.name).all()
-                        ]
-                    else:
-                        related_object =  getattr(obj, field.name)
-                        if related_object:
-                            if expanded:
-                                data[field.name] = cls.extract_related_model(field).model_validate(related_object)
-                            else:
-                                data[field.name + '_id'] = related_object.id
-                else:
-                    data[field.name] = getattr(obj, field.name) 
-            for attr_name in dir(obj.__class__):  # dir() inspects class attributes
-                if not to_camel_case(attr_name) in cls.model_fields: continue
-                attr = getattr(obj.__class__, attr_name, None)
-                if isinstance(attr, property):  # Check if it is a property
-                    data[attr_name] = getattr(obj, attr_name)
-
-            obj = data
-        return super().model_validate(obj=obj, *args, **kwargs)
-
-    def model_dump(self, *args, **kwargs):
         """
-        Override the Pydantic `model_dump` method to always use aliases and exclude None values.
-        """
-        kwargs.update({'exclude_none': True})
-        return super().model_dump(*args, **kwargs)
+        Validates the given object against the Pydantic model's fields and returns
+        a dictionary of validated data.
 
-    def model_dump_json(self, *args, **kwargs):
-        """
-        Dumps the model as a JSON string.
+        If the object is a Django model instance, the method extracts the data
+        from the model's fields and applies validation for each field. The method
+        handles one-to-one, one-to-many, many-to-many, and foreign key
+        relationships, as well as properties defined in the model class.
 
-        This method overrides the default behavior to ensure that aliases are 
-        used and None values are excluded by default.
+        The method also handles expansion of related fields, which allows the
+        inclusion of data from related models in the validated output.
 
         Args:
-            *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+            obj (Any): The object to validate against the Pydantic model.
+            *args: Additional positional arguments passed to the Pydantic model
+                validation method.
+            **kwargs: Additional keyword arguments passed to the Pydantic model
+                validation method.
 
         Returns:
-            str: The JSON string representation of the model.
+            dict: A dictionary of validated data extracted from the given object.
         """
-        # Update kwargs to use aliases and exclude None values
-        kwargs.update({'exclude_none': True})
-        # Call the superclass method with updated arguments
-        return super().model_dump_json(*args, **kwargs)
+        # Check if the object is a Django model instance
+        if isinstance(obj, DjangoModel):
+            data = {}  # Initialize an empty dictionary to hold field data
 
-    def model_dump_django(
-            self, 
-            model: Type[DjangoModel] = None, 
-            instance: Optional[DjangoModel] = None, 
-            user: Optional[DjangoModel]=None,
-            create: Optional[bool] = None,
-    ) -> DjangoModel:
+            # Loop over all fields in the Django model's meta options
+            for field in obj._meta.get_fields():
+                # Check if the field is a relation (foreign key, many-to-many, etc.)
+                if field.is_relation:
+                    # Determine if the field needs expansion based on class model fields
+                    expanded = to_camel_case(field.name) in cls.model_fields
+
+                    # Handle one-to-many or many-to-many relationships
+                    if field.one_to_many or field.many_to_many:
+                        # Skip if the object does not have the related field attribute
+                        if not hasattr(obj, field.name):
+                            continue
+
+                        # Collect related objects and apply validation or get their IDs
+                        data[field.name if expanded else field.name + '_ids'] = [
+                            cls.extract_related_model(field).model_validate(related_object) if expanded else related_object.id
+                            for related_object in getattr(obj, field.name).all()
+                        ]
+                    else:
+                        # Handle one-to-one or foreign key relationships
+                        related_object = getattr(obj, field.name)
+                        if related_object:
+                            if expanded:
+                                # Validate the related object if expansion is needed
+                                data[field.name] = cls.extract_related_model(field).model_validate(related_object)
+                            else:
+                                # Otherwise, just get the ID of the related object
+                                data[field.name + '_id'] = related_object.id
+                else:
+                    # For non-relation fields, simply get the attribute value
+                    data[field.name] = getattr(obj, field.name)
+
+            # Inspect class attributes to handle properties
+            for attr_name in dir(obj.__class__):
+                # Skip attributes not defined in the model fields
+                if not to_camel_case(attr_name) in cls.model_fields:
+                    continue
+
+                # Get the attribute from the class
+                attr = getattr(obj.__class__, attr_name, None)
+
+                # If the attribute is a property, get its value
+                if isinstance(attr, property):
+                    data[attr_name] = getattr(obj, attr_name)
+
+            # Replace obj with the constructed data dictionary
+            obj = data
+
+        # Call the superclass model_validate method with the constructed data
+        return super().model_validate(obj=obj, *args, **kwargs)
+
+
+    def model_dump_django(self, model: Optional[Type[DjangoModel]] = None, instance: Optional[DjangoModel] = None, user: Optional[DjangoModel] = None, create: Optional[bool] = None) -> DjangoModel:
         """
-        Creates a Django model instance from the current schema.
+        Converts a Pydantic model instance to a Django model instance, handling
+        both relational and non-relational fields.
+
+        This method maps the fields of a Pydantic model to a corresponding Django
+        model instance, managing the creation or updating of related instances 
+        for many-to-many, one-to-many, and foreign key relationships. It also 
+        handles custom fields like measurement and range fields.
+
+        Args:
+            model (Optional[Type[DjangoModel]]): The Django model class to use. 
+                Defaults to the schema's ORM model.
+            instance (Optional[DjangoModel]): The existing Django model instance 
+                to update. If None, a new instance is created.
+            user (Optional[DjangoModel]): The user associated with the operation,
+                used for setting created_by and updated_by fields.
+            create (Optional[bool]): Whether to create a new instance. Defaults to
+                True if no instance is provided.
+
+        Returns:
+            DjangoModel: The populated Django model instance.
         """
-        model = model or self.__ormmodel__
+        model = model or self.get_orm_model()
         create = create if create is not None else instance is None 
         m2m_relations = {}
         o2m_relations = {}
@@ -141,17 +268,13 @@ class BaseSchema(PydanticBaseModel):
             # Get field data
             data = serialized_data[field_name]
             # Get field metadata
-            field_meta = field.json_schema_extra
-            if field_meta is None:
+            orm_field = self.get_orm_metadata().get(field_name)
+            if orm_field is None:
                 continue
-            orm_field =  model._meta.get_field(
-                field_meta.get('orm_name', field.alias)
-            )
-            
             # Handle relational fields
-            if field_meta.get('is_relation'):
+            if orm_field.is_relation:
                 related_model = orm_field.related_model
-                if field_meta.get('many_to_many'):
+                if orm_field.many_to_many:
                     if issubclass(related_model, CodedConcept): 
                         # Collect all related instances
                         m2m_relations[orm_field.name] = [
@@ -164,7 +287,7 @@ class BaseSchema(PydanticBaseModel):
                         ]
                     # Do not set many-to-many or one-to-many fields yet
                     continue
-                elif field_meta.get('one_to_many'):
+                elif orm_field.one_to_many:
                     related_schema = field.annotation.__args__[0]
                     # Collect all related instances
                     o2m_relations[orm_field] = {'schema': related_schema, 'entries': data }
@@ -175,7 +298,7 @@ class BaseSchema(PydanticBaseModel):
                         related_instance = None
                     else:
                         # Handle ForeignKey fields/relations
-                        if field_meta.get('expanded'):
+                        if field.json_schema_extra.get('x-expanded'):
                             # If the serialized fields has been expanded, the data already contains the data
                             related_instance = data
                         else:
@@ -190,8 +313,7 @@ class BaseSchema(PydanticBaseModel):
             else:             
                 # For measurement fields, add the measure with the provided unit and value
                 if isinstance(orm_field, MeasurementField) and data is not None:
-                    measure = orm_field.measurement
-                    setattr(instance, orm_field.name, measure(**{data.get('unit'): data.get('value')}))
+                    setattr(instance, orm_field.name,  orm_field.measurement(**{data.get('unit'): data.get('value')}))
                 elif isinstance(orm_field, (DateRangeField, BigIntegerRangeField)) and data is not None:
                     setattr(instance, orm_field.name, (data['start'], data['end']))
                 else:
@@ -213,10 +335,9 @@ class BaseSchema(PydanticBaseModel):
         if user:
             if create:
                 instance.created_by = user
-                instance.updated_by.add(user)
-            else:
-                if user not in instance.updated_by.all():
-                    instance.updated_by.add(user) 
+            instance.updated_by.add(user)
+
+        # Save instance and return
         instance.save()            
         return instance
 

@@ -29,12 +29,6 @@ class TestGetSchemaField(TestCase):
         field.concrete = False
         return field
     
-    def _assert_django_field_properties(self, django_field, field_info):
-        self.assertEqual(field_info.json_schema_extra.get('orm_name'), django_field.name)
-        self.assertEqual(field_info.json_schema_extra.get('many_to_many'), bool(django_field.many_to_many))
-        self.assertEqual(field_info.json_schema_extra.get('one_to_many'), bool(django_field.one_to_many))
-        self.assertEqual(field_info.json_schema_extra.get('is_relation'), bool(django_field.is_relation))
-
     def _assert_naming_and_aliases(self, schema_field_name, field_info, expected_name, expected_alias):
         self.assertEqual(schema_field_name, expected_name)
         self.assertEqual(field_info.alias, expected_alias)
@@ -45,7 +39,6 @@ class TestGetSchemaField(TestCase):
         field = CharField(max_length=255, default='test_default', name='test_field')
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, 'test_default')
 
@@ -53,7 +46,6 @@ class TestGetSchemaField(TestCase):
         field = CharField(max_length=255, name='test_field')
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, PydanticUndefined)
 
@@ -62,7 +54,6 @@ class TestGetSchemaField(TestCase):
         field = CharField(max_length=255, name='test_field', choices=choices)
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual([e.value for e in python_type], [choice[0] for choice in choices])
         self.assertEqual(field_info.default, PydanticUndefined)
         
@@ -70,7 +61,6 @@ class TestGetSchemaField(TestCase):
         field = self._create_foreign_key_field(model=self.MockModel)
         schema_field_name, (python_type, field_info) = get_schema_field(field, expand='MockModel')
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
-        self._assert_django_field_properties(field, field_info)
         self.assertIsInstance(python_type, type)
         self.assertEqual(field_info.default, PydanticUndefined)
 
@@ -85,7 +75,6 @@ class TestGetSchemaField(TestCase):
         field = self._create_foreign_key_field(model=self.MockModel)
         schema_field_name, (python_type, field_info) = get_schema_field(field, optional=True)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual(python_type, Optional[str])
         self.assertEqual(field_info.default, None)
 
@@ -93,7 +82,6 @@ class TestGetSchemaField(TestCase):
         field = self._create_foreign_key_field(model=self.MockModel, null=True)
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual(python_type, Optional[str])
         self.assertEqual(field_info.default, None)
 
@@ -101,7 +89,6 @@ class TestGetSchemaField(TestCase):
         field = self._create_foreign_key_field(model=self.MockCodedConcept)
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual(python_type, CodedConceptSchema)
         self.assertEqual(field_info.default, PydanticUndefined)
 
@@ -112,7 +99,6 @@ class TestGetSchemaField(TestCase):
         field.concrete = False
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldsIds', 'test_fields_ids')
-        self._assert_django_field_properties(field, field_info)
         self.assertEqual(python_type, List[str])
         self.assertEqual(field_info.default, [])
 

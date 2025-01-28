@@ -9,7 +9,7 @@ from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
 
 from pop.core.schemas.fields import get_schema_field, get_schema_field_filters
-from pop.core.schemas.base import BaseSchema, FiltersBaseSchema
+from pop.core.schemas.base import BaseSchema, FiltersBaseSchema, OrmMetadataMixin
 
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
@@ -67,7 +67,7 @@ class SchemaFactory(NinjaSchemaFactory):
         """
 
         name = name or model.__name__
-    
+        orm_metadata = {}
         if fields and exclude:
             raise ConfigError("Only one of 'fields' or 'exclude' should be set.")
 
@@ -97,6 +97,7 @@ class SchemaFactory(NinjaSchemaFactory):
                 exclude_related_fields=exclude,
             )
             definitions[field_name] = (python_type, field_info)
+            orm_metadata[field_name] = fld
 
         if custom_fields:
             for fld_name, python_type, field_info in custom_fields:
@@ -107,12 +108,15 @@ class SchemaFactory(NinjaSchemaFactory):
 
         schema: Type[Schema] = create_pydantic_model(
             name,
-            __base__=base_class,
+            __base__= (OrmMetadataMixin, base_class),
             __module__=base_class.__module__,
             __validators__={},
             **definitions,
         )
-        schema.__ormmodel__ = model
+        # Store ORM metadata
+        schema.set_orm_model(model)
+        schema.set_orm_metadata(**orm_metadata)
+        # Update the factory registry
         self.schemas[key] = schema
         self.schema_names.add(name)
         return schema

@@ -10,7 +10,7 @@ from .schemas import (
     UserCredentialsSchema,
     Paginated,
 )
-from .base import BaseSchema, ConfigDict
+from .base import BaseSchema, OrmMetadataMixin, ConfigDict
 from .mixin import BaseModelSchema, GetMixin, CreateMixin
 from .factory import create_schema, create_filters_schema, factory
 from .metaclass import ModelSchema, ModelFilterSchema
