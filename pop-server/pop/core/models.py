@@ -46,6 +46,7 @@ class BaseModel(models.Model):
         help_text=_('The user who created the original data'),
         to=UserModel,
         on_delete=models.SET_NULL,
+        related_name='+',
         null=True,
     )
     updated_by = models.ManyToManyField(

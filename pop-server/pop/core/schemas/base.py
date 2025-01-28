@@ -68,6 +68,8 @@ class BaseSchema(PydanticBaseModel):
                 if field.is_relation:
                     expanded =  to_camel_case(field.name) in cls.model_fields
                     if field.one_to_many or field.many_to_many:
+                        if not hasattr(obj, field.name):
+                            continue
                         data[field.name if expanded else field.name + '_ids'] = [
                             cls.extract_related_model(field).model_validate(related_object) if expanded else related_object.id for related_object in getattr(obj, field.name).all()
                         ]
