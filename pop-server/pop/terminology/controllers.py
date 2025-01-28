@@ -13,7 +13,7 @@ from pop.core.schemas import Paginated, CodedConceptSchema
 from pop.terminology import models as terminologies
 
 
-class QueryParameters(Schema):
+class TerminologyFilters(Schema):
     search_term: str = Field(None, alias='query')
     codes: List[str] = Field(None, alias='codes') # type: ignore
 
@@ -39,7 +39,7 @@ class TerminologyController(ControllerBase):
         operation_id='getTerminologyConcepts',
     )
     @paginate()
-    def get_terminology_concepts(self, terminologyName: str, query: Query[QueryParameters]):
+    def get_terminology_concepts(self, terminologyName: str, query: Query[TerminologyFilters]):
         queryset = getattr(terminologies, terminologyName).objects.all()
         if query.search_term: 
             # Prepare the search term

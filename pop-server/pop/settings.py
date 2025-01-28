@@ -24,6 +24,8 @@ with open("pyproject.toml", "rb") as f:
 SECRET_KEY = env("DJANGO_SECRET_KEY")  # Used to provide cryptographic signing, and should be set to a unique, unpredictable value.
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']# Host/domain names that this Django site can serve
 ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
+HOST = env('HOST')
+HOST_PORT = env('HTTPS_WEB_PORT')
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
