@@ -16,14 +16,14 @@ from django.db import transaction
 from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory, ComorbiditiesAssessmentFilters
 
 @api_controller(
-    'comorbidities-assessments/', 
+    'comorbidities-assessments', 
     auth=[JWTAuth()], 
     tags=['Comorbidities Assessments'],  
 )
 class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[ComorbiditiesAssessmentSchema],
         },
@@ -35,7 +35,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         return [ComorbiditiesAssessmentSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },
@@ -60,7 +60,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         return 200, ComorbiditiesAssessmentSchema.model_validate(instance)
 
     @route.put(
-        path='/', 
+        path='', 
         response={
             204: None, 
             404: None
@@ -107,13 +107,13 @@ class ComorbiditiesAssessmentController(ControllerBase):
     
 
 @api_controller(
-    'comorbidities-panels/', 
+    'comorbidities-panels', 
     auth=[JWTAuth()], 
     tags=['Comorbidities Assessments'],  
 )
 class ComorbiditiesPanelsController(ControllerBase):
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: List[ComorbiditiesPanelSchema], 
         },

@@ -12,14 +12,14 @@ from django.shortcuts import get_object_or_404
 from pop.oncology.schemas import SurgerySchema, SurgeryCreateSchema, SurgeryFilters
 
 @api_controller(
-    'surgeries/', 
+    'surgeries', 
     auth=[JWTAuth()], 
     tags=['Surgeries'],  
 )
 class SurgeryController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[SurgerySchema],
         },
@@ -31,7 +31,7 @@ class SurgeryController(ControllerBase):
         return [SurgerySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

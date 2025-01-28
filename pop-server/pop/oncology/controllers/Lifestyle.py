@@ -13,14 +13,14 @@ from pop.oncology.schemas import LifestyleSchema, LifestyleCreateSchema, Lifesty
 
 
 @api_controller(
-    'lifestyles/', 
+    'lifestyles', 
     auth=[JWTAuth()], 
     tags=['Lifestyles'],  
 )
 class LifestyleController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[LifestyleSchema],
         },
@@ -32,7 +32,7 @@ class LifestyleController(ControllerBase):
         return [LifestyleSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

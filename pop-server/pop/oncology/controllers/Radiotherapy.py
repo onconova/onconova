@@ -20,14 +20,14 @@ from pop.oncology.schemas import (
 )
 
 @api_controller(
-    'radiotherapies/', 
+    'radiotherapies', 
     auth=[JWTAuth()], 
     tags=['Radiotherapies'],  
 )
 class RadiotherapyController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[RadiotherapySchema],
         },
@@ -39,7 +39,7 @@ class RadiotherapyController(ControllerBase):
         return [RadiotherapySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },
@@ -64,7 +64,7 @@ class RadiotherapyController(ControllerBase):
         return 200, RadiotherapySchema.model_validate(instance)
 
     @route.put(
-        path='/', 
+        path='', 
         response={
             204: None, 
             404: None
@@ -112,7 +112,7 @@ class RadiotherapyController(ControllerBase):
 
 
     @route.get(
-        path='/{radiotherapyId}/dosages/', 
+        path='/{radiotherapyId}/dosages', 
         response={
             200: List[RadiotherapyDosageSchema],
             404: None,
@@ -137,7 +137,7 @@ class RadiotherapyController(ControllerBase):
         return 200, RadiotherapyDosageSchema.model_validate(instance)
 
     @route.post(
-        path='/{radiotherapyId}/dosages/', 
+        path='/{radiotherapyId}/dosages', 
         response={
             201: ResourceIdSchema,
             404: None,
@@ -185,7 +185,7 @@ class RadiotherapyController(ControllerBase):
     
     
     @route.get(
-        path='/{radiotherapyId}/settings/', 
+        path='/{radiotherapyId}/settings', 
         response={
             200: List[RadiotherapySettingSchema],
             404: None,
@@ -210,7 +210,7 @@ class RadiotherapyController(ControllerBase):
         return 200, RadiotherapySettingSchema.model_validate(instance)
 
     @route.post(
-        path='/{radiotherapyId}/settings/', 
+        path='/{radiotherapyId}/settings', 
         response={
             201: ResourceIdSchema,
             404: None,

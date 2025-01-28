@@ -15,14 +15,14 @@ from pop.oncology.schemas import RiskAssessmentSchema, RiskAssessmentCreateSchem
 
 
 @api_controller(
-    'risk-assessments/', 
+    'risk-assessments', 
     auth=[JWTAuth()], 
     tags=['Risk Assessments'],  
 )
 class RiskAssessmentController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[RiskAssessmentSchema],
         },
@@ -34,7 +34,7 @@ class RiskAssessmentController(ControllerBase):
         return [RiskAssessmentSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

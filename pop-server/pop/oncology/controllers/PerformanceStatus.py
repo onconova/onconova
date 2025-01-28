@@ -15,14 +15,14 @@ from pop.oncology.schemas import PerformanceStatusSchema, PerformanceStatusCreat
 
 
 @api_controller(
-    'performance-status/', 
+    'performance-status', 
     auth=[JWTAuth()], 
     tags=['Performance Status'],  
 )
 class PerformanceStatusController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[PerformanceStatusSchema],
         },
@@ -34,7 +34,7 @@ class PerformanceStatusController(ControllerBase):
         return [PerformanceStatusSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

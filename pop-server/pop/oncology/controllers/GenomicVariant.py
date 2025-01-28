@@ -13,14 +13,14 @@ from pop.oncology.schemas import GenomicVariantSchema, GenomicVariantCreateSchem
 
 
 @api_controller(
-    'genomic-variants/', 
+    'genomic-variants', 
     auth=[JWTAuth()], 
     tags=['Genomic Variants'],  
 )
 class GenomicVariantController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[GenomicVariantSchema],
         },
@@ -32,7 +32,7 @@ class GenomicVariantController(ControllerBase):
         return [GenomicVariantSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

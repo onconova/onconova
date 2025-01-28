@@ -20,14 +20,14 @@ from pop.oncology.schemas import (
 )
 
 @api_controller(
-    'adverse-events/', 
+    'adverse-events', 
     auth=[JWTAuth()], 
     tags=['Adverse Events'],  
 )
 class AdverseEventController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[AdverseEventSchema],
         },
@@ -39,7 +39,7 @@ class AdverseEventController(ControllerBase):
         return [AdverseEventSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },
@@ -64,7 +64,7 @@ class AdverseEventController(ControllerBase):
         return 200, AdverseEventSchema.model_validate(instance)
 
     @route.put(
-        path='/', 
+        path='', 
         response={
             204: None, 
             404: None
@@ -112,7 +112,7 @@ class AdverseEventController(ControllerBase):
 
 
     @route.get(
-        path='/{adverseEventId}/suspected-causes/', 
+        path='/{adverseEventId}/suspected-causes', 
         response={
             200: List[AdverseEventSuspectedCauseSchema],
             404: None,
@@ -137,7 +137,7 @@ class AdverseEventController(ControllerBase):
         return 200, AdverseEventSuspectedCauseSchema.model_validate(instance)
 
     @route.post(
-        path='/{adverseEventId}/suspected-causes/', 
+        path='/{adverseEventId}/suspected-causes', 
         response={
             201: ResourceIdSchema,
             404: None,
@@ -185,7 +185,7 @@ class AdverseEventController(ControllerBase):
     
     
     @route.get(
-        path='/{adverseEventId}/mitigations/', 
+        path='/{adverseEventId}/mitigations', 
         response={
             200: List[AdverseEventMitigationSchema],
             404: None,
@@ -210,7 +210,7 @@ class AdverseEventController(ControllerBase):
         return 200, AdverseEventMitigationSchema.model_validate(instance)
 
     @route.post(
-        path='/{adverseEventId}/mitigations/', 
+        path='/{adverseEventId}/mitigations', 
         response={
             201: ResourceIdSchema,
             404: None,

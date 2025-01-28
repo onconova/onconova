@@ -17,14 +17,14 @@ from pop.oncology.schemas import (
 )
 
 @api_controller(
-    'patient-cases/', 
+    'patient-cases', 
     auth=[JWTAuth()], 
     tags=['Patient Cases'],  
 )
 class PatientCaseController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[PatientCaseSchema]
         },
@@ -36,7 +36,7 @@ class PatientCaseController(ControllerBase):
         return query.apply_filters(queryset)
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

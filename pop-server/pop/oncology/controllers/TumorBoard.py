@@ -40,14 +40,14 @@ def cast_to_model_schema(model_instance, schemas, payload=None):
     ))
     
 @api_controller(
-    'tumor-boards/', 
+    'tumor-boards', 
     auth=[JWTAuth()], 
     tags=['Tumor Boards'],  
 )
 class TumorBoardController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[AnyResponseSchemas],
         },
@@ -61,7 +61,7 @@ class TumorBoardController(ControllerBase):
 
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema,
         },
@@ -114,14 +114,14 @@ class TumorBoardController(ControllerBase):
 
 
 @api_controller(
-    'molecular-tumor-boards/', 
+    'molecular-tumor-boards', 
     auth=[JWTAuth()], 
     tags=['Tumor Boards'],  
 )
 class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.get(
-        path='/{tumorBoardId}/therapeutic-recommendations/', 
+        path='/{tumorBoardId}/therapeutic-recommendations', 
         response={
             200: List[MolecularTherapeuticRecommendationSchema],
             404: None,
@@ -147,7 +147,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         return 200, MolecularTherapeuticRecommendationSchema.model_validate(instance)
 
     @route.post(
-        path='/{tumorBoardId}/therapeutic-recommendations/', 
+        path='/{tumorBoardId}/therapeutic-recommendations', 
         response={
             201: ResourceIdSchema,
         },

@@ -75,14 +75,14 @@ def cast_to_model_schema(model_instance, schemas, payload=None):
     ))
     
 @api_controller(
-    'stagings/', 
+    'stagings', 
     auth=[JWTAuth()], 
     tags=['Stagings'],  
 )
 class StagingController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[AnyResponseSchemas],
         },
@@ -96,7 +96,7 @@ class StagingController(ControllerBase):
 
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema,
         },

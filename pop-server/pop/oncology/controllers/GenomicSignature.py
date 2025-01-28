@@ -50,14 +50,14 @@ def cast_to_model_schema(model_instance, schemas, payload=None):
     ))
     
 @api_controller(
-    'genomic-signatures/', 
+    'genomic-signatures', 
     auth=[JWTAuth()], 
     tags=['Genomic Signatures'],  
 )
 class GenomicSignatureController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[AnyResponseSchemas],
         },
@@ -71,7 +71,7 @@ class GenomicSignatureController(ControllerBase):
 
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema,
         },

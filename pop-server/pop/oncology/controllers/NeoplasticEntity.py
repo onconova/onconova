@@ -16,14 +16,14 @@ from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateS
 
 
 @api_controller(
-    'neoplastic-entities/', 
+    'neoplastic-entities', 
     auth=[JWTAuth()], 
     tags=['Neoplastic Entities'],  
 )
 class NeoplasticEntityController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[NeoplasticEntitySchema],
         },
@@ -35,7 +35,7 @@ class NeoplasticEntityController(ControllerBase):
         return [NeoplasticEntitySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

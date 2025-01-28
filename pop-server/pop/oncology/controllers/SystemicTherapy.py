@@ -16,14 +16,14 @@ from pop.oncology.schemas import SystemicTherapySchema, SystemicTherapyCreateSch
 
 
 @api_controller(
-    'systemic-therapies/', 
+    'systemic-therapies', 
     auth=[JWTAuth()], 
     tags=['Systemic Therapies'],  
 )
 class SystemicTherapyController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[SystemicTherapySchema],
         },
@@ -35,7 +35,7 @@ class SystemicTherapyController(ControllerBase):
         return [SystemicTherapySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },
@@ -60,7 +60,7 @@ class SystemicTherapyController(ControllerBase):
         return 200, SystemicTherapySchema.model_validate(instance)
 
     @route.put(
-        path='/', 
+        path='', 
         response={
             204: None, 
             404: None
@@ -108,7 +108,7 @@ class SystemicTherapyController(ControllerBase):
 
 
     @route.get(
-        path='/{systemicTherapyId}/medications/', 
+        path='/{systemicTherapyId}/medications', 
         response={
             200: List[SystemicTherapyMedicationSchema],
             404: None,
@@ -133,7 +133,7 @@ class SystemicTherapyController(ControllerBase):
         return 200, SystemicTherapyMedicationSchema.model_validate(instance)
 
     @route.post(
-        path='/{systemicTherapyId}/medications/', 
+        path='/{systemicTherapyId}/medications', 
         response={
             201: ResourceIdSchema,
             404: None,

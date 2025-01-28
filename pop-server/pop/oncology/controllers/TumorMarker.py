@@ -16,14 +16,14 @@ from typing import List,Dict
 from pop.oncology.schemas import TumorMarkerSchema, TumorMarkerCreateSchema, TumorMarkerFilters
 
 @api_controller(
-    'tumor-markers/', 
+    'tumor-markers', 
     auth=[JWTAuth()], 
     tags=['Tumor Markers'],  
 )
 class TumorMarkerController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[TumorMarkerSchema],
         },
@@ -35,7 +35,7 @@ class TumorMarkerController(ControllerBase):
         return [TumorMarkerSchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },

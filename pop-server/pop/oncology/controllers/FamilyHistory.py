@@ -15,14 +15,14 @@ from django.db import transaction
 from pop.oncology.schemas import FamilyHistorySchema, FamilyHistoryCreateSchema, FamilyHistoryFilters
 
 @api_controller(
-    'family-histories/', 
+    'family-histories', 
     auth=[JWTAuth()], 
     tags=['Family Histories'],  
 )
 class FamilyHistoryController(ControllerBase):
 
     @route.get(
-        path='/', 
+        path='', 
         response={
             200: Paginated[FamilyHistorySchema],
         },
@@ -34,7 +34,7 @@ class FamilyHistoryController(ControllerBase):
         return [FamilyHistorySchema.model_validate(instance) for instance in query.apply_filters(queryset)]
 
     @route.post(
-        path='/', 
+        path='', 
         response={
             201: ResourceIdSchema
         },
@@ -59,7 +59,7 @@ class FamilyHistoryController(ControllerBase):
         return 200, FamilyHistorySchema.model_validate(instance)
 
     @route.put(
-        path='/', 
+        path='', 
         response={
             204: None, 
             404: None

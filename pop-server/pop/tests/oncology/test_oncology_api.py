@@ -46,7 +46,7 @@ class ApiControllerTestCase:
         cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
         
     def get_route_url(self, instance):
-        return f'/'
+        return f''
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.id}'
@@ -270,7 +270,7 @@ class TestSystemicTherapyMedicationController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.SystemicTherapyMedicationCreateSchema    
 
     def get_route_url(self, instance):
-        return f'/{instance.systemic_therapy.id}/medications/'
+        return f'/{instance.systemic_therapy.id}/medications'
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.systemic_therapy.id}/medications/{instance.id}'
@@ -298,7 +298,7 @@ class TestRadiotherapyDosageController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.RadiotherapyDosageCreateSchema    
 
     def get_route_url(self, instance):
-        return f'/{instance.radiotherapy.id}/dosages/'
+        return f'/{instance.radiotherapy.id}/dosages'
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.radiotherapy.id}/dosages/{instance.id}'
@@ -312,7 +312,7 @@ class TestRadiotherapySettingController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.RadiotherapySettingCreateSchema    
 
     def get_route_url(self, instance):
-        return f'/{instance.radiotherapy.id}/settings/'
+        return f'/{instance.radiotherapy.id}/settings'
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.radiotherapy.id}/settings/{instance.id}'
@@ -341,7 +341,7 @@ class TestAdverseEventSuspectedCauseController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.AdverseEventSuspectedCauseCreateSchema    
 
     def get_route_url(self, instance):
-        return f'/{instance.adverse_event.id}/suspected-causes/'
+        return f'/{instance.adverse_event.id}/suspected-causes'
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}'
@@ -355,7 +355,7 @@ class TestAdverseEventMitigationController(ApiControllerTestCase, TestCase):
     CREATE_SCHEMA = schemas.AdverseEventMitigationCreateSchema    
 
     def get_route_url(self, instance):
-        return f'/{instance.adverse_event.id}/mitigations/'
+        return f'/{instance.adverse_event.id}/mitigations'
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.adverse_event.id}/mitigations/{instance.id}'
@@ -396,7 +396,7 @@ class TestMolecularTherapeuticRecommendationController(ApiControllerTestCase, Te
     CREATE_SCHEMA = schemas.MolecularTherapeuticRecommendationCreateSchema    
     
     def get_route_url(self, instance):
-        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/'
+        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations'
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}'
