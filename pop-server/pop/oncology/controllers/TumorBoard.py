@@ -12,6 +12,7 @@ from typing_extensions import TypeAliasType
 from pop.core.schemas import ResourceIdSchema, Paginated
 from pop.oncology.models.TumorBoard import TumorBoard, TumorBoardSpecialties, MolecularTumorBoard, MolecularTherapeuticRecommendation
 from pop.oncology.schemas import (
+    TumorBoardFilters,
     UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema
@@ -30,10 +31,6 @@ PAYLOAD_SCHEMAS = (
 
 AnyResponseSchemas = TypeAliasType('AnyTumorBoard', Union[RESPONSE_SCHEMAS]) # type: ignore# type: ignore
 AnyPayloadSchemas = Union[PAYLOAD_SCHEMAS]
-
-class QueryParameters(Schema):
-    case__id: str = Field(None, alias='caseId')
-    stagingDomain: List[TumorBoardSpecialties] = Field(None, alias='stagingDomain')
 
 def cast_to_model_schema(model_instance, schemas, payload=None):
     return next((
@@ -58,12 +55,9 @@ class TumorBoardController(ControllerBase):
         operation_id='getTumorBoards',
     )
     @paginate()
-    def get_all_tumor_boards_matching_the_query(self, query: Query[QueryParameters]):
+    def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters]): # type: ignore
         queryset = TumorBoard.objects.all().order_by('-date')
-        for (lookup, value) in query:
-            if value is not None:
-                queryset = queryset.filter(**{lookup: value})
-        return [cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS) for tumorboard in queryset]
+        return [cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS) for tumorboard in query.apply_filters(queryset)]
 
 
     @route.post(

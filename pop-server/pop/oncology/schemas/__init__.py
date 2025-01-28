@@ -76,6 +76,7 @@ UnspecifiedTumorBoardFilters = create_filters_schema(schema = UnspecifiedTumorBo
 PerformanceStatusFilters = create_filters_schema(schema = PerformanceStatusSchema, name='PerformanceStatusFilters')
 LifestyleFilters = create_filters_schema(schema = LifestyleSchema, name='LifestyleFilters')
 FamilyHistoryFilters = create_filters_schema(schema = FamilyHistorySchema, name='FamilyHistoryFilters')
+TumorBoardFilters = create_filters_schema(schema = UnspecifiedTumorBoardSchema, name='TumorBoardFilters')
 VitalsFilters = create_filters_schema(schema = VitalsSchema, name='VitalsFilters')
 ComorbiditiesAssessmentFilters = create_filters_schema(schema = ComorbiditiesAssessmentSchema, name='ComorbiditiesAssessmentFilters')
 GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema, name='GenomicVariantFilters')
@@ -164,4 +165,5 @@ __all__ = (
     ComorbiditiesAssessmentFilters,
     GenomicVariantFilters,
     GenomicSignatureFilters,
+    TumorBoardFilters,
 )
