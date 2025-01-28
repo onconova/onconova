@@ -288,9 +288,9 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
         response = session.get(api_url.replace('$expand',''), verify=certificate_bundle_path, proxies=proxies)
 
     # Check for unknown URL response code
-    if response.status_code == 404 and 'mcode' in api_url.lower():
+    if response.status_code == 404:
         # Certain mCODE valuesets use a different domain to serve the JSON representations
-        response = session.get(api_url.replace("build.fhir.org/ig/HL7/fhir-mCODE-ig/", "hl7.org/fhir/us/mcode/"), verify=certificate_bundle_path, proxies=proxies)
+        response = session.get(api_url.replace("ValueSet", "valueset").replace("CodeSystem", "codesystem"), verify=certificate_bundle_path, proxies=proxies)
 
     if response.status_code == 200:
         # Successfully connected to the API
