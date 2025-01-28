@@ -6,7 +6,7 @@ from pop.core.utils import to_camel_case
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
 from typing import Optional, Dict, get_args, get_origin, Type, Any, Union
 
-from ninja.params import Query
+from ninja import Schema
 from django.db.models.query import QuerySet
 
 from pop.terminology.models import CodedConcept
@@ -101,7 +101,7 @@ class OrmMetadataMixin:
 
 
 
-class BaseSchema(PydanticBaseModel):
+class BaseSchema(Schema):
     """
     Expands the Pydantic [BaseModel](https://docs.pydantic.dev/latest/api/base_model/) to use aliases by default.    
     """    

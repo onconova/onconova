@@ -1,4 +1,4 @@
-import random
+from uuid import UUID
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -20,15 +20,8 @@ class BaseModelTestCase(AbstractModelMixinTestCase):
         self.assertEqual(instance.id, 'test123')
 
     def test_init_without_id(self):
-        with patch('random.randint', side_effect=[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]):
-            instance = self.model()
-        self.assertEqual(instance.id, 'POP-TestBaseModel-123456789')
-
-    def test_generate_unique_id(self):
         instance = self.model()
-        with patch('random.randint', side_effect=[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]):
-            new_id = instance._generate_unique_id()
-        self.assertEqual(new_id, 'POP-TestBaseModel-123456789')
+        self.assertIsInstance(instance.id, UUID)
 
     def test_description_not_implemented(self):
         instance = self.model()

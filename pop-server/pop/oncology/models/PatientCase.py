@@ -175,7 +175,7 @@ class PatientCase(BaseModel):
             # Generate random digits
             new_pseudoidentifier = self._generate_random_id()
             # Check for ID clashes in the database
-            while PatientCase.objects.filter(id=new_pseudoidentifier).exists():
+            while PatientCase.objects.filter(pseudoidentifier=new_pseudoidentifier).exists():
                 new_pseudoidentifier = self._generate_random_id()
             # Set the ID for the patient
             self.pseudoidentifier = new_pseudoidentifier

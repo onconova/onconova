@@ -81,8 +81,6 @@ class ApiControllerTestCase:
             data=data if data is not None else None, 
             content_type="application/json"
         )
-        if response.status_code == 500:
-            print(response.status_code)
         self.assertIn(
             response.status_code, 
             expected_responses, 

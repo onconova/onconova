@@ -1,6 +1,6 @@
 
 from typing import Optional, List
-
+from uuid import UUID
 from pydantic_core import PydanticUndefined
 
 from django.test import TestCase, TransactionTestCase
@@ -68,21 +68,21 @@ class TestGetSchemaField(TestCase):
         field = self._create_foreign_key_field(model=self.MockModel)
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
-        self.assertEqual(python_type, str)
+        self.assertEqual(python_type, UUID)
         self.assertEqual(field_info.default, PydanticUndefined)
 
     def test_relation_field_with_optional_true(self):
         field = self._create_foreign_key_field(model=self.MockModel)
         schema_field_name, (python_type, field_info) = get_schema_field(field, optional=True)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
-        self.assertEqual(python_type, Optional[str])
+        self.assertEqual(python_type, Optional[UUID])
         self.assertEqual(field_info.default, None)
 
     def test_relation_field_with_nullable_true(self):
         field = self._create_foreign_key_field(model=self.MockModel, null=True)
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
-        self.assertEqual(python_type, Optional[str])
+        self.assertEqual(python_type, Optional[UUID])
         self.assertEqual(field_info.default, None)
 
     def test_coded_concept_field(self):
@@ -99,7 +99,7 @@ class TestGetSchemaField(TestCase):
         field.concrete = False
         schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldsIds', 'test_fields_ids')
-        self.assertEqual(python_type, List[str])
+        self.assertEqual(python_type, List[UUID])
         self.assertEqual(field_info.default, [])
 
 
