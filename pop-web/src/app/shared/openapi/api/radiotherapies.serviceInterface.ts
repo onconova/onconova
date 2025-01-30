@@ -157,12 +157,6 @@ export interface GetRadiotherapiesRequestParams {
     terminationReasonDescendantsOf?: string;
     targetedEntitiesIds?: string;
     targetedEntitiesIdsNot?: string;
-    targetedEntitiesIdsContains?: string;
-    targetedEntitiesIdsNotContains?: string;
-    targetedEntitiesIdsBeginsWith?: string;
-    targetedEntitiesIdsNotBeginsWith?: string;
-    targetedEntitiesIdsEndsWith?: string;
-    targetedEntitiesIdsNotEndsWith?: string;
     dosagesId?: string;
     dosagesIdNot?: string;
     dosagesIdContains?: string;

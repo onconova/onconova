@@ -115,11 +115,11 @@ export interface SurgeryFilters {
      */
     'createdBy.exists'?: boolean;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**
@@ -493,37 +493,13 @@ export interface SurgeryFilters {
      */
     'updatedBys.lastName.not.endsWith'?: string;
     /**
-     * Targeted neoplastic entities - Filter for full text matches
+     * Targeted neoplastic entities - Filter for reference matches
      */
     targetedEntitiesIds?: string;
     /**
-     * Targeted neoplastic entities - Filter for full text mismatches
+     * Targeted neoplastic entities - Filter for reference mismatches
      */
     'targetedEntitiesIds.not'?: string;
-    /**
-     * Targeted neoplastic entities - Filter for partial text matches
-     */
-    'targetedEntitiesIds.contains'?: string;
-    /**
-     * Targeted neoplastic entities - Filter for partial text mismatches
-     */
-    'targetedEntitiesIds.not.contains'?: string;
-    /**
-     * Targeted neoplastic entities - Filter for entries starting with the text
-     */
-    'targetedEntitiesIds.beginsWith'?: string;
-    /**
-     * Targeted neoplastic entities - Filter for entries not starting with the text
-     */
-    'targetedEntitiesIds.not.beginsWith'?: string;
-    /**
-     * Targeted neoplastic entities - Filter for entries ending with the text
-     */
-    'targetedEntitiesIds.endsWith'?: string;
-    /**
-     * Targeted neoplastic entities - Filter for entries not ending with the text
-     */
-    'targetedEntitiesIds.not.endsWith'?: string;
 }
 export namespace SurgeryFilters {
     export type IntentEnum = 'curative' | 'palliative';

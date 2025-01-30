@@ -55,6 +55,6 @@ export interface MeasuresServiceInterface {
      * 
 * @param requestParameters
      */
-    getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, extraHttpRequestParams?: any): Observable<Array<string>>;
+    getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, extraHttpRequestParams?: any): Observable<Array<string | null>>;
 
 }

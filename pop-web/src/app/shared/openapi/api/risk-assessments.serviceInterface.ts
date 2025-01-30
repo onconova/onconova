@@ -141,12 +141,6 @@ export interface GetRiskAssessmentsRequestParams {
     updatedBysLastNameNotEndsWith?: string;
     assessedEntitiesIds?: string;
     assessedEntitiesIdsNot?: string;
-    assessedEntitiesIdsContains?: string;
-    assessedEntitiesIdsNotContains?: string;
-    assessedEntitiesIdsBeginsWith?: string;
-    assessedEntitiesIdsNotBeginsWith?: string;
-    assessedEntitiesIdsEndsWith?: string;
-    assessedEntitiesIdsNotEndsWith?: string;
     limit?: number;
     offset?: number;
 }

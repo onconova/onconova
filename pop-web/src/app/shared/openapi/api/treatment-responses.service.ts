@@ -440,12 +440,6 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         const methodologyDescendantsOf = requestParameters?.methodologyDescendantsOf;
         const assessedEntitiesIds = requestParameters?.assessedEntitiesIds;
         const assessedEntitiesIdsNot = requestParameters?.assessedEntitiesIdsNot;
-        const assessedEntitiesIdsContains = requestParameters?.assessedEntitiesIdsContains;
-        const assessedEntitiesIdsNotContains = requestParameters?.assessedEntitiesIdsNotContains;
-        const assessedEntitiesIdsBeginsWith = requestParameters?.assessedEntitiesIdsBeginsWith;
-        const assessedEntitiesIdsNotBeginsWith = requestParameters?.assessedEntitiesIdsNotBeginsWith;
-        const assessedEntitiesIdsEndsWith = requestParameters?.assessedEntitiesIdsEndsWith;
-        const assessedEntitiesIdsNotEndsWith = requestParameters?.assessedEntitiesIdsNotEndsWith;
         const assessedBodysitesCode = requestParameters?.assessedBodysitesCode;
         const assessedBodysitesCodeNot = requestParameters?.assessedBodysitesCodeNot;
         const assessedBodysitesCodeContains = requestParameters?.assessedBodysitesCodeContains;
@@ -917,30 +911,6 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         if (assessedEntitiesIdsNot !== undefined && assessedEntitiesIdsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>assessedEntitiesIdsNot, 'assessedEntitiesIds.not');
-        }
-        if (assessedEntitiesIdsContains !== undefined && assessedEntitiesIdsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsContains, 'assessedEntitiesIds.contains');
-        }
-        if (assessedEntitiesIdsNotContains !== undefined && assessedEntitiesIdsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsNotContains, 'assessedEntitiesIds.not.contains');
-        }
-        if (assessedEntitiesIdsBeginsWith !== undefined && assessedEntitiesIdsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsBeginsWith, 'assessedEntitiesIds.beginsWith');
-        }
-        if (assessedEntitiesIdsNotBeginsWith !== undefined && assessedEntitiesIdsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsNotBeginsWith, 'assessedEntitiesIds.not.beginsWith');
-        }
-        if (assessedEntitiesIdsEndsWith !== undefined && assessedEntitiesIdsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsEndsWith, 'assessedEntitiesIds.endsWith');
-        }
-        if (assessedEntitiesIdsNotEndsWith !== undefined && assessedEntitiesIdsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsNotEndsWith, 'assessedEntitiesIds.not.endsWith');
         }
         if (assessedBodysitesCode !== undefined && assessedBodysitesCode !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

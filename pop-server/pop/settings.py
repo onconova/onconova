@@ -49,8 +49,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True       # Ensure that all subdomains, not ju
 INSTALLED_APPS = [
     'django_extensions',
     'pop.core',
-    'pop.oncology',
     'pop.terminology',
+    'pop.oncology',
+    'pop.research',
     'secured_fields',
     'ninja_extra',
     'corsheaders',

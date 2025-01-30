@@ -594,9 +594,6 @@ export interface PatientCaseFilters {
      * None - Filter for entries not ending with the text
      */
     'updatedBys.lastName.not.endsWith'?: string;
-    /**
-     * Filter for a particular case manager by its username
-     */
-    manager?: string;
+    manager?: string | null;
 }
 

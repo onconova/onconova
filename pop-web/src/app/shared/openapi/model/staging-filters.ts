@@ -141,11 +141,11 @@ export interface StagingFilters {
      */
     'createdBy.exists'?: boolean;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**
@@ -381,37 +381,13 @@ export interface StagingFilters {
      */
     'updatedBys.lastName.not.endsWith'?: string;
     /**
-     * Staged neoplastic entities - Filter for full text matches
+     * Staged neoplastic entities - Filter for reference matches
      */
     stagedEntitiesIds?: string;
     /**
-     * Staged neoplastic entities - Filter for full text mismatches
+     * Staged neoplastic entities - Filter for reference mismatches
      */
     'stagedEntitiesIds.not'?: string;
-    /**
-     * Staged neoplastic entities - Filter for partial text matches
-     */
-    'stagedEntitiesIds.contains'?: string;
-    /**
-     * Staged neoplastic entities - Filter for partial text mismatches
-     */
-    'stagedEntitiesIds.not.contains'?: string;
-    /**
-     * Staged neoplastic entities - Filter for entries starting with the text
-     */
-    'stagedEntitiesIds.beginsWith'?: string;
-    /**
-     * Staged neoplastic entities - Filter for entries not starting with the text
-     */
-    'stagedEntitiesIds.not.beginsWith'?: string;
-    /**
-     * Staged neoplastic entities - Filter for entries ending with the text
-     */
-    'stagedEntitiesIds.endsWith'?: string;
-    /**
-     * Staged neoplastic entities - Filter for entries not ending with the text
-     */
-    'stagedEntitiesIds.not.endsWith'?: string;
 }
 export namespace StagingFilters {
     export type StagingDomainEnum = 'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma';

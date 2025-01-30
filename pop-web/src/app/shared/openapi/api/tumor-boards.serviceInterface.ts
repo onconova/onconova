@@ -142,12 +142,6 @@ export interface GetTumorBoardsRequestParams {
     dateNotBetween?: Array<any>;
     relatedEntitiesIds?: string;
     relatedEntitiesIdsNot?: string;
-    relatedEntitiesIdsContains?: string;
-    relatedEntitiesIdsNotContains?: string;
-    relatedEntitiesIdsBeginsWith?: string;
-    relatedEntitiesIdsNotBeginsWith?: string;
-    relatedEntitiesIdsEndsWith?: string;
-    relatedEntitiesIdsNotEndsWith?: string;
     recommendationsCode?: string;
     recommendationsCodeNot?: string;
     recommendationsCodeContains?: string;

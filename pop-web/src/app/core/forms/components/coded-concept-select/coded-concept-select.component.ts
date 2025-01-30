@@ -45,6 +45,7 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     @Input() showSynonyms: boolean = true;
     @Input() showCodes: boolean = false;
     @Input() multiple: boolean = false;
+    @Input() returnCode: boolean = false;
     @Input() baseQuery: string = '';
     @Input() placeholder: string = 'Select or search an option';
     @Input() conceptsLimit: number = 100;

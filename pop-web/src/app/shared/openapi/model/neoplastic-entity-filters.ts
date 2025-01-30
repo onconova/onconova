@@ -115,11 +115,11 @@ export interface NeoplasticEntityFilters {
      */
     'createdBy.exists'?: boolean;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**
@@ -161,11 +161,11 @@ export interface NeoplasticEntityFilters {
      */
     'relatedPrimaryId.exists'?: boolean;
     /**
-     * Related primary neoplasm - Filter for full text matches
+     * Related primary neoplasm - Filter for reference matches
      */
     relatedPrimaryId?: string;
     /**
-     * Related primary neoplasm - Filter for full text mismatches
+     * Related primary neoplasm - Filter for reference mismatches
      */
     'relatedPrimaryId.not'?: string;
     /**

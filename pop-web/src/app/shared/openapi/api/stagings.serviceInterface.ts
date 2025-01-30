@@ -129,12 +129,6 @@ export interface GetStagingsRequestParams {
     updatedBysLastNameNotEndsWith?: string;
     stagedEntitiesIds?: string;
     stagedEntitiesIdsNot?: string;
-    stagedEntitiesIdsContains?: string;
-    stagedEntitiesIdsNotContains?: string;
-    stagedEntitiesIdsBeginsWith?: string;
-    stagedEntitiesIdsNotBeginsWith?: string;
-    stagedEntitiesIdsEndsWith?: string;
-    stagedEntitiesIdsNotEndsWith?: string;
     limit?: number;
     offset?: number;
 }

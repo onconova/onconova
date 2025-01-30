@@ -262,9 +262,9 @@ export class MeasuresService implements MeasuresServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<string>>;
-    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<string>>>;
-    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<string>>>;
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<string | null>>;
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<string | null>>>;
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<string | null>>>;
     public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const measureName = requestParameters?.measureName;
         if (measureName === null || measureName === undefined) {
@@ -315,7 +315,7 @@ export class MeasuresService implements MeasuresServiceInterface {
         }
 
         let localVarPath = `/api/measures/${this.configuration.encodeParam({name: "measureName", value: measureName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/units`;
-        return this.httpClient.request<Array<string>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<string | null>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

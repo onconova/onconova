@@ -391,12 +391,6 @@ export class SurgeriesService implements SurgeriesServiceInterface {
         const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
         const targetedEntitiesIds = requestParameters?.targetedEntitiesIds;
         const targetedEntitiesIdsNot = requestParameters?.targetedEntitiesIdsNot;
-        const targetedEntitiesIdsContains = requestParameters?.targetedEntitiesIdsContains;
-        const targetedEntitiesIdsNotContains = requestParameters?.targetedEntitiesIdsNotContains;
-        const targetedEntitiesIdsBeginsWith = requestParameters?.targetedEntitiesIdsBeginsWith;
-        const targetedEntitiesIdsNotBeginsWith = requestParameters?.targetedEntitiesIdsNotBeginsWith;
-        const targetedEntitiesIdsEndsWith = requestParameters?.targetedEntitiesIdsEndsWith;
-        const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -934,30 +928,6 @@ export class SurgeriesService implements SurgeriesServiceInterface {
         if (targetedEntitiesIdsNot !== undefined && targetedEntitiesIdsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
-        }
-        if (targetedEntitiesIdsContains !== undefined && targetedEntitiesIdsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsContains, 'targetedEntitiesIds.contains');
-        }
-        if (targetedEntitiesIdsNotContains !== undefined && targetedEntitiesIdsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNotContains, 'targetedEntitiesIds.not.contains');
-        }
-        if (targetedEntitiesIdsBeginsWith !== undefined && targetedEntitiesIdsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsBeginsWith, 'targetedEntitiesIds.beginsWith');
-        }
-        if (targetedEntitiesIdsNotBeginsWith !== undefined && targetedEntitiesIdsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNotBeginsWith, 'targetedEntitiesIds.not.beginsWith');
-        }
-        if (targetedEntitiesIdsEndsWith !== undefined && targetedEntitiesIdsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsEndsWith, 'targetedEntitiesIds.endsWith');
-        }
-        if (targetedEntitiesIdsNotEndsWith !== undefined && targetedEntitiesIdsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNotEndsWith, 'targetedEntitiesIds.not.endsWith');
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

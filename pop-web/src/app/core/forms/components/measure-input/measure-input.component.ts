@@ -49,10 +49,10 @@ export class MeasureInputComponent implements ControlValueAccessor {
 
     ngOnInit() {
         this.allowedUnits$ = this.measuresService.getMeasureUnits({measureName: this.measure}).pipe(
-            map((units):MeasureUnit[] => units.map((unit):MeasureUnit => {
+            map((units):MeasureUnit[] => units.map((unit): MeasureUnit => {
                 return {
-                    unit: unit,
-                    display: unit.replace('__', '/').replace('_',' '),
+                    unit: unit as string,
+                    display: unit?.replace('__', '/').replace('_',' ') as string,
                 }
             }))
         );

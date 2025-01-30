@@ -291,11 +291,11 @@ export interface VitalsFilters {
      */
     'updatedBys.lastName.not.endsWith'?: string;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**

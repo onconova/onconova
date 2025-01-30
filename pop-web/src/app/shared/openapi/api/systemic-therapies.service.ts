@@ -548,12 +548,6 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         const terminationReasonDescendantsOf = requestParameters?.terminationReasonDescendantsOf;
         const targetedEntitiesIds = requestParameters?.targetedEntitiesIds;
         const targetedEntitiesIdsNot = requestParameters?.targetedEntitiesIdsNot;
-        const targetedEntitiesIdsContains = requestParameters?.targetedEntitiesIdsContains;
-        const targetedEntitiesIdsNotContains = requestParameters?.targetedEntitiesIdsNotContains;
-        const targetedEntitiesIdsBeginsWith = requestParameters?.targetedEntitiesIdsBeginsWith;
-        const targetedEntitiesIdsNotBeginsWith = requestParameters?.targetedEntitiesIdsNotBeginsWith;
-        const targetedEntitiesIdsEndsWith = requestParameters?.targetedEntitiesIdsEndsWith;
-        const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const medicationsId = requestParameters?.medicationsId;
         const medicationsIdNot = requestParameters?.medicationsIdNot;
         const medicationsIdContains = requestParameters?.medicationsIdContains;
@@ -1215,30 +1209,6 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         if (targetedEntitiesIdsNot !== undefined && targetedEntitiesIdsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
-        }
-        if (targetedEntitiesIdsContains !== undefined && targetedEntitiesIdsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsContains, 'targetedEntitiesIds.contains');
-        }
-        if (targetedEntitiesIdsNotContains !== undefined && targetedEntitiesIdsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNotContains, 'targetedEntitiesIds.not.contains');
-        }
-        if (targetedEntitiesIdsBeginsWith !== undefined && targetedEntitiesIdsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsBeginsWith, 'targetedEntitiesIds.beginsWith');
-        }
-        if (targetedEntitiesIdsNotBeginsWith !== undefined && targetedEntitiesIdsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNotBeginsWith, 'targetedEntitiesIds.not.beginsWith');
-        }
-        if (targetedEntitiesIdsEndsWith !== undefined && targetedEntitiesIdsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsEndsWith, 'targetedEntitiesIds.endsWith');
-        }
-        if (targetedEntitiesIdsNotEndsWith !== undefined && targetedEntitiesIdsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNotEndsWith, 'targetedEntitiesIds.not.endsWith');
         }
         if (medicationsId !== undefined && medicationsId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

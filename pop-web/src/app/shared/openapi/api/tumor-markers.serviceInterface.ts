@@ -216,12 +216,6 @@ export interface GetTumorMarkersRequestParams {
     updatedBysLastNameNotEndsWith?: string;
     relatedEntitiesIds?: string;
     relatedEntitiesIdsNot?: string;
-    relatedEntitiesIdsContains?: string;
-    relatedEntitiesIdsNotContains?: string;
-    relatedEntitiesIdsBeginsWith?: string;
-    relatedEntitiesIdsNotBeginsWith?: string;
-    relatedEntitiesIdsEndsWith?: string;
-    relatedEntitiesIdsNotEndsWith?: string;
     limit?: number;
     offset?: number;
 }

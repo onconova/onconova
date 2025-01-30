@@ -1,0 +1,34 @@
+@let config = config$ | async;
+<ng-container *ngIf="config">
+<query-builder [(ngModel)]="query" [config]="config" [allowCollapse]="true">
+
+
+    <ng-container *querySwitchGroup="let ruleset">
+        <p-selectbutton *ngIf="ruleset" [options]="rulesetConditions" [(ngModel)]="ruleset.condition"  optionLabel="label" optionValue="value" />
+    </ng-container>
+
+    <ng-container *queryButtonGroup="let ruleset; let addRule=addRule; let addRuleSet=addRuleSet; let removeRuleSet=removeRuleSet">
+    <p-button label="Rule" icon="pi pi-plus" (click)="addRule()"/>
+    <p-button label="Ruleset" icon="pi pi-plus" (click)="addRuleSet()"/>
+    <p-button label="Ruleset" icon="pi pi-minus" (click)="removeRuleSet()"/>
+    </ng-container>
+
+    <ng-container *queryRemoveButton="let rule; let removeRule=removeRule">
+        <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger" (click)="removeRule(rule)"/>
+    </ng-container>
+
+
+    <!-- Override input component for 'category' type -->
+    <ng-container *queryInput="let rule; let field=field; let options=options; type: 'codedConcept'">
+        <coded-concept-select 
+            [(ngModel)]="rule.value"
+            [terminology]="options[0].value"
+            [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(rule.operator)"
+            [showSynonyms]="false"/>
+    </ng-container>
+
+
+</query-builder>
+</ng-container>
+
+{{query | json}}

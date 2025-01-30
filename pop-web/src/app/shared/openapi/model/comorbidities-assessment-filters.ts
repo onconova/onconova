@@ -291,11 +291,11 @@ export interface ComorbiditiesAssessmentFilters {
      */
     'updatedBys.lastName.not.endsWith'?: string;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**
@@ -355,11 +355,11 @@ export interface ComorbiditiesAssessmentFilters {
      */
     'date.not.between'?: Array<any>;
     /**
-     * Index neoplastic entity - Filter for full text matches
+     * Index neoplastic entity - Filter for reference matches
      */
     indexconditionId?: string;
     /**
-     * Index neoplastic entity - Filter for full text mismatches
+     * Index neoplastic entity - Filter for reference mismatches
      */
     'indexconditionId.not'?: string;
     /**

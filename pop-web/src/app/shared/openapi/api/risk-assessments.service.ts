@@ -447,12 +447,6 @@ export class RiskAssessmentsService implements RiskAssessmentsServiceInterface {
         const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
         const assessedEntitiesIds = requestParameters?.assessedEntitiesIds;
         const assessedEntitiesIdsNot = requestParameters?.assessedEntitiesIdsNot;
-        const assessedEntitiesIdsContains = requestParameters?.assessedEntitiesIdsContains;
-        const assessedEntitiesIdsNotContains = requestParameters?.assessedEntitiesIdsNotContains;
-        const assessedEntitiesIdsBeginsWith = requestParameters?.assessedEntitiesIdsBeginsWith;
-        const assessedEntitiesIdsNotBeginsWith = requestParameters?.assessedEntitiesIdsNotBeginsWith;
-        const assessedEntitiesIdsEndsWith = requestParameters?.assessedEntitiesIdsEndsWith;
-        const assessedEntitiesIdsNotEndsWith = requestParameters?.assessedEntitiesIdsNotEndsWith;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -916,30 +910,6 @@ export class RiskAssessmentsService implements RiskAssessmentsServiceInterface {
         if (assessedEntitiesIdsNot !== undefined && assessedEntitiesIdsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>assessedEntitiesIdsNot, 'assessedEntitiesIds.not');
-        }
-        if (assessedEntitiesIdsContains !== undefined && assessedEntitiesIdsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsContains, 'assessedEntitiesIds.contains');
-        }
-        if (assessedEntitiesIdsNotContains !== undefined && assessedEntitiesIdsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsNotContains, 'assessedEntitiesIds.not.contains');
-        }
-        if (assessedEntitiesIdsBeginsWith !== undefined && assessedEntitiesIdsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsBeginsWith, 'assessedEntitiesIds.beginsWith');
-        }
-        if (assessedEntitiesIdsNotBeginsWith !== undefined && assessedEntitiesIdsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsNotBeginsWith, 'assessedEntitiesIds.not.beginsWith');
-        }
-        if (assessedEntitiesIdsEndsWith !== undefined && assessedEntitiesIdsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsEndsWith, 'assessedEntitiesIds.endsWith');
-        }
-        if (assessedEntitiesIdsNotEndsWith !== undefined && assessedEntitiesIdsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedEntitiesIdsNotEndsWith, 'assessedEntitiesIds.not.endsWith');
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

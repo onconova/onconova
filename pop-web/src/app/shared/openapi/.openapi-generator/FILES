@@ -6,6 +6,8 @@ api/adverse-events.serviceInterface.ts
 api/api.ts
 api/auth.service.ts
 api/auth.serviceInterface.ts
+api/cohorts.service.ts
+api/cohorts.serviceInterface.ts
 api/comorbidities-assessments.service.ts
 api/comorbidities-assessments.serviceInterface.ts
 api/family-histories.service.ts
@@ -72,6 +74,9 @@ model/breslow-depth.ts
 model/clark-staging-create.ts
 model/clark-staging.ts
 model/coded-concept-schema.ts
+model/cohort-builder-config.ts
+model/cohort-builder-entity.ts
+model/cohort-builder-field.ts
 model/comorbidities-assessment-create-schema.ts
 model/comorbidities-assessment-filters.ts
 model/comorbidities-assessment-panel-choices.ts

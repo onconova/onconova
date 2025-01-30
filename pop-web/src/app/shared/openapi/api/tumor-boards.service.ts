@@ -745,12 +745,6 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         const dateNotBetween = requestParameters?.dateNotBetween;
         const relatedEntitiesIds = requestParameters?.relatedEntitiesIds;
         const relatedEntitiesIdsNot = requestParameters?.relatedEntitiesIdsNot;
-        const relatedEntitiesIdsContains = requestParameters?.relatedEntitiesIdsContains;
-        const relatedEntitiesIdsNotContains = requestParameters?.relatedEntitiesIdsNotContains;
-        const relatedEntitiesIdsBeginsWith = requestParameters?.relatedEntitiesIdsBeginsWith;
-        const relatedEntitiesIdsNotBeginsWith = requestParameters?.relatedEntitiesIdsNotBeginsWith;
-        const relatedEntitiesIdsEndsWith = requestParameters?.relatedEntitiesIdsEndsWith;
-        const relatedEntitiesIdsNotEndsWith = requestParameters?.relatedEntitiesIdsNotEndsWith;
         const recommendationsCode = requestParameters?.recommendationsCode;
         const recommendationsCodeNot = requestParameters?.recommendationsCodeNot;
         const recommendationsCodeContains = requestParameters?.recommendationsCodeContains;
@@ -1162,30 +1156,6 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         if (relatedEntitiesIdsNot !== undefined && relatedEntitiesIdsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>relatedEntitiesIdsNot, 'relatedEntitiesIds.not');
-        }
-        if (relatedEntitiesIdsContains !== undefined && relatedEntitiesIdsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>relatedEntitiesIdsContains, 'relatedEntitiesIds.contains');
-        }
-        if (relatedEntitiesIdsNotContains !== undefined && relatedEntitiesIdsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>relatedEntitiesIdsNotContains, 'relatedEntitiesIds.not.contains');
-        }
-        if (relatedEntitiesIdsBeginsWith !== undefined && relatedEntitiesIdsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>relatedEntitiesIdsBeginsWith, 'relatedEntitiesIds.beginsWith');
-        }
-        if (relatedEntitiesIdsNotBeginsWith !== undefined && relatedEntitiesIdsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>relatedEntitiesIdsNotBeginsWith, 'relatedEntitiesIds.not.beginsWith');
-        }
-        if (relatedEntitiesIdsEndsWith !== undefined && relatedEntitiesIdsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>relatedEntitiesIdsEndsWith, 'relatedEntitiesIds.endsWith');
-        }
-        if (relatedEntitiesIdsNotEndsWith !== undefined && relatedEntitiesIdsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>relatedEntitiesIdsNotEndsWith, 'relatedEntitiesIds.not.endsWith');
         }
         if (recommendationsCode !== undefined && recommendationsCode !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

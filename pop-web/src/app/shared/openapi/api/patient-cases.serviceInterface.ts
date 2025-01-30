@@ -209,7 +209,7 @@ export interface GetPatientCasesRequestParams {
     updatedBysLastNameNotBeginsWith?: string;
     updatedBysLastNameEndsWith?: string;
     updatedBysLastNameNotEndsWith?: string;
-    manager?: string;
+    manager?: string | null;
     limit?: number;
     offset?: number;
 }

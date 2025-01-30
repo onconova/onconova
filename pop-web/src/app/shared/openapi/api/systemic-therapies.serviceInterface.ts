@@ -152,12 +152,6 @@ export interface GetSystemicTherapiesRequestParams {
     terminationReasonDescendantsOf?: string;
     targetedEntitiesIds?: string;
     targetedEntitiesIdsNot?: string;
-    targetedEntitiesIdsContains?: string;
-    targetedEntitiesIdsNotContains?: string;
-    targetedEntitiesIdsBeginsWith?: string;
-    targetedEntitiesIdsNotBeginsWith?: string;
-    targetedEntitiesIdsEndsWith?: string;
-    targetedEntitiesIdsNotEndsWith?: string;
     medicationsId?: string;
     medicationsIdNot?: string;
     medicationsIdContains?: string;

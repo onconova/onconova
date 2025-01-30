@@ -291,11 +291,11 @@ export interface AdverseEventFilters {
      */
     'updatedBys.lastName.not.endsWith'?: string;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**
@@ -773,11 +773,11 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.systemicTherapyId.exists'?: boolean;
     /**
-     * Suspected systemic therapy - Filter for full text matches
+     * Suspected systemic therapy - Filter for reference matches
      */
     'suspectedCauses.systemicTherapyId'?: string;
     /**
-     * Suspected systemic therapy - Filter for full text mismatches
+     * Suspected systemic therapy - Filter for reference mismatches
      */
     'suspectedCauses.systemicTherapyId.not'?: string;
     /**
@@ -813,11 +813,11 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.medicationId.exists'?: boolean;
     /**
-     * Suspected systemic therapy medication - Filter for full text matches
+     * Suspected systemic therapy medication - Filter for reference matches
      */
     'suspectedCauses.medicationId'?: string;
     /**
-     * Suspected systemic therapy medication - Filter for full text mismatches
+     * Suspected systemic therapy medication - Filter for reference mismatches
      */
     'suspectedCauses.medicationId.not'?: string;
     /**
@@ -853,11 +853,11 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.radiotherapyId.exists'?: boolean;
     /**
-     * Suspected radiotherapy - Filter for full text matches
+     * Suspected radiotherapy - Filter for reference matches
      */
     'suspectedCauses.radiotherapyId'?: string;
     /**
-     * Suspected radiotherapy - Filter for full text mismatches
+     * Suspected radiotherapy - Filter for reference mismatches
      */
     'suspectedCauses.radiotherapyId.not'?: string;
     /**
@@ -893,11 +893,11 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.surgeryId.exists'?: boolean;
     /**
-     * Suspected surgery - Filter for full text matches
+     * Suspected surgery - Filter for reference matches
      */
     'suspectedCauses.surgeryId'?: string;
     /**
-     * Suspected surgery - Filter for full text mismatches
+     * Suspected surgery - Filter for reference mismatches
      */
     'suspectedCauses.surgeryId.not'?: string;
     /**

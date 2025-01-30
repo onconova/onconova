@@ -435,12 +435,6 @@ export class StagingsService implements StagingsServiceInterface {
         const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
         const stagedEntitiesIds = requestParameters?.stagedEntitiesIds;
         const stagedEntitiesIdsNot = requestParameters?.stagedEntitiesIdsNot;
-        const stagedEntitiesIdsContains = requestParameters?.stagedEntitiesIdsContains;
-        const stagedEntitiesIdsNotContains = requestParameters?.stagedEntitiesIdsNotContains;
-        const stagedEntitiesIdsBeginsWith = requestParameters?.stagedEntitiesIdsBeginsWith;
-        const stagedEntitiesIdsNotBeginsWith = requestParameters?.stagedEntitiesIdsNotBeginsWith;
-        const stagedEntitiesIdsEndsWith = requestParameters?.stagedEntitiesIdsEndsWith;
-        const stagedEntitiesIdsNotEndsWith = requestParameters?.stagedEntitiesIdsNotEndsWith;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -850,30 +844,6 @@ export class StagingsService implements StagingsServiceInterface {
         if (stagedEntitiesIdsNot !== undefined && stagedEntitiesIdsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>stagedEntitiesIdsNot, 'stagedEntitiesIds.not');
-        }
-        if (stagedEntitiesIdsContains !== undefined && stagedEntitiesIdsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stagedEntitiesIdsContains, 'stagedEntitiesIds.contains');
-        }
-        if (stagedEntitiesIdsNotContains !== undefined && stagedEntitiesIdsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stagedEntitiesIdsNotContains, 'stagedEntitiesIds.not.contains');
-        }
-        if (stagedEntitiesIdsBeginsWith !== undefined && stagedEntitiesIdsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stagedEntitiesIdsBeginsWith, 'stagedEntitiesIds.beginsWith');
-        }
-        if (stagedEntitiesIdsNotBeginsWith !== undefined && stagedEntitiesIdsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stagedEntitiesIdsNotBeginsWith, 'stagedEntitiesIds.not.beginsWith');
-        }
-        if (stagedEntitiesIdsEndsWith !== undefined && stagedEntitiesIdsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stagedEntitiesIdsEndsWith, 'stagedEntitiesIds.endsWith');
-        }
-        if (stagedEntitiesIdsNotEndsWith !== undefined && stagedEntitiesIdsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>stagedEntitiesIdsNotEndsWith, 'stagedEntitiesIds.not.endsWith');
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

@@ -291,11 +291,11 @@ export interface TreatmentResponseFilters {
      */
     'updatedBys.lastName.not.endsWith'?: string;
     /**
-     * Patient case - Filter for full text matches
+     * Patient case - Filter for reference matches
      */
     caseId?: string;
     /**
-     * Patient case - Filter for full text mismatches
+     * Patient case - Filter for reference mismatches
      */
     'caseId.not'?: string;
     /**
@@ -407,37 +407,13 @@ export interface TreatmentResponseFilters {
      */
     'methodology.descendantsOf'?: string;
     /**
-     * Assessed neoplastic entities - Filter for full text matches
+     * Assessed neoplastic entities - Filter for reference matches
      */
     assessedEntitiesIds?: string;
     /**
-     * Assessed neoplastic entities - Filter for full text mismatches
+     * Assessed neoplastic entities - Filter for reference mismatches
      */
     'assessedEntitiesIds.not'?: string;
-    /**
-     * Assessed neoplastic entities - Filter for partial text matches
-     */
-    'assessedEntitiesIds.contains'?: string;
-    /**
-     * Assessed neoplastic entities - Filter for partial text mismatches
-     */
-    'assessedEntitiesIds.not.contains'?: string;
-    /**
-     * Assessed neoplastic entities - Filter for entries starting with the text
-     */
-    'assessedEntitiesIds.beginsWith'?: string;
-    /**
-     * Assessed neoplastic entities - Filter for entries not starting with the text
-     */
-    'assessedEntitiesIds.not.beginsWith'?: string;
-    /**
-     * Assessed neoplastic entities - Filter for entries ending with the text
-     */
-    'assessedEntitiesIds.endsWith'?: string;
-    /**
-     * Assessed neoplastic entities - Filter for entries not ending with the text
-     */
-    'assessedEntitiesIds.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
