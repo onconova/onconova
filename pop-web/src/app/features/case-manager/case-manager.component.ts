@@ -63,15 +63,9 @@ import {
 } from 'src/app/core/forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
-import { CaseManagerPanelComponent } from './components/case-manager-panel/case-manager-panel.component'
+import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'
 
 
-interface DataService {
-    get: CallableFunction;
-    create: CallableFunction;
-    delete: CallableFunction;
-    update: CallableFunction;
-}
 
 @Component({
     standalone: true,
@@ -121,129 +115,95 @@ export class CaseManagerComponent implements OnInit {
 
     // Case-specific data observables
     public neoplasticEntityService: DataService = {
-        get: this.neoplasticEntitiesService.getNeoplasticEntities.bind(this.neoplasticEntitiesService),
-        create: this.neoplasticEntitiesService.createNeoplasticEntity.bind(this.neoplasticEntitiesService),
-        delete: this.neoplasticEntitiesService.deleteNeoplasticEntityById.bind(this.neoplasticEntitiesService),
-        update: this.neoplasticEntitiesService.updateNeoplasticEntityById.bind(this.neoplasticEntitiesService),
+        get: (caseId) => this.neoplasticEntitiesService.getNeoplasticEntities({caseId: caseId}),
+        delete: (id) => this.neoplasticEntitiesService.deleteNeoplasticEntityById({entityId: id}),
     };
 
     // Case-specific data observables
     public stagingService: DataService = {
-        get: this.stagingsService.getStagings.bind(this.stagingsService),
-        create: this.stagingsService.createStaging.bind(this.stagingsService),
-        delete: this.stagingsService.deleteStagingById.bind(this.stagingsService),
-        update: this.stagingsService.updateStagingById.bind(this.stagingsService),
+        get: (caseId) => this.stagingsService.getStagings({caseId: caseId}),
+        delete: (id) => this.stagingsService.deleteStagingById({stagingId: id}),
     };
 
 
     // Case-specific data observables
     public tumorMarkerService: DataService = {
-        get: this.tumorMarkersService.getTumorMarkers.bind(this.tumorMarkersService),
-        create: this.tumorMarkersService.createTumorMarker.bind(this.tumorMarkersService),
-        delete: this.tumorMarkersService.deleteTumorMarkerById.bind(this.tumorMarkersService),
-        update: this.tumorMarkersService.updateTumorMarkerById.bind(this.tumorMarkersService),
+        get: (caseId) => this.tumorMarkersService.getTumorMarkers({caseId: caseId}),
+        delete: (id) => this.tumorMarkersService.deleteTumorMarkerById({tumorMarkerId: id}),
     };
 
     // Case-specific data observables
     public riskAssessmentService: DataService = {
-        get: this.riskAssessmentsService.getRiskAssessments.bind(this.riskAssessmentsService),
-        create: this.riskAssessmentsService.createRiskAssessment.bind(this.riskAssessmentsService),
-        delete: this.riskAssessmentsService.deleteRiskAssessmentById.bind(this.riskAssessmentsService),
-        update: this.riskAssessmentsService.updateRiskAssessmentById.bind(this.riskAssessmentsService),
+        get: (caseId) => this.riskAssessmentsService.getRiskAssessments({caseId: caseId}),
+        delete: (id) => this.riskAssessmentsService.deleteRiskAssessmentById({riskAssessmentId: id}),
     };
 
     // Case-specific data observables
     public systemicTherapyService: DataService = {
-        get: this.systemicTherapiesService.getSystemicTherapies.bind(this.systemicTherapiesService),
-        create: this.systemicTherapiesService.createSystemicTherapy.bind(this.systemicTherapiesService),
-        delete: this.systemicTherapiesService.deleteSystemicTherapyById.bind(this.systemicTherapiesService),
-        update: this.systemicTherapiesService.updateSystemicTherapy.bind(this.systemicTherapiesService),
+        get: (caseId) => this.systemicTherapiesService.getSystemicTherapies({caseId: caseId}),
+        delete: (id) => this.systemicTherapiesService.deleteSystemicTherapyById({systemicTherapyId: id}),
     };
 
     // Case-specific data observables
     public performanceStatusService: DataService = {
-        get: this.performanceStatiiService.getPerformanceStatus.bind(this.performanceStatiiService),
-        create: this.performanceStatiiService.createPerformanceStatus.bind(this.performanceStatiiService),
-        delete: this.performanceStatiiService.deletePerformanceStatus.bind(this.performanceStatiiService),
-        update: this.performanceStatiiService.updatePerformanceStatusById.bind(this.performanceStatiiService),
+        get: (caseId) => this.performanceStatiiService.getPerformanceStatus({caseId: caseId}),
+        delete: (id) => this.performanceStatiiService.deletePerformanceStatus({performanceStatusId: id}),
     };
 
     // Case-specific data observables
     public surgeryService: DataService = {
-        get: this.surgeriesService.getSurgeries.bind(this.surgeriesService),
-        create: this.surgeriesService.createSurgery.bind(this.surgeriesService),
-        delete: this.surgeriesService.deleteSurgeryById.bind(this.surgeriesService),
-        update: this.surgeriesService.updateSurgeryById.bind(this.surgeriesService),
+        get: (caseId) => this.surgeriesService.getSurgeries({caseId: caseId}),
+        delete: (id) => this.surgeriesService.deleteSurgeryById({surgeryId: id}),
     };
     // Case-specific data observables
     public radiotherapyService: DataService = {
-        get: this.radiotherapiesService.getRadiotherapies.bind(this.radiotherapiesService),
-        create: this.radiotherapiesService.createRadiotherapy.bind(this.radiotherapiesService),
-        delete: this.radiotherapiesService.deleteRadiotherapyById.bind(this.radiotherapiesService),
-        update: this.radiotherapiesService.updateRadiotherapy.bind(this.radiotherapiesService),
+        get: (caseId) => this.radiotherapiesService.getRadiotherapies({caseId: caseId}),
+        delete: (id) => this.radiotherapiesService.deleteRadiotherapyById({radiotherapyId: id}),
     };
     // Case-specific data observables
     public lifestyleService: DataService = {
-        get: this.lifestylesService.getLifestyles.bind(this.lifestylesService),
-        create: this.lifestylesService.createLifestyle.bind(this.lifestylesService),
-        delete: this.lifestylesService.deleteLifestyleById.bind(this.lifestylesService),
-        update: this.lifestylesService.updateLifestyleById.bind(this.lifestylesService),
+        get: (caseId) => this.lifestylesService.getLifestyles({caseId: caseId}),
+        delete: (id) => this.lifestylesService.deleteLifestyleById({lifestyleId: id}),
     };
     // Case-specific data observables
     public familyHistoryService: DataService = {
-        get: this.familyHistoriesService.getFamilyHistories.bind(this.familyHistoriesService),
-        create: this.familyHistoriesService.createFamilyHistory.bind(this.familyHistoriesService),
-        delete: this.familyHistoriesService.deleteFamilyHistoryById.bind(this.familyHistoriesService),
-        update: this.familyHistoriesService.updateFamilyHistory.bind(this.familyHistoriesService),
+        get: (caseId) => this.familyHistoriesService.getFamilyHistories({caseId: caseId}),
+        delete: (id) => this.familyHistoriesService.deleteFamilyHistoryById({familyHistoryId: id}),
     };
     // Case-specific data observables
     public comorbiditiesAssessmentService: DataService = {
-        get: this.comorbiditiesAssessmentsService.getComorbiditiesAssessments.bind(this.comorbiditiesAssessmentsService),
-        create: this.comorbiditiesAssessmentsService.createComorbiditiesAssessment.bind(this.comorbiditiesAssessmentsService),
-        delete: this.comorbiditiesAssessmentsService.deleteComorbiditiesAssessment.bind(this.comorbiditiesAssessmentsService),
-        update: this.comorbiditiesAssessmentsService.updateComorbiditiesAssessment.bind(this.comorbiditiesAssessmentsService),
+        get: (caseId) => this.comorbiditiesAssessmentsService.getComorbiditiesAssessments({caseId: caseId}),
+        delete: (id) => this.comorbiditiesAssessmentsService.deleteComorbiditiesAssessment({comorbiditiesAssessmentId: id}),
     };
     // Case-specific data observables
     public genomicVariantService: DataService = {
-        get: this.genomicVariantsService.getGenomicVariants.bind(this.genomicVariantsService),
-        create: this.genomicVariantsService.createGenomicVariant.bind(this.genomicVariantsService),
-        delete: this.genomicVariantsService.deleteGenomicVariant.bind(this.genomicVariantsService),
-        update: this.genomicVariantsService.updateGenomicVariant.bind(this.genomicVariantsService),
+        get: (caseId) => this.genomicVariantsService.getGenomicVariants({caseId: caseId}),
+        delete: (id) => this.genomicVariantsService.deleteGenomicVariant({genomicVariantId: id}),
     };
     // Case-specific data observables
     public genomicSignatureService: DataService = {
-        get: this.genomicSignaturesService.getGenomicSignatures.bind(this.genomicSignaturesService),
-        create: this.genomicSignaturesService.createGenomicSignature.bind(this.genomicSignaturesService),
-        delete: this.genomicSignaturesService.deleteGenomicSignatureById.bind(this.genomicSignaturesService),
-        update: this.genomicSignaturesService.updateGenomicSignatureById.bind(this.genomicSignaturesService),
+        get: (caseId) => this.genomicSignaturesService.getGenomicSignatures({caseId: caseId}),
+        delete: (id) => this.genomicSignaturesService.deleteGenomicSignatureById({genomicSignatureId: id}),
     };
     // Case-specific data observables
     public vitalsService: DataService = {
-        get: this.vitalsCoreService.getVitals.bind(this.vitalsCoreService),
-        create: this.vitalsCoreService.createVitals.bind(this.vitalsCoreService),
-        delete: this.vitalsCoreService.deleteVitalsById.bind(this.vitalsCoreService),
-        update: this.vitalsCoreService.updateVitalsById.bind(this.vitalsCoreService),
+        get: (caseId) => this.vitalsCoreService.getVitals({caseId: caseId}),
+        delete: (id) => this.vitalsCoreService.deleteVitalsById({vitalsId: id}),
     };
     // Case-specific data observables
     public adverseEventService: DataService = {
-        get: this.adverseEventsService.getAdverseEvents.bind(this.adverseEventsService),
-        create: this.adverseEventsService.createAdverseEvent.bind(this.adverseEventsService),
-        delete: this.adverseEventsService.deleteAdverseEventById.bind(this.adverseEventsService),
-        update: this.adverseEventsService.updateAdverseEvent.bind(this.adverseEventsService),
+        get: (caseId) => this.adverseEventsService.getAdverseEvents({caseId: caseId}),
+        delete: (id) => this.adverseEventsService.deleteAdverseEventById({adverseEventId: id}),
     };
     // Case-specific data observables
     public tumorBoardService: DataService = {
-        get: this.tumorBoardsService.getTumorBoards.bind(this.tumorBoardsService),
-        create: this.tumorBoardsService.createTumorBoard.bind(this.tumorBoardsService),
-        delete: this.tumorBoardsService.deleteTumorBoardById.bind(this.tumorBoardsService),
-        update: this.tumorBoardsService.updateTumorBoardById.bind(this.tumorBoardsService),
+        get: (caseId) => this.tumorBoardsService.getTumorBoards({caseId: caseId}),
+        delete: (id) => this.tumorBoardsService.deleteTumorBoardById({tumorBoardId: id}),
     };
     // Case-specific data observables
     public treatmentResponseService: DataService = {
-        get: this.treatmentResponsesService.getTreatmentResponses.bind(this.treatmentResponsesService),
-        create: this.treatmentResponsesService.createTreatmentResponse.bind(this.treatmentResponsesService),
-        delete: this.treatmentResponsesService.deleteTreatmentResponse.bind(this.treatmentResponsesService),
-        update: this.treatmentResponsesService.updateTreatmentResponse.bind(this.treatmentResponsesService),
+        get: (caseId) => this.treatmentResponsesService.getTreatmentResponses({caseId: caseId}),
+        delete: (id) => this.treatmentResponsesService.deleteTreatmentResponse({treatmentRresponseId: id}),
     };
 
     // Form components
@@ -288,11 +248,11 @@ export class CaseManagerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.case$ = this.caseService.getPatientCaseByPseudoidentifier(this.pseudoidentifier);
+        this.case$ = this.caseService.getPatientCaseByPseudoidentifier({pseudoidentifier:this.pseudoidentifier});
     }
 
     downloadCaseBundle(caseId: string) {
-        this.caseService.getPatientCaseBundleById(caseId).subscribe({
+        this.caseService.getPatientCaseBundleById({caseId:caseId}).subscribe({
             next: (response) => {
                 const blob = new Blob([JSON.stringify(response)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);

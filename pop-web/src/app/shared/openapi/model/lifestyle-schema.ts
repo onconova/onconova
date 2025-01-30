@@ -9,6 +9,7 @@
  */
 import { MeasureSchema } from './measure-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface LifestyleSchema { 
@@ -24,11 +25,11 @@ export interface LifestyleSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

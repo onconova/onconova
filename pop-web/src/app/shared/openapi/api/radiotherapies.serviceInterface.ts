@@ -11,6 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { ModifiedResourceSchema } from '../model/models';
 import { PaginatedRadiotherapySchema } from '../model/models';
 import { RadiotherapyCreateSchema } from '../model/models';
 import { RadiotherapyDosageCreateSchema } from '../model/models';
@@ -18,11 +19,397 @@ import { RadiotherapyDosageSchema } from '../model/models';
 import { RadiotherapySchema } from '../model/models';
 import { RadiotherapySettingCreateSchema } from '../model/models';
 import { RadiotherapySettingSchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateRadiotherapyRequestParams {
+    radiotherapyCreateSchema: RadiotherapyCreateSchema;
+}
+
+export interface CreateRadiotherapyDosageRequestParams {
+    radiotherapyId: string;
+    radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema;
+}
+
+export interface CreateRadiotherapySettingRequestParams {
+    radiotherapyId: string;
+    radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema;
+}
+
+export interface DeleteRadiotherapyByIdRequestParams {
+    radiotherapyId: string;
+}
+
+export interface DeleteRadiotherapyDosageRequestParams {
+    radiotherapyId: string;
+    dosageId: string;
+}
+
+export interface DeleteRadiotherapySettingRequestParams {
+    radiotherapyId: string;
+    settingId: string;
+}
+
+export interface GetRadiotherapiesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    periodOverlaps?: Array<any>;
+    periodNotOverlaps?: Array<any>;
+    periodContains?: Array<any>;
+    periodNotContains?: Array<any>;
+    periodContainedBy?: Array<any>;
+    periodNotContainedBy?: Array<any>;
+    sessionsLessThan?: number;
+    sessionsLessThanOrEqual?: number;
+    sessionsGreaterThan?: number;
+    sessionsGreaterThanOrEqual?: number;
+    sessionsEqual?: number;
+    sessionsNotEqual?: number;
+    sessionsBetween?: Array<any>;
+    sessionsNotBetween?: Array<any>;
+    intent?: string;
+    intentNot?: string;
+    intentAnyOf?: Array<'curative' | 'palliative'>;
+    terminationReasonNotExists?: boolean;
+    terminationReasonExists?: boolean;
+    terminationReason?: string;
+    terminationReasonNot?: string;
+    terminationReasonAnyOf?: Array<string>;
+    terminationReasonNotAnyOf?: Array<string>;
+    terminationReasonDescendantsOf?: string;
+    targetedEntitiesIds?: string;
+    targetedEntitiesIdsNot?: string;
+    targetedEntitiesIdsContains?: string;
+    targetedEntitiesIdsNotContains?: string;
+    targetedEntitiesIdsBeginsWith?: string;
+    targetedEntitiesIdsNotBeginsWith?: string;
+    targetedEntitiesIdsEndsWith?: string;
+    targetedEntitiesIdsNotEndsWith?: string;
+    dosagesId?: string;
+    dosagesIdNot?: string;
+    dosagesIdContains?: string;
+    dosagesIdNotContains?: string;
+    dosagesIdBeginsWith?: string;
+    dosagesIdNotBeginsWith?: string;
+    dosagesIdEndsWith?: string;
+    dosagesIdNotEndsWith?: string;
+    dosagesCreatedAtBefore?: string;
+    dosagesCreatedAtAfter?: string;
+    dosagesCreatedAtOnOrBefore?: string;
+    dosagesCreatedAtOnOrAfter?: string;
+    dosagesCreatedAtOn?: string;
+    dosagesCreatedAtNotOn?: string;
+    dosagesCreatedAtBetween?: Array<any>;
+    dosagesCreatedAtNotBetween?: Array<any>;
+    dosagesUpdatedAtBefore?: string;
+    dosagesUpdatedAtAfter?: string;
+    dosagesUpdatedAtOnOrBefore?: string;
+    dosagesUpdatedAtOnOrAfter?: string;
+    dosagesUpdatedAtOn?: string;
+    dosagesUpdatedAtNotOn?: string;
+    dosagesUpdatedAtBetween?: Array<any>;
+    dosagesUpdatedAtNotBetween?: Array<any>;
+    dosagesCreatedByNotExists?: boolean;
+    dosagesCreatedByExists?: boolean;
+    dosagesUpdatedBysIdLessThan?: number;
+    dosagesUpdatedBysIdLessThanOrEqual?: number;
+    dosagesUpdatedBysIdGreaterThan?: number;
+    dosagesUpdatedBysIdGreaterThanOrEqual?: number;
+    dosagesUpdatedBysIdEqual?: number;
+    dosagesUpdatedBysIdNotEqual?: number;
+    dosagesUpdatedBysIdBetween?: Array<any>;
+    dosagesUpdatedBysIdNotBetween?: Array<any>;
+    dosagesUpdatedBysUsername?: string;
+    dosagesUpdatedBysUsernameNot?: string;
+    dosagesUpdatedBysUsernameContains?: string;
+    dosagesUpdatedBysUsernameNotContains?: string;
+    dosagesUpdatedBysUsernameBeginsWith?: string;
+    dosagesUpdatedBysUsernameNotBeginsWith?: string;
+    dosagesUpdatedBysUsernameEndsWith?: string;
+    dosagesUpdatedBysUsernameNotEndsWith?: string;
+    dosagesUpdatedBysEmail?: string;
+    dosagesUpdatedBysEmailNot?: string;
+    dosagesUpdatedBysEmailContains?: string;
+    dosagesUpdatedBysEmailNotContains?: string;
+    dosagesUpdatedBysEmailBeginsWith?: string;
+    dosagesUpdatedBysEmailNotBeginsWith?: string;
+    dosagesUpdatedBysEmailEndsWith?: string;
+    dosagesUpdatedBysEmailNotEndsWith?: string;
+    dosagesUpdatedBysFirstNameNotExists?: boolean;
+    dosagesUpdatedBysFirstNameExists?: boolean;
+    dosagesUpdatedBysFirstName?: string;
+    dosagesUpdatedBysFirstNameNot?: string;
+    dosagesUpdatedBysFirstNameContains?: string;
+    dosagesUpdatedBysFirstNameNotContains?: string;
+    dosagesUpdatedBysFirstNameBeginsWith?: string;
+    dosagesUpdatedBysFirstNameNotBeginsWith?: string;
+    dosagesUpdatedBysFirstNameEndsWith?: string;
+    dosagesUpdatedBysFirstNameNotEndsWith?: string;
+    dosagesUpdatedBysLastNameNotExists?: boolean;
+    dosagesUpdatedBysLastNameExists?: boolean;
+    dosagesUpdatedBysLastName?: string;
+    dosagesUpdatedBysLastNameNot?: string;
+    dosagesUpdatedBysLastNameContains?: string;
+    dosagesUpdatedBysLastNameNotContains?: string;
+    dosagesUpdatedBysLastNameBeginsWith?: string;
+    dosagesUpdatedBysLastNameNotBeginsWith?: string;
+    dosagesUpdatedBysLastNameEndsWith?: string;
+    dosagesUpdatedBysLastNameNotEndsWith?: string;
+    dosagesDescription?: string;
+    dosagesDescriptionNot?: string;
+    dosagesDescriptionContains?: string;
+    dosagesDescriptionNotContains?: string;
+    dosagesDescriptionBeginsWith?: string;
+    dosagesDescriptionNotBeginsWith?: string;
+    dosagesDescriptionEndsWith?: string;
+    dosagesDescriptionNotEndsWith?: string;
+    dosagesFractionsNotExists?: boolean;
+    dosagesFractionsExists?: boolean;
+    dosagesFractionsLessThan?: number;
+    dosagesFractionsLessThanOrEqual?: number;
+    dosagesFractionsGreaterThan?: number;
+    dosagesFractionsGreaterThanOrEqual?: number;
+    dosagesFractionsEqual?: number;
+    dosagesFractionsNotEqual?: number;
+    dosagesFractionsBetween?: Array<any>;
+    dosagesFractionsNotBetween?: Array<any>;
+    dosagesDoseNotExists?: boolean;
+    dosagesDoseExists?: boolean;
+    dosagesDoseLessThan?: number;
+    dosagesDoseLessThanOrEqual?: number;
+    dosagesDoseGreaterThan?: number;
+    dosagesDoseGreaterThanOrEqual?: number;
+    dosagesDoseEqual?: number;
+    dosagesDoseNotEqual?: number;
+    dosagesDoseBetween?: Array<any>;
+    dosagesDoseNotBetween?: Array<any>;
+    dosagesIrradiatedVolume?: string;
+    dosagesIrradiatedVolumeNot?: string;
+    dosagesIrradiatedVolumeAnyOf?: Array<string>;
+    dosagesIrradiatedVolumeNotAnyOf?: Array<string>;
+    dosagesIrradiatedVolumeDescendantsOf?: string;
+    dosagesIrradiatedVolumeMorphologyNotExists?: boolean;
+    dosagesIrradiatedVolumeMorphologyExists?: boolean;
+    dosagesIrradiatedVolumeMorphology?: string;
+    dosagesIrradiatedVolumeMorphologyNot?: string;
+    dosagesIrradiatedVolumeMorphologyAnyOf?: Array<string>;
+    dosagesIrradiatedVolumeMorphologyNotAnyOf?: Array<string>;
+    dosagesIrradiatedVolumeMorphologyDescendantsOf?: string;
+    dosagesIrradiatedVolumeQualifierNotExists?: boolean;
+    dosagesIrradiatedVolumeQualifierExists?: boolean;
+    dosagesIrradiatedVolumeQualifier?: string;
+    dosagesIrradiatedVolumeQualifierNot?: string;
+    dosagesIrradiatedVolumeQualifierAnyOf?: Array<string>;
+    dosagesIrradiatedVolumeQualifierNotAnyOf?: Array<string>;
+    dosagesIrradiatedVolumeQualifierDescendantsOf?: string;
+    settingsId?: string;
+    settingsIdNot?: string;
+    settingsIdContains?: string;
+    settingsIdNotContains?: string;
+    settingsIdBeginsWith?: string;
+    settingsIdNotBeginsWith?: string;
+    settingsIdEndsWith?: string;
+    settingsIdNotEndsWith?: string;
+    settingsCreatedAtBefore?: string;
+    settingsCreatedAtAfter?: string;
+    settingsCreatedAtOnOrBefore?: string;
+    settingsCreatedAtOnOrAfter?: string;
+    settingsCreatedAtOn?: string;
+    settingsCreatedAtNotOn?: string;
+    settingsCreatedAtBetween?: Array<any>;
+    settingsCreatedAtNotBetween?: Array<any>;
+    settingsUpdatedAtBefore?: string;
+    settingsUpdatedAtAfter?: string;
+    settingsUpdatedAtOnOrBefore?: string;
+    settingsUpdatedAtOnOrAfter?: string;
+    settingsUpdatedAtOn?: string;
+    settingsUpdatedAtNotOn?: string;
+    settingsUpdatedAtBetween?: Array<any>;
+    settingsUpdatedAtNotBetween?: Array<any>;
+    settingsCreatedByNotExists?: boolean;
+    settingsCreatedByExists?: boolean;
+    settingsUpdatedBysIdLessThan?: number;
+    settingsUpdatedBysIdLessThanOrEqual?: number;
+    settingsUpdatedBysIdGreaterThan?: number;
+    settingsUpdatedBysIdGreaterThanOrEqual?: number;
+    settingsUpdatedBysIdEqual?: number;
+    settingsUpdatedBysIdNotEqual?: number;
+    settingsUpdatedBysIdBetween?: Array<any>;
+    settingsUpdatedBysIdNotBetween?: Array<any>;
+    settingsUpdatedBysUsername?: string;
+    settingsUpdatedBysUsernameNot?: string;
+    settingsUpdatedBysUsernameContains?: string;
+    settingsUpdatedBysUsernameNotContains?: string;
+    settingsUpdatedBysUsernameBeginsWith?: string;
+    settingsUpdatedBysUsernameNotBeginsWith?: string;
+    settingsUpdatedBysUsernameEndsWith?: string;
+    settingsUpdatedBysUsernameNotEndsWith?: string;
+    settingsUpdatedBysEmail?: string;
+    settingsUpdatedBysEmailNot?: string;
+    settingsUpdatedBysEmailContains?: string;
+    settingsUpdatedBysEmailNotContains?: string;
+    settingsUpdatedBysEmailBeginsWith?: string;
+    settingsUpdatedBysEmailNotBeginsWith?: string;
+    settingsUpdatedBysEmailEndsWith?: string;
+    settingsUpdatedBysEmailNotEndsWith?: string;
+    settingsUpdatedBysFirstNameNotExists?: boolean;
+    settingsUpdatedBysFirstNameExists?: boolean;
+    settingsUpdatedBysFirstName?: string;
+    settingsUpdatedBysFirstNameNot?: string;
+    settingsUpdatedBysFirstNameContains?: string;
+    settingsUpdatedBysFirstNameNotContains?: string;
+    settingsUpdatedBysFirstNameBeginsWith?: string;
+    settingsUpdatedBysFirstNameNotBeginsWith?: string;
+    settingsUpdatedBysFirstNameEndsWith?: string;
+    settingsUpdatedBysFirstNameNotEndsWith?: string;
+    settingsUpdatedBysLastNameNotExists?: boolean;
+    settingsUpdatedBysLastNameExists?: boolean;
+    settingsUpdatedBysLastName?: string;
+    settingsUpdatedBysLastNameNot?: string;
+    settingsUpdatedBysLastNameContains?: string;
+    settingsUpdatedBysLastNameNotContains?: string;
+    settingsUpdatedBysLastNameBeginsWith?: string;
+    settingsUpdatedBysLastNameNotBeginsWith?: string;
+    settingsUpdatedBysLastNameEndsWith?: string;
+    settingsUpdatedBysLastNameNotEndsWith?: string;
+    settingsDescription?: string;
+    settingsDescriptionNot?: string;
+    settingsDescriptionContains?: string;
+    settingsDescriptionNotContains?: string;
+    settingsDescriptionBeginsWith?: string;
+    settingsDescriptionNotBeginsWith?: string;
+    settingsDescriptionEndsWith?: string;
+    settingsDescriptionNotEndsWith?: string;
+    settingsModality?: string;
+    settingsModalityNot?: string;
+    settingsModalityAnyOf?: Array<string>;
+    settingsModalityNotAnyOf?: Array<string>;
+    settingsModalityDescendantsOf?: string;
+    settingsTechnique?: string;
+    settingsTechniqueNot?: string;
+    settingsTechniqueAnyOf?: Array<string>;
+    settingsTechniqueNotAnyOf?: Array<string>;
+    settingsTechniqueDescendantsOf?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetRadiotherapyByIdRequestParams {
+    radiotherapyId: string;
+}
+
+export interface GetRadiotherapyDosageByIdRequestParams {
+    radiotherapyId: string;
+    dosageId: string;
+}
+
+export interface GetRadiotherapyDosagesRequestParams {
+    radiotherapyId: string;
+}
+
+export interface GetRadiotherapySettingByIdRequestParams {
+    radiotherapyId: string;
+    settingId: string;
+}
+
+export interface GetRadiotherapySettingsRequestParams {
+    radiotherapyId: string;
+}
+
+export interface UpdateRadiotherapyRequestParams {
+    radiotherapyId: string;
+    radiotherapyCreateSchema: RadiotherapyCreateSchema;
+}
+
+export interface UpdateRadiotherapyDosageRequestParams {
+    radiotherapyId: string;
+    dosageId: string;
+    radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema;
+}
+
+export interface UpdateRadiotherapySettingRequestParams {
+    radiotherapyId: string;
+    settingId: string;
+    radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema;
+}
 
 
 export interface RadiotherapiesServiceInterface {
@@ -32,119 +419,106 @@ export interface RadiotherapiesServiceInterface {
     /**
      * Create Radiotherapy
      * 
-     * @param radiotherapyCreateSchema 
+* @param requestParameters
      */
-    createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createRadiotherapy(requestParameters: CreateRadiotherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Radiotherapy Dosage
      * 
-     * @param radiotherapyId 
-     * @param radiotherapyDosageCreateSchema 
+* @param requestParameters
      */
-    createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createRadiotherapyDosage(requestParameters: CreateRadiotherapyDosageRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Radiotherapy Setting
      * 
-     * @param radiotherapyId 
-     * @param radiotherapySettingCreateSchema 
+* @param requestParameters
      */
-    createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createRadiotherapySetting(requestParameters: CreateRadiotherapySettingRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Radiotherapy
      * 
-     * @param radiotherapyId 
+* @param requestParameters
      */
-    deleteRadiotherapyById(radiotherapyId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteRadiotherapyById(requestParameters: DeleteRadiotherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Delete Radiotherapy Dosage
      * 
-     * @param radiotherapyId 
-     * @param dosageId 
+* @param requestParameters
      */
-    deleteRadiotherapyDosage(radiotherapyId: string, dosageId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteRadiotherapyDosage(requestParameters: DeleteRadiotherapyDosageRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Delete Radiotherapy Setting
      * 
-     * @param radiotherapyId 
-     * @param settingId 
+* @param requestParameters
      */
-    deleteRadiotherapySetting(radiotherapyId: string, settingId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteRadiotherapySetting(requestParameters: DeleteRadiotherapySettingRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Radiotherapies Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getRadiotherapies(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedRadiotherapySchema>;
+    getRadiotherapies(requestParameters: GetRadiotherapiesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedRadiotherapySchema>;
 
     /**
      * Get Radiotherapy By Id
      * 
-     * @param radiotherapyId 
+* @param requestParameters
      */
-    getRadiotherapyById(radiotherapyId: string, extraHttpRequestParams?: any): Observable<RadiotherapySchema>;
+    getRadiotherapyById(requestParameters: GetRadiotherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<RadiotherapySchema>;
 
     /**
      * Get Radiotherapy Dosage By Id
      * 
-     * @param radiotherapyId 
-     * @param dosageId 
+* @param requestParameters
      */
-    getRadiotherapyDosageById(radiotherapyId: string, dosageId: string, extraHttpRequestParams?: any): Observable<RadiotherapyDosageSchema>;
+    getRadiotherapyDosageById(requestParameters: GetRadiotherapyDosageByIdRequestParams, extraHttpRequestParams?: any): Observable<RadiotherapyDosageSchema>;
 
     /**
      * Get Radiotherapy Dosages Matching The Query
      * 
-     * @param radiotherapyId 
+* @param requestParameters
      */
-    getRadiotherapyDosages(radiotherapyId: string, extraHttpRequestParams?: any): Observable<Array<RadiotherapyDosageSchema>>;
+    getRadiotherapyDosages(requestParameters: GetRadiotherapyDosagesRequestParams, extraHttpRequestParams?: any): Observable<Array<RadiotherapyDosageSchema>>;
 
     /**
      * Get Radiotherapy Setting By Id
      * 
-     * @param radiotherapyId 
-     * @param settingId 
+* @param requestParameters
      */
-    getRadiotherapySettingById(radiotherapyId: string, settingId: string, extraHttpRequestParams?: any): Observable<RadiotherapySettingSchema>;
+    getRadiotherapySettingById(requestParameters: GetRadiotherapySettingByIdRequestParams, extraHttpRequestParams?: any): Observable<RadiotherapySettingSchema>;
 
     /**
      * Get Radiotherapy Settings Matching The Query
      * 
-     * @param radiotherapyId 
+* @param requestParameters
      */
-    getRadiotherapySettings(radiotherapyId: string, extraHttpRequestParams?: any): Observable<Array<RadiotherapySettingSchema>>;
+    getRadiotherapySettings(requestParameters: GetRadiotherapySettingsRequestParams, extraHttpRequestParams?: any): Observable<Array<RadiotherapySettingSchema>>;
 
     /**
      * Update Radiotherapy
      * 
-     * @param radiotherapyId 
-     * @param radiotherapyCreateSchema 
+* @param requestParameters
      */
-    updateRadiotherapy(radiotherapyId: string, radiotherapyCreateSchema: RadiotherapyCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateRadiotherapy(requestParameters: UpdateRadiotherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Radiotherapy Dosage
      * 
-     * @param radiotherapyId 
-     * @param dosageId 
-     * @param radiotherapyDosageCreateSchema 
+* @param requestParameters
      */
-    updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateRadiotherapyDosage(requestParameters: UpdateRadiotherapyDosageRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Radiotherapy Setting
      * 
-     * @param radiotherapyId 
-     * @param settingId 
-     * @param radiotherapySettingCreateSchema 
+* @param requestParameters
      */
-    updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateRadiotherapySetting(requestParameters: UpdateRadiotherapySettingRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

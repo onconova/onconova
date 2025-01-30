@@ -9,6 +9,7 @@
  */
 import { SurgeryIntentChoices } from './surgery-intent-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface Surgery { 
@@ -28,7 +29,7 @@ export interface Surgery {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * Indicates the case of the patient who received the surgical procedure
      */
@@ -52,7 +53,7 @@ export interface Surgery {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that were targeted by the surgery
      */

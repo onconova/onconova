@@ -54,8 +54,8 @@ export class FamilyHistoryFormComponent extends AbstractFormBase implements OnIn
     private readonly familyHistoriesService: FamilyHistoriesService = inject(FamilyHistoriesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = this.familyHistoriesService.createFamilyHistory.bind(this.familyHistoriesService)
-    public readonly updateService = this.familyHistoriesService.updateFamilyHistory.bind(this.familyHistoriesService)
+    public readonly createService = (payload: FamilyHistoryCreateSchema) => this.familyHistoriesService.createFamilyHistory({familyHistoryCreateSchema: payload});
+    public readonly updateService = (id: string, payload: FamilyHistoryCreateSchema) => this.familyHistoriesService.updateFamilyHistory({familyHistoryId: id, familyHistoryCreateSchema: payload})
 
     public readonly title: string = 'Family History'
     public readonly subtitle: string = 'Add new family history entry'

@@ -25,7 +25,6 @@ import {
     TumorMarker,
     GenomicSignaturesService,
     AnyGenomicSignature,
-    TumorBoardSpecialties,
     AnyTumorBoard,
     TumorBoardsService,
     UnspecifiedTumorBoardCreateSchema,
@@ -43,6 +42,11 @@ import {
 } from '../../forms/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+
+const TumorBoardSpecialties = {
+    Molecular: 'molecular',
+    Unspecified: 'unspecified',
+}
 
 export type AnyTumorBoardCreateSchema = UnspecifiedTumorBoardCreateSchema | MolecularTherapeuticRecommendationCreateSchema;
 
@@ -77,16 +81,16 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     private readonly genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.tumorBoardsService.createTumorBoard.bind(this.tumorBoardsService);
-    public readonly updateService = this.tumorBoardsService.updateTumorBoardById.bind(this.tumorBoardsService);
+    public readonly createService = (payload: AnyTumorBoardCreateSchema) => this.tumorBoardsService.createTumorBoard({payload1: payload as any});
+    public readonly updateService = (id: string, payload: AnyTumorBoardCreateSchema) => this.tumorBoardsService.updateTumorBoardById({tumorBoardId: id, payload1: payload as any});
     override readonly subformsServices = [
         {
             condition: (data: any) => data.category === TumorBoardSpecialties.Molecular,
             payloads: this.constructMolecularTherapeuticRecommendationPayloads.bind(this),
             deletedEntries: this.getdeletedMolecularTherapeuticRecommendations.bind(this),
-            delete: this.tumorBoardsService.deleteMolecularTherapeuticRecommendation.bind(this.tumorBoardsService),
-            create: this.tumorBoardsService.createMolecularTherapeuticRecommendation.bind(this.tumorBoardsService),
-            update: this.tumorBoardsService.updateMolecularTherapeuticRecommendation.bind(this.tumorBoardsService),
+            delete: (parentId: string, id: string) => this.tumorBoardsService.deleteMolecularTherapeuticRecommendation({tumorBoardId: parentId, recommendationId: id}),
+            create: (parentId: string, payload: MolecularTherapeuticRecommendationCreateSchema) => this.tumorBoardsService.createMolecularTherapeuticRecommendation({tumorBoardId: parentId, molecularTherapeuticRecommendationCreateSchema: payload}),
+            update: (parentId: string, id: string, payload: MolecularTherapeuticRecommendationCreateSchema) => this.tumorBoardsService.updateMolecularTherapeuticRecommendation({tumorBoardId: parentId, recommendationId: id, molecularTherapeuticRecommendationCreateSchema: payload}),
         },
     ]
     private deletedMolecularTherapeuticRecommendations: string[] = [];
@@ -127,18 +131,18 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     ngOnInit() {
         // Construct the form 
         this.constructForm()
-        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId).pipe(map((response) => response.items))
-        this.relatedPrimaryEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId,['primary']).pipe(map((response) => response.items))
-        this.relatedReports$ = this.genomicVariantsService.getGenomicVariants(this.caseId).pipe(map( (response) => {
+        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId}).pipe(map((response) => response.items))
+        this.relatedPrimaryEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId, relationship: 'primary'}).pipe(map((response) => response.items))
+        this.relatedReports$ = this.genomicVariantsService.getGenomicVariants({caseId:this.caseId}).pipe(map( (response) => {
             return Array.from(new Set(response.items.map((variant: GenomicVariantSchema) => {
                 const entry = `${variant.genePanel || 'Unknown test'} (${variant.date})`;
                 return {name: entry, value: entry}
             })))
         }));
         this.relatedEvidence$ = forkJoin(
-            this.genomicVariantsService.getGenomicVariants(this.caseId).pipe(map((response) => response.items)),
-            this.genomicSignaturesService.getGenomicSignatures(this.caseId).pipe(map((response) => response.items)),
-            this.tumorMarkersService.getTumorMarkers(this.caseId).pipe(map((response) => response.items)),
+            this.genomicVariantsService.getGenomicVariants({caseId:this.caseId}).pipe(map((response) => response.items)),
+            this.genomicSignaturesService.getGenomicSignatures({caseId:this.caseId}).pipe(map((response) => response.items)),
+            this.tumorMarkersService.getTumorMarkers({caseId:this.caseId}).pipe(map((response) => response.items)),
         ).pipe(
             map(([genomicVariants, genomicSignatures, tumorMarkers]) => {
                 return [...genomicVariants, ...genomicSignatures, ...tumorMarkers];

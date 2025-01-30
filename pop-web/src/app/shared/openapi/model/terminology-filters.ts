@@ -9,7 +9,8 @@
  */
 
 
-export interface ModifiedResourceSchema { 
-    id: string;
+export interface TerminologyFilters { 
+    query?: string;
+    codes?: Array<string>;
 }
 

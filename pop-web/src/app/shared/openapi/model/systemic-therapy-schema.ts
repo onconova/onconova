@@ -11,6 +11,7 @@ import { SystemicTherapyIntentChoices } from './systemic-therapy-intent-choices'
 import { PeriodSchema } from './period-schema';
 import { SystemicTherapyMedicationSchema } from './systemic-therapy-medication-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface SystemicTherapySchema { 
@@ -26,11 +27,11 @@ export interface SystemicTherapySchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

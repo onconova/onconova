@@ -50,8 +50,8 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
     private readonly vitalsService: VitalsService = inject(VitalsService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.vitalsService.createVitals.bind(this.vitalsService);
-    public readonly updateService = this.vitalsService.updateVitalsById.bind(this.vitalsService);
+    public readonly createService = (payload: VitalsCreateSchema) => this.vitalsService.createVitals({vitalsCreateSchema: payload});
+    public readonly updateService = (id: string, payload: VitalsCreateSchema) => this.vitalsService.updateVitalsById({vitalsId: id, vitalsCreateSchema: payload});
 
     public readonly title: string = 'Vitals';
     public readonly subtitle: string = 'Add new vitals';

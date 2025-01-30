@@ -60,8 +60,8 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     public readonly formBuilder = inject(FormBuilder);
 
-    public readonly createService = this.comorbiditiesASsessmentService.createComorbiditiesAssessment.bind(this.comorbiditiesASsessmentService);
-    public readonly updateService = this.comorbiditiesASsessmentService.updateComorbiditiesAssessment.bind(this.comorbiditiesASsessmentService);
+    public readonly createService = (payload: ComorbiditiesAssessmentCreateSchema) => this.comorbiditiesASsessmentService.createComorbiditiesAssessment({comorbiditiesAssessmentCreateSchema: payload});
+    public readonly updateService = (id: string, payload: ComorbiditiesAssessmentCreateSchema) => this.comorbiditiesASsessmentService.updateComorbiditiesAssessment({comorbiditiesAssessmentId: id, comorbiditiesAssessmentCreateSchema: payload});
 
     public readonly title: string = 'Comorbidities Assessment';
     public readonly subtitle: string = 'Add new comorbidities assessment';
@@ -106,7 +106,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
   
   getComorbiditiesPanel(panel: ComorbiditiesAssessmentPanelChoices | null): void {
     if (panel) {
-        this.comorbiditiesASsessmentService.getComorbiditiesPanelsByName(panel)
+        this.comorbiditiesASsessmentService.getComorbiditiesPanelsByName({panel: panel})
         .pipe(takeUntilDestroyed(this.destroyRef))   
         .subscribe({
             next: (response) => {
@@ -149,7 +149,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
     const panelData = this.comorbiditiesPanelToPayload()
     return {
       caseId: this.caseId,
-      indexConditionId: data.indexCondition,
+      indexconditionId: data.indexCondition,
       date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
       panel: data.panel,
       presentConditions: panelData ? panelData.present : data.presentConditions,
@@ -158,7 +158,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
   }
 
   private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, ['primary'])
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId, relationship: 'primary'})
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(
       (response) => {

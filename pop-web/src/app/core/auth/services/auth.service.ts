@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService as APIAuthService } from 'src/app/shared/openapi';
 import { Observable } from 'rxjs'
 import { tap, firstValueFrom } from 'rxjs';
-import { UserSchema, UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from 'src/app/shared/openapi/';
+import { GetTokenPairRequestParams, UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from 'src/app/shared/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AuthService {
         username: username,
         password: password
     }
-    return this.apiAuth.getSlidingToken(userCredentials)
+    return this.apiAuth.getTokenPair({userCredentialsSchema: userCredentials})
       .pipe(tap((response: TokenPairSchema) => {
         this.setAccessToken(response.access);
         this.setRefreshToken(response.refresh);
@@ -65,11 +65,10 @@ export class AuthService {
       const slidingToken: TokenRefreshSchema = {
         refresh: refreshToken,
       }
-      const freshTokenPair: RefreshedTokenPairSchema = await firstValueFrom(this.apiAuth.refereshSlidingToken(slidingToken))
+      const freshTokenPair: RefreshedTokenPairSchema = await firstValueFrom(this.apiAuth.refreshTokenPair({tokenRefreshSchema: slidingToken}))
       if (freshTokenPair.access) {
         this.setAccessToken(freshTokenPair.access);
         this.setRefreshToken(freshTokenPair.refresh);
-        console.log('REFRESHED')
       }
     } 
   }

@@ -11,8 +11,8 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { PaginatedSystemicTherapySchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedSystemicTherapySchema } from '../model/models';
 import { SystemicTherapyCreateSchema } from '../model/models';
 import { SystemicTherapyMedicationCreateSchema } from '../model/models';
 import { SystemicTherapyMedicationSchema } from '../model/models';
@@ -22,6 +22,346 @@ import { SystemicTherapySchema } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
+export interface CreateSystemicTherapyRequestParams {
+    systemicTherapyCreateSchema: SystemicTherapyCreateSchema;
+}
+
+export interface CreateSystemicTherapyMedicationRequestParams {
+    systemicTherapyId: string;
+    systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema;
+}
+
+export interface DeleteSystemicTherapyByIdRequestParams {
+    systemicTherapyId: string;
+}
+
+export interface DeleteSystemicTherapyMedicationRequestParams {
+    systemicTherapyId: string;
+    medicationId: string;
+}
+
+export interface GetSystemicTherapiesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    periodOverlaps?: Array<any>;
+    periodNotOverlaps?: Array<any>;
+    periodContains?: Array<any>;
+    periodNotContains?: Array<any>;
+    periodContainedBy?: Array<any>;
+    periodNotContainedBy?: Array<any>;
+    cyclesLessThan?: number;
+    cyclesLessThanOrEqual?: number;
+    cyclesGreaterThan?: number;
+    cyclesGreaterThanOrEqual?: number;
+    cyclesEqual?: number;
+    cyclesNotEqual?: number;
+    cyclesBetween?: Array<any>;
+    cyclesNotBetween?: Array<any>;
+    intent?: string;
+    intentNot?: string;
+    intentAnyOf?: Array<'curative' | 'palliative'>;
+    roleNotExists?: boolean;
+    roleExists?: boolean;
+    role?: string;
+    roleNot?: string;
+    roleAnyOf?: Array<string>;
+    roleNotAnyOf?: Array<string>;
+    roleDescendantsOf?: string;
+    terminationReasonNotExists?: boolean;
+    terminationReasonExists?: boolean;
+    terminationReason?: string;
+    terminationReasonNot?: string;
+    terminationReasonAnyOf?: Array<string>;
+    terminationReasonNotAnyOf?: Array<string>;
+    terminationReasonDescendantsOf?: string;
+    targetedEntitiesIds?: string;
+    targetedEntitiesIdsNot?: string;
+    targetedEntitiesIdsContains?: string;
+    targetedEntitiesIdsNotContains?: string;
+    targetedEntitiesIdsBeginsWith?: string;
+    targetedEntitiesIdsNotBeginsWith?: string;
+    targetedEntitiesIdsEndsWith?: string;
+    targetedEntitiesIdsNotEndsWith?: string;
+    medicationsId?: string;
+    medicationsIdNot?: string;
+    medicationsIdContains?: string;
+    medicationsIdNotContains?: string;
+    medicationsIdBeginsWith?: string;
+    medicationsIdNotBeginsWith?: string;
+    medicationsIdEndsWith?: string;
+    medicationsIdNotEndsWith?: string;
+    medicationsCreatedAtBefore?: string;
+    medicationsCreatedAtAfter?: string;
+    medicationsCreatedAtOnOrBefore?: string;
+    medicationsCreatedAtOnOrAfter?: string;
+    medicationsCreatedAtOn?: string;
+    medicationsCreatedAtNotOn?: string;
+    medicationsCreatedAtBetween?: Array<any>;
+    medicationsCreatedAtNotBetween?: Array<any>;
+    medicationsUpdatedAtBefore?: string;
+    medicationsUpdatedAtAfter?: string;
+    medicationsUpdatedAtOnOrBefore?: string;
+    medicationsUpdatedAtOnOrAfter?: string;
+    medicationsUpdatedAtOn?: string;
+    medicationsUpdatedAtNotOn?: string;
+    medicationsUpdatedAtBetween?: Array<any>;
+    medicationsUpdatedAtNotBetween?: Array<any>;
+    medicationsCreatedByNotExists?: boolean;
+    medicationsCreatedByExists?: boolean;
+    medicationsUpdatedBysIdLessThan?: number;
+    medicationsUpdatedBysIdLessThanOrEqual?: number;
+    medicationsUpdatedBysIdGreaterThan?: number;
+    medicationsUpdatedBysIdGreaterThanOrEqual?: number;
+    medicationsUpdatedBysIdEqual?: number;
+    medicationsUpdatedBysIdNotEqual?: number;
+    medicationsUpdatedBysIdBetween?: Array<any>;
+    medicationsUpdatedBysIdNotBetween?: Array<any>;
+    medicationsUpdatedBysUsername?: string;
+    medicationsUpdatedBysUsernameNot?: string;
+    medicationsUpdatedBysUsernameContains?: string;
+    medicationsUpdatedBysUsernameNotContains?: string;
+    medicationsUpdatedBysUsernameBeginsWith?: string;
+    medicationsUpdatedBysUsernameNotBeginsWith?: string;
+    medicationsUpdatedBysUsernameEndsWith?: string;
+    medicationsUpdatedBysUsernameNotEndsWith?: string;
+    medicationsUpdatedBysEmail?: string;
+    medicationsUpdatedBysEmailNot?: string;
+    medicationsUpdatedBysEmailContains?: string;
+    medicationsUpdatedBysEmailNotContains?: string;
+    medicationsUpdatedBysEmailBeginsWith?: string;
+    medicationsUpdatedBysEmailNotBeginsWith?: string;
+    medicationsUpdatedBysEmailEndsWith?: string;
+    medicationsUpdatedBysEmailNotEndsWith?: string;
+    medicationsUpdatedBysFirstNameNotExists?: boolean;
+    medicationsUpdatedBysFirstNameExists?: boolean;
+    medicationsUpdatedBysFirstName?: string;
+    medicationsUpdatedBysFirstNameNot?: string;
+    medicationsUpdatedBysFirstNameContains?: string;
+    medicationsUpdatedBysFirstNameNotContains?: string;
+    medicationsUpdatedBysFirstNameBeginsWith?: string;
+    medicationsUpdatedBysFirstNameNotBeginsWith?: string;
+    medicationsUpdatedBysFirstNameEndsWith?: string;
+    medicationsUpdatedBysFirstNameNotEndsWith?: string;
+    medicationsUpdatedBysLastNameNotExists?: boolean;
+    medicationsUpdatedBysLastNameExists?: boolean;
+    medicationsUpdatedBysLastName?: string;
+    medicationsUpdatedBysLastNameNot?: string;
+    medicationsUpdatedBysLastNameContains?: string;
+    medicationsUpdatedBysLastNameNotContains?: string;
+    medicationsUpdatedBysLastNameBeginsWith?: string;
+    medicationsUpdatedBysLastNameNotBeginsWith?: string;
+    medicationsUpdatedBysLastNameEndsWith?: string;
+    medicationsUpdatedBysLastNameNotEndsWith?: string;
+    medicationsDescription?: string;
+    medicationsDescriptionNot?: string;
+    medicationsDescriptionContains?: string;
+    medicationsDescriptionNotContains?: string;
+    medicationsDescriptionBeginsWith?: string;
+    medicationsDescriptionNotBeginsWith?: string;
+    medicationsDescriptionEndsWith?: string;
+    medicationsDescriptionNotEndsWith?: string;
+    medicationsDrug?: string;
+    medicationsDrugNot?: string;
+    medicationsDrugAnyOf?: Array<string>;
+    medicationsDrugNotAnyOf?: Array<string>;
+    medicationsDrugDescendantsOf?: string;
+    medicationsRouteNotExists?: boolean;
+    medicationsRouteExists?: boolean;
+    medicationsRoute?: string;
+    medicationsRouteNot?: string;
+    medicationsRouteAnyOf?: Array<string>;
+    medicationsRouteNotAnyOf?: Array<string>;
+    medicationsRouteDescendantsOf?: string;
+    medicationsUsedOfflabelNotExists?: boolean;
+    medicationsUsedOfflabelExists?: boolean;
+    medicationsUsedOfflabel?: boolean;
+    medicationsWithinSocNotExists?: boolean;
+    medicationsWithinSocExists?: boolean;
+    medicationsWithinSoc?: boolean;
+    medicationsDosageMassConcentrationNotExists?: boolean;
+    medicationsDosageMassConcentrationExists?: boolean;
+    medicationsDosageMassConcentrationLessThan?: number;
+    medicationsDosageMassConcentrationLessThanOrEqual?: number;
+    medicationsDosageMassConcentrationGreaterThan?: number;
+    medicationsDosageMassConcentrationGreaterThanOrEqual?: number;
+    medicationsDosageMassConcentrationEqual?: number;
+    medicationsDosageMassConcentrationNotEqual?: number;
+    medicationsDosageMassConcentrationBetween?: Array<any>;
+    medicationsDosageMassConcentrationNotBetween?: Array<any>;
+    medicationsDosageMassNotExists?: boolean;
+    medicationsDosageMassExists?: boolean;
+    medicationsDosageMassLessThan?: number;
+    medicationsDosageMassLessThanOrEqual?: number;
+    medicationsDosageMassGreaterThan?: number;
+    medicationsDosageMassGreaterThanOrEqual?: number;
+    medicationsDosageMassEqual?: number;
+    medicationsDosageMassNotEqual?: number;
+    medicationsDosageMassBetween?: Array<any>;
+    medicationsDosageMassNotBetween?: Array<any>;
+    medicationsDosageVolumeNotExists?: boolean;
+    medicationsDosageVolumeExists?: boolean;
+    medicationsDosageVolumeLessThan?: number;
+    medicationsDosageVolumeLessThanOrEqual?: number;
+    medicationsDosageVolumeGreaterThan?: number;
+    medicationsDosageVolumeGreaterThanOrEqual?: number;
+    medicationsDosageVolumeEqual?: number;
+    medicationsDosageVolumeNotEqual?: number;
+    medicationsDosageVolumeBetween?: Array<any>;
+    medicationsDosageVolumeNotBetween?: Array<any>;
+    medicationsDosageMassSurfaceNotExists?: boolean;
+    medicationsDosageMassSurfaceExists?: boolean;
+    medicationsDosageMassSurfaceLessThan?: number;
+    medicationsDosageMassSurfaceLessThanOrEqual?: number;
+    medicationsDosageMassSurfaceGreaterThan?: number;
+    medicationsDosageMassSurfaceGreaterThanOrEqual?: number;
+    medicationsDosageMassSurfaceEqual?: number;
+    medicationsDosageMassSurfaceNotEqual?: number;
+    medicationsDosageMassSurfaceBetween?: Array<any>;
+    medicationsDosageMassSurfaceNotBetween?: Array<any>;
+    medicationsDosageRateMassConcentrationNotExists?: boolean;
+    medicationsDosageRateMassConcentrationExists?: boolean;
+    medicationsDosageRateMassConcentrationLessThan?: number;
+    medicationsDosageRateMassConcentrationLessThanOrEqual?: number;
+    medicationsDosageRateMassConcentrationGreaterThan?: number;
+    medicationsDosageRateMassConcentrationGreaterThanOrEqual?: number;
+    medicationsDosageRateMassConcentrationEqual?: number;
+    medicationsDosageRateMassConcentrationNotEqual?: number;
+    medicationsDosageRateMassConcentrationBetween?: Array<any>;
+    medicationsDosageRateMassConcentrationNotBetween?: Array<any>;
+    medicationsDosageRateMassNotExists?: boolean;
+    medicationsDosageRateMassExists?: boolean;
+    medicationsDosageRateMassLessThan?: number;
+    medicationsDosageRateMassLessThanOrEqual?: number;
+    medicationsDosageRateMassGreaterThan?: number;
+    medicationsDosageRateMassGreaterThanOrEqual?: number;
+    medicationsDosageRateMassEqual?: number;
+    medicationsDosageRateMassNotEqual?: number;
+    medicationsDosageRateMassBetween?: Array<any>;
+    medicationsDosageRateMassNotBetween?: Array<any>;
+    medicationsDosageRateVolumeNotExists?: boolean;
+    medicationsDosageRateVolumeExists?: boolean;
+    medicationsDosageRateVolumeLessThan?: number;
+    medicationsDosageRateVolumeLessThanOrEqual?: number;
+    medicationsDosageRateVolumeGreaterThan?: number;
+    medicationsDosageRateVolumeGreaterThanOrEqual?: number;
+    medicationsDosageRateVolumeEqual?: number;
+    medicationsDosageRateVolumeNotEqual?: number;
+    medicationsDosageRateVolumeBetween?: Array<any>;
+    medicationsDosageRateVolumeNotBetween?: Array<any>;
+    medicationsDosageRateMassSurfaceNotExists?: boolean;
+    medicationsDosageRateMassSurfaceExists?: boolean;
+    medicationsDosageRateMassSurfaceLessThan?: number;
+    medicationsDosageRateMassSurfaceLessThanOrEqual?: number;
+    medicationsDosageRateMassSurfaceGreaterThan?: number;
+    medicationsDosageRateMassSurfaceGreaterThanOrEqual?: number;
+    medicationsDosageRateMassSurfaceEqual?: number;
+    medicationsDosageRateMassSurfaceNotEqual?: number;
+    medicationsDosageRateMassSurfaceBetween?: Array<any>;
+    medicationsDosageRateMassSurfaceNotBetween?: Array<any>;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetSystemicTherapyByIdRequestParams {
+    systemicTherapyId: string;
+}
+
+export interface GetSystemicTherapyMedicationByIdRequestParams {
+    systemicTherapyId: string;
+    medicationId: string;
+}
+
+export interface GetSystemicTherapyMedicationsRequestParams {
+    systemicTherapyId: string;
+}
+
+export interface UpdateSystemicTherapyRequestParams {
+    systemicTherapyId: string;
+    systemicTherapyCreateSchema: SystemicTherapyCreateSchema;
+}
+
+export interface UpdateSystemicTherapyMedicationRequestParams {
+    systemicTherapyId: string;
+    medicationId: string;
+    systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema;
+}
+
 
 export interface SystemicTherapiesServiceInterface {
     defaultHeaders: HttpHeaders;
@@ -30,79 +370,71 @@ export interface SystemicTherapiesServiceInterface {
     /**
      * Create Systemic Therapy
      * 
-     * @param systemicTherapyCreateSchema 
+* @param requestParameters
      */
-    createSystemicTherapy(systemicTherapyCreateSchema: SystemicTherapyCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createSystemicTherapy(requestParameters: CreateSystemicTherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Systemic Therapy Medication
      * 
-     * @param systemicTherapyId 
-     * @param systemicTherapyMedicationCreateSchema 
+* @param requestParameters
      */
-    createSystemicTherapyMedication(systemicTherapyId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createSystemicTherapyMedication(requestParameters: CreateSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Systemic Therapy
      * 
-     * @param systemicTherapyId 
+* @param requestParameters
      */
-    deleteSystemicTherapyById(systemicTherapyId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteSystemicTherapyById(requestParameters: DeleteSystemicTherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Delete Systemic Therapy Medication
      * 
-     * @param systemicTherapyId 
-     * @param medicationId 
+* @param requestParameters
      */
-    deleteSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteSystemicTherapyMedication(requestParameters: DeleteSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Systemic Therapies Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getSystemicTherapies(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedSystemicTherapySchema>;
+    getSystemicTherapies(requestParameters: GetSystemicTherapiesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedSystemicTherapySchema>;
 
     /**
      * Get Systemic Therapy By Id
      * 
-     * @param systemicTherapyId 
+* @param requestParameters
      */
-    getSystemicTherapyById(systemicTherapyId: string, extraHttpRequestParams?: any): Observable<SystemicTherapySchema>;
+    getSystemicTherapyById(requestParameters: GetSystemicTherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapySchema>;
 
     /**
      * Get Systemic Therapy Medication By Id
      * 
-     * @param systemicTherapyId 
-     * @param medicationId 
+* @param requestParameters
      */
-    getSystemicTherapyMedicationById(systemicTherapyId: string, medicationId: string, extraHttpRequestParams?: any): Observable<SystemicTherapyMedicationSchema>;
+    getSystemicTherapyMedicationById(requestParameters: GetSystemicTherapyMedicationByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapyMedicationSchema>;
 
     /**
      * Get Systemic Therapy Medications Matching The Query
      * 
-     * @param systemicTherapyId 
+* @param requestParameters
      */
-    getSystemicTherapyMedications(systemicTherapyId: string, extraHttpRequestParams?: any): Observable<Array<SystemicTherapyMedicationSchema>>;
+    getSystemicTherapyMedications(requestParameters: GetSystemicTherapyMedicationsRequestParams, extraHttpRequestParams?: any): Observable<Array<SystemicTherapyMedicationSchema>>;
 
     /**
      * Update Systemic Therapy
      * 
-     * @param systemicTherapyId 
-     * @param systemicTherapyCreateSchema 
+* @param requestParameters
      */
-    updateSystemicTherapy(systemicTherapyId: string, systemicTherapyCreateSchema: SystemicTherapyCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateSystemicTherapy(requestParameters: UpdateSystemicTherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Systemic Therapy Medication
      * 
-     * @param systemicTherapyId 
-     * @param medicationId 
-     * @param systemicTherapyMedicationCreateSchema 
+* @param requestParameters
      */
-    updateSystemicTherapyMedication(systemicTherapyId: string, medicationId: string, systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateSystemicTherapyMedication(requestParameters: UpdateSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

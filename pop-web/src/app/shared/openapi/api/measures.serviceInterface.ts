@@ -18,6 +18,19 @@ import { MeasureSchema } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
+export interface ConvertUnitsRequestParams {
+    measureName: string;
+    measureConversionSchema: MeasureConversionSchema;
+}
+
+export interface GetMeasureDefaultUnitsRequestParams {
+    measureName: string;
+}
+
+export interface GetMeasureUnitsRequestParams {
+    measureName: string;
+}
+
 
 export interface MeasuresServiceInterface {
     defaultHeaders: HttpHeaders;
@@ -26,23 +39,22 @@ export interface MeasuresServiceInterface {
     /**
      * Convert Units
      * 
-     * @param measureName 
-     * @param measureConversionSchema 
+* @param requestParameters
      */
-    convertUnits(measureName: string, measureConversionSchema: MeasureConversionSchema, extraHttpRequestParams?: any): Observable<MeasureSchema>;
+    convertUnits(requestParameters: ConvertUnitsRequestParams, extraHttpRequestParams?: any): Observable<MeasureSchema>;
 
     /**
      * Get Measure Default Units
      * 
-     * @param measureName 
+* @param requestParameters
      */
-    getMeasureDefaultUnits(measureName: string, extraHttpRequestParams?: any): Observable<string>;
+    getMeasureDefaultUnits(requestParameters: GetMeasureDefaultUnitsRequestParams, extraHttpRequestParams?: any): Observable<string>;
 
     /**
      * Get Measure Units
      * 
-     * @param measureName 
+* @param requestParameters
      */
-    getMeasureUnits(measureName: string, extraHttpRequestParams?: any): Observable<Array<string>>;
+    getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, extraHttpRequestParams?: any): Observable<Array<string>>;
 
 }

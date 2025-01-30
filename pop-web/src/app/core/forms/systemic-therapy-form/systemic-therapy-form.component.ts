@@ -63,16 +63,16 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = this.systemicTherapiesService.createSystemicTherapy.bind(this.systemicTherapiesService)
-    public readonly updateService = this.systemicTherapiesService.updateSystemicTherapy.bind(this.systemicTherapiesService)
+    public readonly createService = (payload: SystemicTherapyCreateSchema) => this.systemicTherapiesService.createSystemicTherapy({systemicTherapyCreateSchema: payload});
+    public readonly updateService = (id: string, payload: SystemicTherapyCreateSchema) => this.systemicTherapiesService.updateSystemicTherapy({systemicTherapyId: id, systemicTherapyCreateSchema: payload})
     override readonly subformsServices = [{
         payloads: this.constructMedicationPayloads.bind(this),
         deletedEntries: this.getDeletedMedications.bind(this),
-        delete: this.systemicTherapiesService.deleteSystemicTherapyMedication.bind(this.systemicTherapiesService),
-        create: this.systemicTherapiesService.createSystemicTherapyMedication.bind(this.systemicTherapiesService),
-        update: this.systemicTherapiesService.updateSystemicTherapyMedication.bind(this.systemicTherapiesService),
-}]
-    
+        delete: (parentId: string, id: string) => this.systemicTherapiesService.deleteSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id}),
+        create: (parentId: string, payload: SystemicTherapyMedicationCreateSchema) => this.systemicTherapiesService.createSystemicTherapyMedication({systemicTherapyId: parentId, systemicTherapyMedicationCreateSchema: payload}),
+        update: (parentId: string, id: string, payload: SystemicTherapyMedicationCreateSchema) => this.systemicTherapiesService.updateSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id, systemicTherapyMedicationCreateSchema: payload}),
+    }]
+
     public readonly title: string = 'Systemic Therapy'
     public readonly subtitle: string = 'Add new systemic therapy'
     public readonly icon = Tablets;
@@ -218,7 +218,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     }
 
     private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId)
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
             (response) => {

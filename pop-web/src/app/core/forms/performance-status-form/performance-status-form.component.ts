@@ -53,8 +53,8 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
     private readonly terminologyService: TerminologyService = inject(TerminologyService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.performanceStatusService.createPerformanceStatus.bind(this.performanceStatusService);
-    public readonly updateService = this.performanceStatusService.updatePerformanceStatusById.bind(this.performanceStatusService);
+    public readonly createService = (payload: PerformanceStatusCreate) => this.performanceStatusService.createPerformanceStatus({performanceStatusCreate: payload});
+    public readonly updateService = (id: string, payload: PerformanceStatusCreate) => this.performanceStatusService.updatePerformanceStatusById({performanceStatusId: id, performanceStatusCreate: payload});
 
     public readonly title: string = 'Performance Status';
     public readonly subtitle: string = 'Add new performance status';
@@ -92,7 +92,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
 
     ngOnInit() {
         // Add the interpretration
-        this.terminologyService.getTerminologyConcepts('ECOGPerformanceStatusInterpretation').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        this.terminologyService.getTerminologyConcepts({terminologyName: 'ECOGPerformanceStatusInterpretation'}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: data => {
                 data.items.forEach(
                     (concept: CodedConceptSchema, idx: number) => {
@@ -101,7 +101,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
                 )
             }
         });
-        this.terminologyService.getTerminologyConcepts('KarnofskyPerformanceStatusInterpretation').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+        this.terminologyService.getTerminologyConcepts({terminologyName: 'KarnofskyPerformanceStatusInterpretation'}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: data => {
                 data.items.forEach(
                     (concept: CodedConceptSchema, idx: number) => {

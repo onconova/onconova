@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface LymphomaStaging { 
@@ -28,7 +29,7 @@ export interface LymphomaStaging {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */
@@ -40,7 +41,7 @@ export interface LymphomaStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */

@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface TreatmentResponseSchema { 
@@ -23,11 +24,11 @@ export interface TreatmentResponseSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

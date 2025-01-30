@@ -57,8 +57,8 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     private readonly genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.genomicVariantsService.createGenomicVariant.bind(this.genomicVariantsService);
-    public readonly updateService = this.genomicVariantsService.updateGenomicVariant.bind(this.genomicVariantsService);
+    public readonly createService = (payload: GenomicVariantCreateSchema) => this.genomicVariantsService.createGenomicVariant({genomicVariantCreateSchema: payload});
+    public readonly updateService = (id: string, payload: GenomicVariantCreateSchema) => this.genomicVariantsService.updateGenomicVariant({genomicVariantId: id, genomicVariantCreateSchema: payload});
 
     public readonly title: string = 'Genomic variant';
     public readonly subtitle: string = 'Add new genomic variant';

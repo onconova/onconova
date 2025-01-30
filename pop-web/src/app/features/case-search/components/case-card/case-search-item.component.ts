@@ -96,23 +96,11 @@ export class CaseBrowserCardComponent {
     ];
 
     ngOnInit() {
-        if (this.case.createdById) {
-            this.createdByUsername$ = this.authService
-                    .getUserById(this.case.createdById)
-                    .pipe(map(user => user.username));
-        }
-        if (this.case.updatedByIds) {
-            this.updatedByUsernames$ = this.case.updatedByIds.map(
-                id => this.authService
-                        .getUserById(id)
-                        .pipe(map(user => user.username))
-            )
-        }
-        this.primaryEntity$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.case.id, ['primary']).pipe(map(data => {
+        this.primaryEntity$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.case.id, relationship:'primary'}).pipe(map(data => {
             this.loadingDiagnosis = false;
             return data.items[0]
         }))
-        this.latestStaging$ = this.stagingsService.getStagings(this.case.id).pipe(map(data => {
+        this.latestStaging$ = this.stagingsService.getStagings({caseId: this.case.id}).pipe(map(data => {
             this.loadingStaging = false;
             return data.items[0]
         }))

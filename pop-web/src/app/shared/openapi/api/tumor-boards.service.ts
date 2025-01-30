@@ -19,6 +19,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { AnyTumorBoard } from '../model/any-tumor-board';
 // @ts-ignore
+import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+// @ts-ignore
 import { MolecularTherapeuticRecommendationCreateSchema } from '../model/molecular-therapeutic-recommendation-create-schema';
 // @ts-ignore
 import { MolecularTherapeuticRecommendationSchema } from '../model/molecular-therapeutic-recommendation-schema';
@@ -26,14 +28,22 @@ import { MolecularTherapeuticRecommendationSchema } from '../model/molecular-the
 import { PaginatedAnyTumorBoard } from '../model/paginated-any-tumor-board';
 // @ts-ignore
 import { Payload1 } from '../model/payload1';
-// @ts-ignore
-import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    TumorBoardsServiceInterface
+    TumorBoardsServiceInterface,
+    CreateMolecularTherapeuticRecommendationRequestParams,
+    CreateTumorBoardRequestParams,
+    DeleteMolecularTherapeuticRecommendationRequestParams,
+    DeleteTumorBoardByIdRequestParams,
+    GetMOlecularTherapeuticRecommendationByIdRequestParams,
+    GetMolecularTherapeuticRecommendationsRequestParams,
+    GetTumorBoardByIdRequestParams,
+    GetTumorBoardsRequestParams,
+    UpdateMolecularTherapeuticRecommendationRequestParams,
+    UpdateTumorBoardByIdRequestParams
 } from './tumor-boards.serviceInterface';
 
 
@@ -43,7 +53,7 @@ import {
 })
 export class TumorBoardsService implements TumorBoardsServiceInterface {
 
-    protected basePath = 'http://localhost';
+    protected basePath = 'https://localhost:4443';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -105,18 +115,19 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Create Molecular Tumor Board Therapeutic Recommendation
-     * @param tumorBoardId 
-     * @param molecularTherapeuticRecommendationCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling createMolecularTherapeuticRecommendation.');
         }
+        const molecularTherapeuticRecommendationCreateSchema = requestParameters?.molecularTherapeuticRecommendationCreateSchema;
         if (molecularTherapeuticRecommendationCreateSchema === null || molecularTherapeuticRecommendationCreateSchema === undefined) {
             throw new Error('Required parameter molecularTherapeuticRecommendationCreateSchema was null or undefined when calling createMolecularTherapeuticRecommendation.');
         }
@@ -173,7 +184,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
             }
         }
 
-        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/`;
+        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations`;
         return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -190,14 +201,15 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Create Tumor Board
-     * @param payload1 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTumorBoard(payload1: Payload1, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createTumorBoard(payload1: Payload1, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createTumorBoard(payload1: Payload1, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public createTumorBoard(payload1: Payload1, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createTumorBoard(requestParameters: CreateTumorBoardRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createTumorBoard(requestParameters: CreateTumorBoardRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createTumorBoard(requestParameters: CreateTumorBoardRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createTumorBoard(requestParameters: CreateTumorBoardRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const payload1 = requestParameters?.payload1;
         if (payload1 === null || payload1 === undefined) {
             throw new Error('Required parameter payload1 was null or undefined when calling createTumorBoard.');
         }
@@ -254,7 +266,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
             }
         }
 
-        let localVarPath = `/api/tumor-boards/`;
+        let localVarPath = `/api/tumor-boards`;
         return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -271,18 +283,19 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Delete Molecular Tumor Board Therapeutic Recommendation
-     * @param tumorBoardId 
-     * @param recommendationId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteMolecularTherapeuticRecommendation(requestParameters: DeleteMolecularTherapeuticRecommendationRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteMolecularTherapeuticRecommendation(requestParameters: DeleteMolecularTherapeuticRecommendationRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteMolecularTherapeuticRecommendation(requestParameters: DeleteMolecularTherapeuticRecommendationRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteMolecularTherapeuticRecommendation(requestParameters: DeleteMolecularTherapeuticRecommendationRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling deleteMolecularTherapeuticRecommendation.');
         }
+        const recommendationId = requestParameters?.recommendationId;
         if (recommendationId === null || recommendationId === undefined) {
             throw new Error('Required parameter recommendationId was null or undefined when calling deleteMolecularTherapeuticRecommendation.');
         }
@@ -345,14 +358,15 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Delete Tumor Board
-     * @param tumorBoardId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteTumorBoardById(tumorBoardId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteTumorBoardById(tumorBoardId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteTumorBoardById(tumorBoardId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteTumorBoardById(tumorBoardId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteTumorBoardById(requestParameters: DeleteTumorBoardByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteTumorBoardById(requestParameters: DeleteTumorBoardByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteTumorBoardById(requestParameters: DeleteTumorBoardByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteTumorBoardById(requestParameters: DeleteTumorBoardByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling deleteTumorBoardById.');
         }
@@ -415,18 +429,19 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Get Molecular Tumor Board Therapeutic Recommendation By Id
-     * @param tumorBoardId 
-     * @param recommendationId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getMOlecularTherapeuticRecommendationById(tumorBoardId: string, recommendationId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MolecularTherapeuticRecommendationSchema>;
-    public getMOlecularTherapeuticRecommendationById(tumorBoardId: string, recommendationId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MolecularTherapeuticRecommendationSchema>>;
-    public getMOlecularTherapeuticRecommendationById(tumorBoardId: string, recommendationId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MolecularTherapeuticRecommendationSchema>>;
-    public getMOlecularTherapeuticRecommendationById(tumorBoardId: string, recommendationId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MolecularTherapeuticRecommendationSchema>;
+    public getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MolecularTherapeuticRecommendationSchema>>;
+    public getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MolecularTherapeuticRecommendationSchema>>;
+    public getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling getMOlecularTherapeuticRecommendationById.');
         }
+        const recommendationId = requestParameters?.recommendationId;
         if (recommendationId === null || recommendationId === undefined) {
             throw new Error('Required parameter recommendationId was null or undefined when calling getMOlecularTherapeuticRecommendationById.');
         }
@@ -490,14 +505,15 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Get Molecular Tumor Board Therapeutic Recommendations Matching The Query
-     * @param tumorBoardId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getMolecularTherapeuticRecommendations(tumorBoardId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MolecularTherapeuticRecommendationSchema>>;
-    public getMolecularTherapeuticRecommendations(tumorBoardId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MolecularTherapeuticRecommendationSchema>>>;
-    public getMolecularTherapeuticRecommendations(tumorBoardId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MolecularTherapeuticRecommendationSchema>>>;
-    public getMolecularTherapeuticRecommendations(tumorBoardId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<MolecularTherapeuticRecommendationSchema>>;
+    public getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<MolecularTherapeuticRecommendationSchema>>>;
+    public getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<MolecularTherapeuticRecommendationSchema>>>;
+    public getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling getMolecularTherapeuticRecommendations.');
         }
@@ -545,7 +561,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
             }
         }
 
-        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/`;
+        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations`;
         return this.httpClient.request<Array<MolecularTherapeuticRecommendationSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -561,14 +577,15 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Get Tumor Board By Id
-     * @param tumorBoardId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTumorBoardById(tumorBoardId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AnyTumorBoard>;
-    public getTumorBoardById(tumorBoardId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AnyTumorBoard>>;
-    public getTumorBoardById(tumorBoardId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AnyTumorBoard>>;
-    public getTumorBoardById(tumorBoardId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTumorBoardById(requestParameters: GetTumorBoardByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AnyTumorBoard>;
+    public getTumorBoardById(requestParameters: GetTumorBoardByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AnyTumorBoard>>;
+    public getTumorBoardById(requestParameters: GetTumorBoardByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AnyTumorBoard>>;
+    public getTumorBoardById(requestParameters: GetTumorBoardByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling getTumorBoardById.');
         }
@@ -632,28 +649,703 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Get All Tumor Boards Matching The Query
-     * @param caseId 
-     * @param stagingDomain 
-     * @param limit 
-     * @param offset 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTumorBoards(caseId?: string, stagingDomain?: Array<'unspecified' | 'molecular'>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedAnyTumorBoard>;
-    public getTumorBoards(caseId?: string, stagingDomain?: Array<'unspecified' | 'molecular'>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedAnyTumorBoard>>;
-    public getTumorBoards(caseId?: string, stagingDomain?: Array<'unspecified' | 'molecular'>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedAnyTumorBoard>>;
-    public getTumorBoards(caseId?: string, stagingDomain?: Array<'unspecified' | 'molecular'>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTumorBoards(requestParameters?: GetTumorBoardsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedAnyTumorBoard>;
+    public getTumorBoards(requestParameters?: GetTumorBoardsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedAnyTumorBoard>>;
+    public getTumorBoards(requestParameters?: GetTumorBoardsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedAnyTumorBoard>>;
+    public getTumorBoards(requestParameters?: GetTumorBoardsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        const idNot = requestParameters?.idNot;
+        const idContains = requestParameters?.idContains;
+        const idNotContains = requestParameters?.idNotContains;
+        const idBeginsWith = requestParameters?.idBeginsWith;
+        const idNotBeginsWith = requestParameters?.idNotBeginsWith;
+        const idEndsWith = requestParameters?.idEndsWith;
+        const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const createdAtBefore = requestParameters?.createdAtBefore;
+        const createdAtAfter = requestParameters?.createdAtAfter;
+        const createdAtOnOrBefore = requestParameters?.createdAtOnOrBefore;
+        const createdAtOnOrAfter = requestParameters?.createdAtOnOrAfter;
+        const createdAtOn = requestParameters?.createdAtOn;
+        const createdAtNotOn = requestParameters?.createdAtNotOn;
+        const createdAtBetween = requestParameters?.createdAtBetween;
+        const createdAtNotBetween = requestParameters?.createdAtNotBetween;
+        const updatedAtBefore = requestParameters?.updatedAtBefore;
+        const updatedAtAfter = requestParameters?.updatedAtAfter;
+        const updatedAtOnOrBefore = requestParameters?.updatedAtOnOrBefore;
+        const updatedAtOnOrAfter = requestParameters?.updatedAtOnOrAfter;
+        const updatedAtOn = requestParameters?.updatedAtOn;
+        const updatedAtNotOn = requestParameters?.updatedAtNotOn;
+        const updatedAtBetween = requestParameters?.updatedAtBetween;
+        const updatedAtNotBetween = requestParameters?.updatedAtNotBetween;
+        const createdByNotExists = requestParameters?.createdByNotExists;
+        const createdByExists = requestParameters?.createdByExists;
+        const updatedBysIdLessThan = requestParameters?.updatedBysIdLessThan;
+        const updatedBysIdLessThanOrEqual = requestParameters?.updatedBysIdLessThanOrEqual;
+        const updatedBysIdGreaterThan = requestParameters?.updatedBysIdGreaterThan;
+        const updatedBysIdGreaterThanOrEqual = requestParameters?.updatedBysIdGreaterThanOrEqual;
+        const updatedBysIdEqual = requestParameters?.updatedBysIdEqual;
+        const updatedBysIdNotEqual = requestParameters?.updatedBysIdNotEqual;
+        const updatedBysIdBetween = requestParameters?.updatedBysIdBetween;
+        const updatedBysIdNotBetween = requestParameters?.updatedBysIdNotBetween;
+        const updatedBysUsername = requestParameters?.updatedBysUsername;
+        const updatedBysUsernameNot = requestParameters?.updatedBysUsernameNot;
+        const updatedBysUsernameContains = requestParameters?.updatedBysUsernameContains;
+        const updatedBysUsernameNotContains = requestParameters?.updatedBysUsernameNotContains;
+        const updatedBysUsernameBeginsWith = requestParameters?.updatedBysUsernameBeginsWith;
+        const updatedBysUsernameNotBeginsWith = requestParameters?.updatedBysUsernameNotBeginsWith;
+        const updatedBysUsernameEndsWith = requestParameters?.updatedBysUsernameEndsWith;
+        const updatedBysUsernameNotEndsWith = requestParameters?.updatedBysUsernameNotEndsWith;
+        const updatedBysEmail = requestParameters?.updatedBysEmail;
+        const updatedBysEmailNot = requestParameters?.updatedBysEmailNot;
+        const updatedBysEmailContains = requestParameters?.updatedBysEmailContains;
+        const updatedBysEmailNotContains = requestParameters?.updatedBysEmailNotContains;
+        const updatedBysEmailBeginsWith = requestParameters?.updatedBysEmailBeginsWith;
+        const updatedBysEmailNotBeginsWith = requestParameters?.updatedBysEmailNotBeginsWith;
+        const updatedBysEmailEndsWith = requestParameters?.updatedBysEmailEndsWith;
+        const updatedBysEmailNotEndsWith = requestParameters?.updatedBysEmailNotEndsWith;
+        const updatedBysFirstNameNotExists = requestParameters?.updatedBysFirstNameNotExists;
+        const updatedBysFirstNameExists = requestParameters?.updatedBysFirstNameExists;
+        const updatedBysFirstName = requestParameters?.updatedBysFirstName;
+        const updatedBysFirstNameNot = requestParameters?.updatedBysFirstNameNot;
+        const updatedBysFirstNameContains = requestParameters?.updatedBysFirstNameContains;
+        const updatedBysFirstNameNotContains = requestParameters?.updatedBysFirstNameNotContains;
+        const updatedBysFirstNameBeginsWith = requestParameters?.updatedBysFirstNameBeginsWith;
+        const updatedBysFirstNameNotBeginsWith = requestParameters?.updatedBysFirstNameNotBeginsWith;
+        const updatedBysFirstNameEndsWith = requestParameters?.updatedBysFirstNameEndsWith;
+        const updatedBysFirstNameNotEndsWith = requestParameters?.updatedBysFirstNameNotEndsWith;
+        const updatedBysLastNameNotExists = requestParameters?.updatedBysLastNameNotExists;
+        const updatedBysLastNameExists = requestParameters?.updatedBysLastNameExists;
+        const updatedBysLastName = requestParameters?.updatedBysLastName;
+        const updatedBysLastNameNot = requestParameters?.updatedBysLastNameNot;
+        const updatedBysLastNameContains = requestParameters?.updatedBysLastNameContains;
+        const updatedBysLastNameNotContains = requestParameters?.updatedBysLastNameNotContains;
+        const updatedBysLastNameBeginsWith = requestParameters?.updatedBysLastNameBeginsWith;
+        const updatedBysLastNameNotBeginsWith = requestParameters?.updatedBysLastNameNotBeginsWith;
+        const updatedBysLastNameEndsWith = requestParameters?.updatedBysLastNameEndsWith;
+        const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
+        const caseId = requestParameters?.caseId;
+        const caseIdNot = requestParameters?.caseIdNot;
+        const caseIdContains = requestParameters?.caseIdContains;
+        const caseIdNotContains = requestParameters?.caseIdNotContains;
+        const caseIdBeginsWith = requestParameters?.caseIdBeginsWith;
+        const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
+        const caseIdEndsWith = requestParameters?.caseIdEndsWith;
+        const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const dateBefore = requestParameters?.dateBefore;
+        const dateAfter = requestParameters?.dateAfter;
+        const dateOnOrBefore = requestParameters?.dateOnOrBefore;
+        const dateOnOrAfter = requestParameters?.dateOnOrAfter;
+        const dateOn = requestParameters?.dateOn;
+        const dateNotOn = requestParameters?.dateNotOn;
+        const dateBetween = requestParameters?.dateBetween;
+        const dateNotBetween = requestParameters?.dateNotBetween;
+        const relatedEntitiesIds = requestParameters?.relatedEntitiesIds;
+        const relatedEntitiesIdsNot = requestParameters?.relatedEntitiesIdsNot;
+        const relatedEntitiesIdsContains = requestParameters?.relatedEntitiesIdsContains;
+        const relatedEntitiesIdsNotContains = requestParameters?.relatedEntitiesIdsNotContains;
+        const relatedEntitiesIdsBeginsWith = requestParameters?.relatedEntitiesIdsBeginsWith;
+        const relatedEntitiesIdsNotBeginsWith = requestParameters?.relatedEntitiesIdsNotBeginsWith;
+        const relatedEntitiesIdsEndsWith = requestParameters?.relatedEntitiesIdsEndsWith;
+        const relatedEntitiesIdsNotEndsWith = requestParameters?.relatedEntitiesIdsNotEndsWith;
+        const recommendationsCode = requestParameters?.recommendationsCode;
+        const recommendationsCodeNot = requestParameters?.recommendationsCodeNot;
+        const recommendationsCodeContains = requestParameters?.recommendationsCodeContains;
+        const recommendationsCodeNotContains = requestParameters?.recommendationsCodeNotContains;
+        const recommendationsCodeBeginsWith = requestParameters?.recommendationsCodeBeginsWith;
+        const recommendationsCodeNotBeginsWith = requestParameters?.recommendationsCodeNotBeginsWith;
+        const recommendationsCodeEndsWith = requestParameters?.recommendationsCodeEndsWith;
+        const recommendationsCodeNotEndsWith = requestParameters?.recommendationsCodeNotEndsWith;
+        const recommendationsSystem = requestParameters?.recommendationsSystem;
+        const recommendationsSystemNot = requestParameters?.recommendationsSystemNot;
+        const recommendationsSystemContains = requestParameters?.recommendationsSystemContains;
+        const recommendationsSystemNotContains = requestParameters?.recommendationsSystemNotContains;
+        const recommendationsSystemBeginsWith = requestParameters?.recommendationsSystemBeginsWith;
+        const recommendationsSystemNotBeginsWith = requestParameters?.recommendationsSystemNotBeginsWith;
+        const recommendationsSystemEndsWith = requestParameters?.recommendationsSystemEndsWith;
+        const recommendationsSystemNotEndsWith = requestParameters?.recommendationsSystemNotEndsWith;
+        const recommendationsDisplayNotExists = requestParameters?.recommendationsDisplayNotExists;
+        const recommendationsDisplayExists = requestParameters?.recommendationsDisplayExists;
+        const recommendationsDisplay = requestParameters?.recommendationsDisplay;
+        const recommendationsDisplayNot = requestParameters?.recommendationsDisplayNot;
+        const recommendationsDisplayContains = requestParameters?.recommendationsDisplayContains;
+        const recommendationsDisplayNotContains = requestParameters?.recommendationsDisplayNotContains;
+        const recommendationsDisplayBeginsWith = requestParameters?.recommendationsDisplayBeginsWith;
+        const recommendationsDisplayNotBeginsWith = requestParameters?.recommendationsDisplayNotBeginsWith;
+        const recommendationsDisplayEndsWith = requestParameters?.recommendationsDisplayEndsWith;
+        const recommendationsDisplayNotEndsWith = requestParameters?.recommendationsDisplayNotEndsWith;
+        const recommendationsVersionNotExists = requestParameters?.recommendationsVersionNotExists;
+        const recommendationsVersionExists = requestParameters?.recommendationsVersionExists;
+        const recommendationsVersion = requestParameters?.recommendationsVersion;
+        const recommendationsVersionNot = requestParameters?.recommendationsVersionNot;
+        const recommendationsVersionContains = requestParameters?.recommendationsVersionContains;
+        const recommendationsVersionNotContains = requestParameters?.recommendationsVersionNotContains;
+        const recommendationsVersionBeginsWith = requestParameters?.recommendationsVersionBeginsWith;
+        const recommendationsVersionNotBeginsWith = requestParameters?.recommendationsVersionNotBeginsWith;
+        const recommendationsVersionEndsWith = requestParameters?.recommendationsVersionEndsWith;
+        const recommendationsVersionNotEndsWith = requestParameters?.recommendationsVersionNotEndsWith;
+        const recommendationsSynonymsNotExists = requestParameters?.recommendationsSynonymsNotExists;
+        const recommendationsSynonymsExists = requestParameters?.recommendationsSynonymsExists;
+        const recommendationsPropertiesNotExists = requestParameters?.recommendationsPropertiesNotExists;
+        const recommendationsPropertiesExists = requestParameters?.recommendationsPropertiesExists;
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (id !== undefined && id !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>id, 'id');
+        }
+        if (idNot !== undefined && idNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNot, 'id.not');
+        }
+        if (idContains !== undefined && idContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idContains, 'id.contains');
+        }
+        if (idNotContains !== undefined && idNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotContains, 'id.not.contains');
+        }
+        if (idBeginsWith !== undefined && idBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idBeginsWith, 'id.beginsWith');
+        }
+        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotBeginsWith, 'id.not.beginsWith');
+        }
+        if (idEndsWith !== undefined && idEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idEndsWith, 'id.endsWith');
+        }
+        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotEndsWith, 'id.not.endsWith');
+        }
+        if (createdAtBefore !== undefined && createdAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtBefore, 'createdAt.before');
+        }
+        if (createdAtAfter !== undefined && createdAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtAfter, 'createdAt.after');
+        }
+        if (createdAtOnOrBefore !== undefined && createdAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOnOrBefore, 'createdAt.onOrBefore');
+        }
+        if (createdAtOnOrAfter !== undefined && createdAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOnOrAfter, 'createdAt.onOrAfter');
+        }
+        if (createdAtOn !== undefined && createdAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOn, 'createdAt.on');
+        }
+        if (createdAtNotOn !== undefined && createdAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtNotOn, 'createdAt.not.on');
+        }
+        if (createdAtBetween) {
+            createdAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'createdAt.between');
+            })
+        }
+        if (createdAtNotBetween) {
+            createdAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'createdAt.not.between');
+            })
+        }
+        if (updatedAtBefore !== undefined && updatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtBefore, 'updatedAt.before');
+        }
+        if (updatedAtAfter !== undefined && updatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtAfter, 'updatedAt.after');
+        }
+        if (updatedAtOnOrBefore !== undefined && updatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOnOrBefore, 'updatedAt.onOrBefore');
+        }
+        if (updatedAtOnOrAfter !== undefined && updatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOnOrAfter, 'updatedAt.onOrAfter');
+        }
+        if (updatedAtOn !== undefined && updatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOn, 'updatedAt.on');
+        }
+        if (updatedAtNotOn !== undefined && updatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtNotOn, 'updatedAt.not.on');
+        }
+        if (updatedAtBetween) {
+            updatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedAt.between');
+            })
+        }
+        if (updatedAtNotBetween) {
+            updatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedAt.not.between');
+            })
+        }
+        if (createdByNotExists !== undefined && createdByNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdByNotExists, 'createdBy.not.exists');
+        }
+        if (createdByExists !== undefined && createdByExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdByExists, 'createdBy.exists');
+        }
+        if (updatedBysIdLessThan !== undefined && updatedBysIdLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdLessThan, 'updatedBys.id.lessThan');
+        }
+        if (updatedBysIdLessThanOrEqual !== undefined && updatedBysIdLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdLessThanOrEqual, 'updatedBys.id.lessThanOrEqual');
+        }
+        if (updatedBysIdGreaterThan !== undefined && updatedBysIdGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdGreaterThan, 'updatedBys.id.greaterThan');
+        }
+        if (updatedBysIdGreaterThanOrEqual !== undefined && updatedBysIdGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdGreaterThanOrEqual, 'updatedBys.id.greaterThanOrEqual');
+        }
+        if (updatedBysIdEqual !== undefined && updatedBysIdEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdEqual, 'updatedBys.id.equal');
+        }
+        if (updatedBysIdNotEqual !== undefined && updatedBysIdNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdNotEqual, 'updatedBys.id.not.equal');
+        }
+        if (updatedBysIdBetween) {
+            updatedBysIdBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedBys.id.between');
+            })
+        }
+        if (updatedBysIdNotBetween) {
+            updatedBysIdNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedBys.id.not.between');
+            })
+        }
+        if (updatedBysUsername !== undefined && updatedBysUsername !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsername, 'updatedBys.username');
+        }
+        if (updatedBysUsernameNot !== undefined && updatedBysUsernameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNot, 'updatedBys.username.not');
+        }
+        if (updatedBysUsernameContains !== undefined && updatedBysUsernameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameContains, 'updatedBys.username.contains');
+        }
+        if (updatedBysUsernameNotContains !== undefined && updatedBysUsernameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotContains, 'updatedBys.username.not.contains');
+        }
+        if (updatedBysUsernameBeginsWith !== undefined && updatedBysUsernameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameBeginsWith, 'updatedBys.username.beginsWith');
+        }
+        if (updatedBysUsernameNotBeginsWith !== undefined && updatedBysUsernameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotBeginsWith, 'updatedBys.username.not.beginsWith');
+        }
+        if (updatedBysUsernameEndsWith !== undefined && updatedBysUsernameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameEndsWith, 'updatedBys.username.endsWith');
+        }
+        if (updatedBysUsernameNotEndsWith !== undefined && updatedBysUsernameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotEndsWith, 'updatedBys.username.not.endsWith');
+        }
+        if (updatedBysEmail !== undefined && updatedBysEmail !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmail, 'updatedBys.email');
+        }
+        if (updatedBysEmailNot !== undefined && updatedBysEmailNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNot, 'updatedBys.email.not');
+        }
+        if (updatedBysEmailContains !== undefined && updatedBysEmailContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailContains, 'updatedBys.email.contains');
+        }
+        if (updatedBysEmailNotContains !== undefined && updatedBysEmailNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotContains, 'updatedBys.email.not.contains');
+        }
+        if (updatedBysEmailBeginsWith !== undefined && updatedBysEmailBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailBeginsWith, 'updatedBys.email.beginsWith');
+        }
+        if (updatedBysEmailNotBeginsWith !== undefined && updatedBysEmailNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotBeginsWith, 'updatedBys.email.not.beginsWith');
+        }
+        if (updatedBysEmailEndsWith !== undefined && updatedBysEmailEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailEndsWith, 'updatedBys.email.endsWith');
+        }
+        if (updatedBysEmailNotEndsWith !== undefined && updatedBysEmailNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotEndsWith, 'updatedBys.email.not.endsWith');
+        }
+        if (updatedBysFirstNameNotExists !== undefined && updatedBysFirstNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotExists, 'updatedBys.firstName.not.exists');
+        }
+        if (updatedBysFirstNameExists !== undefined && updatedBysFirstNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameExists, 'updatedBys.firstName.exists');
+        }
+        if (updatedBysFirstName !== undefined && updatedBysFirstName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstName, 'updatedBys.firstName');
+        }
+        if (updatedBysFirstNameNot !== undefined && updatedBysFirstNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNot, 'updatedBys.firstName.not');
+        }
+        if (updatedBysFirstNameContains !== undefined && updatedBysFirstNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameContains, 'updatedBys.firstName.contains');
+        }
+        if (updatedBysFirstNameNotContains !== undefined && updatedBysFirstNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotContains, 'updatedBys.firstName.not.contains');
+        }
+        if (updatedBysFirstNameBeginsWith !== undefined && updatedBysFirstNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameBeginsWith, 'updatedBys.firstName.beginsWith');
+        }
+        if (updatedBysFirstNameNotBeginsWith !== undefined && updatedBysFirstNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotBeginsWith, 'updatedBys.firstName.not.beginsWith');
+        }
+        if (updatedBysFirstNameEndsWith !== undefined && updatedBysFirstNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameEndsWith, 'updatedBys.firstName.endsWith');
+        }
+        if (updatedBysFirstNameNotEndsWith !== undefined && updatedBysFirstNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotEndsWith, 'updatedBys.firstName.not.endsWith');
+        }
+        if (updatedBysLastNameNotExists !== undefined && updatedBysLastNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotExists, 'updatedBys.lastName.not.exists');
+        }
+        if (updatedBysLastNameExists !== undefined && updatedBysLastNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameExists, 'updatedBys.lastName.exists');
+        }
+        if (updatedBysLastName !== undefined && updatedBysLastName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastName, 'updatedBys.lastName');
+        }
+        if (updatedBysLastNameNot !== undefined && updatedBysLastNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNot, 'updatedBys.lastName.not');
+        }
+        if (updatedBysLastNameContains !== undefined && updatedBysLastNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameContains, 'updatedBys.lastName.contains');
+        }
+        if (updatedBysLastNameNotContains !== undefined && updatedBysLastNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotContains, 'updatedBys.lastName.not.contains');
+        }
+        if (updatedBysLastNameBeginsWith !== undefined && updatedBysLastNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameBeginsWith, 'updatedBys.lastName.beginsWith');
+        }
+        if (updatedBysLastNameNotBeginsWith !== undefined && updatedBysLastNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotBeginsWith, 'updatedBys.lastName.not.beginsWith');
+        }
+        if (updatedBysLastNameEndsWith !== undefined && updatedBysLastNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameEndsWith, 'updatedBys.lastName.endsWith');
+        }
+        if (updatedBysLastNameNotEndsWith !== undefined && updatedBysLastNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotEndsWith, 'updatedBys.lastName.not.endsWith');
+        }
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>caseId, 'caseId');
         }
-        if (stagingDomain) {
-            stagingDomain.forEach((element) => {
+        if (caseIdNot !== undefined && caseIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNot, 'caseId.not');
+        }
+        if (caseIdContains !== undefined && caseIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdContains, 'caseId.contains');
+        }
+        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotContains, 'caseId.not.contains');
+        }
+        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdBeginsWith, 'caseId.beginsWith');
+        }
+        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        }
+        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdEndsWith, 'caseId.endsWith');
+        }
+        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        }
+        if (dateBefore !== undefined && dateBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateBefore, 'date.before');
+        }
+        if (dateAfter !== undefined && dateAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateAfter, 'date.after');
+        }
+        if (dateOnOrBefore !== undefined && dateOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateOnOrBefore, 'date.onOrBefore');
+        }
+        if (dateOnOrAfter !== undefined && dateOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateOnOrAfter, 'date.onOrAfter');
+        }
+        if (dateOn !== undefined && dateOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateOn, 'date.on');
+        }
+        if (dateNotOn !== undefined && dateNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateNotOn, 'date.not.on');
+        }
+        if (dateBetween) {
+            dateBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'stagingDomain');
+                  <any>element, 'date.between');
             })
+        }
+        if (dateNotBetween) {
+            dateNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'date.not.between');
+            })
+        }
+        if (relatedEntitiesIds !== undefined && relatedEntitiesIds !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIds, 'relatedEntitiesIds');
+        }
+        if (relatedEntitiesIdsNot !== undefined && relatedEntitiesIdsNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsNot, 'relatedEntitiesIds.not');
+        }
+        if (relatedEntitiesIdsContains !== undefined && relatedEntitiesIdsContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsContains, 'relatedEntitiesIds.contains');
+        }
+        if (relatedEntitiesIdsNotContains !== undefined && relatedEntitiesIdsNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsNotContains, 'relatedEntitiesIds.not.contains');
+        }
+        if (relatedEntitiesIdsBeginsWith !== undefined && relatedEntitiesIdsBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsBeginsWith, 'relatedEntitiesIds.beginsWith');
+        }
+        if (relatedEntitiesIdsNotBeginsWith !== undefined && relatedEntitiesIdsNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsNotBeginsWith, 'relatedEntitiesIds.not.beginsWith');
+        }
+        if (relatedEntitiesIdsEndsWith !== undefined && relatedEntitiesIdsEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsEndsWith, 'relatedEntitiesIds.endsWith');
+        }
+        if (relatedEntitiesIdsNotEndsWith !== undefined && relatedEntitiesIdsNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>relatedEntitiesIdsNotEndsWith, 'relatedEntitiesIds.not.endsWith');
+        }
+        if (recommendationsCode !== undefined && recommendationsCode !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCode, 'recommendations.code');
+        }
+        if (recommendationsCodeNot !== undefined && recommendationsCodeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeNot, 'recommendations.code.not');
+        }
+        if (recommendationsCodeContains !== undefined && recommendationsCodeContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeContains, 'recommendations.code.contains');
+        }
+        if (recommendationsCodeNotContains !== undefined && recommendationsCodeNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeNotContains, 'recommendations.code.not.contains');
+        }
+        if (recommendationsCodeBeginsWith !== undefined && recommendationsCodeBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeBeginsWith, 'recommendations.code.beginsWith');
+        }
+        if (recommendationsCodeNotBeginsWith !== undefined && recommendationsCodeNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeNotBeginsWith, 'recommendations.code.not.beginsWith');
+        }
+        if (recommendationsCodeEndsWith !== undefined && recommendationsCodeEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeEndsWith, 'recommendations.code.endsWith');
+        }
+        if (recommendationsCodeNotEndsWith !== undefined && recommendationsCodeNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsCodeNotEndsWith, 'recommendations.code.not.endsWith');
+        }
+        if (recommendationsSystem !== undefined && recommendationsSystem !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystem, 'recommendations.system');
+        }
+        if (recommendationsSystemNot !== undefined && recommendationsSystemNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemNot, 'recommendations.system.not');
+        }
+        if (recommendationsSystemContains !== undefined && recommendationsSystemContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemContains, 'recommendations.system.contains');
+        }
+        if (recommendationsSystemNotContains !== undefined && recommendationsSystemNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemNotContains, 'recommendations.system.not.contains');
+        }
+        if (recommendationsSystemBeginsWith !== undefined && recommendationsSystemBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemBeginsWith, 'recommendations.system.beginsWith');
+        }
+        if (recommendationsSystemNotBeginsWith !== undefined && recommendationsSystemNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemNotBeginsWith, 'recommendations.system.not.beginsWith');
+        }
+        if (recommendationsSystemEndsWith !== undefined && recommendationsSystemEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemEndsWith, 'recommendations.system.endsWith');
+        }
+        if (recommendationsSystemNotEndsWith !== undefined && recommendationsSystemNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSystemNotEndsWith, 'recommendations.system.not.endsWith');
+        }
+        if (recommendationsDisplayNotExists !== undefined && recommendationsDisplayNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayNotExists, 'recommendations.display.not.exists');
+        }
+        if (recommendationsDisplayExists !== undefined && recommendationsDisplayExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayExists, 'recommendations.display.exists');
+        }
+        if (recommendationsDisplay !== undefined && recommendationsDisplay !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplay, 'recommendations.display');
+        }
+        if (recommendationsDisplayNot !== undefined && recommendationsDisplayNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayNot, 'recommendations.display.not');
+        }
+        if (recommendationsDisplayContains !== undefined && recommendationsDisplayContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayContains, 'recommendations.display.contains');
+        }
+        if (recommendationsDisplayNotContains !== undefined && recommendationsDisplayNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayNotContains, 'recommendations.display.not.contains');
+        }
+        if (recommendationsDisplayBeginsWith !== undefined && recommendationsDisplayBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayBeginsWith, 'recommendations.display.beginsWith');
+        }
+        if (recommendationsDisplayNotBeginsWith !== undefined && recommendationsDisplayNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayNotBeginsWith, 'recommendations.display.not.beginsWith');
+        }
+        if (recommendationsDisplayEndsWith !== undefined && recommendationsDisplayEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayEndsWith, 'recommendations.display.endsWith');
+        }
+        if (recommendationsDisplayNotEndsWith !== undefined && recommendationsDisplayNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsDisplayNotEndsWith, 'recommendations.display.not.endsWith');
+        }
+        if (recommendationsVersionNotExists !== undefined && recommendationsVersionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionNotExists, 'recommendations.version.not.exists');
+        }
+        if (recommendationsVersionExists !== undefined && recommendationsVersionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionExists, 'recommendations.version.exists');
+        }
+        if (recommendationsVersion !== undefined && recommendationsVersion !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersion, 'recommendations.version');
+        }
+        if (recommendationsVersionNot !== undefined && recommendationsVersionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionNot, 'recommendations.version.not');
+        }
+        if (recommendationsVersionContains !== undefined && recommendationsVersionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionContains, 'recommendations.version.contains');
+        }
+        if (recommendationsVersionNotContains !== undefined && recommendationsVersionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionNotContains, 'recommendations.version.not.contains');
+        }
+        if (recommendationsVersionBeginsWith !== undefined && recommendationsVersionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionBeginsWith, 'recommendations.version.beginsWith');
+        }
+        if (recommendationsVersionNotBeginsWith !== undefined && recommendationsVersionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionNotBeginsWith, 'recommendations.version.not.beginsWith');
+        }
+        if (recommendationsVersionEndsWith !== undefined && recommendationsVersionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionEndsWith, 'recommendations.version.endsWith');
+        }
+        if (recommendationsVersionNotEndsWith !== undefined && recommendationsVersionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsVersionNotEndsWith, 'recommendations.version.not.endsWith');
+        }
+        if (recommendationsSynonymsNotExists !== undefined && recommendationsSynonymsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSynonymsNotExists, 'recommendations.synonyms.not.exists');
+        }
+        if (recommendationsSynonymsExists !== undefined && recommendationsSynonymsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsSynonymsExists, 'recommendations.synonyms.exists');
+        }
+        if (recommendationsPropertiesNotExists !== undefined && recommendationsPropertiesNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsPropertiesNotExists, 'recommendations.properties.not.exists');
+        }
+        if (recommendationsPropertiesExists !== undefined && recommendationsPropertiesExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recommendationsPropertiesExists, 'recommendations.properties.exists');
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -707,7 +1399,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
             }
         }
 
-        let localVarPath = `/api/tumor-boards/`;
+        let localVarPath = `/api/tumor-boards`;
         return this.httpClient.request<PaginatedAnyTumorBoard>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -724,22 +1416,23 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Update Molecular Tumor Board Therapeutic Recommendation
-     * @param tumorBoardId 
-     * @param recommendationId 
-     * @param molecularTherapeuticRecommendationCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling updateMolecularTherapeuticRecommendation.');
         }
+        const recommendationId = requestParameters?.recommendationId;
         if (recommendationId === null || recommendationId === undefined) {
             throw new Error('Required parameter recommendationId was null or undefined when calling updateMolecularTherapeuticRecommendation.');
         }
+        const molecularTherapeuticRecommendationCreateSchema = requestParameters?.molecularTherapeuticRecommendationCreateSchema;
         if (molecularTherapeuticRecommendationCreateSchema === null || molecularTherapeuticRecommendationCreateSchema === undefined) {
             throw new Error('Required parameter molecularTherapeuticRecommendationCreateSchema was null or undefined when calling updateMolecularTherapeuticRecommendation.');
         }
@@ -813,18 +1506,19 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
 
     /**
      * Update Tumor Board
-     * @param tumorBoardId 
-     * @param payload1 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTumorBoardById(tumorBoardId: string, payload1: Payload1, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public updateTumorBoardById(tumorBoardId: string, payload1: Payload1, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public updateTumorBoardById(tumorBoardId: string, payload1: Payload1, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public updateTumorBoardById(tumorBoardId: string, payload1: Payload1, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling updateTumorBoardById.');
         }
+        const payload1 = requestParameters?.payload1;
         if (payload1 === null || payload1 === undefined) {
             throw new Error('Required parameter payload1 was null or undefined when calling updateTumorBoardById.');
         }
@@ -842,6 +1536,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -881,7 +1576,7 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         }
 
         let localVarPath = `/api/tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: payload1,

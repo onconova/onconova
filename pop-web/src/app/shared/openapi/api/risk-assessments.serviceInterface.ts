@@ -11,14 +11,150 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { PaginatedRiskAssessment } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedRiskAssessment } from '../model/models';
 import { RiskAssessment } from '../model/models';
 import { RiskAssessmentCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateRiskAssessmentRequestParams {
+    riskAssessmentCreate: RiskAssessmentCreate;
+}
+
+export interface DeleteRiskAssessmentByIdRequestParams {
+    riskAssessmentId: string;
+}
+
+export interface GetRiskAssessmentByIdRequestParams {
+    riskAssessmentId: string;
+}
+
+export interface GetRiskAssessmentsRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    methodology?: string;
+    methodologyNot?: string;
+    methodologyAnyOf?: Array<string>;
+    methodologyNotAnyOf?: Array<string>;
+    methodologyDescendantsOf?: string;
+    risk?: string;
+    riskNot?: string;
+    riskAnyOf?: Array<string>;
+    riskNotAnyOf?: Array<string>;
+    riskDescendantsOf?: string;
+    scoreNotExists?: boolean;
+    scoreExists?: boolean;
+    scoreLessThan?: number;
+    scoreLessThanOrEqual?: number;
+    scoreGreaterThan?: number;
+    scoreGreaterThanOrEqual?: number;
+    scoreEqual?: number;
+    scoreNotEqual?: number;
+    scoreBetween?: Array<any>;
+    scoreNotBetween?: Array<any>;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    assessedEntitiesIds?: string;
+    assessedEntitiesIdsNot?: string;
+    assessedEntitiesIdsContains?: string;
+    assessedEntitiesIdsNotContains?: string;
+    assessedEntitiesIdsBeginsWith?: string;
+    assessedEntitiesIdsNotBeginsWith?: string;
+    assessedEntitiesIdsEndsWith?: string;
+    assessedEntitiesIdsNotEndsWith?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateRiskAssessmentByIdRequestParams {
+    riskAssessmentId: string;
+    riskAssessmentCreate: RiskAssessmentCreate;
+}
 
 
 export interface RiskAssessmentsServiceInterface {
@@ -28,39 +164,36 @@ export interface RiskAssessmentsServiceInterface {
     /**
      * Create Risk Assessment
      * 
-     * @param riskAssessmentCreate 
+* @param requestParameters
      */
-    createRiskAssessment(riskAssessmentCreate: RiskAssessmentCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createRiskAssessment(requestParameters: CreateRiskAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Risk Assessment
      * 
-     * @param riskAssessmentId 
+* @param requestParameters
      */
-    deleteRiskAssessmentById(riskAssessmentId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteRiskAssessmentById(requestParameters: DeleteRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Risk Assessment By Id
      * 
-     * @param riskAssessmentId 
+* @param requestParameters
      */
-    getRiskAssessmentById(riskAssessmentId: string, extraHttpRequestParams?: any): Observable<RiskAssessment>;
+    getRiskAssessmentById(requestParameters: GetRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<RiskAssessment>;
 
     /**
      * Get All Risk Assessments Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getRiskAssessments(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedRiskAssessment>;
+    getRiskAssessments(requestParameters: GetRiskAssessmentsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedRiskAssessment>;
 
     /**
      * Update Risk Assessment
      * 
-     * @param riskAssessmentId 
-     * @param riskAssessmentCreate 
+* @param requestParameters
      */
-    updateRiskAssessmentById(riskAssessmentId: string, riskAssessmentCreate: RiskAssessmentCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updateRiskAssessmentById(requestParameters: UpdateRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

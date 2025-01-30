@@ -78,17 +78,15 @@
 
     <div class="flex gap-5">
 
-        <div class="flex flex-column align-items-center	gap-1" *ngIf="this.case.createdById" >
+        <div class="flex flex-column align-items-center	gap-1" *ngIf="this.case.createdBy" >
             <small class="text-muted">Manager</small>
-            <ng-container *ngIf="createdByUsername$ | async as username">
                 <p-avatar 
-                    label="{{ username[0].toUpperCase() }}{{ username[1].toUpperCase() }}" 
+                    label="{{ case.createdBy.username[0].toUpperCase() }}{{ case.createdBy.username[1].toUpperCase() }}" 
                     size="normal" 
                     class="manager-avatar"
                     [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                    title="{{ username }}" 
+                    title="{{ case.createdBy.username }}" 
                     shape="circle"/>
-            </ng-container>
         </div>
 
         <div class="flex-column align-items-center text-muted my-auto">

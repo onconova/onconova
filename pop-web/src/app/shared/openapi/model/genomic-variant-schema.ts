@@ -12,6 +12,7 @@ import { GenomicVariantConfidenceChoices } from './genomic-variant-confidence-ch
 import { GenomicVariantClinicalRelevanceChoices } from './genomic-variant-clinical-relevance-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
 import { RangeSchema } from './range-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface GenomicVariantSchema { 
@@ -27,11 +28,11 @@ export interface GenomicVariantSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

@@ -51,8 +51,8 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
   public readonly formBuilder = inject(FormBuilder)
 
-  public readonly createService = this.riskAssessmentsService.createRiskAssessment.bind(this.riskAssessmentsService)
-  public readonly updateService = this.riskAssessmentsService.updateRiskAssessmentById.bind(this.riskAssessmentsService)
+  public readonly createService = (payload: RiskAssessmentCreate) => this.riskAssessmentsService.createRiskAssessment({riskAssessmentCreate: payload})
+  public readonly updateService = (id: string, payload: RiskAssessmentCreate) => this.riskAssessmentsService.updateRiskAssessmentById({riskAssessmentId: id, riskAssessmentCreate: payload})
 
   public readonly title: string = 'Risk Assessment'
   public readonly subtitle: string = 'Add new risk assessment'
@@ -72,6 +72,7 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   }
 
   constructForm(): void {
+    console.log(this.initialData)
     this.form = this.formBuilder.group({
         date: [this.initialData?.date, Validators.required],
         assessedEntities: [this.initialData?.assessedEntitiesIds, Validators.required],
@@ -94,7 +95,7 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   }
 
   private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId)
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(
       (response) => {

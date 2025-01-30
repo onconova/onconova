@@ -15,6 +15,7 @@ import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-st
 import { HomologousRecombinationDeficiencySchema } from './homologous-recombination-deficiency-schema';
 import { TumorMutationalBurdenSchema } from './tumor-mutational-burden-schema';
 import { MicrosatelliteInstabilitySchema } from './microsatellite-instability-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface AnyGenomicSignature { 
@@ -30,11 +31,11 @@ export interface AnyGenomicSignature {
      * 
      */
     updatedAt: string;
-    createdById?: number;
+    createdBy?: UserSchema;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

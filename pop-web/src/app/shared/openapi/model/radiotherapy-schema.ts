@@ -12,6 +12,7 @@ import { RadiotherapySettingSchema } from './radiotherapy-setting-schema';
 import { PeriodSchema } from './period-schema';
 import { RadiotherapyIntentChoices } from './radiotherapy-intent-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface RadiotherapySchema { 
@@ -27,11 +28,11 @@ export interface RadiotherapySchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

@@ -17,6 +17,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+// @ts-ignore
 import { PaginatedRadiotherapySchema } from '../model/paginated-radiotherapy-schema';
 // @ts-ignore
 import { RadiotherapyCreateSchema } from '../model/radiotherapy-create-schema';
@@ -30,14 +32,27 @@ import { RadiotherapySchema } from '../model/radiotherapy-schema';
 import { RadiotherapySettingCreateSchema } from '../model/radiotherapy-setting-create-schema';
 // @ts-ignore
 import { RadiotherapySettingSchema } from '../model/radiotherapy-setting-schema';
-// @ts-ignore
-import { ModifiedResourceSchema } from '../model/resource-id-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    RadiotherapiesServiceInterface
+    RadiotherapiesServiceInterface,
+    CreateRadiotherapyRequestParams,
+    CreateRadiotherapyDosageRequestParams,
+    CreateRadiotherapySettingRequestParams,
+    DeleteRadiotherapyByIdRequestParams,
+    DeleteRadiotherapyDosageRequestParams,
+    DeleteRadiotherapySettingRequestParams,
+    GetRadiotherapiesRequestParams,
+    GetRadiotherapyByIdRequestParams,
+    GetRadiotherapyDosageByIdRequestParams,
+    GetRadiotherapyDosagesRequestParams,
+    GetRadiotherapySettingByIdRequestParams,
+    GetRadiotherapySettingsRequestParams,
+    UpdateRadiotherapyRequestParams,
+    UpdateRadiotherapyDosageRequestParams,
+    UpdateRadiotherapySettingRequestParams
 } from './radiotherapies.serviceInterface';
 
 
@@ -47,7 +62,7 @@ import {
 })
 export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
-    protected basePath = 'http://localhost';
+    protected basePath = 'https://localhost:4443';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -109,14 +124,15 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Create Radiotherapy
-     * @param radiotherapyCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public createRadiotherapy(radiotherapyCreateSchema: RadiotherapyCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createRadiotherapy(requestParameters: CreateRadiotherapyRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRadiotherapy(requestParameters: CreateRadiotherapyRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRadiotherapy(requestParameters: CreateRadiotherapyRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createRadiotherapy(requestParameters: CreateRadiotherapyRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyCreateSchema = requestParameters?.radiotherapyCreateSchema;
         if (radiotherapyCreateSchema === null || radiotherapyCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapyCreateSchema was null or undefined when calling createRadiotherapy.');
         }
@@ -173,7 +189,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/radiotherapies/`;
+        let localVarPath = `/api/radiotherapies`;
         return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -190,18 +206,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Create Radiotherapy Dosage
-     * @param radiotherapyId 
-     * @param radiotherapyDosageCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public createRadiotherapyDosage(radiotherapyId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createRadiotherapyDosage(requestParameters: CreateRadiotherapyDosageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRadiotherapyDosage(requestParameters: CreateRadiotherapyDosageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRadiotherapyDosage(requestParameters: CreateRadiotherapyDosageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createRadiotherapyDosage(requestParameters: CreateRadiotherapyDosageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling createRadiotherapyDosage.');
         }
+        const radiotherapyDosageCreateSchema = requestParameters?.radiotherapyDosageCreateSchema;
         if (radiotherapyDosageCreateSchema === null || radiotherapyDosageCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapyDosageCreateSchema was null or undefined when calling createRadiotherapyDosage.');
         }
@@ -258,7 +275,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages/`;
+        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages`;
         return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -275,18 +292,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Create Radiotherapy Setting
-     * @param radiotherapyId 
-     * @param radiotherapySettingCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public createRadiotherapySetting(radiotherapyId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createRadiotherapySetting(requestParameters: CreateRadiotherapySettingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createRadiotherapySetting(requestParameters: CreateRadiotherapySettingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createRadiotherapySetting(requestParameters: CreateRadiotherapySettingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createRadiotherapySetting(requestParameters: CreateRadiotherapySettingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling createRadiotherapySetting.');
         }
+        const radiotherapySettingCreateSchema = requestParameters?.radiotherapySettingCreateSchema;
         if (radiotherapySettingCreateSchema === null || radiotherapySettingCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapySettingCreateSchema was null or undefined when calling createRadiotherapySetting.');
         }
@@ -343,7 +361,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings/`;
+        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings`;
         return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -360,14 +378,15 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Delete Radiotherapy
-     * @param radiotherapyId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteRadiotherapyById(radiotherapyId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteRadiotherapyById(radiotherapyId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteRadiotherapyById(radiotherapyId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteRadiotherapyById(radiotherapyId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteRadiotherapyById(requestParameters: DeleteRadiotherapyByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteRadiotherapyById(requestParameters: DeleteRadiotherapyByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteRadiotherapyById(requestParameters: DeleteRadiotherapyByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteRadiotherapyById(requestParameters: DeleteRadiotherapyByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling deleteRadiotherapyById.');
         }
@@ -430,18 +449,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Delete Radiotherapy Dosage
-     * @param radiotherapyId 
-     * @param dosageId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteRadiotherapyDosage(radiotherapyId: string, dosageId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteRadiotherapyDosage(radiotherapyId: string, dosageId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteRadiotherapyDosage(radiotherapyId: string, dosageId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteRadiotherapyDosage(radiotherapyId: string, dosageId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteRadiotherapyDosage(requestParameters: DeleteRadiotherapyDosageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteRadiotherapyDosage(requestParameters: DeleteRadiotherapyDosageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteRadiotherapyDosage(requestParameters: DeleteRadiotherapyDosageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteRadiotherapyDosage(requestParameters: DeleteRadiotherapyDosageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling deleteRadiotherapyDosage.');
         }
+        const dosageId = requestParameters?.dosageId;
         if (dosageId === null || dosageId === undefined) {
             throw new Error('Required parameter dosageId was null or undefined when calling deleteRadiotherapyDosage.');
         }
@@ -504,18 +524,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Delete Radiotherapy Setting
-     * @param radiotherapyId 
-     * @param settingId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteRadiotherapySetting(radiotherapyId: string, settingId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteRadiotherapySetting(radiotherapyId: string, settingId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteRadiotherapySetting(radiotherapyId: string, settingId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteRadiotherapySetting(radiotherapyId: string, settingId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteRadiotherapySetting(requestParameters: DeleteRadiotherapySettingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteRadiotherapySetting(requestParameters: DeleteRadiotherapySettingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteRadiotherapySetting(requestParameters: DeleteRadiotherapySettingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteRadiotherapySetting(requestParameters: DeleteRadiotherapySettingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling deleteRadiotherapySetting.');
         }
+        const settingId = requestParameters?.settingId;
         if (settingId === null || settingId === undefined) {
             throw new Error('Required parameter settingId was null or undefined when calling deleteRadiotherapySetting.');
         }
@@ -578,21 +599,1678 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Get All Radiotherapies Matching The Query
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapies(caseId?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedRadiotherapySchema>;
-    public getRadiotherapies(caseId?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedRadiotherapySchema>>;
-    public getRadiotherapies(caseId?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedRadiotherapySchema>>;
-    public getRadiotherapies(caseId?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRadiotherapies(requestParameters?: GetRadiotherapiesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedRadiotherapySchema>;
+    public getRadiotherapies(requestParameters?: GetRadiotherapiesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedRadiotherapySchema>>;
+    public getRadiotherapies(requestParameters?: GetRadiotherapiesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedRadiotherapySchema>>;
+    public getRadiotherapies(requestParameters?: GetRadiotherapiesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        const idNot = requestParameters?.idNot;
+        const idContains = requestParameters?.idContains;
+        const idNotContains = requestParameters?.idNotContains;
+        const idBeginsWith = requestParameters?.idBeginsWith;
+        const idNotBeginsWith = requestParameters?.idNotBeginsWith;
+        const idEndsWith = requestParameters?.idEndsWith;
+        const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const createdAtBefore = requestParameters?.createdAtBefore;
+        const createdAtAfter = requestParameters?.createdAtAfter;
+        const createdAtOnOrBefore = requestParameters?.createdAtOnOrBefore;
+        const createdAtOnOrAfter = requestParameters?.createdAtOnOrAfter;
+        const createdAtOn = requestParameters?.createdAtOn;
+        const createdAtNotOn = requestParameters?.createdAtNotOn;
+        const createdAtBetween = requestParameters?.createdAtBetween;
+        const createdAtNotBetween = requestParameters?.createdAtNotBetween;
+        const updatedAtBefore = requestParameters?.updatedAtBefore;
+        const updatedAtAfter = requestParameters?.updatedAtAfter;
+        const updatedAtOnOrBefore = requestParameters?.updatedAtOnOrBefore;
+        const updatedAtOnOrAfter = requestParameters?.updatedAtOnOrAfter;
+        const updatedAtOn = requestParameters?.updatedAtOn;
+        const updatedAtNotOn = requestParameters?.updatedAtNotOn;
+        const updatedAtBetween = requestParameters?.updatedAtBetween;
+        const updatedAtNotBetween = requestParameters?.updatedAtNotBetween;
+        const createdByNotExists = requestParameters?.createdByNotExists;
+        const createdByExists = requestParameters?.createdByExists;
+        const updatedBysIdLessThan = requestParameters?.updatedBysIdLessThan;
+        const updatedBysIdLessThanOrEqual = requestParameters?.updatedBysIdLessThanOrEqual;
+        const updatedBysIdGreaterThan = requestParameters?.updatedBysIdGreaterThan;
+        const updatedBysIdGreaterThanOrEqual = requestParameters?.updatedBysIdGreaterThanOrEqual;
+        const updatedBysIdEqual = requestParameters?.updatedBysIdEqual;
+        const updatedBysIdNotEqual = requestParameters?.updatedBysIdNotEqual;
+        const updatedBysIdBetween = requestParameters?.updatedBysIdBetween;
+        const updatedBysIdNotBetween = requestParameters?.updatedBysIdNotBetween;
+        const updatedBysUsername = requestParameters?.updatedBysUsername;
+        const updatedBysUsernameNot = requestParameters?.updatedBysUsernameNot;
+        const updatedBysUsernameContains = requestParameters?.updatedBysUsernameContains;
+        const updatedBysUsernameNotContains = requestParameters?.updatedBysUsernameNotContains;
+        const updatedBysUsernameBeginsWith = requestParameters?.updatedBysUsernameBeginsWith;
+        const updatedBysUsernameNotBeginsWith = requestParameters?.updatedBysUsernameNotBeginsWith;
+        const updatedBysUsernameEndsWith = requestParameters?.updatedBysUsernameEndsWith;
+        const updatedBysUsernameNotEndsWith = requestParameters?.updatedBysUsernameNotEndsWith;
+        const updatedBysEmail = requestParameters?.updatedBysEmail;
+        const updatedBysEmailNot = requestParameters?.updatedBysEmailNot;
+        const updatedBysEmailContains = requestParameters?.updatedBysEmailContains;
+        const updatedBysEmailNotContains = requestParameters?.updatedBysEmailNotContains;
+        const updatedBysEmailBeginsWith = requestParameters?.updatedBysEmailBeginsWith;
+        const updatedBysEmailNotBeginsWith = requestParameters?.updatedBysEmailNotBeginsWith;
+        const updatedBysEmailEndsWith = requestParameters?.updatedBysEmailEndsWith;
+        const updatedBysEmailNotEndsWith = requestParameters?.updatedBysEmailNotEndsWith;
+        const updatedBysFirstNameNotExists = requestParameters?.updatedBysFirstNameNotExists;
+        const updatedBysFirstNameExists = requestParameters?.updatedBysFirstNameExists;
+        const updatedBysFirstName = requestParameters?.updatedBysFirstName;
+        const updatedBysFirstNameNot = requestParameters?.updatedBysFirstNameNot;
+        const updatedBysFirstNameContains = requestParameters?.updatedBysFirstNameContains;
+        const updatedBysFirstNameNotContains = requestParameters?.updatedBysFirstNameNotContains;
+        const updatedBysFirstNameBeginsWith = requestParameters?.updatedBysFirstNameBeginsWith;
+        const updatedBysFirstNameNotBeginsWith = requestParameters?.updatedBysFirstNameNotBeginsWith;
+        const updatedBysFirstNameEndsWith = requestParameters?.updatedBysFirstNameEndsWith;
+        const updatedBysFirstNameNotEndsWith = requestParameters?.updatedBysFirstNameNotEndsWith;
+        const updatedBysLastNameNotExists = requestParameters?.updatedBysLastNameNotExists;
+        const updatedBysLastNameExists = requestParameters?.updatedBysLastNameExists;
+        const updatedBysLastName = requestParameters?.updatedBysLastName;
+        const updatedBysLastNameNot = requestParameters?.updatedBysLastNameNot;
+        const updatedBysLastNameContains = requestParameters?.updatedBysLastNameContains;
+        const updatedBysLastNameNotContains = requestParameters?.updatedBysLastNameNotContains;
+        const updatedBysLastNameBeginsWith = requestParameters?.updatedBysLastNameBeginsWith;
+        const updatedBysLastNameNotBeginsWith = requestParameters?.updatedBysLastNameNotBeginsWith;
+        const updatedBysLastNameEndsWith = requestParameters?.updatedBysLastNameEndsWith;
+        const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
+        const caseId = requestParameters?.caseId;
+        const caseIdNot = requestParameters?.caseIdNot;
+        const caseIdContains = requestParameters?.caseIdContains;
+        const caseIdNotContains = requestParameters?.caseIdNotContains;
+        const caseIdBeginsWith = requestParameters?.caseIdBeginsWith;
+        const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
+        const caseIdEndsWith = requestParameters?.caseIdEndsWith;
+        const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const periodOverlaps = requestParameters?.periodOverlaps;
+        const periodNotOverlaps = requestParameters?.periodNotOverlaps;
+        const periodContains = requestParameters?.periodContains;
+        const periodNotContains = requestParameters?.periodNotContains;
+        const periodContainedBy = requestParameters?.periodContainedBy;
+        const periodNotContainedBy = requestParameters?.periodNotContainedBy;
+        const sessionsLessThan = requestParameters?.sessionsLessThan;
+        const sessionsLessThanOrEqual = requestParameters?.sessionsLessThanOrEqual;
+        const sessionsGreaterThan = requestParameters?.sessionsGreaterThan;
+        const sessionsGreaterThanOrEqual = requestParameters?.sessionsGreaterThanOrEqual;
+        const sessionsEqual = requestParameters?.sessionsEqual;
+        const sessionsNotEqual = requestParameters?.sessionsNotEqual;
+        const sessionsBetween = requestParameters?.sessionsBetween;
+        const sessionsNotBetween = requestParameters?.sessionsNotBetween;
+        const intent = requestParameters?.intent;
+        const intentNot = requestParameters?.intentNot;
+        const intentAnyOf = requestParameters?.intentAnyOf;
+        const terminationReasonNotExists = requestParameters?.terminationReasonNotExists;
+        const terminationReasonExists = requestParameters?.terminationReasonExists;
+        const terminationReason = requestParameters?.terminationReason;
+        const terminationReasonNot = requestParameters?.terminationReasonNot;
+        const terminationReasonAnyOf = requestParameters?.terminationReasonAnyOf;
+        const terminationReasonNotAnyOf = requestParameters?.terminationReasonNotAnyOf;
+        const terminationReasonDescendantsOf = requestParameters?.terminationReasonDescendantsOf;
+        const targetedEntitiesIds = requestParameters?.targetedEntitiesIds;
+        const targetedEntitiesIdsNot = requestParameters?.targetedEntitiesIdsNot;
+        const targetedEntitiesIdsContains = requestParameters?.targetedEntitiesIdsContains;
+        const targetedEntitiesIdsNotContains = requestParameters?.targetedEntitiesIdsNotContains;
+        const targetedEntitiesIdsBeginsWith = requestParameters?.targetedEntitiesIdsBeginsWith;
+        const targetedEntitiesIdsNotBeginsWith = requestParameters?.targetedEntitiesIdsNotBeginsWith;
+        const targetedEntitiesIdsEndsWith = requestParameters?.targetedEntitiesIdsEndsWith;
+        const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
+        const dosagesId = requestParameters?.dosagesId;
+        const dosagesIdNot = requestParameters?.dosagesIdNot;
+        const dosagesIdContains = requestParameters?.dosagesIdContains;
+        const dosagesIdNotContains = requestParameters?.dosagesIdNotContains;
+        const dosagesIdBeginsWith = requestParameters?.dosagesIdBeginsWith;
+        const dosagesIdNotBeginsWith = requestParameters?.dosagesIdNotBeginsWith;
+        const dosagesIdEndsWith = requestParameters?.dosagesIdEndsWith;
+        const dosagesIdNotEndsWith = requestParameters?.dosagesIdNotEndsWith;
+        const dosagesCreatedAtBefore = requestParameters?.dosagesCreatedAtBefore;
+        const dosagesCreatedAtAfter = requestParameters?.dosagesCreatedAtAfter;
+        const dosagesCreatedAtOnOrBefore = requestParameters?.dosagesCreatedAtOnOrBefore;
+        const dosagesCreatedAtOnOrAfter = requestParameters?.dosagesCreatedAtOnOrAfter;
+        const dosagesCreatedAtOn = requestParameters?.dosagesCreatedAtOn;
+        const dosagesCreatedAtNotOn = requestParameters?.dosagesCreatedAtNotOn;
+        const dosagesCreatedAtBetween = requestParameters?.dosagesCreatedAtBetween;
+        const dosagesCreatedAtNotBetween = requestParameters?.dosagesCreatedAtNotBetween;
+        const dosagesUpdatedAtBefore = requestParameters?.dosagesUpdatedAtBefore;
+        const dosagesUpdatedAtAfter = requestParameters?.dosagesUpdatedAtAfter;
+        const dosagesUpdatedAtOnOrBefore = requestParameters?.dosagesUpdatedAtOnOrBefore;
+        const dosagesUpdatedAtOnOrAfter = requestParameters?.dosagesUpdatedAtOnOrAfter;
+        const dosagesUpdatedAtOn = requestParameters?.dosagesUpdatedAtOn;
+        const dosagesUpdatedAtNotOn = requestParameters?.dosagesUpdatedAtNotOn;
+        const dosagesUpdatedAtBetween = requestParameters?.dosagesUpdatedAtBetween;
+        const dosagesUpdatedAtNotBetween = requestParameters?.dosagesUpdatedAtNotBetween;
+        const dosagesCreatedByNotExists = requestParameters?.dosagesCreatedByNotExists;
+        const dosagesCreatedByExists = requestParameters?.dosagesCreatedByExists;
+        const dosagesUpdatedBysIdLessThan = requestParameters?.dosagesUpdatedBysIdLessThan;
+        const dosagesUpdatedBysIdLessThanOrEqual = requestParameters?.dosagesUpdatedBysIdLessThanOrEqual;
+        const dosagesUpdatedBysIdGreaterThan = requestParameters?.dosagesUpdatedBysIdGreaterThan;
+        const dosagesUpdatedBysIdGreaterThanOrEqual = requestParameters?.dosagesUpdatedBysIdGreaterThanOrEqual;
+        const dosagesUpdatedBysIdEqual = requestParameters?.dosagesUpdatedBysIdEqual;
+        const dosagesUpdatedBysIdNotEqual = requestParameters?.dosagesUpdatedBysIdNotEqual;
+        const dosagesUpdatedBysIdBetween = requestParameters?.dosagesUpdatedBysIdBetween;
+        const dosagesUpdatedBysIdNotBetween = requestParameters?.dosagesUpdatedBysIdNotBetween;
+        const dosagesUpdatedBysUsername = requestParameters?.dosagesUpdatedBysUsername;
+        const dosagesUpdatedBysUsernameNot = requestParameters?.dosagesUpdatedBysUsernameNot;
+        const dosagesUpdatedBysUsernameContains = requestParameters?.dosagesUpdatedBysUsernameContains;
+        const dosagesUpdatedBysUsernameNotContains = requestParameters?.dosagesUpdatedBysUsernameNotContains;
+        const dosagesUpdatedBysUsernameBeginsWith = requestParameters?.dosagesUpdatedBysUsernameBeginsWith;
+        const dosagesUpdatedBysUsernameNotBeginsWith = requestParameters?.dosagesUpdatedBysUsernameNotBeginsWith;
+        const dosagesUpdatedBysUsernameEndsWith = requestParameters?.dosagesUpdatedBysUsernameEndsWith;
+        const dosagesUpdatedBysUsernameNotEndsWith = requestParameters?.dosagesUpdatedBysUsernameNotEndsWith;
+        const dosagesUpdatedBysEmail = requestParameters?.dosagesUpdatedBysEmail;
+        const dosagesUpdatedBysEmailNot = requestParameters?.dosagesUpdatedBysEmailNot;
+        const dosagesUpdatedBysEmailContains = requestParameters?.dosagesUpdatedBysEmailContains;
+        const dosagesUpdatedBysEmailNotContains = requestParameters?.dosagesUpdatedBysEmailNotContains;
+        const dosagesUpdatedBysEmailBeginsWith = requestParameters?.dosagesUpdatedBysEmailBeginsWith;
+        const dosagesUpdatedBysEmailNotBeginsWith = requestParameters?.dosagesUpdatedBysEmailNotBeginsWith;
+        const dosagesUpdatedBysEmailEndsWith = requestParameters?.dosagesUpdatedBysEmailEndsWith;
+        const dosagesUpdatedBysEmailNotEndsWith = requestParameters?.dosagesUpdatedBysEmailNotEndsWith;
+        const dosagesUpdatedBysFirstNameNotExists = requestParameters?.dosagesUpdatedBysFirstNameNotExists;
+        const dosagesUpdatedBysFirstNameExists = requestParameters?.dosagesUpdatedBysFirstNameExists;
+        const dosagesUpdatedBysFirstName = requestParameters?.dosagesUpdatedBysFirstName;
+        const dosagesUpdatedBysFirstNameNot = requestParameters?.dosagesUpdatedBysFirstNameNot;
+        const dosagesUpdatedBysFirstNameContains = requestParameters?.dosagesUpdatedBysFirstNameContains;
+        const dosagesUpdatedBysFirstNameNotContains = requestParameters?.dosagesUpdatedBysFirstNameNotContains;
+        const dosagesUpdatedBysFirstNameBeginsWith = requestParameters?.dosagesUpdatedBysFirstNameBeginsWith;
+        const dosagesUpdatedBysFirstNameNotBeginsWith = requestParameters?.dosagesUpdatedBysFirstNameNotBeginsWith;
+        const dosagesUpdatedBysFirstNameEndsWith = requestParameters?.dosagesUpdatedBysFirstNameEndsWith;
+        const dosagesUpdatedBysFirstNameNotEndsWith = requestParameters?.dosagesUpdatedBysFirstNameNotEndsWith;
+        const dosagesUpdatedBysLastNameNotExists = requestParameters?.dosagesUpdatedBysLastNameNotExists;
+        const dosagesUpdatedBysLastNameExists = requestParameters?.dosagesUpdatedBysLastNameExists;
+        const dosagesUpdatedBysLastName = requestParameters?.dosagesUpdatedBysLastName;
+        const dosagesUpdatedBysLastNameNot = requestParameters?.dosagesUpdatedBysLastNameNot;
+        const dosagesUpdatedBysLastNameContains = requestParameters?.dosagesUpdatedBysLastNameContains;
+        const dosagesUpdatedBysLastNameNotContains = requestParameters?.dosagesUpdatedBysLastNameNotContains;
+        const dosagesUpdatedBysLastNameBeginsWith = requestParameters?.dosagesUpdatedBysLastNameBeginsWith;
+        const dosagesUpdatedBysLastNameNotBeginsWith = requestParameters?.dosagesUpdatedBysLastNameNotBeginsWith;
+        const dosagesUpdatedBysLastNameEndsWith = requestParameters?.dosagesUpdatedBysLastNameEndsWith;
+        const dosagesUpdatedBysLastNameNotEndsWith = requestParameters?.dosagesUpdatedBysLastNameNotEndsWith;
+        const dosagesDescription = requestParameters?.dosagesDescription;
+        const dosagesDescriptionNot = requestParameters?.dosagesDescriptionNot;
+        const dosagesDescriptionContains = requestParameters?.dosagesDescriptionContains;
+        const dosagesDescriptionNotContains = requestParameters?.dosagesDescriptionNotContains;
+        const dosagesDescriptionBeginsWith = requestParameters?.dosagesDescriptionBeginsWith;
+        const dosagesDescriptionNotBeginsWith = requestParameters?.dosagesDescriptionNotBeginsWith;
+        const dosagesDescriptionEndsWith = requestParameters?.dosagesDescriptionEndsWith;
+        const dosagesDescriptionNotEndsWith = requestParameters?.dosagesDescriptionNotEndsWith;
+        const dosagesFractionsNotExists = requestParameters?.dosagesFractionsNotExists;
+        const dosagesFractionsExists = requestParameters?.dosagesFractionsExists;
+        const dosagesFractionsLessThan = requestParameters?.dosagesFractionsLessThan;
+        const dosagesFractionsLessThanOrEqual = requestParameters?.dosagesFractionsLessThanOrEqual;
+        const dosagesFractionsGreaterThan = requestParameters?.dosagesFractionsGreaterThan;
+        const dosagesFractionsGreaterThanOrEqual = requestParameters?.dosagesFractionsGreaterThanOrEqual;
+        const dosagesFractionsEqual = requestParameters?.dosagesFractionsEqual;
+        const dosagesFractionsNotEqual = requestParameters?.dosagesFractionsNotEqual;
+        const dosagesFractionsBetween = requestParameters?.dosagesFractionsBetween;
+        const dosagesFractionsNotBetween = requestParameters?.dosagesFractionsNotBetween;
+        const dosagesDoseNotExists = requestParameters?.dosagesDoseNotExists;
+        const dosagesDoseExists = requestParameters?.dosagesDoseExists;
+        const dosagesDoseLessThan = requestParameters?.dosagesDoseLessThan;
+        const dosagesDoseLessThanOrEqual = requestParameters?.dosagesDoseLessThanOrEqual;
+        const dosagesDoseGreaterThan = requestParameters?.dosagesDoseGreaterThan;
+        const dosagesDoseGreaterThanOrEqual = requestParameters?.dosagesDoseGreaterThanOrEqual;
+        const dosagesDoseEqual = requestParameters?.dosagesDoseEqual;
+        const dosagesDoseNotEqual = requestParameters?.dosagesDoseNotEqual;
+        const dosagesDoseBetween = requestParameters?.dosagesDoseBetween;
+        const dosagesDoseNotBetween = requestParameters?.dosagesDoseNotBetween;
+        const dosagesIrradiatedVolume = requestParameters?.dosagesIrradiatedVolume;
+        const dosagesIrradiatedVolumeNot = requestParameters?.dosagesIrradiatedVolumeNot;
+        const dosagesIrradiatedVolumeAnyOf = requestParameters?.dosagesIrradiatedVolumeAnyOf;
+        const dosagesIrradiatedVolumeNotAnyOf = requestParameters?.dosagesIrradiatedVolumeNotAnyOf;
+        const dosagesIrradiatedVolumeDescendantsOf = requestParameters?.dosagesIrradiatedVolumeDescendantsOf;
+        const dosagesIrradiatedVolumeMorphologyNotExists = requestParameters?.dosagesIrradiatedVolumeMorphologyNotExists;
+        const dosagesIrradiatedVolumeMorphologyExists = requestParameters?.dosagesIrradiatedVolumeMorphologyExists;
+        const dosagesIrradiatedVolumeMorphology = requestParameters?.dosagesIrradiatedVolumeMorphology;
+        const dosagesIrradiatedVolumeMorphologyNot = requestParameters?.dosagesIrradiatedVolumeMorphologyNot;
+        const dosagesIrradiatedVolumeMorphologyAnyOf = requestParameters?.dosagesIrradiatedVolumeMorphologyAnyOf;
+        const dosagesIrradiatedVolumeMorphologyNotAnyOf = requestParameters?.dosagesIrradiatedVolumeMorphologyNotAnyOf;
+        const dosagesIrradiatedVolumeMorphologyDescendantsOf = requestParameters?.dosagesIrradiatedVolumeMorphologyDescendantsOf;
+        const dosagesIrradiatedVolumeQualifierNotExists = requestParameters?.dosagesIrradiatedVolumeQualifierNotExists;
+        const dosagesIrradiatedVolumeQualifierExists = requestParameters?.dosagesIrradiatedVolumeQualifierExists;
+        const dosagesIrradiatedVolumeQualifier = requestParameters?.dosagesIrradiatedVolumeQualifier;
+        const dosagesIrradiatedVolumeQualifierNot = requestParameters?.dosagesIrradiatedVolumeQualifierNot;
+        const dosagesIrradiatedVolumeQualifierAnyOf = requestParameters?.dosagesIrradiatedVolumeQualifierAnyOf;
+        const dosagesIrradiatedVolumeQualifierNotAnyOf = requestParameters?.dosagesIrradiatedVolumeQualifierNotAnyOf;
+        const dosagesIrradiatedVolumeQualifierDescendantsOf = requestParameters?.dosagesIrradiatedVolumeQualifierDescendantsOf;
+        const settingsId = requestParameters?.settingsId;
+        const settingsIdNot = requestParameters?.settingsIdNot;
+        const settingsIdContains = requestParameters?.settingsIdContains;
+        const settingsIdNotContains = requestParameters?.settingsIdNotContains;
+        const settingsIdBeginsWith = requestParameters?.settingsIdBeginsWith;
+        const settingsIdNotBeginsWith = requestParameters?.settingsIdNotBeginsWith;
+        const settingsIdEndsWith = requestParameters?.settingsIdEndsWith;
+        const settingsIdNotEndsWith = requestParameters?.settingsIdNotEndsWith;
+        const settingsCreatedAtBefore = requestParameters?.settingsCreatedAtBefore;
+        const settingsCreatedAtAfter = requestParameters?.settingsCreatedAtAfter;
+        const settingsCreatedAtOnOrBefore = requestParameters?.settingsCreatedAtOnOrBefore;
+        const settingsCreatedAtOnOrAfter = requestParameters?.settingsCreatedAtOnOrAfter;
+        const settingsCreatedAtOn = requestParameters?.settingsCreatedAtOn;
+        const settingsCreatedAtNotOn = requestParameters?.settingsCreatedAtNotOn;
+        const settingsCreatedAtBetween = requestParameters?.settingsCreatedAtBetween;
+        const settingsCreatedAtNotBetween = requestParameters?.settingsCreatedAtNotBetween;
+        const settingsUpdatedAtBefore = requestParameters?.settingsUpdatedAtBefore;
+        const settingsUpdatedAtAfter = requestParameters?.settingsUpdatedAtAfter;
+        const settingsUpdatedAtOnOrBefore = requestParameters?.settingsUpdatedAtOnOrBefore;
+        const settingsUpdatedAtOnOrAfter = requestParameters?.settingsUpdatedAtOnOrAfter;
+        const settingsUpdatedAtOn = requestParameters?.settingsUpdatedAtOn;
+        const settingsUpdatedAtNotOn = requestParameters?.settingsUpdatedAtNotOn;
+        const settingsUpdatedAtBetween = requestParameters?.settingsUpdatedAtBetween;
+        const settingsUpdatedAtNotBetween = requestParameters?.settingsUpdatedAtNotBetween;
+        const settingsCreatedByNotExists = requestParameters?.settingsCreatedByNotExists;
+        const settingsCreatedByExists = requestParameters?.settingsCreatedByExists;
+        const settingsUpdatedBysIdLessThan = requestParameters?.settingsUpdatedBysIdLessThan;
+        const settingsUpdatedBysIdLessThanOrEqual = requestParameters?.settingsUpdatedBysIdLessThanOrEqual;
+        const settingsUpdatedBysIdGreaterThan = requestParameters?.settingsUpdatedBysIdGreaterThan;
+        const settingsUpdatedBysIdGreaterThanOrEqual = requestParameters?.settingsUpdatedBysIdGreaterThanOrEqual;
+        const settingsUpdatedBysIdEqual = requestParameters?.settingsUpdatedBysIdEqual;
+        const settingsUpdatedBysIdNotEqual = requestParameters?.settingsUpdatedBysIdNotEqual;
+        const settingsUpdatedBysIdBetween = requestParameters?.settingsUpdatedBysIdBetween;
+        const settingsUpdatedBysIdNotBetween = requestParameters?.settingsUpdatedBysIdNotBetween;
+        const settingsUpdatedBysUsername = requestParameters?.settingsUpdatedBysUsername;
+        const settingsUpdatedBysUsernameNot = requestParameters?.settingsUpdatedBysUsernameNot;
+        const settingsUpdatedBysUsernameContains = requestParameters?.settingsUpdatedBysUsernameContains;
+        const settingsUpdatedBysUsernameNotContains = requestParameters?.settingsUpdatedBysUsernameNotContains;
+        const settingsUpdatedBysUsernameBeginsWith = requestParameters?.settingsUpdatedBysUsernameBeginsWith;
+        const settingsUpdatedBysUsernameNotBeginsWith = requestParameters?.settingsUpdatedBysUsernameNotBeginsWith;
+        const settingsUpdatedBysUsernameEndsWith = requestParameters?.settingsUpdatedBysUsernameEndsWith;
+        const settingsUpdatedBysUsernameNotEndsWith = requestParameters?.settingsUpdatedBysUsernameNotEndsWith;
+        const settingsUpdatedBysEmail = requestParameters?.settingsUpdatedBysEmail;
+        const settingsUpdatedBysEmailNot = requestParameters?.settingsUpdatedBysEmailNot;
+        const settingsUpdatedBysEmailContains = requestParameters?.settingsUpdatedBysEmailContains;
+        const settingsUpdatedBysEmailNotContains = requestParameters?.settingsUpdatedBysEmailNotContains;
+        const settingsUpdatedBysEmailBeginsWith = requestParameters?.settingsUpdatedBysEmailBeginsWith;
+        const settingsUpdatedBysEmailNotBeginsWith = requestParameters?.settingsUpdatedBysEmailNotBeginsWith;
+        const settingsUpdatedBysEmailEndsWith = requestParameters?.settingsUpdatedBysEmailEndsWith;
+        const settingsUpdatedBysEmailNotEndsWith = requestParameters?.settingsUpdatedBysEmailNotEndsWith;
+        const settingsUpdatedBysFirstNameNotExists = requestParameters?.settingsUpdatedBysFirstNameNotExists;
+        const settingsUpdatedBysFirstNameExists = requestParameters?.settingsUpdatedBysFirstNameExists;
+        const settingsUpdatedBysFirstName = requestParameters?.settingsUpdatedBysFirstName;
+        const settingsUpdatedBysFirstNameNot = requestParameters?.settingsUpdatedBysFirstNameNot;
+        const settingsUpdatedBysFirstNameContains = requestParameters?.settingsUpdatedBysFirstNameContains;
+        const settingsUpdatedBysFirstNameNotContains = requestParameters?.settingsUpdatedBysFirstNameNotContains;
+        const settingsUpdatedBysFirstNameBeginsWith = requestParameters?.settingsUpdatedBysFirstNameBeginsWith;
+        const settingsUpdatedBysFirstNameNotBeginsWith = requestParameters?.settingsUpdatedBysFirstNameNotBeginsWith;
+        const settingsUpdatedBysFirstNameEndsWith = requestParameters?.settingsUpdatedBysFirstNameEndsWith;
+        const settingsUpdatedBysFirstNameNotEndsWith = requestParameters?.settingsUpdatedBysFirstNameNotEndsWith;
+        const settingsUpdatedBysLastNameNotExists = requestParameters?.settingsUpdatedBysLastNameNotExists;
+        const settingsUpdatedBysLastNameExists = requestParameters?.settingsUpdatedBysLastNameExists;
+        const settingsUpdatedBysLastName = requestParameters?.settingsUpdatedBysLastName;
+        const settingsUpdatedBysLastNameNot = requestParameters?.settingsUpdatedBysLastNameNot;
+        const settingsUpdatedBysLastNameContains = requestParameters?.settingsUpdatedBysLastNameContains;
+        const settingsUpdatedBysLastNameNotContains = requestParameters?.settingsUpdatedBysLastNameNotContains;
+        const settingsUpdatedBysLastNameBeginsWith = requestParameters?.settingsUpdatedBysLastNameBeginsWith;
+        const settingsUpdatedBysLastNameNotBeginsWith = requestParameters?.settingsUpdatedBysLastNameNotBeginsWith;
+        const settingsUpdatedBysLastNameEndsWith = requestParameters?.settingsUpdatedBysLastNameEndsWith;
+        const settingsUpdatedBysLastNameNotEndsWith = requestParameters?.settingsUpdatedBysLastNameNotEndsWith;
+        const settingsDescription = requestParameters?.settingsDescription;
+        const settingsDescriptionNot = requestParameters?.settingsDescriptionNot;
+        const settingsDescriptionContains = requestParameters?.settingsDescriptionContains;
+        const settingsDescriptionNotContains = requestParameters?.settingsDescriptionNotContains;
+        const settingsDescriptionBeginsWith = requestParameters?.settingsDescriptionBeginsWith;
+        const settingsDescriptionNotBeginsWith = requestParameters?.settingsDescriptionNotBeginsWith;
+        const settingsDescriptionEndsWith = requestParameters?.settingsDescriptionEndsWith;
+        const settingsDescriptionNotEndsWith = requestParameters?.settingsDescriptionNotEndsWith;
+        const settingsModality = requestParameters?.settingsModality;
+        const settingsModalityNot = requestParameters?.settingsModalityNot;
+        const settingsModalityAnyOf = requestParameters?.settingsModalityAnyOf;
+        const settingsModalityNotAnyOf = requestParameters?.settingsModalityNotAnyOf;
+        const settingsModalityDescendantsOf = requestParameters?.settingsModalityDescendantsOf;
+        const settingsTechnique = requestParameters?.settingsTechnique;
+        const settingsTechniqueNot = requestParameters?.settingsTechniqueNot;
+        const settingsTechniqueAnyOf = requestParameters?.settingsTechniqueAnyOf;
+        const settingsTechniqueNotAnyOf = requestParameters?.settingsTechniqueNotAnyOf;
+        const settingsTechniqueDescendantsOf = requestParameters?.settingsTechniqueDescendantsOf;
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (id !== undefined && id !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>id, 'id');
+        }
+        if (idNot !== undefined && idNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNot, 'id.not');
+        }
+        if (idContains !== undefined && idContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idContains, 'id.contains');
+        }
+        if (idNotContains !== undefined && idNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotContains, 'id.not.contains');
+        }
+        if (idBeginsWith !== undefined && idBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idBeginsWith, 'id.beginsWith');
+        }
+        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotBeginsWith, 'id.not.beginsWith');
+        }
+        if (idEndsWith !== undefined && idEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idEndsWith, 'id.endsWith');
+        }
+        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotEndsWith, 'id.not.endsWith');
+        }
+        if (createdAtBefore !== undefined && createdAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtBefore, 'createdAt.before');
+        }
+        if (createdAtAfter !== undefined && createdAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtAfter, 'createdAt.after');
+        }
+        if (createdAtOnOrBefore !== undefined && createdAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOnOrBefore, 'createdAt.onOrBefore');
+        }
+        if (createdAtOnOrAfter !== undefined && createdAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOnOrAfter, 'createdAt.onOrAfter');
+        }
+        if (createdAtOn !== undefined && createdAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOn, 'createdAt.on');
+        }
+        if (createdAtNotOn !== undefined && createdAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtNotOn, 'createdAt.not.on');
+        }
+        if (createdAtBetween) {
+            createdAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'createdAt.between');
+            })
+        }
+        if (createdAtNotBetween) {
+            createdAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'createdAt.not.between');
+            })
+        }
+        if (updatedAtBefore !== undefined && updatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtBefore, 'updatedAt.before');
+        }
+        if (updatedAtAfter !== undefined && updatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtAfter, 'updatedAt.after');
+        }
+        if (updatedAtOnOrBefore !== undefined && updatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOnOrBefore, 'updatedAt.onOrBefore');
+        }
+        if (updatedAtOnOrAfter !== undefined && updatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOnOrAfter, 'updatedAt.onOrAfter');
+        }
+        if (updatedAtOn !== undefined && updatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOn, 'updatedAt.on');
+        }
+        if (updatedAtNotOn !== undefined && updatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtNotOn, 'updatedAt.not.on');
+        }
+        if (updatedAtBetween) {
+            updatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedAt.between');
+            })
+        }
+        if (updatedAtNotBetween) {
+            updatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedAt.not.between');
+            })
+        }
+        if (createdByNotExists !== undefined && createdByNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdByNotExists, 'createdBy.not.exists');
+        }
+        if (createdByExists !== undefined && createdByExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdByExists, 'createdBy.exists');
+        }
+        if (updatedBysIdLessThan !== undefined && updatedBysIdLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdLessThan, 'updatedBys.id.lessThan');
+        }
+        if (updatedBysIdLessThanOrEqual !== undefined && updatedBysIdLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdLessThanOrEqual, 'updatedBys.id.lessThanOrEqual');
+        }
+        if (updatedBysIdGreaterThan !== undefined && updatedBysIdGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdGreaterThan, 'updatedBys.id.greaterThan');
+        }
+        if (updatedBysIdGreaterThanOrEqual !== undefined && updatedBysIdGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdGreaterThanOrEqual, 'updatedBys.id.greaterThanOrEqual');
+        }
+        if (updatedBysIdEqual !== undefined && updatedBysIdEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdEqual, 'updatedBys.id.equal');
+        }
+        if (updatedBysIdNotEqual !== undefined && updatedBysIdNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdNotEqual, 'updatedBys.id.not.equal');
+        }
+        if (updatedBysIdBetween) {
+            updatedBysIdBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedBys.id.between');
+            })
+        }
+        if (updatedBysIdNotBetween) {
+            updatedBysIdNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedBys.id.not.between');
+            })
+        }
+        if (updatedBysUsername !== undefined && updatedBysUsername !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsername, 'updatedBys.username');
+        }
+        if (updatedBysUsernameNot !== undefined && updatedBysUsernameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNot, 'updatedBys.username.not');
+        }
+        if (updatedBysUsernameContains !== undefined && updatedBysUsernameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameContains, 'updatedBys.username.contains');
+        }
+        if (updatedBysUsernameNotContains !== undefined && updatedBysUsernameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotContains, 'updatedBys.username.not.contains');
+        }
+        if (updatedBysUsernameBeginsWith !== undefined && updatedBysUsernameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameBeginsWith, 'updatedBys.username.beginsWith');
+        }
+        if (updatedBysUsernameNotBeginsWith !== undefined && updatedBysUsernameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotBeginsWith, 'updatedBys.username.not.beginsWith');
+        }
+        if (updatedBysUsernameEndsWith !== undefined && updatedBysUsernameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameEndsWith, 'updatedBys.username.endsWith');
+        }
+        if (updatedBysUsernameNotEndsWith !== undefined && updatedBysUsernameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotEndsWith, 'updatedBys.username.not.endsWith');
+        }
+        if (updatedBysEmail !== undefined && updatedBysEmail !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmail, 'updatedBys.email');
+        }
+        if (updatedBysEmailNot !== undefined && updatedBysEmailNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNot, 'updatedBys.email.not');
+        }
+        if (updatedBysEmailContains !== undefined && updatedBysEmailContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailContains, 'updatedBys.email.contains');
+        }
+        if (updatedBysEmailNotContains !== undefined && updatedBysEmailNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotContains, 'updatedBys.email.not.contains');
+        }
+        if (updatedBysEmailBeginsWith !== undefined && updatedBysEmailBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailBeginsWith, 'updatedBys.email.beginsWith');
+        }
+        if (updatedBysEmailNotBeginsWith !== undefined && updatedBysEmailNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotBeginsWith, 'updatedBys.email.not.beginsWith');
+        }
+        if (updatedBysEmailEndsWith !== undefined && updatedBysEmailEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailEndsWith, 'updatedBys.email.endsWith');
+        }
+        if (updatedBysEmailNotEndsWith !== undefined && updatedBysEmailNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotEndsWith, 'updatedBys.email.not.endsWith');
+        }
+        if (updatedBysFirstNameNotExists !== undefined && updatedBysFirstNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotExists, 'updatedBys.firstName.not.exists');
+        }
+        if (updatedBysFirstNameExists !== undefined && updatedBysFirstNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameExists, 'updatedBys.firstName.exists');
+        }
+        if (updatedBysFirstName !== undefined && updatedBysFirstName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstName, 'updatedBys.firstName');
+        }
+        if (updatedBysFirstNameNot !== undefined && updatedBysFirstNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNot, 'updatedBys.firstName.not');
+        }
+        if (updatedBysFirstNameContains !== undefined && updatedBysFirstNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameContains, 'updatedBys.firstName.contains');
+        }
+        if (updatedBysFirstNameNotContains !== undefined && updatedBysFirstNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotContains, 'updatedBys.firstName.not.contains');
+        }
+        if (updatedBysFirstNameBeginsWith !== undefined && updatedBysFirstNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameBeginsWith, 'updatedBys.firstName.beginsWith');
+        }
+        if (updatedBysFirstNameNotBeginsWith !== undefined && updatedBysFirstNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotBeginsWith, 'updatedBys.firstName.not.beginsWith');
+        }
+        if (updatedBysFirstNameEndsWith !== undefined && updatedBysFirstNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameEndsWith, 'updatedBys.firstName.endsWith');
+        }
+        if (updatedBysFirstNameNotEndsWith !== undefined && updatedBysFirstNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotEndsWith, 'updatedBys.firstName.not.endsWith');
+        }
+        if (updatedBysLastNameNotExists !== undefined && updatedBysLastNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotExists, 'updatedBys.lastName.not.exists');
+        }
+        if (updatedBysLastNameExists !== undefined && updatedBysLastNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameExists, 'updatedBys.lastName.exists');
+        }
+        if (updatedBysLastName !== undefined && updatedBysLastName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastName, 'updatedBys.lastName');
+        }
+        if (updatedBysLastNameNot !== undefined && updatedBysLastNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNot, 'updatedBys.lastName.not');
+        }
+        if (updatedBysLastNameContains !== undefined && updatedBysLastNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameContains, 'updatedBys.lastName.contains');
+        }
+        if (updatedBysLastNameNotContains !== undefined && updatedBysLastNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotContains, 'updatedBys.lastName.not.contains');
+        }
+        if (updatedBysLastNameBeginsWith !== undefined && updatedBysLastNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameBeginsWith, 'updatedBys.lastName.beginsWith');
+        }
+        if (updatedBysLastNameNotBeginsWith !== undefined && updatedBysLastNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotBeginsWith, 'updatedBys.lastName.not.beginsWith');
+        }
+        if (updatedBysLastNameEndsWith !== undefined && updatedBysLastNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameEndsWith, 'updatedBys.lastName.endsWith');
+        }
+        if (updatedBysLastNameNotEndsWith !== undefined && updatedBysLastNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotEndsWith, 'updatedBys.lastName.not.endsWith');
+        }
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>caseId, 'caseId');
+        }
+        if (caseIdNot !== undefined && caseIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNot, 'caseId.not');
+        }
+        if (caseIdContains !== undefined && caseIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdContains, 'caseId.contains');
+        }
+        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotContains, 'caseId.not.contains');
+        }
+        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdBeginsWith, 'caseId.beginsWith');
+        }
+        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        }
+        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdEndsWith, 'caseId.endsWith');
+        }
+        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        }
+        if (periodOverlaps) {
+            periodOverlaps.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.overlaps');
+            })
+        }
+        if (periodNotOverlaps) {
+            periodNotOverlaps.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.not.overlaps');
+            })
+        }
+        if (periodContains) {
+            periodContains.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.contains');
+            })
+        }
+        if (periodNotContains) {
+            periodNotContains.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.not.contains');
+            })
+        }
+        if (periodContainedBy) {
+            periodContainedBy.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.containedBy');
+            })
+        }
+        if (periodNotContainedBy) {
+            periodNotContainedBy.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.not.containedBy');
+            })
+        }
+        if (sessionsLessThan !== undefined && sessionsLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sessionsLessThan, 'sessions.lessThan');
+        }
+        if (sessionsLessThanOrEqual !== undefined && sessionsLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sessionsLessThanOrEqual, 'sessions.lessThanOrEqual');
+        }
+        if (sessionsGreaterThan !== undefined && sessionsGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sessionsGreaterThan, 'sessions.greaterThan');
+        }
+        if (sessionsGreaterThanOrEqual !== undefined && sessionsGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sessionsGreaterThanOrEqual, 'sessions.greaterThanOrEqual');
+        }
+        if (sessionsEqual !== undefined && sessionsEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sessionsEqual, 'sessions.equal');
+        }
+        if (sessionsNotEqual !== undefined && sessionsNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>sessionsNotEqual, 'sessions.not.equal');
+        }
+        if (sessionsBetween) {
+            sessionsBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'sessions.between');
+            })
+        }
+        if (sessionsNotBetween) {
+            sessionsNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'sessions.not.between');
+            })
+        }
+        if (intent !== undefined && intent !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>intent, 'intent');
+        }
+        if (intentNot !== undefined && intentNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>intentNot, 'intent.not');
+        }
+        if (intentAnyOf) {
+            intentAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'intent.anyOf');
+            })
+        }
+        if (terminationReasonNotExists !== undefined && terminationReasonNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>terminationReasonNotExists, 'terminationReason.not.exists');
+        }
+        if (terminationReasonExists !== undefined && terminationReasonExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>terminationReasonExists, 'terminationReason.exists');
+        }
+        if (terminationReason !== undefined && terminationReason !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>terminationReason, 'terminationReason');
+        }
+        if (terminationReasonNot !== undefined && terminationReasonNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>terminationReasonNot, 'terminationReason.not');
+        }
+        if (terminationReasonAnyOf) {
+            terminationReasonAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'terminationReason.anyOf');
+            })
+        }
+        if (terminationReasonNotAnyOf) {
+            terminationReasonNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'terminationReason.not.anyOf');
+            })
+        }
+        if (terminationReasonDescendantsOf !== undefined && terminationReasonDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>terminationReasonDescendantsOf, 'terminationReason.descendantsOf');
+        }
+        if (targetedEntitiesIds !== undefined && targetedEntitiesIds !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIds, 'targetedEntitiesIds');
+        }
+        if (targetedEntitiesIdsNot !== undefined && targetedEntitiesIdsNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
+        }
+        if (targetedEntitiesIdsContains !== undefined && targetedEntitiesIdsContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsContains, 'targetedEntitiesIds.contains');
+        }
+        if (targetedEntitiesIdsNotContains !== undefined && targetedEntitiesIdsNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsNotContains, 'targetedEntitiesIds.not.contains');
+        }
+        if (targetedEntitiesIdsBeginsWith !== undefined && targetedEntitiesIdsBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsBeginsWith, 'targetedEntitiesIds.beginsWith');
+        }
+        if (targetedEntitiesIdsNotBeginsWith !== undefined && targetedEntitiesIdsNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsNotBeginsWith, 'targetedEntitiesIds.not.beginsWith');
+        }
+        if (targetedEntitiesIdsEndsWith !== undefined && targetedEntitiesIdsEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsEndsWith, 'targetedEntitiesIds.endsWith');
+        }
+        if (targetedEntitiesIdsNotEndsWith !== undefined && targetedEntitiesIdsNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>targetedEntitiesIdsNotEndsWith, 'targetedEntitiesIds.not.endsWith');
+        }
+        if (dosagesId !== undefined && dosagesId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesId, 'dosages.id');
+        }
+        if (dosagesIdNot !== undefined && dosagesIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdNot, 'dosages.id.not');
+        }
+        if (dosagesIdContains !== undefined && dosagesIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdContains, 'dosages.id.contains');
+        }
+        if (dosagesIdNotContains !== undefined && dosagesIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdNotContains, 'dosages.id.not.contains');
+        }
+        if (dosagesIdBeginsWith !== undefined && dosagesIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdBeginsWith, 'dosages.id.beginsWith');
+        }
+        if (dosagesIdNotBeginsWith !== undefined && dosagesIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdNotBeginsWith, 'dosages.id.not.beginsWith');
+        }
+        if (dosagesIdEndsWith !== undefined && dosagesIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdEndsWith, 'dosages.id.endsWith');
+        }
+        if (dosagesIdNotEndsWith !== undefined && dosagesIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIdNotEndsWith, 'dosages.id.not.endsWith');
+        }
+        if (dosagesCreatedAtBefore !== undefined && dosagesCreatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedAtBefore, 'dosages.createdAt.before');
+        }
+        if (dosagesCreatedAtAfter !== undefined && dosagesCreatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedAtAfter, 'dosages.createdAt.after');
+        }
+        if (dosagesCreatedAtOnOrBefore !== undefined && dosagesCreatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedAtOnOrBefore, 'dosages.createdAt.onOrBefore');
+        }
+        if (dosagesCreatedAtOnOrAfter !== undefined && dosagesCreatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedAtOnOrAfter, 'dosages.createdAt.onOrAfter');
+        }
+        if (dosagesCreatedAtOn !== undefined && dosagesCreatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedAtOn, 'dosages.createdAt.on');
+        }
+        if (dosagesCreatedAtNotOn !== undefined && dosagesCreatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedAtNotOn, 'dosages.createdAt.not.on');
+        }
+        if (dosagesCreatedAtBetween) {
+            dosagesCreatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.createdAt.between');
+            })
+        }
+        if (dosagesCreatedAtNotBetween) {
+            dosagesCreatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.createdAt.not.between');
+            })
+        }
+        if (dosagesUpdatedAtBefore !== undefined && dosagesUpdatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedAtBefore, 'dosages.updatedAt.before');
+        }
+        if (dosagesUpdatedAtAfter !== undefined && dosagesUpdatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedAtAfter, 'dosages.updatedAt.after');
+        }
+        if (dosagesUpdatedAtOnOrBefore !== undefined && dosagesUpdatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedAtOnOrBefore, 'dosages.updatedAt.onOrBefore');
+        }
+        if (dosagesUpdatedAtOnOrAfter !== undefined && dosagesUpdatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedAtOnOrAfter, 'dosages.updatedAt.onOrAfter');
+        }
+        if (dosagesUpdatedAtOn !== undefined && dosagesUpdatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedAtOn, 'dosages.updatedAt.on');
+        }
+        if (dosagesUpdatedAtNotOn !== undefined && dosagesUpdatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedAtNotOn, 'dosages.updatedAt.not.on');
+        }
+        if (dosagesUpdatedAtBetween) {
+            dosagesUpdatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.updatedAt.between');
+            })
+        }
+        if (dosagesUpdatedAtNotBetween) {
+            dosagesUpdatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.updatedAt.not.between');
+            })
+        }
+        if (dosagesCreatedByNotExists !== undefined && dosagesCreatedByNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedByNotExists, 'dosages.createdBy.not.exists');
+        }
+        if (dosagesCreatedByExists !== undefined && dosagesCreatedByExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesCreatedByExists, 'dosages.createdBy.exists');
+        }
+        if (dosagesUpdatedBysIdLessThan !== undefined && dosagesUpdatedBysIdLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysIdLessThan, 'dosages.updatedBys.id.lessThan');
+        }
+        if (dosagesUpdatedBysIdLessThanOrEqual !== undefined && dosagesUpdatedBysIdLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysIdLessThanOrEqual, 'dosages.updatedBys.id.lessThanOrEqual');
+        }
+        if (dosagesUpdatedBysIdGreaterThan !== undefined && dosagesUpdatedBysIdGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysIdGreaterThan, 'dosages.updatedBys.id.greaterThan');
+        }
+        if (dosagesUpdatedBysIdGreaterThanOrEqual !== undefined && dosagesUpdatedBysIdGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysIdGreaterThanOrEqual, 'dosages.updatedBys.id.greaterThanOrEqual');
+        }
+        if (dosagesUpdatedBysIdEqual !== undefined && dosagesUpdatedBysIdEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysIdEqual, 'dosages.updatedBys.id.equal');
+        }
+        if (dosagesUpdatedBysIdNotEqual !== undefined && dosagesUpdatedBysIdNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysIdNotEqual, 'dosages.updatedBys.id.not.equal');
+        }
+        if (dosagesUpdatedBysIdBetween) {
+            dosagesUpdatedBysIdBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.updatedBys.id.between');
+            })
+        }
+        if (dosagesUpdatedBysIdNotBetween) {
+            dosagesUpdatedBysIdNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.updatedBys.id.not.between');
+            })
+        }
+        if (dosagesUpdatedBysUsername !== undefined && dosagesUpdatedBysUsername !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsername, 'dosages.updatedBys.username');
+        }
+        if (dosagesUpdatedBysUsernameNot !== undefined && dosagesUpdatedBysUsernameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameNot, 'dosages.updatedBys.username.not');
+        }
+        if (dosagesUpdatedBysUsernameContains !== undefined && dosagesUpdatedBysUsernameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameContains, 'dosages.updatedBys.username.contains');
+        }
+        if (dosagesUpdatedBysUsernameNotContains !== undefined && dosagesUpdatedBysUsernameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameNotContains, 'dosages.updatedBys.username.not.contains');
+        }
+        if (dosagesUpdatedBysUsernameBeginsWith !== undefined && dosagesUpdatedBysUsernameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameBeginsWith, 'dosages.updatedBys.username.beginsWith');
+        }
+        if (dosagesUpdatedBysUsernameNotBeginsWith !== undefined && dosagesUpdatedBysUsernameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameNotBeginsWith, 'dosages.updatedBys.username.not.beginsWith');
+        }
+        if (dosagesUpdatedBysUsernameEndsWith !== undefined && dosagesUpdatedBysUsernameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameEndsWith, 'dosages.updatedBys.username.endsWith');
+        }
+        if (dosagesUpdatedBysUsernameNotEndsWith !== undefined && dosagesUpdatedBysUsernameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysUsernameNotEndsWith, 'dosages.updatedBys.username.not.endsWith');
+        }
+        if (dosagesUpdatedBysEmail !== undefined && dosagesUpdatedBysEmail !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmail, 'dosages.updatedBys.email');
+        }
+        if (dosagesUpdatedBysEmailNot !== undefined && dosagesUpdatedBysEmailNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailNot, 'dosages.updatedBys.email.not');
+        }
+        if (dosagesUpdatedBysEmailContains !== undefined && dosagesUpdatedBysEmailContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailContains, 'dosages.updatedBys.email.contains');
+        }
+        if (dosagesUpdatedBysEmailNotContains !== undefined && dosagesUpdatedBysEmailNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailNotContains, 'dosages.updatedBys.email.not.contains');
+        }
+        if (dosagesUpdatedBysEmailBeginsWith !== undefined && dosagesUpdatedBysEmailBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailBeginsWith, 'dosages.updatedBys.email.beginsWith');
+        }
+        if (dosagesUpdatedBysEmailNotBeginsWith !== undefined && dosagesUpdatedBysEmailNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailNotBeginsWith, 'dosages.updatedBys.email.not.beginsWith');
+        }
+        if (dosagesUpdatedBysEmailEndsWith !== undefined && dosagesUpdatedBysEmailEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailEndsWith, 'dosages.updatedBys.email.endsWith');
+        }
+        if (dosagesUpdatedBysEmailNotEndsWith !== undefined && dosagesUpdatedBysEmailNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysEmailNotEndsWith, 'dosages.updatedBys.email.not.endsWith');
+        }
+        if (dosagesUpdatedBysFirstNameNotExists !== undefined && dosagesUpdatedBysFirstNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameNotExists, 'dosages.updatedBys.firstName.not.exists');
+        }
+        if (dosagesUpdatedBysFirstNameExists !== undefined && dosagesUpdatedBysFirstNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameExists, 'dosages.updatedBys.firstName.exists');
+        }
+        if (dosagesUpdatedBysFirstName !== undefined && dosagesUpdatedBysFirstName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstName, 'dosages.updatedBys.firstName');
+        }
+        if (dosagesUpdatedBysFirstNameNot !== undefined && dosagesUpdatedBysFirstNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameNot, 'dosages.updatedBys.firstName.not');
+        }
+        if (dosagesUpdatedBysFirstNameContains !== undefined && dosagesUpdatedBysFirstNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameContains, 'dosages.updatedBys.firstName.contains');
+        }
+        if (dosagesUpdatedBysFirstNameNotContains !== undefined && dosagesUpdatedBysFirstNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameNotContains, 'dosages.updatedBys.firstName.not.contains');
+        }
+        if (dosagesUpdatedBysFirstNameBeginsWith !== undefined && dosagesUpdatedBysFirstNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameBeginsWith, 'dosages.updatedBys.firstName.beginsWith');
+        }
+        if (dosagesUpdatedBysFirstNameNotBeginsWith !== undefined && dosagesUpdatedBysFirstNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameNotBeginsWith, 'dosages.updatedBys.firstName.not.beginsWith');
+        }
+        if (dosagesUpdatedBysFirstNameEndsWith !== undefined && dosagesUpdatedBysFirstNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameEndsWith, 'dosages.updatedBys.firstName.endsWith');
+        }
+        if (dosagesUpdatedBysFirstNameNotEndsWith !== undefined && dosagesUpdatedBysFirstNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysFirstNameNotEndsWith, 'dosages.updatedBys.firstName.not.endsWith');
+        }
+        if (dosagesUpdatedBysLastNameNotExists !== undefined && dosagesUpdatedBysLastNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameNotExists, 'dosages.updatedBys.lastName.not.exists');
+        }
+        if (dosagesUpdatedBysLastNameExists !== undefined && dosagesUpdatedBysLastNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameExists, 'dosages.updatedBys.lastName.exists');
+        }
+        if (dosagesUpdatedBysLastName !== undefined && dosagesUpdatedBysLastName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastName, 'dosages.updatedBys.lastName');
+        }
+        if (dosagesUpdatedBysLastNameNot !== undefined && dosagesUpdatedBysLastNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameNot, 'dosages.updatedBys.lastName.not');
+        }
+        if (dosagesUpdatedBysLastNameContains !== undefined && dosagesUpdatedBysLastNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameContains, 'dosages.updatedBys.lastName.contains');
+        }
+        if (dosagesUpdatedBysLastNameNotContains !== undefined && dosagesUpdatedBysLastNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameNotContains, 'dosages.updatedBys.lastName.not.contains');
+        }
+        if (dosagesUpdatedBysLastNameBeginsWith !== undefined && dosagesUpdatedBysLastNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameBeginsWith, 'dosages.updatedBys.lastName.beginsWith');
+        }
+        if (dosagesUpdatedBysLastNameNotBeginsWith !== undefined && dosagesUpdatedBysLastNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameNotBeginsWith, 'dosages.updatedBys.lastName.not.beginsWith');
+        }
+        if (dosagesUpdatedBysLastNameEndsWith !== undefined && dosagesUpdatedBysLastNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameEndsWith, 'dosages.updatedBys.lastName.endsWith');
+        }
+        if (dosagesUpdatedBysLastNameNotEndsWith !== undefined && dosagesUpdatedBysLastNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesUpdatedBysLastNameNotEndsWith, 'dosages.updatedBys.lastName.not.endsWith');
+        }
+        if (dosagesDescription !== undefined && dosagesDescription !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescription, 'dosages.description');
+        }
+        if (dosagesDescriptionNot !== undefined && dosagesDescriptionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionNot, 'dosages.description.not');
+        }
+        if (dosagesDescriptionContains !== undefined && dosagesDescriptionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionContains, 'dosages.description.contains');
+        }
+        if (dosagesDescriptionNotContains !== undefined && dosagesDescriptionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionNotContains, 'dosages.description.not.contains');
+        }
+        if (dosagesDescriptionBeginsWith !== undefined && dosagesDescriptionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionBeginsWith, 'dosages.description.beginsWith');
+        }
+        if (dosagesDescriptionNotBeginsWith !== undefined && dosagesDescriptionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionNotBeginsWith, 'dosages.description.not.beginsWith');
+        }
+        if (dosagesDescriptionEndsWith !== undefined && dosagesDescriptionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionEndsWith, 'dosages.description.endsWith');
+        }
+        if (dosagesDescriptionNotEndsWith !== undefined && dosagesDescriptionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDescriptionNotEndsWith, 'dosages.description.not.endsWith');
+        }
+        if (dosagesFractionsNotExists !== undefined && dosagesFractionsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsNotExists, 'dosages.fractions.not.exists');
+        }
+        if (dosagesFractionsExists !== undefined && dosagesFractionsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsExists, 'dosages.fractions.exists');
+        }
+        if (dosagesFractionsLessThan !== undefined && dosagesFractionsLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsLessThan, 'dosages.fractions.lessThan');
+        }
+        if (dosagesFractionsLessThanOrEqual !== undefined && dosagesFractionsLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsLessThanOrEqual, 'dosages.fractions.lessThanOrEqual');
+        }
+        if (dosagesFractionsGreaterThan !== undefined && dosagesFractionsGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsGreaterThan, 'dosages.fractions.greaterThan');
+        }
+        if (dosagesFractionsGreaterThanOrEqual !== undefined && dosagesFractionsGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsGreaterThanOrEqual, 'dosages.fractions.greaterThanOrEqual');
+        }
+        if (dosagesFractionsEqual !== undefined && dosagesFractionsEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsEqual, 'dosages.fractions.equal');
+        }
+        if (dosagesFractionsNotEqual !== undefined && dosagesFractionsNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesFractionsNotEqual, 'dosages.fractions.not.equal');
+        }
+        if (dosagesFractionsBetween) {
+            dosagesFractionsBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.fractions.between');
+            })
+        }
+        if (dosagesFractionsNotBetween) {
+            dosagesFractionsNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.fractions.not.between');
+            })
+        }
+        if (dosagesDoseNotExists !== undefined && dosagesDoseNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseNotExists, 'dosages.dose.not.exists');
+        }
+        if (dosagesDoseExists !== undefined && dosagesDoseExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseExists, 'dosages.dose.exists');
+        }
+        if (dosagesDoseLessThan !== undefined && dosagesDoseLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseLessThan, 'dosages.dose.lessThan');
+        }
+        if (dosagesDoseLessThanOrEqual !== undefined && dosagesDoseLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseLessThanOrEqual, 'dosages.dose.lessThanOrEqual');
+        }
+        if (dosagesDoseGreaterThan !== undefined && dosagesDoseGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseGreaterThan, 'dosages.dose.greaterThan');
+        }
+        if (dosagesDoseGreaterThanOrEqual !== undefined && dosagesDoseGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseGreaterThanOrEqual, 'dosages.dose.greaterThanOrEqual');
+        }
+        if (dosagesDoseEqual !== undefined && dosagesDoseEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseEqual, 'dosages.dose.equal');
+        }
+        if (dosagesDoseNotEqual !== undefined && dosagesDoseNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesDoseNotEqual, 'dosages.dose.not.equal');
+        }
+        if (dosagesDoseBetween) {
+            dosagesDoseBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.dose.between');
+            })
+        }
+        if (dosagesDoseNotBetween) {
+            dosagesDoseNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.dose.not.between');
+            })
+        }
+        if (dosagesIrradiatedVolume !== undefined && dosagesIrradiatedVolume !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolume, 'dosages.irradiatedVolume');
+        }
+        if (dosagesIrradiatedVolumeNot !== undefined && dosagesIrradiatedVolumeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeNot, 'dosages.irradiatedVolume.not');
+        }
+        if (dosagesIrradiatedVolumeAnyOf) {
+            dosagesIrradiatedVolumeAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.irradiatedVolume.anyOf');
+            })
+        }
+        if (dosagesIrradiatedVolumeNotAnyOf) {
+            dosagesIrradiatedVolumeNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.irradiatedVolume.not.anyOf');
+            })
+        }
+        if (dosagesIrradiatedVolumeDescendantsOf !== undefined && dosagesIrradiatedVolumeDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeDescendantsOf, 'dosages.irradiatedVolume.descendantsOf');
+        }
+        if (dosagesIrradiatedVolumeMorphologyNotExists !== undefined && dosagesIrradiatedVolumeMorphologyNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeMorphologyNotExists, 'dosages.irradiatedVolumeMorphology.not.exists');
+        }
+        if (dosagesIrradiatedVolumeMorphologyExists !== undefined && dosagesIrradiatedVolumeMorphologyExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeMorphologyExists, 'dosages.irradiatedVolumeMorphology.exists');
+        }
+        if (dosagesIrradiatedVolumeMorphology !== undefined && dosagesIrradiatedVolumeMorphology !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeMorphology, 'dosages.irradiatedVolumeMorphology');
+        }
+        if (dosagesIrradiatedVolumeMorphologyNot !== undefined && dosagesIrradiatedVolumeMorphologyNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeMorphologyNot, 'dosages.irradiatedVolumeMorphology.not');
+        }
+        if (dosagesIrradiatedVolumeMorphologyAnyOf) {
+            dosagesIrradiatedVolumeMorphologyAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.irradiatedVolumeMorphology.anyOf');
+            })
+        }
+        if (dosagesIrradiatedVolumeMorphologyNotAnyOf) {
+            dosagesIrradiatedVolumeMorphologyNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.irradiatedVolumeMorphology.not.anyOf');
+            })
+        }
+        if (dosagesIrradiatedVolumeMorphologyDescendantsOf !== undefined && dosagesIrradiatedVolumeMorphologyDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeMorphologyDescendantsOf, 'dosages.irradiatedVolumeMorphology.descendantsOf');
+        }
+        if (dosagesIrradiatedVolumeQualifierNotExists !== undefined && dosagesIrradiatedVolumeQualifierNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeQualifierNotExists, 'dosages.irradiatedVolumeQualifier.not.exists');
+        }
+        if (dosagesIrradiatedVolumeQualifierExists !== undefined && dosagesIrradiatedVolumeQualifierExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeQualifierExists, 'dosages.irradiatedVolumeQualifier.exists');
+        }
+        if (dosagesIrradiatedVolumeQualifier !== undefined && dosagesIrradiatedVolumeQualifier !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeQualifier, 'dosages.irradiatedVolumeQualifier');
+        }
+        if (dosagesIrradiatedVolumeQualifierNot !== undefined && dosagesIrradiatedVolumeQualifierNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeQualifierNot, 'dosages.irradiatedVolumeQualifier.not');
+        }
+        if (dosagesIrradiatedVolumeQualifierAnyOf) {
+            dosagesIrradiatedVolumeQualifierAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.irradiatedVolumeQualifier.anyOf');
+            })
+        }
+        if (dosagesIrradiatedVolumeQualifierNotAnyOf) {
+            dosagesIrradiatedVolumeQualifierNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dosages.irradiatedVolumeQualifier.not.anyOf');
+            })
+        }
+        if (dosagesIrradiatedVolumeQualifierDescendantsOf !== undefined && dosagesIrradiatedVolumeQualifierDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dosagesIrradiatedVolumeQualifierDescendantsOf, 'dosages.irradiatedVolumeQualifier.descendantsOf');
+        }
+        if (settingsId !== undefined && settingsId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsId, 'settings.id');
+        }
+        if (settingsIdNot !== undefined && settingsIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdNot, 'settings.id.not');
+        }
+        if (settingsIdContains !== undefined && settingsIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdContains, 'settings.id.contains');
+        }
+        if (settingsIdNotContains !== undefined && settingsIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdNotContains, 'settings.id.not.contains');
+        }
+        if (settingsIdBeginsWith !== undefined && settingsIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdBeginsWith, 'settings.id.beginsWith');
+        }
+        if (settingsIdNotBeginsWith !== undefined && settingsIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdNotBeginsWith, 'settings.id.not.beginsWith');
+        }
+        if (settingsIdEndsWith !== undefined && settingsIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdEndsWith, 'settings.id.endsWith');
+        }
+        if (settingsIdNotEndsWith !== undefined && settingsIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsIdNotEndsWith, 'settings.id.not.endsWith');
+        }
+        if (settingsCreatedAtBefore !== undefined && settingsCreatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedAtBefore, 'settings.createdAt.before');
+        }
+        if (settingsCreatedAtAfter !== undefined && settingsCreatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedAtAfter, 'settings.createdAt.after');
+        }
+        if (settingsCreatedAtOnOrBefore !== undefined && settingsCreatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedAtOnOrBefore, 'settings.createdAt.onOrBefore');
+        }
+        if (settingsCreatedAtOnOrAfter !== undefined && settingsCreatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedAtOnOrAfter, 'settings.createdAt.onOrAfter');
+        }
+        if (settingsCreatedAtOn !== undefined && settingsCreatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedAtOn, 'settings.createdAt.on');
+        }
+        if (settingsCreatedAtNotOn !== undefined && settingsCreatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedAtNotOn, 'settings.createdAt.not.on');
+        }
+        if (settingsCreatedAtBetween) {
+            settingsCreatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.createdAt.between');
+            })
+        }
+        if (settingsCreatedAtNotBetween) {
+            settingsCreatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.createdAt.not.between');
+            })
+        }
+        if (settingsUpdatedAtBefore !== undefined && settingsUpdatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedAtBefore, 'settings.updatedAt.before');
+        }
+        if (settingsUpdatedAtAfter !== undefined && settingsUpdatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedAtAfter, 'settings.updatedAt.after');
+        }
+        if (settingsUpdatedAtOnOrBefore !== undefined && settingsUpdatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedAtOnOrBefore, 'settings.updatedAt.onOrBefore');
+        }
+        if (settingsUpdatedAtOnOrAfter !== undefined && settingsUpdatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedAtOnOrAfter, 'settings.updatedAt.onOrAfter');
+        }
+        if (settingsUpdatedAtOn !== undefined && settingsUpdatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedAtOn, 'settings.updatedAt.on');
+        }
+        if (settingsUpdatedAtNotOn !== undefined && settingsUpdatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedAtNotOn, 'settings.updatedAt.not.on');
+        }
+        if (settingsUpdatedAtBetween) {
+            settingsUpdatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.updatedAt.between');
+            })
+        }
+        if (settingsUpdatedAtNotBetween) {
+            settingsUpdatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.updatedAt.not.between');
+            })
+        }
+        if (settingsCreatedByNotExists !== undefined && settingsCreatedByNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedByNotExists, 'settings.createdBy.not.exists');
+        }
+        if (settingsCreatedByExists !== undefined && settingsCreatedByExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsCreatedByExists, 'settings.createdBy.exists');
+        }
+        if (settingsUpdatedBysIdLessThan !== undefined && settingsUpdatedBysIdLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysIdLessThan, 'settings.updatedBys.id.lessThan');
+        }
+        if (settingsUpdatedBysIdLessThanOrEqual !== undefined && settingsUpdatedBysIdLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysIdLessThanOrEqual, 'settings.updatedBys.id.lessThanOrEqual');
+        }
+        if (settingsUpdatedBysIdGreaterThan !== undefined && settingsUpdatedBysIdGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysIdGreaterThan, 'settings.updatedBys.id.greaterThan');
+        }
+        if (settingsUpdatedBysIdGreaterThanOrEqual !== undefined && settingsUpdatedBysIdGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysIdGreaterThanOrEqual, 'settings.updatedBys.id.greaterThanOrEqual');
+        }
+        if (settingsUpdatedBysIdEqual !== undefined && settingsUpdatedBysIdEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysIdEqual, 'settings.updatedBys.id.equal');
+        }
+        if (settingsUpdatedBysIdNotEqual !== undefined && settingsUpdatedBysIdNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysIdNotEqual, 'settings.updatedBys.id.not.equal');
+        }
+        if (settingsUpdatedBysIdBetween) {
+            settingsUpdatedBysIdBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.updatedBys.id.between');
+            })
+        }
+        if (settingsUpdatedBysIdNotBetween) {
+            settingsUpdatedBysIdNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.updatedBys.id.not.between');
+            })
+        }
+        if (settingsUpdatedBysUsername !== undefined && settingsUpdatedBysUsername !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsername, 'settings.updatedBys.username');
+        }
+        if (settingsUpdatedBysUsernameNot !== undefined && settingsUpdatedBysUsernameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameNot, 'settings.updatedBys.username.not');
+        }
+        if (settingsUpdatedBysUsernameContains !== undefined && settingsUpdatedBysUsernameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameContains, 'settings.updatedBys.username.contains');
+        }
+        if (settingsUpdatedBysUsernameNotContains !== undefined && settingsUpdatedBysUsernameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameNotContains, 'settings.updatedBys.username.not.contains');
+        }
+        if (settingsUpdatedBysUsernameBeginsWith !== undefined && settingsUpdatedBysUsernameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameBeginsWith, 'settings.updatedBys.username.beginsWith');
+        }
+        if (settingsUpdatedBysUsernameNotBeginsWith !== undefined && settingsUpdatedBysUsernameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameNotBeginsWith, 'settings.updatedBys.username.not.beginsWith');
+        }
+        if (settingsUpdatedBysUsernameEndsWith !== undefined && settingsUpdatedBysUsernameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameEndsWith, 'settings.updatedBys.username.endsWith');
+        }
+        if (settingsUpdatedBysUsernameNotEndsWith !== undefined && settingsUpdatedBysUsernameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysUsernameNotEndsWith, 'settings.updatedBys.username.not.endsWith');
+        }
+        if (settingsUpdatedBysEmail !== undefined && settingsUpdatedBysEmail !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmail, 'settings.updatedBys.email');
+        }
+        if (settingsUpdatedBysEmailNot !== undefined && settingsUpdatedBysEmailNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailNot, 'settings.updatedBys.email.not');
+        }
+        if (settingsUpdatedBysEmailContains !== undefined && settingsUpdatedBysEmailContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailContains, 'settings.updatedBys.email.contains');
+        }
+        if (settingsUpdatedBysEmailNotContains !== undefined && settingsUpdatedBysEmailNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailNotContains, 'settings.updatedBys.email.not.contains');
+        }
+        if (settingsUpdatedBysEmailBeginsWith !== undefined && settingsUpdatedBysEmailBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailBeginsWith, 'settings.updatedBys.email.beginsWith');
+        }
+        if (settingsUpdatedBysEmailNotBeginsWith !== undefined && settingsUpdatedBysEmailNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailNotBeginsWith, 'settings.updatedBys.email.not.beginsWith');
+        }
+        if (settingsUpdatedBysEmailEndsWith !== undefined && settingsUpdatedBysEmailEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailEndsWith, 'settings.updatedBys.email.endsWith');
+        }
+        if (settingsUpdatedBysEmailNotEndsWith !== undefined && settingsUpdatedBysEmailNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysEmailNotEndsWith, 'settings.updatedBys.email.not.endsWith');
+        }
+        if (settingsUpdatedBysFirstNameNotExists !== undefined && settingsUpdatedBysFirstNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameNotExists, 'settings.updatedBys.firstName.not.exists');
+        }
+        if (settingsUpdatedBysFirstNameExists !== undefined && settingsUpdatedBysFirstNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameExists, 'settings.updatedBys.firstName.exists');
+        }
+        if (settingsUpdatedBysFirstName !== undefined && settingsUpdatedBysFirstName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstName, 'settings.updatedBys.firstName');
+        }
+        if (settingsUpdatedBysFirstNameNot !== undefined && settingsUpdatedBysFirstNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameNot, 'settings.updatedBys.firstName.not');
+        }
+        if (settingsUpdatedBysFirstNameContains !== undefined && settingsUpdatedBysFirstNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameContains, 'settings.updatedBys.firstName.contains');
+        }
+        if (settingsUpdatedBysFirstNameNotContains !== undefined && settingsUpdatedBysFirstNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameNotContains, 'settings.updatedBys.firstName.not.contains');
+        }
+        if (settingsUpdatedBysFirstNameBeginsWith !== undefined && settingsUpdatedBysFirstNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameBeginsWith, 'settings.updatedBys.firstName.beginsWith');
+        }
+        if (settingsUpdatedBysFirstNameNotBeginsWith !== undefined && settingsUpdatedBysFirstNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameNotBeginsWith, 'settings.updatedBys.firstName.not.beginsWith');
+        }
+        if (settingsUpdatedBysFirstNameEndsWith !== undefined && settingsUpdatedBysFirstNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameEndsWith, 'settings.updatedBys.firstName.endsWith');
+        }
+        if (settingsUpdatedBysFirstNameNotEndsWith !== undefined && settingsUpdatedBysFirstNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysFirstNameNotEndsWith, 'settings.updatedBys.firstName.not.endsWith');
+        }
+        if (settingsUpdatedBysLastNameNotExists !== undefined && settingsUpdatedBysLastNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameNotExists, 'settings.updatedBys.lastName.not.exists');
+        }
+        if (settingsUpdatedBysLastNameExists !== undefined && settingsUpdatedBysLastNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameExists, 'settings.updatedBys.lastName.exists');
+        }
+        if (settingsUpdatedBysLastName !== undefined && settingsUpdatedBysLastName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastName, 'settings.updatedBys.lastName');
+        }
+        if (settingsUpdatedBysLastNameNot !== undefined && settingsUpdatedBysLastNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameNot, 'settings.updatedBys.lastName.not');
+        }
+        if (settingsUpdatedBysLastNameContains !== undefined && settingsUpdatedBysLastNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameContains, 'settings.updatedBys.lastName.contains');
+        }
+        if (settingsUpdatedBysLastNameNotContains !== undefined && settingsUpdatedBysLastNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameNotContains, 'settings.updatedBys.lastName.not.contains');
+        }
+        if (settingsUpdatedBysLastNameBeginsWith !== undefined && settingsUpdatedBysLastNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameBeginsWith, 'settings.updatedBys.lastName.beginsWith');
+        }
+        if (settingsUpdatedBysLastNameNotBeginsWith !== undefined && settingsUpdatedBysLastNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameNotBeginsWith, 'settings.updatedBys.lastName.not.beginsWith');
+        }
+        if (settingsUpdatedBysLastNameEndsWith !== undefined && settingsUpdatedBysLastNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameEndsWith, 'settings.updatedBys.lastName.endsWith');
+        }
+        if (settingsUpdatedBysLastNameNotEndsWith !== undefined && settingsUpdatedBysLastNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsUpdatedBysLastNameNotEndsWith, 'settings.updatedBys.lastName.not.endsWith');
+        }
+        if (settingsDescription !== undefined && settingsDescription !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescription, 'settings.description');
+        }
+        if (settingsDescriptionNot !== undefined && settingsDescriptionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionNot, 'settings.description.not');
+        }
+        if (settingsDescriptionContains !== undefined && settingsDescriptionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionContains, 'settings.description.contains');
+        }
+        if (settingsDescriptionNotContains !== undefined && settingsDescriptionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionNotContains, 'settings.description.not.contains');
+        }
+        if (settingsDescriptionBeginsWith !== undefined && settingsDescriptionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionBeginsWith, 'settings.description.beginsWith');
+        }
+        if (settingsDescriptionNotBeginsWith !== undefined && settingsDescriptionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionNotBeginsWith, 'settings.description.not.beginsWith');
+        }
+        if (settingsDescriptionEndsWith !== undefined && settingsDescriptionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionEndsWith, 'settings.description.endsWith');
+        }
+        if (settingsDescriptionNotEndsWith !== undefined && settingsDescriptionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsDescriptionNotEndsWith, 'settings.description.not.endsWith');
+        }
+        if (settingsModality !== undefined && settingsModality !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsModality, 'settings.modality');
+        }
+        if (settingsModalityNot !== undefined && settingsModalityNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsModalityNot, 'settings.modality.not');
+        }
+        if (settingsModalityAnyOf) {
+            settingsModalityAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.modality.anyOf');
+            })
+        }
+        if (settingsModalityNotAnyOf) {
+            settingsModalityNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.modality.not.anyOf');
+            })
+        }
+        if (settingsModalityDescendantsOf !== undefined && settingsModalityDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsModalityDescendantsOf, 'settings.modality.descendantsOf');
+        }
+        if (settingsTechnique !== undefined && settingsTechnique !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsTechnique, 'settings.technique');
+        }
+        if (settingsTechniqueNot !== undefined && settingsTechniqueNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsTechniqueNot, 'settings.technique.not');
+        }
+        if (settingsTechniqueAnyOf) {
+            settingsTechniqueAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.technique.anyOf');
+            })
+        }
+        if (settingsTechniqueNotAnyOf) {
+            settingsTechniqueNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'settings.technique.not.anyOf');
+            })
+        }
+        if (settingsTechniqueDescendantsOf !== undefined && settingsTechniqueDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>settingsTechniqueDescendantsOf, 'settings.technique.descendantsOf');
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -646,7 +2324,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/radiotherapies/`;
+        let localVarPath = `/api/radiotherapies`;
         return this.httpClient.request<PaginatedRadiotherapySchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -663,14 +2341,15 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Get Radiotherapy By Id
-     * @param radiotherapyId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapyById(radiotherapyId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RadiotherapySchema>;
-    public getRadiotherapyById(radiotherapyId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RadiotherapySchema>>;
-    public getRadiotherapyById(radiotherapyId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RadiotherapySchema>>;
-    public getRadiotherapyById(radiotherapyId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRadiotherapyById(requestParameters: GetRadiotherapyByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RadiotherapySchema>;
+    public getRadiotherapyById(requestParameters: GetRadiotherapyByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RadiotherapySchema>>;
+    public getRadiotherapyById(requestParameters: GetRadiotherapyByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RadiotherapySchema>>;
+    public getRadiotherapyById(requestParameters: GetRadiotherapyByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapyById.');
         }
@@ -734,18 +2413,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Get Radiotherapy Dosage By Id
-     * @param radiotherapyId 
-     * @param dosageId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapyDosageById(radiotherapyId: string, dosageId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RadiotherapyDosageSchema>;
-    public getRadiotherapyDosageById(radiotherapyId: string, dosageId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RadiotherapyDosageSchema>>;
-    public getRadiotherapyDosageById(radiotherapyId: string, dosageId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RadiotherapyDosageSchema>>;
-    public getRadiotherapyDosageById(radiotherapyId: string, dosageId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRadiotherapyDosageById(requestParameters: GetRadiotherapyDosageByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RadiotherapyDosageSchema>;
+    public getRadiotherapyDosageById(requestParameters: GetRadiotherapyDosageByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RadiotherapyDosageSchema>>;
+    public getRadiotherapyDosageById(requestParameters: GetRadiotherapyDosageByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RadiotherapyDosageSchema>>;
+    public getRadiotherapyDosageById(requestParameters: GetRadiotherapyDosageByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapyDosageById.');
         }
+        const dosageId = requestParameters?.dosageId;
         if (dosageId === null || dosageId === undefined) {
             throw new Error('Required parameter dosageId was null or undefined when calling getRadiotherapyDosageById.');
         }
@@ -809,14 +2489,15 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Get Radiotherapy Dosages Matching The Query
-     * @param radiotherapyId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapyDosages(radiotherapyId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RadiotherapyDosageSchema>>;
-    public getRadiotherapyDosages(radiotherapyId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RadiotherapyDosageSchema>>>;
-    public getRadiotherapyDosages(radiotherapyId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RadiotherapyDosageSchema>>>;
-    public getRadiotherapyDosages(radiotherapyId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRadiotherapyDosages(requestParameters: GetRadiotherapyDosagesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RadiotherapyDosageSchema>>;
+    public getRadiotherapyDosages(requestParameters: GetRadiotherapyDosagesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RadiotherapyDosageSchema>>>;
+    public getRadiotherapyDosages(requestParameters: GetRadiotherapyDosagesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RadiotherapyDosageSchema>>>;
+    public getRadiotherapyDosages(requestParameters: GetRadiotherapyDosagesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapyDosages.');
         }
@@ -864,7 +2545,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages/`;
+        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages`;
         return this.httpClient.request<Array<RadiotherapyDosageSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -880,18 +2561,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Get Radiotherapy Setting By Id
-     * @param radiotherapyId 
-     * @param settingId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapySettingById(radiotherapyId: string, settingId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RadiotherapySettingSchema>;
-    public getRadiotherapySettingById(radiotherapyId: string, settingId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RadiotherapySettingSchema>>;
-    public getRadiotherapySettingById(radiotherapyId: string, settingId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RadiotherapySettingSchema>>;
-    public getRadiotherapySettingById(radiotherapyId: string, settingId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRadiotherapySettingById(requestParameters: GetRadiotherapySettingByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RadiotherapySettingSchema>;
+    public getRadiotherapySettingById(requestParameters: GetRadiotherapySettingByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RadiotherapySettingSchema>>;
+    public getRadiotherapySettingById(requestParameters: GetRadiotherapySettingByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RadiotherapySettingSchema>>;
+    public getRadiotherapySettingById(requestParameters: GetRadiotherapySettingByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapySettingById.');
         }
+        const settingId = requestParameters?.settingId;
         if (settingId === null || settingId === undefined) {
             throw new Error('Required parameter settingId was null or undefined when calling getRadiotherapySettingById.');
         }
@@ -955,14 +2637,15 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Get Radiotherapy Settings Matching The Query
-     * @param radiotherapyId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapySettings(radiotherapyId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RadiotherapySettingSchema>>;
-    public getRadiotherapySettings(radiotherapyId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RadiotherapySettingSchema>>>;
-    public getRadiotherapySettings(radiotherapyId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RadiotherapySettingSchema>>>;
-    public getRadiotherapySettings(radiotherapyId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getRadiotherapySettings(requestParameters: GetRadiotherapySettingsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RadiotherapySettingSchema>>;
+    public getRadiotherapySettings(requestParameters: GetRadiotherapySettingsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RadiotherapySettingSchema>>>;
+    public getRadiotherapySettings(requestParameters: GetRadiotherapySettingsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RadiotherapySettingSchema>>>;
+    public getRadiotherapySettings(requestParameters: GetRadiotherapySettingsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapySettings.');
         }
@@ -1010,7 +2693,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings/`;
+        let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings`;
         return this.httpClient.request<Array<RadiotherapySettingSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -1026,18 +2709,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Update Radiotherapy
-     * @param radiotherapyId 
-     * @param radiotherapyCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateRadiotherapy(radiotherapyId: string, radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public updateRadiotherapy(radiotherapyId: string, radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public updateRadiotherapy(radiotherapyId: string, radiotherapyCreateSchema: RadiotherapyCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public updateRadiotherapy(radiotherapyId: string, radiotherapyCreateSchema: RadiotherapyCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateRadiotherapy(requestParameters: UpdateRadiotherapyRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateRadiotherapy(requestParameters: UpdateRadiotherapyRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateRadiotherapy(requestParameters: UpdateRadiotherapyRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateRadiotherapy(requestParameters: UpdateRadiotherapyRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling updateRadiotherapy.');
         }
+        const radiotherapyCreateSchema = requestParameters?.radiotherapyCreateSchema;
         if (radiotherapyCreateSchema === null || radiotherapyCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapyCreateSchema was null or undefined when calling updateRadiotherapy.');
         }
@@ -1055,6 +2739,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -1094,7 +2779,7 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: radiotherapyCreateSchema,
@@ -1110,22 +2795,23 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Update Radiotherapy Dosage
-     * @param radiotherapyId 
-     * @param dosageId 
-     * @param radiotherapyDosageCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public updateRadiotherapyDosage(radiotherapyId: string, dosageId: string, radiotherapyDosageCreateSchema: RadiotherapyDosageCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateRadiotherapyDosage(requestParameters: UpdateRadiotherapyDosageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateRadiotherapyDosage(requestParameters: UpdateRadiotherapyDosageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateRadiotherapyDosage(requestParameters: UpdateRadiotherapyDosageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateRadiotherapyDosage(requestParameters: UpdateRadiotherapyDosageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling updateRadiotherapyDosage.');
         }
+        const dosageId = requestParameters?.dosageId;
         if (dosageId === null || dosageId === undefined) {
             throw new Error('Required parameter dosageId was null or undefined when calling updateRadiotherapyDosage.');
         }
+        const radiotherapyDosageCreateSchema = requestParameters?.radiotherapyDosageCreateSchema;
         if (radiotherapyDosageCreateSchema === null || radiotherapyDosageCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapyDosageCreateSchema was null or undefined when calling updateRadiotherapyDosage.');
         }
@@ -1199,22 +2885,23 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
     /**
      * Update Radiotherapy Setting
-     * @param radiotherapyId 
-     * @param settingId 
-     * @param radiotherapySettingCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public updateRadiotherapySetting(radiotherapyId: string, settingId: string, radiotherapySettingCreateSchema: RadiotherapySettingCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateRadiotherapySetting(requestParameters: UpdateRadiotherapySettingRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateRadiotherapySetting(requestParameters: UpdateRadiotherapySettingRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateRadiotherapySetting(requestParameters: UpdateRadiotherapySettingRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateRadiotherapySetting(requestParameters: UpdateRadiotherapySettingRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling updateRadiotherapySetting.');
         }
+        const settingId = requestParameters?.settingId;
         if (settingId === null || settingId === undefined) {
             throw new Error('Required parameter settingId was null or undefined when calling updateRadiotherapySetting.');
         }
+        const radiotherapySettingCreateSchema = requestParameters?.radiotherapySettingCreateSchema;
         if (radiotherapySettingCreateSchema === null || radiotherapySettingCreateSchema === undefined) {
             throw new Error('Required parameter radiotherapySettingCreateSchema was null or undefined when calling updateRadiotherapySetting.');
         }

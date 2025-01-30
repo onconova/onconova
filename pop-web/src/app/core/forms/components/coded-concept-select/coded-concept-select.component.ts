@@ -58,7 +58,7 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
     public conceptsCount!: number;
     
     ngOnInit() {
-        this.concepts$ = this.terminologyService.getTerminologyConcepts(this.terminology).pipe(map(
+        this.concepts$ = this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology}).pipe(map(
             (response: PaginatedCodedConceptSchema) => {
                 this.terminologySize = response.count;
                 this.subsetSize = response.items.length;
@@ -70,7 +70,7 @@ export class CodedConceptSelectComponent implements ControlValueAccessor {
 
     updateConcepts(event: AutoCompleteCompleteEvent) {
         let query: string = this.baseQuery ? `${this.baseQuery}${event.query}` : event.query; 
-        this.concepts$ = this.terminologyService.getTerminologyConcepts(this.terminology, query).pipe(map(
+        this.concepts$ = this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology, query: query}).pipe(map(
             (response: PaginatedCodedConceptSchema) => {
                 this.subsetSize = response.items.length;
                 this.concepts = response.items, query

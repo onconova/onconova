@@ -49,8 +49,9 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   private readonly neoplasticEntitiesService = inject(NeoplasticEntitiesService)
   public readonly formBuilder = inject(FormBuilder)
 
-  public readonly createService = this.neoplasticEntitiesService.createNeoplasticEntity.bind(this.neoplasticEntitiesService)
-  public readonly updateService = this.neoplasticEntitiesService.updateNeoplasticEntityById.bind(this.neoplasticEntitiesService)
+    
+  public readonly createService = (payload: NeoplasticEntityCreate) => this.neoplasticEntitiesService.createNeoplasticEntity({neoplasticEntityCreate: payload})
+  public readonly updateService = (id: string, payload: NeoplasticEntityCreate) => this.neoplasticEntitiesService.updateNeoplasticEntityById({entityId: id, neoplasticEntityCreate: payload})
 
 
   public readonly title: string = 'Neoplastic Entity'
@@ -58,7 +59,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   public readonly icon = Ribbon;
 
   private caseId!: string;
-  public initialData: NeoplasticEntity | EmptyObject = {};
+  public initialData: any = {};
   public requiresPrimary!: boolean;
   public morphologyCodeFilter: MorphologicalBehaviors = '/3';
   public relatedPrimaries!: NeoplasticEntity[];
@@ -75,7 +76,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
     // Fetch any primary neoplastic entities that could be related to a new entry 
     this.getRelatedPrimaries()
     // Setup the dynamic fields of the form based on initial conditions
-    this.onNeoplastiCRelationshipChange(this.initialData?.relationship)
+    this.onNeoplastiCRelationshipChange(this.form.value.relationship)
     this.requiresPrimary = ['metastatic', 'local_recurrence', 'regional_recurrence'].includes(this.initialData?.relationship)
     // Subscribe to changes in the neoplastic relationship form control 
     this.form.get('relationship')?.valueChanges.subscribe(relationship => {
@@ -85,7 +86,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
 
   constructForm() {
     this.form = this.formBuilder.group({
-        relationship: [this.initialData?.relationship || 'primary',Validators.required],
+        relationship: [this.initialData?.relationship || NeoplasticEntityRelationshipChoices.Primary, Validators.required],
         assertionDate: [this.initialData?.assertionDate, Validators.required],
         relatedPrimary: [this.initialData?.relatedPrimaryId, Validators.required],
         topography: [this.initialData?.topography,Validators.required],
@@ -120,6 +121,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
     const relatedPrimary = this.form.get('relatedPrimary')
     if (relationship === NeoplasticEntityRelationshipChoices.Primary) {
       relatedPrimary?.removeValidators(Validators.required);
+      console.log('relatedPrimary not required')
     } else {
       relatedPrimary?.addValidators(Validators.required);
     }  
@@ -127,7 +129,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   };
 
   private getRelatedPrimaries() {
-    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId, [NeoplasticEntityRelationshipChoices.Primary]).subscribe(
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId, relationship: NeoplasticEntityRelationshipChoices.Primary}).subscribe(
       (response) => {
           this.relatedPrimaries = response.items
       }

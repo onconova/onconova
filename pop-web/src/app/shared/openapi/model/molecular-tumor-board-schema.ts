@@ -9,6 +9,7 @@
  */
 import { MolecularTherapeuticRecommendationSchema } from './molecular-therapeutic-recommendation-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface MolecularTumorBoardSchema { 
@@ -24,11 +25,11 @@ export interface MolecularTumorBoardSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

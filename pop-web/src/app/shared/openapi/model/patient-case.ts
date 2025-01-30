@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface PatientCase { 
@@ -31,7 +32,7 @@ export interface PatientCase {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * Pseudoidentifier of the patient
      */
@@ -56,6 +57,6 @@ export interface PatientCase {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
 }
 

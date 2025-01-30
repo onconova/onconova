@@ -12,14 +12,224 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnalyteDetails } from '../model/models';
-import { PaginatedTumorMarker } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedTumorMarker } from '../model/models';
 import { TumorMarker } from '../model/models';
 import { TumorMarkerCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateTumorMarkerRequestParams {
+    tumorMarkerCreate: TumorMarkerCreate;
+}
+
+export interface DeleteTumorMarkerByIdRequestParams {
+    tumorMarkerId: string;
+}
+
+export interface GetTumorMarkerAnalyteDetailsByCodeRequestParams {
+    analyteCode: string;
+}
+
+export interface GetTumorMarkerByIdRequestParams {
+    tumorMarkerId: string;
+}
+
+export interface GetTumorMarkersRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    analyte?: string;
+    analyteNot?: string;
+    analyteAnyOf?: Array<string>;
+    analyteNotAnyOf?: Array<string>;
+    analyteDescendantsOf?: string;
+    massConcentrationNotExists?: boolean;
+    massConcentrationExists?: boolean;
+    massConcentrationLessThan?: number;
+    massConcentrationLessThanOrEqual?: number;
+    massConcentrationGreaterThan?: number;
+    massConcentrationGreaterThanOrEqual?: number;
+    massConcentrationEqual?: number;
+    massConcentrationNotEqual?: number;
+    massConcentrationBetween?: Array<any>;
+    massConcentrationNotBetween?: Array<any>;
+    arbitraryConcentrationNotExists?: boolean;
+    arbitraryConcentrationExists?: boolean;
+    arbitraryConcentrationLessThan?: number;
+    arbitraryConcentrationLessThanOrEqual?: number;
+    arbitraryConcentrationGreaterThan?: number;
+    arbitraryConcentrationGreaterThanOrEqual?: number;
+    arbitraryConcentrationEqual?: number;
+    arbitraryConcentrationNotEqual?: number;
+    arbitraryConcentrationBetween?: Array<any>;
+    arbitraryConcentrationNotBetween?: Array<any>;
+    substanceConcentrationNotExists?: boolean;
+    substanceConcentrationExists?: boolean;
+    substanceConcentrationLessThan?: number;
+    substanceConcentrationLessThanOrEqual?: number;
+    substanceConcentrationGreaterThan?: number;
+    substanceConcentrationGreaterThanOrEqual?: number;
+    substanceConcentrationEqual?: number;
+    substanceConcentrationNotEqual?: number;
+    substanceConcentrationBetween?: Array<any>;
+    substanceConcentrationNotBetween?: Array<any>;
+    fractionNotExists?: boolean;
+    fractionExists?: boolean;
+    fractionLessThan?: number;
+    fractionLessThanOrEqual?: number;
+    fractionGreaterThan?: number;
+    fractionGreaterThanOrEqual?: number;
+    fractionEqual?: number;
+    fractionNotEqual?: number;
+    fractionBetween?: Array<any>;
+    fractionNotBetween?: Array<any>;
+    multipleOfMedianNotExists?: boolean;
+    multipleOfMedianExists?: boolean;
+    multipleOfMedianLessThan?: number;
+    multipleOfMedianLessThanOrEqual?: number;
+    multipleOfMedianGreaterThan?: number;
+    multipleOfMedianGreaterThanOrEqual?: number;
+    multipleOfMedianEqual?: number;
+    multipleOfMedianNotEqual?: number;
+    multipleOfMedianBetween?: Array<any>;
+    multipleOfMedianNotBetween?: Array<any>;
+    tumorProportionScoreNotExists?: boolean;
+    tumorProportionScoreExists?: boolean;
+    tumorProportionScore?: string;
+    tumorProportionScoreNot?: string;
+    tumorProportionScoreAnyOf?: Array<'TC0' | 'TC1' | 'TC2' | 'TC3'>;
+    immuneCellScoreNotExists?: boolean;
+    immuneCellScoreExists?: boolean;
+    immuneCellScore?: string;
+    immuneCellScoreNot?: string;
+    immuneCellScoreAnyOf?: Array<'IC0' | 'IC1' | 'IC2' | 'IC3'>;
+    combinedPositiveScoreNotExists?: boolean;
+    combinedPositiveScoreExists?: boolean;
+    combinedPositiveScoreLessThan?: number;
+    combinedPositiveScoreLessThanOrEqual?: number;
+    combinedPositiveScoreGreaterThan?: number;
+    combinedPositiveScoreGreaterThanOrEqual?: number;
+    combinedPositiveScoreEqual?: number;
+    combinedPositiveScoreNotEqual?: number;
+    combinedPositiveScoreBetween?: Array<any>;
+    combinedPositiveScoreNotBetween?: Array<any>;
+    immunohistochemicalScoreNotExists?: boolean;
+    immunohistochemicalScoreExists?: boolean;
+    immunohistochemicalScore?: string;
+    immunohistochemicalScoreNot?: string;
+    immunohistochemicalScoreAnyOf?: Array<'0' | '1+' | '2+' | '3+' | 'indeterminate'>;
+    presenceNotExists?: boolean;
+    presenceExists?: boolean;
+    presence?: string;
+    presenceNot?: string;
+    presenceAnyOf?: Array<'positive' | 'negative' | 'indeterminate'>;
+    nuclearExpressionStatusNotExists?: boolean;
+    nuclearExpressionStatusExists?: boolean;
+    nuclearExpressionStatus?: string;
+    nuclearExpressionStatusNot?: string;
+    nuclearExpressionStatusAnyOf?: Array<'intact' | 'loss' | 'indeterminate'>;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    relatedEntitiesIds?: string;
+    relatedEntitiesIdsNot?: string;
+    relatedEntitiesIdsContains?: string;
+    relatedEntitiesIdsNotContains?: string;
+    relatedEntitiesIdsBeginsWith?: string;
+    relatedEntitiesIdsNotBeginsWith?: string;
+    relatedEntitiesIdsEndsWith?: string;
+    relatedEntitiesIdsNotEndsWith?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateTumorMarkerByIdRequestParams {
+    tumorMarkerId: string;
+    tumorMarkerCreate: TumorMarkerCreate;
+}
 
 
 export interface TumorMarkersServiceInterface {
@@ -29,46 +239,43 @@ export interface TumorMarkersServiceInterface {
     /**
      * Create Tumor Marker
      * 
-     * @param tumorMarkerCreate 
+* @param requestParameters
      */
-    createTumorMarker(tumorMarkerCreate: TumorMarkerCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTumorMarker(requestParameters: CreateTumorMarkerRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Tumor Marker
      * 
-     * @param tumorMarkerId 
+* @param requestParameters
      */
-    deleteTumorMarkerById(tumorMarkerId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteTumorMarkerById(requestParameters: DeleteTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Tumor Marker Analyte Details By Code
      * 
-     * @param analyteCode 
+* @param requestParameters
      */
-    getTumorMarkerAnalyteDetailsByCode(analyteCode: string, extraHttpRequestParams?: any): Observable<AnalyteDetails>;
+    getTumorMarkerAnalyteDetailsByCode(requestParameters: GetTumorMarkerAnalyteDetailsByCodeRequestParams, extraHttpRequestParams?: any): Observable<AnalyteDetails>;
 
     /**
      * Get Tumor Marker By Id
      * 
-     * @param tumorMarkerId 
+* @param requestParameters
      */
-    getTumorMarkerById(tumorMarkerId: string, extraHttpRequestParams?: any): Observable<TumorMarker>;
+    getTumorMarkerById(requestParameters: GetTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<TumorMarker>;
 
     /**
      * Get All Tumor Markers Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getTumorMarkers(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedTumorMarker>;
+    getTumorMarkers(requestParameters: GetTumorMarkersRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTumorMarker>;
 
     /**
      * Update Neoplastic Entity
      * 
-     * @param tumorMarkerId 
-     * @param tumorMarkerCreate 
+* @param requestParameters
      */
-    updateTumorMarkerById(tumorMarkerId: string, tumorMarkerCreate: TumorMarkerCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updateTumorMarkerById(requestParameters: UpdateTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

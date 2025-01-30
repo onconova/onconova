@@ -31,7 +31,10 @@ import { UserSchema } from '../model/user-schema';
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    AuthServiceInterface
+    AuthServiceInterface,
+    GetTokenPairRequestParams,
+    GetUserByIdRequestParams,
+    RefreshTokenPairRequestParams
 } from './auth.serviceInterface';
 
 
@@ -41,7 +44,7 @@ import {
 })
 export class AuthService implements AuthServiceInterface {
 
-    protected basePath = 'http://localhost';
+    protected basePath = 'https://localhost:4443';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -103,16 +106,17 @@ export class AuthService implements AuthServiceInterface {
 
     /**
      * Obtain Token Pair
-     * @param userCredentialsSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TokenPairSchema>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TokenPairSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TokenPairSchema>>;
-    public getSlidingToken(userCredentialsSchema: UserCredentialsSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTokenPair(requestParameters: GetTokenPairRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TokenPairSchema>;
+    public getTokenPair(requestParameters: GetTokenPairRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TokenPairSchema>>;
+    public getTokenPair(requestParameters: GetTokenPairRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TokenPairSchema>>;
+    public getTokenPair(requestParameters: GetTokenPairRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const userCredentialsSchema = requestParameters?.userCredentialsSchema;
         if (userCredentialsSchema === null || userCredentialsSchema === undefined) {
-            throw new Error('Required parameter userCredentialsSchema was null or undefined when calling getSlidingToken.');
+            throw new Error('Required parameter userCredentialsSchema was null or undefined when calling getTokenPair.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -177,14 +181,15 @@ export class AuthService implements AuthServiceInterface {
 
     /**
      * Get User By Id
-     * @param userId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserById(userId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserSchema>;
-    public getUserById(userId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserSchema>>;
-    public getUserById(userId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserSchema>>;
-    public getUserById(userId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getUserById(requestParameters: GetUserByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<UserSchema>;
+    public getUserById(requestParameters: GetUserByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserSchema>>;
+    public getUserById(requestParameters: GetUserByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserSchema>>;
+    public getUserById(requestParameters: GetUserByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const userId = requestParameters?.userId;
         if (userId === null || userId === undefined) {
             throw new Error('Required parameter userId was null or undefined when calling getUserById.');
         }
@@ -315,16 +320,17 @@ export class AuthService implements AuthServiceInterface {
 
     /**
      * Refresh Token Pair
-     * @param tokenRefreshSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RefreshedTokenPairSchema>;
-    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RefreshedTokenPairSchema>>;
-    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RefreshedTokenPairSchema>>;
-    public refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RefreshedTokenPairSchema>;
+    public refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RefreshedTokenPairSchema>>;
+    public refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RefreshedTokenPairSchema>>;
+    public refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tokenRefreshSchema = requestParameters?.tokenRefreshSchema;
         if (tokenRefreshSchema === null || tokenRefreshSchema === undefined) {
-            throw new Error('Required parameter tokenRefreshSchema was null or undefined when calling refereshSlidingToken.');
+            throw new Error('Required parameter tokenRefreshSchema was null or undefined when calling refreshTokenPair.');
         }
 
         let localVarHeaders = this.defaultHeaders;

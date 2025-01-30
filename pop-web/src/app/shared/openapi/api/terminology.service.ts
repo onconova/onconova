@@ -23,7 +23,8 @@ import { PaginatedCodedConceptSchema } from '../model/paginated-coded-concept-sc
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    TerminologyServiceInterface
+    TerminologyServiceInterface,
+    GetTerminologyConceptsRequestParams
 } from './terminology.serviceInterface';
 
 
@@ -33,7 +34,7 @@ import {
 })
 export class TerminologyService implements TerminologyServiceInterface {
 
-    protected basePath = 'http://localhost';
+    protected basePath = 'https://localhost:4443';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -95,21 +96,22 @@ export class TerminologyService implements TerminologyServiceInterface {
 
     /**
      * Get Terminology Concepts
-     * @param terminologyName 
-     * @param query 
-     * @param codes 
-     * @param limit 
-     * @param offset 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCodedConceptSchema>;
-    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCodedConceptSchema>>;
-    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCodedConceptSchema>>;
-    public getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCodedConceptSchema>;
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCodedConceptSchema>>;
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCodedConceptSchema>>;
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const terminologyName = requestParameters?.terminologyName;
         if (terminologyName === null || terminologyName === undefined) {
             throw new Error('Required parameter terminologyName was null or undefined when calling getTerminologyConcepts.');
         }
+        const query = requestParameters?.query;
+        const codes = requestParameters?.codes;
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (query !== undefined && query !== null) {

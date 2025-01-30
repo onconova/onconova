@@ -48,7 +48,7 @@ export class MeasureInputComponent implements ControlValueAccessor {
     private formControl = new FormControl<MeasureSchema|null>(null);
 
     ngOnInit() {
-        this.allowedUnits$ = this.measuresService.getMeasureUnits(this.measure).pipe(
+        this.allowedUnits$ = this.measuresService.getMeasureUnits({measureName: this.measure}).pipe(
             map((units):MeasureUnit[] => units.map((unit):MeasureUnit => {
                 return {
                     unit: unit,
@@ -56,7 +56,7 @@ export class MeasureInputComponent implements ControlValueAccessor {
                 }
             }))
         );
-        this.defaultUnit$ = this.measuresService.getMeasureDefaultUnits(this.measure).pipe(
+        this.defaultUnit$ = this.measuresService.getMeasureDefaultUnits({measureName: this.measure}).pipe(
             map((unit):MeasureUnit => {
                 const defaultUnit =  {
                     unit: unit,

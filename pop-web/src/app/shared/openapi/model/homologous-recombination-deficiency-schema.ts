@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { HomologousRecombinationDeficiencyInterpretationChoices } from './homologous-recombination-deficiency-interpretation-choices';
+import { UserSchema } from './user-schema';
 
 
 export interface HomologousRecombinationDeficiencySchema { 
@@ -23,11 +24,11 @@ export interface HomologousRecombinationDeficiencySchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

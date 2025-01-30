@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface TNMStaging { 
@@ -28,7 +29,7 @@ export interface TNMStaging {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */
@@ -40,7 +41,7 @@ export interface TNMStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -51,15 +52,15 @@ export interface TNMStaging {
     stage: CodedConceptSchema;
     methodology?: CodedConceptSchema | null;
     pathological?: boolean | null;
-    primaryTumor?: CodedConceptSchema | null;
-    regionalNodes?: CodedConceptSchema | null;
-    distantMetastases?: CodedConceptSchema | null;
+    primarytumor?: CodedConceptSchema | null;
+    regionalnodes?: CodedConceptSchema | null;
+    distantmetastases?: CodedConceptSchema | null;
     grade?: CodedConceptSchema | null;
-    residualTumor?: CodedConceptSchema | null;
-    lymphaticInvasion?: CodedConceptSchema | null;
-    venousInvasion?: CodedConceptSchema | null;
-    perineuralInvasion?: CodedConceptSchema | null;
-    serumTumorMarkerLevel?: CodedConceptSchema | null;
+    residualtumor?: CodedConceptSchema | null;
+    lymphaticinvasion?: CodedConceptSchema | null;
+    venousinvasion?: CodedConceptSchema | null;
+    perineuralinvasion?: CodedConceptSchema | null;
+    serumtumormarkerlevel?: CodedConceptSchema | null;
 }
 export namespace TNMStaging {
     export type StagingDomainEnum = 'tnm';

@@ -10,6 +10,7 @@
 import { ComorbiditiesAssessmentPanelChoices } from './comorbidities-assessment-panel-choices';
 import { Index } from './index';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface ComorbiditiesAssessmentSchema { 
@@ -25,11 +26,11 @@ export interface ComorbiditiesAssessmentSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */
@@ -45,7 +46,7 @@ export interface ComorbiditiesAssessmentSchema {
     /**
      * The primary neoplastic entity against which comorbidities are assessed
      */
-    indexConditionId: string;
+    indexconditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
     presentConditions?: Array<CodedConceptSchema> | null;
     absentConditions?: Array<CodedConceptSchema> | null;

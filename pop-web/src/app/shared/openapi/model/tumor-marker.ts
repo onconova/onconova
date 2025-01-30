@@ -14,6 +14,7 @@ import { TumorMarkerImmunohistochemicalScoreChoices } from './tumor-marker-immun
 import { TumorMarkerPresenceChoices } from './tumor-marker-presence-choices';
 import { TumorMarkerImmuneCellScoreChoices } from './tumor-marker-immune-cell-score-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface TumorMarker { 
@@ -33,7 +34,7 @@ export interface TumorMarker {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * Indicates the case of the patient related to the tumor marker result
      */
@@ -60,7 +61,7 @@ export interface TumorMarker {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that are related or the focus of the tumor marker analysis.
      */

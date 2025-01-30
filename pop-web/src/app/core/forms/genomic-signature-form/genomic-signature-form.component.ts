@@ -59,8 +59,8 @@ export class GenomicSignatureFormComponent extends AbstractFormBase implements O
     private readonly genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.genomicSignaturesService.createGenomicSignature.bind(this.genomicSignaturesService);
-    public readonly updateService = this.genomicSignaturesService.updateGenomicSignatureById.bind(this.genomicSignaturesService);
+    public readonly createService = (payload: AnyGenomicSignatureCreateSchema) => this.genomicSignaturesService.createGenomicSignature({payload2: payload as any});
+    public readonly updateService = (id: string, payload: AnyGenomicSignatureCreateSchema) => this.genomicSignaturesService.updateGenomicSignatureById({genomicSignatureId: id, payload2: payload as any});
 
     public readonly title: string = 'Genomic Signature';
     public readonly subtitle: string = 'Add new genomic signature';

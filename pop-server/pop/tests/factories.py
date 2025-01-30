@@ -400,11 +400,24 @@ def fake_complete_case():
         TumorMarkerTestFactory.create(case=case)
     for _ in range(random.randint(0,12)):
         GenomicVariantFactory.create(case=case)
-    if random.randint(0,100) > 50:
+    for _ in range(random.randint(1,2)):
         TumorMutationalBurdenFactory.create(case=case)
-    if random.randint(0,100) > 50:
+    for _ in range(random.randint(1,2)):
         LossOfHeterozygosityFactory.create(case=case)
-    if random.randint(0,100) > 50:
+    for _ in range(random.randint(1,2)):
         MicrosatelliteInstabilityFactory.create(case=case)
     FamilyHistoryFactory.create(case=case)
+    RiskAssessmentFactory.create(case=case)
+    SurgeryFactory.create(case=case)
+    LifestyleFactory.create(case=case)
+    ComorbiditiesAssessmentFactory.create(case=case)
+    for _ in range(random.randint(1,4)):
+        VitalsFactory.create(case=case)
+    MolecularTumorBoardFactory.create(case=case)
+    for _ in range(random.randint(1,4)):
+        AdverseEventFactory.create(case=case)
+    for _ in range(random.randint(1,4)):
+        TreatmentResponseFactory.create(case=case)
+    for _ in range(random.randint(1,5)):    
+        PerformanceStatusFactory.create(case=case)
     return case

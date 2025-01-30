@@ -41,9 +41,9 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
   private readonly caseService = inject(PatientCasesService);
   public readonly formBuilder = inject(FormBuilder);
 
-  public readonly createService = this.caseService.createPatientCase.bind(this.caseService);
-  public readonly updateService = this.caseService.updatePatientCaseById.bind(this.caseService);
-  public initialData: PatientCase | EmptyObject = {};
+  public readonly createService = (payload: PatientCaseCreate) => this.caseService.createPatientCase({patientCaseCreate: payload});
+  public readonly updateService = (id: string, payload: PatientCaseCreate) => this.caseService.updatePatientCaseById({caseId: id, patientCaseCreate: payload});
+  public initialData: any = {};
 
   public readonly title: string = 'Accessioning'
   public readonly subtitle: string = 'New patient'

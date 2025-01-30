@@ -105,22 +105,22 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     private readonly adverseEventsService: AdverseEventsService = inject(AdverseEventsService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.adverseEventsService.createAdverseEvent.bind(this.adverseEventsService);
-    public readonly updateService = this.adverseEventsService.updateAdverseEvent.bind(this.adverseEventsService);
+    public readonly createService = (payload: AdverseEventCreateSchema) => this.adverseEventsService.createAdverseEvent({adverseEventCreateSchema: payload});
+    public readonly updateService = (id: string, payload: AdverseEventCreateSchema) => this.adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreateSchema: payload});
     override readonly subformsServices = [
         {
             payloads: this.constructSuspectedCausePayloads.bind(this),
             deletedEntries: this.getdeletedSuspectedCauses.bind(this),
-            delete: this.adverseEventsService.deleteAdverseEventSuspectedCause.bind(this.adverseEventsService),
-            create: this.adverseEventsService.createAdverseEventSuspectedCause.bind(this.adverseEventsService),
-            update: this.adverseEventsService.updateAdverseEventSuspectedCause.bind(this.adverseEventsService),
+            delete: (parentId: string, id: string) => this.adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
+            create: (parentId: string, payload: AdverseEventSuspectedCauseCreateSchema) => this.adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreateSchema: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreateSchema) => this.adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreateSchema: payload}),
         },
         {
             payloads: this.constructMitigationsPayloads.bind(this),
             deletedEntries: this.getdeletedMitigations.bind(this),
-            delete: this.adverseEventsService.deleteAdverseEventMitigation.bind(this.adverseEventsService),
-            create: this.adverseEventsService.createAdverseEventMitigation.bind(this.adverseEventsService),
-            update: this.adverseEventsService.updateAdverseEventMitigation.bind(this.adverseEventsService),
+            delete: (parentId: string, id: string) => this.adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
+            create: (parentId: string, payload: AdverseEventMitigationCreateSchema) => this.adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreateSchema: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventMitigationCreateSchema) => this.adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreateSchema: payload}),
         },
     ]
     private deletedMitigations: string[] = [];
@@ -167,12 +167,12 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
         // Construct the form 
         this.constructForm()
         this.relatedSuspectedCauses$ = forkJoin([
-            this.systemicTherapiesService.getSystemicTherapies(this.caseId).pipe(map((response) => response.items)),
-            this.systemicTherapiesService.getSystemicTherapies(this.caseId).pipe(map((response) => response.items.flatMap(therapy => {
+            this.systemicTherapiesService.getSystemicTherapies({caseId:this.caseId}).pipe(map((response) => response.items)),
+            this.systemicTherapiesService.getSystemicTherapies({caseId:this.caseId}).pipe(map((response) => response.items.flatMap(therapy => {
                 return therapy.medications
         }))),
-            this.radiotherapiesService.getRadiotherapies(this.caseId).pipe(map((response) => response.items)),
-            this.surgeriesService.getSurgeries(this.caseId).pipe(map((response) => response.items)),
+            this.radiotherapiesService.getRadiotherapies({caseId:this.caseId}).pipe(map((response) => response.items)),
+            this.surgeriesService.getSurgeries({caseId:this.caseId}).pipe(map((response) => response.items)),
         ]).pipe(
             map(([systemicTherapies, medications, radiotherapies, surgeries]) => {
                 return [...systemicTherapies, ...medications,...radiotherapies, ...surgeries];

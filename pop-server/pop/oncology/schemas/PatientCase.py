@@ -1,6 +1,8 @@
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
+from django.db.models import Q
 from datetime import datetime
 from pop.core.schemas import ModelSchema, ModelFilterSchema, CREATE_IGNORED_FIELDS, create_filters_schema
+from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 from ninja import Schema
 from pydantic import Field, AliasChoices
 from typing import Optional, List
@@ -34,7 +36,19 @@ class PatientCaseCreateSchema(ModelSchema):
             'is_deceased',
         )
 
-from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
+PatientCaseFiltersBase = create_filters_schema(
+    schema = PatientCaseSchema, 
+    name='PatientCaseFilters'
+)
+
+class PatientCaseFilters(PatientCaseFiltersBase):
+    manager: Optional[str] = Field(None, description='Filter for a particular case manager by its username')
+
+    def filter_manager(self, value: str) -> Q:
+        print('MANAGETR', value)
+        return Q(created_by__username=self.manager) if value is not None else Q()
+
+
 
 
 class PatientCaseBundleSchema(ModelSchema):

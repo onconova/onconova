@@ -12,13 +12,124 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyGenomicSignature } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { PaginatedAnyGenomicSignature } from '../model/models';
 import { Payload2 } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateGenomicSignatureRequestParams {
+    payload2: Payload2;
+}
+
+export interface DeleteGenomicSignatureByIdRequestParams {
+    genomicSignatureId: string;
+}
+
+export interface GetGenomicSignatureByIdRequestParams {
+    genomicSignatureId: string;
+}
+
+export interface GetGenomicSignaturesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    category?: string;
+    categoryNot?: string;
+    categoryAnyOf?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateGenomicSignatureByIdRequestParams {
+    genomicSignatureId: string;
+    payload2: Payload2;
+}
 
 
 export interface GenomicSignaturesServiceInterface {
@@ -28,40 +139,36 @@ export interface GenomicSignaturesServiceInterface {
     /**
      * Create Genomic Signature
      * 
-     * @param payload2 
+* @param requestParameters
      */
-    createGenomicSignature(payload2: Payload2, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Genomic Signature
      * 
-     * @param genomicSignatureId 
+* @param requestParameters
      */
-    deleteGenomicSignatureById(genomicSignatureId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteGenomicSignatureById(requestParameters: DeleteGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Genomic Signature By Id
      * 
-     * @param genomicSignatureId 
+* @param requestParameters
      */
-    getGenomicSignatureById(genomicSignatureId: string, extraHttpRequestParams?: any): Observable<AnyGenomicSignature>;
+    getGenomicSignatureById(requestParameters: GetGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<AnyGenomicSignature>;
 
     /**
      * Get All Genomic Signatures Matching The Query
      * 
-     * @param caseId 
-     * @param stagingDomain 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getGenomicSignatures(caseId?: string, stagingDomain?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedAnyGenomicSignature>;
+    getGenomicSignatures(requestParameters: GetGenomicSignaturesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAnyGenomicSignature>;
 
     /**
      * Update Genomic Signature
      * 
-     * @param genomicSignatureId 
-     * @param payload2 
+* @param requestParameters
      */
-    updateGenomicSignatureById(genomicSignatureId: string, payload2: Payload2, extraHttpRequestParams?: any): Observable<{}>;
+    updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

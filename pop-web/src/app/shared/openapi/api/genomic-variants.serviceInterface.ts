@@ -13,12 +13,387 @@ import { Observable }                                        from 'rxjs';
 
 import { GenomicVariantCreateSchema } from '../model/models';
 import { GenomicVariantSchema } from '../model/models';
-import { PaginatedGenomicVariantSchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedGenomicVariantSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateGenomicVariantRequestParams {
+    genomicVariantCreateSchema: GenomicVariantCreateSchema;
+}
+
+export interface DeleteGenomicVariantRequestParams {
+    genomicVariantId: string;
+}
+
+export interface GetGenomicVariantByIdRequestParams {
+    genomicVariantId: string;
+}
+
+export interface GetGenomicVariantsRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    genePanelNotExists?: boolean;
+    genePanelExists?: boolean;
+    genePanel?: string;
+    genePanelNot?: string;
+    genePanelContains?: string;
+    genePanelNotContains?: string;
+    genePanelBeginsWith?: string;
+    genePanelNotBeginsWith?: string;
+    genePanelEndsWith?: string;
+    genePanelNotEndsWith?: string;
+    assessmentNotExists?: boolean;
+    assessmentExists?: boolean;
+    assessment?: string;
+    assessmentNot?: string;
+    assessmentAnyOf?: Array<'present' | 'absent' | 'no-call' | 'indeterminate'>;
+    confidenceNotExists?: boolean;
+    confidenceExists?: boolean;
+    confidence?: string;
+    confidenceNot?: string;
+    confidenceAnyOf?: Array<'low' | 'high' | 'indeterminate'>;
+    analysisMethodNotExists?: boolean;
+    analysisMethodExists?: boolean;
+    analysisMethod?: string;
+    analysisMethodNot?: string;
+    analysisMethodAnyOf?: Array<string>;
+    analysisMethodNotAnyOf?: Array<string>;
+    analysisMethodDescendantsOf?: string;
+    clinicalRelevanceNotExists?: boolean;
+    clinicalRelevanceExists?: boolean;
+    clinicalRelevance?: string;
+    clinicalRelevanceNot?: string;
+    clinicalRelevanceAnyOf?: Array<'pathogenic' | 'likely_pathogenic' | 'uncertain_significance' | 'ambiguous' | 'likely_benign' | 'benign'>;
+    cytogeneticLocationNotExists?: boolean;
+    cytogeneticLocationExists?: boolean;
+    cytogeneticLocation?: string;
+    cytogeneticLocationNot?: string;
+    cytogeneticLocationContains?: string;
+    cytogeneticLocationNotContains?: string;
+    cytogeneticLocationBeginsWith?: string;
+    cytogeneticLocationNotBeginsWith?: string;
+    cytogeneticLocationEndsWith?: string;
+    cytogeneticLocationNotEndsWith?: string;
+    genomeAssemblyVersionNotExists?: boolean;
+    genomeAssemblyVersionExists?: boolean;
+    genomeAssemblyVersion?: string;
+    genomeAssemblyVersionNot?: string;
+    genomeAssemblyVersionAnyOf?: Array<string>;
+    genomeAssemblyVersionNotAnyOf?: Array<string>;
+    genomeAssemblyVersionDescendantsOf?: string;
+    genomicRefseqNotExists?: boolean;
+    genomicRefseqExists?: boolean;
+    genomicRefseq?: string;
+    genomicRefseqNot?: string;
+    genomicRefseqContains?: string;
+    genomicRefseqNotContains?: string;
+    genomicRefseqBeginsWith?: string;
+    genomicRefseqNotBeginsWith?: string;
+    genomicRefseqEndsWith?: string;
+    genomicRefseqNotEndsWith?: string;
+    transcriptRefseqNotExists?: boolean;
+    transcriptRefseqExists?: boolean;
+    transcriptRefseq?: string;
+    transcriptRefseqNot?: string;
+    transcriptRefseqContains?: string;
+    transcriptRefseqNotContains?: string;
+    transcriptRefseqBeginsWith?: string;
+    transcriptRefseqNotBeginsWith?: string;
+    transcriptRefseqEndsWith?: string;
+    transcriptRefseqNotEndsWith?: string;
+    codingHgvsNotExists?: boolean;
+    codingHgvsExists?: boolean;
+    codingHgvs?: string;
+    codingHgvsNot?: string;
+    codingHgvsContains?: string;
+    codingHgvsNotContains?: string;
+    codingHgvsBeginsWith?: string;
+    codingHgvsNotBeginsWith?: string;
+    codingHgvsEndsWith?: string;
+    codingHgvsNotEndsWith?: string;
+    proteinHgvsNotExists?: boolean;
+    proteinHgvsExists?: boolean;
+    proteinHgvs?: string;
+    proteinHgvsNot?: string;
+    proteinHgvsContains?: string;
+    proteinHgvsNotContains?: string;
+    proteinHgvsBeginsWith?: string;
+    proteinHgvsNotBeginsWith?: string;
+    proteinHgvsEndsWith?: string;
+    proteinHgvsNotEndsWith?: string;
+    genomicHgvsNotExists?: boolean;
+    genomicHgvsExists?: boolean;
+    genomicHgvs?: string;
+    genomicHgvsNot?: string;
+    genomicHgvsContains?: string;
+    genomicHgvsNotContains?: string;
+    genomicHgvsBeginsWith?: string;
+    genomicHgvsNotBeginsWith?: string;
+    genomicHgvsEndsWith?: string;
+    genomicHgvsNotEndsWith?: string;
+    dnaChangeTypeNotExists?: boolean;
+    dnaChangeTypeExists?: boolean;
+    dnaChangeType?: string;
+    dnaChangeTypeNot?: string;
+    dnaChangeTypeAnyOf?: Array<string>;
+    dnaChangeTypeNotAnyOf?: Array<string>;
+    dnaChangeTypeDescendantsOf?: string;
+    aminoacidChangeTypeNotExists?: boolean;
+    aminoacidChangeTypeExists?: boolean;
+    aminoacidChangeType?: string;
+    aminoacidChangeTypeNot?: string;
+    aminoacidChangeTypeAnyOf?: Array<string>;
+    aminoacidChangeTypeNotAnyOf?: Array<string>;
+    aminoacidChangeTypeDescendantsOf?: string;
+    molecularConsequenceNotExists?: boolean;
+    molecularConsequenceExists?: boolean;
+    molecularConsequence?: string;
+    molecularConsequenceNot?: string;
+    molecularConsequenceAnyOf?: Array<string>;
+    molecularConsequenceNotAnyOf?: Array<string>;
+    molecularConsequenceDescendantsOf?: string;
+    copyNumberNotExists?: boolean;
+    copyNumberExists?: boolean;
+    copyNumberLessThan?: number;
+    copyNumberLessThanOrEqual?: number;
+    copyNumberGreaterThan?: number;
+    copyNumberGreaterThanOrEqual?: number;
+    copyNumberEqual?: number;
+    copyNumberNotEqual?: number;
+    copyNumberBetween?: Array<any>;
+    copyNumberNotBetween?: Array<any>;
+    alleleFrequencyNotExists?: boolean;
+    alleleFrequencyExists?: boolean;
+    alleleFrequencyLessThan?: number;
+    alleleFrequencyLessThanOrEqual?: number;
+    alleleFrequencyGreaterThan?: number;
+    alleleFrequencyGreaterThanOrEqual?: number;
+    alleleFrequencyEqual?: number;
+    alleleFrequencyNotEqual?: number;
+    alleleFrequencyBetween?: Array<any>;
+    alleleFrequencyNotBetween?: Array<any>;
+    alleleDepthNotExists?: boolean;
+    alleleDepthExists?: boolean;
+    alleleDepthLessThan?: number;
+    alleleDepthLessThanOrEqual?: number;
+    alleleDepthGreaterThan?: number;
+    alleleDepthGreaterThanOrEqual?: number;
+    alleleDepthEqual?: number;
+    alleleDepthNotEqual?: number;
+    alleleDepthBetween?: Array<any>;
+    alleleDepthNotBetween?: Array<any>;
+    zygosityNotExists?: boolean;
+    zygosityExists?: boolean;
+    zygosity?: string;
+    zygosityNot?: string;
+    zygosityAnyOf?: Array<string>;
+    zygosityNotAnyOf?: Array<string>;
+    zygosityDescendantsOf?: string;
+    inheritanceNotExists?: boolean;
+    inheritanceExists?: boolean;
+    inheritance?: string;
+    inheritanceNot?: string;
+    inheritanceAnyOf?: Array<string>;
+    inheritanceNotAnyOf?: Array<string>;
+    inheritanceDescendantsOf?: string;
+    coordinateSystemNotExists?: boolean;
+    coordinateSystemExists?: boolean;
+    coordinateSystem?: string;
+    coordinateSystemNot?: string;
+    coordinateSystemAnyOf?: Array<string>;
+    coordinateSystemNotAnyOf?: Array<string>;
+    coordinateSystemDescendantsOf?: string;
+    exactGenomicCoordinatesNotExists?: boolean;
+    exactGenomicCoordinatesExists?: boolean;
+    innerGenomicCoordinatesNotExists?: boolean;
+    innerGenomicCoordinatesExists?: boolean;
+    outerGenomicCoordinatesNotExists?: boolean;
+    outerGenomicCoordinatesExists?: boolean;
+    clinvarNotExists?: boolean;
+    clinvarExists?: boolean;
+    clinvar?: string;
+    clinvarNot?: string;
+    clinvarContains?: string;
+    clinvarNotContains?: string;
+    clinvarBeginsWith?: string;
+    clinvarNotBeginsWith?: string;
+    clinvarEndsWith?: string;
+    clinvarNotEndsWith?: string;
+    genesCode?: string;
+    genesCodeNot?: string;
+    genesCodeContains?: string;
+    genesCodeNotContains?: string;
+    genesCodeBeginsWith?: string;
+    genesCodeNotBeginsWith?: string;
+    genesCodeEndsWith?: string;
+    genesCodeNotEndsWith?: string;
+    genesSystem?: string;
+    genesSystemNot?: string;
+    genesSystemContains?: string;
+    genesSystemNotContains?: string;
+    genesSystemBeginsWith?: string;
+    genesSystemNotBeginsWith?: string;
+    genesSystemEndsWith?: string;
+    genesSystemNotEndsWith?: string;
+    genesDisplayNotExists?: boolean;
+    genesDisplayExists?: boolean;
+    genesDisplay?: string;
+    genesDisplayNot?: string;
+    genesDisplayContains?: string;
+    genesDisplayNotContains?: string;
+    genesDisplayBeginsWith?: string;
+    genesDisplayNotBeginsWith?: string;
+    genesDisplayEndsWith?: string;
+    genesDisplayNotEndsWith?: string;
+    genesVersionNotExists?: boolean;
+    genesVersionExists?: boolean;
+    genesVersion?: string;
+    genesVersionNot?: string;
+    genesVersionContains?: string;
+    genesVersionNotContains?: string;
+    genesVersionBeginsWith?: string;
+    genesVersionNotBeginsWith?: string;
+    genesVersionEndsWith?: string;
+    genesVersionNotEndsWith?: string;
+    genesSynonymsNotExists?: boolean;
+    genesSynonymsExists?: boolean;
+    genesPropertiesNotExists?: boolean;
+    genesPropertiesExists?: boolean;
+    chromosomesCode?: string;
+    chromosomesCodeNot?: string;
+    chromosomesCodeContains?: string;
+    chromosomesCodeNotContains?: string;
+    chromosomesCodeBeginsWith?: string;
+    chromosomesCodeNotBeginsWith?: string;
+    chromosomesCodeEndsWith?: string;
+    chromosomesCodeNotEndsWith?: string;
+    chromosomesSystem?: string;
+    chromosomesSystemNot?: string;
+    chromosomesSystemContains?: string;
+    chromosomesSystemNotContains?: string;
+    chromosomesSystemBeginsWith?: string;
+    chromosomesSystemNotBeginsWith?: string;
+    chromosomesSystemEndsWith?: string;
+    chromosomesSystemNotEndsWith?: string;
+    chromosomesDisplayNotExists?: boolean;
+    chromosomesDisplayExists?: boolean;
+    chromosomesDisplay?: string;
+    chromosomesDisplayNot?: string;
+    chromosomesDisplayContains?: string;
+    chromosomesDisplayNotContains?: string;
+    chromosomesDisplayBeginsWith?: string;
+    chromosomesDisplayNotBeginsWith?: string;
+    chromosomesDisplayEndsWith?: string;
+    chromosomesDisplayNotEndsWith?: string;
+    chromosomesVersionNotExists?: boolean;
+    chromosomesVersionExists?: boolean;
+    chromosomesVersion?: string;
+    chromosomesVersionNot?: string;
+    chromosomesVersionContains?: string;
+    chromosomesVersionNotContains?: string;
+    chromosomesVersionBeginsWith?: string;
+    chromosomesVersionNotBeginsWith?: string;
+    chromosomesVersionEndsWith?: string;
+    chromosomesVersionNotEndsWith?: string;
+    chromosomesSynonymsNotExists?: boolean;
+    chromosomesSynonymsExists?: boolean;
+    chromosomesPropertiesNotExists?: boolean;
+    chromosomesPropertiesExists?: boolean;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateGenomicVariantRequestParams {
+    genomicVariantId: string;
+    genomicVariantCreateSchema: GenomicVariantCreateSchema;
+}
 
 
 export interface GenomicVariantsServiceInterface {
@@ -28,39 +403,36 @@ export interface GenomicVariantsServiceInterface {
     /**
      * Create Genomic Variant
      * 
-     * @param genomicVariantCreateSchema 
+* @param requestParameters
      */
-    createGenomicVariant(genomicVariantCreateSchema: GenomicVariantCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Genomic Variant
      * 
-     * @param genomicVariantId 
+* @param requestParameters
      */
-    deleteGenomicVariant(genomicVariantId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteGenomicVariant(requestParameters: DeleteGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Genomic Variant By Id
      * 
-     * @param genomicVariantId 
+* @param requestParameters
      */
-    getGenomicVariantById(genomicVariantId: string, extraHttpRequestParams?: any): Observable<GenomicVariantSchema>;
+    getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, extraHttpRequestParams?: any): Observable<GenomicVariantSchema>;
 
     /**
      * Get All Genomic Variants Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getGenomicVariants(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedGenomicVariantSchema>;
+    getGenomicVariants(requestParameters: GetGenomicVariantsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedGenomicVariantSchema>;
 
     /**
      * Update Genomic Variant
      * 
-     * @param genomicVariantId 
-     * @param genomicVariantCreateSchema 
+* @param requestParameters
      */
-    updateGenomicVariant(genomicVariantId: string, genomicVariantCreateSchema: GenomicVariantCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

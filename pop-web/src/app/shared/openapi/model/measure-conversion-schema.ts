@@ -9,6 +9,9 @@
  */
 
 
+/**
+ * Represents a measure value to be converted to another unit.  Attributes:      value (float): The numerical value of the measure.     unit (str): The unit of the measure.     new_unit (str): The new unit to convert the measure to.
+ */
 export interface MeasureConversionSchema { 
     value: number;
     unit: string;

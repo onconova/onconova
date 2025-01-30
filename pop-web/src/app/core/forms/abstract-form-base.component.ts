@@ -1,17 +1,20 @@
 import { Component, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { concatMap, forkJoin, map, of, tap } from 'rxjs';
-
+import { concatMap, forkJoin, map, Observable, of, tap } from 'rxjs';
+import { HttpResponse} from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 
 import { Ribbon } from 'lucide-angular';
 import { EmptyObject } from 'chart.js/dist/types/basic';
 import { Call } from '@angular/compiler';
-import { PatientCase } from 'src/app/shared/openapi';
+import { ModifiedResourceSchema } from 'src/app/shared/openapi';
 
 interface Resource {
     id: string;
+    [key: string]: any;
+  }
+interface ResourceCreate {
     [key: string]: any;
   }
 @Component({
@@ -28,14 +31,12 @@ export abstract class AbstractFormBase {
   abstract initialData: Resource | EmptyObject;  
   public loading: boolean = false;
 
-
   abstract readonly title: string;
   abstract readonly subtitle: string;
   abstract readonly icon: any;
 
-
-  abstract createService: CallableFunction;
-  abstract updateService: CallableFunction;
+  abstract createService (payload: ResourceCreate): any;
+  abstract updateService (id: string, payload: ResourceCreate): any;
   public subformsServices: {
     condition?: CallableFunction | null,
     payloads: CallableFunction, 
@@ -87,7 +88,6 @@ export abstract class AbstractFormBase {
           return []
         }
       })
-
       forkJoin([
           this.updateService(this.initialData.id, payload),
           ...subformsUpdates$,
@@ -95,9 +95,9 @@ export abstract class AbstractFormBase {
       ]).pipe(
         takeUntilDestroyed(this.destroyRef)
       ).subscribe({
-            next: () => {
-              // Report the successful creation of the resource
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + this.initialData.id });
+          next: (response: ModifiedResourceSchema[]) => {
+          // Report the successful creation of the resource
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + response[0].description });
               this.loading = false;  
               this.save.emit();
             },
@@ -134,9 +134,9 @@ export abstract class AbstractFormBase {
           takeUntilDestroyed(this.destroyRef)
         )
         .subscribe({
-          next: (response: Resource) => {
+          next: (response: ModifiedResourceSchema) => {
             // Report the successful creation of the resource
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.id });
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.description });
             this.loading = false;  
             this.save.emit();
           },

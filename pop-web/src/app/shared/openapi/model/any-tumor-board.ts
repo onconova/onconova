@@ -11,6 +11,7 @@ import { UnspecifiedTumorBoardSchema } from './unspecified-tumor-board-schema';
 import { MolecularTherapeuticRecommendationSchema } from './molecular-therapeutic-recommendation-schema';
 import { MolecularTumorBoardSchema } from './molecular-tumor-board-schema';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface AnyTumorBoard { 
@@ -26,11 +27,11 @@ export interface AnyTumorBoard {
      * 
      */
     updatedAt: string;
-    createdById?: number;
+    createdBy?: UserSchema;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

@@ -73,15 +73,15 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
   private readonly terminologyService: TerminologyService = inject(TerminologyService)
   public readonly formBuilder = inject(FormBuilder)
 
-  public readonly createService = this.tumorMarkersService.createTumorMarker.bind(this.tumorMarkersService)
-  public readonly updateService = this.tumorMarkersService.updateTumorMarkerById.bind(this.tumorMarkersService)
+  public readonly createService = (payload: TumorMarkerCreate) => this.tumorMarkersService.createTumorMarker({tumorMarkerCreate: payload})
+  public readonly updateService = (id: string, payload: TumorMarkerCreate) => this.tumorMarkersService.updateTumorMarkerById({tumorMarkerId: id, tumorMarkerCreate: payload})
 
   public readonly title: string = 'Tumor Marker'
   public readonly subtitle: string = 'Add new tumor marker'
   public readonly icon = TestTubeDiagonal;
 
   public readonly analyteResultTypes = AnalyteResultType;
-  public readonly analytes$: Observable<CodedConceptSchema[]> = this.terminologyService.getTerminologyConcepts('TumorMarkerAnalyte').pipe(
+  public readonly analytes$: Observable<CodedConceptSchema[]> = this.terminologyService.getTerminologyConcepts({terminologyName: 'TumorMarkerAnalyte'}).pipe(
     map((data) => data.items || [])
   );
   public readonly analyteResultTypeChoices: RadioChoice[] = [
@@ -211,7 +211,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
   }
 
   private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId)
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(
       (response) => {

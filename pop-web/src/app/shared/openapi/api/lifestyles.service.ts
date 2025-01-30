@@ -21,15 +21,20 @@ import { LifestyleCreateSchema } from '../model/lifestyle-create-schema';
 // @ts-ignore
 import { LifestyleSchema } from '../model/lifestyle-schema';
 // @ts-ignore
-import { PaginatedLifestyleSchema } from '../model/paginated-lifestyle-schema';
+import { ModifiedResourceSchema } from '../model/modified-resource-schema';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/resource-id-schema';
+import { PaginatedLifestyleSchema } from '../model/paginated-lifestyle-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    LifestylesServiceInterface
+    LifestylesServiceInterface,
+    CreateLifestyleRequestParams,
+    DeleteLifestyleByIdRequestParams,
+    GetLifestyleByIdRequestParams,
+    GetLifestylesRequestParams,
+    UpdateLifestyleByIdRequestParams
 } from './lifestyles.serviceInterface';
 
 
@@ -39,7 +44,7 @@ import {
 })
 export class LifestylesService implements LifestylesServiceInterface {
 
-    protected basePath = 'http://localhost';
+    protected basePath = 'https://localhost:4443';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -101,14 +106,15 @@ export class LifestylesService implements LifestylesServiceInterface {
 
     /**
      * Create Lifestyle
-     * @param lifestyleCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
-    public createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const lifestyleCreateSchema = requestParameters?.lifestyleCreateSchema;
         if (lifestyleCreateSchema === null || lifestyleCreateSchema === undefined) {
             throw new Error('Required parameter lifestyleCreateSchema was null or undefined when calling createLifestyle.');
         }
@@ -165,7 +171,7 @@ export class LifestylesService implements LifestylesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/lifestyles/`;
+        let localVarPath = `/api/lifestyles`;
         return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -182,14 +188,15 @@ export class LifestylesService implements LifestylesServiceInterface {
 
     /**
      * Delete Lifestyle
-     * @param lifestyleId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteLifestyleById(lifestyleId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public deleteLifestyleById(lifestyleId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public deleteLifestyleById(lifestyleId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public deleteLifestyleById(lifestyleId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public deleteLifestyleById(requestParameters: DeleteLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public deleteLifestyleById(requestParameters: DeleteLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public deleteLifestyleById(requestParameters: DeleteLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public deleteLifestyleById(requestParameters: DeleteLifestyleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const lifestyleId = requestParameters?.lifestyleId;
         if (lifestyleId === null || lifestyleId === undefined) {
             throw new Error('Required parameter lifestyleId was null or undefined when calling deleteLifestyleById.');
         }
@@ -252,14 +259,15 @@ export class LifestylesService implements LifestylesServiceInterface {
 
     /**
      * Get Lifestyle By Id
-     * @param lifestyleId 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getLifestyleById(lifestyleId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LifestyleSchema>;
-    public getLifestyleById(lifestyleId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LifestyleSchema>>;
-    public getLifestyleById(lifestyleId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LifestyleSchema>>;
-    public getLifestyleById(lifestyleId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LifestyleSchema>;
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LifestyleSchema>>;
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LifestyleSchema>>;
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const lifestyleId = requestParameters?.lifestyleId;
         if (lifestyleId === null || lifestyleId === undefined) {
             throw new Error('Required parameter lifestyleId was null or undefined when calling getLifestyleById.');
         }
@@ -323,21 +331,1103 @@ export class LifestylesService implements LifestylesServiceInterface {
 
     /**
      * Get All Lifestyles Matching The Query
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getLifestyles(caseId?: string, limit?: number, offset?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedLifestyleSchema>;
-    public getLifestyles(caseId?: string, limit?: number, offset?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedLifestyleSchema>>;
-    public getLifestyles(caseId?: string, limit?: number, offset?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedLifestyleSchema>>;
-    public getLifestyles(caseId?: string, limit?: number, offset?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedLifestyleSchema>;
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedLifestyleSchema>>;
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedLifestyleSchema>>;
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const id = requestParameters?.id;
+        const idNot = requestParameters?.idNot;
+        const idContains = requestParameters?.idContains;
+        const idNotContains = requestParameters?.idNotContains;
+        const idBeginsWith = requestParameters?.idBeginsWith;
+        const idNotBeginsWith = requestParameters?.idNotBeginsWith;
+        const idEndsWith = requestParameters?.idEndsWith;
+        const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const createdAtBefore = requestParameters?.createdAtBefore;
+        const createdAtAfter = requestParameters?.createdAtAfter;
+        const createdAtOnOrBefore = requestParameters?.createdAtOnOrBefore;
+        const createdAtOnOrAfter = requestParameters?.createdAtOnOrAfter;
+        const createdAtOn = requestParameters?.createdAtOn;
+        const createdAtNotOn = requestParameters?.createdAtNotOn;
+        const createdAtBetween = requestParameters?.createdAtBetween;
+        const createdAtNotBetween = requestParameters?.createdAtNotBetween;
+        const updatedAtBefore = requestParameters?.updatedAtBefore;
+        const updatedAtAfter = requestParameters?.updatedAtAfter;
+        const updatedAtOnOrBefore = requestParameters?.updatedAtOnOrBefore;
+        const updatedAtOnOrAfter = requestParameters?.updatedAtOnOrAfter;
+        const updatedAtOn = requestParameters?.updatedAtOn;
+        const updatedAtNotOn = requestParameters?.updatedAtNotOn;
+        const updatedAtBetween = requestParameters?.updatedAtBetween;
+        const updatedAtNotBetween = requestParameters?.updatedAtNotBetween;
+        const createdByNotExists = requestParameters?.createdByNotExists;
+        const createdByExists = requestParameters?.createdByExists;
+        const updatedBysIdLessThan = requestParameters?.updatedBysIdLessThan;
+        const updatedBysIdLessThanOrEqual = requestParameters?.updatedBysIdLessThanOrEqual;
+        const updatedBysIdGreaterThan = requestParameters?.updatedBysIdGreaterThan;
+        const updatedBysIdGreaterThanOrEqual = requestParameters?.updatedBysIdGreaterThanOrEqual;
+        const updatedBysIdEqual = requestParameters?.updatedBysIdEqual;
+        const updatedBysIdNotEqual = requestParameters?.updatedBysIdNotEqual;
+        const updatedBysIdBetween = requestParameters?.updatedBysIdBetween;
+        const updatedBysIdNotBetween = requestParameters?.updatedBysIdNotBetween;
+        const updatedBysUsername = requestParameters?.updatedBysUsername;
+        const updatedBysUsernameNot = requestParameters?.updatedBysUsernameNot;
+        const updatedBysUsernameContains = requestParameters?.updatedBysUsernameContains;
+        const updatedBysUsernameNotContains = requestParameters?.updatedBysUsernameNotContains;
+        const updatedBysUsernameBeginsWith = requestParameters?.updatedBysUsernameBeginsWith;
+        const updatedBysUsernameNotBeginsWith = requestParameters?.updatedBysUsernameNotBeginsWith;
+        const updatedBysUsernameEndsWith = requestParameters?.updatedBysUsernameEndsWith;
+        const updatedBysUsernameNotEndsWith = requestParameters?.updatedBysUsernameNotEndsWith;
+        const updatedBysEmail = requestParameters?.updatedBysEmail;
+        const updatedBysEmailNot = requestParameters?.updatedBysEmailNot;
+        const updatedBysEmailContains = requestParameters?.updatedBysEmailContains;
+        const updatedBysEmailNotContains = requestParameters?.updatedBysEmailNotContains;
+        const updatedBysEmailBeginsWith = requestParameters?.updatedBysEmailBeginsWith;
+        const updatedBysEmailNotBeginsWith = requestParameters?.updatedBysEmailNotBeginsWith;
+        const updatedBysEmailEndsWith = requestParameters?.updatedBysEmailEndsWith;
+        const updatedBysEmailNotEndsWith = requestParameters?.updatedBysEmailNotEndsWith;
+        const updatedBysFirstNameNotExists = requestParameters?.updatedBysFirstNameNotExists;
+        const updatedBysFirstNameExists = requestParameters?.updatedBysFirstNameExists;
+        const updatedBysFirstName = requestParameters?.updatedBysFirstName;
+        const updatedBysFirstNameNot = requestParameters?.updatedBysFirstNameNot;
+        const updatedBysFirstNameContains = requestParameters?.updatedBysFirstNameContains;
+        const updatedBysFirstNameNotContains = requestParameters?.updatedBysFirstNameNotContains;
+        const updatedBysFirstNameBeginsWith = requestParameters?.updatedBysFirstNameBeginsWith;
+        const updatedBysFirstNameNotBeginsWith = requestParameters?.updatedBysFirstNameNotBeginsWith;
+        const updatedBysFirstNameEndsWith = requestParameters?.updatedBysFirstNameEndsWith;
+        const updatedBysFirstNameNotEndsWith = requestParameters?.updatedBysFirstNameNotEndsWith;
+        const updatedBysLastNameNotExists = requestParameters?.updatedBysLastNameNotExists;
+        const updatedBysLastNameExists = requestParameters?.updatedBysLastNameExists;
+        const updatedBysLastName = requestParameters?.updatedBysLastName;
+        const updatedBysLastNameNot = requestParameters?.updatedBysLastNameNot;
+        const updatedBysLastNameContains = requestParameters?.updatedBysLastNameContains;
+        const updatedBysLastNameNotContains = requestParameters?.updatedBysLastNameNotContains;
+        const updatedBysLastNameBeginsWith = requestParameters?.updatedBysLastNameBeginsWith;
+        const updatedBysLastNameNotBeginsWith = requestParameters?.updatedBysLastNameNotBeginsWith;
+        const updatedBysLastNameEndsWith = requestParameters?.updatedBysLastNameEndsWith;
+        const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
+        const caseId = requestParameters?.caseId;
+        const caseIdNot = requestParameters?.caseIdNot;
+        const caseIdContains = requestParameters?.caseIdContains;
+        const caseIdNotContains = requestParameters?.caseIdNotContains;
+        const caseIdBeginsWith = requestParameters?.caseIdBeginsWith;
+        const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
+        const caseIdEndsWith = requestParameters?.caseIdEndsWith;
+        const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const dateBefore = requestParameters?.dateBefore;
+        const dateAfter = requestParameters?.dateAfter;
+        const dateOnOrBefore = requestParameters?.dateOnOrBefore;
+        const dateOnOrAfter = requestParameters?.dateOnOrAfter;
+        const dateOn = requestParameters?.dateOn;
+        const dateNotOn = requestParameters?.dateNotOn;
+        const dateBetween = requestParameters?.dateBetween;
+        const dateNotBetween = requestParameters?.dateNotBetween;
+        const smokingStatusNotExists = requestParameters?.smokingStatusNotExists;
+        const smokingStatusExists = requestParameters?.smokingStatusExists;
+        const smokingStatus = requestParameters?.smokingStatus;
+        const smokingStatusNot = requestParameters?.smokingStatusNot;
+        const smokingStatusAnyOf = requestParameters?.smokingStatusAnyOf;
+        const smokingStatusNotAnyOf = requestParameters?.smokingStatusNotAnyOf;
+        const smokingStatusDescendantsOf = requestParameters?.smokingStatusDescendantsOf;
+        const smokingPackyearsNotExists = requestParameters?.smokingPackyearsNotExists;
+        const smokingPackyearsExists = requestParameters?.smokingPackyearsExists;
+        const smokingPackyearsLessThan = requestParameters?.smokingPackyearsLessThan;
+        const smokingPackyearsLessThanOrEqual = requestParameters?.smokingPackyearsLessThanOrEqual;
+        const smokingPackyearsGreaterThan = requestParameters?.smokingPackyearsGreaterThan;
+        const smokingPackyearsGreaterThanOrEqual = requestParameters?.smokingPackyearsGreaterThanOrEqual;
+        const smokingPackyearsEqual = requestParameters?.smokingPackyearsEqual;
+        const smokingPackyearsNotEqual = requestParameters?.smokingPackyearsNotEqual;
+        const smokingPackyearsBetween = requestParameters?.smokingPackyearsBetween;
+        const smokingPackyearsNotBetween = requestParameters?.smokingPackyearsNotBetween;
+        const smokingQuitedNotExists = requestParameters?.smokingQuitedNotExists;
+        const smokingQuitedExists = requestParameters?.smokingQuitedExists;
+        const smokingQuitedLessThan = requestParameters?.smokingQuitedLessThan;
+        const smokingQuitedLessThanOrEqual = requestParameters?.smokingQuitedLessThanOrEqual;
+        const smokingQuitedGreaterThan = requestParameters?.smokingQuitedGreaterThan;
+        const smokingQuitedGreaterThanOrEqual = requestParameters?.smokingQuitedGreaterThanOrEqual;
+        const smokingQuitedEqual = requestParameters?.smokingQuitedEqual;
+        const smokingQuitedNotEqual = requestParameters?.smokingQuitedNotEqual;
+        const smokingQuitedBetween = requestParameters?.smokingQuitedBetween;
+        const smokingQuitedNotBetween = requestParameters?.smokingQuitedNotBetween;
+        const alcoholConsumptionNotExists = requestParameters?.alcoholConsumptionNotExists;
+        const alcoholConsumptionExists = requestParameters?.alcoholConsumptionExists;
+        const alcoholConsumption = requestParameters?.alcoholConsumption;
+        const alcoholConsumptionNot = requestParameters?.alcoholConsumptionNot;
+        const alcoholConsumptionAnyOf = requestParameters?.alcoholConsumptionAnyOf;
+        const alcoholConsumptionNotAnyOf = requestParameters?.alcoholConsumptionNotAnyOf;
+        const alcoholConsumptionDescendantsOf = requestParameters?.alcoholConsumptionDescendantsOf;
+        const nightSleepNotExists = requestParameters?.nightSleepNotExists;
+        const nightSleepExists = requestParameters?.nightSleepExists;
+        const nightSleepLessThan = requestParameters?.nightSleepLessThan;
+        const nightSleepLessThanOrEqual = requestParameters?.nightSleepLessThanOrEqual;
+        const nightSleepGreaterThan = requestParameters?.nightSleepGreaterThan;
+        const nightSleepGreaterThanOrEqual = requestParameters?.nightSleepGreaterThanOrEqual;
+        const nightSleepEqual = requestParameters?.nightSleepEqual;
+        const nightSleepNotEqual = requestParameters?.nightSleepNotEqual;
+        const nightSleepBetween = requestParameters?.nightSleepBetween;
+        const nightSleepNotBetween = requestParameters?.nightSleepNotBetween;
+        const recreationalDrugsCode = requestParameters?.recreationalDrugsCode;
+        const recreationalDrugsCodeNot = requestParameters?.recreationalDrugsCodeNot;
+        const recreationalDrugsCodeContains = requestParameters?.recreationalDrugsCodeContains;
+        const recreationalDrugsCodeNotContains = requestParameters?.recreationalDrugsCodeNotContains;
+        const recreationalDrugsCodeBeginsWith = requestParameters?.recreationalDrugsCodeBeginsWith;
+        const recreationalDrugsCodeNotBeginsWith = requestParameters?.recreationalDrugsCodeNotBeginsWith;
+        const recreationalDrugsCodeEndsWith = requestParameters?.recreationalDrugsCodeEndsWith;
+        const recreationalDrugsCodeNotEndsWith = requestParameters?.recreationalDrugsCodeNotEndsWith;
+        const recreationalDrugsSystem = requestParameters?.recreationalDrugsSystem;
+        const recreationalDrugsSystemNot = requestParameters?.recreationalDrugsSystemNot;
+        const recreationalDrugsSystemContains = requestParameters?.recreationalDrugsSystemContains;
+        const recreationalDrugsSystemNotContains = requestParameters?.recreationalDrugsSystemNotContains;
+        const recreationalDrugsSystemBeginsWith = requestParameters?.recreationalDrugsSystemBeginsWith;
+        const recreationalDrugsSystemNotBeginsWith = requestParameters?.recreationalDrugsSystemNotBeginsWith;
+        const recreationalDrugsSystemEndsWith = requestParameters?.recreationalDrugsSystemEndsWith;
+        const recreationalDrugsSystemNotEndsWith = requestParameters?.recreationalDrugsSystemNotEndsWith;
+        const recreationalDrugsDisplayNotExists = requestParameters?.recreationalDrugsDisplayNotExists;
+        const recreationalDrugsDisplayExists = requestParameters?.recreationalDrugsDisplayExists;
+        const recreationalDrugsDisplay = requestParameters?.recreationalDrugsDisplay;
+        const recreationalDrugsDisplayNot = requestParameters?.recreationalDrugsDisplayNot;
+        const recreationalDrugsDisplayContains = requestParameters?.recreationalDrugsDisplayContains;
+        const recreationalDrugsDisplayNotContains = requestParameters?.recreationalDrugsDisplayNotContains;
+        const recreationalDrugsDisplayBeginsWith = requestParameters?.recreationalDrugsDisplayBeginsWith;
+        const recreationalDrugsDisplayNotBeginsWith = requestParameters?.recreationalDrugsDisplayNotBeginsWith;
+        const recreationalDrugsDisplayEndsWith = requestParameters?.recreationalDrugsDisplayEndsWith;
+        const recreationalDrugsDisplayNotEndsWith = requestParameters?.recreationalDrugsDisplayNotEndsWith;
+        const recreationalDrugsVersionNotExists = requestParameters?.recreationalDrugsVersionNotExists;
+        const recreationalDrugsVersionExists = requestParameters?.recreationalDrugsVersionExists;
+        const recreationalDrugsVersion = requestParameters?.recreationalDrugsVersion;
+        const recreationalDrugsVersionNot = requestParameters?.recreationalDrugsVersionNot;
+        const recreationalDrugsVersionContains = requestParameters?.recreationalDrugsVersionContains;
+        const recreationalDrugsVersionNotContains = requestParameters?.recreationalDrugsVersionNotContains;
+        const recreationalDrugsVersionBeginsWith = requestParameters?.recreationalDrugsVersionBeginsWith;
+        const recreationalDrugsVersionNotBeginsWith = requestParameters?.recreationalDrugsVersionNotBeginsWith;
+        const recreationalDrugsVersionEndsWith = requestParameters?.recreationalDrugsVersionEndsWith;
+        const recreationalDrugsVersionNotEndsWith = requestParameters?.recreationalDrugsVersionNotEndsWith;
+        const recreationalDrugsSynonymsNotExists = requestParameters?.recreationalDrugsSynonymsNotExists;
+        const recreationalDrugsSynonymsExists = requestParameters?.recreationalDrugsSynonymsExists;
+        const recreationalDrugsPropertiesNotExists = requestParameters?.recreationalDrugsPropertiesNotExists;
+        const recreationalDrugsPropertiesExists = requestParameters?.recreationalDrugsPropertiesExists;
+        const exposuresCode = requestParameters?.exposuresCode;
+        const exposuresCodeNot = requestParameters?.exposuresCodeNot;
+        const exposuresCodeContains = requestParameters?.exposuresCodeContains;
+        const exposuresCodeNotContains = requestParameters?.exposuresCodeNotContains;
+        const exposuresCodeBeginsWith = requestParameters?.exposuresCodeBeginsWith;
+        const exposuresCodeNotBeginsWith = requestParameters?.exposuresCodeNotBeginsWith;
+        const exposuresCodeEndsWith = requestParameters?.exposuresCodeEndsWith;
+        const exposuresCodeNotEndsWith = requestParameters?.exposuresCodeNotEndsWith;
+        const exposuresSystem = requestParameters?.exposuresSystem;
+        const exposuresSystemNot = requestParameters?.exposuresSystemNot;
+        const exposuresSystemContains = requestParameters?.exposuresSystemContains;
+        const exposuresSystemNotContains = requestParameters?.exposuresSystemNotContains;
+        const exposuresSystemBeginsWith = requestParameters?.exposuresSystemBeginsWith;
+        const exposuresSystemNotBeginsWith = requestParameters?.exposuresSystemNotBeginsWith;
+        const exposuresSystemEndsWith = requestParameters?.exposuresSystemEndsWith;
+        const exposuresSystemNotEndsWith = requestParameters?.exposuresSystemNotEndsWith;
+        const exposuresDisplayNotExists = requestParameters?.exposuresDisplayNotExists;
+        const exposuresDisplayExists = requestParameters?.exposuresDisplayExists;
+        const exposuresDisplay = requestParameters?.exposuresDisplay;
+        const exposuresDisplayNot = requestParameters?.exposuresDisplayNot;
+        const exposuresDisplayContains = requestParameters?.exposuresDisplayContains;
+        const exposuresDisplayNotContains = requestParameters?.exposuresDisplayNotContains;
+        const exposuresDisplayBeginsWith = requestParameters?.exposuresDisplayBeginsWith;
+        const exposuresDisplayNotBeginsWith = requestParameters?.exposuresDisplayNotBeginsWith;
+        const exposuresDisplayEndsWith = requestParameters?.exposuresDisplayEndsWith;
+        const exposuresDisplayNotEndsWith = requestParameters?.exposuresDisplayNotEndsWith;
+        const exposuresVersionNotExists = requestParameters?.exposuresVersionNotExists;
+        const exposuresVersionExists = requestParameters?.exposuresVersionExists;
+        const exposuresVersion = requestParameters?.exposuresVersion;
+        const exposuresVersionNot = requestParameters?.exposuresVersionNot;
+        const exposuresVersionContains = requestParameters?.exposuresVersionContains;
+        const exposuresVersionNotContains = requestParameters?.exposuresVersionNotContains;
+        const exposuresVersionBeginsWith = requestParameters?.exposuresVersionBeginsWith;
+        const exposuresVersionNotBeginsWith = requestParameters?.exposuresVersionNotBeginsWith;
+        const exposuresVersionEndsWith = requestParameters?.exposuresVersionEndsWith;
+        const exposuresVersionNotEndsWith = requestParameters?.exposuresVersionNotEndsWith;
+        const exposuresSynonymsNotExists = requestParameters?.exposuresSynonymsNotExists;
+        const exposuresSynonymsExists = requestParameters?.exposuresSynonymsExists;
+        const exposuresPropertiesNotExists = requestParameters?.exposuresPropertiesNotExists;
+        const exposuresPropertiesExists = requestParameters?.exposuresPropertiesExists;
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (id !== undefined && id !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>id, 'id');
+        }
+        if (idNot !== undefined && idNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNot, 'id.not');
+        }
+        if (idContains !== undefined && idContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idContains, 'id.contains');
+        }
+        if (idNotContains !== undefined && idNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotContains, 'id.not.contains');
+        }
+        if (idBeginsWith !== undefined && idBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idBeginsWith, 'id.beginsWith');
+        }
+        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotBeginsWith, 'id.not.beginsWith');
+        }
+        if (idEndsWith !== undefined && idEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idEndsWith, 'id.endsWith');
+        }
+        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>idNotEndsWith, 'id.not.endsWith');
+        }
+        if (createdAtBefore !== undefined && createdAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtBefore, 'createdAt.before');
+        }
+        if (createdAtAfter !== undefined && createdAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtAfter, 'createdAt.after');
+        }
+        if (createdAtOnOrBefore !== undefined && createdAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOnOrBefore, 'createdAt.onOrBefore');
+        }
+        if (createdAtOnOrAfter !== undefined && createdAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOnOrAfter, 'createdAt.onOrAfter');
+        }
+        if (createdAtOn !== undefined && createdAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtOn, 'createdAt.on');
+        }
+        if (createdAtNotOn !== undefined && createdAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdAtNotOn, 'createdAt.not.on');
+        }
+        if (createdAtBetween) {
+            createdAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'createdAt.between');
+            })
+        }
+        if (createdAtNotBetween) {
+            createdAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'createdAt.not.between');
+            })
+        }
+        if (updatedAtBefore !== undefined && updatedAtBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtBefore, 'updatedAt.before');
+        }
+        if (updatedAtAfter !== undefined && updatedAtAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtAfter, 'updatedAt.after');
+        }
+        if (updatedAtOnOrBefore !== undefined && updatedAtOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOnOrBefore, 'updatedAt.onOrBefore');
+        }
+        if (updatedAtOnOrAfter !== undefined && updatedAtOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOnOrAfter, 'updatedAt.onOrAfter');
+        }
+        if (updatedAtOn !== undefined && updatedAtOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtOn, 'updatedAt.on');
+        }
+        if (updatedAtNotOn !== undefined && updatedAtNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedAtNotOn, 'updatedAt.not.on');
+        }
+        if (updatedAtBetween) {
+            updatedAtBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedAt.between');
+            })
+        }
+        if (updatedAtNotBetween) {
+            updatedAtNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedAt.not.between');
+            })
+        }
+        if (createdByNotExists !== undefined && createdByNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdByNotExists, 'createdBy.not.exists');
+        }
+        if (createdByExists !== undefined && createdByExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>createdByExists, 'createdBy.exists');
+        }
+        if (updatedBysIdLessThan !== undefined && updatedBysIdLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdLessThan, 'updatedBys.id.lessThan');
+        }
+        if (updatedBysIdLessThanOrEqual !== undefined && updatedBysIdLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdLessThanOrEqual, 'updatedBys.id.lessThanOrEqual');
+        }
+        if (updatedBysIdGreaterThan !== undefined && updatedBysIdGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdGreaterThan, 'updatedBys.id.greaterThan');
+        }
+        if (updatedBysIdGreaterThanOrEqual !== undefined && updatedBysIdGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdGreaterThanOrEqual, 'updatedBys.id.greaterThanOrEqual');
+        }
+        if (updatedBysIdEqual !== undefined && updatedBysIdEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdEqual, 'updatedBys.id.equal');
+        }
+        if (updatedBysIdNotEqual !== undefined && updatedBysIdNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysIdNotEqual, 'updatedBys.id.not.equal');
+        }
+        if (updatedBysIdBetween) {
+            updatedBysIdBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedBys.id.between');
+            })
+        }
+        if (updatedBysIdNotBetween) {
+            updatedBysIdNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'updatedBys.id.not.between');
+            })
+        }
+        if (updatedBysUsername !== undefined && updatedBysUsername !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsername, 'updatedBys.username');
+        }
+        if (updatedBysUsernameNot !== undefined && updatedBysUsernameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNot, 'updatedBys.username.not');
+        }
+        if (updatedBysUsernameContains !== undefined && updatedBysUsernameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameContains, 'updatedBys.username.contains');
+        }
+        if (updatedBysUsernameNotContains !== undefined && updatedBysUsernameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotContains, 'updatedBys.username.not.contains');
+        }
+        if (updatedBysUsernameBeginsWith !== undefined && updatedBysUsernameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameBeginsWith, 'updatedBys.username.beginsWith');
+        }
+        if (updatedBysUsernameNotBeginsWith !== undefined && updatedBysUsernameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotBeginsWith, 'updatedBys.username.not.beginsWith');
+        }
+        if (updatedBysUsernameEndsWith !== undefined && updatedBysUsernameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameEndsWith, 'updatedBys.username.endsWith');
+        }
+        if (updatedBysUsernameNotEndsWith !== undefined && updatedBysUsernameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysUsernameNotEndsWith, 'updatedBys.username.not.endsWith');
+        }
+        if (updatedBysEmail !== undefined && updatedBysEmail !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmail, 'updatedBys.email');
+        }
+        if (updatedBysEmailNot !== undefined && updatedBysEmailNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNot, 'updatedBys.email.not');
+        }
+        if (updatedBysEmailContains !== undefined && updatedBysEmailContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailContains, 'updatedBys.email.contains');
+        }
+        if (updatedBysEmailNotContains !== undefined && updatedBysEmailNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotContains, 'updatedBys.email.not.contains');
+        }
+        if (updatedBysEmailBeginsWith !== undefined && updatedBysEmailBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailBeginsWith, 'updatedBys.email.beginsWith');
+        }
+        if (updatedBysEmailNotBeginsWith !== undefined && updatedBysEmailNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotBeginsWith, 'updatedBys.email.not.beginsWith');
+        }
+        if (updatedBysEmailEndsWith !== undefined && updatedBysEmailEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailEndsWith, 'updatedBys.email.endsWith');
+        }
+        if (updatedBysEmailNotEndsWith !== undefined && updatedBysEmailNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysEmailNotEndsWith, 'updatedBys.email.not.endsWith');
+        }
+        if (updatedBysFirstNameNotExists !== undefined && updatedBysFirstNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotExists, 'updatedBys.firstName.not.exists');
+        }
+        if (updatedBysFirstNameExists !== undefined && updatedBysFirstNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameExists, 'updatedBys.firstName.exists');
+        }
+        if (updatedBysFirstName !== undefined && updatedBysFirstName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstName, 'updatedBys.firstName');
+        }
+        if (updatedBysFirstNameNot !== undefined && updatedBysFirstNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNot, 'updatedBys.firstName.not');
+        }
+        if (updatedBysFirstNameContains !== undefined && updatedBysFirstNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameContains, 'updatedBys.firstName.contains');
+        }
+        if (updatedBysFirstNameNotContains !== undefined && updatedBysFirstNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotContains, 'updatedBys.firstName.not.contains');
+        }
+        if (updatedBysFirstNameBeginsWith !== undefined && updatedBysFirstNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameBeginsWith, 'updatedBys.firstName.beginsWith');
+        }
+        if (updatedBysFirstNameNotBeginsWith !== undefined && updatedBysFirstNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotBeginsWith, 'updatedBys.firstName.not.beginsWith');
+        }
+        if (updatedBysFirstNameEndsWith !== undefined && updatedBysFirstNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameEndsWith, 'updatedBys.firstName.endsWith');
+        }
+        if (updatedBysFirstNameNotEndsWith !== undefined && updatedBysFirstNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysFirstNameNotEndsWith, 'updatedBys.firstName.not.endsWith');
+        }
+        if (updatedBysLastNameNotExists !== undefined && updatedBysLastNameNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotExists, 'updatedBys.lastName.not.exists');
+        }
+        if (updatedBysLastNameExists !== undefined && updatedBysLastNameExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameExists, 'updatedBys.lastName.exists');
+        }
+        if (updatedBysLastName !== undefined && updatedBysLastName !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastName, 'updatedBys.lastName');
+        }
+        if (updatedBysLastNameNot !== undefined && updatedBysLastNameNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNot, 'updatedBys.lastName.not');
+        }
+        if (updatedBysLastNameContains !== undefined && updatedBysLastNameContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameContains, 'updatedBys.lastName.contains');
+        }
+        if (updatedBysLastNameNotContains !== undefined && updatedBysLastNameNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotContains, 'updatedBys.lastName.not.contains');
+        }
+        if (updatedBysLastNameBeginsWith !== undefined && updatedBysLastNameBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameBeginsWith, 'updatedBys.lastName.beginsWith');
+        }
+        if (updatedBysLastNameNotBeginsWith !== undefined && updatedBysLastNameNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotBeginsWith, 'updatedBys.lastName.not.beginsWith');
+        }
+        if (updatedBysLastNameEndsWith !== undefined && updatedBysLastNameEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameEndsWith, 'updatedBys.lastName.endsWith');
+        }
+        if (updatedBysLastNameNotEndsWith !== undefined && updatedBysLastNameNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>updatedBysLastNameNotEndsWith, 'updatedBys.lastName.not.endsWith');
+        }
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>caseId, 'caseId');
+        }
+        if (caseIdNot !== undefined && caseIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNot, 'caseId.not');
+        }
+        if (caseIdContains !== undefined && caseIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdContains, 'caseId.contains');
+        }
+        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotContains, 'caseId.not.contains');
+        }
+        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdBeginsWith, 'caseId.beginsWith');
+        }
+        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        }
+        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdEndsWith, 'caseId.endsWith');
+        }
+        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        }
+        if (dateBefore !== undefined && dateBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateBefore, 'date.before');
+        }
+        if (dateAfter !== undefined && dateAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateAfter, 'date.after');
+        }
+        if (dateOnOrBefore !== undefined && dateOnOrBefore !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateOnOrBefore, 'date.onOrBefore');
+        }
+        if (dateOnOrAfter !== undefined && dateOnOrAfter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateOnOrAfter, 'date.onOrAfter');
+        }
+        if (dateOn !== undefined && dateOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateOn, 'date.on');
+        }
+        if (dateNotOn !== undefined && dateNotOn !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dateNotOn, 'date.not.on');
+        }
+        if (dateBetween) {
+            dateBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'date.between');
+            })
+        }
+        if (dateNotBetween) {
+            dateNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'date.not.between');
+            })
+        }
+        if (smokingStatusNotExists !== undefined && smokingStatusNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingStatusNotExists, 'smokingStatus.not.exists');
+        }
+        if (smokingStatusExists !== undefined && smokingStatusExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingStatusExists, 'smokingStatus.exists');
+        }
+        if (smokingStatus !== undefined && smokingStatus !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingStatus, 'smokingStatus');
+        }
+        if (smokingStatusNot !== undefined && smokingStatusNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingStatusNot, 'smokingStatus.not');
+        }
+        if (smokingStatusAnyOf) {
+            smokingStatusAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'smokingStatus.anyOf');
+            })
+        }
+        if (smokingStatusNotAnyOf) {
+            smokingStatusNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'smokingStatus.not.anyOf');
+            })
+        }
+        if (smokingStatusDescendantsOf !== undefined && smokingStatusDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingStatusDescendantsOf, 'smokingStatus.descendantsOf');
+        }
+        if (smokingPackyearsNotExists !== undefined && smokingPackyearsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsNotExists, 'smokingPackyears.not.exists');
+        }
+        if (smokingPackyearsExists !== undefined && smokingPackyearsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsExists, 'smokingPackyears.exists');
+        }
+        if (smokingPackyearsLessThan !== undefined && smokingPackyearsLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsLessThan, 'smokingPackyears.lessThan');
+        }
+        if (smokingPackyearsLessThanOrEqual !== undefined && smokingPackyearsLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsLessThanOrEqual, 'smokingPackyears.lessThanOrEqual');
+        }
+        if (smokingPackyearsGreaterThan !== undefined && smokingPackyearsGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsGreaterThan, 'smokingPackyears.greaterThan');
+        }
+        if (smokingPackyearsGreaterThanOrEqual !== undefined && smokingPackyearsGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsGreaterThanOrEqual, 'smokingPackyears.greaterThanOrEqual');
+        }
+        if (smokingPackyearsEqual !== undefined && smokingPackyearsEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsEqual, 'smokingPackyears.equal');
+        }
+        if (smokingPackyearsNotEqual !== undefined && smokingPackyearsNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingPackyearsNotEqual, 'smokingPackyears.not.equal');
+        }
+        if (smokingPackyearsBetween) {
+            smokingPackyearsBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'smokingPackyears.between');
+            })
+        }
+        if (smokingPackyearsNotBetween) {
+            smokingPackyearsNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'smokingPackyears.not.between');
+            })
+        }
+        if (smokingQuitedNotExists !== undefined && smokingQuitedNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedNotExists, 'smokingQuited.not.exists');
+        }
+        if (smokingQuitedExists !== undefined && smokingQuitedExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedExists, 'smokingQuited.exists');
+        }
+        if (smokingQuitedLessThan !== undefined && smokingQuitedLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedLessThan, 'smokingQuited.lessThan');
+        }
+        if (smokingQuitedLessThanOrEqual !== undefined && smokingQuitedLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedLessThanOrEqual, 'smokingQuited.lessThanOrEqual');
+        }
+        if (smokingQuitedGreaterThan !== undefined && smokingQuitedGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedGreaterThan, 'smokingQuited.greaterThan');
+        }
+        if (smokingQuitedGreaterThanOrEqual !== undefined && smokingQuitedGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedGreaterThanOrEqual, 'smokingQuited.greaterThanOrEqual');
+        }
+        if (smokingQuitedEqual !== undefined && smokingQuitedEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedEqual, 'smokingQuited.equal');
+        }
+        if (smokingQuitedNotEqual !== undefined && smokingQuitedNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>smokingQuitedNotEqual, 'smokingQuited.not.equal');
+        }
+        if (smokingQuitedBetween) {
+            smokingQuitedBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'smokingQuited.between');
+            })
+        }
+        if (smokingQuitedNotBetween) {
+            smokingQuitedNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'smokingQuited.not.between');
+            })
+        }
+        if (alcoholConsumptionNotExists !== undefined && alcoholConsumptionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>alcoholConsumptionNotExists, 'alcoholConsumption.not.exists');
+        }
+        if (alcoholConsumptionExists !== undefined && alcoholConsumptionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>alcoholConsumptionExists, 'alcoholConsumption.exists');
+        }
+        if (alcoholConsumption !== undefined && alcoholConsumption !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>alcoholConsumption, 'alcoholConsumption');
+        }
+        if (alcoholConsumptionNot !== undefined && alcoholConsumptionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>alcoholConsumptionNot, 'alcoholConsumption.not');
+        }
+        if (alcoholConsumptionAnyOf) {
+            alcoholConsumptionAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'alcoholConsumption.anyOf');
+            })
+        }
+        if (alcoholConsumptionNotAnyOf) {
+            alcoholConsumptionNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'alcoholConsumption.not.anyOf');
+            })
+        }
+        if (alcoholConsumptionDescendantsOf !== undefined && alcoholConsumptionDescendantsOf !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>alcoholConsumptionDescendantsOf, 'alcoholConsumption.descendantsOf');
+        }
+        if (nightSleepNotExists !== undefined && nightSleepNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepNotExists, 'nightSleep.not.exists');
+        }
+        if (nightSleepExists !== undefined && nightSleepExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepExists, 'nightSleep.exists');
+        }
+        if (nightSleepLessThan !== undefined && nightSleepLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepLessThan, 'nightSleep.lessThan');
+        }
+        if (nightSleepLessThanOrEqual !== undefined && nightSleepLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepLessThanOrEqual, 'nightSleep.lessThanOrEqual');
+        }
+        if (nightSleepGreaterThan !== undefined && nightSleepGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepGreaterThan, 'nightSleep.greaterThan');
+        }
+        if (nightSleepGreaterThanOrEqual !== undefined && nightSleepGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepGreaterThanOrEqual, 'nightSleep.greaterThanOrEqual');
+        }
+        if (nightSleepEqual !== undefined && nightSleepEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepEqual, 'nightSleep.equal');
+        }
+        if (nightSleepNotEqual !== undefined && nightSleepNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nightSleepNotEqual, 'nightSleep.not.equal');
+        }
+        if (nightSleepBetween) {
+            nightSleepBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'nightSleep.between');
+            })
+        }
+        if (nightSleepNotBetween) {
+            nightSleepNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'nightSleep.not.between');
+            })
+        }
+        if (recreationalDrugsCode !== undefined && recreationalDrugsCode !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCode, 'recreationalDrugs.code');
+        }
+        if (recreationalDrugsCodeNot !== undefined && recreationalDrugsCodeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeNot, 'recreationalDrugs.code.not');
+        }
+        if (recreationalDrugsCodeContains !== undefined && recreationalDrugsCodeContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeContains, 'recreationalDrugs.code.contains');
+        }
+        if (recreationalDrugsCodeNotContains !== undefined && recreationalDrugsCodeNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeNotContains, 'recreationalDrugs.code.not.contains');
+        }
+        if (recreationalDrugsCodeBeginsWith !== undefined && recreationalDrugsCodeBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeBeginsWith, 'recreationalDrugs.code.beginsWith');
+        }
+        if (recreationalDrugsCodeNotBeginsWith !== undefined && recreationalDrugsCodeNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeNotBeginsWith, 'recreationalDrugs.code.not.beginsWith');
+        }
+        if (recreationalDrugsCodeEndsWith !== undefined && recreationalDrugsCodeEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeEndsWith, 'recreationalDrugs.code.endsWith');
+        }
+        if (recreationalDrugsCodeNotEndsWith !== undefined && recreationalDrugsCodeNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsCodeNotEndsWith, 'recreationalDrugs.code.not.endsWith');
+        }
+        if (recreationalDrugsSystem !== undefined && recreationalDrugsSystem !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystem, 'recreationalDrugs.system');
+        }
+        if (recreationalDrugsSystemNot !== undefined && recreationalDrugsSystemNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemNot, 'recreationalDrugs.system.not');
+        }
+        if (recreationalDrugsSystemContains !== undefined && recreationalDrugsSystemContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemContains, 'recreationalDrugs.system.contains');
+        }
+        if (recreationalDrugsSystemNotContains !== undefined && recreationalDrugsSystemNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemNotContains, 'recreationalDrugs.system.not.contains');
+        }
+        if (recreationalDrugsSystemBeginsWith !== undefined && recreationalDrugsSystemBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemBeginsWith, 'recreationalDrugs.system.beginsWith');
+        }
+        if (recreationalDrugsSystemNotBeginsWith !== undefined && recreationalDrugsSystemNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemNotBeginsWith, 'recreationalDrugs.system.not.beginsWith');
+        }
+        if (recreationalDrugsSystemEndsWith !== undefined && recreationalDrugsSystemEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemEndsWith, 'recreationalDrugs.system.endsWith');
+        }
+        if (recreationalDrugsSystemNotEndsWith !== undefined && recreationalDrugsSystemNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSystemNotEndsWith, 'recreationalDrugs.system.not.endsWith');
+        }
+        if (recreationalDrugsDisplayNotExists !== undefined && recreationalDrugsDisplayNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayNotExists, 'recreationalDrugs.display.not.exists');
+        }
+        if (recreationalDrugsDisplayExists !== undefined && recreationalDrugsDisplayExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayExists, 'recreationalDrugs.display.exists');
+        }
+        if (recreationalDrugsDisplay !== undefined && recreationalDrugsDisplay !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplay, 'recreationalDrugs.display');
+        }
+        if (recreationalDrugsDisplayNot !== undefined && recreationalDrugsDisplayNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayNot, 'recreationalDrugs.display.not');
+        }
+        if (recreationalDrugsDisplayContains !== undefined && recreationalDrugsDisplayContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayContains, 'recreationalDrugs.display.contains');
+        }
+        if (recreationalDrugsDisplayNotContains !== undefined && recreationalDrugsDisplayNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayNotContains, 'recreationalDrugs.display.not.contains');
+        }
+        if (recreationalDrugsDisplayBeginsWith !== undefined && recreationalDrugsDisplayBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayBeginsWith, 'recreationalDrugs.display.beginsWith');
+        }
+        if (recreationalDrugsDisplayNotBeginsWith !== undefined && recreationalDrugsDisplayNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayNotBeginsWith, 'recreationalDrugs.display.not.beginsWith');
+        }
+        if (recreationalDrugsDisplayEndsWith !== undefined && recreationalDrugsDisplayEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayEndsWith, 'recreationalDrugs.display.endsWith');
+        }
+        if (recreationalDrugsDisplayNotEndsWith !== undefined && recreationalDrugsDisplayNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsDisplayNotEndsWith, 'recreationalDrugs.display.not.endsWith');
+        }
+        if (recreationalDrugsVersionNotExists !== undefined && recreationalDrugsVersionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionNotExists, 'recreationalDrugs.version.not.exists');
+        }
+        if (recreationalDrugsVersionExists !== undefined && recreationalDrugsVersionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionExists, 'recreationalDrugs.version.exists');
+        }
+        if (recreationalDrugsVersion !== undefined && recreationalDrugsVersion !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersion, 'recreationalDrugs.version');
+        }
+        if (recreationalDrugsVersionNot !== undefined && recreationalDrugsVersionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionNot, 'recreationalDrugs.version.not');
+        }
+        if (recreationalDrugsVersionContains !== undefined && recreationalDrugsVersionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionContains, 'recreationalDrugs.version.contains');
+        }
+        if (recreationalDrugsVersionNotContains !== undefined && recreationalDrugsVersionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionNotContains, 'recreationalDrugs.version.not.contains');
+        }
+        if (recreationalDrugsVersionBeginsWith !== undefined && recreationalDrugsVersionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionBeginsWith, 'recreationalDrugs.version.beginsWith');
+        }
+        if (recreationalDrugsVersionNotBeginsWith !== undefined && recreationalDrugsVersionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionNotBeginsWith, 'recreationalDrugs.version.not.beginsWith');
+        }
+        if (recreationalDrugsVersionEndsWith !== undefined && recreationalDrugsVersionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionEndsWith, 'recreationalDrugs.version.endsWith');
+        }
+        if (recreationalDrugsVersionNotEndsWith !== undefined && recreationalDrugsVersionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsVersionNotEndsWith, 'recreationalDrugs.version.not.endsWith');
+        }
+        if (recreationalDrugsSynonymsNotExists !== undefined && recreationalDrugsSynonymsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSynonymsNotExists, 'recreationalDrugs.synonyms.not.exists');
+        }
+        if (recreationalDrugsSynonymsExists !== undefined && recreationalDrugsSynonymsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsSynonymsExists, 'recreationalDrugs.synonyms.exists');
+        }
+        if (recreationalDrugsPropertiesNotExists !== undefined && recreationalDrugsPropertiesNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsPropertiesNotExists, 'recreationalDrugs.properties.not.exists');
+        }
+        if (recreationalDrugsPropertiesExists !== undefined && recreationalDrugsPropertiesExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>recreationalDrugsPropertiesExists, 'recreationalDrugs.properties.exists');
+        }
+        if (exposuresCode !== undefined && exposuresCode !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCode, 'exposures.code');
+        }
+        if (exposuresCodeNot !== undefined && exposuresCodeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeNot, 'exposures.code.not');
+        }
+        if (exposuresCodeContains !== undefined && exposuresCodeContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeContains, 'exposures.code.contains');
+        }
+        if (exposuresCodeNotContains !== undefined && exposuresCodeNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeNotContains, 'exposures.code.not.contains');
+        }
+        if (exposuresCodeBeginsWith !== undefined && exposuresCodeBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeBeginsWith, 'exposures.code.beginsWith');
+        }
+        if (exposuresCodeNotBeginsWith !== undefined && exposuresCodeNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeNotBeginsWith, 'exposures.code.not.beginsWith');
+        }
+        if (exposuresCodeEndsWith !== undefined && exposuresCodeEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeEndsWith, 'exposures.code.endsWith');
+        }
+        if (exposuresCodeNotEndsWith !== undefined && exposuresCodeNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresCodeNotEndsWith, 'exposures.code.not.endsWith');
+        }
+        if (exposuresSystem !== undefined && exposuresSystem !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystem, 'exposures.system');
+        }
+        if (exposuresSystemNot !== undefined && exposuresSystemNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemNot, 'exposures.system.not');
+        }
+        if (exposuresSystemContains !== undefined && exposuresSystemContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemContains, 'exposures.system.contains');
+        }
+        if (exposuresSystemNotContains !== undefined && exposuresSystemNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemNotContains, 'exposures.system.not.contains');
+        }
+        if (exposuresSystemBeginsWith !== undefined && exposuresSystemBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemBeginsWith, 'exposures.system.beginsWith');
+        }
+        if (exposuresSystemNotBeginsWith !== undefined && exposuresSystemNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemNotBeginsWith, 'exposures.system.not.beginsWith');
+        }
+        if (exposuresSystemEndsWith !== undefined && exposuresSystemEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemEndsWith, 'exposures.system.endsWith');
+        }
+        if (exposuresSystemNotEndsWith !== undefined && exposuresSystemNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSystemNotEndsWith, 'exposures.system.not.endsWith');
+        }
+        if (exposuresDisplayNotExists !== undefined && exposuresDisplayNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayNotExists, 'exposures.display.not.exists');
+        }
+        if (exposuresDisplayExists !== undefined && exposuresDisplayExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayExists, 'exposures.display.exists');
+        }
+        if (exposuresDisplay !== undefined && exposuresDisplay !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplay, 'exposures.display');
+        }
+        if (exposuresDisplayNot !== undefined && exposuresDisplayNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayNot, 'exposures.display.not');
+        }
+        if (exposuresDisplayContains !== undefined && exposuresDisplayContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayContains, 'exposures.display.contains');
+        }
+        if (exposuresDisplayNotContains !== undefined && exposuresDisplayNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayNotContains, 'exposures.display.not.contains');
+        }
+        if (exposuresDisplayBeginsWith !== undefined && exposuresDisplayBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayBeginsWith, 'exposures.display.beginsWith');
+        }
+        if (exposuresDisplayNotBeginsWith !== undefined && exposuresDisplayNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayNotBeginsWith, 'exposures.display.not.beginsWith');
+        }
+        if (exposuresDisplayEndsWith !== undefined && exposuresDisplayEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayEndsWith, 'exposures.display.endsWith');
+        }
+        if (exposuresDisplayNotEndsWith !== undefined && exposuresDisplayNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresDisplayNotEndsWith, 'exposures.display.not.endsWith');
+        }
+        if (exposuresVersionNotExists !== undefined && exposuresVersionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionNotExists, 'exposures.version.not.exists');
+        }
+        if (exposuresVersionExists !== undefined && exposuresVersionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionExists, 'exposures.version.exists');
+        }
+        if (exposuresVersion !== undefined && exposuresVersion !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersion, 'exposures.version');
+        }
+        if (exposuresVersionNot !== undefined && exposuresVersionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionNot, 'exposures.version.not');
+        }
+        if (exposuresVersionContains !== undefined && exposuresVersionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionContains, 'exposures.version.contains');
+        }
+        if (exposuresVersionNotContains !== undefined && exposuresVersionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionNotContains, 'exposures.version.not.contains');
+        }
+        if (exposuresVersionBeginsWith !== undefined && exposuresVersionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionBeginsWith, 'exposures.version.beginsWith');
+        }
+        if (exposuresVersionNotBeginsWith !== undefined && exposuresVersionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionNotBeginsWith, 'exposures.version.not.beginsWith');
+        }
+        if (exposuresVersionEndsWith !== undefined && exposuresVersionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionEndsWith, 'exposures.version.endsWith');
+        }
+        if (exposuresVersionNotEndsWith !== undefined && exposuresVersionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresVersionNotEndsWith, 'exposures.version.not.endsWith');
+        }
+        if (exposuresSynonymsNotExists !== undefined && exposuresSynonymsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSynonymsNotExists, 'exposures.synonyms.not.exists');
+        }
+        if (exposuresSynonymsExists !== undefined && exposuresSynonymsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresSynonymsExists, 'exposures.synonyms.exists');
+        }
+        if (exposuresPropertiesNotExists !== undefined && exposuresPropertiesNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresPropertiesNotExists, 'exposures.properties.not.exists');
+        }
+        if (exposuresPropertiesExists !== undefined && exposuresPropertiesExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>exposuresPropertiesExists, 'exposures.properties.exists');
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -391,7 +1481,7 @@ export class LifestylesService implements LifestylesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/lifestyles/`;
+        let localVarPath = `/api/lifestyles`;
         return this.httpClient.request<PaginatedLifestyleSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -408,18 +1498,19 @@ export class LifestylesService implements LifestylesServiceInterface {
 
     /**
      * Update Lifestyle
-     * @param lifestyleId 
-     * @param lifestyleCreateSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateLifestyleById(lifestyleId: string, lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public updateLifestyleById(lifestyleId: string, lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public updateLifestyleById(lifestyleId: string, lifestyleCreateSchema: LifestyleCreateSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public updateLifestyleById(lifestyleId: string, lifestyleCreateSchema: LifestyleCreateSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const lifestyleId = requestParameters?.lifestyleId;
         if (lifestyleId === null || lifestyleId === undefined) {
             throw new Error('Required parameter lifestyleId was null or undefined when calling updateLifestyleById.');
         }
+        const lifestyleCreateSchema = requestParameters?.lifestyleCreateSchema;
         if (lifestyleCreateSchema === null || lifestyleCreateSchema === undefined) {
             throw new Error('Required parameter lifestyleCreateSchema was null or undefined when calling updateLifestyleById.');
         }
@@ -437,6 +1528,7 @@ export class LifestylesService implements LifestylesServiceInterface {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -476,7 +1568,7 @@ export class LifestylesService implements LifestylesServiceInterface {
         }
 
         let localVarPath = `/api/lifestyles/${this.configuration.encodeParam({name: "lifestyleId", value: lifestyleId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: lifestyleCreateSchema,

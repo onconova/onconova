@@ -23,7 +23,7 @@ export interface ComorbiditiesAssessmentCreateSchema {
     /**
      * The primary neoplastic entity against which comorbidities are assessed
      */
-    indexConditionId: string;
+    indexconditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
     presentConditions?: Array<CodedConceptSchema> | null;
     absentConditions?: Array<CodedConceptSchema> | null;

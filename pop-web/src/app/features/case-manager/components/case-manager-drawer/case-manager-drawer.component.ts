@@ -132,13 +132,6 @@ export class CaseManagerDrawerComponent {
     ]
 
 
-    prepareDisplayData() {
-        this.createdBy$ = this.userService.getUserById(this.data.createdById).pipe(map(user => user.username), first())
-        this.lastUpdatedBy$ = this.userService.getUserById(this.data.updatedByIds[this.data.updatedByIds.length-1]).pipe(map(user => user.username), first())
-    }
-
-
-
     confirmDelete(event: any) {
         this.confirmationService.confirm({
             target: event.target as EventTarget,

@@ -11,14 +11,156 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { ModifiedResourceSchema } from '../model/models';
 import { PaginatedPerformanceStatus } from '../model/models';
 import { PerformanceStatus } from '../model/models';
 import { PerformanceStatusCreate } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreatePerformanceStatusRequestParams {
+    performanceStatusCreate: PerformanceStatusCreate;
+}
+
+export interface DeletePerformanceStatusRequestParams {
+    performanceStatusId: string;
+}
+
+export interface GetPerformanceStatusRequestParams {
+    ecogInterpretationNotExists?: boolean;
+    ecogInterpretationExists?: boolean;
+    ecogInterpretation?: string;
+    ecogInterpretationNot?: string;
+    ecogInterpretationAnyOf?: Array<string>;
+    ecogInterpretationNotAnyOf?: Array<string>;
+    ecogInterpretationDescendantsOf?: string;
+    karnofskyInterpretationNotExists?: boolean;
+    karnofskyInterpretationExists?: boolean;
+    karnofskyInterpretation?: string;
+    karnofskyInterpretationNot?: string;
+    karnofskyInterpretationAnyOf?: Array<string>;
+    karnofskyInterpretationNotAnyOf?: Array<string>;
+    karnofskyInterpretationDescendantsOf?: string;
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    ecogScoreNotExists?: boolean;
+    ecogScoreExists?: boolean;
+    ecogScoreLessThan?: number;
+    ecogScoreLessThanOrEqual?: number;
+    ecogScoreGreaterThan?: number;
+    ecogScoreGreaterThanOrEqual?: number;
+    ecogScoreEqual?: number;
+    ecogScoreNotEqual?: number;
+    ecogScoreBetween?: Array<any>;
+    ecogScoreNotBetween?: Array<any>;
+    karnofskyScoreNotExists?: boolean;
+    karnofskyScoreExists?: boolean;
+    karnofskyScoreLessThan?: number;
+    karnofskyScoreLessThanOrEqual?: number;
+    karnofskyScoreGreaterThan?: number;
+    karnofskyScoreGreaterThanOrEqual?: number;
+    karnofskyScoreEqual?: number;
+    karnofskyScoreNotEqual?: number;
+    karnofskyScoreBetween?: Array<any>;
+    karnofskyScoreNotBetween?: Array<any>;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetPerformanceStatusByIdRequestParams {
+    performanceStatusId: string;
+}
+
+export interface UpdatePerformanceStatusByIdRequestParams {
+    performanceStatusId: string;
+    performanceStatusCreate: PerformanceStatusCreate;
+}
 
 
 export interface PerformanceStatusServiceInterface {
@@ -28,39 +170,36 @@ export interface PerformanceStatusServiceInterface {
     /**
      * Create Performance Status
      * 
-     * @param performanceStatusCreate 
+* @param requestParameters
      */
-    createPerformanceStatus(performanceStatusCreate: PerformanceStatusCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPerformanceStatus(requestParameters: CreatePerformanceStatusRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Performance Status
      * 
-     * @param performanceStatusId 
+* @param requestParameters
      */
-    deletePerformanceStatus(performanceStatusId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deletePerformanceStatus(requestParameters: DeletePerformanceStatusRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Performance Status Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getPerformanceStatus(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedPerformanceStatus>;
+    getPerformanceStatus(requestParameters: GetPerformanceStatusRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPerformanceStatus>;
 
     /**
      * Get Performance Status By Id
      * 
-     * @param performanceStatusId 
+* @param requestParameters
      */
-    getPerformanceStatusById(performanceStatusId: string, extraHttpRequestParams?: any): Observable<PerformanceStatus>;
+    getPerformanceStatusById(requestParameters: GetPerformanceStatusByIdRequestParams, extraHttpRequestParams?: any): Observable<PerformanceStatus>;
 
     /**
      * Update Performance Status
      * 
-     * @param performanceStatusId 
-     * @param performanceStatusCreate 
+* @param requestParameters
      */
-    updatePerformanceStatusById(performanceStatusId: string, performanceStatusCreate: PerformanceStatusCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updatePerformanceStatusById(requestParameters: UpdatePerformanceStatusByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

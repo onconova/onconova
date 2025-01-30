@@ -56,8 +56,8 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.surgeriesService.createSurgery.bind(this.surgeriesService);
-    public readonly updateService = this.surgeriesService.updateSurgeryById.bind(this.surgeriesService);
+    public readonly createService = (payload: SurgeryCreate) => this.surgeriesService.createSurgery({surgeryCreate: payload});
+    public readonly updateService = (id: string, payload: SurgeryCreate) => this.surgeriesService.updateSurgeryById({surgeryId: id, surgeryCreate: payload});
 
     public readonly title: string = 'Surgery';
     public readonly subtitle: string = 'Add new surgery';
@@ -108,7 +108,7 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
     }
 
     private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId)
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
             (response) => {

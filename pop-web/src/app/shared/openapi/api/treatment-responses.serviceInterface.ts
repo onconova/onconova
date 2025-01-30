@@ -11,14 +11,183 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { PaginatedTreatmentResponseSchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedTreatmentResponseSchema } from '../model/models';
 import { TreatmentResponseCreateSchema } from '../model/models';
 import { TreatmentResponseSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateTreatmentResponseRequestParams {
+    treatmentResponseCreateSchema: TreatmentResponseCreateSchema;
+}
+
+export interface DeleteTreatmentResponseRequestParams {
+    treatmentRresponseId: string;
+}
+
+export interface GetTreatmentResponseByIdRequestParams {
+    treatmentRresponseId: string;
+}
+
+export interface GetTreatmentResponsesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    recist?: string;
+    recistNot?: string;
+    recistAnyOf?: Array<string>;
+    recistNotAnyOf?: Array<string>;
+    recistDescendantsOf?: string;
+    recistInterpretedNotExists?: boolean;
+    recistInterpretedExists?: boolean;
+    recistInterpreted?: boolean;
+    methodology?: string;
+    methodologyNot?: string;
+    methodologyAnyOf?: Array<string>;
+    methodologyNotAnyOf?: Array<string>;
+    methodologyDescendantsOf?: string;
+    assessedEntitiesIds?: string;
+    assessedEntitiesIdsNot?: string;
+    assessedEntitiesIdsContains?: string;
+    assessedEntitiesIdsNotContains?: string;
+    assessedEntitiesIdsBeginsWith?: string;
+    assessedEntitiesIdsNotBeginsWith?: string;
+    assessedEntitiesIdsEndsWith?: string;
+    assessedEntitiesIdsNotEndsWith?: string;
+    assessedBodysitesCode?: string;
+    assessedBodysitesCodeNot?: string;
+    assessedBodysitesCodeContains?: string;
+    assessedBodysitesCodeNotContains?: string;
+    assessedBodysitesCodeBeginsWith?: string;
+    assessedBodysitesCodeNotBeginsWith?: string;
+    assessedBodysitesCodeEndsWith?: string;
+    assessedBodysitesCodeNotEndsWith?: string;
+    assessedBodysitesSystem?: string;
+    assessedBodysitesSystemNot?: string;
+    assessedBodysitesSystemContains?: string;
+    assessedBodysitesSystemNotContains?: string;
+    assessedBodysitesSystemBeginsWith?: string;
+    assessedBodysitesSystemNotBeginsWith?: string;
+    assessedBodysitesSystemEndsWith?: string;
+    assessedBodysitesSystemNotEndsWith?: string;
+    assessedBodysitesDisplayNotExists?: boolean;
+    assessedBodysitesDisplayExists?: boolean;
+    assessedBodysitesDisplay?: string;
+    assessedBodysitesDisplayNot?: string;
+    assessedBodysitesDisplayContains?: string;
+    assessedBodysitesDisplayNotContains?: string;
+    assessedBodysitesDisplayBeginsWith?: string;
+    assessedBodysitesDisplayNotBeginsWith?: string;
+    assessedBodysitesDisplayEndsWith?: string;
+    assessedBodysitesDisplayNotEndsWith?: string;
+    assessedBodysitesVersionNotExists?: boolean;
+    assessedBodysitesVersionExists?: boolean;
+    assessedBodysitesVersion?: string;
+    assessedBodysitesVersionNot?: string;
+    assessedBodysitesVersionContains?: string;
+    assessedBodysitesVersionNotContains?: string;
+    assessedBodysitesVersionBeginsWith?: string;
+    assessedBodysitesVersionNotBeginsWith?: string;
+    assessedBodysitesVersionEndsWith?: string;
+    assessedBodysitesVersionNotEndsWith?: string;
+    assessedBodysitesSynonymsNotExists?: boolean;
+    assessedBodysitesSynonymsExists?: boolean;
+    assessedBodysitesPropertiesNotExists?: boolean;
+    assessedBodysitesPropertiesExists?: boolean;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateTreatmentResponseRequestParams {
+    treatmentRresponseId: string;
+    treatmentResponseCreateSchema: TreatmentResponseCreateSchema;
+}
 
 
 export interface TreatmentResponsesServiceInterface {
@@ -28,39 +197,36 @@ export interface TreatmentResponsesServiceInterface {
     /**
      * Create Treatment Response
      * 
-     * @param treatmentResponseCreateSchema 
+* @param requestParameters
      */
-    createTreatmentResponse(treatmentResponseCreateSchema: TreatmentResponseCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Treatment Response
      * 
-     * @param treatmentRresponseId 
+* @param requestParameters
      */
-    deleteTreatmentResponse(treatmentRresponseId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteTreatmentResponse(requestParameters: DeleteTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Treatment Response By Id
      * 
-     * @param treatmentRresponseId 
+* @param requestParameters
      */
-    getTreatmentResponseById(treatmentRresponseId: string, extraHttpRequestParams?: any): Observable<TreatmentResponseSchema>;
+    getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, extraHttpRequestParams?: any): Observable<TreatmentResponseSchema>;
 
     /**
      * Get All Treatment Responses Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getTreatmentResponses(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedTreatmentResponseSchema>;
+    getTreatmentResponses(requestParameters: GetTreatmentResponsesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTreatmentResponseSchema>;
 
     /**
      * Update Treatment Response
      * 
-     * @param treatmentRresponseId 
-     * @param treatmentResponseCreateSchema 
+* @param requestParameters
      */
-    updateTreatmentResponse(treatmentRresponseId: string, treatmentResponseCreateSchema: TreatmentResponseCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

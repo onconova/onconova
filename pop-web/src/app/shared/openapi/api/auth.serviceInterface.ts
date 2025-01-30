@@ -21,6 +21,18 @@ import { UserSchema } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
+export interface GetTokenPairRequestParams {
+    userCredentialsSchema: UserCredentialsSchema;
+}
+
+export interface GetUserByIdRequestParams {
+    userId: number;
+}
+
+export interface RefreshTokenPairRequestParams {
+    tokenRefreshSchema: TokenRefreshSchema;
+}
+
 
 export interface AuthServiceInterface {
     defaultHeaders: HttpHeaders;
@@ -29,28 +41,28 @@ export interface AuthServiceInterface {
     /**
      * Obtain Token Pair
      * 
-     * @param userCredentialsSchema 
+* @param requestParameters
      */
-    getSlidingToken(userCredentialsSchema: UserCredentialsSchema, extraHttpRequestParams?: any): Observable<TokenPairSchema>;
+    getTokenPair(requestParameters: GetTokenPairRequestParams, extraHttpRequestParams?: any): Observable<TokenPairSchema>;
 
     /**
      * Get User By Id
      * 
-     * @param userId 
+* @param requestParameters
      */
-    getUserById(userId: number, extraHttpRequestParams?: any): Observable<UserSchema>;
+    getUserById(requestParameters: GetUserByIdRequestParams, extraHttpRequestParams?: any): Observable<UserSchema>;
 
     /**
      * Get All Users Matching The Query
      * 
-     */
+*/
     getUsers(extraHttpRequestParams?: any): Observable<Array<UserSchema>>;
 
     /**
      * Refresh Token Pair
      * 
-     * @param tokenRefreshSchema 
+* @param requestParameters
      */
-    refereshSlidingToken(tokenRefreshSchema: TokenRefreshSchema, extraHttpRequestParams?: any): Observable<RefreshedTokenPairSchema>;
+    refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, extraHttpRequestParams?: any): Observable<RefreshedTokenPairSchema>;
 
 }

@@ -30,15 +30,15 @@ export interface TNMStagingCreate {
     stage: CodedConceptSchema;
     methodology?: CodedConceptSchema | null;
     pathological?: boolean | null;
-    primaryTumor?: CodedConceptSchema | null;
-    regionalNodes?: CodedConceptSchema | null;
-    distantMetastases?: CodedConceptSchema | null;
+    primarytumor?: CodedConceptSchema | null;
+    regionalnodes?: CodedConceptSchema | null;
+    distantmetastases?: CodedConceptSchema | null;
     grade?: CodedConceptSchema | null;
-    residualTumor?: CodedConceptSchema | null;
-    lymphaticInvasion?: CodedConceptSchema | null;
-    venousInvasion?: CodedConceptSchema | null;
-    perineuralInvasion?: CodedConceptSchema | null;
-    serumTumorMarkerLevel?: CodedConceptSchema | null;
+    residualtumor?: CodedConceptSchema | null;
+    lymphaticinvasion?: CodedConceptSchema | null;
+    venousinvasion?: CodedConceptSchema | null;
+    perineuralinvasion?: CodedConceptSchema | null;
+    serumtumormarkerlevel?: CodedConceptSchema | null;
 }
 export namespace TNMStagingCreate {
     export type StagingDomainEnum = 'tnm';

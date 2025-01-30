@@ -17,6 +17,7 @@ import { BinetStaging } from './binet-staging';
 import { WilmsStage } from './wilms-stage';
 import { CodedConceptSchema } from './coded-concept-schema';
 import { RaiStaging } from './rai-staging';
+import { UserSchema } from './user-schema';
 import { GleasonGrade } from './gleason-grade';
 import { ISSStaging } from './iss-staging';
 import { RhabdomyosarcomaClinicalGroup } from './rhabdomyosarcoma-clinical-group';
@@ -42,7 +43,7 @@ export interface AnyStaging {
      * 
      */
     updatedAt: string;
-    createdById?: number;
+    createdBy?: UserSchema;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */
@@ -54,7 +55,7 @@ export interface AnyStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -65,15 +66,15 @@ export interface AnyStaging {
     stage: CodedConceptSchema;
     methodology?: CodedConceptSchema;
     pathological?: boolean;
-    primaryTumor?: CodedConceptSchema;
-    regionalNodes?: CodedConceptSchema;
-    distantMetastases?: CodedConceptSchema;
+    primarytumor?: CodedConceptSchema;
+    regionalnodes?: CodedConceptSchema;
+    distantmetastases?: CodedConceptSchema;
     grade?: CodedConceptSchema;
-    residualTumor?: CodedConceptSchema;
-    lymphaticInvasion?: CodedConceptSchema;
-    venousInvasion?: CodedConceptSchema;
-    perineuralInvasion?: CodedConceptSchema;
-    serumTumorMarkerLevel?: CodedConceptSchema;
+    residualtumor?: CodedConceptSchema;
+    lymphaticinvasion?: CodedConceptSchema;
+    venousinvasion?: CodedConceptSchema;
+    perineuralinvasion?: CodedConceptSchema;
+    serumtumormarkerlevel?: CodedConceptSchema;
     /**
      * Breslow depth given in milimeters
      */

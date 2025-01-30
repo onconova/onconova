@@ -9,6 +9,7 @@
  */
 import { NeoplasticEntity } from './neoplastic-entity';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface PatientCaseBundle { 
@@ -32,7 +33,7 @@ export interface PatientCaseBundle {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * Pseudoidentifier of the patient
      */
@@ -57,6 +58,6 @@ export interface PatientCaseBundle {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
 }
 

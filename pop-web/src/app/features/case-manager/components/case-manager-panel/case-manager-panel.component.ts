@@ -23,7 +23,12 @@ import { PatientCasesService, PatientCaseDataCategories, PatientCaseDataCompleti
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
-import { compileClassDebugInfo } from '@angular/compiler';
+
+
+export interface DataService {
+    get: (caseId: string) => any;
+    delete: (id: string) => any;
+}
 
 @Component({
     standalone: true,
@@ -73,13 +78,13 @@ export class CaseManagerPanelComponent implements OnInit {
 
     ngOnInit(): void {
         if ( this.service ){
-            this.data$ = this.service.get(this.caseId)
+            this.data$ = this.service.get({caseId:this.caseId})
             if (this.data$) {
                 this.refreshEntries()
             }
         }
         if (this.category) {
-            this.menuItems$ = this.patienCaseService.getPatientCaseDataCompletionStatus(this.caseId, this.category).pipe(
+            this.menuItems$ = this.patienCaseService.getPatientCaseDataCompletionStatus({caseId:this.caseId, category:this.category}).pipe(
                 map((completed: PatientCaseDataCompletionStatusSchema) => {
                     this.completed = completed.status;
                     this.completedBy = completed.username as string;
@@ -195,7 +200,7 @@ export class CaseManagerPanelComponent implements OnInit {
                 severity: 'primary',
             },
             accept: () => {
-                this.patienCaseService.createPatientCaseDataCompletion(this.caseId, this.category)
+                this.patienCaseService.createPatientCaseDataCompletion({caseId:this.caseId, category:this.category})
                     .pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
                         complete: () => {
                             this.completed = true;
@@ -242,7 +247,7 @@ export class CaseManagerPanelComponent implements OnInit {
                 severity: 'primary',
             },
             accept: () => {
-                this.patienCaseService.deletePatientCaseDataCompletion(this.caseId, this.category)
+                this.patienCaseService.deletePatientCaseDataCompletion({caseId:this.caseId, category:this.category})
                     .pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
                         complete: () => {
                             this.completed = false;

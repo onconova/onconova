@@ -11,6 +11,7 @@ import { AdverseEventMitigationSchema } from './adverse-event-mitigation-schema'
 import { AdverseEventSuspectedCauseSchema } from './adverse-event-suspected-cause-schema';
 import { AdverseEventOutcomeChoices } from './adverse-event-outcome-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
+import { UserSchema } from './user-schema';
 
 
 export interface AdverseEventSchema { 
@@ -26,11 +27,11 @@ export interface AdverseEventSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

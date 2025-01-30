@@ -11,14 +11,180 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { PaginatedVitalsSchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedVitalsSchema } from '../model/models';
 import { VitalsCreateSchema } from '../model/models';
 import { VitalsSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateVitalsRequestParams {
+    vitalsCreateSchema: VitalsCreateSchema;
+}
+
+export interface DeleteVitalsByIdRequestParams {
+    vitalsId: string;
+}
+
+export interface GetVitalsRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    heightNotExists?: boolean;
+    heightExists?: boolean;
+    heightLessThan?: number;
+    heightLessThanOrEqual?: number;
+    heightGreaterThan?: number;
+    heightGreaterThanOrEqual?: number;
+    heightEqual?: number;
+    heightNotEqual?: number;
+    heightBetween?: Array<any>;
+    heightNotBetween?: Array<any>;
+    weightNotExists?: boolean;
+    weightExists?: boolean;
+    weightLessThan?: number;
+    weightLessThanOrEqual?: number;
+    weightGreaterThan?: number;
+    weightGreaterThanOrEqual?: number;
+    weightEqual?: number;
+    weightNotEqual?: number;
+    weightBetween?: Array<any>;
+    weightNotBetween?: Array<any>;
+    bloodPressureSystolicNotExists?: boolean;
+    bloodPressureSystolicExists?: boolean;
+    bloodPressureSystolicLessThan?: number;
+    bloodPressureSystolicLessThanOrEqual?: number;
+    bloodPressureSystolicGreaterThan?: number;
+    bloodPressureSystolicGreaterThanOrEqual?: number;
+    bloodPressureSystolicEqual?: number;
+    bloodPressureSystolicNotEqual?: number;
+    bloodPressureSystolicBetween?: Array<any>;
+    bloodPressureSystolicNotBetween?: Array<any>;
+    bloodPressureDiastolicNotExists?: boolean;
+    bloodPressureDiastolicExists?: boolean;
+    bloodPressureDiastolicLessThan?: number;
+    bloodPressureDiastolicLessThanOrEqual?: number;
+    bloodPressureDiastolicGreaterThan?: number;
+    bloodPressureDiastolicGreaterThanOrEqual?: number;
+    bloodPressureDiastolicEqual?: number;
+    bloodPressureDiastolicNotEqual?: number;
+    bloodPressureDiastolicBetween?: Array<any>;
+    bloodPressureDiastolicNotBetween?: Array<any>;
+    temperatureNotExists?: boolean;
+    temperatureExists?: boolean;
+    temperatureLessThan?: number;
+    temperatureLessThanOrEqual?: number;
+    temperatureGreaterThan?: number;
+    temperatureGreaterThanOrEqual?: number;
+    temperatureEqual?: number;
+    temperatureNotEqual?: number;
+    temperatureBetween?: Array<any>;
+    temperatureNotBetween?: Array<any>;
+    bodyMassIndexLessThan?: number;
+    bodyMassIndexLessThanOrEqual?: number;
+    bodyMassIndexGreaterThan?: number;
+    bodyMassIndexGreaterThanOrEqual?: number;
+    bodyMassIndexEqual?: number;
+    bodyMassIndexNotEqual?: number;
+    bodyMassIndexBetween?: Array<any>;
+    bodyMassIndexNotBetween?: Array<any>;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetVitalsByIdRequestParams {
+    vitalsId: string;
+}
+
+export interface UpdateVitalsByIdRequestParams {
+    vitalsId: string;
+    vitalsCreateSchema: VitalsCreateSchema;
+}
 
 
 export interface VitalsServiceInterface {
@@ -28,39 +194,36 @@ export interface VitalsServiceInterface {
     /**
      * Create Vitals
      * 
-     * @param vitalsCreateSchema 
+* @param requestParameters
      */
-    createVitals(vitalsCreateSchema: VitalsCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createVitals(requestParameters: CreateVitalsRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Vitals
      * 
-     * @param vitalsId 
+* @param requestParameters
      */
-    deleteVitalsById(vitalsId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteVitalsById(requestParameters: DeleteVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Vitals Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getVitals(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedVitalsSchema>;
+    getVitals(requestParameters: GetVitalsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedVitalsSchema>;
 
     /**
      * Get Vitals By Id
      * 
-     * @param vitalsId 
+* @param requestParameters
      */
-    getVitalsById(vitalsId: string, extraHttpRequestParams?: any): Observable<VitalsSchema>;
+    getVitalsById(requestParameters: GetVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<VitalsSchema>;
 
     /**
      * Update Vitals
      * 
-     * @param vitalsId 
-     * @param vitalsCreateSchema 
+* @param requestParameters
      */
-    updateVitalsById(vitalsId: string, vitalsCreateSchema: VitalsCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

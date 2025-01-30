@@ -1,4 +1,4 @@
-<p-drawer [(visible)]="visible" position="right" (onShow)="prepareDisplayData()" (onHide)="visibleChange.emit(false)" >
+<p-drawer [(visible)]="visible" position="right" (onHide)="visibleChange.emit(false)" >
     <ng-template #header>
         <div class="flex items-center gap-2">
             <p-avatar 
@@ -51,14 +51,14 @@
     <p-divider />
 
     <div class="mb-5">
-        <div class="property" *ngIf="createdBy$ | async as createdBy">
+        <div class="property" *ngIf="data.createdBy">
             <small class="property-label">Created by: </small>
-            <span class="monospace"><small>{{ createdBy }}</small></span>
+            <span class="monospace"><small>{{ data.createdBy.username }}</small></span>
             <div><small>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
         </div>
-        <div class="property" *ngIf="lastUpdatedBy$ | async as lastUpdatedBy">
+        <div class="property" *ngIf="data.updatedBy">
             <small class="property-label">Last updated by: </small>
-            <span class="monospace"><small>{{ lastUpdatedBy }}</small></span>
+            <span class="monospace"><small>{{ data.updatedBy[data.updatedBy.length-1].username }}</small></span>
             <div><small>{{ data.updatedAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
         </div>
     </div>

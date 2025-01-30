@@ -70,7 +70,7 @@ export class CaseBrowserComponent implements OnInit {
   refreshCases() {
     this.loadingCases=true;
     this.cases$ = this.patientCasesService
-    .getPatientCases(undefined, undefined, this.searchQuery, this.manager, undefined, undefined, undefined, this.pageSize, this.currentOffset)
+    .getPatientCases({pseudoidentifierContains: this.searchQuery || undefined, manager: this.manager, limit: this.pageSize, offset: this.currentOffset})
     .pipe(
       map(page => {
         this.loadingCases=false;
@@ -98,7 +98,7 @@ export class CaseBrowserComponent implements OnInit {
 
 
   deleteCase(id: string) {
-    this.patientCasesService.deletePatientCaseById(id).pipe(first()).subscribe({
+    this.patientCasesService.deletePatientCaseById({caseId:id}).pipe(first()).subscribe({
         complete: () => {
             this.refreshCases()
             this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })

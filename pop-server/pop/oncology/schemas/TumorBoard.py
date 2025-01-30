@@ -5,10 +5,20 @@ from pydantic import Field, AliasChoices
 from typing import List
 from pop.oncology.models.TumorBoard import (
     TumorBoardSpecialties,
+    TumorBoard,
     UnspecifiedTumorBoard,
     MolecularTumorBoard,
     MolecularTherapeuticRecommendation,
 )
+
+TumorBoardBase: Schema = create_schema(
+    TumorBoard, 
+    exclude=(*CREATE_IGNORED_FIELDS,),
+)
+
+class TumorBoardSchema(TumorBoardBase, GetMixin):
+    model_config = ConfigDict(title='TumorBoard')
+    category: TumorBoardSpecialties = Field(description='Categorization of the tumor board by specialty')
 
 UnspecifiedTumorBoardBase: Schema = create_schema(
     UnspecifiedTumorBoard, 

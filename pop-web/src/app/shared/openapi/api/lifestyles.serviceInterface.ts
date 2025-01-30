@@ -13,12 +13,244 @@ import { Observable }                                        from 'rxjs';
 
 import { LifestyleCreateSchema } from '../model/models';
 import { LifestyleSchema } from '../model/models';
-import { PaginatedLifestyleSchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedLifestyleSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateLifestyleRequestParams {
+    lifestyleCreateSchema: LifestyleCreateSchema;
+}
+
+export interface DeleteLifestyleByIdRequestParams {
+    lifestyleId: string;
+}
+
+export interface GetLifestyleByIdRequestParams {
+    lifestyleId: string;
+}
+
+export interface GetLifestylesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    smokingStatusNotExists?: boolean;
+    smokingStatusExists?: boolean;
+    smokingStatus?: string;
+    smokingStatusNot?: string;
+    smokingStatusAnyOf?: Array<string>;
+    smokingStatusNotAnyOf?: Array<string>;
+    smokingStatusDescendantsOf?: string;
+    smokingPackyearsNotExists?: boolean;
+    smokingPackyearsExists?: boolean;
+    smokingPackyearsLessThan?: number;
+    smokingPackyearsLessThanOrEqual?: number;
+    smokingPackyearsGreaterThan?: number;
+    smokingPackyearsGreaterThanOrEqual?: number;
+    smokingPackyearsEqual?: number;
+    smokingPackyearsNotEqual?: number;
+    smokingPackyearsBetween?: Array<any>;
+    smokingPackyearsNotBetween?: Array<any>;
+    smokingQuitedNotExists?: boolean;
+    smokingQuitedExists?: boolean;
+    smokingQuitedLessThan?: number;
+    smokingQuitedLessThanOrEqual?: number;
+    smokingQuitedGreaterThan?: number;
+    smokingQuitedGreaterThanOrEqual?: number;
+    smokingQuitedEqual?: number;
+    smokingQuitedNotEqual?: number;
+    smokingQuitedBetween?: Array<any>;
+    smokingQuitedNotBetween?: Array<any>;
+    alcoholConsumptionNotExists?: boolean;
+    alcoholConsumptionExists?: boolean;
+    alcoholConsumption?: string;
+    alcoholConsumptionNot?: string;
+    alcoholConsumptionAnyOf?: Array<string>;
+    alcoholConsumptionNotAnyOf?: Array<string>;
+    alcoholConsumptionDescendantsOf?: string;
+    nightSleepNotExists?: boolean;
+    nightSleepExists?: boolean;
+    nightSleepLessThan?: number;
+    nightSleepLessThanOrEqual?: number;
+    nightSleepGreaterThan?: number;
+    nightSleepGreaterThanOrEqual?: number;
+    nightSleepEqual?: number;
+    nightSleepNotEqual?: number;
+    nightSleepBetween?: Array<any>;
+    nightSleepNotBetween?: Array<any>;
+    recreationalDrugsCode?: string;
+    recreationalDrugsCodeNot?: string;
+    recreationalDrugsCodeContains?: string;
+    recreationalDrugsCodeNotContains?: string;
+    recreationalDrugsCodeBeginsWith?: string;
+    recreationalDrugsCodeNotBeginsWith?: string;
+    recreationalDrugsCodeEndsWith?: string;
+    recreationalDrugsCodeNotEndsWith?: string;
+    recreationalDrugsSystem?: string;
+    recreationalDrugsSystemNot?: string;
+    recreationalDrugsSystemContains?: string;
+    recreationalDrugsSystemNotContains?: string;
+    recreationalDrugsSystemBeginsWith?: string;
+    recreationalDrugsSystemNotBeginsWith?: string;
+    recreationalDrugsSystemEndsWith?: string;
+    recreationalDrugsSystemNotEndsWith?: string;
+    recreationalDrugsDisplayNotExists?: boolean;
+    recreationalDrugsDisplayExists?: boolean;
+    recreationalDrugsDisplay?: string;
+    recreationalDrugsDisplayNot?: string;
+    recreationalDrugsDisplayContains?: string;
+    recreationalDrugsDisplayNotContains?: string;
+    recreationalDrugsDisplayBeginsWith?: string;
+    recreationalDrugsDisplayNotBeginsWith?: string;
+    recreationalDrugsDisplayEndsWith?: string;
+    recreationalDrugsDisplayNotEndsWith?: string;
+    recreationalDrugsVersionNotExists?: boolean;
+    recreationalDrugsVersionExists?: boolean;
+    recreationalDrugsVersion?: string;
+    recreationalDrugsVersionNot?: string;
+    recreationalDrugsVersionContains?: string;
+    recreationalDrugsVersionNotContains?: string;
+    recreationalDrugsVersionBeginsWith?: string;
+    recreationalDrugsVersionNotBeginsWith?: string;
+    recreationalDrugsVersionEndsWith?: string;
+    recreationalDrugsVersionNotEndsWith?: string;
+    recreationalDrugsSynonymsNotExists?: boolean;
+    recreationalDrugsSynonymsExists?: boolean;
+    recreationalDrugsPropertiesNotExists?: boolean;
+    recreationalDrugsPropertiesExists?: boolean;
+    exposuresCode?: string;
+    exposuresCodeNot?: string;
+    exposuresCodeContains?: string;
+    exposuresCodeNotContains?: string;
+    exposuresCodeBeginsWith?: string;
+    exposuresCodeNotBeginsWith?: string;
+    exposuresCodeEndsWith?: string;
+    exposuresCodeNotEndsWith?: string;
+    exposuresSystem?: string;
+    exposuresSystemNot?: string;
+    exposuresSystemContains?: string;
+    exposuresSystemNotContains?: string;
+    exposuresSystemBeginsWith?: string;
+    exposuresSystemNotBeginsWith?: string;
+    exposuresSystemEndsWith?: string;
+    exposuresSystemNotEndsWith?: string;
+    exposuresDisplayNotExists?: boolean;
+    exposuresDisplayExists?: boolean;
+    exposuresDisplay?: string;
+    exposuresDisplayNot?: string;
+    exposuresDisplayContains?: string;
+    exposuresDisplayNotContains?: string;
+    exposuresDisplayBeginsWith?: string;
+    exposuresDisplayNotBeginsWith?: string;
+    exposuresDisplayEndsWith?: string;
+    exposuresDisplayNotEndsWith?: string;
+    exposuresVersionNotExists?: boolean;
+    exposuresVersionExists?: boolean;
+    exposuresVersion?: string;
+    exposuresVersionNot?: string;
+    exposuresVersionContains?: string;
+    exposuresVersionNotContains?: string;
+    exposuresVersionBeginsWith?: string;
+    exposuresVersionNotBeginsWith?: string;
+    exposuresVersionEndsWith?: string;
+    exposuresVersionNotEndsWith?: string;
+    exposuresSynonymsNotExists?: boolean;
+    exposuresSynonymsExists?: boolean;
+    exposuresPropertiesNotExists?: boolean;
+    exposuresPropertiesExists?: boolean;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateLifestyleByIdRequestParams {
+    lifestyleId: string;
+    lifestyleCreateSchema: LifestyleCreateSchema;
+}
 
 
 export interface LifestylesServiceInterface {
@@ -28,39 +260,36 @@ export interface LifestylesServiceInterface {
     /**
      * Create Lifestyle
      * 
-     * @param lifestyleCreateSchema 
+* @param requestParameters
      */
-    createLifestyle(lifestyleCreateSchema: LifestyleCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createLifestyle(requestParameters: CreateLifestyleRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Lifestyle
      * 
-     * @param lifestyleId 
+* @param requestParameters
      */
-    deleteLifestyleById(lifestyleId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteLifestyleById(requestParameters: DeleteLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Lifestyle By Id
      * 
-     * @param lifestyleId 
+* @param requestParameters
      */
-    getLifestyleById(lifestyleId: string, extraHttpRequestParams?: any): Observable<LifestyleSchema>;
+    getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<LifestyleSchema>;
 
     /**
      * Get All Lifestyles Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getLifestyles(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedLifestyleSchema>;
+    getLifestyles(requestParameters: GetLifestylesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedLifestyleSchema>;
 
     /**
      * Update Lifestyle
      * 
-     * @param lifestyleId 
-     * @param lifestyleCreateSchema 
+* @param requestParameters
      */
-    updateLifestyleById(lifestyleId: string, lifestyleCreateSchema: LifestyleCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

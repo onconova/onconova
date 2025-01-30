@@ -66,22 +66,22 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = this.radiotherapiesService.createRadiotherapy.bind(this.radiotherapiesService)
-    public readonly updateService = this.radiotherapiesService.updateRadiotherapy.bind(this.radiotherapiesService)
+    public readonly createService = (payload: RadiotherapyCreateSchema) => this.radiotherapiesService.createRadiotherapy({radiotherapyCreateSchema: payload});
+    public readonly updateService = (id: string, payload: RadiotherapyCreateSchema) => this.radiotherapiesService.updateRadiotherapy({radiotherapyId: id, radiotherapyCreateSchema: payload})
     override readonly subformsServices = [
         {
             payloads: this.constructDosagePayloads.bind(this),
             deletedEntries: this.getDeletedDosages.bind(this),
-            delete: this.radiotherapiesService.deleteRadiotherapyDosage.bind(this.radiotherapiesService),
-            create: this.radiotherapiesService.createRadiotherapyDosage.bind(this.radiotherapiesService),
-            update: this.radiotherapiesService.updateRadiotherapyDosage.bind(this.radiotherapiesService),
+            delete: (parentId: string, id: string) => this.radiotherapiesService.deleteRadiotherapyDosage({radiotherapyId: parentId, dosageId: id}),
+            create: (parentId: string, payload: RadiotherapyDosageCreateSchema) => this.radiotherapiesService.createRadiotherapyDosage({radiotherapyId: parentId, radiotherapyDosageCreateSchema: payload}),
+            update: (parentId: string, id: string, payload: RadiotherapyDosageCreateSchema) => this.radiotherapiesService.updateRadiotherapyDosage({radiotherapyId: parentId, dosageId: id, radiotherapyDosageCreateSchema: payload}),
         },
         {
             payloads: this.constructSettingsPayloads.bind(this),
             deletedEntries: this.getDeletedSettings.bind(this),
-            delete: this.radiotherapiesService.deleteRadiotherapySetting.bind(this.radiotherapiesService),
-            create: this.radiotherapiesService.createRadiotherapySetting.bind(this.radiotherapiesService),
-            update: this.radiotherapiesService.updateRadiotherapySetting.bind(this.radiotherapiesService),
+            delete: (parentId: string, id: string) => this.radiotherapiesService.deleteRadiotherapySetting({radiotherapyId: parentId, settingId: id}),
+            create: (parentId: string, payload: RadiotherapySettingCreateSchema) => this.radiotherapiesService.createRadiotherapySetting({radiotherapyId: parentId, radiotherapySettingCreateSchema: payload}),
+            update: (parentId: string, id: string, payload: RadiotherapySettingCreateSchema) => this.radiotherapiesService.updateRadiotherapySetting({radiotherapyId: parentId, settingId: id, radiotherapySettingCreateSchema: payload}),
         }
     ]
     
@@ -220,7 +220,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
     }
 
     private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId)
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
             (response) => {

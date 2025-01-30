@@ -44,15 +44,15 @@ export interface Payload {
     stage: CodedConceptSchema;
     methodology?: CodedConceptSchema;
     pathological?: boolean;
-    primaryTumor?: CodedConceptSchema;
-    regionalNodes?: CodedConceptSchema;
-    distantMetastases?: CodedConceptSchema;
+    primarytumor?: CodedConceptSchema;
+    regionalnodes?: CodedConceptSchema;
+    distantmetastases?: CodedConceptSchema;
     grade?: CodedConceptSchema;
-    residualTumor?: CodedConceptSchema;
-    lymphaticInvasion?: CodedConceptSchema;
-    venousInvasion?: CodedConceptSchema;
-    perineuralInvasion?: CodedConceptSchema;
-    serumTumorMarkerLevel?: CodedConceptSchema;
+    residualtumor?: CodedConceptSchema;
+    lymphaticinvasion?: CodedConceptSchema;
+    venousinvasion?: CodedConceptSchema;
+    perineuralinvasion?: CodedConceptSchema;
+    serumtumormarkerlevel?: CodedConceptSchema;
     /**
      * Breslow depth given in milimeters
      */

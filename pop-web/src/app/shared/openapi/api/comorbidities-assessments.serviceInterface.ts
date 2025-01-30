@@ -14,12 +14,227 @@ import { Observable }                                        from 'rxjs';
 import { ComorbiditiesAssessmentCreateSchema } from '../model/models';
 import { ComorbiditiesAssessmentSchema } from '../model/models';
 import { ComorbiditiesPanelSchema } from '../model/models';
-import { PaginatedComorbiditiesAssessmentSchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedComorbiditiesAssessmentSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateComorbiditiesAssessmentRequestParams {
+    comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema;
+}
+
+export interface DeleteComorbiditiesAssessmentRequestParams {
+    comorbiditiesAssessmentId: string;
+}
+
+export interface GetComorbiditiesAssessmentByIdRequestParams {
+    comorbiditiesAssessmentId: string;
+}
+
+export interface GetComorbiditiesAssessmentsRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    indexconditionId?: string;
+    indexconditionIdNot?: string;
+    indexconditionIdContains?: string;
+    indexconditionIdNotContains?: string;
+    indexconditionIdBeginsWith?: string;
+    indexconditionIdNotBeginsWith?: string;
+    indexconditionIdEndsWith?: string;
+    indexconditionIdNotEndsWith?: string;
+    panelNotExists?: boolean;
+    panelExists?: boolean;
+    panel?: string;
+    panelNot?: string;
+    panelAnyOf?: Array<'Charlson' | 'Elixhauser' | 'NCI'>;
+    presentConditionsCode?: string;
+    presentConditionsCodeNot?: string;
+    presentConditionsCodeContains?: string;
+    presentConditionsCodeNotContains?: string;
+    presentConditionsCodeBeginsWith?: string;
+    presentConditionsCodeNotBeginsWith?: string;
+    presentConditionsCodeEndsWith?: string;
+    presentConditionsCodeNotEndsWith?: string;
+    presentConditionsSystem?: string;
+    presentConditionsSystemNot?: string;
+    presentConditionsSystemContains?: string;
+    presentConditionsSystemNotContains?: string;
+    presentConditionsSystemBeginsWith?: string;
+    presentConditionsSystemNotBeginsWith?: string;
+    presentConditionsSystemEndsWith?: string;
+    presentConditionsSystemNotEndsWith?: string;
+    presentConditionsDisplayNotExists?: boolean;
+    presentConditionsDisplayExists?: boolean;
+    presentConditionsDisplay?: string;
+    presentConditionsDisplayNot?: string;
+    presentConditionsDisplayContains?: string;
+    presentConditionsDisplayNotContains?: string;
+    presentConditionsDisplayBeginsWith?: string;
+    presentConditionsDisplayNotBeginsWith?: string;
+    presentConditionsDisplayEndsWith?: string;
+    presentConditionsDisplayNotEndsWith?: string;
+    presentConditionsVersionNotExists?: boolean;
+    presentConditionsVersionExists?: boolean;
+    presentConditionsVersion?: string;
+    presentConditionsVersionNot?: string;
+    presentConditionsVersionContains?: string;
+    presentConditionsVersionNotContains?: string;
+    presentConditionsVersionBeginsWith?: string;
+    presentConditionsVersionNotBeginsWith?: string;
+    presentConditionsVersionEndsWith?: string;
+    presentConditionsVersionNotEndsWith?: string;
+    presentConditionsSynonymsNotExists?: boolean;
+    presentConditionsSynonymsExists?: boolean;
+    presentConditionsPropertiesNotExists?: boolean;
+    presentConditionsPropertiesExists?: boolean;
+    absentConditionsCode?: string;
+    absentConditionsCodeNot?: string;
+    absentConditionsCodeContains?: string;
+    absentConditionsCodeNotContains?: string;
+    absentConditionsCodeBeginsWith?: string;
+    absentConditionsCodeNotBeginsWith?: string;
+    absentConditionsCodeEndsWith?: string;
+    absentConditionsCodeNotEndsWith?: string;
+    absentConditionsSystem?: string;
+    absentConditionsSystemNot?: string;
+    absentConditionsSystemContains?: string;
+    absentConditionsSystemNotContains?: string;
+    absentConditionsSystemBeginsWith?: string;
+    absentConditionsSystemNotBeginsWith?: string;
+    absentConditionsSystemEndsWith?: string;
+    absentConditionsSystemNotEndsWith?: string;
+    absentConditionsDisplayNotExists?: boolean;
+    absentConditionsDisplayExists?: boolean;
+    absentConditionsDisplay?: string;
+    absentConditionsDisplayNot?: string;
+    absentConditionsDisplayContains?: string;
+    absentConditionsDisplayNotContains?: string;
+    absentConditionsDisplayBeginsWith?: string;
+    absentConditionsDisplayNotBeginsWith?: string;
+    absentConditionsDisplayEndsWith?: string;
+    absentConditionsDisplayNotEndsWith?: string;
+    absentConditionsVersionNotExists?: boolean;
+    absentConditionsVersionExists?: boolean;
+    absentConditionsVersion?: string;
+    absentConditionsVersionNot?: string;
+    absentConditionsVersionContains?: string;
+    absentConditionsVersionNotContains?: string;
+    absentConditionsVersionBeginsWith?: string;
+    absentConditionsVersionNotBeginsWith?: string;
+    absentConditionsVersionEndsWith?: string;
+    absentConditionsVersionNotEndsWith?: string;
+    absentConditionsSynonymsNotExists?: boolean;
+    absentConditionsSynonymsExists?: boolean;
+    absentConditionsPropertiesNotExists?: boolean;
+    absentConditionsPropertiesExists?: boolean;
+    indexNotExists?: boolean;
+    indexExists?: boolean;
+    indexLessThan?: number;
+    indexLessThanOrEqual?: number;
+    indexGreaterThan?: number;
+    indexGreaterThanOrEqual?: number;
+    indexEqual?: number;
+    indexNotEqual?: number;
+    indexBetween?: Array<any>;
+    indexNotBetween?: Array<any>;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetComorbiditiesPanelsByNameRequestParams {
+    panel: 'Charlson' | 'Elixhauser' | 'NCI';
+}
+
+export interface UpdateComorbiditiesAssessmentRequestParams {
+    comorbiditiesAssessmentId: string;
+    comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema;
+}
 
 
 export interface ComorbiditiesAssessmentsServiceInterface {
@@ -29,52 +244,49 @@ export interface ComorbiditiesAssessmentsServiceInterface {
     /**
      * Create Comorbidities Assessment
      * 
-     * @param comorbiditiesAssessmentCreateSchema 
+* @param requestParameters
      */
-    createComorbiditiesAssessment(comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Comorbidities Assessment
      * 
-     * @param comorbiditiesAssessmentId 
+* @param requestParameters
      */
-    deleteComorbiditiesAssessment(comorbiditiesAssessmentId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteComorbiditiesAssessment(requestParameters: DeleteComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Comorbidities Assessment By Id
      * 
-     * @param comorbiditiesAssessmentId 
+* @param requestParameters
      */
-    getComorbiditiesAssessmentById(comorbiditiesAssessmentId: string, extraHttpRequestParams?: any): Observable<ComorbiditiesAssessmentSchema>;
+    getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<ComorbiditiesAssessmentSchema>;
 
     /**
      * Get All Comorbidities Assessments Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getComorbiditiesAssessments(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedComorbiditiesAssessmentSchema>;
+    getComorbiditiesAssessments(requestParameters: GetComorbiditiesAssessmentsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedComorbiditiesAssessmentSchema>;
 
     /**
      * Get All Comorbidities Panels
      * 
-     */
+*/
     getComorbiditiesPanels(extraHttpRequestParams?: any): Observable<Array<ComorbiditiesPanelSchema>>;
 
     /**
      * Get Comorbidities Panel By Name
      * 
-     * @param panel 
+* @param requestParameters
      */
-    getComorbiditiesPanelsByName(panel: 'Charlson' | 'Elixhauser' | 'NCI', extraHttpRequestParams?: any): Observable<ComorbiditiesPanelSchema>;
+    getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, extraHttpRequestParams?: any): Observable<ComorbiditiesPanelSchema>;
 
     /**
      * Update Comorbidities Assessment
      * 
-     * @param comorbiditiesAssessmentId 
-     * @param comorbiditiesAssessmentCreateSchema 
+* @param requestParameters
      */
-    updateComorbiditiesAssessment(comorbiditiesAssessmentId: string, comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

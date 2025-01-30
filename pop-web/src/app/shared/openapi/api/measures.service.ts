@@ -25,7 +25,10 @@ import { MeasureSchema } from '../model/measure-schema';
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 import {
-    MeasuresServiceInterface
+    MeasuresServiceInterface,
+    ConvertUnitsRequestParams,
+    GetMeasureDefaultUnitsRequestParams,
+    GetMeasureUnitsRequestParams
 } from './measures.serviceInterface';
 
 
@@ -35,7 +38,7 @@ import {
 })
 export class MeasuresService implements MeasuresServiceInterface {
 
-    protected basePath = 'http://localhost';
+    protected basePath = 'https://localhost:4443';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -97,23 +100,31 @@ export class MeasuresService implements MeasuresServiceInterface {
 
     /**
      * Convert Units
-     * @param measureName 
-     * @param measureConversionSchema 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public convertUnits(measureName: string, measureConversionSchema: MeasureConversionSchema, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MeasureSchema>;
-    public convertUnits(measureName: string, measureConversionSchema: MeasureConversionSchema, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MeasureSchema>>;
-    public convertUnits(measureName: string, measureConversionSchema: MeasureConversionSchema, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MeasureSchema>>;
-    public convertUnits(measureName: string, measureConversionSchema: MeasureConversionSchema, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MeasureSchema>;
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MeasureSchema>>;
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MeasureSchema>>;
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const measureName = requestParameters?.measureName;
         if (measureName === null || measureName === undefined) {
             throw new Error('Required parameter measureName was null or undefined when calling convertUnits.');
         }
+        const measureConversionSchema = requestParameters?.measureConversionSchema;
         if (measureConversionSchema === null || measureConversionSchema === undefined) {
             throw new Error('Required parameter measureConversionSchema was null or undefined when calling convertUnits.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -175,19 +186,27 @@ export class MeasuresService implements MeasuresServiceInterface {
 
     /**
      * Get Measure Default Units
-     * @param measureName 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getMeasureDefaultUnits(measureName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<string>;
-    public getMeasureDefaultUnits(measureName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
-    public getMeasureDefaultUnits(measureName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
-    public getMeasureDefaultUnits(measureName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getMeasureDefaultUnits(requestParameters: GetMeasureDefaultUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<string>;
+    public getMeasureDefaultUnits(requestParameters: GetMeasureDefaultUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
+    public getMeasureDefaultUnits(requestParameters: GetMeasureDefaultUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
+    public getMeasureDefaultUnits(requestParameters: GetMeasureDefaultUnitsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const measureName = requestParameters?.measureName;
         if (measureName === null || measureName === undefined) {
             throw new Error('Required parameter measureName was null or undefined when calling getMeasureDefaultUnits.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -239,19 +258,27 @@ export class MeasuresService implements MeasuresServiceInterface {
 
     /**
      * Get Measure Units
-     * @param measureName 
+     * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getMeasureUnits(measureName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<string>>;
-    public getMeasureUnits(measureName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<string>>>;
-    public getMeasureUnits(measureName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<string>>>;
-    public getMeasureUnits(measureName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<string>>;
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<string>>>;
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<string>>>;
+    public getMeasureUnits(requestParameters: GetMeasureUnitsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const measureName = requestParameters?.measureName;
         if (measureName === null || measureName === undefined) {
             throw new Error('Required parameter measureName was null or undefined when calling getMeasureUnits.');
         }
 
         let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {

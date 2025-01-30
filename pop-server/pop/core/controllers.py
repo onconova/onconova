@@ -23,8 +23,7 @@ class AuthController(ControllerBase):
     @route.post(
         "/pair",
         response=TokenPairSchema,
-        url_name="token_obtain_sliding",
-        operation_id="getSlidingToken",
+        operation_id="getTokenPair",
     )
     def obtain_token_pair(self, credentials: UserCredentialsSchema):
         credentials.check_user_authentication_rule()
@@ -33,8 +32,7 @@ class AuthController(ControllerBase):
     @route.post(
         "/refresh",
         response=RefreshedTokenPairSchema,
-        url_name="token_refresh_sliding",
-        operation_id="refereshSlidingToken",
+        operation_id="refreshTokenPair",
     )
     def refresh_token_pair(self, refresh_token: TokenRefreshSchema):
         return refresh_token.to_response_schema()

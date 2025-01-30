@@ -11,14 +11,159 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { ModifiedResourceSchema } from '../model/models';
 import { NeoplasticEntity } from '../model/models';
 import { NeoplasticEntityCreate } from '../model/models';
 import { PaginatedNeoplasticEntity } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateNeoplasticEntityRequestParams {
+    neoplasticEntityCreate: NeoplasticEntityCreate;
+}
+
+export interface DeleteNeoplasticEntityByIdRequestParams {
+    entityId: string;
+}
+
+export interface GetNeoplasticEntitiesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    relationship?: string;
+    relationshipNot?: string;
+    relationshipAnyOf?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>;
+    relatedPrimaryIdNotExists?: boolean;
+    relatedPrimaryIdExists?: boolean;
+    relatedPrimaryId?: string;
+    relatedPrimaryIdNot?: string;
+    relatedPrimaryIdContains?: string;
+    relatedPrimaryIdNotContains?: string;
+    relatedPrimaryIdBeginsWith?: string;
+    relatedPrimaryIdNotBeginsWith?: string;
+    relatedPrimaryIdEndsWith?: string;
+    relatedPrimaryIdNotEndsWith?: string;
+    assertionDateBefore?: string;
+    assertionDateAfter?: string;
+    assertionDateOnOrBefore?: string;
+    assertionDateOnOrAfter?: string;
+    assertionDateOn?: string;
+    assertionDateNotOn?: string;
+    assertionDateBetween?: Array<any>;
+    assertionDateNotBetween?: Array<any>;
+    topography?: string;
+    topographyNot?: string;
+    topographyAnyOf?: Array<string>;
+    topographyNotAnyOf?: Array<string>;
+    topographyDescendantsOf?: string;
+    morphology?: string;
+    morphologyNot?: string;
+    morphologyAnyOf?: Array<string>;
+    morphologyNotAnyOf?: Array<string>;
+    morphologyDescendantsOf?: string;
+    differentitationNotExists?: boolean;
+    differentitationExists?: boolean;
+    differentitation?: string;
+    differentitationNot?: string;
+    differentitationAnyOf?: Array<string>;
+    differentitationNotAnyOf?: Array<string>;
+    differentitationDescendantsOf?: string;
+    lateralityNotExists?: boolean;
+    lateralityExists?: boolean;
+    laterality?: string;
+    lateralityNot?: string;
+    lateralityAnyOf?: Array<string>;
+    lateralityNotAnyOf?: Array<string>;
+    lateralityDescendantsOf?: string;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetNeoplasticEntityByIdRequestParams {
+    entityId: string;
+}
+
+export interface UpdateNeoplasticEntityByIdRequestParams {
+    entityId: string;
+    neoplasticEntityCreate: NeoplasticEntityCreate;
+}
 
 
 export interface NeoplasticEntitiesServiceInterface {
@@ -28,40 +173,36 @@ export interface NeoplasticEntitiesServiceInterface {
     /**
      * Create Neoplastic Entity
      * 
-     * @param neoplasticEntityCreate 
+* @param requestParameters
      */
-    createNeoplasticEntity(neoplasticEntityCreate: NeoplasticEntityCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createNeoplasticEntity(requestParameters: CreateNeoplasticEntityRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Neoplastic Entity
      * 
-     * @param entityId 
+* @param requestParameters
      */
-    deleteNeoplasticEntityById(entityId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteNeoplasticEntityById(requestParameters: DeleteNeoplasticEntityByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Neoplastic Entities Matching The Query
      * 
-     * @param caseId 
-     * @param type 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getNeoplasticEntities(caseId?: string, type?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedNeoplasticEntity>;
+    getNeoplasticEntities(requestParameters: GetNeoplasticEntitiesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedNeoplasticEntity>;
 
     /**
      * Get Neoplastic Entity By Id
      * 
-     * @param entityId 
+* @param requestParameters
      */
-    getNeoplasticEntityById(entityId: string, extraHttpRequestParams?: any): Observable<NeoplasticEntity>;
+    getNeoplasticEntityById(requestParameters: GetNeoplasticEntityByIdRequestParams, extraHttpRequestParams?: any): Observable<NeoplasticEntity>;
 
     /**
      * Update Neoplastic Entity
      * 
-     * @param entityId 
-     * @param neoplasticEntityCreate 
+* @param requestParameters
      */
-    updateNeoplasticEntityById(entityId: string, neoplasticEntityCreate: NeoplasticEntityCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updateNeoplasticEntityById(requestParameters: UpdateNeoplasticEntityByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

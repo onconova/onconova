@@ -12,13 +12,137 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyStaging } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { PaginatedAnyStaging } from '../model/models';
 import { Payload } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateStagingRequestParams {
+    payload: Payload;
+}
+
+export interface DeleteStagingByIdRequestParams {
+    stagingId: string;
+}
+
+export interface GetStagingByIdRequestParams {
+    stagingId: string;
+}
+
+export interface GetStagingsRequestParams {
+    stagingDomain?: string;
+    stagingDomainNot?: string;
+    stagingDomainAnyOf?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>;
+    stage?: string;
+    stageNot?: string;
+    stageAnyOf?: Array<string>;
+    stageNotAnyOf?: Array<string>;
+    stageDescendantsOf?: string;
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    stagedEntitiesIds?: string;
+    stagedEntitiesIdsNot?: string;
+    stagedEntitiesIdsContains?: string;
+    stagedEntitiesIdsNotContains?: string;
+    stagedEntitiesIdsBeginsWith?: string;
+    stagedEntitiesIdsNotBeginsWith?: string;
+    stagedEntitiesIdsEndsWith?: string;
+    stagedEntitiesIdsNotEndsWith?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateStagingByIdRequestParams {
+    stagingId: string;
+    payload: Payload;
+}
 
 
 export interface StagingsServiceInterface {
@@ -28,40 +152,36 @@ export interface StagingsServiceInterface {
     /**
      * Create Staging
      * 
-     * @param payload 
+* @param requestParameters
      */
-    createStaging(payload: Payload, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createStaging(requestParameters: CreateStagingRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Staging
      * 
-     * @param stagingId 
+* @param requestParameters
      */
-    deleteStagingById(stagingId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteStagingById(requestParameters: DeleteStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Staging By Id
      * 
-     * @param stagingId 
+* @param requestParameters
      */
-    getStagingById(stagingId: string, extraHttpRequestParams?: any): Observable<AnyStaging>;
+    getStagingById(requestParameters: GetStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<AnyStaging>;
 
     /**
      * Get All Stagings Matching The Query
      * 
-     * @param caseId 
-     * @param stagingDomain 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getStagings(caseId?: string, stagingDomain?: Array<'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedAnyStaging>;
+    getStagings(requestParameters: GetStagingsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAnyStaging>;
 
     /**
      * Update Staging
      * 
-     * @param stagingId 
-     * @param payload 
+* @param requestParameters
      */
-    updateStagingById(stagingId: string, payload: Payload, extraHttpRequestParams?: any): Observable<{}>;
+    updateStagingById(requestParameters: UpdateStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

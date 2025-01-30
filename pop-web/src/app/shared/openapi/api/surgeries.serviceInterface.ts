@@ -11,14 +11,166 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { PaginatedSurgery } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedSurgery } from '../model/models';
 import { Surgery } from '../model/models';
 import { SurgeryCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateSurgeryRequestParams {
+    surgeryCreate: SurgeryCreate;
+}
+
+export interface DeleteSurgeryByIdRequestParams {
+    surgeryId: string;
+}
+
+export interface GetSurgeriesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    procedure?: string;
+    procedureNot?: string;
+    procedureAnyOf?: Array<string>;
+    procedureNotAnyOf?: Array<string>;
+    procedureDescendantsOf?: string;
+    intent?: string;
+    intentNot?: string;
+    intentAnyOf?: Array<'curative' | 'palliative'>;
+    bodysiteNotExists?: boolean;
+    bodysiteExists?: boolean;
+    bodysite?: string;
+    bodysiteNot?: string;
+    bodysiteAnyOf?: Array<string>;
+    bodysiteNotAnyOf?: Array<string>;
+    bodysiteDescendantsOf?: string;
+    bodysiteQualifierNotExists?: boolean;
+    bodysiteQualifierExists?: boolean;
+    bodysiteQualifier?: string;
+    bodysiteQualifierNot?: string;
+    bodysiteQualifierAnyOf?: Array<string>;
+    bodysiteQualifierNotAnyOf?: Array<string>;
+    bodysiteQualifierDescendantsOf?: string;
+    bodysiteLateralityNotExists?: boolean;
+    bodysiteLateralityExists?: boolean;
+    bodysiteLaterality?: string;
+    bodysiteLateralityNot?: string;
+    bodysiteLateralityAnyOf?: Array<string>;
+    bodysiteLateralityNotAnyOf?: Array<string>;
+    bodysiteLateralityDescendantsOf?: string;
+    outcomeNotExists?: boolean;
+    outcomeExists?: boolean;
+    outcome?: string;
+    outcomeNot?: string;
+    outcomeAnyOf?: Array<string>;
+    outcomeNotAnyOf?: Array<string>;
+    outcomeDescendantsOf?: string;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    targetedEntitiesIds?: string;
+    targetedEntitiesIdsNot?: string;
+    targetedEntitiesIdsContains?: string;
+    targetedEntitiesIdsNotContains?: string;
+    targetedEntitiesIdsBeginsWith?: string;
+    targetedEntitiesIdsNotBeginsWith?: string;
+    targetedEntitiesIdsEndsWith?: string;
+    targetedEntitiesIdsNotEndsWith?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetSurgeryByIdRequestParams {
+    surgeryId: string;
+}
+
+export interface UpdateSurgeryByIdRequestParams {
+    surgeryId: string;
+    surgeryCreate: SurgeryCreate;
+}
 
 
 export interface SurgeriesServiceInterface {
@@ -28,39 +180,36 @@ export interface SurgeriesServiceInterface {
     /**
      * Create Surgery
      * 
-     * @param surgeryCreate 
+* @param requestParameters
      */
-    createSurgery(surgeryCreate: SurgeryCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createSurgery(requestParameters: CreateSurgeryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Surgery
      * 
-     * @param surgeryId 
+* @param requestParameters
      */
-    deleteSurgeryById(surgeryId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteSurgeryById(requestParameters: DeleteSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Surgeries Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getSurgeries(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedSurgery>;
+    getSurgeries(requestParameters: GetSurgeriesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedSurgery>;
 
     /**
      * Get Surgery By Id
      * 
-     * @param surgeryId 
+* @param requestParameters
      */
-    getSurgeryById(surgeryId: string, extraHttpRequestParams?: any): Observable<Surgery>;
+    getSurgeryById(requestParameters: GetSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<Surgery>;
 
     /**
      * Update Surgery
      * 
-     * @param surgeryId 
-     * @param surgeryCreate 
+* @param requestParameters
      */
-    updateSurgeryById(surgeryId: string, surgeryCreate: SurgeryCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

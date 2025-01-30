@@ -12,15 +12,196 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyTumorBoard } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
 import { MolecularTherapeuticRecommendationCreateSchema } from '../model/models';
 import { MolecularTherapeuticRecommendationSchema } from '../model/models';
 import { PaginatedAnyTumorBoard } from '../model/models';
 import { Payload1 } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateMolecularTherapeuticRecommendationRequestParams {
+    tumorBoardId: string;
+    molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema;
+}
+
+export interface CreateTumorBoardRequestParams {
+    payload1: Payload1;
+}
+
+export interface DeleteMolecularTherapeuticRecommendationRequestParams {
+    tumorBoardId: string;
+    recommendationId: string;
+}
+
+export interface DeleteTumorBoardByIdRequestParams {
+    tumorBoardId: string;
+}
+
+export interface GetMOlecularTherapeuticRecommendationByIdRequestParams {
+    tumorBoardId: string;
+    recommendationId: string;
+}
+
+export interface GetMolecularTherapeuticRecommendationsRequestParams {
+    tumorBoardId: string;
+}
+
+export interface GetTumorBoardByIdRequestParams {
+    tumorBoardId: string;
+}
+
+export interface GetTumorBoardsRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    relatedEntitiesIds?: string;
+    relatedEntitiesIdsNot?: string;
+    relatedEntitiesIdsContains?: string;
+    relatedEntitiesIdsNotContains?: string;
+    relatedEntitiesIdsBeginsWith?: string;
+    relatedEntitiesIdsNotBeginsWith?: string;
+    relatedEntitiesIdsEndsWith?: string;
+    relatedEntitiesIdsNotEndsWith?: string;
+    recommendationsCode?: string;
+    recommendationsCodeNot?: string;
+    recommendationsCodeContains?: string;
+    recommendationsCodeNotContains?: string;
+    recommendationsCodeBeginsWith?: string;
+    recommendationsCodeNotBeginsWith?: string;
+    recommendationsCodeEndsWith?: string;
+    recommendationsCodeNotEndsWith?: string;
+    recommendationsSystem?: string;
+    recommendationsSystemNot?: string;
+    recommendationsSystemContains?: string;
+    recommendationsSystemNotContains?: string;
+    recommendationsSystemBeginsWith?: string;
+    recommendationsSystemNotBeginsWith?: string;
+    recommendationsSystemEndsWith?: string;
+    recommendationsSystemNotEndsWith?: string;
+    recommendationsDisplayNotExists?: boolean;
+    recommendationsDisplayExists?: boolean;
+    recommendationsDisplay?: string;
+    recommendationsDisplayNot?: string;
+    recommendationsDisplayContains?: string;
+    recommendationsDisplayNotContains?: string;
+    recommendationsDisplayBeginsWith?: string;
+    recommendationsDisplayNotBeginsWith?: string;
+    recommendationsDisplayEndsWith?: string;
+    recommendationsDisplayNotEndsWith?: string;
+    recommendationsVersionNotExists?: boolean;
+    recommendationsVersionExists?: boolean;
+    recommendationsVersion?: string;
+    recommendationsVersionNot?: string;
+    recommendationsVersionContains?: string;
+    recommendationsVersionNotContains?: string;
+    recommendationsVersionBeginsWith?: string;
+    recommendationsVersionNotBeginsWith?: string;
+    recommendationsVersionEndsWith?: string;
+    recommendationsVersionNotEndsWith?: string;
+    recommendationsSynonymsNotExists?: boolean;
+    recommendationsSynonymsExists?: boolean;
+    recommendationsPropertiesNotExists?: boolean;
+    recommendationsPropertiesExists?: boolean;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateMolecularTherapeuticRecommendationRequestParams {
+    tumorBoardId: string;
+    recommendationId: string;
+    molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema;
+}
+
+export interface UpdateTumorBoardByIdRequestParams {
+    tumorBoardId: string;
+    payload1: Payload1;
+}
 
 
 export interface TumorBoardsServiceInterface {
@@ -30,80 +211,71 @@ export interface TumorBoardsServiceInterface {
     /**
      * Create Molecular Tumor Board Therapeutic Recommendation
      * 
-     * @param tumorBoardId 
-     * @param molecularTherapeuticRecommendationCreateSchema 
+* @param requestParameters
      */
-    createMolecularTherapeuticRecommendation(tumorBoardId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Tumor Board
      * 
-     * @param payload1 
+* @param requestParameters
      */
-    createTumorBoard(payload1: Payload1, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTumorBoard(requestParameters: CreateTumorBoardRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Molecular Tumor Board Therapeutic Recommendation
      * 
-     * @param tumorBoardId 
-     * @param recommendationId 
+* @param requestParameters
      */
-    deleteMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteMolecularTherapeuticRecommendation(requestParameters: DeleteMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Delete Tumor Board
      * 
-     * @param tumorBoardId 
+* @param requestParameters
      */
-    deleteTumorBoardById(tumorBoardId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteTumorBoardById(requestParameters: DeleteTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Molecular Tumor Board Therapeutic Recommendation By Id
      * 
-     * @param tumorBoardId 
-     * @param recommendationId 
+* @param requestParameters
      */
-    getMOlecularTherapeuticRecommendationById(tumorBoardId: string, recommendationId: string, extraHttpRequestParams?: any): Observable<MolecularTherapeuticRecommendationSchema>;
+    getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, extraHttpRequestParams?: any): Observable<MolecularTherapeuticRecommendationSchema>;
 
     /**
      * Get Molecular Tumor Board Therapeutic Recommendations Matching The Query
      * 
-     * @param tumorBoardId 
+* @param requestParameters
      */
-    getMolecularTherapeuticRecommendations(tumorBoardId: string, extraHttpRequestParams?: any): Observable<Array<MolecularTherapeuticRecommendationSchema>>;
+    getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, extraHttpRequestParams?: any): Observable<Array<MolecularTherapeuticRecommendationSchema>>;
 
     /**
      * Get Tumor Board By Id
      * 
-     * @param tumorBoardId 
+* @param requestParameters
      */
-    getTumorBoardById(tumorBoardId: string, extraHttpRequestParams?: any): Observable<AnyTumorBoard>;
+    getTumorBoardById(requestParameters: GetTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<AnyTumorBoard>;
 
     /**
      * Get All Tumor Boards Matching The Query
      * 
-     * @param caseId 
-     * @param stagingDomain 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getTumorBoards(caseId?: string, stagingDomain?: Array<'unspecified' | 'molecular'>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedAnyTumorBoard>;
+    getTumorBoards(requestParameters: GetTumorBoardsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAnyTumorBoard>;
 
     /**
      * Update Molecular Tumor Board Therapeutic Recommendation
      * 
-     * @param tumorBoardId 
-     * @param recommendationId 
-     * @param molecularTherapeuticRecommendationCreateSchema 
+* @param requestParameters
      */
-    updateMolecularTherapeuticRecommendation(tumorBoardId: string, recommendationId: string, molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Update Tumor Board
      * 
-     * @param tumorBoardId 
-     * @param payload1 
+* @param requestParameters
      */
-    updateTumorBoardById(tumorBoardId: string, payload1: Payload1, extraHttpRequestParams?: any): Observable<{}>;
+    updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

@@ -13,12 +13,153 @@ import { Observable }                                        from 'rxjs';
 
 import { FamilyHistoryCreateSchema } from '../model/models';
 import { FamilyHistorySchema } from '../model/models';
-import { PaginatedFamilyHistorySchema } from '../model/models';
 import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedFamilyHistorySchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateFamilyHistoryRequestParams {
+    familyHistoryCreateSchema: FamilyHistoryCreateSchema;
+}
+
+export interface DeleteFamilyHistoryByIdRequestParams {
+    familyHistoryId: string;
+}
+
+export interface GetFamilyHistoriesRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    relationship?: string;
+    relationshipNot?: string;
+    relationshipAnyOf?: Array<string>;
+    relationshipNotAnyOf?: Array<string>;
+    relationshipDescendantsOf?: string;
+    hadCancer?: boolean;
+    contributedToDeathNotExists?: boolean;
+    contributedToDeathExists?: boolean;
+    contributedToDeath?: boolean;
+    onsetAgeNotExists?: boolean;
+    onsetAgeExists?: boolean;
+    onsetAgeLessThan?: number;
+    onsetAgeLessThanOrEqual?: number;
+    onsetAgeGreaterThan?: number;
+    onsetAgeGreaterThanOrEqual?: number;
+    onsetAgeEqual?: number;
+    onsetAgeNotEqual?: number;
+    onsetAgeBetween?: Array<any>;
+    onsetAgeNotBetween?: Array<any>;
+    topographyNotExists?: boolean;
+    topographyExists?: boolean;
+    topography?: string;
+    topographyNot?: string;
+    topographyAnyOf?: Array<string>;
+    topographyNotAnyOf?: Array<string>;
+    topographyDescendantsOf?: string;
+    morphologyNotExists?: boolean;
+    morphologyExists?: boolean;
+    morphology?: string;
+    morphologyNot?: string;
+    morphologyAnyOf?: Array<string>;
+    morphologyNotAnyOf?: Array<string>;
+    morphologyDescendantsOf?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetFamilyHistoryByIdRequestParams {
+    familyHistoryId: string;
+}
+
+export interface UpdateFamilyHistoryRequestParams {
+    familyHistoryId: string;
+    familyHistoryCreateSchema: FamilyHistoryCreateSchema;
+}
 
 
 export interface FamilyHistoriesServiceInterface {
@@ -28,39 +169,36 @@ export interface FamilyHistoriesServiceInterface {
     /**
      * Create Family History
      * 
-     * @param familyHistoryCreateSchema 
+* @param requestParameters
      */
-    createFamilyHistory(familyHistoryCreateSchema: FamilyHistoryCreateSchema, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Family History
      * 
-     * @param familyHistoryId 
+* @param requestParameters
      */
-    deleteFamilyHistoryById(familyHistoryId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deleteFamilyHistoryById(requestParameters: DeleteFamilyHistoryByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get All Family Member Histories Matching The Query
      * 
-     * @param caseId 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getFamilyHistories(caseId?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedFamilyHistorySchema>;
+    getFamilyHistories(requestParameters: GetFamilyHistoriesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedFamilyHistorySchema>;
 
     /**
      * Get Family History By Id
      * 
-     * @param familyHistoryId 
+* @param requestParameters
      */
-    getFamilyHistoryById(familyHistoryId: string, extraHttpRequestParams?: any): Observable<FamilyHistorySchema>;
+    getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, extraHttpRequestParams?: any): Observable<FamilyHistorySchema>;
 
     /**
      * Update Family History
      * 
-     * @param familyHistoryId 
-     * @param familyHistoryCreateSchema 
+* @param requestParameters
      */
-    updateFamilyHistory(familyHistoryId: string, familyHistoryCreateSchema: FamilyHistoryCreateSchema, extraHttpRequestParams?: any): Observable<{}>;
+    updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

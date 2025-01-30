@@ -9,6 +9,9 @@
  */
 
 
+/**
+ * Represents a measure value with its unit.  Attributes:     value (float): The numerical value of the measure.     unit (str): The unit of the measure.
+ */
 export interface MeasureSchema { 
     value: number;
     unit: string;

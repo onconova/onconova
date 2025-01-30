@@ -50,8 +50,8 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
     private readonly lifestyleService: LifestylesService = inject(LifestylesService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = this.lifestyleService.createLifestyle.bind(this.lifestyleService);
-    public readonly updateService = this.lifestyleService.updateLifestyleById.bind(this.lifestyleService);
+    public readonly createService = (payload: LifestyleCreateSchema) => this.lifestyleService.createLifestyle({lifestyleCreateSchema: payload});
+    public readonly updateService = (id: string, payload: LifestyleCreateSchema) => this.lifestyleService.updateLifestyleById({lifestyleId: id, lifestyleCreateSchema: payload});
 
     public readonly title: string = 'Lifestyle';
     public readonly subtitle: string = 'Add new lifestyle details';

@@ -11,17 +11,213 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { ModifiedResourceSchema } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
 import { PatientCaseBundle } from '../model/models';
 import { PatientCaseBundleCreate } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
 import { PatientCaseDataCompletionStatusSchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreatePatientCaseRequestParams {
+    patientCaseCreate: PatientCaseCreate;
+}
+
+export interface CreatePatientCaseBundleByIdRequestParams {
+    patientCaseBundleCreate: PatientCaseBundleCreate;
+}
+
+export interface CreatePatientCaseDataCompletionRequestParams {
+    caseId: string;
+    category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
+}
+
+export interface DeletePatientCaseByIdRequestParams {
+    caseId: string;
+}
+
+export interface DeletePatientCaseDataCompletionRequestParams {
+    caseId: string;
+    category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
+}
+
+export interface GetPatientCaseBundleByIdRequestParams {
+    caseId: string;
+}
+
+export interface GetPatientCaseByIdRequestParams {
+    caseId: string;
+}
+
+export interface GetPatientCaseByPseudoidentifierRequestParams {
+    pseudoidentifier: string;
+}
+
+export interface GetPatientCaseDataCompletionStatusRequestParams {
+    caseId: string;
+    category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
+}
+
+export interface GetPatientCasesRequestParams {
+    ageLessThan?: number;
+    ageLessThanOrEqual?: number;
+    ageGreaterThan?: number;
+    ageGreaterThanOrEqual?: number;
+    ageEqual?: number;
+    ageNotEqual?: number;
+    ageBetween?: Array<any>;
+    ageNotBetween?: Array<any>;
+    dataCompletionRateLessThan?: number;
+    dataCompletionRateLessThanOrEqual?: number;
+    dataCompletionRateGreaterThan?: number;
+    dataCompletionRateGreaterThanOrEqual?: number;
+    dataCompletionRateEqual?: number;
+    dataCompletionRateNotEqual?: number;
+    dataCompletionRateBetween?: Array<any>;
+    dataCompletionRateNotBetween?: Array<any>;
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    pseudoidentifier?: string;
+    pseudoidentifierNot?: string;
+    pseudoidentifierContains?: string;
+    pseudoidentifierNotContains?: string;
+    pseudoidentifierBeginsWith?: string;
+    pseudoidentifierNotBeginsWith?: string;
+    pseudoidentifierEndsWith?: string;
+    pseudoidentifierNotEndsWith?: string;
+    gender?: string;
+    genderNot?: string;
+    genderAnyOf?: Array<string>;
+    genderNotAnyOf?: Array<string>;
+    genderDescendantsOf?: string;
+    raceNotExists?: boolean;
+    raceExists?: boolean;
+    race?: string;
+    raceNot?: string;
+    raceAnyOf?: Array<string>;
+    raceNotAnyOf?: Array<string>;
+    raceDescendantsOf?: string;
+    sexAtBirthNotExists?: boolean;
+    sexAtBirthExists?: boolean;
+    sexAtBirth?: string;
+    sexAtBirthNot?: string;
+    sexAtBirthAnyOf?: Array<string>;
+    sexAtBirthNotAnyOf?: Array<string>;
+    sexAtBirthDescendantsOf?: string;
+    genderIdentityNotExists?: boolean;
+    genderIdentityExists?: boolean;
+    genderIdentity?: string;
+    genderIdentityNot?: string;
+    genderIdentityAnyOf?: Array<string>;
+    genderIdentityNotAnyOf?: Array<string>;
+    genderIdentityDescendantsOf?: string;
+    dateOfBirthBefore?: string;
+    dateOfBirthAfter?: string;
+    dateOfBirthOnOrBefore?: string;
+    dateOfBirthOnOrAfter?: string;
+    dateOfBirthOn?: string;
+    dateOfBirthNotOn?: string;
+    dateOfBirthBetween?: Array<any>;
+    dateOfBirthNotBetween?: Array<any>;
+    isDeceased?: boolean;
+    dateOfDeathNotExists?: boolean;
+    dateOfDeathExists?: boolean;
+    dateOfDeathBefore?: string;
+    dateOfDeathAfter?: string;
+    dateOfDeathOnOrBefore?: string;
+    dateOfDeathOnOrAfter?: string;
+    dateOfDeathOn?: string;
+    dateOfDeathNotOn?: string;
+    dateOfDeathBetween?: Array<any>;
+    dateOfDeathNotBetween?: Array<any>;
+    causeOfDeathNotExists?: boolean;
+    causeOfDeathExists?: boolean;
+    causeOfDeath?: string;
+    causeOfDeathNot?: string;
+    causeOfDeathAnyOf?: Array<string>;
+    causeOfDeathNotAnyOf?: Array<string>;
+    causeOfDeathDescendantsOf?: string;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    manager?: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdatePatientCaseByIdRequestParams {
+    caseId: string;
+    patientCaseCreate: PatientCaseCreate;
+}
 
 
 export interface PatientCasesServiceInterface {
@@ -31,90 +227,78 @@ export interface PatientCasesServiceInterface {
     /**
      * Create Patient Case
      * 
-     * @param patientCaseCreate 
+* @param requestParameters
      */
-    createPatientCase(patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPatientCase(requestParameters: CreatePatientCaseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Patient Case Bundle
      * 
-     * @param patientCaseBundleCreate 
+* @param requestParameters
      */
-    createPatientCaseBundleById(patientCaseBundleCreate: PatientCaseBundleCreate, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Create Patient Case Data Completion
      * 
-     * @param caseId 
-     * @param category 
+* @param requestParameters
      */
-    createPatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
     /**
      * Delete Patient Case
      * 
-     * @param caseId 
+* @param requestParameters
      */
-    deletePatientCaseById(caseId: string, extraHttpRequestParams?: any): Observable<{}>;
+    deletePatientCaseById(requestParameters: DeletePatientCaseByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Delete Patient Case Data Completion
      * 
-     * @param caseId 
-     * @param category 
+* @param requestParameters
      */
-    deletePatientCaseDataCompletion(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<{}>;
+    deletePatientCaseDataCompletion(requestParameters: DeletePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Get Patient Case Bundle By Id
      * 
-     * @param caseId 
+* @param requestParameters
      */
-    getPatientCaseBundleById(caseId: string, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
+    getPatientCaseBundleById(requestParameters: GetPatientCaseBundleByIdRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
 
     /**
      * Get Patient Case By Id
      * 
-     * @param caseId 
+* @param requestParameters
      */
-    getPatientCaseById(caseId: string, extraHttpRequestParams?: any): Observable<PatientCase>;
+    getPatientCaseById(requestParameters: GetPatientCaseByIdRequestParams, extraHttpRequestParams?: any): Observable<PatientCase>;
 
     /**
      * Get Patient Case By Pseudoidentifier
      * 
-     * @param pseudoidentifier 
+* @param requestParameters
      */
-    getPatientCaseByPseudoidentifier(pseudoidentifier: string, extraHttpRequestParams?: any): Observable<PatientCase>;
+    getPatientCaseByPseudoidentifier(requestParameters: GetPatientCaseByPseudoidentifierRequestParams, extraHttpRequestParams?: any): Observable<PatientCase>;
 
     /**
      * Get Patient Case Data Completion Status
      * 
-     * @param caseId 
-     * @param category 
+* @param requestParameters
      */
-    getPatientCaseDataCompletionStatus(caseId: string, category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses', extraHttpRequestParams?: any): Observable<PatientCaseDataCompletionStatusSchema>;
+    getPatientCaseDataCompletionStatus(requestParameters: GetPatientCaseDataCompletionStatusRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseDataCompletionStatusSchema>;
 
     /**
      * Get All Patient Cases Matching The Query
      * 
-     * @param ageLte 
-     * @param ageGte 
-     * @param pseudoidentifier 
-     * @param manager 
-     * @param deceased 
-     * @param gender 
-     * @param born 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getPatientCases(ageLte?: number, ageGte?: number, pseudoidentifier?: string, manager?: string, deceased?: boolean, gender?: Array<'male' | 'female' | 'unknown'>, born?: string, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+    getPatientCases(requestParameters: GetPatientCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
 
     /**
      * Update Patient Case
      * 
-     * @param caseId 
-     * @param patientCaseCreate 
+* @param requestParameters
      */
-    updatePatientCaseById(caseId: string, patientCaseCreate: PatientCaseCreate, extraHttpRequestParams?: any): Observable<{}>;
+    updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

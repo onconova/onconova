@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { AdverseEventSuspectedCauseCausalityChoices } from './adverse-event-suspected-cause-causality-choices';
+import { UserSchema } from './user-schema';
 
 
 export interface AdverseEventSuspectedCauseSchema { 
@@ -23,11 +24,11 @@ export interface AdverseEventSuspectedCauseSchema {
      * 
      */
     updatedAt: string;
-    createdById?: number | null;
+    createdBy?: UserSchema | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedByIds?: Array<number>;
+    updatedBys?: Array<UserSchema>;
     /**
      * Human-readable description
      */

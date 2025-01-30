@@ -17,6 +17,14 @@ import { PaginatedCodedConceptSchema } from '../model/models';
 import { Configuration }                                     from '../configuration';
 
 
+export interface GetTerminologyConceptsRequestParams {
+    terminologyName: string;
+    query?: string;
+    codes?: Array<string>;
+    limit?: number;
+    offset?: number;
+}
+
 
 export interface TerminologyServiceInterface {
     defaultHeaders: HttpHeaders;
@@ -25,12 +33,8 @@ export interface TerminologyServiceInterface {
     /**
      * Get Terminology Concepts
      * 
-     * @param terminologyName 
-     * @param query 
-     * @param codes 
-     * @param limit 
-     * @param offset 
+* @param requestParameters
      */
-    getTerminologyConcepts(terminologyName: string, query?: string, codes?: Array<string>, limit?: number, offset?: number, extraHttpRequestParams?: any): Observable<PaginatedCodedConceptSchema>;
+    getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedCodedConceptSchema>;
 
 }

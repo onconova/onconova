@@ -54,8 +54,8 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = this.treatmentResponsesService.createTreatmentResponse.bind(this.treatmentResponsesService)
-    public readonly updateService = this.treatmentResponsesService.updateTreatmentResponse.bind(this.treatmentResponsesService)
+    public readonly createService = (payload: TreatmentResponseCreateSchema) => this.treatmentResponsesService.createTreatmentResponse({treatmentResponseCreateSchema: payload});
+    public readonly updateService = (id: string, payload: TreatmentResponseCreateSchema) => this.treatmentResponsesService.updateTreatmentResponse({treatmentRresponseId: id, treatmentResponseCreateSchema: payload});
 
     public readonly title: string = 'Risk Assessment'
     public readonly subtitle: string = 'Add new risk assessment'
@@ -74,7 +74,7 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
         // Construct the form 
         this.constructForm();
         // Fetch any primary neoplastic entities that could be related to a new entry 
-        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId).pipe(map(response => response.items));
+        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId}).pipe(map(response => response.items));
     }
 
     constructForm(): void {

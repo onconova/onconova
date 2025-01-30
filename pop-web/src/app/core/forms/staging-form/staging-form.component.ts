@@ -100,15 +100,15 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
     private readonly neoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = this.stagingsService.createStaging.bind(this.stagingsService)
-    public readonly updateService = this.stagingsService.updateStagingById.bind(this.stagingsService)
+    public readonly createService = (payload: any) => this.stagingsService.createStaging({payload: payload})
+    public readonly updateService = (id: string, payload: any) => this.stagingsService.updateStagingById({stagingId: id, payload: payload})
 
     public readonly title: string = 'Staging'
     public readonly subtitle: string = 'Add new staging'
     public readonly icon = Tags;
 
     private caseId!: string;
-    public initialData: Staging | EmptyObject = {};
+    public initialData: any | EmptyObject = {};
 
     public currentStagingForm!: string;
     public relatedEntities: NeoplasticEntity[] = []; 
@@ -279,7 +279,7 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
 
 
     private getRelatedEntities() {
-        this.neoplasticEntitiesService.getNeoplasticEntities(this.caseId)
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
           (response) => {
