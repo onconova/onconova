@@ -27,7 +27,7 @@ class FilterBaseSchema(FilterSchema):
 
     def _resolve_field_expression(self, field_name: str, field_value: Any, field: FieldInfo) -> Q:
         field_name = field_name.replace('.', '_')
-        super()._resolve_field_expression(field_name, field_value, field)
+        return super()._resolve_field_expression(field_name, field_value, field)
 
 
 class OrmMetadataMixin:
