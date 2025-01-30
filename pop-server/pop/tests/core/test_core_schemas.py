@@ -102,3 +102,36 @@ class TestGetSchemaField(TestCase):
         self.assertEqual(python_type, List[UUID])
         self.assertEqual(field_info.default, [])
 
+
+from pydantic import BaseModel
+from unittest.mock import MagicMock
+from pop.core.schemas.base import FilterBaseSchema
+
+
+class TestCreateFiltersSchema(TestCase):
+    def setUp(self):
+        self.factory = SchemaFactory()
+
+    def test_factory_returns_filter_schema(self):
+        class TestSchema(BaseModel):
+            field: str
+        returned_schema = self.factory.create_filters_schema(TestSchema)
+        self.assertTrue(issubclass(returned_schema, FilterBaseSchema))
+
+    def test_correct_filters_for_string_field(self):
+        class TestSchema(BaseModel):
+            field: str
+        returned_schema = self.factory.create_filters_schema(TestSchema)
+        self.assertIn('field', returned_schema.model_fields, )
+        self.assertIn('field.not', returned_schema.model_fields, )
+        self.assertIn('field.contains', returned_schema.model_fields, )
+        self.assertIn('field.not.contains', returned_schema.model_fields, )
+
+    def test_returned_schema_has_filter_functions(self):
+        class TestSchema(BaseModel):
+            field: str
+        returned_schema = self.factory.create_filters_schema(TestSchema)
+        self.assertTrue(hasattr(returned_schema, f'filter_field'))
+        self.assertTrue(hasattr(returned_schema, f'filter_field_not'))
+        self.assertTrue(hasattr(returned_schema, f'filter_field_contains'))
+        self.assertTrue(hasattr(returned_schema, f'filter_field_not_contains'))

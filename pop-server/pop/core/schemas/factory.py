@@ -1,4 +1,5 @@
 from typing import Any,List, Tuple, Type, Optional
+import types
 
 from django.db.models import Model as DjangoModel
 
@@ -9,7 +10,7 @@ from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
 
 from pop.core.schemas.fields import get_schema_field, get_schema_field_filters
-from pop.core.schemas.base import BaseSchema, FiltersBaseSchema, OrmMetadataMixin
+from pop.core.schemas.base import BaseSchema, FilterBaseSchema, OrmMetadataMixin
 
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
@@ -130,7 +131,7 @@ class SchemaFactory(NinjaSchemaFactory):
         depth: int = 0,
         fields: Optional[List[str]] = None,
         exclude: Optional[List[str]] = None,
-        base_class: Type[Schema] = FiltersBaseSchema,
+        base_class: Type[Schema] = FilterBaseSchema,
     ) -> Type[Schema]:
 
         name = name or schema.__name__
@@ -145,12 +146,14 @@ class SchemaFactory(NinjaSchemaFactory):
             return self.schemas[key]
 
         definitions = {}
+        filter_fcns = {}
         for field_name, field_info in schema.model_fields.items():
             if field_name in ['description']:
                 continue
             schema_fields = get_schema_field_filters(field_name, field_info)
-            for field_name, (python_type, field_info) in schema_fields:
+            for field_name, (python_type, field_info), (method_name, filter_fcn) in schema_fields:
                 definitions[field_name] = (python_type, field_info)
+                filter_fcns[method_name] = filter_fcn
 
         if name in self.schema_names:
             name = self._get_unique_name(name)
@@ -162,6 +165,8 @@ class SchemaFactory(NinjaSchemaFactory):
             __validators__={},
             **definitions,
         )
+        for fcn_name, fcn in filter_fcns.items():
+            setattr(schema, fcn_name, types.MethodType(fcn, schema)) 
         self.schemas[key] = schema
         self.schema_names.add(name)
         return schema

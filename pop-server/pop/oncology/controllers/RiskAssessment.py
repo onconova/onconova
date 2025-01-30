@@ -31,7 +31,7 @@ class RiskAssessmentController(ControllerBase):
     @paginate()
     def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters]): # type: ignore
         queryset = RiskAssessment.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

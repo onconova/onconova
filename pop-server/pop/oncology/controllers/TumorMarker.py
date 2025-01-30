@@ -32,7 +32,7 @@ class TumorMarkerController(ControllerBase):
     @paginate()
     def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters]): # type: ignore
         queryset = TumorMarker.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

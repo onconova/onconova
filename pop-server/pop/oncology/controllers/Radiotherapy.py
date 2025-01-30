@@ -36,7 +36,7 @@ class RadiotherapyController(ControllerBase):
     @paginate()
     def get_all_radiotherapies_matching_the_query(self, query: Query[RadiotherapyFilters]): # type: ignore
         queryset = Radiotherapy.objects.all().order_by('-period')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

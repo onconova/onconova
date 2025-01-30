@@ -4,27 +4,30 @@ from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from pop.core.measures.fields import MeasurementField
 from pop.core.utils import to_camel_case 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict
-from typing import Optional, Dict, get_args, get_origin, Type, Any, Union
+from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
 
-from ninja import Schema
-from django.db.models.query import QuerySet
+from ninja import Schema, FilterSchema
+from django.db.models import Q, QuerySet
+from pydantic.fields import FieldInfo
 
 from pop.terminology.models import CodedConcept
 
+class FilterBaseSchema(FilterSchema):
+    _queryset_model: Type[DjangoModel] = None
 
+    def filter(self, queryset: QuerySet) -> QuerySet:
+        self._queryset_model = queryset.model
+        filtered_queryset = queryset.filter(self.get_filter_expression())
+        self._queryset_model = None
+        return filtered_queryset
+     
+    def get_filter(self, field_name: str) -> Callable:
+        method_name = f"filter_{field_name}".replace('.', '_')
+        return getattr(self, method_name)
 
-class FiltersBaseSchema(PydanticBaseModel):
-
-    def apply_filters(self, queryset: QuerySet):
-        for filter_name, filter_value in self.model_dump().items():
-            if not filter_value:
-                continue
-            filter_info = self.model_fields.get(filter_name)
-            lookup = filter_info.json_schema_extra.get('x-orm-lookup')
-            if lookup:
-                queryset = queryset.filter(**{lookup: filter_value})
-        return queryset
-
+    def _resolve_field_expression(self, field_name: str, field_value: Any, field: FieldInfo) -> Q:
+        field_name = field_name.replace('.', '_')
+        super()._resolve_field_expression(field_name, field_value, field)
 
 
 class OrmMetadataMixin:

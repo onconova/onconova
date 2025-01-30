@@ -32,7 +32,7 @@ class NeoplasticEntityController(ControllerBase):
     @paginate()
     def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]): # type: ignore
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

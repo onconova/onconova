@@ -29,7 +29,7 @@ class LifestyleController(ControllerBase):
     @paginate()
     def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters]): # type: ignore
         queryset = Lifestyle.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
 
     @route.post(

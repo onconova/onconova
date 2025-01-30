@@ -31,7 +31,7 @@ class PerformanceStatusController(ControllerBase):
     @paginate()
     def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters]): # type: ignore
         queryset = PerformanceStatus.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

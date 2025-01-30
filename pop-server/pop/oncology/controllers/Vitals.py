@@ -28,7 +28,7 @@ class VitalsController(ControllerBase):
     @paginate()
     def get_all_vitals_matching_the_query(self, query: Query[VitalsFilters]): # type: ignore
         queryset = Vitals.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

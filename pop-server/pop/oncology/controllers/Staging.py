@@ -92,7 +92,7 @@ class StagingController(ControllerBase):
     @paginate()
     def get_all_stagings_matching_the_query(self, query: Query[StagingFilters]): # type: ignore
         queryset = Staging.objects.all().order_by('-date')
-        return [cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS) for staging in query.apply_filters(queryset)]
+        return [cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS) for staging in query.filter(queryset)]
 
 
     @route.post(

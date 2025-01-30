@@ -57,7 +57,7 @@ class TumorBoardController(ControllerBase):
     @paginate()
     def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters]): # type: ignore
         queryset = TumorBoard.objects.all().order_by('-date')
-        return [cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS) for tumorboard in query.apply_filters(queryset)]
+        return [cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS) for tumorboard in query.filter(queryset)]
 
 
     @route.post(

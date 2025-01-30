@@ -31,7 +31,7 @@ class FamilyHistoryController(ControllerBase):
     @paginate()
     def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters]): # type: ignore
         queryset = FamilyHistory.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

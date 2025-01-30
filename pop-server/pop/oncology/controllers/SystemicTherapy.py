@@ -32,7 +32,7 @@ class SystemicTherapyController(ControllerBase):
     @paginate()
     def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]): # type: ignore
         queryset = SystemicTherapy.objects.all().order_by('-period')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

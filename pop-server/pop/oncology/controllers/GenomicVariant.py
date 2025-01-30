@@ -29,7 +29,7 @@ class GenomicVariantController(ControllerBase):
     @paginate()
     def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters]): # type: ignore
         queryset = GenomicVariant.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
 
     @route.post(

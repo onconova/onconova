@@ -1,8 +1,9 @@
 from typing import get_args, List, Tuple, Optional
 import enum 
 import warnings
+from uuid import UUID
 from datetime import date, datetime
-
+from functools import partial 
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from django.db.models.fields import Field as DjangoField
 from django.db.models import CharField
@@ -187,15 +188,16 @@ def get_schema_field(
 
     
 FILTERS_MAP = {
-    str: schema_filters.StringFilters.values(),
-    type(enum.Enum): schema_filters.StringFilters.values(),
-    date: schema_filters.DateFilters.values(),
-    datetime: schema_filters.DateFilters.values(),
-    int: schema_filters.IntegerFilters.values(),
-    float: schema_filters.FloatFilters.values(),
-    MeasureSchema: schema_filters.FloatFilters.values(),
-    bool: schema_filters.BooleanFilters.values(),
-    CodedConceptSchema: schema_filters.CodedConceptFilters.values(),
+    str: schema_filters.STRING_FILTERS,
+    UUID: schema_filters.STRING_FILTERS,
+    date: schema_filters.DATE_FILTERS,
+    datetime: schema_filters.DATE_FILTERS,
+    PeriodSchema: schema_filters.PERIOD_FILTERS,
+    int: schema_filters.INTEGER_FILTERS,
+    float: schema_filters.FLOAT_FILTERS,
+    MeasureSchema: schema_filters.FLOAT_FILTERS,
+    bool: schema_filters.BOOLEAN_FILTERS,
+    CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
 }
 
 def get_schema_field_filters(field_name: str, field: FieldInfo):
@@ -210,14 +212,13 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
     filters = [] 
     # Check if field is optional
     if is_optional(annotation):
-        filters += schema_filters.NullFilters.values() 
+        filters += schema_filters.NULL_FILTERS
         annotation = get_args(annotation)[0]
 
-        
     # Add the filters for the corresponding type        
     filters += FILTERS_MAP.get(annotation, [])
     if field_name.endswith('Id') or field_name.endswith('Ids'):
-        filters += schema_filters.ReferenceFilters.values() 
+        filters += schema_filters.STRING_FILTERS
     if is_list(annotation):
         list_type = get_args(annotation)[0]
         if issubclass(list_type, PydanticBaseModel):
@@ -227,32 +228,25 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
             return subfield_filters 
                  
     if is_enum(annotation):
-        filters.append(schema_filters.FilterDetails(
-            name='',
-            value_type = annotation, 
-            django_lookup = '',
-            description = 'Filter for one of the value choices',
-        ))
-        filters.append(schema_filters.FilterDetails(
-            name='allOf',
-            value_type = List[annotation], 
-            django_lookup = 'in',
-            description = 'Filter for some of the value choices',
-        ))
+        for filter in schema_filters.ENUM_FILTERS:
+            filter.value_type = List[annotation] if is_list(filter.value_type) else annotation
+            filters.append(filter)
+
     if not filters:
         warnings.warn(f"No filters defined for field type: {annotation}")
     
     # Construct the Pydantic fields for each filter
     return [ 
         (
-            f'{field_name}.{filter.name}' if filter.name else field_name, 
+            f'{field_name}.{filter.name}' if filter.name else field_name,
             ( filter.value_type, FieldInfo(
                 default=None,
                 description=f'{field.title} - {filter.description}',
                 json_schema_extra={
-                    'x-orm-lookup': f'{field.alias}__{filter.django_lookup}',
+                    'x-orm-lookup': f'{field.alias}__{filter.lookup}',
                 }
-            ))
+            )),
+            (f"filter_{(f'{field_name}.{filter.name}' if filter.name else field_name).replace('.','_')}", filter.generate_query_expression(field=field_name))
         )
         for filter in filters
     ]

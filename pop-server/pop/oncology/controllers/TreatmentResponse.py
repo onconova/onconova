@@ -28,7 +28,7 @@ class TreatmentResponseController(ControllerBase):
     @paginate()
     def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]): # type: ignore
         queryset = TreatmentResponse.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

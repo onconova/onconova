@@ -32,7 +32,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @paginate()
     def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters]): # type: ignore
         queryset = ComorbiditiesAssessment.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

@@ -67,7 +67,7 @@ class GenomicSignatureController(ControllerBase):
     @paginate()
     def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters]): # type: ignore
         queryset = GenomicSignature.objects.all().order_by('-date')
-        return [cast_to_model_schema(staging.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS) for staging in query.apply_filters(queryset)]
+        return [cast_to_model_schema(staging.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS) for staging in query.filter(queryset)]
 
 
     @route.post(

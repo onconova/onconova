@@ -33,7 +33,7 @@ class PatientCaseController(ControllerBase):
     @paginate()
     def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters]):  # type: ignore
         queryset = PatientCase.objects.all().order_by('-created_at')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

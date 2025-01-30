@@ -28,7 +28,7 @@ class SurgeryController(ControllerBase):
     @paginate()
     def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters]): # type: ignore
         queryset = Surgery.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 

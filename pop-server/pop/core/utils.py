@@ -1,6 +1,7 @@
 
 from typing import Union, Literal, get_args, get_origin
 from enum import Enum
+from django.db.models.enums import ChoicesType
 
 def is_optional(field: type) -> bool:
     """
@@ -37,7 +38,7 @@ def is_enum(field: type) -> bool:
     Returns:
         bool: True if the field is an enumeration, False otherwise.
     """
-    return field.__class__ is type(Enum)
+    return field.__class__ is type(Enum) or type(field) is ChoicesType
 
 def is_literal(field: type) -> bool:
     """

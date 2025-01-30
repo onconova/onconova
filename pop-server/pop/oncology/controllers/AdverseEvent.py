@@ -36,7 +36,7 @@ class AdverseEventController(ControllerBase):
     @paginate()
     def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters]):  # type: ignore
         queryset = AdverseEvent.objects.all().order_by('-date')
-        return query.apply_filters(queryset)
+        return query.filter(queryset)
 
     @route.post(
         path='', 
