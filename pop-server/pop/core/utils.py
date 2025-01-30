@@ -1,6 +1,7 @@
 
 from typing import Union, Literal, get_args, get_origin
 from enum import Enum
+import re
 from django.db.models.enums import ChoicesType
 
 def is_optional(field: type) -> bool:
@@ -67,3 +68,16 @@ def to_camel_case(string: str) -> str:
             for n,word in enumerate(string.split('_'))
     ])
 
+
+def camel_to_snake(name: str) -> str:
+    """
+    Convert a string from camelCase to snake_case.
+
+    Args:
+        name (str): The string to convert.
+
+    Returns:
+        str: The converted string in snake_case format.
+    """
+
+    return re.sub(r'(?<!^)(?=[A-Z])', '_', name).lower()

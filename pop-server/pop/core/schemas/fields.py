@@ -20,7 +20,7 @@ from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema, UserSchema
 from pop.core.measures import MeasureSchema
 from pop.core.schemas import filters as schema_filters
-from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case
+from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case, camel_to_snake
 from pop.core.measures.fields import MeasurementField
 
 UserModel = get_user_model()
@@ -158,6 +158,10 @@ def get_schema_field(
     if default_factory:
         default = PydanticUndefined
 
+    if field.primary_key:
+        default = PydanticUndefined
+        default_factory = PydanticUndefined
+    
     if nullable:
         python_type = Optional[python_type] 
 
@@ -218,7 +222,7 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
     # Add the filters for the corresponding type        
     filters += FILTERS_MAP.get(annotation, [])
     if field_name.endswith('Id') or field_name.endswith('Ids'):
-        filters += schema_filters.STRING_FILTERS
+        filters += schema_filters.REFERENCE_FILTERS
     if is_list(annotation):
         list_type = get_args(annotation)[0]
         if issubclass(list_type, PydanticBaseModel):
@@ -236,18 +240,16 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
         warnings.warn(f"No filters defined for field type: {annotation}")
     
     # Construct the Pydantic fields for each filter
-    return [ 
-        (
-            f'{field_name}.{filter.name}' if filter.name else field_name,
+    filter_infos = []
+    for filter in filters:
+        filter_schema_attribute = f'{field_name}.{filter.name}' if filter.name else field_name
+        filter_infos.append((
+            filter_schema_attribute,
             ( filter.value_type, FieldInfo(
                 default=None,
                 description=f'{field.title} - {filter.description}',
-                json_schema_extra={
-                    'x-orm-lookup': f'{field.alias}__{filter.lookup}',
-                }
             )),
-            (f"filter_{(f'{field_name}.{filter.name}' if filter.name else field_name).replace('.','_')}", filter.generate_query_expression(field=field_name))
-        )
-        for filter in filters
-    ]
+            (f"filter_{filter_schema_attribute.replace('.','_')}", filter.generate_query_expression(field=camel_to_snake(field_name)))
+        ))
+    return filter_infos
 

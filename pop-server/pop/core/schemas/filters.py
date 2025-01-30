@@ -20,6 +20,8 @@ class DjangoFilter:
 
     @staticmethod
     def query_expression(schema, value, field, lookup, negative):
+        if value is None:
+            return Q()
         query =  Q(**{f'{field}__{lookup}': value})
         return ~query if negative else query 
     
@@ -356,8 +358,8 @@ class DescendantsOfConceptFilter(DjangoFilter):
 
     @staticmethod
     def query_expression(schema, value, field, lookup, negative):
-        if not value:
-            return None
+        if value is None:
+            return Q()
         terminology = schema._queryset_model._meta.get_field(field).related_model
         concept = terminology.objects.get(code=value)
 
@@ -423,3 +425,18 @@ PERIOD_FILTERS = (
 )
 
     
+
+class ExactRefereceFilter(DjangoFilter):
+    name = ''
+    description = 'Filter for reference matches'
+    value_type = str
+    lookup = 'exact'
+class NotExactRefereceFilter(ExactStringFilter):
+    name = 'not'
+    description = 'Filter for reference mismatches'
+    value_type = str
+    negative = True
+
+REFERENCE_FILTERS = (
+    ExactRefereceFilter, NotExactRefereceFilter,
+)
