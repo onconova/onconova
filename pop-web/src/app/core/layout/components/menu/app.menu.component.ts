@@ -41,8 +41,8 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Cohort Analysis',
                 items: [
-                    { label: 'Cohort Builder', icon: 'pi pi-fw pi-hammer', routerLink: ['/cohorts/builder'] },
-                    { label: 'Cohort Analysis', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/notfound'] },
+                    { label: 'Search Cohorts', icon: 'pi pi-fw pi-search', routerLink: ['/cohorts/search'] },
+                    { label: 'My Cohorts', icon: 'pi pi-fw pi-user', routerLink: ['/cohorts/search/', , this.authService.getUsername()] },
                     { label: 'Cohort Extraction', icon: 'pi pi-fw pi-table', routerLink: ['/notfound'] },
                 ]
             },

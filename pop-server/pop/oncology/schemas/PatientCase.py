@@ -45,7 +45,6 @@ class PatientCaseFilters(PatientCaseFiltersBase):
     manager: Optional[str] = Field(None, description='Filter for a particular case manager by its username')
 
     def filter_manager(self, value: str) -> Q:
-        print('MANAGETR', value)
         return Q(created_by__username=self.manager) if value is not None else Q()
 
 

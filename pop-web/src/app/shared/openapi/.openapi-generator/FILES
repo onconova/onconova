@@ -76,7 +76,15 @@ model/clark-staging.ts
 model/coded-concept-schema.ts
 model/cohort-builder-config.ts
 model/cohort-builder-entity.ts
+model/cohort-builder-field-option.ts
 model/cohort-builder-field.ts
+model/cohort-create-schema.ts
+model/cohort-filters.ts
+model/cohort-query-entity.ts
+model/cohort-query-filter.ts
+model/cohort-rule-type.ts
+model/cohort-schema.ts
+model/cohort-statistics-schema.ts
 model/comorbidities-assessment-create-schema.ts
 model/comorbidities-assessment-filters.ts
 model/comorbidities-assessment-panel-choices.ts
@@ -137,6 +145,7 @@ model/paginated-any-genomic-signature.ts
 model/paginated-any-staging.ts
 model/paginated-any-tumor-board.ts
 model/paginated-coded-concept-schema.ts
+model/paginated-cohort-schema.ts
 model/paginated-comorbidities-assessment-schema.ts
 model/paginated-family-history-schema.ts
 model/paginated-genomic-variant-schema.ts

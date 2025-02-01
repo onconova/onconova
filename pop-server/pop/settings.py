@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'pop.core',
     'pop.terminology',
     'pop.oncology',
-    'pop.research',
+    'pop.cohorts',
     'secured_fields',
     'ninja_extra',
     'corsheaders',
@@ -148,7 +148,7 @@ USE_TZ = True                   # Do not make datetimes timezone-aware by defaul
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'                                             # URL to use when referring to static files located in STATIC_ROOT
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]           # Additional locations the staticfiles app will traverse
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]           # Additional locations the staticfiles app will traverse
 STATIC_ROOT = '/app/static' # Absolute path to the directory where collectstatic will collect static files for deployment.
 MEDIA_ROOT = '/app/media'      # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_URL = '/media/'                                               # URL that handles the media served from MEDIA_ROOT, used for managing stored files

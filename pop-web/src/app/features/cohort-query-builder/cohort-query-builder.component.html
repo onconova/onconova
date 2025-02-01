@@ -1,0 +1,88 @@
+@let config = config$ | async;
+
+<ng-container *ngIf="config">
+<query-builder [(ngModel)]="query" (ngModelChange)="onQueryChange($event)"  [config]="config" [allowCollapse]="true" [classNames]="{row: 'row flex gap-3 p-1 m-3'}">
+
+
+    <ng-container *querySwitchGroup="let ruleset">
+        <p-selectbutton *ngIf="ruleset" [options]="rulesetConditions" [(ngModel)]="ruleset.condition"  optionLabel="label" optionValue="value" />
+    </ng-container>
+
+    <ng-container *queryArrowIcon>
+        <i class="pi pi-angle-right" style="line-height: 1.5rem; color: var(--p-button-text-secondary-color);"></i>
+    </ng-container>
+
+    <ng-container *queryButtonGroup="let ruleset; let addRule=addRule; let addRuleSet=addRuleSet; let removeRuleSet=removeRuleSet">
+        <div class="flex">
+            <p-buttongroup>
+                <p-button label="Rule" icon="pi pi-plus" severity="secondary" (click)="addRule()"/>
+                <p-button label="Ruleset" icon="pi pi-folder-plus" severity="secondary" (click)="addRuleSet()"/>
+                <p-button label="Ruleset" icon="pi pi-trash" severity="secondary" (click)="removeRuleSet()"/>
+            </p-buttongroup>
+        </div>
+    </ng-container>
+
+    <ng-container *queryRemoveButton="let rule; let removeRule=removeRule">
+        <p-button icon="pi pi-trash" class="remove-rule-button" [rounded]="true" [text]="true" severity="secondary" (click)="removeRule(rule)"/>
+    </ng-container>
+
+    <!-- Override input component for entities -->
+    <ng-container *queryEntity="let rule; let entities=entities; let onChange=onChange">
+        <p-select [options]="entities" [(ngModel)]="rule.entity" (ngModelChange)="onChange($event, rule)" [filter]="true" filterBy="name" placeholder="Select an entity" optionValue="value" optionLabel="name" appendTo="body"/>
+    </ng-container>
+
+    <!-- Override input component for fields -->
+    <ng-container *queryField="let rule; let fields=fields; let onChange=onChange">
+        <p-select [options]="fields | filterByEntity:rule.entity" [(ngModel)]="rule.field" [filter]="true" filterBy="name"  (ngModelChange)="onChange($event, rule)" placeholder="Select a field" optionValue="value" optionLabel="name" appendTo="body"/>
+    </ng-container>
+
+    <!-- Override input component for operators -->
+    <ng-container *queryOperator="let rule; let operators=operators">
+        <p-select [options]="operators | mapOperators" [(ngModel)]="rule.operator" [filter]="true" filterBy="name" placeholder="Select a filter" optionValue="value" optionLabel="name"  appendTo="body"/>
+    </ng-container>
+
+    <!-- Override input component for 'date' type -->
+    <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Date">
+        <masked-calendar [(ngModel)]="rule.value"/>
+    </ng-container>
+
+    <!-- Override input component for 'string' type -->
+    <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.String">
+        <input type="text" pInputText [(ngModel)]="rule.value" placeholder="Enter a query"/>
+
+    </ng-container>
+
+    <!-- Override input component for 'enum' type -->
+    <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Enum">
+        <p-select [options]="options" [(ngModel)]="rule.value" placeholder="Select a filter" appendTo="body"/>
+    </ng-container>
+
+    <!-- Override input component for 'number' type -->
+    <ng-container *queryInput="let rule; type: CohortRuleType.Measure">
+        <p-inputnumber [(ngModel)]="rule.value" placeholder="Enter a value" useGrouping="false" mode="decimal" [minFractionDigits]="1" [maxFractionDigits]="3" locale="en-US"/>
+    </ng-container>
+
+    <!-- Override input component for 'number' type -->
+    <ng-container *queryInput="let rule; type: CohortRuleType.Number">
+        <p-inputnumber [(ngModel)]="rule.value" placeholder="Enter a value" useGrouping="false" mode="decimal" [minFractionDigits]="1" [maxFractionDigits]="3" locale="en-US"/>
+    </ng-container>
+
+    <!-- Override input component for 'boolean' type -->
+    <ng-container *queryInput="let rule; type: CohortRuleType.Boolean">
+        <p-selectbutton [options]="booleanOptions" [(ngModel)]="rule.value" optionLabel="label" optionValue="value" aria-labelledby="basic" />
+    </ng-container>
+
+    <!-- Override input component for 'coded_concept' type -->
+    <ng-container *queryInput="let rule; let field=field; let options=options; type: CohortRuleType.CodedConcept">
+        <coded-concept-select 
+            [ngModel]="selectedCodedConcept" 
+            (ngModelChange)="rule.value = getCodesFromEvent($event)"
+            [terminology]="options[0].value"
+            [returnCode]="true"
+            [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(rule.operator)"
+            [showSynonyms]="false"/>
+    </ng-container>
+
+
+</query-builder>
+</ng-container>

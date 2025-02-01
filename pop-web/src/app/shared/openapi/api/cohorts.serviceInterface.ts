@@ -12,10 +12,146 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { CohortBuilderConfig } from '../model/models';
+import { CohortCreateSchema } from '../model/models';
+import { CohortSchema } from '../model/models';
+import { CohortStatisticsSchema } from '../model/models';
+import { ModifiedResourceSchema } from '../model/models';
+import { PaginatedCohortSchema } from '../model/models';
+import { PaginatedPatientCase } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
+
+export interface CreateCohortRequestParams {
+    cohortCreateSchema: CohortCreateSchema;
+}
+
+export interface DeleteCohortByIdRequestParams {
+    cohortId: string;
+}
+
+export interface GetCohortByIdRequestParams {
+    cohortId: string;
+}
+
+export interface GetCohortCasesRequestParams {
+    cohortId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetCohortStatisticsRequestParams {
+    cohortId: string;
+}
+
+export interface GetCohortsRequestParams {
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    createdAtBefore?: string;
+    createdAtAfter?: string;
+    createdAtOnOrBefore?: string;
+    createdAtOnOrAfter?: string;
+    createdAtOn?: string;
+    createdAtNotOn?: string;
+    createdAtBetween?: Array<any>;
+    createdAtNotBetween?: Array<any>;
+    updatedAtBefore?: string;
+    updatedAtAfter?: string;
+    updatedAtOnOrBefore?: string;
+    updatedAtOnOrAfter?: string;
+    updatedAtOn?: string;
+    updatedAtNotOn?: string;
+    updatedAtBetween?: Array<any>;
+    updatedAtNotBetween?: Array<any>;
+    createdByNotExists?: boolean;
+    createdByExists?: boolean;
+    updatedBysIdLessThan?: number;
+    updatedBysIdLessThanOrEqual?: number;
+    updatedBysIdGreaterThan?: number;
+    updatedBysIdGreaterThanOrEqual?: number;
+    updatedBysIdEqual?: number;
+    updatedBysIdNotEqual?: number;
+    updatedBysIdBetween?: Array<any>;
+    updatedBysIdNotBetween?: Array<any>;
+    updatedBysUsername?: string;
+    updatedBysUsernameNot?: string;
+    updatedBysUsernameContains?: string;
+    updatedBysUsernameNotContains?: string;
+    updatedBysUsernameBeginsWith?: string;
+    updatedBysUsernameNotBeginsWith?: string;
+    updatedBysUsernameEndsWith?: string;
+    updatedBysUsernameNotEndsWith?: string;
+    updatedBysEmail?: string;
+    updatedBysEmailNot?: string;
+    updatedBysEmailContains?: string;
+    updatedBysEmailNotContains?: string;
+    updatedBysEmailBeginsWith?: string;
+    updatedBysEmailNotBeginsWith?: string;
+    updatedBysEmailEndsWith?: string;
+    updatedBysEmailNotEndsWith?: string;
+    updatedBysFirstNameNotExists?: boolean;
+    updatedBysFirstNameExists?: boolean;
+    updatedBysFirstName?: string;
+    updatedBysFirstNameNot?: string;
+    updatedBysFirstNameContains?: string;
+    updatedBysFirstNameNotContains?: string;
+    updatedBysFirstNameBeginsWith?: string;
+    updatedBysFirstNameNotBeginsWith?: string;
+    updatedBysFirstNameEndsWith?: string;
+    updatedBysFirstNameNotEndsWith?: string;
+    updatedBysLastNameNotExists?: boolean;
+    updatedBysLastNameExists?: boolean;
+    updatedBysLastName?: string;
+    updatedBysLastNameNot?: string;
+    updatedBysLastNameContains?: string;
+    updatedBysLastNameNotContains?: string;
+    updatedBysLastNameBeginsWith?: string;
+    updatedBysLastNameNotBeginsWith?: string;
+    updatedBysLastNameEndsWith?: string;
+    updatedBysLastNameNotEndsWith?: string;
+    name?: string;
+    nameNot?: string;
+    nameContains?: string;
+    nameNotContains?: string;
+    nameBeginsWith?: string;
+    nameNotBeginsWith?: string;
+    nameEndsWith?: string;
+    nameNotEndsWith?: string;
+    includeCriteriaNotExists?: boolean;
+    includeCriteriaExists?: boolean;
+    excludeCriteriaNotExists?: boolean;
+    excludeCriteriaExists?: boolean;
+    isPublic?: boolean;
+    casesIds?: string;
+    casesIdsNot?: string;
+    manualChoicesIds?: string;
+    manualChoicesIdsNot?: string;
+    frozenSetIds?: string;
+    frozenSetIdsNot?: string;
+    populationLessThan?: number;
+    populationLessThanOrEqual?: number;
+    populationGreaterThan?: number;
+    populationGreaterThanOrEqual?: number;
+    populationEqual?: number;
+    populationNotEqual?: number;
+    populationBetween?: Array<any>;
+    populationNotBetween?: Array<any>;
+    createdBy?: string | null;
+    limit?: number;
+    offset?: number;
+}
+
+export interface UpdateCohortRequestParams {
+    cohortId: string;
+    cohortCreateSchema: CohortCreateSchema;
+}
 
 
 export interface CohortsServiceInterface {
@@ -23,9 +159,58 @@ export interface CohortsServiceInterface {
     configuration: Configuration;
 
     /**
+     * Create Cohort
+     * 
+* @param requestParameters
+     */
+    createCohort(requestParameters: CreateCohortRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+
+    /**
+     * Delete Cohort
+     * 
+* @param requestParameters
+     */
+    deleteCohortById(requestParameters: DeleteCohortByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
      * Get Cohort Builder Configuration
      * 
 */
     getCohortBuilderConfig(extraHttpRequestParams?: any): Observable<CohortBuilderConfig>;
+
+    /**
+     * Get Cohort By Id
+     * 
+* @param requestParameters
+     */
+    getCohortById(requestParameters: GetCohortByIdRequestParams, extraHttpRequestParams?: any): Observable<CohortSchema>;
+
+    /**
+     * Get Cohort Cases
+     * 
+* @param requestParameters
+     */
+    getCohortCases(requestParameters: GetCohortCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+
+    /**
+     * Get Cohort Statistics
+     * 
+* @param requestParameters
+     */
+    getCohortStatistics(requestParameters: GetCohortStatisticsRequestParams, extraHttpRequestParams?: any): Observable<CohortStatisticsSchema>;
+
+    /**
+     * Get All Cohorts Matching The Query
+     * 
+* @param requestParameters
+     */
+    getCohorts(requestParameters: GetCohortsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedCohortSchema>;
+
+    /**
+     * Update Cohort
+     * 
+* @param requestParameters
+     */
+    updateCohort(requestParameters: UpdateCohortRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
 
 }

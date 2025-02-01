@@ -6,14 +6,12 @@
   [showClear]="true"
   [forceSelection]="true"
   [suggestions]="concepts || []"
-  dataKey="code"
   (completeMethod)="updateConcepts($event)"
   [multiple]="multiple"
   [unique]="true"
   [completeOnFocus]="true"
   [placeholder]="placeholder"
   optionLabel="display"
-  [optionValue]="returnCode ? 'code' : undefined"
   appendTo="body"
 >
   <!-- Custom item template -->

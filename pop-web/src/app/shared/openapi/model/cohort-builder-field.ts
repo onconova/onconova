@@ -7,12 +7,20 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CohortBuilderFieldOption } from './cohort-builder-field-option';
+import { CohortQueryEntity } from './cohort-query-entity';
+import { CohortQueryFilter } from './cohort-query-filter';
+import { CohortRuleType } from './cohort-rule-type';
 
 
 export interface CohortBuilderField { 
     name: string;
-    operators: Array<string>;
-    type: string;
-    entity: string;
+    operators: Array<CohortQueryFilter>;
+    type: CohortRuleType;
+    entity: CohortQueryEntity;
+    options?: Array<CohortBuilderFieldOption>;
 }
+export namespace CohortBuilderField {
+}
+
 

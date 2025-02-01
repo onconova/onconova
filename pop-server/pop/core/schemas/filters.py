@@ -29,6 +29,10 @@ class DjangoFilter:
     def generate_query_expression(cls, field: str):
         return partial(cls.query_expression, field=field, lookup=cls.lookup, negative=cls.negative)
 
+    @classmethod
+    def get_query(cls, field: str, value):
+        return cls.query_expression(None, field=field, value=value, lookup=cls.lookup, negative=cls.negative)
+
 
 
 class ExactStringFilter(DjangoFilter):
@@ -439,4 +443,19 @@ class NotExactRefereceFilter(ExactStringFilter):
 
 REFERENCE_FILTERS = (
     ExactRefereceFilter, NotExactRefereceFilter,
+)
+
+
+__all__ = (
+    *STRING_FILTERS,
+    *DATE_FILTERS,
+    *PERIOD_FILTERS,
+    *INTEGER_FILTERS,
+    *FLOAT_FILTERS,
+    *BOOLEAN_FILTERS,
+    *CODED_CONCEPT_FILTERS,
+    *REFERENCE_FILTERS,
+    *ENUM_FILTERS,
+    *NULL_FILTERS,
+    
 )

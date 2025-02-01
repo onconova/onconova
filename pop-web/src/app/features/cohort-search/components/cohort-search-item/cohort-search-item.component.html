@@ -1,0 +1,10 @@
+
+<div class="cohort-search-card card flex-column flex-grow-0 p-3 gap-3 mb-3" style="width: 30rem;">
+    {{cohort.name}}
+    <p-confirmdialog />
+    <p-splitbutton
+        label="Open case management"
+        class="mt-auto"
+        dropdownIcon="pi pi-cog" [model]="actionItems"
+        (onClick)="openCohortManagement()" />
+</div>
