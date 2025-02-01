@@ -39,7 +39,6 @@ pip-proxy.sh
 # ---- Angular ----
 
 # Compiled JavaScript files
-*.js
 *.js.map
 
 # Node modules
