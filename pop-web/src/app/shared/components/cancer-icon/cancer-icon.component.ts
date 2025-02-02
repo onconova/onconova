@@ -17,7 +17,8 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 export class CancerIconComponent {
 
     @Input() topography!: string;
-    public icon : string = 'assets/images/body/symptom.svg';
+    public defaultIcon : string = 'assets/images/body/unknown.svg';
+    public icon: string = this.defaultIcon;
     private icons = {
         'mouth.svg': ['C00', 'C01', 'C02', 'C03', 'C04', 'C06'],
         'head.svg': ['C07', 'C08', 'C09', 'C10', 'C11', 'C12', 'C13', 'C14',],
@@ -55,16 +56,19 @@ export class CancerIconComponent {
 
 
     ngOnInit() {
-        console.log(this.topography)
-        Object.entries(this.icons).forEach(
-            icon => {
-                const topographies = icon[1];
-                if (topographies.includes(this.topography.split('.')[0])) {
-                    this.icon = `assets/images/body/${icon[0]}`
-                    return
+        if (!this.topography) {
+            this.icon = this.defaultIcon
+        } else {
+            Object.entries(this.icons).forEach(
+                icon => {
+                    const topographies = icon[1];
+                    if (topographies.includes(this.topography.split('.')[0])) {
+                        this.icon = `assets/images/body/${icon[0]}`
+                        return
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
 }

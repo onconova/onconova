@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { catchError, map, of} from 'rxjs';
@@ -23,7 +23,7 @@ export class RandomPaperComponent {
   illustration='assets/images/landing/papers.svg';
   today = new Date();
 
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient)
 
   // Helper to generate a deterministic hash based on the current date
   private getDateBasedIndex(length: number): number {
