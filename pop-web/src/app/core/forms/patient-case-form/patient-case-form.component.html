@@ -10,7 +10,7 @@
 
         <div class="field">
             <label for="date-of-birth" class="form-label required">Date of Birth</label>
-            <masked-calendar 
+            <pop-datepicker 
                 formControlName="dateOfBirth"
                 view="month" 
                 dateFormat="mm/yy" 
@@ -27,7 +27,7 @@
 
         <div class="field" *ngIf="!form.value.isAlive">
             <label class="form-label required">Date of Death</label>
-            <masked-calendar 
+            <pop-datepicker 
                 formControlName="dateOfDeath"
                 view="month" 
                 dateFormat="mm/yy" 

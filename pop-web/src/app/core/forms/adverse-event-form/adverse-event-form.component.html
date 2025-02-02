@@ -3,7 +3,7 @@
 
         <div class="field">
             <label for="date" class="form-label required">Date of the event</label>
-            <masked-calendar 
+            <pop-datepicker 
                 formControlName="date"
             />
             <control-error controlName="date"></control-error>
@@ -54,7 +54,7 @@
 
         <div class="field" *ngIf="form.value.outcome === AdverseEventOutcomeChoices.Resolved || form.value.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae">
             <label for="date" class="form-label required">Date when the event was resolved</label>
-            <masked-calendar 
+            <pop-datepicker 
                 formControlName="dateResolved"/>
             <control-error controlName="dateResolved"></control-error>
         </div>

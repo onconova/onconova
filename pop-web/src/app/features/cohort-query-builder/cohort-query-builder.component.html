@@ -43,7 +43,7 @@
 
     <!-- Override input component for 'date' type -->
     <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Date">
-        <masked-calendar [(ngModel)]="rule.value"/>
+        <pop-datepicker [(ngModel)]="rule.value"/>
     </ng-container>
 
     <!-- Override input component for 'string' type -->

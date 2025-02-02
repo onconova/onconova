@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable,map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { Tablets } from 'lucide-angular';
 
@@ -27,7 +26,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent ,
   ReferenceMultiSelect,
   RadioChoice,
@@ -45,7 +44,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     InputNumber,
     ButtonModule,
@@ -188,8 +187,8 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             caseId: this.caseId,
             targetedEntitiesIds: data.targetedEntities,
             period: {
-                start: data.period.start? data.period.start: moment(data.period.split(' - ')[0], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
-                end: data.period.end? data.period.end: moment(data.period.split(' - ')[1], ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+                start: data.period.start? data.period.start: data.period.split(' - ')[0],
+                end: data.period.end? data.period.end: data.period.split(' - ')[1],
             },
             cycles: data.cycles,
             intent: data.intent,

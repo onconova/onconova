@@ -7,12 +7,10 @@ import { ButtonModule } from 'primeng/button';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { Fluid } from 'primeng/fluid';
 
-import * as moment from 'moment';
-
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent 
 } from '../components';
 
@@ -28,7 +26,7 @@ import { EmptyObject } from 'chart.js/dist/types/basic';
     FormsModule, 
     ReactiveFormsModule,
     CodedConceptSelectComponent,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     ControlErrorComponent,
     ButtonModule,
     ToggleSwitch,
@@ -67,9 +65,9 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
   constructAPIPayload(data: any): PatientCaseCreate {
     return {
       gender: data.gender,
-      dateOfBirth: moment(data.dateOfBirth, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'),
-      dateOfDeath: !data.isAlive?  moment(data.dateOfDeath, ['MM/YYYY','YYYY-MM-DD']).format('YYYY-MM-DD'): null,
-      causeOfDeath: !data.isAlive? data.causeOfDeath: null,
+      dateOfBirth: data.dateOfBirth,
+      dateOfDeath: !data.isAlive ? data.dateOfDeath : null,
+      causeOfDeath: !data.isAlive ? data.causeOfDeath: null,
     };
   }
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { CodedConceptSelectComponent } from 'src/app/core/forms/components';
-import { MaskedCalendarComponent } from 'src/app/core/forms/components';
+import { DatePickerComponent } from 'src/app/core/forms/components';
 import { forwardRef } from '@angular/core';
 
 import { 
@@ -184,7 +184,7 @@ export class filterByEntityPipe implements PipeTransform {
         InputText,
         Select,
         CodedConceptSelectComponent,
-        MaskedCalendarComponent,
+        DatePickerComponent,
         MapOperatorsPipe,        
         filterByEntityPipe,
     ]

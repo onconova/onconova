@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { flatMap, forkJoin, map, mergeMap, Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { ShieldAlert } from 'lucide-angular';
 
@@ -41,7 +40,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent,
   RadioChoice,
   ReferenceMultiSelect,
@@ -84,7 +83,7 @@ export class getEventGradesPipe implements PipeTransform {
     SelectModule,
     MultiSelectModule,
     RadioButton,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     Fieldset,
     ReferenceMultiSelect,
@@ -223,11 +222,11 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     constructAPIPayload(data: any): AdverseEventCreateSchema {    
         return {
             caseId: this.caseId,
-            date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            date: data.date,
             event: data.event,
             grade: data.grade,
             outcome: data.outcome,
-            dateResolved: data.outcome === AdverseEventOutcomeChoices.Resolved || data.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae ?  moment(data.dateResolved, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD') : null,
+            dateResolved: data.outcome === AdverseEventOutcomeChoices.Resolved || data.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae ?  data.dateResolved : null,
         }
     }
 

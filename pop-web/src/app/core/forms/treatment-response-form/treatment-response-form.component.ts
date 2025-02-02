@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable,map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { HeartPulse } from 'lucide-angular';
 
@@ -21,7 +20,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent ,
   ReferenceMultiSelect,
   RadioSelectComponent,
@@ -38,7 +37,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     InputNumber,
     ButtonModule,
@@ -93,7 +92,7 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
         return {
         caseId: this.caseId,
         assessedEntitiesIds: data.assessedEntities,
-        date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+        date: data.date,
         recist: data.recist,
         recistInterpreted: data.recistInterpreted,
         assessedBodysites: data.assessedBodysites,

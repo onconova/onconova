@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { Dna } from 'lucide-angular';
 
@@ -23,7 +22,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent,
   RadioChoice,
   RadioSelectComponent,
@@ -41,7 +40,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     ReactiveFormsModule,
     FormsModule,
     SelectModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     InputNumber,
     InputTextModule,
@@ -135,7 +134,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     constructAPIPayload(data: any): GenomicVariantCreateSchema {    
         return {
             caseId: this.caseId,
-            date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            date: data.date,
             genes: data.genes,
             chromosomes: data.chromosomes,
             genePanel: data.genePanel,            

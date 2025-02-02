@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { map, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { DiamondPlus } from 'lucide-angular';
 
@@ -26,7 +25,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent ,
   ReferenceMultiSelect,
   RadioChoice,
@@ -43,7 +42,7 @@ import { Observable } from 'rxjs';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     Select,
     ToggleSwitchModule,
@@ -150,7 +149,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
     return {
       caseId: this.caseId,
       indexconditionId: data.indexCondition,
-      date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+      date: data.date,
       panel: data.panel,
       presentConditions: panelData ? panelData.present : data.presentConditions,
       absentConditions: panelData ? panelData.absent : data.absentConditions,

@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import * as moment from 'moment'; 
 
 import { Ribbon } from 'lucide-angular';
 
@@ -19,7 +18,7 @@ import { Fluid } from 'primeng/fluid';
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent 
 } from '../../forms/components';
 
@@ -36,7 +35,7 @@ type MorphologicalBehaviors = '/3' | '/6' | '/1';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     Select,
     ButtonModule,
@@ -102,7 +101,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
       relationship: data.relationship,
       topography: data.topography,
       relatedPrimaryId: data.relatedPrimary,
-      assertionDate: moment(data.assertionDate, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+      assertionDate: data.assertionDate,
       morphology: data.morphology,
       laterality: data.laterality,
       differentitation: data.differentiation,

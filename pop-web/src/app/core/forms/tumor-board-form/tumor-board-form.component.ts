@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { forkJoin, map, Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { Presentation } from 'lucide-angular';
 
@@ -34,7 +33,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent,
   RadioChoice,
   ReferenceMultiSelect,
@@ -60,7 +59,7 @@ export type AnyTumorBoardCreateSchema = UnspecifiedTumorBoardCreateSchema | Mole
     FormsModule,
     SelectModule,
     MultiSelectModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     Fieldset,
     ReferenceMultiSelect,
@@ -237,7 +236,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
         return {
             caseId: this.caseId,
             category: data.category,
-            date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            date: data.date,
             relatedEntitiesIds: data.relatedEntities,
             recommendations: data.recommendations,
             ...additionalData

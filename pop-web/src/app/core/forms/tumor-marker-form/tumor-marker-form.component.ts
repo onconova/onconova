@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable,map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { TestTubeDiagonal } from 'lucide-angular';
 
@@ -32,7 +31,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent ,
   MeasureInputComponent,
   ReferenceMultiSelect,
@@ -52,7 +51,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     RadioButton,
     SelectButton,
@@ -195,7 +194,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
     return {
       caseId: this.caseId,
       relatedEntitiesIds: data.stagedEntities,
-      date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+      date: data.date,
       analyte: data.analyte,
       massConcentration: data.valueType==AnalyteResultType.MassConcentration ? data.massConcentration : null,
       substanceConcentration: data.valueType==AnalyteResultType.SubstanceConcentration ? data.substanceConcentration : null,

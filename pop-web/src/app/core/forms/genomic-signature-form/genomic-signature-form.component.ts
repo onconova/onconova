@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { Fingerprint } from 'lucide-angular';
 
@@ -26,7 +25,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent,
   RadioChoice,
   RadioSelectComponent
@@ -45,7 +44,7 @@ export type AnyGenomicSignatureCreateSchema = TumorMutationalBurdenCreateSchema 
     ReactiveFormsModule,
     FormsModule,
     SelectModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     InputNumber,
     ButtonModule,
@@ -182,7 +181,7 @@ export class GenomicSignatureFormComponent extends AbstractFormBase implements O
         return {
             caseId: this.caseId,
             category: data.category,
-            date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            date: data.date,
             value: signatureValue,
             ...additionalData
         };

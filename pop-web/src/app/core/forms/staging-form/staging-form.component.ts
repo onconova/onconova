@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, FormGroupDirective } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import * as moment from 'moment'; 
 
 import { Tags } from 'lucide-angular';
 
@@ -35,7 +34,7 @@ import { InputNumber } from 'primeng/inputnumber';
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent,
   ReferenceMultiSelect,
 } from '../../forms/components';
@@ -82,7 +81,7 @@ type StagingCreate = TNMStagingCreate
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     Select,
     InputNumber,
@@ -221,7 +220,7 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
         const sharedValues = {
             stagingDomain: this.currentStagingForm,
             caseId: this.caseId,
-            date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            date: data.date,
             stagedEntitiesIds: data.stagedEntities,
             stage: data.stage,
         }

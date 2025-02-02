@@ -2,7 +2,6 @@ import { Component, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import * as moment from 'moment'; 
 
 import { Cigarette } from 'lucide-angular';
 
@@ -18,7 +17,7 @@ import {
 
 import { 
   CodedConceptSelectComponent, 
-  MaskedCalendarComponent,
+  DatePickerComponent,
   ControlErrorComponent,
   RadioSelectComponent,
   MeasureInputComponent,
@@ -35,7 +34,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     ReactiveFormsModule,
     FormsModule,
     SelectModule,
-    MaskedCalendarComponent,
+    DatePickerComponent,
     Fluid,
     InputNumber,
     ButtonModule,
@@ -87,7 +86,7 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
     constructAPIPayload(data: any): LifestyleCreateSchema {    
         return {
             caseId: this.caseId,
-            date: moment(data.date, ['DD/MM/YYYY','YYYY-MM-DD'], true).format('YYYY-MM-DD'),
+            date: data.date,
             smokingStatus: data.smokingStatus,
             smokingPackyears: data.smokingPackyears,
             smokingQuited: data.smokingQuited,
