@@ -1,0 +1,75 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date recorded</label>
+            <pop-datepicker 
+                formControlName="date"
+            />
+            <pop-form-control-error controlName="date"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Relationship to the patient</label>
+            <pop-concept-selector 
+                formControlName="relationship"
+                terminology="FamilyMemberType"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="relationship"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <p-toggleswitch formControlName="hadCancer" />
+            <label class="form-label required ml-2 mb-3">Relative has a history of cancer</label>
+            <pop-form-control-error controlName="hadCancer"></pop-form-control-error>
+        </div>
+
+        <ng-container *ngIf="form.value.hadCancer"> 
+
+            <div class="field">
+                <label class="form-label">Topography</label>
+                <pop-concept-selector 
+                    formControlName="topography"
+                    terminology="CancerTopography"
+                    [showSynonyms]="true"/>
+                <pop-form-control-error controlName="topography"></pop-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Morphology</label>
+                <pop-concept-selector 
+                    formControlName="morphology"
+                    terminology="CancerMorphology"
+                    [showSynonyms]="true"/>
+                <pop-form-control-error controlName="morphology"></pop-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Approximate age at which the cancer was diagnosed</label>
+                <p-inputnumber 
+                    formControlName="onsetAge"
+                    suffix=" years"
+                    placeholder="Enter an age estimate"/>
+                <pop-form-control-error controlName="onsetAge"></pop-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Did the cancer contribute to the relative's death?</label>
+                <pop-radio-select  
+                    formControlName="contributedToDeath"
+                    [choices]="contributedToDeathChoices"
+                    class="flex flex-wrap gap-4"/>
+                <pop-form-control-error controlName="contributedToDeath"></pop-form-control-error>
+            </div>
+
+    </ng-container> 
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

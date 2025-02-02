@@ -16,7 +16,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @Component({
     standalone: true,
-    selector: 'app-case-importer',
+    selector: 'pop-case-importer',
     templateUrl: 'case-importer.component.html',
     imports:  [
         FileUpload,

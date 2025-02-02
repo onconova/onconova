@@ -11,7 +11,7 @@ import { Button } from 'primeng/button';
 
 @Component({
     standalone: true,
-  selector: 'app-random-paper',
+  selector: 'pop-random-paper',
   templateUrl: './random-paper.component.html',
   styleUrls: ['./random-paper.component.css'],
   imports: [CommonModule, Divider, Button, Skeleton, Card, InlineSVGModule],

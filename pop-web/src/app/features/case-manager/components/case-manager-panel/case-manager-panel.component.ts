@@ -32,7 +32,7 @@ export interface DataService {
 
 @Component({
     standalone: true,
-    selector: 'app-case-manager-panel',
+    selector: 'pop-case-manager-panel',
     templateUrl: './case-manager-panel.component.html',
     styleUrl: './case-manager-panel.component.css',
     encapsulation: ViewEncapsulation.None,

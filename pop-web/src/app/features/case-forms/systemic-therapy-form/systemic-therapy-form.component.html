@@ -1,0 +1,147 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="flex flex-wrap">
+
+            <div class="field">
+                <label class="form-label required">Treatment period</label>
+                <pop-datepicker 
+                    formControlName="period"
+                    selectionMode="range"
+                    placeholder="DD/MM/YYYY - DD/MM/YYYY"
+                />
+                <pop-form-control-error controlName="period"></pop-form-control-error>
+            </div>
+
+
+            <div class="field ml-5" style="width: 25%">
+                <label class="form-label required">Cycles</label>
+                <p-inputnumber 
+                formControlName="cycles"
+                placeholder="Enter value" 
+                useGrouping="false"
+                suffix=" cycle(s)"/>
+                <pop-form-control-error controlName="cycles"></pop-form-control-error>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Neoplastic entities targeted</label>
+            <pop-multi-reference-select 
+            formControlName="targetedEntities"
+            [options]="relatedEntities"/>
+            <pop-form-control-error controlName="targetedEntities"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Medication(s)</label>
+            <pop-concept-selector 
+                formControlName="drugs"
+                terminology="AntineoplasticAgent"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <pop-form-control-error controlName="drugs"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Intent</label>
+            <pop-radio-select  
+            formControlName="intent"
+            [choices]="intentChoices"
+            class="flex flex-wrap gap-4"/>
+            <pop-form-control-error controlName="intent"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Role</label>
+            <pop-concept-selector 
+                formControlName="role"
+                terminology="TreatmentCategory"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="role"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Termination reason</label>
+            <pop-concept-selector 
+                formControlName="terminationReason"
+                terminology="TreatmentTerminationReason"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="terminationReason"></pop-form-control-error>
+        </div>
+
+        <div formArrayName="medications">
+            <ng-container *ngFor="let control of medicationFormArray.controls; let i = index" >
+                <p-fieldset  [toggleable]="true" [formGroupName]="i" [collapsed]="true">
+                    <ng-template #header>
+                        {{control.value.drug.display}} - Administration details
+                    </ng-template>
+                    <div class="mt-3">
+                        <div class="field">
+                            <label class="form-label">Administration route</label>
+                            <pop-concept-selector 
+                                formControlName="route"
+                                terminology="DosageRoute"
+                                [showSynonyms]="true"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label required">Dosage type</label>
+                            <pop-radio-select  
+                            formControlName="dosageType"
+                            [choices]="dosageTypeChoices"
+                            class="flex flex-wrap gap-4"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label">Dosage</label>
+                            <div class="no-entries-text" *ngIf="!control.value.dosageType">Select a dosage type first</div>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'Mass'" 
+                                formControlName="dosageMass"
+                                measure="Mass"/>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'MassConcentration'" 
+                                formControlName="dosageMassConcentration"
+                                measure="MassConcentration"/>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'Volume'" 
+                                formControlName="dosageVolume"
+                                measure="Volume"/>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'MassPerSurface'" 
+                                formControlName="dosageMassSurface"
+                                measure="MassPerArea"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label">Dosage rate</label>
+                            <div class="no-entries-text" *ngIf="!control.value.dosageType">Select a dosage type first</div>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'Mass'" 
+                                formControlName="dosageRateMass"
+                                measure="MassPerTime"/>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'MassConcentration'" 
+                                formControlName="dosageRateMassConcentration"
+                                measure="MassConcentrationPerTime"/>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'Volume'" 
+                                formControlName="dosageVolume"
+                                measure="VolumePerTime"/>
+                            <pop-measure-input 
+                                *ngIf="control.value.dosageType == 'MassPerSurface'" 
+                                formControlName="dosageRateMassSurface"
+                                measure="MassPerAreaPerTime"/>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </ng-container>
+        </div>
+        
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-4"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

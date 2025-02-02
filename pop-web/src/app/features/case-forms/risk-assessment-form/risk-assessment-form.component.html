@@ -1,0 +1,60 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the risk assessment</label>
+            <pop-datepicker 
+                formControlName="date"
+            />
+            <pop-form-control-error controlName="date"></pop-form-control-error>
+        </div>
+        
+        <div class="field">
+            <label class="form-label required">Neoplastic entities assessed</label>
+            <pop-multi-reference-select 
+            [options]="relatedEntities" 
+            formControlName="assessedEntities"/>
+            <pop-form-control-error controlName="assessedEntities"></pop-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label required">Methodology</label>
+            <pop-concept-selector 
+                terminology="CancerRiskAssessmentMethod"
+                [showSynonyms]="false"
+                formControlName="methodology"/>
+            <pop-form-control-error controlName="methodology"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Risk</label>
+            <pop-concept-selector 
+                terminology="CancerRiskAssessmentClassification"
+                [showSynonyms]="false"
+                formControlName="risk"/>
+            <pop-form-control-error controlName="risk"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Score</label>
+            <p-inputnumber 
+            formControlName="score"
+            placeholder="Enter value" 
+            useGrouping="false"
+            mode="decimal"
+            [minFractionDigits]="1"
+            [maxFractionDigits]="3"
+            locale="en-US"/>
+            <pop-form-control-error controlName="score"></pop-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

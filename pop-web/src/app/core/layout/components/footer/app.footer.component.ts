@@ -5,7 +5,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @Component({
     standalone: true,
-    selector: 'app-footer',
+    selector: 'pop-footer',
     templateUrl: './app.footer.component.html',
     imports: [        
         InlineSVGModule,

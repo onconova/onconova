@@ -14,7 +14,7 @@ import { ModalFormService } from './modal-form.service'
 
 @Component({
   standalone: true,
-  selector: 'app-dynamic-modal-form',
+  selector: 'pop-dynamic-modal-form',
   templateUrl: './modal-form.component.html',
   styleUrl: './modal-form.component.css',
   encapsulation: ViewEncapsulation.None,

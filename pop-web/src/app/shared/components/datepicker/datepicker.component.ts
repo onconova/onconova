@@ -57,7 +57,6 @@ export class DatePickerComponent implements ControlValueAccessor {
 
     // Writes a new value to the element
     writeValue(value: any): void {
-        console.log('INITIAL VALUE', value)
         if (value?.start || value?.end) {
             // Range selection: Convert ISO -> User-friendly format
             const start_date = new Date(value.start);
@@ -68,10 +67,8 @@ export class DatePickerComponent implements ControlValueAccessor {
             // Single date: Convert ISO -> User-friendly format
             const date = new Date(value);
             const displayValue = this.formatDateToDisplayFormat(date);
-            console.log('DISPLAY VALUE', displayValue)
             this.formControl.setValue(displayValue, { emitEvent: false });
         } else {
-            console.log('NO VALUE', value)
             this.formControl.setValue(null, { emitEvent: false });
         }
     }
@@ -113,7 +110,7 @@ export class DatePickerComponent implements ControlValueAccessor {
     }
 
     formatDateToDisplayFormat(date: Date): string {
-        console.log(this.dateFormat.replace('m','M').replace('yy','yyyy'))
+        // The dateFormat string must be reformated to the formatDate() data nomenclature
         return formatDate(date, this.dateFormat.replaceAll('m','M').replace('yy','yyyy'), 'en-US')
     }
 

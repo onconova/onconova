@@ -1,0 +1,86 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <pop-datepicker 
+                formControlName="date"
+            />
+            <pop-form-control-error controlName="date"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Neoplastic entities targeted</label>
+            <pop-multi-reference-select 
+            formControlName="targetedEntities"
+            [options]="relatedEntities"/>
+            <pop-form-control-error controlName="targetedEntities"></pop-form-control-error>
+        </div>
+      
+        <div class="field">
+            <label class="form-label required">Intent</label>
+            <pop-radio-select  
+            formControlName="intent"
+            [choices]="intentChoices"
+            class="flex flex-wrap gap-4"/>
+            <pop-form-control-error controlName="intent"></pop-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label required">Surgical procedure</label>
+            <pop-concept-selector 
+                formControlName="procedure"
+                terminology="SurgicalProcedure"
+                [showSynonyms]="true"/>
+            <pop-form-control-error controlName="procedure"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Anatomical location</label>
+            <pop-concept-selector 
+                formControlName="bodysite"
+                terminology="CancerTopography"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="bodysite"></pop-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label">Location qualifier</label>
+            <pop-concept-selector 
+                formControlName="bodysiteQualifier"
+                terminology="BodyLocationQualifier"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="bodysiteQualifier"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Location laterality</label>
+            <pop-concept-selector 
+                formControlName="bodysiteLaterality"
+                terminology="LateralityQualifier"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="bodysiteLaterality"></pop-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label">Outcome</label>
+            <pop-concept-selector 
+                formControlName="outcome"
+                terminology="ProcedureOutcome"
+                [showSynonyms]="false"/>
+            <pop-form-control-error controlName="outcome"></pop-form-control-error>
+        </div>
+
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

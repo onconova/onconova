@@ -2,8 +2,8 @@ import { NgModule, Component, Input, ViewEncapsulation, OnInit, inject, DestroyR
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { CodedConceptSelectComponent } from 'src/app/core/forms/components';
-import { DatePickerComponent } from 'src/app/core/forms/components';
+import { ConceptSelectorComponent } from '../../shared/components';
+import { DatePickerComponent } from '../../shared/components';
 import { forwardRef } from '@angular/core';
 
 import { 
@@ -161,7 +161,7 @@ export class filterByEntityPipe implements PipeTransform {
 
 @Component({
     standalone: true,
-    selector: 'app-cohort-query-builder',
+    selector: 'pop-cohort-query-builder',
     templateUrl: './cohort-query-builder.component.html',
     styleUrl: './cohort-query-builder.component.css',
     encapsulation: ViewEncapsulation.None,  
@@ -183,7 +183,7 @@ export class filterByEntityPipe implements PipeTransform {
         InputNumber,
         InputText,
         Select,
-        CodedConceptSelectComponent,
+        ConceptSelectorComponent,
         DatePickerComponent,
         MapOperatorsPipe,        
         filterByEntityPipe,

@@ -67,7 +67,7 @@
         <ng-template #grid let-cohorts>
             <div class="grid mt-3">
                 <div class="col p-2"*ngFor="let cohort of cohorts; let first = first" >
-                    <app-cohort-search-item 
+                    <pop-cohort-search-item 
                     [cohort]="cohort"
                     (delete)="deleteCohort($event)"/>
                 </div>
@@ -76,4 +76,4 @@
     </p-dataView>
 
 
-<app-dynamic-modal-form (saveEvent)="refreshCohorts()"></app-dynamic-modal-form>
+<pop-dynamic-modal-form (saveEvent)="refreshCohorts()"></pop-dynamic-modal-form>

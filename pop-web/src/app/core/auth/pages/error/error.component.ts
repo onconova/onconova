@@ -8,7 +8,7 @@ import { LayoutService } from 'src/app/core/layout/service/app.layout.service';
 
 @Component({
     standalone: true,
-    selector: 'app-error',
+    selector: 'pop-error',
     templateUrl: './error.component.html',
     imports: [
         RouterModule,

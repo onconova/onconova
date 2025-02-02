@@ -6,7 +6,7 @@ import { AppMenuComponent } from '../menu/app.menu.component';
 
 @Component({
     standalone: true,
-    selector: 'app-sidebar',
+    selector: 'pop-sidebar',
     templateUrl: './app.sidebar.component.html',
     imports: [
         CommonModule,

@@ -107,7 +107,7 @@
                 <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="p-1"/>
             </div>
         </ng-template>
-        <app-cohort-query-builder formControlName="includeCriteria" />
+        <pop-cohort-query-builder formControlName="includeCriteria" />
     </p-panel>
 
     <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
@@ -118,7 +118,7 @@
                 <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="p-1"/>
             </div>
         </ng-template>
-        <app-cohort-query-builder formControlName="excludeCriteria" />
+        <pop-cohort-query-builder formControlName="excludeCriteria" />
     </p-panel>
 
 </div>
@@ -151,7 +151,7 @@
         <ng-template #grid let-cases>
             <div class="grid mt-3">
                 <div class="col p-2"*ngFor="let case of cases; let first = first" >
-                    <app-case-search-item 
+                    <pop-case-search-item 
                     [case]="case"/>
                 </div>
             </div>

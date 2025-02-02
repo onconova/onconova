@@ -56,7 +56,7 @@
             <h5 class="font-bold">
                 Cancer Characterization
             </h5>
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Neoplastic Entities"
                 [icon]="icons.neoplasticEntities"
                 [caseId]="case.id"
@@ -64,7 +64,7 @@
                 [service]="neoplasticEntityService"
                 [category]="PatientCaseDataCategories.NeoplasticEntities"/>
                 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Stagings"
                 [icon]="icons.stagings"
                 [caseId]="case.id"
@@ -72,7 +72,7 @@
                 [service]="stagingService"
                 [category]="PatientCaseDataCategories.Stagings"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Risk Assessments"
                 [icon]="icons.riskAssessments"
                 [caseId]="case.id"
@@ -80,7 +80,7 @@
                 [service]="riskAssessmentService"
                 [category]="PatientCaseDataCategories.RiskAssessments"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Tumor Markers"
                 [icon]="icons.tumorMarkers"
                 [caseId]="case.id"
@@ -92,7 +92,7 @@
                 Genomics
             </h5>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Genomic Variants"
                 [icon]="icons.genomicVariants"
                 [caseId]="case.id"
@@ -100,7 +100,7 @@
                 [service]="genomicVariantService"
                 [category]="PatientCaseDataCategories.GenomicVariants"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Genomic Signatures"
                 [icon]="icons.genomicSignatures"
                 [caseId]="case.id"
@@ -115,7 +115,7 @@
             <h5 class="font-bold">
                 Therapy
             </h5>
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Systemic Treatments"
                 [icon]="icons.systemicTherapies"
                 [caseId]="case.id"
@@ -123,7 +123,7 @@
                 [service]="systemicTherapyService"
                 [category]="PatientCaseDataCategories.SystemicTherapies"/>
                 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Surgical Procedures"
                 [icon]="icons.surgeries"
                 [caseId]="case.id"
@@ -131,7 +131,7 @@
                 [service]="surgeryService"
                 [category]="PatientCaseDataCategories.Surgeries"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Radiotherapies"
                 [icon]="icons.radiotherapies"
                 [caseId]="case.id"
@@ -144,7 +144,7 @@
                 Profile
             </h5>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Lifestyle"
                 [icon]="icons.lifestyle"
                 [caseId]="case.id"
@@ -152,7 +152,7 @@
                 [service]="lifestyleService"
                 [category]="PatientCaseDataCategories.Lifestyles"/>
                 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Familiy History"
                 [icon]="icons.familyHistory"
                 [caseId]="case.id"
@@ -160,7 +160,7 @@
                 [service]="familyHistoryService"
                 [category]="PatientCaseDataCategories.FamilyHistories"/>
             
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Comorbidities"
                 [icon]="icons.comorbidities"
                 [caseId]="case.id"
@@ -168,7 +168,7 @@
                 [service]="comorbiditiesAssessmentService"
                 [category]="PatientCaseDataCategories.Comorbidities"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Vitals"
                 [icon]="icons.vitals"
                 [caseId]="case.id"
@@ -184,7 +184,7 @@
                 Clinical Observations
             </h5>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Tumor Boards"
                 [icon]="icons.tumorBoards"
                 [caseId]="case.id"
@@ -192,7 +192,7 @@
                 [formComponent]="TumorBoardFormComponent"
                 [service]="tumorBoardService"/>
                 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Adverse Events"
                 [icon]="icons.adverseEvents"
                 [caseId]="case.id"
@@ -200,7 +200,7 @@
                 [formComponent]="AdverseEventFormComponent"
                 [service]="adverseEventService"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Treatment Responses"
                 [icon]="icons.treatmentResponses"
                 [caseId]="case.id"
@@ -208,7 +208,7 @@
                 [formComponent]="TreatmentResponseFormComponent"
                 [service]="treatmentResponseService"/>
 
-            <app-case-manager-panel
+            <pop-case-manager-panel
                 title="Performance Status"
                 [icon]="icons.performanceStatus"
                 [caseId]="case.id"
@@ -218,7 +218,7 @@
 
         </div>
     </div>
-    <app-dynamic-modal-form [caseId]="case.id"></app-dynamic-modal-form>
+    <pop-dynamic-modal-form [caseId]="case.id"></pop-dynamic-modal-form>
 </ng-container>
 
 <ng-container *ngIf="!case">

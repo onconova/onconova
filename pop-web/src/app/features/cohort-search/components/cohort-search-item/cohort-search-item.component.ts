@@ -23,7 +23,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 
 @Component({
     standalone: true,
-    selector: 'app-cohort-search-item',
+    selector: 'pop-cohort-search-item',
     templateUrl: './cohort-search-item.component.html',
     providers: [
         ConfirmationService,

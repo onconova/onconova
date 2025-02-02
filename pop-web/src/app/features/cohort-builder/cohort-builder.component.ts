@@ -21,7 +21,7 @@ import { CaseBrowserCardComponent } from '../case-search/components/case-card/ca
 
 @Component({
     standalone: true,
-    selector: 'app-cohort-builder',
+    selector: 'pop-cohort-builder',
     templateUrl: './cohort-builder.component.html',
     styleUrl: './cohort-builder.component.css',
     encapsulation: ViewEncapsulation.None,

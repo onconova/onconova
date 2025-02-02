@@ -74,7 +74,7 @@
 
     <!-- Override input component for 'coded_concept' type -->
     <ng-container *queryInput="let rule; let field=field; let options=options; type: CohortRuleType.CodedConcept">
-        <coded-concept-select 
+        <pop-concept-selector 
             [ngModel]="selectedCodedConcept" 
             (ngModelChange)="rule.value = getCodesFromEvent($event)"
             [terminology]="options[0].value"

@@ -15,12 +15,12 @@ import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
 import { CohortSchema, CohortsService} from 'src/app/shared/openapi';
-import { PatientFormComponent } from 'src/app/core/forms';
+import { PatientFormComponent } from 'src/app/features/case-forms';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
-import { CohortFormComponent } from 'src/app/core/forms/cohort-form/cohort-form.component';
+import { CohortFormComponent } from 'src/app/features/case-forms/cohort-form/cohort-form.component';
 
 @Component({
   standalone: true,

@@ -10,7 +10,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
     standalone: true,
-    selector: 'app-settings-dialog',
+    selector: 'pop-settings-dialog',
     templateUrl: './app.settings.component.html',
     styleUrl: './app.settings.component.css',
     encapsulation: ViewEncapsulation.None,

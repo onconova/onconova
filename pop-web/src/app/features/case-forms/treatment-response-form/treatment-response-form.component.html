@@ -1,0 +1,65 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the assessment</label>
+            <pop-datepicker 
+                formControlName="date"
+            />
+            <pop-form-control-error controlName="date"></pop-form-control-error>
+        </div>
+        
+        @let relatedEntities = relatedEntities$ | async;
+        <div class="field">
+            <label class="form-label required">Neoplastic entities assessed</label>
+            <pop-multi-reference-select 
+            [options]="relatedEntities || []" 
+            formControlName="assessedEntities"/>
+            <pop-form-control-error controlName="assessedEntities"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Imaging technique</label>
+            <pop-concept-selector 
+                terminology="CancerTreatmentResponseObservationMethod"
+                [showSynonyms]="true"
+                formControlName="methodology"/>
+            <pop-form-control-error controlName="methodology"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Imaged anatomical location(s)</label>
+            <pop-concept-selector 
+                terminology="ObservationBodySite"
+                [showSynonyms]="true"
+                [multiple]="true"
+                formControlName="assessedBodysites"/>
+            <pop-form-control-error controlName="assessedBodysites"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Response Evaluation Criteria in Solid Tumours (RECIST)</label>
+            <pop-concept-selector 
+                terminology="CancerTreatmentResponse"
+                [showSynonyms]="false"
+                formControlName="recist"/>
+            <pop-form-control-error controlName="recist"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Was the RECIST value interpreted or reported?</label>
+            <pop-radio-select
+                formControlName="recistInterpreted"
+                [choices]="interpretationChoices"/>
+            <pop-form-control-error controlName="recistInterpreted"></pop-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

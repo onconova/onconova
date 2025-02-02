@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
         CommonModule,
         ButtonModule,
     ],
-    selector: 'app-access',
+    selector: 'pop-access',
     templateUrl: './access.component.html',
 })
 export class AccessComponent { }

@@ -71,7 +71,7 @@ export class getObjectPropertiesPipe implements PipeTransform {
 
 @Component({
     standalone: true,
-    selector: 'app-case-manager-drawer',
+    selector: 'pop-case-manager-drawer',
     templateUrl: './case-manager-drawer.component.html',
     styleUrl: './case-manager-drawer.component.css',
     encapsulation: ViewEncapsulation.None,

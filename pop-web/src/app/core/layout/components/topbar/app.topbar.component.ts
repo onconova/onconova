@@ -16,7 +16,7 @@ import { Button } from 'primeng/button';
 
 @Component({
     standalone: true,
-    selector: 'app-topbar',
+    selector: 'pop-topbar',
     templateUrl: './app.topbar.component.html',
     providers: [
         MessageService

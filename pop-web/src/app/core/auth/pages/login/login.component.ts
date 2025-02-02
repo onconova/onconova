@@ -15,7 +15,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @Component({
     standalone: true,
-    selector: 'app-login',
+    selector: 'pop-login',
     templateUrl: './login.component.html',
     styles: [`
         :host ::ng-deep .pi-eye,

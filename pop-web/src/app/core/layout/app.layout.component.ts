@@ -17,7 +17,7 @@ import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component"
 
 @Component({
     standalone: true,
-    selector: 'app-layout',
+    selector: 'pop-layout',
     templateUrl: './app.layout.component.html',
     imports: [
         CommonModule,

@@ -1,0 +1,61 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label for="date" class="form-label">Date</label>
+            <pop-datepicker 
+                formControlName="date"
+            />
+            <pop-form-control-error controlName="date"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Height</label>
+            <pop-measure-input 
+                formControlName="height"
+                measure="Distance"/>
+            <pop-form-control-error controlName="height"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Weight</label>
+            <pop-measure-input 
+                formControlName="weight"
+                measure="Mass"/>
+            <pop-form-control-error controlName="weight"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Systolic blood pressure</label>
+            <pop-measure-input 
+                formControlName="bloodPressureSystolic"
+                measure="Pressure"/>
+            <pop-form-control-error controlName="bloodPressureSystolic"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Diastolic blood pressure</label>
+            <pop-measure-input 
+                formControlName="bloodPressureDiastolic"
+                measure="Pressure"/>
+            <pop-form-control-error controlName="bloodPressureDiastolic"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Temperature</label>
+            <pop-measure-input 
+                formControlName="temperature"
+                measure="Temperature"/>
+            <pop-form-control-error controlName="temperature"></pop-form-control-error>
+        </div>
+
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

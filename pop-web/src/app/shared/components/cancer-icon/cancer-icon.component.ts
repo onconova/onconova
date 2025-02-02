@@ -3,7 +3,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 
 @Component({
     standalone: true,
-    selector: 'cancer-icon',
+    selector: 'pop-cancer-icon',
     styleUrl: 'cancer-icon.component.css',
     encapsulation: ViewEncapsulation.None,
     template:`

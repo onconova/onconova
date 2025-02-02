@@ -1,0 +1,56 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()" >
+        <div class="field">
+            <label class="form-label required">Gender</label>
+            <pop-concept-selector 
+                terminology="AdministrativeGender"
+                formControlName="gender"/>
+            <pop-form-control-error controlName="gender"></pop-form-control-error>
+        </div>
+
+        <div class="field">
+            <label for="date-of-birth" class="form-label required">Date of Birth</label>
+            <pop-datepicker 
+                formControlName="dateOfBirth"
+                view="month" 
+                dateFormat="mm/yy" 
+                placeholder="MM/YYYY" 
+            />
+            <small id="dateOfBirth-help">For de-identification, only the month and year are used.  </small>
+            <pop-form-control-error controlName="dateOfBirth"></pop-form-control-error>
+        </div>
+
+        <div class="field flex">
+            <p-toggleswitch formControlName="isAlive" />
+            <label class="form-label ml-2 my-auto required">Patient is alive</label>
+        </div>
+
+        <div class="field" *ngIf="!form.value.isAlive">
+            <label class="form-label required">Date of Death</label>
+            <pop-datepicker 
+                formControlName="dateOfDeath"
+                view="month" 
+                dateFormat="mm/yy" 
+                placeholder="MM/YYYY" 
+                />
+            <pop-form-control-error controlName="dateOfDeath"></pop-form-control-error>
+        </div>
+
+        <div class="field" *ngIf="!form.value.isAlive">
+            <label class="form-label">Cause of death</label>
+            <pop-concept-selector 
+                terminology="CauseOfDeath"
+                [showSynonyms]="false"
+                formControlName="causeOfDeath"/>
+            <pop-form-control-error controlName="causeOfDeath"></pop-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+
+    </form>
+</p-fluid>  

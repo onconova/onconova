@@ -9,7 +9,7 @@ import { AppMenuitemComponent } from './components/menuitem/app.menuitem.compone
 
 @Component({
     standalone: true,
-    selector: 'app-menu',
+    selector: 'pop-menu',
     templateUrl: './app.menu.component.html',
     imports: [
         CommonModule,

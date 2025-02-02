@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     standalone: true,
-    selector: 'app-root',
+    selector: 'pop-root',
     templateUrl: './app.component.html',
     imports:[RouterOutlet],
     providers: [MessageService],

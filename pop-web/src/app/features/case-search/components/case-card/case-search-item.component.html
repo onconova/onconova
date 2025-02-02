@@ -28,7 +28,7 @@
         <small class="text-muted mb-1">Diagnosis</small>
         <ng-container *ngIf="!loadingDiagnosis else diagnosisSkeleton">
             <div *ngIf="primaryEntity" class="flex gap-2">
-                <cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></cancer-icon>
+                <pop-cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></pop-cancer-icon>
                 <div class="diagnosis-text my-auto">{{ primaryEntity.description }}</div>
             </div>
             <div *ngIf="!primaryEntity"> 

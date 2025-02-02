@@ -60,7 +60,7 @@ import {
     TumorBoardFormComponent,
     AdverseEventFormComponent,
     TreatmentResponseFormComponent,
-} from 'src/app/core/forms';
+} from 'src/app/features/case-forms';
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
 import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'

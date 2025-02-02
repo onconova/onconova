@@ -10,7 +10,7 @@ import { LayoutService } from '../../../../service/app.layout.service';
 @Component({
     standalone: true,
     // eslint-disable-next-line @angular-eslint/component-selector
-    selector: '[app-menuitem]',
+    selector: '[pop-menuitem]',
     imports: [
         CommonModule,
         RouterModule,
@@ -36,7 +36,7 @@ import { LayoutService } from '../../../../service/app.layout.service';
 
 			<ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
 				<ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
-					<li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
+					<li pop-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
 				</ng-template>
 			</ul>
 		</ng-container>
