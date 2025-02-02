@@ -35,7 +35,7 @@ export class CancerIconComponent {
         'joints.svg': ['C40', 'C41'],
         'blood_cells.svg': ['C42'],
         'arm.svg': ['C44'],
-        'nerve.svg': ['C47','C72'],
+        'nerve.svg': ['C47','C72', 'C49'],
         'breasts.svg': ['C50'],
         'vulva.svg': ['C51'],
         'vagina.svg': ['C52'],
