@@ -1,6 +1,7 @@
 from typing import List
 
 from django.db.models import Q, Value, Case, When, F, Func, IntegerField, CharField
+from django.db.models.functions import StrIndex, Cast, Length
 from django.db.models.expressions import RawSQL
 
 from ninja import Field, Schema, Query
@@ -67,8 +68,10 @@ class TerminologyController(ControllerBase):
                 matching_score = (
                     get_matching_score_expression(match_code, 10) +
                     get_matching_score_expression(match_display, 5) +
-                    get_matching_score_expression(match_synonyms, 1)
-                )
+                    get_matching_score_expression(match_synonyms, 1) -
+                    Cast(StrIndex('display', Value(search_term)), IntegerField()) -
+                    Cast(Length('display'), IntegerField())
+                ),
             ).order_by('-matching_score')
 
         if query.codes:
