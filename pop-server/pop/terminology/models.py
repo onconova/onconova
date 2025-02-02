@@ -97,6 +97,23 @@ class CancerMorphology(CodedConcept):
     codesystem = 'http://terminology.hl7.org/CodeSystem/icd-o-3-morphology'
     description = 'Codes representing the structure, arrangement, and behavioral characteristics of malignant neoplasms, and cancer cells. Inclusion criteria: in situ neoplasms and malignant neoplasms.'
 
+
+class CancerMorphologyPrimary(CancerMorphology):
+    class QuerysetManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(code__endswith='/3')
+    objects = QuerysetManager()
+    class Meta:
+        proxy=True
+
+class CancerMorphologyMetastatic(CancerMorphology):
+    class QuerysetManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().filter(code__endswith='/6')
+    objects = QuerysetManager()
+    class Meta:
+        proxy=True
+
 class HistologyDifferentiation(CodedConcept):
     codesystem = 'http://terminology.hl7.org/CodeSystem/icd-o-3-differentiation'
     description = 'Codes representing the differentitation characteristics of neoplasms, and cancer cells.'

@@ -42,9 +42,8 @@
         <div class="field">
             <label for="morphology" class="form-label required">Morphology</label>
             <coded-concept-select 
-                terminology="CancerMorphology"
+                [terminology]="morphologyTerminology"
                 [showCodes]="true"
-                [baseQuery]="morphologyCodeFilter"
                 formControlName="morphology"/>
             <control-error controlName="morphology"></control-error>
         </div>

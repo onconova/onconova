@@ -25,8 +25,6 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { EmptyObject } from 'chart.js/dist/types/basic';
 
-type MorphologicalBehaviors = '/3' | '/6' | '/1';
-
 @Component({
   standalone: true,
   selector: 'neoplastic-entity-form',
@@ -60,7 +58,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   private caseId!: string;
   public initialData: any = {};
   public requiresPrimary!: boolean;
-  public morphologyCodeFilter: MorphologicalBehaviors = '/3';
+  public morphologyTerminology!: string;
   public relatedPrimaries!: NeoplasticEntity[];
   public relationshipOptions = [
     { name: 'Primary', code: NeoplasticEntityRelationshipChoices.Primary },
@@ -111,9 +109,9 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   private onNeoplastiCRelationshipChange(relationship: string): void {
     // Update base filter for morphology codes     
     if (relationship === NeoplasticEntityRelationshipChoices.Metastatic) {
-      this.morphologyCodeFilter = '/6'
+      this.morphologyTerminology = 'CancerMorphologyMetastatic'
     } else {
-      this.morphologyCodeFilter = '/3'
+      this.morphologyTerminology = 'CancerMorphologyPrimary'
     }  
     this.requiresPrimary = relationship !== NeoplasticEntityRelationshipChoices.Primary
 
