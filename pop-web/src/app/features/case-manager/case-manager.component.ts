@@ -10,6 +10,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { Button } from 'primeng/button';
 import { KnobModule } from 'primeng/knob';
 import { Divider } from 'primeng/divider';
+import { Fieldset } from 'primeng/fieldset';
 
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
@@ -81,6 +82,7 @@ import { CaseManagerPanelComponent,DataService } from './components/case-manager
         NgxJdenticonModule,
         AvatarModule,
         Button,
+        Fieldset,
         KnobModule,
         Divider,
         SkeletonModule,

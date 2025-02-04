@@ -1,22 +1,44 @@
-.p-timeline-event {
+.case-manager-panel .p-timeline-event {
     min-height: 1rem !important;
 }
-.p-timeline-event-opposite {
+.case-manager-panel .p-timeline-event-opposite {
     display: none !important;
 }
-.p-timeline-event-content {
+.case-manager-panel .p-timeline-event-content {
     padding-bottom: .75rem !important;
 }
-.p-timeline-event {
+.case-manager-panel .p-timeline-event {
     min-height: unset;
 }
-.p-avatar {
+.case-manager-panel .p-badge-circle {
+    color: light-dark(var(--p-primary-600), var(--p-primary-400));
+    background-color: color-mix(in srgb, var(--p-primary-400), transparent 80%) !important;
+}
+.case-manager-panel .p-avatar {
     line-height: 0.25;
     padding: 1rem;
 }
-.no-entries-text {
+.case-manager-panel .no-entries-text {
+    margin-left: 1rem;
     color: color-mix(in srgb, var(--p-text-muted-color), transparent 25%);
 }
 .completed-category .pi-star-fill {
     color: var(--p-primary-color) !important;
 }
+.case-manager-panel-title {
+    font-size: 1.1rem; 
+    font-weight: 550; 
+    /* color: light-dark(var(--p-primary-700), var(--p-primary-200)); */
+}
+.case-manager-panel-timeline {
+    margin-left: .4rem;
+}
+
+.case-manager-panel-timeline-date {
+    color: light-dark(var(--p-primary-900), var(--p-primary-100));
+}
+
+.case-manager-panel .p-panel-content {
+    padding-bottom: 0;
+}
+

@@ -1,4 +1,5 @@
 <p-panel 
+    class="case-manager-panel"
     [toggleable]="true" 
     [collapsed]="false" 
     collapseIcon="pi pi-angle-down" 
@@ -12,7 +13,7 @@
                 [style]="{ 'background-color': 'color-mix(in srgb, var(--p-primary-500), transparent 80%)', color: 'var(--p-primary-500)' }">
                 <lucide-angular [img]="icon" ></lucide-angular>
             </p-avatar>
-            <span style="font-size: 1.1rem;">
+            <span class="case-manager-panel-title" >
                 {{ title }}
             </span>
             <p-badge 
@@ -32,7 +33,7 @@
     </ng-template>
     
 
-    <div class="ml-2">
+    <div>
         <div *ngIf="loadingData" class="no-entries-text">
             <p-skeleton width="100%" styleClass="mb-2" />
             <p-skeleton width="100%" styleClass="mb-2" />
@@ -43,14 +44,14 @@
         <p-timeline 
             *ngIf="!loadingData &&  entries.length > 0" 
             [value]="entries" 
-            class="mt-2">
+            class="case-manager-panel-timeline">
             <ng-template pTemplate="content" let-entry>
                 <div (click)="showDrawer(entry)" class="cursor-pointer">
-                    <div>
-                        <small class="text-muted">
+                    <div class="case-manager-panel-timeline-date">
+                        <small class="">
                             {{ entry.date || entry.assertionDate | date }}
                         </small>
-                        <small class="text-muted">
+                        <small *ngIf="entry.period?.start" class="">
                             {{ entry.period?.start | date }} - {{ entry.period?.end | date }}
                         </small>
                     </div>

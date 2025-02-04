@@ -16,7 +16,7 @@
         <svg class="jdenticon my-auto" [data-jdenticon-value]="pseudoidentifier"></svg>
     </p-avatar>
     <div class="ml-3 my-auto">
-        <span class="text-muted">CASE MANAGEMENT</span>
+        <span class="text-muted">Case</span>
         <h2 class="text-monospace my-0">
             {{ pseudoidentifier }}
         </h2>
@@ -53,169 +53,191 @@
  <ng-container *ngIf="case">
     <div class="grid"> 
         <div class="col-12 md:col-6 lg:col-4">
-            <h5 class="font-bold">
-                Cancer Characterization
-            </h5>
-            <pop-case-manager-panel
-                title="Neoplastic Entities"
-                [icon]="icons.neoplasticEntities"
-                [caseId]="case.id"
-                [formComponent]="NeoplasticEntityFormComponent"
-                [service]="neoplasticEntityService"
-                [category]="PatientCaseDataCategories.NeoplasticEntities"/>
+
+            <p-fieldset legend="Cancer Characterization">
+
+                <pop-case-manager-panel
+                    title="Neoplastic Entities"
+                    [icon]="icons.neoplasticEntities"
+                    [caseId]="case.id"
+                    [formComponent]="NeoplasticEntityFormComponent"
+                    [service]="neoplasticEntityService"
+                    [category]="PatientCaseDataCategories.NeoplasticEntities"/>
+                    
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Stagings"
+                    [icon]="icons.stagings"
+                    [caseId]="case.id"
+                    [formComponent]="StagingFormComponent"
+                    [service]="stagingService"
+                    [category]="PatientCaseDataCategories.Stagings"/>
+
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Risk Assessments"
+                    [icon]="icons.riskAssessments"
+                    [caseId]="case.id"
+                    [formComponent]="RiskAssessmentFormComponent"
+                    [service]="riskAssessmentService"
+                    [category]="PatientCaseDataCategories.RiskAssessments"/>
+
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Tumor Markers"
+                    [icon]="icons.tumorMarkers"
+                    [caseId]="case.id"
+                    [formComponent]="TumorMarkerFormComponent"
+                    [service]="tumorMarkerService"
+                    [category]="PatientCaseDataCategories.TumorMarkers"/>
+
+            </p-fieldset>
+
+
+            <p-fieldset legend="Genomics">
+
+                <pop-case-manager-panel
+                    title="Genomic Variants"
+                    [icon]="icons.genomicVariants"
+                    [caseId]="case.id"
+                    [formComponent]="GenomicVariantFormComponent"
+                    [service]="genomicVariantService"
+                    [category]="PatientCaseDataCategories.GenomicVariants"/>
+
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Genomic Signatures"
+                    [icon]="icons.genomicSignatures"
+                    [caseId]="case.id"
+                    [formComponent]="GenomicSignatureFormComponent"
+                    [service]="genomicSignatureService"
+                    [category]="PatientCaseDataCategories.GenomicSignatures"/>
+
+            </p-fieldset>
+        </div>
+
+
+        <div class="col-12 md:col-6 lg:col-4 px-3">
+
+            <p-fieldset legend="Therapy">
+                <pop-case-manager-panel
+                    title="Systemic Treatments"
+                    [icon]="icons.systemicTherapies"
+                    [caseId]="case.id"
+                    [formComponent]="SystemicTherapyFormComponent"
+                    [service]="systemicTherapyService"
+                    [category]="PatientCaseDataCategories.SystemicTherapies"/>
+                    
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Surgical Procedures"
+                    [icon]="icons.surgeries"
+                    [caseId]="case.id"
+                    [formComponent]="SurgeryFormComponent"
+                    [service]="surgeryService"
+                    [category]="PatientCaseDataCategories.Surgeries"/>
+
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Radiotherapies"
+                    [icon]="icons.radiotherapies"
+                    [caseId]="case.id"
+                    [formComponent]="RadiotherapyFormComponent"
+                    [service]="radiotherapyService"
+                    [category]="PatientCaseDataCategories.Radiotherapies"/>
+            </p-fieldset>
+
+
+            <p-fieldset legend="Profile">
+                <pop-case-manager-panel
+                    title="Lifestyle"
+                    [icon]="icons.lifestyle"
+                    [caseId]="case.id"
+                    [formComponent]="LifestyleFormComponent"
+                    [service]="lifestyleService"
+                    [category]="PatientCaseDataCategories.Lifestyles"/>
+                    
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Familiy History"
+                    [icon]="icons.familyHistory"
+                    [caseId]="case.id"
+                    [formComponent]="FamilyHistoryFormComponent"
+                    [service]="familyHistoryService"
+                    [category]="PatientCaseDataCategories.FamilyHistories"/>
                 
-            <pop-case-manager-panel
-                title="Stagings"
-                [icon]="icons.stagings"
-                [caseId]="case.id"
-                [formComponent]="StagingFormComponent"
-                [service]="stagingService"
-                [category]="PatientCaseDataCategories.Stagings"/>
+                <p-divider></p-divider>
 
-            <pop-case-manager-panel
-                title="Risk Assessments"
-                [icon]="icons.riskAssessments"
-                [caseId]="case.id"
-                [formComponent]="RiskAssessmentFormComponent"
-                [service]="riskAssessmentService"
-                [category]="PatientCaseDataCategories.RiskAssessments"/>
+                <pop-case-manager-panel
+                    title="Comorbidities"
+                    [icon]="icons.comorbidities"
+                    [caseId]="case.id"
+                    [formComponent]="ComorbiditiesAssessmentFormComponent"
+                    [service]="comorbiditiesAssessmentService"
+                    [category]="PatientCaseDataCategories.Comorbidities"/>
 
-            <pop-case-manager-panel
-                title="Tumor Markers"
-                [icon]="icons.tumorMarkers"
-                [caseId]="case.id"
-                [formComponent]="TumorMarkerFormComponent"
-                [service]="tumorMarkerService"
-                [category]="PatientCaseDataCategories.TumorMarkers"/>
+                <p-divider></p-divider>
 
-            <h5  class="font-bold mt-5">
-                Genomics
-            </h5>
-
-            <pop-case-manager-panel
-                title="Genomic Variants"
-                [icon]="icons.genomicVariants"
-                [caseId]="case.id"
-                [formComponent]="GenomicVariantFormComponent"
-                [service]="genomicVariantService"
-                [category]="PatientCaseDataCategories.GenomicVariants"/>
-
-            <pop-case-manager-panel
-                title="Genomic Signatures"
-                [icon]="icons.genomicSignatures"
-                [caseId]="case.id"
-                [formComponent]="GenomicSignatureFormComponent"
-                [service]="genomicSignatureService"
-                [category]="PatientCaseDataCategories.GenomicSignatures"/>
-
+                <pop-case-manager-panel
+                    title="Vitals"
+                    [icon]="icons.vitals"
+                    [caseId]="case.id"
+                    [formComponent]="VitalsFormComponent"
+                    [service]="vitalsService"
+                    [category]="PatientCaseDataCategories.Vitals"/> 
+            </p-fieldset>
         </div>
 
 
         <div class="col-12 md:col-6 lg:col-4">
-            <h5 class="font-bold">
-                Therapy
-            </h5>
-            <pop-case-manager-panel
-                title="Systemic Treatments"
-                [icon]="icons.systemicTherapies"
-                [caseId]="case.id"
-                [formComponent]="SystemicTherapyFormComponent"
-                [service]="systemicTherapyService"
-                [category]="PatientCaseDataCategories.SystemicTherapies"/>
+ 
+            <p-fieldset legend="Clinical Observations">
+
+                <pop-case-manager-panel
+                    title="Tumor Boards"
+                    [icon]="icons.tumorBoards"
+                    [caseId]="case.id"
+                    [category]="PatientCaseDataCategories.TumorBoardReviews"
+                    [formComponent]="TumorBoardFormComponent"
+                    [service]="tumorBoardService"/>
+
+                <p-divider></p-divider>
+
+                <pop-case-manager-panel
+                    title="Adverse Events"
+                    [icon]="icons.adverseEvents"
+                    [caseId]="case.id"
+                    [category]="PatientCaseDataCategories.AdverseEvents"
+                    [formComponent]="AdverseEventFormComponent"
+                    [service]="adverseEventService"/>
                 
-            <pop-case-manager-panel
-                title="Surgical Procedures"
-                [icon]="icons.surgeries"
-                [caseId]="case.id"
-                [formComponent]="SurgeryFormComponent"
-                [service]="surgeryService"
-                [category]="PatientCaseDataCategories.Surgeries"/>
+                <p-divider></p-divider>
 
-            <pop-case-manager-panel
-                title="Radiotherapies"
-                [icon]="icons.radiotherapies"
-                [caseId]="case.id"
-                [formComponent]="RadiotherapyFormComponent"
-                [service]="radiotherapyService"
-                [category]="PatientCaseDataCategories.Radiotherapies"/>
-
-
-            <h5  class="font-bold mt-5">
-                Profile
-            </h5>
-
-            <pop-case-manager-panel
-                title="Lifestyle"
-                [icon]="icons.lifestyle"
-                [caseId]="case.id"
-                [formComponent]="LifestyleFormComponent"
-                [service]="lifestyleService"
-                [category]="PatientCaseDataCategories.Lifestyles"/>
+                <pop-case-manager-panel
+                    title="Treatment Responses"
+                    [icon]="icons.treatmentResponses"
+                    [caseId]="case.id"
+                    [category]="PatientCaseDataCategories.TherapyResponses"
+                    [formComponent]="TreatmentResponseFormComponent"
+                    [service]="treatmentResponseService"/>
                 
-            <pop-case-manager-panel
-                title="Familiy History"
-                [icon]="icons.familyHistory"
-                [caseId]="case.id"
-                [formComponent]="FamilyHistoryFormComponent"
-                [service]="familyHistoryService"
-                [category]="PatientCaseDataCategories.FamilyHistories"/>
-            
-            <pop-case-manager-panel
-                title="Comorbidities"
-                [icon]="icons.comorbidities"
-                [caseId]="case.id"
-                [formComponent]="ComorbiditiesAssessmentFormComponent"
-                [service]="comorbiditiesAssessmentService"
-                [category]="PatientCaseDataCategories.Comorbidities"/>
-
-            <pop-case-manager-panel
-                title="Vitals"
-                [icon]="icons.vitals"
-                [caseId]="case.id"
-                [formComponent]="VitalsFormComponent"
-                [service]="vitalsService"
-                [category]="PatientCaseDataCategories.Vitals"/>
-
-        </div>
-
-
-        <div class="col-12 md:col-6 lg:col-4">
-            <h5 class="font-bold">
-                Clinical Observations
-            </h5>
-
-            <pop-case-manager-panel
-                title="Tumor Boards"
-                [icon]="icons.tumorBoards"
-                [caseId]="case.id"
-                [category]="PatientCaseDataCategories.TumorBoardReviews"
-                [formComponent]="TumorBoardFormComponent"
-                [service]="tumorBoardService"/>
+                <p-divider></p-divider>
                 
-            <pop-case-manager-panel
-                title="Adverse Events"
-                [icon]="icons.adverseEvents"
-                [caseId]="case.id"
-                [category]="PatientCaseDataCategories.AdverseEvents"
-                [formComponent]="AdverseEventFormComponent"
-                [service]="adverseEventService"/>
-
-            <pop-case-manager-panel
-                title="Treatment Responses"
-                [icon]="icons.treatmentResponses"
-                [caseId]="case.id"
-                [category]="PatientCaseDataCategories.TherapyResponses"
-                [formComponent]="TreatmentResponseFormComponent"
-                [service]="treatmentResponseService"/>
-
-            <pop-case-manager-panel
-                title="Performance Status"
-                [icon]="icons.performanceStatus"
-                [caseId]="case.id"
-                [formComponent]="PerformanceStatusFormComponent"
-                [service]="performanceStatusService"
-                [category]="PatientCaseDataCategories.PerformanceStatus"/>
-
+                <pop-case-manager-panel
+                    title="Performance Status"
+                    [icon]="icons.performanceStatus"
+                    [caseId]="case.id"
+                    [formComponent]="PerformanceStatusFormComponent"
+                    [service]="performanceStatusService"
+                    [category]="PatientCaseDataCategories.PerformanceStatus"/>
+            </p-fieldset>
         </div>
     </div>
     <pop-dynamic-modal-form [caseId]="case.id"></pop-dynamic-modal-form>
