@@ -15,7 +15,7 @@
 
         <div class="flex flex-column">
             <small class="text-muted mb-1">Cohort</small>
-            <h4 class="cohort-search-item-title">{{cohort.name}}</h4>
+            <h5 class="cohort-search-item-title">{{cohort.name}}</h5>
         </div>
 
 
@@ -29,7 +29,7 @@
     <div class="flex gap-3">
 
         @let statistics = statistics$ | async;
-        <div class="flex flex-column mb-3 ">
+        <div class="flex flex-column">
             <small class="text-muted mb-1">Average age</small>
             <div class="flex my-auto gap-1">
                 <div class="my-auto" *ngIf="statistics else ageSkeleton">
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="flex flex-column mb-3 ">
+        <div class="flex flex-column">
             <small class="text-muted mb-1">Average completion</small>
             <div class="flex my-auto gap-1">
                 <div class="my-auto" *ngIf="statistics else completionSkeleton">
@@ -53,7 +53,7 @@
             </div>
         </div>
     
-        <div class="flex flex-column mb-3 ">
+        <div class="flex flex-column">
             <small class="text-muted mb-1">Last updated</small>
             <div class="flex my-auto gap-1">
                 <div>{{cohort.updatedAt | date }}</div>
