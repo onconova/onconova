@@ -25,6 +25,10 @@ import { CohortFormComponent } from 'src/app/features/case-forms/cohort-form/coh
 @Component({
   standalone: true,
   templateUrl: './cohort-search.component.html',
+  styles: `
+  .p-dataview .p-dataview-content{
+    background: none !important;
+  }`,
   encapsulation: ViewEncapsulation.None,
   imports: [
     ModalFormComponent,

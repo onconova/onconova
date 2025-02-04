@@ -33,9 +33,9 @@ pop-case-search-item {
     background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
     color: var(--p-primary-500) !important;
 }
-.is-public-chip .p-chip{
+.is-public-chip.p-chip{
     background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
 }
-.is-public-chip .p-chip, .is-public-chip .p-chip-icon{
-    color: var(--p-primary-500) !important;
+.is-public-chip.p-chip, .is-public-chip .p-chip-icon{
+    color: light-dark(var(--p-primary-700), var(--p-primary-300)) !important;
 }

@@ -11,6 +11,10 @@ import { Avatar } from 'primeng/avatar';
 import { DataView } from 'primeng/dataview';
 import { Chip } from 'primeng/chip';
 
+// Icons
+import { Users, CalendarClock, ClipboardCheck } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
+
 import { CohortsService, CohortSchema, PatientCase, CohortCreateSchema, CohortStatisticsSchema, ModifiedResourceSchema } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
@@ -29,6 +33,7 @@ import { CaseBrowserCardComponent } from '../case-search/components/case-card/ca
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
+        LucideAngularModule,
         CohortQueryBuilderComponent,
         CaseBrowserCardComponent,
         Panel,
@@ -60,6 +65,9 @@ export class CohortBuilderComponent {
     public currentOffset: number = 0
     public pageSize: number = 15
 
+    public readonly populationIcon = Users;
+    public readonly ageIcon = CalendarClock;
+    public readonly completionIcon = ClipboardCheck;
 
 
     ngOnInit() {

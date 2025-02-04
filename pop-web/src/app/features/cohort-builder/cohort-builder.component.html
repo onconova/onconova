@@ -34,17 +34,20 @@
     <p-card class="flex" styleClass="border border-surface shadow-none">
         <div class="flex justify-between gap-8">
             <div class="flex flex gap-2">
+
+                <div class="mr-1 my-auto">
+                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
+                        <lucide-angular class="cohort-search-item-icon" [img]="populationIcon"></lucide-angular>
+                    </p-avatar>
+                </div>
+
                 <div class="flex flex-column">
-                    <h5 class="mb-2">Population</h5>
-                    <div class="flex ml-3">
-                        <div  *ngIf="cohort" >
-                            <span class="font-bold text-lg">{{ cohort.population }}</span> 
-                            cases
+                    <div class="text-muted mb-1">Population</div>
+                    <div class="flex">
+                        <div *ngIf="cohort">
+                            <span class="font-bold text-lg">{{ cohort.population }}</span> cases
                         </div>
                     </div>
-                </div>
-                <div class="ml-4 my-auto">
-                    <p-avatar icon="pi pi-user" class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}"/>
                 </div>
             </div>
         </div>
@@ -53,19 +56,23 @@
     <p-card class="flex" styleClass="border border-surface shadow-none">
         <div class="flex justify-between gap-8">
             <div class="flex flex gap-2">
+                
+                <div class="mr-1 my-auto">
+                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
+                        <lucide-angular class="cohort-search-item-icon" [img]="ageIcon"></lucide-angular>
+                    </p-avatar>
+                </div>
+
                 <div class="flex flex-column">
-                    <h5 class="mb-2">Age</h5>
-                    <div class="flex ml-3">
-                        <div  *ngIf="cohortStatistics" >
+                    <div class="text-muted mb-1">Average age</div>
+                    <div class="flex">
+                        <div *ngIf="cohortStatistics">
                             <span class="font-bold text-lg">{{ cohortStatistics.ageAverage || '-' }}</span> 
-                            <small *ngIf="cohortStatistics.ageStdDev !== null" class="text-muted "> ±{{ cohortStatistics.ageStdDev}}</small>
+                            <span *ngIf="cohortStatistics.ageStdDev !== null" class=""> (±{{ cohortStatistics.ageStdDev}})</span>
                             years
                         </div>
                     </div>
                 </div>
-                <div class="ml-4 my-auto">
-                    <p-avatar icon="pi pi-hourglass" class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}"/>
-                </div>
             </div>
         </div>
     </p-card>
@@ -74,17 +81,21 @@
     <p-card class="flex" styleClass="border border-surface shadow-none">
         <div class="flex justify-between gap-8">
             <div class="flex flex gap-2">
+
+                <div class="mr-1 my-auto">
+                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
+                        <lucide-angular class="cohort-search-item-icon" [img]="completionIcon"></lucide-angular>
+                    </p-avatar>
+                </div>
+
                 <div class="flex flex-column">
-                    <h5 class="mb-2">Confirmed completion</h5>
-                    <div class="flex ml-3">
-                        <div  *ngIf="cohortStatistics" >
-                            <span class="font-bold text-lg">{{ cohortStatistics.dataCompletionAverage ?? '-' }}</span>
-                            <small *ngIf="cohortStatistics.dataCompletionStdDev" class="text-muted "> ±{{ cohortStatistics.dataCompletionStdDev}}</small>% data completion
+                    <div class="text-muted mb-1">Average data completion</div>
+                    <div class="flex">
+                        <div *ngIf="cohortStatistics">
+                            <span class="font-bold text-lg">{{ cohortStatistics.dataCompletionAverage ?? '-' }}%</span>
+                            <span *ngIf="cohortStatistics.dataCompletionStdDev !== null" class=""> (±{{ cohortStatistics.dataCompletionStdDev}}%)</span> data categories
                         </div>
                     </div>
-                </div>
-                <div class="ml-4 my-auto">
-                    <p-avatar icon="pi pi-star" class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}"/>
                 </div>
             </div>
         </div>

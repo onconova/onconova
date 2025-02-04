@@ -1,0 +1,22 @@
+.cohort-search-item {
+    display: block !important;
+    margin: auto !important;
+    background: var(--p-dataview-content-background);
+    border-left: solid 4px var(--p-dataview-header-border-color);
+}
+.cohort-search-item:hover {
+    border-left: solid 4px var(--p-primary-color);
+}
+.cohort-search-item-title {
+    margin-top: 0;
+}
+.cohort-search-item-icon {
+    color: var(--p-primary-500); 
+    border-radius: .5rem;
+}
+.cohort-search-item-chip .p-chip{
+    background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
+}
+.cohort-search-item-chip .p-chip, .cohort-search-item-chip .p-chip-icon{
+    color: light-dark(var(--p-primary-700), var(--p-primary-300)) !important;
+}

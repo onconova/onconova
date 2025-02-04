@@ -29,23 +29,21 @@
 
     <!-- Skeleton loader -->
     <ng-container *ngIf="loadingCohorts">
-        <div class="grid gap-5 mt-5">
-            <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
-                <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
-                    <div class="flex my-3">
-                        <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
-                        <div class="flex flex-column mx-3">
-                            <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
-                            <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
-                        </div>
+        <div class="grid mt-3 gap-3">
+            <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col col-6 p-2" >
+                <div class="flex-column p-3 gap-3 mb-3 mx-2" style="display: block !important; background: var(--p-dataview-content-background);">
+                    <div class="flex my-3 gap-3">
+                        <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
+                        <p-skeleton [style]="{ width: '40rem', height: '2rem'}"></p-skeleton>    
+                        <p-skeleton [style]="{ width: '5rem', height: '2rem'}"></p-skeleton>    
                     </div>
-                    <div class="mb-3 mt-4">
-                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                    <div class="flex my-3 gap-3">
+                        <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
+                        <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
+                        <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
+                        <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
+                        <p-skeleton class="ml-auto" [style]="{ width: '9rem', height: '2rem'}"></p-skeleton>    
                     </div>
-                    <div class="my-3 mb-5">
-                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                    </div>
-                    <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
                 </div>
             </ng-container>
         </div>
@@ -66,7 +64,7 @@
 
         <ng-template #grid let-cohorts>
             <div class="grid mt-3">
-                <div class="col p-2"*ngFor="let cohort of cohorts; let first = first" >
+                <div class="col col-6 p-2"*ngFor="let cohort of cohorts; let first = first" >
                     <pop-cohort-search-item 
                     [cohort]="cohort"
                     (delete)="deleteCohort($event)"/>

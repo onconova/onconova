@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService } from 'src/app/shared/openapi';
+import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, CohortsService, CohortStatisticsSchema } from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -16,6 +16,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Knob } from 'primeng/knob';
 
+import { Users } from 'lucide-angular';
+import { LucideAngularModule } from 'lucide-angular';
 
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
@@ -25,6 +27,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
     standalone: true,
     selector: 'pop-cohort-search-item',
     templateUrl: './cohort-search-item.component.html',
+    styleUrl: './cohort-search-item.component.css',
     providers: [
         ConfirmationService,
     ],
@@ -33,6 +36,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
         FormsModule,
         RouterModule,
         NgxJdenticonModule,
+        LucideAngularModule,
         AvatarModule,
         AvatarGroupModule,
         DividerModule,
@@ -48,9 +52,16 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 export class CohortSearchItemComponent {
 
     private readonly router = inject(Router);
+    private readonly cohortsService = inject(CohortsService);
 
     @Input() cohort: any;
     @Output() delete = new EventEmitter<string>();
+    public statistics$: Observable<CohortStatisticsSchema> = of({})
+    public readonly populationIcon = Users;
+
+    ngOnInit() {
+        this.statistics$ = this.cohortsService.getCohortStatistics({cohortId: this.cohort.id})
+    }
 
 
     actionItems = [
