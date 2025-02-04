@@ -37,9 +37,7 @@ api = NinjaExtraAPI(
     title="POP API",
     description="Precision Oncology Platform API for exchange of research cancer data",
     urls_namespace="pop",
-    servers=[
-        {"url": f"https://{settings.HOST}:{settings.HOST_PORT}", "description": "API Server"},
-    ]
+    servers=[]
 )
 api.register_controllers(
     AuthController,

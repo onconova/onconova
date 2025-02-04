@@ -12,7 +12,7 @@ import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
-
+import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -36,7 +36,7 @@ export const appConfig: ApplicationConfig = {
                 httpCacheInterceptor
             ]),
         ),
-        { provide: BASE_PATH, useValue: 'https://localhost:4443' },
+        { provide: BASE_PATH, useValue: environment.basePath},
         { provide: JDENTICON_CONFIG, useValue: {
             hues: [0, 0],
             lightness: {

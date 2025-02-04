@@ -44,7 +44,7 @@ import {
 })
 export class VitalsService implements VitalsServiceInterface {
 
-    protected basePath = 'https://localhost:4443';
+    protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
@@ -403,6 +403,8 @@ export class VitalsService implements VitalsServiceInterface {
         const temperatureNotEqual = requestParameters?.temperatureNotEqual;
         const temperatureBetween = requestParameters?.temperatureBetween;
         const temperatureNotBetween = requestParameters?.temperatureNotBetween;
+        const bodyMassIndexNotExists = requestParameters?.bodyMassIndexNotExists;
+        const bodyMassIndexExists = requestParameters?.bodyMassIndexExists;
         const bodyMassIndexLessThan = requestParameters?.bodyMassIndexLessThan;
         const bodyMassIndexLessThanOrEqual = requestParameters?.bodyMassIndexLessThanOrEqual;
         const bodyMassIndexGreaterThan = requestParameters?.bodyMassIndexGreaterThan;
@@ -994,6 +996,14 @@ export class VitalsService implements VitalsServiceInterface {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'temperature.not.between');
             })
+        }
+        if (bodyMassIndexNotExists !== undefined && bodyMassIndexNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexNotExists, 'body_mass_index.not.exists');
+        }
+        if (bodyMassIndexExists !== undefined && bodyMassIndexExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexExists, 'body_mass_index.exists');
         }
         if (bodyMassIndexLessThan !== undefined && bodyMassIndexLessThan !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

@@ -20,6 +20,7 @@ export class AppMenuComponent implements OnInit {
 
     model: any[] = [];
     private readonly authService: AuthService = inject(AuthService);
+    private readonly basePath: string = inject(BASE_PATH);
     private readonly location: Location = inject(Location);
 
     ngOnInit() {
@@ -50,7 +51,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Others',
                 items: [
                     { label: 'Terminology', icon: 'pi pi-fw pi-book', routerLink: ['/notfound'] },
-                    { label: 'API Docs', icon: 'pi pi-fw pi-code', url: `https://localhost:4443/api/docs#/` },
+                    { label: 'API Docs', icon: 'pi pi-fw pi-code', url: `${this.basePath}/api/docs#/`},
                 ]
             }
         ];

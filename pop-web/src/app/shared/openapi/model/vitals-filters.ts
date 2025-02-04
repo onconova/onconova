@@ -555,6 +555,14 @@ export interface VitalsFilters {
      */
     'temperature.not.between'?: Array<any>;
     /**
+     * None - Filter for entries without a value
+     */
+    'body_mass_index.not.exists'?: boolean;
+    /**
+     * None - Filter for entries with a value
+     */
+    'body_mass_index.exists'?: boolean;
+    /**
      * None - Filter for entries with values less than the specified value
      */
     'body_mass_index.lessThan'?: number;

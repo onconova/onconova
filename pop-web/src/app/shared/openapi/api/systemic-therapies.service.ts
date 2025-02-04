@@ -53,7 +53,7 @@ import {
 })
 export class SystemicTherapiesService implements SystemicTherapiesServiceInterface {
 
-    protected basePath = 'https://localhost:4443';
+    protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;

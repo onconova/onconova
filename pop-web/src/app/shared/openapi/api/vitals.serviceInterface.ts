@@ -165,6 +165,8 @@ export interface GetVitalsRequestParams {
     temperatureNotEqual?: number;
     temperatureBetween?: Array<any>;
     temperatureNotBetween?: Array<any>;
+    bodyMassIndexNotExists?: boolean;
+    bodyMassIndexExists?: boolean;
     bodyMassIndexLessThan?: number;
     bodyMassIndexLessThanOrEqual?: number;
     bodyMassIndexGreaterThan?: number;
