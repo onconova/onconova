@@ -116,8 +116,19 @@ export class DatePickerComponent implements ControlValueAccessor {
 
     // Helper function to parse a date string into ISO format
     parseToISO(dateStr: string): string {
-        const [day, month, year] = dateStr.split('/');
-        return `${year}-${month}-${day}`;
+        let day; 
+        let month;
+        let year;
+        switch (this.dateFormat) {
+            case 'dd/mm/yy':
+                [day, month, year] = dateStr.split('/');
+                return `${year}-${month}-${day}`;
+            case 'mm/yy':
+                [month, year] = dateStr.split('/');
+                return `${year}-${month}-01`;
+            default:
+                return dateStr
+        }
     }
 }
  
