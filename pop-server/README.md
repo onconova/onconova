@@ -1,4 +1,4 @@
-SSL_CERT_DIR=./etc/certs/
+LOCAL_SSL_CERT_DIR=./etc/certs/
 CA_SSL_CERT_BUNDLE=''
 HOST_SSL_CERT_BUNDLE=localhost.crt
 HOST_SSL_CERT_KEY=localhost.key

@@ -1,4 +1,4 @@
-FROM node:23-alpine
+FROM node:22-alpine
 
 ARG PROXY_HTTPS
 ARG PROXY_HTTP
@@ -19,10 +19,8 @@ RUN npm config set proxy ${PROXY_HTTPS} \
     && npm config set https-proxy ${PROXY_HTTP}
 # Install the Angular CLI
 RUN npm install -g @angular/cli
-RUN npm install
+RUN npm install --force
 
-
-# Setup angular app
-CMD ["ng", "serve", "--host", "0.0.0.0" ]
+ENV WDS_SOCKET_PORT=443
 
 EXPOSE 4200

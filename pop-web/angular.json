@@ -75,15 +75,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "pop-web:build:production"
-            },
-            "development": {
-              "browserTarget": "pop-web:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
+          "options": {
+            "browserTarget": "pop-web:build"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
