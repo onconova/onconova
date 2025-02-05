@@ -50,6 +50,16 @@ class BaseModel(models.Model):
         to=UserModel,
         related_name='+'
     )
+    external_source = models.CharField(
+        verbose_name = _('External data source'),
+        help_text=_('The digital source of the data, relevant for automated data'),
+        null=True, blank=True
+    )
+    external_source_id = models.CharField(
+        verbose_name = _('External data source Id'),
+        help_text=_('The data identifier at the digital source of the data, relevant for automated data'),
+        null=True, blank=True
+    )
 
     class Meta:
         abstract = True

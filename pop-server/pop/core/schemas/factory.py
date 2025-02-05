@@ -148,7 +148,7 @@ class SchemaFactory(NinjaSchemaFactory):
         definitions = {}
         filter_fcns = {}
         for field_name, field_info in schema.model_fields.items():
-            if field_name in ['description']:
+            if field_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource']:
                 continue
             schema_fields = get_schema_field_filters(field_name, field_info)
             for field_name, (python_type, field_info), (method_name, filter_fcn) in schema_fields:

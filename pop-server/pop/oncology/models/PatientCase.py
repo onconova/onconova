@@ -58,12 +58,34 @@ class PatientCase(BaseModel):
     """
     objects = PatientCaseManager()
     
+    class ConsentStatus(models.TextChoices):
+        VALID = 'valid'
+        REVOKED = 'revoked'
+        UNKNOWN = 'unknown'
+    
     pseudoidentifier = models.CharField(
         verbose_name = _('Pseudoidentifier'),
         help_text = _("Pseudoidentifier of the patient"),
         max_length = 40, 
         unique = True,
         editable = False,
+    )
+    clinical_center = models.CharField(
+        verbose_name = _('Medical center'),
+        help_text = _("Medical center where the patient data originally resides"),
+        max_length = 200, 
+    )
+    clinical_identifier =  models.CharField(
+        verbose_name = _('Clinical identifier'),
+        help_text = _("Unique clinical identifier (typically the clinical information system identifier) unique for a physical patient"),
+        max_length = 100, 
+    )
+    consent_status = models.CharField(
+        verbose_name = _('Consent status'),
+        help_text = _("Status of the general consent by the patient for the use of their data for research purposes"),
+        max_length = 20, 
+        choices = ConsentStatus,
+        default = ConsentStatus.UNKNOWN,
     )
     gender = termfields.CodedConceptField(
         verbose_name = _('Gender'),
@@ -188,6 +210,9 @@ class PatientCase(BaseModel):
     
     class Meta:
         constraints = [
+            models.UniqueConstraint(
+                fields=['clinical_center', 'clinical_identifier'], name="unique_clinical_identifier_per_center"
+            ),
             models.CheckConstraint(
                 condition=Q(date_of_birth__day=1),
                 name='date_of_birth_must_be_first_of_month',

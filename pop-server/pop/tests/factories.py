@@ -60,7 +60,10 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
     date_of_death = factory.LazyFunction(lambda: faker.date_this_decade() if random.random() > 0.5 else None)
     cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
-
+    consent_status = FuzzyChoice(models.PatientCase.ConsentStatus)
+    clinical_center = factory.LazyFunction(lambda: faker.company())
+    clinical_identifier = factory.LazyFunction(lambda: random.randint(11111111,99999999))
+    
 class PatientCaseDataCompletionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PatientCaseDataCompletion
