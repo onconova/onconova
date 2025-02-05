@@ -5,6 +5,7 @@ from .TumorMarker import TumorMarkerController
 from .RiskAssessment import RiskAssessmentController
 from .SystemicTherapy import SystemicTherapyController
 from .PerformanceStatus import PerformanceStatusController
+from .TherapyLine import TherapyLineController
 from .Surgery import SurgeryController
 from .Radiotherapy import RadiotherapyController
 from .Lifestyle import LifestyleController
@@ -31,6 +32,7 @@ __all__ = (
     FamilyHistoryController,
     GenomicVariantController,
     GenomicSignatureController,
+    TherapyLineController,
     ComorbiditiesAssessmentController,
     ComorbiditiesPanelsController,
     VitalsController,

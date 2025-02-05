@@ -38,7 +38,7 @@ class SurgeryController(ControllerBase):
         operation_id='createSurgery',
     )
     def create_surgery(self, payload: SurgeryCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django(user=self.context.request.user).assign_therapy_line()
 
     @route.get(
         path='/{surgeryId}', 
@@ -61,7 +61,7 @@ class SurgeryController(ControllerBase):
     )
     def update_surgery(self, surgeryId: str, payload: SurgeryCreateSchema): # type: ignore
         instance = get_object_or_404(Surgery, id=surgeryId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance, user=self.context.request.user).assign_therapy_line()
 
     @route.delete(
         path='/{surgeryId}', 

@@ -42,7 +42,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id='createSystemicTherapy',
     )
     def create_systemic_therapy(self, payload: SystemicTherapyCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django(user=self.context.request.user).assign_therapy_line()
      
     @route.get(
         path='/{systemicTherapyId}', 
@@ -78,8 +78,8 @@ class SystemicTherapyController(ControllerBase):
     )
     def update_systemic_therapy(self, systemicTherapyId: str, payload: SystemicTherapyCreateSchema): # type: ignore
         instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
-    
+        return payload.model_dump_django(instance=instance, user=self.context.request.user).assign_therapy_line()
+        
 
 
     @route.get(

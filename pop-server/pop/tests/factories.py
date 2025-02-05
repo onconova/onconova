@@ -135,6 +135,14 @@ class RiskAssessmentFactory(factory.django.DjangoModelFactory):
     created_by =  factory.SubFactory(UserFactory)
 
 
+class TherapyLineFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.TherapyLine
+    case = factory.SubFactory(PatientCaseFactory)    
+    intent = FuzzyChoice(models.TherapyLine.TreatmentIntent)
+    ordinal = factory.LazyFunction(lambda: random.randint(1, 5))     
+
+
 class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemicTherapy
@@ -144,6 +152,7 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     cycles = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
     role = make_terminology_factory(terminology.TreatmentCategory)
+    therapy_line = factory.SubFactory(TherapyLineFactory)
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -164,6 +173,7 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
     bodysite_qualifier = make_terminology_factory(terminology.BodyLocationQualifier)
     bodysite_laterality = make_terminology_factory(terminology.LateralityQualifier)
     outcome = make_terminology_factory(terminology.ProcedureOutcome)
+    therapy_line = factory.SubFactory(TherapyLineFactory)
 
 
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
@@ -174,6 +184,7 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
     period = factory.LazyFunction(lambda: (faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
     sessions = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.Radiotherapy.TreatmentIntent)
+    therapy_line = factory.SubFactory(TherapyLineFactory)
 
 class RadiotherapyDosageFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -382,23 +393,24 @@ class VitalsFactory(factory.django.DjangoModelFactory):
     temperature = factory.LazyFunction(lambda: measures.Temperature(c=random.randint(37, 40)))     
 
 
+
 def fake_complete_case():
     case = PatientCaseFactory.create()
     PrimaryNeoplasticEntityFactory.create(case=case)
     if random.randint(0,100) > 40:
         MetastaticNeoplasticEntityFactory.create(case=case)
     TNMStagingFactory.create(case=case)
-    for _ in range(random.randint(0,4)):
+    for _ in range(random.randint(1,4)):
         systemic_therapy = SystemicTherapyFactory.create(case=case)
         for _ in range(random.randint(1,3)):
             SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy)
-    for _ in range(random.randint(0,2)):
+    for _ in range(random.randint(1,2)):
         radiotherapy = RadiotherapyFactory.create(case=case)
         for _ in range(random.randint(1,3)):
             RadiotherapyDosageFactory.create(radiotherapy=radiotherapy)
-    for _ in range(random.randint(0,4)):
+    for _ in range(random.randint(1,4)):
         TumorMarkerTestFactory.create(case=case)
-    for _ in range(random.randint(0,12)):
+    for _ in range(random.randint(1,12)):
         GenomicVariantFactory.create(case=case)
     for _ in range(random.randint(1,2)):
         TumorMutationalBurdenFactory.create(case=case)
@@ -420,4 +432,5 @@ def fake_complete_case():
         TreatmentResponseFactory.create(case=case)
     for _ in range(random.randint(1,5)):    
         PerformanceStatusFactory.create(case=case)
+    models.TherapyLine.assign_therapy_lines(case)
     return case

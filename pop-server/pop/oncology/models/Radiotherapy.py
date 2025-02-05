@@ -6,7 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from pop.core.measures.fields import MeasurementField
 
 from pop.core.models import BaseModel 
-from pop.oncology.models import PatientCase, NeoplasticEntity 
+from pop.oncology.models import PatientCase, NeoplasticEntity
+from pop.oncology.models.TherapyLine import TherapyLine
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 import pop.core.measures as measures
@@ -50,13 +51,25 @@ class Radiotherapy(BaseModel):
         terminology = terminologies.TreatmentTerminationReason,
         null=True,blank=True,
     )
+    therapy_line = models.ForeignKey(
+        verbose_name = _('Therapy line'),
+        help_text = _("Therapy line to which the radiotherapy is assigned to"),
+        to = TherapyLine,
+        related_name = 'radiotherapies',
+        on_delete = models.SET_NULL,
+        null = True, blank = True,
+    )
 
     @property
     def description(self):
         dosages = f"{' and '.join([dosage.description for dosage in self.dosages.all()])}"
         settings = f"{' and '.join([dosage.description for dosage in self.settings.all()])}" or 'Radiotherapy'
-        return f'{self.intent.capitalize()} - {settings} {dosages}'
+        return f'{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {settings} {dosages}'
 
+    def assign_therapy_line(self):
+        TherapyLine.assign_therapy_lines(self.case)
+        self.refresh_from_db()
+        return self
 
 class RadiotherapyDosage(BaseModel):
 

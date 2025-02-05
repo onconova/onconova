@@ -107,7 +107,7 @@ class RangeSchema(Schema):
         return obj
     
 class PeriodSchema(Schema):  
-    start: date
+    start: Optional[date] = None
     end: Optional[date] = None
     # Schema config
     model_config = ConfigDict(

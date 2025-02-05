@@ -3,7 +3,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel 
-from pop.oncology.models import PatientCase, NeoplasticEntity 
+from pop.oncology.models import PatientCase, NeoplasticEntity
+from pop.oncology.models.TherapyLine import TherapyLine
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
@@ -66,7 +67,20 @@ class Surgery(BaseModel):
         terminology = terminologies.ProcedureOutcome,
         blank = True, null = True,
     )
+    therapy_line = models.ForeignKey(
+        verbose_name = _('Therapy line'),
+        help_text = _("Therapy line to which the surgery is assigned to"),
+        to = TherapyLine,
+        related_name = 'surgeries',
+        on_delete = models.SET_NULL,
+        null = True, blank = True,
+    )
     
     @property
     def description(self):
-        return f'{self.procedure}'
+        return f'{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {self.procedure}'
+
+    def assign_therapy_line(self):
+        TherapyLine.assign_therapy_lines(self.case)
+        self.refresh_from_db()
+        return self

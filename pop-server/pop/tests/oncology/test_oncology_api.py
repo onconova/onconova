@@ -401,6 +401,14 @@ class TestMolecularTherapeuticRecommendationController(ApiControllerTestCase, Te
         return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}'
     
         
+class TestTherapyLineController(ApiControllerTestCase, TestCase):
+    CONTROLLER_BASE_URL = '/api/therapy-lines'
+    FACTORY = factories.TherapyLineFactory
+    MODEL = models.TherapyLine
+    SCHEMA = schemas.TherapyLineSchema
+    CREATE_SCHEMA = schemas.TherapyLineCreateSchema    
+
+
 class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
     CONTROLLER_BASE_URL = '/api/performance-status'
     FACTORY = factories.PerformanceStatusFactory

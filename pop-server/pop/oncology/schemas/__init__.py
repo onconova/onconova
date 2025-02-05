@@ -23,6 +23,7 @@ from .Staging import (
     RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
     LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
+from .TherapyLine import TherapyLineSchema, TherapyLineCreateSchema
 from .TumorMarker import TumorMarkerSchema, TumorMarkerCreateSchema
 from .RiskAssessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
 from .SystemicTherapy import (
@@ -82,34 +83,37 @@ VitalsFilters = create_filters_schema(schema = VitalsSchema, name='VitalsFilters
 ComorbiditiesAssessmentFilters = create_filters_schema(schema = ComorbiditiesAssessmentSchema, name='ComorbiditiesAssessmentFilters')
 GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema, name='GenomicVariantFilters')
 GenomicSignatureFilters = create_filters_schema(schema=GenomicSignatureSchema, name='GenomicSignatureFilters')
+TherapyLineFilters = create_filters_schema(schema=TherapyLineSchema, name='TherapyLineFilters')
 
 __all__ = (
-     # PatientCase schemas
-     PatientCaseSchema, PatientCaseCreateSchema,
-     PatientCaseDataCompletionStatusSchema, 
-     PatientCaseBundleSchema, PatientCaseBundleCreateSchema,
-     # Neoplastic entity schemas
-     NeoplasticEntitySchema, NeoplasticEntityCreateSchema,
-     # Staging schemas
-     TNMStagingSchema, TNMStagingCreateSchema,
-     FIGOStagingSchema, FIGOStagingCreateSchema,
-     BinetStagingSchema, BinetStagingCreateSchema,
-     RaiStagingSchema, RaiStagingCreateSchema,
-     BreslowDepthSchema, BreslowDepthCreateSchema,
-     ClarkStagingSchema, ClarkStagingCreateSchema,
-     ISSStagingSchema, ISSStagingCreateSchema,
-     RISSStagingSchema, RISSStagingCreateSchema, 
-     GleasonGradeSchema, GleasonGradeCreateSchema,
-     INSSStageSchema, INSSStageCreateSchema, 
-     INRGSSStageSchema, INRGSSStageCreateSchema,
-     WilmsStageSchema, WilmsStageCreateSchema,
-     RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
-     LymphomaStagingSchema, LymphomaStagingCreateSchema,
-     # Tumor marker schemas
-     TumorMarkerSchema, TumorMarkerCreateSchema,
-     # Risk assessment schemas
-     RiskAssessmentSchema, RiskAssessmentCreateSchema,
-     # Systemic therapy schemas 
+    # PatientCase schemas
+    PatientCaseSchema, PatientCaseCreateSchema,
+    PatientCaseDataCompletionStatusSchema, 
+    PatientCaseBundleSchema, PatientCaseBundleCreateSchema,
+    # Neoplastic entity schemas
+    NeoplasticEntitySchema, NeoplasticEntityCreateSchema,
+    # Staging schemas
+    TNMStagingSchema, TNMStagingCreateSchema,
+    FIGOStagingSchema, FIGOStagingCreateSchema,
+    BinetStagingSchema, BinetStagingCreateSchema,
+    RaiStagingSchema, RaiStagingCreateSchema,
+    BreslowDepthSchema, BreslowDepthCreateSchema,
+    ClarkStagingSchema, ClarkStagingCreateSchema,
+    ISSStagingSchema, ISSStagingCreateSchema,
+    RISSStagingSchema, RISSStagingCreateSchema, 
+    GleasonGradeSchema, GleasonGradeCreateSchema,
+    INSSStageSchema, INSSStageCreateSchema, 
+    INRGSSStageSchema, INRGSSStageCreateSchema,
+    WilmsStageSchema, WilmsStageCreateSchema,
+    RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
+    LymphomaStagingSchema, LymphomaStagingCreateSchema,
+    # Tumor marker schemas
+    TumorMarkerSchema, TumorMarkerCreateSchema,
+    # Risk assessment schemas
+    RiskAssessmentSchema, RiskAssessmentCreateSchema,
+    # Therapy line schemas
+    TherapyLineSchema, TherapyLineCreateSchema,
+    # Systemic therapy schemas 
     SystemicTherapySchema, SystemicTherapyCreateSchema, 
     SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
     # Surgery schemas

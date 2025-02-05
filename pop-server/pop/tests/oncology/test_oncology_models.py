@@ -1,10 +1,11 @@
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from pop.oncology.models.PatientCase import PatientCaseDataCompletion
-
+from pop.oncology.models.TherapyLine import TherapyLine
 import pop.tests.factories as factories
+import pop.terminology.models as terminology
 
 class PatientCaseModelTest(TestCase):
     
@@ -65,4 +66,234 @@ class VitalsModelTest(TestCase):
         self.vitals.save()
         expected_bmi = self.vitals.weight.kg/(self.vitals.height.m*self.vitals.height.m)
         self.assertAlmostEqual(self.vitals.body_mass_index.kg__square_meter, expected_bmi)
+
+
+class TherapyLineModelTest(TestCase):
+    
+    def setUp(self):
+        self.TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.get_or_create(code='407563006', display='termination-reason', system='http://snomed.info/sct')[0]
+        self.COMPLEMENTARY_THERAPY = terminology.TreatmentCategory.objects.get_or_create(code='314122007', display='category-1', system='https://snomed.info/sct')[0]
+        self.PROGRESSIVE_DISEASE = terminology.CancerTreatmentResponse.objects.get_or_create(code='LA28370-7', display='PD', system='https://loinc.org')[0]
+        self.case = factories.PatientCaseFactory.create()
+        self.therapy_line = factories.TherapyLineFactory.create(case=self.case)
+    
+    def test_line_label_is_properly_generated(self):
+        expected_label = f'{self.therapy_line.intent[0].upper()}LoT{self.therapy_line.ordinal}'
+        self.assertEqual(self.therapy_line.label, expected_label)
         
+    def test_period_is_properly_generated_from_systemic_therapies(self):
+        self.systemic_therapy = factories.SystemicTherapyFactory.create(period=('2000-1-1', '2000-2-2'), therapy_line=self.therapy_line)  
+        self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())
+        self.assertEqual(self.therapy_line.period.upper, datetime(2000,2,3).date())
+        
+    def test_period_is_properly_generated_from_radiotherapies(self):
+        self.radiotherapy = factories.RadiotherapyFactory.create(period=('2000-1-1', '2000-2-2'), therapy_line=self.therapy_line)  
+        self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())
+        self.assertEqual(self.therapy_line.period.upper, datetime(2000,2,3).date())
+        
+    def test_period_is_properly_generated_from_surgery(self):
+        self.surgery = factories.SurgeryFactory.create(date='2000-1-1', therapy_line=self.therapy_line)  
+        self.assertFalse(self.therapy_line.period.isempty)
+        self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())
+        self.assertEqual(self.therapy_line.period.upper, datetime(2000,1,2).date())
+        
+    def test_period_is_properly_generated_with_ongoing_therapy(self):
+        self.systemic_therapy = factories.SystemicTherapyFactory.create(period=('2000-1-1', None), therapy_line=self.therapy_line)  
+        self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())
+        self.assertEqual(self.therapy_line.period.upper, None)
+
+    def test_period_is_properly_generated_from_multiple_therapies(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(period=('2000-1-1', '2000-3-3'), therapy_line=self.therapy_line)  
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(period=('2000-2-2', '2000-4-4'), therapy_line=self.therapy_line)  
+
+        self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())
+        self.assertEqual(self.therapy_line.period.upper, datetime(2000,4,5).date())
+        
+    def test_period_is_properly_generated_from_multiple_mixed_therapies(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(period=('2000-1-1', '2000-3-3'), therapy_line=self.therapy_line)  
+        self.systemic_therapy2 = factories.RadiotherapyFactory.create(period=('2000-2-2', '2000-4-4'), therapy_line=self.therapy_line)  
+
+        self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())
+        self.assertEqual(self.therapy_line.period.upper, datetime(2000,4,5).date())
+
+
+    def test_therapy_line_assignment__no_existing_lines(self):
+        self.systemic_therapy = factories.SystemicTherapyFactory.create(
+            case = self.case,
+            intent = 'curative',
+        )  
+        TherapyLine.assign_therapy_lines(self.case)
+        # Refresh data
+        self.systemic_therapy.refresh_from_db()
+        self.assertEqual(self.systemic_therapy.therapy_line.label, 'CLoT1')
+
+    def test_therapy_line_assignment__add_to_existing_line(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case = self.case,
+            intent = 'curative',
+        )  
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case = self.case,
+            intent = 'curative',
+        )  
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'CLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'CLoT1')
+
+    def test_therapy_line_assignment__switch_curative_to_palliative(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case = self.case,
+            intent = 'curative',
+        )  
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case = self.case,
+            intent = 'palliative',
+        )  
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+        
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'CLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'PLoT1')
+
+    def test_therapy_line_assignment__same_line_for_overlapping_therapies(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='curative',
+            period=('2023-1-1', '2023-3-1')
+        )  
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='curative',
+            period=('2023-2-1', '2023-4-1')
+        )  
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+        
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'CLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'CLoT1')
+        self.assertEqual(self.systemic_therapy1.therapy_line, self.systemic_therapy2.therapy_line)
+
+
+    def test_therapy_line_assignment__new_line_due_to_progressive_disease(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-1-1', '2023-3-1'),
+        )  
+        self.treatment_response = factories.TreatmentResponseFactory.create(
+            case=self.case,
+            recist=self.PROGRESSIVE_DISEASE,
+            date='2023-2-15',
+        )
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-4-1', '2023-5-1'),
+        )  
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+        
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'PLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'PLoT2')
+        self.assertNotEqual(self.systemic_therapy1.therapy_line, self.systemic_therapy2.therapy_line)
+
+    def test_therapy_line_assignment__same_line_due_to_same_treatment_type(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-1-1', '2023-3-1'),
+        )  
+        self.treatment_response = factories.TreatmentResponseFactory.create(
+            case=self.case,
+            date='2023-2-15',
+        )
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-4-1', '2023-5-1'),
+        )  
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+        
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'PLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'PLoT1')
+        self.assertEqual(self.systemic_therapy1.therapy_line, self.systemic_therapy2.therapy_line)
+
+    def test_therapy_line_assignment__new_line_due_to_different_treatment_category(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-1-1', '2023-3-1'),
+        )  
+        factories.SystemicTherapyMedicationFactory.create(
+            drug=terminology.AntineoplasticAgent.objects.create(
+                code='drug-1', display='chemo-1', therapyCategory='Chemotherapy'
+            ),
+            systemic_therapy=self.systemic_therapy1
+        )
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-4-1', '2023-5-1'),
+        )  
+        factories.SystemicTherapyMedicationFactory.create(
+            drug=terminology.AntineoplasticAgent.objects.create(
+                code='drug-2', display='immuno 2', therapyCategory='Immunotherapy'
+            ),
+            systemic_therapy=self.systemic_therapy2
+        )
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+        
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'PLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'PLoT2')
+        self.assertNotEqual(self.systemic_therapy1.therapy_line, self.systemic_therapy2.therapy_line)
+
+    def test_therapy_line_assignment__same_line_due_to_maintenance(self):
+        self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-1-1', '2023-3-1'),
+            role=None,
+        )  
+        factories.SystemicTherapyMedicationFactory.create(
+            drug=terminology.AntineoplasticAgent.objects.create(
+                code='drug-1', display='chemo-1', therapyCategory='Chemotherapy'
+            ),
+            systemic_therapy=self.systemic_therapy1
+        )
+        self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
+            case=self.case,
+            intent='palliative',
+            period=('2023-4-1', '2023-5-1'),
+            role=self.COMPLEMENTARY_THERAPY,
+        )  
+        factories.SystemicTherapyMedicationFactory.create(
+            drug=terminology.AntineoplasticAgent.objects.create(
+                code='drug-2', display='chemo-2', therapyCategory='Chemotherapy'
+            ),
+            systemic_therapy=self.systemic_therapy2
+        )
+        TherapyLine.assign_therapy_lines(self.case)
+        
+        self.systemic_therapy1.refresh_from_db()
+        self.systemic_therapy2.refresh_from_db()
+        
+        self.assertEqual(self.systemic_therapy1.therapy_line.label, 'PLoT1')
+        self.assertEqual(self.systemic_therapy2.therapy_line.label, 'PLoT1')
+        self.assertEqual(self.systemic_therapy1.therapy_line, self.systemic_therapy2.therapy_line)
+

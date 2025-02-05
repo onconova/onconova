@@ -13,7 +13,7 @@ class PatientCaseDataCompletionStatusSchema(Schema):
     timestamp: Optional[datetime] = Field(None,description='Username of the person who marked the category as completed')
 
 class PatientCaseSchema(ModelSchema):
-    age: int = Field(title='Age', alias='db_age', description='Approximate age of the patient in years', json_schema_extra={'django_field': 'db_age'}) 
+    age: int = Field(title='Age', alias='db_age', description='Approximate age of the patient in years') 
     dataCompletionRate: float = Field(
         title='Data completion rate',
         description='Percentage indicating the completeness of a case in terms of its data.', 

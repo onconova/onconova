@@ -6,9 +6,8 @@ from datetime import datetime
 
 from unittest.mock import MagicMock
 from enum import Enum
-from django.db.backends.postgresql.psycopg_any import DateRange
 from pop.terminology.models import AdministrativeGender as TestCodedConcept
-from pop.core.schemas.filters import *
+import pop.core.schemas.filters as f
 
 class OptionsEnum(Enum):
     OPTIONA = 'optionA'
@@ -23,7 +22,7 @@ instanceA = MockModel(
     float_field=2.5,
     enum_field=OptionsEnum.OPTIONA,
     bool_field=True,
-    period_field=(date(2000,1,1), date(2009,12,12)),
+    period_field=(datetime(2000,1,1), datetime(2009,12,12)),
 )
 instanceB = MockModel(
     mock_name='instanceB', 
@@ -34,7 +33,7 @@ instanceB = MockModel(
     float_field=5.5,
     enum_field=OptionsEnum.OPTIONB,
     bool_field=False,
-    period_field=(date(2010,1,1), date(2020,1,1)),
+    period_field=(datetime(2010,1,1), datetime(2020,1,1)),
 )
 test_queryset = MockSet(
     instanceA,
@@ -60,14 +59,14 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (ExactStringFilter, 'this_string_is_version_A', instanceA),
-           (NotExactStringFilter, 'this_string_is_version_A', instanceB),
-           (ContainsStringFilter, 'this', instanceA),
-           (NotContainsStringFilter, 'this', instanceB),
-           (BeginsWithStringFilter, 'this_', instanceA),
-           (NotBeginsWithStringFilter, 'this_', instanceB),
-           (EndsWithStringFilter, 'version_A', instanceA),
-           (NotEndsWithStringFilter, '_version_A', instanceB),
+           (f.ExactStringFilter, 'this_string_is_version_A', instanceA),
+           (f.NotExactStringFilter, 'this_string_is_version_A', instanceB),
+           (f.ContainsStringFilter, 'this', instanceA),
+           (f.NotContainsStringFilter, 'this', instanceB),
+           (f.BeginsWithStringFilter, 'this_', instanceA),
+           (f.NotBeginsWithStringFilter, 'this_', instanceB),
+           (f.EndsWithStringFilter, 'version_A', instanceA),
+           (f.NotEndsWithStringFilter, '_version_A', instanceB),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -77,8 +76,8 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (IsNullFilter, True, instanceA),
-           (NotIsNullFilter, False, instanceA),
+           (f.IsNullFilter, True, instanceA),
+           (f.NotIsNullFilter, False, instanceA),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -88,14 +87,14 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (BeforeDateFilter, datetime(2010,1,1), instanceA),
-           (AfterDateFilter, datetime(2010,1,1), instanceB),
-           (OnOrBeforeDateFilter, datetime(2010,1,1), instanceA),
-           (OnOrAfterDateFilter, datetime(2010,1,1), instanceB),
-           (OnDateFilter, datetime(2000,1,1), instanceA),
-           (NotOnDateFilter, datetime(2000,1,1), instanceB),
-           (BetweenDatesFilter, [datetime(1999,1,1), datetime(2001,1,1)], instanceA),
-           (NotBetweenDatesFilter, [datetime(1999,1,1), datetime(2001,1,1)], instanceB),
+           (f.BeforeDateFilter, datetime(2010,1,1), instanceA),
+           (f.AfterDateFilter, datetime(2010,1,1), instanceB),
+           (f.OnOrBeforeDateFilter, datetime(2010,1,1), instanceA),
+           (f.OnOrAfterDateFilter, datetime(2010,1,1), instanceB),
+           (f.OnDateFilter, datetime(2000,1,1), instanceA),
+           (f.NotOnDateFilter, datetime(2000,1,1), instanceB),
+           (f.BetweenDatesFilter, [datetime(1999,1,1), datetime(2001,1,1)], instanceA),
+           (f.NotBetweenDatesFilter, [datetime(1999,1,1), datetime(2001,1,1)], instanceB),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -104,14 +103,14 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (LessThanIntegerFilter, 3, instanceA),
-           (LessThanOrEqualIntegerFilter, 3, instanceA),
-           (GreaterThanIntegerFilter, 3, instanceB),
-           (GreaterThanOrEqualIntegerFilter, 3, instanceB),
-           (EqualIntegerFilter, 2, instanceA),
-           (NotEqualIntegerFilter, 2, instanceB),
-           (BetweenIntegerFilter, [0,4], instanceA),
-           (NotBetweenIntegerFilter, [0,4], instanceB),
+           (f.LessThanIntegerFilter, 3, instanceA),
+           (f.LessThanOrEqualIntegerFilter, 3, instanceA),
+           (f.GreaterThanIntegerFilter, 3, instanceB),
+           (f.GreaterThanOrEqualIntegerFilter, 3, instanceB),
+           (f.EqualIntegerFilter, 2, instanceA),
+           (f.NotEqualIntegerFilter, 2, instanceB),
+           (f.BetweenIntegerFilter, [0,4], instanceA),
+           (f.NotBetweenIntegerFilter, [0,4], instanceB),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -120,14 +119,14 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (LessThanFloatFilter, 3.0, instanceA),
-           (LessThanOrEqualFloatFilter, 3.0, instanceA),
-           (GreaterThanFloatFilter, 3.0, instanceB),
-           (GreaterThanOrEqualFloatFilter, 3.0, instanceB),
-           (EqualFloatFilter, 2.5, instanceA),
-           (NotEqualFloatFilter, 2.5, instanceB),
-           (BetweenFloatFilter, [0.0,4.0], instanceA),
-           (NotBetweenFloatFilter, [0.0,4.0], instanceB),
+           (f.LessThanFloatFilter, 3.0, instanceA),
+           (f.LessThanOrEqualFloatFilter, 3.0, instanceA),
+           (f.GreaterThanFloatFilter, 3.0, instanceB),
+           (f.GreaterThanOrEqualFloatFilter, 3.0, instanceB),
+           (f.EqualFloatFilter, 2.5, instanceA),
+           (f.NotEqualFloatFilter, 2.5, instanceB),
+           (f.BetweenFloatFilter, [0.0,4.0], instanceA),
+           (f.NotBetweenFloatFilter, [0.0,4.0], instanceB),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -136,10 +135,10 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (EqualsEnumFilter, OptionsEnum.OPTIONA, instanceA),
-           (NotEqualsEnumFilter, OptionsEnum.OPTIONA, instanceB),
-           (AnyOfEnumFilter, [OptionsEnum.OPTIONA], instanceA),
-           (NotAnyOfEnumFilter, [OptionsEnum.OPTIONA], instanceB),
+           (f.EqualsEnumFilter, OptionsEnum.OPTIONA, instanceA),
+           (f.NotEqualsEnumFilter, OptionsEnum.OPTIONA, instanceB),
+           (f.AnyOfEnumFilter, [OptionsEnum.OPTIONA], instanceA),
+           (f.NotAnyOfEnumFilter, [OptionsEnum.OPTIONA], instanceB),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -149,7 +148,7 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (EqualsBooleanFilter, True, instanceA),
+           (f.EqualsBooleanFilter, True, instanceA),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -159,12 +158,12 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (EqualsConceptFilter, 'code-A', instanceA),
-           (NotEqualsConceptFilter, 'code-A', instanceB),
-           (AnyOfConceptFilter, ['code-A', 'code-C'], instanceA),
-           (NotAnyOfConceptFilter, ['code-A', 'code-C'], instanceB),
-           (DescendantsOfConceptFilter, 'parent-A', instanceA),
-           (DescendantsOfConceptFilter, 'grandparent-A', instanceA),
+           (f.EqualsConceptFilter, 'code-A', instanceA),
+           (f.NotEqualsConceptFilter, 'code-A', instanceB),
+           (f.AnyOfConceptFilter, ['code-A', 'code-C'], instanceA),
+           (f.NotAnyOfConceptFilter, ['code-A', 'code-C'], instanceB),
+           (f.DescendantsOfConceptFilter, 'parent-A', instanceA),
+           (f.DescendantsOfConceptFilter, 'grandparent-A', instanceA),
         ],
         name_func = parameterized_filter_test_name
     )
@@ -181,10 +180,10 @@ class TestDjangoFilters(TestCase):
 
     @parameterized.expand(
         [
-           (OverlapsPeriodFilter, (date(2000,1,1), date(2009,12,12)), instanceA),
-           (NotOverlapsPeriodFilter, (date(2000,1,1), date(2009,12,12)), instanceB),
-           (ContainsPeriodFilter, (date(2000,1,1), date(2009,12,12)), instanceA),
-           (NotContainsPeriodFilter, (date(2000,1,1), date(2009,12,12)), instanceB),
+           (f.OverlapsPeriodFilter, (datetime(2000,1,1), datetime(2009,12,12)), instanceA),
+           (f.NotOverlapsPeriodFilter, (datetime(2000,1,1), datetime(2009,12,12)), instanceB),
+           (f.ContainsPeriodFilter, (datetime(2000,1,1), datetime(2009,12,12)), instanceA),
+           (f.NotContainsPeriodFilter, (datetime(2000,1,1), datetime(2009,12,12)), instanceB),
         ],
         name_func = parameterized_filter_test_name
     )

@@ -12,6 +12,7 @@ from .RiskAssessment import RiskAssessment
 from .SystemicTherapy import SystemicTherapy, SystemicTherapyMedication
 from .Surgery import Surgery
 from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
+from .TherapyLine import TherapyLine
 from .PerformanceStatus import PerformanceStatus
 from .TreatmentResponse import TreatmentResponse
 from .TumorBoard import TumorBoard, UnspecifiedTumorBoard, MolecularTumorBoard, MolecularTherapeuticRecommendation
@@ -40,6 +41,8 @@ __all__ = (
     TumorMarker,
     # Risk assessment
     RiskAssessment,
+    # Therapy line
+    TherapyLine,
     # Systemic therapy
     SystemicTherapy, SystemicTherapyMedication,
     # Performance status

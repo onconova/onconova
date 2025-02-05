@@ -111,7 +111,7 @@ def get_schema_field(
 
             if field.one_to_many or field.many_to_many:
                 python_type = List[related_type] 
-                if not django_field_name.endswith('s'):
+                if not django_field_name.endswith('s') and django_field_name not in ['created_by', 'updated_by']:
                     django_field_name += 's'
                 default=[]
             else:
