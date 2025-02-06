@@ -11,6 +11,7 @@ class PatientCaseModelTest(TestCase):
     
     def setUp(self):
         self.patient = factories.PatientCaseFactory()
+        self.patient.save()
     
     def test_pseudoidentifier_created_on_save(self):
         self.assertIsNotNone(self.patient.pseudoidentifier) 
@@ -21,6 +22,12 @@ class PatientCaseModelTest(TestCase):
         patient2.pseudoidentifier = self.patient.pseudoidentifier
         self.assertRaises(IntegrityError, patient2.save)
 
+    def test_clinical_center_and_identifier_must_be_unique(self):
+        patient2 = factories.PatientCaseFactory()
+        patient2.clinical_identifier = self.patient.clinical_identifier
+        patient2.clinical_center = self.patient.clinical_center
+        self.assertRaises(IntegrityError, patient2.save)
+        
     def test_is_deceased_assigned_based_on_date_of_death(self):
         self.assertEqual(self.patient.is_deceased, self.patient.date_of_death is not None or self.patient.cause_of_death is not None)
 

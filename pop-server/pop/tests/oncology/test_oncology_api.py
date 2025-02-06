@@ -168,6 +168,7 @@ class ApiControllerTestCase:
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
+            instance.delete()
             # Call the API endpoint.
             response = self.call_api_endpoint(POST, self.get_route_url(instance), *config, data=json_data)
             with self.subTest(i=i):       
