@@ -5,7 +5,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ModifiedResourceSchema, Paginated
-from pop.oncology.models import TreatmentResponse
+from pop.oncology.models import TreatmentResponse, TherapyLine
 
 from django.shortcuts import get_object_or_404
 
@@ -38,7 +38,7 @@ class TreatmentResponseController(ControllerBase):
         operation_id='createTreatmentResponse',
     )
     def create_treatment_response(self, payload: TreatmentResponseCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django(user=self.context.request.user).assign_therapy_line()
 
     @route.get(
         path='/{treatmentRresponseId}', 
@@ -62,7 +62,7 @@ class TreatmentResponseController(ControllerBase):
     )
     def update_treatment_response(self, treatmentRresponseId: str, payload: TreatmentResponseCreateSchema): # type: ignore
         instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance, user=self.context.request.user).assign_therapy_line()
         
     @route.delete(
         path='/{treatmentRresponseId}', 
@@ -74,5 +74,6 @@ class TreatmentResponseController(ControllerBase):
     )
     def delete_treatment_response(self, treatmentRresponseId: str):
         get_object_or_404(TreatmentResponse, id=treatmentRresponseId).delete()
+        TherapyLine.assign_therapy_lines()
         return 204, None
     

@@ -13,11 +13,22 @@ class PatientCaseDataCompletionStatusSchema(Schema):
     timestamp: Optional[datetime] = Field(None,description='Username of the person who marked the category as completed')
 
 class PatientCaseSchema(ModelSchema):
-    age: int = Field(title='Age', alias='db_age', description='Approximate age of the patient in years') 
+    age: int = Field(
+        title='Age', 
+        alias='age', 
+        description='Approximate age of the patient in years'
+    ) 
+    overallSurvival: Optional[float] = Field(
+        None,
+        title='Overall survival', 
+        alias='overall_survival', 
+        description='Overall survival of the patient since diagnosis',
+        validation_alias=AliasChoices('overall_survival','overallSurvival'),
+    ) 
     dataCompletionRate: float = Field(
         title='Data completion rate',
         description='Percentage indicating the completeness of a case in terms of its data.', 
-        alias='db_data_completion_rate',
+        alias='data_completion_rate',
         validation_alias=AliasChoices('dataCompletionRate', 'data_completion_rate'),
     ) 
 

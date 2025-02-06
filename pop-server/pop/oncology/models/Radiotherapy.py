@@ -1,10 +1,14 @@
 
 from django.db import models
+from django.db.models import ExpressionWrapper, Value, Func, F
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
 
-from pop.core.measures.fields import MeasurementField
+from queryable_properties.properties import AnnotationProperty
+from queryable_properties.managers import QueryablePropertiesManager
 
+
+from pop.core.measures.fields import MeasurementField
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase, NeoplasticEntity
 from pop.oncology.models.TherapyLine import TherapyLine
@@ -14,6 +18,8 @@ import pop.core.measures as measures
 
 class Radiotherapy(BaseModel):
 
+    objects = QueryablePropertiesManager()
+    
     class TreatmentIntent(models.TextChoices):
         CURATIVE = 'curative'
         PALLIATIVE = 'palliative'
@@ -29,6 +35,20 @@ class Radiotherapy(BaseModel):
         verbose_name = _('Treatment period'),
         help_text=_("Clinically-relevant period during which the radiotherapy was administered to the patient."),
     ) 
+    duration = AnnotationProperty(
+        verbose_name = _('Duration of treatment in days'),
+        annotation = ExpressionWrapper(
+            Func(
+                Func(F('period'), function='upper', output_field=models.DateField())
+                -
+                Func(F('period'), function='lower', output_field=models.DateField()),
+                function='EXTRACT',
+                template="EXTRACT(EPOCH FROM %(expressions)s)",
+                output_field=models.IntegerField()
+            ) / Value(3600*24),
+            output_field=models.IntegerField()
+        )
+    )      
     targeted_entities = models.ManyToManyField(
         verbose_name = _('Targeted neoplastic entities'),
         help_text = _("References to the neoplastic entities that were targeted by the radiotherapy"),

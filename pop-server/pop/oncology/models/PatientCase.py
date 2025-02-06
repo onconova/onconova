@@ -3,61 +3,44 @@ import string
 
 from django.db import models 
 from django.contrib.postgres.fields import ArrayField
-from django.db.models import Q, F, Func, ExpressionWrapper, Case, When, Value, Count
+from django.db.models.functions import Round, Cast, Now, ExtractMonth, ExtractYear
+from django.db.models import Q, F, Func, Min, ExpressionWrapper, Case, When, Value, Count
 from django.utils.translation import gettext_lazy as _
 
-from pop.core.models import BaseModel 
+from queryable_properties.properties import AnnotationProperty
+from queryable_properties.managers import QueryablePropertiesManager
 
+from pop.core.models import BaseModel 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
-class PatientCaseManager(models.Manager):
-    def get_queryset(self):
-        """
-        Annotate the queryset with a database-level age computation.
+class PatientCaseDataCategories(models.TextChoices):
+        COMORBIDITIES_ASSESSMENTS = 'comorbidities-assessments'
+        FAMILY_HISTORIES = 'family-histories'
+        GENOMIC_SIGNATURES = 'genomic-signatures'
+        GENOMIC_VARIANTS = 'genomic-variants'
+        LIFESTYLES = 'lifestyles'
+        COMORBIDITIES = 'comorbidities'
+        NEOPLASTIC_ENTITIES = 'neoplastic-entities'
+        PERFORMANCE_STATUS = 'performance-status'
+        RADIOTHERAPIES = 'radiotherapies'
+        RISK_ASSESSMENTS = 'risk-assessments'
+        STAGINS = 'stagings'
+        SURGERIES = 'surgeries'
+        SYSTEMIC_THERAPIES = 'systemic-therapies'
+        TUMOR_MARKERS = 'tumor-markers'
+        VITALS = 'vitals'
+        TUMOR_BOARD_REVIEWS = 'tumor-board-reviews'
+        ADVERSE_EVENTS = 'adverse-events'
+        THERAPY_RESPONSES = 'therapy-responses'
 
-        Age is computed using PostgreSQL's built-in AGE and EXTRACT functions.
-        The computation is done on the database side, so it is both fast and
-        queriable. The age is computed as the difference in years between the
-        date_of_birth and either the date of death or the current date if the
-        patient is alive.
-        """
-        return super().get_queryset().annotate(
-            # Add patient age computed at database-level (fast and queriable)
-            db_age=ExpressionWrapper(
-                Func(
-                    Func(
-                        Case(
-                            When(date_of_death__isnull=False, then=F('date_of_death')),
-                            default=Func(function='NOW'),  # Use current date if date_of_death is NULL
-                        ),
-                        F('date_of_birth'),
-                        function='AGE'
-                    ),
-                    function="EXTRACT",
-                    template="EXTRACT(YEAR FROM %(expressions)s)"
-                ),
-                output_field=models.IntegerField(),
-            ),
-            db_data_completion_rate=models.functions.Round(
-                models.functions.Cast(
-                    Count('completed_data_categories'), output_field=models.FloatField()
-                ) / PatientCaseDataCompletion.DATA_CATEGORIES_COUNT * 100
-            ),
-)
+DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
+
 
 class PatientCase(BaseModel):
-    """
-    Represents a patient case in the oncology system.
 
-    This model stores information about a patient's case, including their
-    pseudoidentifier, race, sex at birth, gender identity, gender, date of birth,
-    date of death, cause of death, and other related fields. 
+    objects = QueryablePropertiesManager()
 
-    All fields are stored according to HIPAA de-identification standards.
-    """
-    objects = PatientCaseManager()
-    
     class ConsentStatus(models.TextChoices):
         VALID = 'valid'
         REVOKED = 'revoked'
@@ -116,6 +99,18 @@ class PatientCase(BaseModel):
         verbose_name = _('Date of birth'),
         help_text = _('Anonymized date of birth (year/month). The day is set to the first day of the month by convention.'),
     )
+    age = AnnotationProperty(
+        verbose_name = _('Age'),
+        annotation = ExpressionWrapper(
+        ExtractYear(
+            Func(
+                Case(When(date_of_death__isnull=False, then=F('date_of_death')), default=Func(function='NOW')),
+                F('date_of_birth'),
+                function='AGE'
+            ),
+        ),
+        output_field=models.IntegerField(),
+    ))
     is_deceased = models.GeneratedField(
         verbose_name = _('Is deceased'),
         help_text = _("Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)"),
@@ -138,35 +133,33 @@ class PatientCase(BaseModel):
         terminology = terminologies.CauseOfDeath, 
         null=True, blank=True,
     )
+    data_completion_rate = AnnotationProperty(
+        verbose_name = _('Data completion rate'),
+        annotation = Round(
+            Cast(Count('completed_data_categories'), output_field=models.FloatField()) 
+            / DATA_CATEGORIES_COUNT * 100
+        )  
+    )
+    overall_survival = AnnotationProperty(
+        verbose_name = _('Overall survival since diagnosis in months'),
+        annotation = Case(
+            When(neoplastic_entities__isnull=True, then=None),
+            default = Func(
+                Cast(Case(When(date_of_death__isnull=False, then=F('date_of_death')),default=Func(function='NOW')), models.DateField())
+                -
+                Min(F("neoplastic_entities__assertion_date")),
+                function='EXTRACT',
+                template="EXTRACT(EPOCH FROM %(expressions)s)",
+                output_field=models.IntegerField()
+            ) / Value(3600*24*30.436875),        
+            output_field=models.FloatField()   
+        )
+    )
 
     @property
     def description(self):
         return f'POP Case {self.pseudoidentifier}'
-    
-    @property
-    def age(self):
-        """
-        Calculate the age of the patient based on the date_of_birth and current date
-        or date of death, if available. The age is computed at the database level.
-
-        Returns:
-            float: The age this patient case.
-        """
-        return self.__class__.objects.filter(pk=self.pk).values('db_age')[0]['db_age']
-    
-    @property
-    def data_completion_rate(self):
-        """
-        Calculate the data completion rate of the patient case.
-
-        Retrieves the data completion rate for this patient case from the database,
-        indicating the percentage of data categories that have been completed.
-
-        Returns:
-            float: The percentage of data categories completed for this patient case.
-        """
-        return self.__class__.objects.filter(pk=self.pk).values('db_data_completion_rate')[0]['db_data_completion_rate']
-    
+ 
     def _generate_random_id(self):
         """
         Generates a random identifier string for a patient record.
@@ -225,31 +218,12 @@ class PatientCase(BaseModel):
             ),
         ]
 
-
+    
 class PatientCaseDataCompletion(BaseModel):
         
-    class PatientCaseDataCategories(models.TextChoices):
-        COMORBIDITIES_ASSESSMENTS = 'comorbidities-assessments'
-        FAMILY_HISTORIES = 'family-histories'
-        GENOMIC_SIGNATURES = 'genomic-signatures'
-        GENOMIC_VARIANTS = 'genomic-variants'
-        LIFESTYLES = 'lifestyles'
-        COMORBIDITIES = 'comorbidities'
-        NEOPLASTIC_ENTITIES = 'neoplastic-entities'
-        PERFORMANCE_STATUS = 'performance-status'
-        RADIOTHERAPIES = 'radiotherapies'
-        RISK_ASSESSMENTS = 'risk-assessments'
-        STAGINS = 'stagings'
-        SURGERIES = 'surgeries'
-        SYSTEMIC_THERAPIES = 'systemic-therapies'
-        TUMOR_MARKERS = 'tumor-markers'
-        VITALS = 'vitals'
-        TUMOR_BOARD_REVIEWS = 'tumor-board-reviews'
-        ADVERSE_EVENTS = 'adverse-events'
-        THERAPY_RESPONSES = 'therapy-responses'
-
-    DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
-
+    PatientCaseDataCategories = PatientCaseDataCategories
+    DATA_CATEGORIES_COUNT = DATA_CATEGORIES_COUNT 
+    
     case = models.ForeignKey(
         verbose_name = _('Patient case'),
         help_text = _("Patient case who's data category has been marked as completed."),

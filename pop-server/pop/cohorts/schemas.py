@@ -26,7 +26,7 @@ class CohortRuleType(str, Enum):
 
 
 CohortQueryEntity = Enum('CohortQueryEntity', {
-    model.__name__.upper(): model.__name__ for model in oncology_models.__all__
+    model.__name__.upper(): model.__name__ for model in oncology_models.MODELS
 }, type=str)
 
 

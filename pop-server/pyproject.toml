@@ -29,6 +29,7 @@ django-secured-fields = "0.4.2"
 django-ninja-extra = "0.21.6"
 django-ninja-jwt = "5.3.5"
 django-cors-headers = "4.6.0"
+django-queryable-properties = "1.10.0"
 # Tools
 requests = "2.32.0"
 fhir-resources = "7.1.0" 

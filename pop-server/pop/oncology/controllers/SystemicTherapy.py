@@ -7,7 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ModifiedResourceSchema, Paginated
-from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication
+from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication, TherapyLine
 
 from django.shortcuts import get_object_or_404
 from django.db import transaction
@@ -140,5 +140,6 @@ class SystemicTherapyController(ControllerBase):
     )
     def delete_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str):
         get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId).delete()
+        TherapyLine.assign_therapy_lines()
         return 204, None
     

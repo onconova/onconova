@@ -5,7 +5,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ModifiedResourceSchema, Paginated
-from pop.oncology.models import Surgery
+from pop.oncology.models import Surgery, TherapyLine
 
 from django.shortcuts import get_object_or_404
 
@@ -73,5 +73,6 @@ class SurgeryController(ControllerBase):
     )
     def delete_surgery(self, surgeryId: str):
         get_object_or_404(Surgery, id=surgeryId).delete()
+        TherapyLine.assign_therapy_lines()
         return 204, None
     

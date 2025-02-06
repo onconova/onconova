@@ -1,35 +1,24 @@
-from .PatientCase import PatientCase, PatientCaseDataCompletion
-from .NeoplasticEntity import NeoplasticEntity
-from .Staging import (
-    StagingDomain,
-    Staging, TNMStaging, FIGOStaging, BinetStaging,
-    RaiStaging, BreslowDepth, ClarkStaging, ISSStaging,
-    RISSStaging, INSSStage, INRGSSStage,  GleasonGrade, 
-    WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging
-)
-from .TumorMarker import TumorMarker
-from .RiskAssessment import RiskAssessment
-from .SystemicTherapy import SystemicTherapy, SystemicTherapyMedication
-from .Surgery import Surgery
-from .Radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
-from .TherapyLine import TherapyLine
-from .PerformanceStatus import PerformanceStatus
-from .TreatmentResponse import TreatmentResponse
-from .TumorBoard import TumorBoard, UnspecifiedTumorBoard, MolecularTumorBoard, MolecularTherapeuticRecommendation
-from .AdverseEvent import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
-from .Lifestyle import Lifestyle
-from .FamilyHistory import FamilyHistory
-from .Comorbidities import ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory
-from .Vitals import Vitals
-from .GenomicVariant import GenomicVariant
-from .GenomicSignature import (
-    GenomicSignatureTypes,
-    GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
-    LossOfHeterozygosity, HomologousRecombinationDeficiency, TumorNeoantigenBurden,
-    AneuploidScore,
-)
+from .PatientCase import *
+from .NeoplasticEntity import *
+from .TreatmentResponse import *
+from .Staging import *
+from .TumorMarker import *
+from .RiskAssessment import *
+from .SystemicTherapy import *
+from .Surgery import *
+from .Radiotherapy import *
+from .TherapyLine import *
+from .PerformanceStatus import *
+from .TumorBoard import *
+from .AdverseEvent import *
+from .Lifestyle import *
+from .FamilyHistory import *
+from .Comorbidities import *
+from .Vitals import *
+from .GenomicVariant import *
+from .GenomicSignature import *
 
-__all__ = (
+MODELS = (
     # Patient case
     PatientCase, PatientCaseDataCompletion,
     # Neoplastic entity    
@@ -41,6 +30,8 @@ __all__ = (
     TumorMarker,
     # Risk assessment
     RiskAssessment,
+    # Treatment Response
+    TreatmentResponse,
     # Therapy line
     TherapyLine,
     # Systemic therapy
@@ -51,8 +42,6 @@ __all__ = (
     Surgery,
     # Radiotherapy
     Radiotherapy, RadiotherapyDosage, RadiotherapySetting,
-    # Treatment Response
-    TreatmentResponse,
     # Lifestyle
     Lifestyle,
     # Comorbidities
@@ -71,3 +60,5 @@ __all__ = (
     GenomicSignatureTypes,GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
     LossOfHeterozygosity, HomologousRecombinationDeficiency, TumorNeoantigenBurden, AneuploidScore,
 )
+
+__all__ = [model.__name__ for model in MODELS]

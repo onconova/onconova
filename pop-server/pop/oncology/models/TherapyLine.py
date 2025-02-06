@@ -1,38 +1,21 @@
-from datetime import datetime
 from django.db import models
-from django.db.models import Q, When, Case, Min, Max, Func
-from django.db.models.functions import Concat, Left, Greatest, Least, Lower, Upper
+from django.db.models import Q, Min, Max, Func, Case, When, Value, F, Subquery, OuterRef
+from django.db.models.functions import Concat, Left, Greatest, Least, Lower, Upper, Now, Cast
+
+from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
+from queryable_properties.managers import QueryablePropertiesManager
+
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
 from pop.core.models import BaseModel 
-from pop.oncology.models import PatientCase
+from pop.oncology.models import PatientCase, TreatmentResponse
 import pop.terminology.models as terminology
 
-class TherapyLineManager(models.Manager):
-    
-    def get_queryset(self):
-        return super().get_queryset().annotate(
-            db_period=Func(
-                Least(
-                    Min(Lower('systemic_therapies__period')), 
-                    Min(Lower('radiotherapies__period')), 
-                    Min('surgeries__date'), 
-                    output_field=models.DateField()
-                ),
-                Greatest(
-                    Max(Upper('systemic_therapies__period')), 
-                    Max(Upper('radiotherapies__period')),
-                    Max('surgeries__date'), 
-                    output_field=models.DateField()
-                ),
-                models.Value('[]'),function='daterange', output_field=postgres.DateRangeField()
-            )
-        )
 
 class TherapyLine(BaseModel):
  
-    objects = TherapyLineManager()
- 
+    objects = QueryablePropertiesManager()
+    
     class TreatmentIntent(models.TextChoices):
         CURATIVE = 'curative'
         PALLIATIVE = 'palliative'
@@ -54,15 +37,54 @@ class TherapyLine(BaseModel):
         choices = TreatmentIntent,
         max_length=30,
     )
+    progression_date = models.DateField(
+        verbose_name = _('Begin of progression'),
+        help_text = _("Date at which progression was first detected, if applicable"),
+        null=True, blank=True,        
+    )
     label = models.GeneratedField(
         expression=Concat(Upper(Left("intent", 1)), models.Value('LoT'), 'ordinal', output_field=models.CharField),
         db_persist=True,
         output_field=models.CharField(),
     )
-    
-    @property
-    def period(self):
-        return self.__class__.objects.filter(pk=self.pk).values('db_period')[0]['db_period']
+    period = AnnotationProperty(
+        verbose_name = _('Time period'),
+        annotation = Func(
+            Least(
+                Min(Lower('systemic_therapies__period')), 
+                Min(Lower('radiotherapies__period')), 
+                Min('surgeries__date'), 
+                output_field=models.DateField()
+            ),
+            Greatest(
+                Max(Upper('systemic_therapies__period')), 
+                Max(Upper('radiotherapies__period')),
+                Max('surgeries__date'), 
+                output_field=models.DateField()
+            ),
+            models.Value('[]'),function='daterange', output_field=postgres.DateRangeField()
+        )
+    )
+    progression_free_survival = AnnotationProperty(
+        verbose_name = _('Progression free survival in days'),
+        annotation = Case(
+            When(Q(period__isnull=True), then=None),
+            default=Func(
+                Func(
+                    Case(
+                        When(progression_date__isnull=False, then=F('progression_date')),
+                        default=Case(When(case__date_of_death__isnull=False, then=F('case__date_of_death')), default=Func(function='NOW')),
+                        output_field=models.DateField()
+                    ),
+                    Func(F('period'), function='lower', output_field=models.DateField()),                    
+                    function='AGE'
+                ),
+                function='EXTRACT',
+                template="EXTRACT(EPOCH FROM %(expressions)s)",
+                output_field=models.IntegerField()
+            ) / Value(3600*24*30.436875),
+        )
+    )
     
     @property
     def description(self):
@@ -167,16 +189,27 @@ class TherapyLine(BaseModel):
         
         # Now that all therapy lines have been created, get all radiotherapies for the given case
         for radiotherapy in  case.radiotherapies.order_by('period__startswith'):
-            therapy_line = case.therapy_lines.filter(intent=radiotherapy.intent).filter(db_period__overlap=radiotherapy.period).order_by('db_period__startswith').first()
+            therapy_line = case.therapy_lines.filter(intent=radiotherapy.intent).filter(period__overlap=radiotherapy.period).order_by('period').first()
             if therapy_line:
                 radiotherapy.therapy_line = therapy_line
                 radiotherapy.save()
 
         # Repeat for all surgeries of the given case
         for surgery in  case.surgeries.order_by('date'):
-            therapy_line = case.therapy_lines.filter(intent=surgery.intent).filter(db_period__startswith__lte=surgery.date, db_period__endswith__gte=surgery.date).order_by('db_period__startswith').first()
+            therapy_line = case.therapy_lines.filter(intent=surgery.intent).filter(period__startswith__lte=surgery.date, period__endswith__gte=surgery.date).order_by('period').first()
             if therapy_line:
                 surgery.therapy_line = therapy_line
                 surgery.save()
-                
-                
+
+        for therapy_line in case.therapy_lines.all():
+            progression = TreatmentResponse.objects.filter(
+                    case=case,
+                    recist__code=PD,
+                    date__gte=therapy_line.period.lower,
+            )
+            if progression.exists():
+                therapy_line.progression_date = progression.earliest('date').date
+            else:
+                therapy_line.progression_date = None
+            therapy_line.save()
+                    

@@ -2,6 +2,7 @@ from datetime import date, datetime, timedelta
 
 from django.test import TestCase
 from django.db.utils import IntegrityError
+from psycopg.types.range import Range as PostgresRange
 from pop.oncology.models.PatientCase import PatientCaseDataCompletion
 from pop.oncology.models.TherapyLine import TherapyLine
 import pop.tests.factories as factories
@@ -44,11 +45,27 @@ class PatientCaseModelTest(TestCase):
         self.assertLess(self.patient.age - delta.days/365, 1)
 
     def test_data_completion_rate_based_on_completed_categories(self):
-        self.patient
         factories.PatientCaseDataCompletionFactory(case=self.patient)
         expected = self.patient.completed_data_categories.count() / PatientCaseDataCompletion.DATA_CATEGORIES_COUNT * 100
         self.assertTrue(self.patient.completed_data_categories.count()>0)
         self.assertAlmostEqual(self.patient.data_completion_rate, round(expected))
+
+    def test_overall_survival_calculated_based_on_date_of_death(self):
+        self.patient.date_of_death = datetime(2010, 1, 1).date()
+        self.patient.save()
+        factories.PrimaryNeoplasticEntityFactory.create(case=self.patient)
+        delta = self.patient.date_of_death - self.patient.neoplastic_entities.first().assertion_date
+        self.assertAlmostEqual(self.patient.overall_survival, round(delta.days/30.436875), delta=1)
+
+    def test_overall_survival_calculated_based_on_current_time(self):
+        self.patient.date_of_death = None 
+        self.patient.save()
+        factories.PrimaryNeoplasticEntityFactory.create(case=self.patient)
+        delta = date.today() - self.patient.neoplastic_entities.first().assertion_date
+        self.assertAlmostEqual(self.patient.overall_survival, round(delta.days/30.436875), delta=1)
+        
+    def test_overall_survival_is_null_if_no_diagnosis(self):
+        self.assertIsNone(self.patient.overall_survival)
 
 class NeoplasticEntityModelTest(TestCase):
     
@@ -74,6 +91,23 @@ class VitalsModelTest(TestCase):
         expected_bmi = self.vitals.weight.kg/(self.vitals.height.m*self.vitals.height.m)
         self.assertAlmostEqual(self.vitals.body_mass_index.kg__square_meter, expected_bmi)
 
+class SystemicTherapyModelTest(TestCase):
+    
+    def setUp(self):
+        self.therapy = factories.SystemicTherapyFactory()
+    
+    def test_therapy_duration_is_correctly_annotated(self):
+        expected_duration = self.therapy.period.upper - self.therapy.period.lower 
+        self.assertEqual(self.therapy.duration, expected_duration.days)
+
+class RadiotherapyModelTest(TestCase):
+    
+    def setUp(self):
+        self.therapy = factories.RadiotherapyFactory()
+    
+    def test_radiotherapy_duration_is_correctly_annotated(self):
+        expected_duration = self.therapy.period.upper - self.therapy.period.lower 
+        self.assertEqual(self.therapy.duration, expected_duration.days)
 
 class TherapyLineModelTest(TestCase):
     
@@ -87,7 +121,15 @@ class TherapyLineModelTest(TestCase):
     def test_line_label_is_properly_generated(self):
         expected_label = f'{self.therapy_line.intent[0].upper()}LoT{self.therapy_line.ordinal}'
         self.assertEqual(self.therapy_line.label, expected_label)
-        
+    
+    def test_line_progression_free_survival_is_properly_generated(self):
+        self.systemic_therapy = factories.SystemicTherapyFactory.create(period=PostgresRange(date(2000,1,1), date(2000,2,2)), case=self.case, therapy_line=self.therapy_line)  
+        self.treatment_response = factories.TreatmentResponseFactory.create(date=date(2000,5,5), case=self.case, recist=self.PROGRESSIVE_DISEASE)
+        TherapyLine.assign_therapy_lines(self.case)
+        therapy_line = self.case.therapy_lines.first()
+        expected_survival = self.treatment_response.date - self.systemic_therapy.period.lower
+        self.assertAlmostEqual(therapy_line.progression_free_survival, (expected_survival.days - 1)/30.436875, 1)
+            
     def test_period_is_properly_generated_from_systemic_therapies(self):
         self.systemic_therapy = factories.SystemicTherapyFactory.create(period=('2000-1-1', '2000-2-2'), therapy_line=self.therapy_line)  
         self.assertEqual(self.therapy_line.period.lower, datetime(2000,1,1).date())

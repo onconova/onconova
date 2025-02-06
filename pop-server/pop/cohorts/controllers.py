@@ -170,7 +170,7 @@ class CohortBuilderController(ControllerBase):
     def get_cohort_builder_configuration(self):
         fields = {}
         entities = {}
-        for model in oncological_models.__all__:
+        for model in oncological_models.MODELS:
             schema = getattr(oncological_schemas, f'{model.__name__}Schema', None)
             if not schema or not issubclass(model, DjangoModel):  
                 continue

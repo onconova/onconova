@@ -50,6 +50,12 @@ class TreatmentResponse(BaseModel):
         multiple = True,
     )
     
+    def assign_therapy_line(self):
+        from pop.oncology.models.TherapyLine import TherapyLine
+        TherapyLine.assign_therapy_lines(self.case)
+        self.refresh_from_db()
+        return self
+    
     @property
     def description(self):
         methodology = f' asserted by {self.methodology.display.split(" - ")[0]}' if self.methodology.code!='1287211007' else ''

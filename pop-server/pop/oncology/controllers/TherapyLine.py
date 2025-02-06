@@ -27,7 +27,7 @@ class TherapyLineController(ControllerBase):
     )
     @paginate()
     def get_all_therapy_lines_matching_the_query(self, query: Query[TherapyLineFilters]): # type: ignore
-        queryset = TherapyLine.objects.all().order_by('-db_period')
+        queryset = TherapyLine.objects.all().order_by('-period')
         return query.filter(queryset)
 
     @route.post(

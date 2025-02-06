@@ -3,6 +3,8 @@ from factory.fuzzy import FuzzyChoice
 import faker
 import random 
 
+from psycopg.types.range import Range as PostgresRange
+
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.hashers import make_password
 
@@ -151,7 +153,7 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
         model = models.SystemicTherapy
 
     case = factory.SubFactory(PatientCaseFactory)
-    period = factory.LazyFunction(lambda: (faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
+    period = factory.LazyFunction(lambda: PostgresRange(faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
     cycles = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
     role = make_terminology_factory(terminology.TreatmentCategory)
@@ -184,7 +186,7 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
         model = models.Radiotherapy
 
     case = factory.SubFactory(PatientCaseFactory)
-    period = factory.LazyFunction(lambda: (faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
+    period = factory.LazyFunction(lambda: PostgresRange(faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
     sessions = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.Radiotherapy.TreatmentIntent)
     therapy_line = factory.SubFactory(TherapyLineFactory)
@@ -419,8 +421,6 @@ def fake_complete_case():
         TumorMutationalBurdenFactory.create(case=case)
     for _ in range(random.randint(1,2)):
         LossOfHeterozygosityFactory.create(case=case)
-    for _ in range(random.randint(1,2)):
-        MicrosatelliteInstabilityFactory.create(case=case)
     FamilyHistoryFactory.create(case=case)
     RiskAssessmentFactory.create(case=case)
     SurgeryFactory.create(case=case)
@@ -433,7 +433,7 @@ def fake_complete_case():
         AdverseEventFactory.create(case=case)
     for _ in range(random.randint(1,4)):
         TreatmentResponseFactory.create(case=case)
-    for _ in range(random.randint(1,5)):    
+    for _ in range(random.randint(2,5)):    
         PerformanceStatusFactory.create(case=case)
     models.TherapyLine.assign_therapy_lines(case)
     return case
