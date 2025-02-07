@@ -10,10 +10,11 @@ import { MenuItem } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { Tree } from 'primeng/tree';
+import { TreeNode } from 'primeng/api';
 
-import { AuthService, CodedConceptSchema } from 'src/app/shared/openapi';
+import { AuthService, CodedConceptSchema, MeasureSchema, PeriodSchema } from 'src/app/shared/openapi';
 
-import { LucideAngularModule } from 'lucide-angular';
+import { List, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 
 import { map, first, Observable, share } from 'rxjs';
@@ -25,24 +26,32 @@ import { map, first, Observable, share } from 'rxjs';
   })
 export class GetConceptTreePipe implements PipeTransform {
   
-    transform(concept: CodedConceptSchema) {
+    transform(concept: CodedConceptSchema): TreeNode[] | any[] {
         let nodes =  [{
             key: '0',
             label: concept.display,
             children: [
-                { key: '0-0', label: 'Code', icon: 'pi pi-qr-code', children:[
-                    { key: '0-0-0', label: concept.code, style: 'font-family: monospace; font-size: .8rem'}
-                ]},
-                { key: '0-1', label: 'Code System', icon: 'pi pi-link', children:[
-                    { key: '0-1-0', label: concept.system, style: 'font-family: monospace; font-size: .8rem'}
-                ]},
-                { key: '0-2', label: `Synonyms`, icon: 'pi pi-language', children: concept.synonyms?.map((synonym, index) => (
-                    {key: `0-2-${index}`, label: synonym}
-                ))},
+                { key: '0-0', label: 'Code',  type: 'code', code:concept.code},
+                { key: '0-1', label: 'Code System', type: 'system', system: concept.system},
+                { key: '0-2', label: 'Synonyms', type: 'synonyms', synonyms: concept.synonyms},
             ]
         }]
         return nodes
     }
+}
+
+
+@Pipe({     
+    standalone: true,
+    name: 'replace' 
+})
+export class ReplacePipe implements PipeTransform {
+  transform(value: string, strToReplace: string, replacementStr: string): string {
+    if (!value || !strToReplace || !replacementStr) {
+      return value;
+    }
+    return value.replace(new RegExp(strToReplace, 'g'), replacementStr);
+  }
 }
 
 
@@ -57,7 +66,7 @@ export class getObjectPropertiesPipe implements PipeTransform {
             (pair) => {
                 let key = pair[0]
                 let value = pair[1] 
-                if (!value || ['caseId', 'createdById', 'updatedByIds', 'id', 'createdAt', 'updatedAt', 'description'].includes(key)) {
+                if (!value || ['caseId', 'createdBy', 'updatedBy', 'id', 'createdAt', 'updatedAt', 'description', 'externalSource', 'externalSourceId'].includes(key)) {
                     return null
                 }
                 return {
@@ -88,6 +97,7 @@ export class getObjectPropertiesPipe implements PipeTransform {
         Button,
         GetConceptTreePipe,
         getObjectPropertiesPipe,
+        ReplacePipe,
         Tree,
         SplitButton,
         ConfirmDialog,
@@ -110,6 +120,8 @@ export class CaseManagerDrawerComponent {
     public lastUpdatedBy$!: Observable<string>
 
     public readonly isCodeableConcept = (value: CodedConceptSchema): value is CodedConceptSchema => !!value?.code;
+    public readonly isPeriod = (value: PeriodSchema): value is PeriodSchema => !!value?.start;
+    public readonly isMeasure = (value: MeasureSchema): value is MeasureSchema => !!value?.value;
     public readonly isObject = (x: any) => typeof x === 'object' && !Array.isArray(x) && x !== null
     public readonly isArray = (x: any) => x instanceof Array
 

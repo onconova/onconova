@@ -46,8 +46,8 @@
             [value]="entries" 
             class="case-manager-panel-timeline">
             <ng-template pTemplate="content" let-entry>
-                <div (click)="showDrawer(entry)" class="cursor-pointer">
-                    <div class="case-manager-panel-timeline-date">
+                <div>
+                    <div class="case-manager-panel-timeline-date mb-1">
                         <small class="">
                             {{ entry.date || entry.assertionDate | date }}
                         </small>
@@ -55,8 +55,8 @@
                             {{ entry.period?.start | date }} - {{ entry.period?.end | date }}
                         </small>
                     </div>
-                    <div>
-                        {{ entry.description }}
+                    <div (click)="showDrawer(entry)" class="cursor-pointer">
+                        <i class="pi pi-file"></i> {{ entry.description }}
                     </div>
                 </div>
                 

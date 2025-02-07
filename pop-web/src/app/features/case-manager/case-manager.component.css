@@ -4,7 +4,7 @@
     width: fit-content;
 }
 .p-fieldset {
-    background: light-dark(var(--p-surface-100), var(--p-surface-900));
+    background: light-dark(var(--p-surface-0), var(--p-surface-900));
 }
 .p-fieldset-legend {
     margin-bottom: .25rem;
