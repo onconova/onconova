@@ -6,7 +6,7 @@ html.layout-theme-green .jdenticon {
     filter: hue-rotate(142deg);
 }
 html.layout-theme-lime .jdenticon {
-    filter: hue-rotate(156deg);
+    filter: hue-rotate(84deg) saturate(.79) brightness(1.5);
 }
 html.layout-theme-red .jdenticon {
     filter: hue-rotate(0deg);
@@ -18,7 +18,7 @@ html.layout-theme-amber .jdenticon {
     filter: hue-rotate(43deg);
 }
 html.layout-theme-yellow .jdenticon {
-    filter: hue-rotate(48deg);
+    filter: hue-rotate(44deg) saturate(.79) brightness(1.5);
 }
 html.layout-theme-teal .jdenticon {
     filter: hue-rotate(174deg);
@@ -33,7 +33,7 @@ html.layout-theme-blue .jdenticon {
     filter: hue-rotate(213deg);
 }
 html.layout-theme-indigo .jdenticon {
-    filter: hue-rotate(234deg);
+    filter: hue-rotate(248deg) ;
 }
 html.layout-theme-violet .jdenticon {
     filter: hue-rotate(255deg);
