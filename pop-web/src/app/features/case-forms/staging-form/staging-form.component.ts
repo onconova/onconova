@@ -130,7 +130,7 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
     public optionsYesNoUnknown = [
         {value: null, label: 'Unknwon'},
         {value: true, label: 'Yes'},
-        {value: false, label: 'Noe'},
+        {value: false, label: 'No'},
     ]
     
     ngOnInit() {
