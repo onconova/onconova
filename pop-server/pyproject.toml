@@ -31,6 +31,7 @@ django-ninja-jwt = "5.3.5"
 django-cors-headers = "4.6.0"
 django-queryable-properties = "1.10.0"
 # Tools
+measurement = "3.2.2"
 requests = "2.32.0"
 fhir-resources = "7.1.0" 
 cachetools = "5.5.0"
