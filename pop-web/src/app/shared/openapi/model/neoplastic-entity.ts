@@ -30,6 +30,8 @@ export interface NeoplasticEntity {
      */
     updatedAt: string;
     createdBy?: UserSchema | null;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s neoplasm(s) are recorded
      */
@@ -56,7 +58,7 @@ export interface NeoplasticEntity {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
 }
 export namespace NeoplasticEntity {
 }

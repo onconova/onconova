@@ -12,6 +12,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface AdverseEventMitigationCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Type of mitigation employed
      */

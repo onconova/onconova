@@ -11,6 +11,8 @@ import { AdverseEventSuspectedCauseCausalityChoices } from './adverse-event-susp
 
 
 export interface AdverseEventSuspectedCauseCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     systemicTherapyId?: string | null;
     medicationId?: string | null;
     radiotherapyId?: string | null;

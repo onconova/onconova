@@ -31,6 +31,8 @@ export interface PerformanceStatus {
      */
     updatedAt: string;
     createdBy?: UserSchema | null;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s performance status is assesed
      */
@@ -44,6 +46,6 @@ export interface PerformanceStatus {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
 }
 

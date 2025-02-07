@@ -11,6 +11,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface RiskAssessmentCreate { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s cancer risk is assesed
      */

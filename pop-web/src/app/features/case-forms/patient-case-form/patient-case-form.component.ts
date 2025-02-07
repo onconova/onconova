@@ -57,8 +57,10 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
       gender: [null,Validators.required],
       dateOfBirth: [null,Validators.required],
       isAlive: [true,Validators.required],
+      clinicalCenter: [null,Validators.required],
+      clinicalIdentifier: [null,Validators.required],
       dateOfDeath: (null),
-      causeOfDeath: [null],
+      consentStatus: [null,Validators.required],
     });
   }
 
@@ -68,6 +70,9 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
       dateOfBirth: data.dateOfBirth,
       dateOfDeath: !data.isAlive ? data.dateOfDeath : null,
       causeOfDeath: !data.isAlive ? data.causeOfDeath: null,
+      clinicalCenter: data.clinicalCenter,
+      clinicalIdentifier: data.clinicalIdentifier,
+      consentStatus: data.consentStatus,
     };
   }
 

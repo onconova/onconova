@@ -43,254 +43,6 @@ export interface AdverseEventFilters {
      */
     'id.not.endsWith'?: string;
     /**
-     * Created At - Filter for entries with dates before the specified value
-     */
-    'createdAt.before'?: string;
-    /**
-     * Created At - Filter for entries with dates after the specified value
-     */
-    'createdAt.after'?: string;
-    /**
-     * Created At - Filter for entries with dates on or before the specified value
-     */
-    'createdAt.onOrBefore'?: string;
-    /**
-     * Created At - Filter for entries with dates on or after the specified value
-     */
-    'createdAt.onOrAfter'?: string;
-    /**
-     * Created At - Filter for entries with dates exactly matching the specified value
-     */
-    'createdAt.on'?: string;
-    /**
-     * Created At - Filter for entries with dates not matching the specified value
-     */
-    'createdAt.not.on'?: string;
-    /**
-     * Created At - Filter for entries with dates between two specified values (inclusive)
-     */
-    'createdAt.between'?: Array<any>;
-    /**
-     * Created At - Filter for entries with dates not between two specified values (inclusive)
-     */
-    'createdAt.not.between'?: Array<any>;
-    /**
-     * Updated At - Filter for entries with dates before the specified value
-     */
-    'updatedAt.before'?: string;
-    /**
-     * Updated At - Filter for entries with dates after the specified value
-     */
-    'updatedAt.after'?: string;
-    /**
-     * Updated At - Filter for entries with dates on or before the specified value
-     */
-    'updatedAt.onOrBefore'?: string;
-    /**
-     * Updated At - Filter for entries with dates on or after the specified value
-     */
-    'updatedAt.onOrAfter'?: string;
-    /**
-     * Updated At - Filter for entries with dates exactly matching the specified value
-     */
-    'updatedAt.on'?: string;
-    /**
-     * Updated At - Filter for entries with dates not matching the specified value
-     */
-    'updatedAt.not.on'?: string;
-    /**
-     * Updated At - Filter for entries with dates between two specified values (inclusive)
-     */
-    'updatedAt.between'?: Array<any>;
-    /**
-     * Updated At - Filter for entries with dates not between two specified values (inclusive)
-     */
-    'updatedAt.not.between'?: Array<any>;
-    /**
-     * Created By - Filter for entries without a value
-     */
-    'createdBy.not.exists'?: boolean;
-    /**
-     * Created By - Filter for entries with a value
-     */
-    'createdBy.exists'?: boolean;
-    /**
-     * None - Filter for entries with values less than the specified value
-     */
-    'updatedBys.id.lessThan'?: number;
-    /**
-     * None - Filter for entries with values less than or equal to the specified value
-     */
-    'updatedBys.id.lessThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values greater than the specified value
-     */
-    'updatedBys.id.greaterThan'?: number;
-    /**
-     * None - Filter for entries with values greater than or equal to the specified value
-     */
-    'updatedBys.id.greaterThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values exactly equal to the specified value
-     */
-    'updatedBys.id.equal'?: number;
-    /**
-     * None - Filter for entries with values not equal to the specified value
-     */
-    'updatedBys.id.not.equal'?: number;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'updatedBys.id.between'?: Array<any>;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'updatedBys.id.not.between'?: Array<any>;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.username'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.username.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.username.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.username.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.username.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.username.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.username.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.username.not.endsWith'?: string;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.email'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.email.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.email.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.email.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.email.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.email.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.email.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.email.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'updatedBys.firstName.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'updatedBys.firstName.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.firstName'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.firstName.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.firstName.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.firstName.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.firstName.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.firstName.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.firstName.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.firstName.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'updatedBys.lastName.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'updatedBys.lastName.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.lastName'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.lastName.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.lastName.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.lastName.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.lastName.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.lastName.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.lastName.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.lastName.not.endsWith'?: string;
-    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -559,179 +311,179 @@ export interface AdverseEventFilters {
     /**
      * None - Filter for entries with values less than the specified value
      */
-    'suspectedCauses.updatedBys.id.lessThan'?: number;
+    'suspectedCauses.updatedBy.id.lessThan'?: number;
     /**
      * None - Filter for entries with values less than or equal to the specified value
      */
-    'suspectedCauses.updatedBys.id.lessThanOrEqual'?: number;
+    'suspectedCauses.updatedBy.id.lessThanOrEqual'?: number;
     /**
      * None - Filter for entries with values greater than the specified value
      */
-    'suspectedCauses.updatedBys.id.greaterThan'?: number;
+    'suspectedCauses.updatedBy.id.greaterThan'?: number;
     /**
      * None - Filter for entries with values greater than or equal to the specified value
      */
-    'suspectedCauses.updatedBys.id.greaterThanOrEqual'?: number;
+    'suspectedCauses.updatedBy.id.greaterThanOrEqual'?: number;
     /**
      * None - Filter for entries with values exactly equal to the specified value
      */
-    'suspectedCauses.updatedBys.id.equal'?: number;
+    'suspectedCauses.updatedBy.id.equal'?: number;
     /**
      * None - Filter for entries with values not equal to the specified value
      */
-    'suspectedCauses.updatedBys.id.not.equal'?: number;
+    'suspectedCauses.updatedBy.id.not.equal'?: number;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'suspectedCauses.updatedBys.id.between'?: Array<any>;
+    'suspectedCauses.updatedBy.id.between'?: Array<any>;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'suspectedCauses.updatedBys.id.not.between'?: Array<any>;
+    'suspectedCauses.updatedBy.id.not.between'?: Array<any>;
     /**
      * None - Filter for full text matches
      */
-    'suspectedCauses.updatedBys.username'?: string;
+    'suspectedCauses.updatedBy.username'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'suspectedCauses.updatedBys.username.not'?: string;
+    'suspectedCauses.updatedBy.username.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'suspectedCauses.updatedBys.username.contains'?: string;
+    'suspectedCauses.updatedBy.username.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'suspectedCauses.updatedBys.username.not.contains'?: string;
+    'suspectedCauses.updatedBy.username.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'suspectedCauses.updatedBys.username.beginsWith'?: string;
+    'suspectedCauses.updatedBy.username.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'suspectedCauses.updatedBys.username.not.beginsWith'?: string;
+    'suspectedCauses.updatedBy.username.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'suspectedCauses.updatedBys.username.endsWith'?: string;
+    'suspectedCauses.updatedBy.username.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'suspectedCauses.updatedBys.username.not.endsWith'?: string;
+    'suspectedCauses.updatedBy.username.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
-    'suspectedCauses.updatedBys.email'?: string;
+    'suspectedCauses.updatedBy.email'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'suspectedCauses.updatedBys.email.not'?: string;
+    'suspectedCauses.updatedBy.email.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'suspectedCauses.updatedBys.email.contains'?: string;
+    'suspectedCauses.updatedBy.email.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'suspectedCauses.updatedBys.email.not.contains'?: string;
+    'suspectedCauses.updatedBy.email.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'suspectedCauses.updatedBys.email.beginsWith'?: string;
+    'suspectedCauses.updatedBy.email.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'suspectedCauses.updatedBys.email.not.beginsWith'?: string;
+    'suspectedCauses.updatedBy.email.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'suspectedCauses.updatedBys.email.endsWith'?: string;
+    'suspectedCauses.updatedBy.email.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'suspectedCauses.updatedBys.email.not.endsWith'?: string;
+    'suspectedCauses.updatedBy.email.not.endsWith'?: string;
     /**
      * None - Filter for entries without a value
      */
-    'suspectedCauses.updatedBys.firstName.not.exists'?: boolean;
+    'suspectedCauses.updatedBy.firstName.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'suspectedCauses.updatedBys.firstName.exists'?: boolean;
+    'suspectedCauses.updatedBy.firstName.exists'?: boolean;
     /**
      * None - Filter for full text matches
      */
-    'suspectedCauses.updatedBys.firstName'?: string;
+    'suspectedCauses.updatedBy.firstName'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'suspectedCauses.updatedBys.firstName.not'?: string;
+    'suspectedCauses.updatedBy.firstName.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'suspectedCauses.updatedBys.firstName.contains'?: string;
+    'suspectedCauses.updatedBy.firstName.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'suspectedCauses.updatedBys.firstName.not.contains'?: string;
+    'suspectedCauses.updatedBy.firstName.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'suspectedCauses.updatedBys.firstName.beginsWith'?: string;
+    'suspectedCauses.updatedBy.firstName.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'suspectedCauses.updatedBys.firstName.not.beginsWith'?: string;
+    'suspectedCauses.updatedBy.firstName.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'suspectedCauses.updatedBys.firstName.endsWith'?: string;
+    'suspectedCauses.updatedBy.firstName.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'suspectedCauses.updatedBys.firstName.not.endsWith'?: string;
+    'suspectedCauses.updatedBy.firstName.not.endsWith'?: string;
     /**
      * None - Filter for entries without a value
      */
-    'suspectedCauses.updatedBys.lastName.not.exists'?: boolean;
+    'suspectedCauses.updatedBy.lastName.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'suspectedCauses.updatedBys.lastName.exists'?: boolean;
+    'suspectedCauses.updatedBy.lastName.exists'?: boolean;
     /**
      * None - Filter for full text matches
      */
-    'suspectedCauses.updatedBys.lastName'?: string;
+    'suspectedCauses.updatedBy.lastName'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'suspectedCauses.updatedBys.lastName.not'?: string;
+    'suspectedCauses.updatedBy.lastName.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'suspectedCauses.updatedBys.lastName.contains'?: string;
+    'suspectedCauses.updatedBy.lastName.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'suspectedCauses.updatedBys.lastName.not.contains'?: string;
+    'suspectedCauses.updatedBy.lastName.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'suspectedCauses.updatedBys.lastName.beginsWith'?: string;
+    'suspectedCauses.updatedBy.lastName.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'suspectedCauses.updatedBys.lastName.not.beginsWith'?: string;
+    'suspectedCauses.updatedBy.lastName.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'suspectedCauses.updatedBys.lastName.endsWith'?: string;
+    'suspectedCauses.updatedBy.lastName.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'suspectedCauses.updatedBys.lastName.not.endsWith'?: string;
+    'suspectedCauses.updatedBy.lastName.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
@@ -764,6 +516,86 @@ export interface AdverseEventFilters {
      * None - Filter for entries not ending with the text
      */
     'suspectedCauses.description.not.endsWith'?: string;
+    /**
+     * External data source - Filter for entries without a value
+     */
+    'suspectedCauses.externalSource.not.exists'?: boolean;
+    /**
+     * External data source - Filter for entries with a value
+     */
+    'suspectedCauses.externalSource.exists'?: boolean;
+    /**
+     * External data source - Filter for full text matches
+     */
+    'suspectedCauses.externalSource'?: string;
+    /**
+     * External data source - Filter for full text mismatches
+     */
+    'suspectedCauses.externalSource.not'?: string;
+    /**
+     * External data source - Filter for partial text matches
+     */
+    'suspectedCauses.externalSource.contains'?: string;
+    /**
+     * External data source - Filter for partial text mismatches
+     */
+    'suspectedCauses.externalSource.not.contains'?: string;
+    /**
+     * External data source - Filter for entries starting with the text
+     */
+    'suspectedCauses.externalSource.beginsWith'?: string;
+    /**
+     * External data source - Filter for entries not starting with the text
+     */
+    'suspectedCauses.externalSource.not.beginsWith'?: string;
+    /**
+     * External data source - Filter for entries ending with the text
+     */
+    'suspectedCauses.externalSource.endsWith'?: string;
+    /**
+     * External data source - Filter for entries not ending with the text
+     */
+    'suspectedCauses.externalSource.not.endsWith'?: string;
+    /**
+     * External data source Id - Filter for entries without a value
+     */
+    'suspectedCauses.externalSourceId.not.exists'?: boolean;
+    /**
+     * External data source Id - Filter for entries with a value
+     */
+    'suspectedCauses.externalSourceId.exists'?: boolean;
+    /**
+     * External data source Id - Filter for reference matches
+     */
+    'suspectedCauses.externalSourceId'?: string;
+    /**
+     * External data source Id - Filter for reference mismatches
+     */
+    'suspectedCauses.externalSourceId.not'?: string;
+    /**
+     * External data source Id - Filter for partial text matches
+     */
+    'suspectedCauses.externalSourceId.contains'?: string;
+    /**
+     * External data source Id - Filter for partial text mismatches
+     */
+    'suspectedCauses.externalSourceId.not.contains'?: string;
+    /**
+     * External data source Id - Filter for entries starting with the text
+     */
+    'suspectedCauses.externalSourceId.beginsWith'?: string;
+    /**
+     * External data source Id - Filter for entries not starting with the text
+     */
+    'suspectedCauses.externalSourceId.not.beginsWith'?: string;
+    /**
+     * External data source Id - Filter for entries ending with the text
+     */
+    'suspectedCauses.externalSourceId.endsWith'?: string;
+    /**
+     * External data source Id - Filter for entries not ending with the text
+     */
+    'suspectedCauses.externalSourceId.not.endsWith'?: string;
     /**
      * Suspected systemic therapy - Filter for entries without a value
      */
@@ -1045,179 +877,179 @@ export interface AdverseEventFilters {
     /**
      * None - Filter for entries with values less than the specified value
      */
-    'mitigations.updatedBys.id.lessThan'?: number;
+    'mitigations.updatedBy.id.lessThan'?: number;
     /**
      * None - Filter for entries with values less than or equal to the specified value
      */
-    'mitigations.updatedBys.id.lessThanOrEqual'?: number;
+    'mitigations.updatedBy.id.lessThanOrEqual'?: number;
     /**
      * None - Filter for entries with values greater than the specified value
      */
-    'mitigations.updatedBys.id.greaterThan'?: number;
+    'mitigations.updatedBy.id.greaterThan'?: number;
     /**
      * None - Filter for entries with values greater than or equal to the specified value
      */
-    'mitigations.updatedBys.id.greaterThanOrEqual'?: number;
+    'mitigations.updatedBy.id.greaterThanOrEqual'?: number;
     /**
      * None - Filter for entries with values exactly equal to the specified value
      */
-    'mitigations.updatedBys.id.equal'?: number;
+    'mitigations.updatedBy.id.equal'?: number;
     /**
      * None - Filter for entries with values not equal to the specified value
      */
-    'mitigations.updatedBys.id.not.equal'?: number;
+    'mitigations.updatedBy.id.not.equal'?: number;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'mitigations.updatedBys.id.between'?: Array<any>;
+    'mitigations.updatedBy.id.between'?: Array<any>;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'mitigations.updatedBys.id.not.between'?: Array<any>;
+    'mitigations.updatedBy.id.not.between'?: Array<any>;
     /**
      * None - Filter for full text matches
      */
-    'mitigations.updatedBys.username'?: string;
+    'mitigations.updatedBy.username'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'mitigations.updatedBys.username.not'?: string;
+    'mitigations.updatedBy.username.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'mitigations.updatedBys.username.contains'?: string;
+    'mitigations.updatedBy.username.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'mitigations.updatedBys.username.not.contains'?: string;
+    'mitigations.updatedBy.username.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'mitigations.updatedBys.username.beginsWith'?: string;
+    'mitigations.updatedBy.username.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'mitigations.updatedBys.username.not.beginsWith'?: string;
+    'mitigations.updatedBy.username.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'mitigations.updatedBys.username.endsWith'?: string;
+    'mitigations.updatedBy.username.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'mitigations.updatedBys.username.not.endsWith'?: string;
+    'mitigations.updatedBy.username.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
-    'mitigations.updatedBys.email'?: string;
+    'mitigations.updatedBy.email'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'mitigations.updatedBys.email.not'?: string;
+    'mitigations.updatedBy.email.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'mitigations.updatedBys.email.contains'?: string;
+    'mitigations.updatedBy.email.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'mitigations.updatedBys.email.not.contains'?: string;
+    'mitigations.updatedBy.email.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'mitigations.updatedBys.email.beginsWith'?: string;
+    'mitigations.updatedBy.email.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'mitigations.updatedBys.email.not.beginsWith'?: string;
+    'mitigations.updatedBy.email.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'mitigations.updatedBys.email.endsWith'?: string;
+    'mitigations.updatedBy.email.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'mitigations.updatedBys.email.not.endsWith'?: string;
+    'mitigations.updatedBy.email.not.endsWith'?: string;
     /**
      * None - Filter for entries without a value
      */
-    'mitigations.updatedBys.firstName.not.exists'?: boolean;
+    'mitigations.updatedBy.firstName.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'mitigations.updatedBys.firstName.exists'?: boolean;
+    'mitigations.updatedBy.firstName.exists'?: boolean;
     /**
      * None - Filter for full text matches
      */
-    'mitigations.updatedBys.firstName'?: string;
+    'mitigations.updatedBy.firstName'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'mitigations.updatedBys.firstName.not'?: string;
+    'mitigations.updatedBy.firstName.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'mitigations.updatedBys.firstName.contains'?: string;
+    'mitigations.updatedBy.firstName.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'mitigations.updatedBys.firstName.not.contains'?: string;
+    'mitigations.updatedBy.firstName.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'mitigations.updatedBys.firstName.beginsWith'?: string;
+    'mitigations.updatedBy.firstName.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'mitigations.updatedBys.firstName.not.beginsWith'?: string;
+    'mitigations.updatedBy.firstName.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'mitigations.updatedBys.firstName.endsWith'?: string;
+    'mitigations.updatedBy.firstName.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'mitigations.updatedBys.firstName.not.endsWith'?: string;
+    'mitigations.updatedBy.firstName.not.endsWith'?: string;
     /**
      * None - Filter for entries without a value
      */
-    'mitigations.updatedBys.lastName.not.exists'?: boolean;
+    'mitigations.updatedBy.lastName.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'mitigations.updatedBys.lastName.exists'?: boolean;
+    'mitigations.updatedBy.lastName.exists'?: boolean;
     /**
      * None - Filter for full text matches
      */
-    'mitigations.updatedBys.lastName'?: string;
+    'mitigations.updatedBy.lastName'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'mitigations.updatedBys.lastName.not'?: string;
+    'mitigations.updatedBy.lastName.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'mitigations.updatedBys.lastName.contains'?: string;
+    'mitigations.updatedBy.lastName.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'mitigations.updatedBys.lastName.not.contains'?: string;
+    'mitigations.updatedBy.lastName.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'mitigations.updatedBys.lastName.beginsWith'?: string;
+    'mitigations.updatedBy.lastName.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'mitigations.updatedBys.lastName.not.beginsWith'?: string;
+    'mitigations.updatedBy.lastName.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'mitigations.updatedBys.lastName.endsWith'?: string;
+    'mitigations.updatedBy.lastName.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'mitigations.updatedBys.lastName.not.endsWith'?: string;
+    'mitigations.updatedBy.lastName.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
@@ -1250,6 +1082,86 @@ export interface AdverseEventFilters {
      * None - Filter for entries not ending with the text
      */
     'mitigations.description.not.endsWith'?: string;
+    /**
+     * External data source - Filter for entries without a value
+     */
+    'mitigations.externalSource.not.exists'?: boolean;
+    /**
+     * External data source - Filter for entries with a value
+     */
+    'mitigations.externalSource.exists'?: boolean;
+    /**
+     * External data source - Filter for full text matches
+     */
+    'mitigations.externalSource'?: string;
+    /**
+     * External data source - Filter for full text mismatches
+     */
+    'mitigations.externalSource.not'?: string;
+    /**
+     * External data source - Filter for partial text matches
+     */
+    'mitigations.externalSource.contains'?: string;
+    /**
+     * External data source - Filter for partial text mismatches
+     */
+    'mitigations.externalSource.not.contains'?: string;
+    /**
+     * External data source - Filter for entries starting with the text
+     */
+    'mitigations.externalSource.beginsWith'?: string;
+    /**
+     * External data source - Filter for entries not starting with the text
+     */
+    'mitigations.externalSource.not.beginsWith'?: string;
+    /**
+     * External data source - Filter for entries ending with the text
+     */
+    'mitigations.externalSource.endsWith'?: string;
+    /**
+     * External data source - Filter for entries not ending with the text
+     */
+    'mitigations.externalSource.not.endsWith'?: string;
+    /**
+     * External data source Id - Filter for entries without a value
+     */
+    'mitigations.externalSourceId.not.exists'?: boolean;
+    /**
+     * External data source Id - Filter for entries with a value
+     */
+    'mitigations.externalSourceId.exists'?: boolean;
+    /**
+     * External data source Id - Filter for reference matches
+     */
+    'mitigations.externalSourceId'?: string;
+    /**
+     * External data source Id - Filter for reference mismatches
+     */
+    'mitigations.externalSourceId.not'?: string;
+    /**
+     * External data source Id - Filter for partial text matches
+     */
+    'mitigations.externalSourceId.contains'?: string;
+    /**
+     * External data source Id - Filter for partial text mismatches
+     */
+    'mitigations.externalSourceId.not.contains'?: string;
+    /**
+     * External data source Id - Filter for entries starting with the text
+     */
+    'mitigations.externalSourceId.beginsWith'?: string;
+    /**
+     * External data source Id - Filter for entries not starting with the text
+     */
+    'mitigations.externalSourceId.not.beginsWith'?: string;
+    /**
+     * External data source Id - Filter for entries ending with the text
+     */
+    'mitigations.externalSourceId.endsWith'?: string;
+    /**
+     * External data source Id - Filter for entries not ending with the text
+     */
+    'mitigations.externalSourceId.not.endsWith'?: string;
     'mitigations.category'?: AdverseEventFilters.MitigationsCategoryEnum;
     'mitigations.category.not'?: AdverseEventFilters.MitigationsCategoryNotEnum;
     /**

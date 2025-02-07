@@ -11,6 +11,8 @@ import { MeasureSchema } from './measure-schema';
 
 
 export interface VitalsCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s vitals are assesed
      */

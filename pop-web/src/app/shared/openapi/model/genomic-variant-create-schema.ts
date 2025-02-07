@@ -15,6 +15,8 @@ import { RangeSchema } from './range-schema';
 
 
 export interface GenomicVariantCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\' genomic variant is described
      */

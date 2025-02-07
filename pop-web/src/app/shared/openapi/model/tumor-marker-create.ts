@@ -17,6 +17,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface TumorMarkerCreate { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient related to the tumor marker result
      */

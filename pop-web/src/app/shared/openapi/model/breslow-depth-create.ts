@@ -11,6 +11,8 @@
 
 export interface BreslowDepthCreate { 
     stagingDomain?: BreslowDepthCreate.StagingDomainEnum;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */

@@ -35,11 +35,13 @@ export interface AnyGenomicSignature {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
     /**
      * Human-readable description
      */
     description: string;
+    externalSource?: string;
+    externalSourceId?: string;
     /**
      * Indicates the case of the patient who\'s lifestyle is assesed
      */

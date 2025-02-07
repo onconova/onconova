@@ -13,6 +13,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface RadiotherapyCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who received the radiotherapy
      */
@@ -30,6 +32,7 @@ export interface RadiotherapyCreateSchema {
      */
     intent: RadiotherapyIntentChoices;
     terminationReason?: CodedConceptSchema | null;
+    therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the radiotherapy
      */

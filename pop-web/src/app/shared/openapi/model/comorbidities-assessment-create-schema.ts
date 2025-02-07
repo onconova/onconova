@@ -12,6 +12,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface ComorbiditiesAssessmentCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s comorbidities are being recorded
      */

@@ -11,6 +11,8 @@ import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-st
 
 
 export interface TumorMutationalBurdenCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s lifestyle is assesed
      */

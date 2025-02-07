@@ -30,11 +30,13 @@ export interface ComorbiditiesAssessmentSchema {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
     /**
      * Human-readable description
      */
     description: string;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s comorbidities are being recorded
      */

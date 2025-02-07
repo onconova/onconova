@@ -12,6 +12,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 export interface INRGSSStageCreate { 
     stagingDomain?: INRGSSStageCreate.StagingDomainEnum;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */

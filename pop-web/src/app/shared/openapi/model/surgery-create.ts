@@ -12,6 +12,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface SurgeryCreate { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who received the surgical procedure
      */
@@ -32,6 +34,7 @@ export interface SurgeryCreate {
     bodysiteQualifier?: CodedConceptSchema | null;
     bodysiteLaterality?: CodedConceptSchema | null;
     outcome?: CodedConceptSchema | null;
+    therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the surgery
      */

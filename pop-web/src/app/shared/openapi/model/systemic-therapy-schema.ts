@@ -31,11 +31,13 @@ export interface SystemicTherapySchema {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
     /**
      * Human-readable description
      */
     description: string;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who received the systemic therapy
      */
@@ -54,6 +56,7 @@ export interface SystemicTherapySchema {
     intent: SystemicTherapyIntentChoices;
     role?: CodedConceptSchema | null;
     terminationReason?: CodedConceptSchema | null;
+    therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the systemic therapy
      */

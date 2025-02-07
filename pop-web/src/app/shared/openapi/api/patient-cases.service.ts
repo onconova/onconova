@@ -812,6 +812,16 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         const ageNotEqual = requestParameters?.ageNotEqual;
         const ageBetween = requestParameters?.ageBetween;
         const ageNotBetween = requestParameters?.ageNotBetween;
+        const overallSurvivalNotExists = requestParameters?.overallSurvivalNotExists;
+        const overallSurvivalExists = requestParameters?.overallSurvivalExists;
+        const overallSurvivalLessThan = requestParameters?.overallSurvivalLessThan;
+        const overallSurvivalLessThanOrEqual = requestParameters?.overallSurvivalLessThanOrEqual;
+        const overallSurvivalGreaterThan = requestParameters?.overallSurvivalGreaterThan;
+        const overallSurvivalGreaterThanOrEqual = requestParameters?.overallSurvivalGreaterThanOrEqual;
+        const overallSurvivalEqual = requestParameters?.overallSurvivalEqual;
+        const overallSurvivalNotEqual = requestParameters?.overallSurvivalNotEqual;
+        const overallSurvivalBetween = requestParameters?.overallSurvivalBetween;
+        const overallSurvivalNotBetween = requestParameters?.overallSurvivalNotBetween;
         const dataCompletionRateLessThan = requestParameters?.dataCompletionRateLessThan;
         const dataCompletionRateLessThanOrEqual = requestParameters?.dataCompletionRateLessThanOrEqual;
         const dataCompletionRateGreaterThan = requestParameters?.dataCompletionRateGreaterThan;
@@ -828,24 +838,6 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
-        const createdAtBefore = requestParameters?.createdAtBefore;
-        const createdAtAfter = requestParameters?.createdAtAfter;
-        const createdAtOnOrBefore = requestParameters?.createdAtOnOrBefore;
-        const createdAtOnOrAfter = requestParameters?.createdAtOnOrAfter;
-        const createdAtOn = requestParameters?.createdAtOn;
-        const createdAtNotOn = requestParameters?.createdAtNotOn;
-        const createdAtBetween = requestParameters?.createdAtBetween;
-        const createdAtNotBetween = requestParameters?.createdAtNotBetween;
-        const updatedAtBefore = requestParameters?.updatedAtBefore;
-        const updatedAtAfter = requestParameters?.updatedAtAfter;
-        const updatedAtOnOrBefore = requestParameters?.updatedAtOnOrBefore;
-        const updatedAtOnOrAfter = requestParameters?.updatedAtOnOrAfter;
-        const updatedAtOn = requestParameters?.updatedAtOn;
-        const updatedAtNotOn = requestParameters?.updatedAtNotOn;
-        const updatedAtBetween = requestParameters?.updatedAtBetween;
-        const updatedAtNotBetween = requestParameters?.updatedAtNotBetween;
-        const createdByNotExists = requestParameters?.createdByNotExists;
-        const createdByExists = requestParameters?.createdByExists;
         const pseudoidentifier = requestParameters?.pseudoidentifier;
         const pseudoidentifierNot = requestParameters?.pseudoidentifierNot;
         const pseudoidentifierContains = requestParameters?.pseudoidentifierContains;
@@ -854,6 +846,25 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         const pseudoidentifierNotBeginsWith = requestParameters?.pseudoidentifierNotBeginsWith;
         const pseudoidentifierEndsWith = requestParameters?.pseudoidentifierEndsWith;
         const pseudoidentifierNotEndsWith = requestParameters?.pseudoidentifierNotEndsWith;
+        const clinicalCenter = requestParameters?.clinicalCenter;
+        const clinicalCenterNot = requestParameters?.clinicalCenterNot;
+        const clinicalCenterContains = requestParameters?.clinicalCenterContains;
+        const clinicalCenterNotContains = requestParameters?.clinicalCenterNotContains;
+        const clinicalCenterBeginsWith = requestParameters?.clinicalCenterBeginsWith;
+        const clinicalCenterNotBeginsWith = requestParameters?.clinicalCenterNotBeginsWith;
+        const clinicalCenterEndsWith = requestParameters?.clinicalCenterEndsWith;
+        const clinicalCenterNotEndsWith = requestParameters?.clinicalCenterNotEndsWith;
+        const clinicalIdentifier = requestParameters?.clinicalIdentifier;
+        const clinicalIdentifierNot = requestParameters?.clinicalIdentifierNot;
+        const clinicalIdentifierContains = requestParameters?.clinicalIdentifierContains;
+        const clinicalIdentifierNotContains = requestParameters?.clinicalIdentifierNotContains;
+        const clinicalIdentifierBeginsWith = requestParameters?.clinicalIdentifierBeginsWith;
+        const clinicalIdentifierNotBeginsWith = requestParameters?.clinicalIdentifierNotBeginsWith;
+        const clinicalIdentifierEndsWith = requestParameters?.clinicalIdentifierEndsWith;
+        const clinicalIdentifierNotEndsWith = requestParameters?.clinicalIdentifierNotEndsWith;
+        const consentStatus = requestParameters?.consentStatus;
+        const consentStatusNot = requestParameters?.consentStatusNot;
+        const consentStatusAnyOf = requestParameters?.consentStatusAnyOf;
         const gender = requestParameters?.gender;
         const genderNot = requestParameters?.genderNot;
         const genderAnyOf = requestParameters?.genderAnyOf;
@@ -906,50 +917,6 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         const causeOfDeathAnyOf = requestParameters?.causeOfDeathAnyOf;
         const causeOfDeathNotAnyOf = requestParameters?.causeOfDeathNotAnyOf;
         const causeOfDeathDescendantsOf = requestParameters?.causeOfDeathDescendantsOf;
-        const updatedBysIdLessThan = requestParameters?.updatedBysIdLessThan;
-        const updatedBysIdLessThanOrEqual = requestParameters?.updatedBysIdLessThanOrEqual;
-        const updatedBysIdGreaterThan = requestParameters?.updatedBysIdGreaterThan;
-        const updatedBysIdGreaterThanOrEqual = requestParameters?.updatedBysIdGreaterThanOrEqual;
-        const updatedBysIdEqual = requestParameters?.updatedBysIdEqual;
-        const updatedBysIdNotEqual = requestParameters?.updatedBysIdNotEqual;
-        const updatedBysIdBetween = requestParameters?.updatedBysIdBetween;
-        const updatedBysIdNotBetween = requestParameters?.updatedBysIdNotBetween;
-        const updatedBysUsername = requestParameters?.updatedBysUsername;
-        const updatedBysUsernameNot = requestParameters?.updatedBysUsernameNot;
-        const updatedBysUsernameContains = requestParameters?.updatedBysUsernameContains;
-        const updatedBysUsernameNotContains = requestParameters?.updatedBysUsernameNotContains;
-        const updatedBysUsernameBeginsWith = requestParameters?.updatedBysUsernameBeginsWith;
-        const updatedBysUsernameNotBeginsWith = requestParameters?.updatedBysUsernameNotBeginsWith;
-        const updatedBysUsernameEndsWith = requestParameters?.updatedBysUsernameEndsWith;
-        const updatedBysUsernameNotEndsWith = requestParameters?.updatedBysUsernameNotEndsWith;
-        const updatedBysEmail = requestParameters?.updatedBysEmail;
-        const updatedBysEmailNot = requestParameters?.updatedBysEmailNot;
-        const updatedBysEmailContains = requestParameters?.updatedBysEmailContains;
-        const updatedBysEmailNotContains = requestParameters?.updatedBysEmailNotContains;
-        const updatedBysEmailBeginsWith = requestParameters?.updatedBysEmailBeginsWith;
-        const updatedBysEmailNotBeginsWith = requestParameters?.updatedBysEmailNotBeginsWith;
-        const updatedBysEmailEndsWith = requestParameters?.updatedBysEmailEndsWith;
-        const updatedBysEmailNotEndsWith = requestParameters?.updatedBysEmailNotEndsWith;
-        const updatedBysFirstNameNotExists = requestParameters?.updatedBysFirstNameNotExists;
-        const updatedBysFirstNameExists = requestParameters?.updatedBysFirstNameExists;
-        const updatedBysFirstName = requestParameters?.updatedBysFirstName;
-        const updatedBysFirstNameNot = requestParameters?.updatedBysFirstNameNot;
-        const updatedBysFirstNameContains = requestParameters?.updatedBysFirstNameContains;
-        const updatedBysFirstNameNotContains = requestParameters?.updatedBysFirstNameNotContains;
-        const updatedBysFirstNameBeginsWith = requestParameters?.updatedBysFirstNameBeginsWith;
-        const updatedBysFirstNameNotBeginsWith = requestParameters?.updatedBysFirstNameNotBeginsWith;
-        const updatedBysFirstNameEndsWith = requestParameters?.updatedBysFirstNameEndsWith;
-        const updatedBysFirstNameNotEndsWith = requestParameters?.updatedBysFirstNameNotEndsWith;
-        const updatedBysLastNameNotExists = requestParameters?.updatedBysLastNameNotExists;
-        const updatedBysLastNameExists = requestParameters?.updatedBysLastNameExists;
-        const updatedBysLastName = requestParameters?.updatedBysLastName;
-        const updatedBysLastNameNot = requestParameters?.updatedBysLastNameNot;
-        const updatedBysLastNameContains = requestParameters?.updatedBysLastNameContains;
-        const updatedBysLastNameNotContains = requestParameters?.updatedBysLastNameNotContains;
-        const updatedBysLastNameBeginsWith = requestParameters?.updatedBysLastNameBeginsWith;
-        const updatedBysLastNameNotBeginsWith = requestParameters?.updatedBysLastNameNotBeginsWith;
-        const updatedBysLastNameEndsWith = requestParameters?.updatedBysLastNameEndsWith;
-        const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
         const manager = requestParameters?.manager;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
@@ -989,6 +956,50 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             ageNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'age.not.between');
+            })
+        }
+        if (overallSurvivalNotExists !== undefined && overallSurvivalNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalNotExists, 'overallSurvival.not.exists');
+        }
+        if (overallSurvivalExists !== undefined && overallSurvivalExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalExists, 'overallSurvival.exists');
+        }
+        if (overallSurvivalLessThan !== undefined && overallSurvivalLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalLessThan, 'overallSurvival.lessThan');
+        }
+        if (overallSurvivalLessThanOrEqual !== undefined && overallSurvivalLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalLessThanOrEqual, 'overallSurvival.lessThanOrEqual');
+        }
+        if (overallSurvivalGreaterThan !== undefined && overallSurvivalGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalGreaterThan, 'overallSurvival.greaterThan');
+        }
+        if (overallSurvivalGreaterThanOrEqual !== undefined && overallSurvivalGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalGreaterThanOrEqual, 'overallSurvival.greaterThanOrEqual');
+        }
+        if (overallSurvivalEqual !== undefined && overallSurvivalEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalEqual, 'overallSurvival.equal');
+        }
+        if (overallSurvivalNotEqual !== undefined && overallSurvivalNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>overallSurvivalNotEqual, 'overallSurvival.not.equal');
+        }
+        if (overallSurvivalBetween) {
+            overallSurvivalBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'overallSurvival.between');
+            })
+        }
+        if (overallSurvivalNotBetween) {
+            overallSurvivalNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'overallSurvival.not.between');
             })
         }
         if (dataCompletionRateLessThan !== undefined && dataCompletionRateLessThan !== null) {
@@ -1059,86 +1070,6 @@ export class PatientCasesService implements PatientCasesServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>idNotEndsWith, 'id.not.endsWith');
         }
-        if (createdAtBefore !== undefined && createdAtBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtBefore, 'createdAt.before');
-        }
-        if (createdAtAfter !== undefined && createdAtAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtAfter, 'createdAt.after');
-        }
-        if (createdAtOnOrBefore !== undefined && createdAtOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtOnOrBefore, 'createdAt.onOrBefore');
-        }
-        if (createdAtOnOrAfter !== undefined && createdAtOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtOnOrAfter, 'createdAt.onOrAfter');
-        }
-        if (createdAtOn !== undefined && createdAtOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtOn, 'createdAt.on');
-        }
-        if (createdAtNotOn !== undefined && createdAtNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtNotOn, 'createdAt.not.on');
-        }
-        if (createdAtBetween) {
-            createdAtBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'createdAt.between');
-            })
-        }
-        if (createdAtNotBetween) {
-            createdAtNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'createdAt.not.between');
-            })
-        }
-        if (updatedAtBefore !== undefined && updatedAtBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtBefore, 'updatedAt.before');
-        }
-        if (updatedAtAfter !== undefined && updatedAtAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtAfter, 'updatedAt.after');
-        }
-        if (updatedAtOnOrBefore !== undefined && updatedAtOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtOnOrBefore, 'updatedAt.onOrBefore');
-        }
-        if (updatedAtOnOrAfter !== undefined && updatedAtOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtOnOrAfter, 'updatedAt.onOrAfter');
-        }
-        if (updatedAtOn !== undefined && updatedAtOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtOn, 'updatedAt.on');
-        }
-        if (updatedAtNotOn !== undefined && updatedAtNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtNotOn, 'updatedAt.not.on');
-        }
-        if (updatedAtBetween) {
-            updatedAtBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedAt.between');
-            })
-        }
-        if (updatedAtNotBetween) {
-            updatedAtNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedAt.not.between');
-            })
-        }
-        if (createdByNotExists !== undefined && createdByNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdByNotExists, 'createdBy.not.exists');
-        }
-        if (createdByExists !== undefined && createdByExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdByExists, 'createdBy.exists');
-        }
         if (pseudoidentifier !== undefined && pseudoidentifier !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pseudoidentifier, 'pseudoidentifier');
@@ -1170,6 +1101,84 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         if (pseudoidentifierNotEndsWith !== undefined && pseudoidentifierNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pseudoidentifierNotEndsWith, 'pseudoidentifier.not.endsWith');
+        }
+        if (clinicalCenter !== undefined && clinicalCenter !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenter, 'clinicalCenter');
+        }
+        if (clinicalCenterNot !== undefined && clinicalCenterNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterNot, 'clinicalCenter.not');
+        }
+        if (clinicalCenterContains !== undefined && clinicalCenterContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterContains, 'clinicalCenter.contains');
+        }
+        if (clinicalCenterNotContains !== undefined && clinicalCenterNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterNotContains, 'clinicalCenter.not.contains');
+        }
+        if (clinicalCenterBeginsWith !== undefined && clinicalCenterBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterBeginsWith, 'clinicalCenter.beginsWith');
+        }
+        if (clinicalCenterNotBeginsWith !== undefined && clinicalCenterNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterNotBeginsWith, 'clinicalCenter.not.beginsWith');
+        }
+        if (clinicalCenterEndsWith !== undefined && clinicalCenterEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterEndsWith, 'clinicalCenter.endsWith');
+        }
+        if (clinicalCenterNotEndsWith !== undefined && clinicalCenterNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalCenterNotEndsWith, 'clinicalCenter.not.endsWith');
+        }
+        if (clinicalIdentifier !== undefined && clinicalIdentifier !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifier, 'clinicalIdentifier');
+        }
+        if (clinicalIdentifierNot !== undefined && clinicalIdentifierNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierNot, 'clinicalIdentifier.not');
+        }
+        if (clinicalIdentifierContains !== undefined && clinicalIdentifierContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierContains, 'clinicalIdentifier.contains');
+        }
+        if (clinicalIdentifierNotContains !== undefined && clinicalIdentifierNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierNotContains, 'clinicalIdentifier.not.contains');
+        }
+        if (clinicalIdentifierBeginsWith !== undefined && clinicalIdentifierBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierBeginsWith, 'clinicalIdentifier.beginsWith');
+        }
+        if (clinicalIdentifierNotBeginsWith !== undefined && clinicalIdentifierNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierNotBeginsWith, 'clinicalIdentifier.not.beginsWith');
+        }
+        if (clinicalIdentifierEndsWith !== undefined && clinicalIdentifierEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierEndsWith, 'clinicalIdentifier.endsWith');
+        }
+        if (clinicalIdentifierNotEndsWith !== undefined && clinicalIdentifierNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>clinicalIdentifierNotEndsWith, 'clinicalIdentifier.not.endsWith');
+        }
+        if (consentStatus !== undefined && consentStatus !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>consentStatus, 'consentStatus');
+        }
+        if (consentStatusNot !== undefined && consentStatusNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>consentStatusNot, 'consentStatus.not');
+        }
+        if (consentStatusAnyOf) {
+            consentStatusAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'consentStatus.anyOf');
+            })
         }
         if (gender !== undefined && gender !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1406,186 +1415,6 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         if (causeOfDeathDescendantsOf !== undefined && causeOfDeathDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>causeOfDeathDescendantsOf, 'causeOfDeath.descendantsOf');
-        }
-        if (updatedBysIdLessThan !== undefined && updatedBysIdLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdLessThan, 'updatedBys.id.lessThan');
-        }
-        if (updatedBysIdLessThanOrEqual !== undefined && updatedBysIdLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdLessThanOrEqual, 'updatedBys.id.lessThanOrEqual');
-        }
-        if (updatedBysIdGreaterThan !== undefined && updatedBysIdGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdGreaterThan, 'updatedBys.id.greaterThan');
-        }
-        if (updatedBysIdGreaterThanOrEqual !== undefined && updatedBysIdGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdGreaterThanOrEqual, 'updatedBys.id.greaterThanOrEqual');
-        }
-        if (updatedBysIdEqual !== undefined && updatedBysIdEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdEqual, 'updatedBys.id.equal');
-        }
-        if (updatedBysIdNotEqual !== undefined && updatedBysIdNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdNotEqual, 'updatedBys.id.not.equal');
-        }
-        if (updatedBysIdBetween) {
-            updatedBysIdBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedBys.id.between');
-            })
-        }
-        if (updatedBysIdNotBetween) {
-            updatedBysIdNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedBys.id.not.between');
-            })
-        }
-        if (updatedBysUsername !== undefined && updatedBysUsername !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsername, 'updatedBys.username');
-        }
-        if (updatedBysUsernameNot !== undefined && updatedBysUsernameNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNot, 'updatedBys.username.not');
-        }
-        if (updatedBysUsernameContains !== undefined && updatedBysUsernameContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameContains, 'updatedBys.username.contains');
-        }
-        if (updatedBysUsernameNotContains !== undefined && updatedBysUsernameNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNotContains, 'updatedBys.username.not.contains');
-        }
-        if (updatedBysUsernameBeginsWith !== undefined && updatedBysUsernameBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameBeginsWith, 'updatedBys.username.beginsWith');
-        }
-        if (updatedBysUsernameNotBeginsWith !== undefined && updatedBysUsernameNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNotBeginsWith, 'updatedBys.username.not.beginsWith');
-        }
-        if (updatedBysUsernameEndsWith !== undefined && updatedBysUsernameEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameEndsWith, 'updatedBys.username.endsWith');
-        }
-        if (updatedBysUsernameNotEndsWith !== undefined && updatedBysUsernameNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNotEndsWith, 'updatedBys.username.not.endsWith');
-        }
-        if (updatedBysEmail !== undefined && updatedBysEmail !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmail, 'updatedBys.email');
-        }
-        if (updatedBysEmailNot !== undefined && updatedBysEmailNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNot, 'updatedBys.email.not');
-        }
-        if (updatedBysEmailContains !== undefined && updatedBysEmailContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailContains, 'updatedBys.email.contains');
-        }
-        if (updatedBysEmailNotContains !== undefined && updatedBysEmailNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNotContains, 'updatedBys.email.not.contains');
-        }
-        if (updatedBysEmailBeginsWith !== undefined && updatedBysEmailBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailBeginsWith, 'updatedBys.email.beginsWith');
-        }
-        if (updatedBysEmailNotBeginsWith !== undefined && updatedBysEmailNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNotBeginsWith, 'updatedBys.email.not.beginsWith');
-        }
-        if (updatedBysEmailEndsWith !== undefined && updatedBysEmailEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailEndsWith, 'updatedBys.email.endsWith');
-        }
-        if (updatedBysEmailNotEndsWith !== undefined && updatedBysEmailNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNotEndsWith, 'updatedBys.email.not.endsWith');
-        }
-        if (updatedBysFirstNameNotExists !== undefined && updatedBysFirstNameNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotExists, 'updatedBys.firstName.not.exists');
-        }
-        if (updatedBysFirstNameExists !== undefined && updatedBysFirstNameExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameExists, 'updatedBys.firstName.exists');
-        }
-        if (updatedBysFirstName !== undefined && updatedBysFirstName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstName, 'updatedBys.firstName');
-        }
-        if (updatedBysFirstNameNot !== undefined && updatedBysFirstNameNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNot, 'updatedBys.firstName.not');
-        }
-        if (updatedBysFirstNameContains !== undefined && updatedBysFirstNameContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameContains, 'updatedBys.firstName.contains');
-        }
-        if (updatedBysFirstNameNotContains !== undefined && updatedBysFirstNameNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotContains, 'updatedBys.firstName.not.contains');
-        }
-        if (updatedBysFirstNameBeginsWith !== undefined && updatedBysFirstNameBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameBeginsWith, 'updatedBys.firstName.beginsWith');
-        }
-        if (updatedBysFirstNameNotBeginsWith !== undefined && updatedBysFirstNameNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotBeginsWith, 'updatedBys.firstName.not.beginsWith');
-        }
-        if (updatedBysFirstNameEndsWith !== undefined && updatedBysFirstNameEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameEndsWith, 'updatedBys.firstName.endsWith');
-        }
-        if (updatedBysFirstNameNotEndsWith !== undefined && updatedBysFirstNameNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotEndsWith, 'updatedBys.firstName.not.endsWith');
-        }
-        if (updatedBysLastNameNotExists !== undefined && updatedBysLastNameNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotExists, 'updatedBys.lastName.not.exists');
-        }
-        if (updatedBysLastNameExists !== undefined && updatedBysLastNameExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameExists, 'updatedBys.lastName.exists');
-        }
-        if (updatedBysLastName !== undefined && updatedBysLastName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastName, 'updatedBys.lastName');
-        }
-        if (updatedBysLastNameNot !== undefined && updatedBysLastNameNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNot, 'updatedBys.lastName.not');
-        }
-        if (updatedBysLastNameContains !== undefined && updatedBysLastNameContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameContains, 'updatedBys.lastName.contains');
-        }
-        if (updatedBysLastNameNotContains !== undefined && updatedBysLastNameNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotContains, 'updatedBys.lastName.not.contains');
-        }
-        if (updatedBysLastNameBeginsWith !== undefined && updatedBysLastNameBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameBeginsWith, 'updatedBys.lastName.beginsWith');
-        }
-        if (updatedBysLastNameNotBeginsWith !== undefined && updatedBysLastNameNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotBeginsWith, 'updatedBys.lastName.not.beginsWith');
-        }
-        if (updatedBysLastNameEndsWith !== undefined && updatedBysLastNameEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameEndsWith, 'updatedBys.lastName.endsWith');
-        }
-        if (updatedBysLastNameNotEndsWith !== undefined && updatedBysLastNameNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotEndsWith, 'updatedBys.lastName.not.endsWith');
         }
         if (manager !== undefined && manager !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

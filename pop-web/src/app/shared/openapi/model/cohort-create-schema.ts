@@ -10,6 +10,8 @@
 
 
 export interface CohortCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Name of the cohort
      */

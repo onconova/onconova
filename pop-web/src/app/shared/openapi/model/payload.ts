@@ -26,6 +26,8 @@ import { ISSStagingCreate } from './iss-staging-create';
 
 export interface Payload { 
     stagingDomain?: Payload.StagingDomainEnum;
+    externalSource?: string;
+    externalSourceId?: string;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */

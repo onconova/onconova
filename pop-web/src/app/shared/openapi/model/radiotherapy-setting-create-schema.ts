@@ -11,6 +11,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface RadiotherapySettingCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Modality of external beam or brachytherapy radiation procedures
      */

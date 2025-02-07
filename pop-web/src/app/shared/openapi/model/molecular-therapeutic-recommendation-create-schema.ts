@@ -11,6 +11,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface MolecularTherapeuticRecommendationCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     expectedEffect?: CodedConceptSchema | null;
     clinicalTrial?: string | null;
     offLabelUse?: boolean | null;

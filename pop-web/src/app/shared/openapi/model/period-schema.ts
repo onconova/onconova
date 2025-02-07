@@ -10,7 +10,7 @@
 
 
 export interface PeriodSchema { 
-    start: string;
+    start?: string | null;
     end?: string | null;
 }
 

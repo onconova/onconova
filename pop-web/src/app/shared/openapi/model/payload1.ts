@@ -13,6 +13,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface Payload1 { 
+    externalSource?: string;
+    externalSourceId?: string;
     /**
      * Indicates the case of the patient which was discussed at the tumor board
      */

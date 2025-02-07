@@ -12,6 +12,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface RadiotherapyDosageCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     fractions?: number | null;
     dose?: MeasureSchema | null;
     /**

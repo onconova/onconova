@@ -12,6 +12,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface SystemicTherapyMedicationCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Antineoplastic drug/medication administered to the patient
      */

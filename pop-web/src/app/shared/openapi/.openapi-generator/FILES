@@ -38,6 +38,8 @@ api/systemic-therapies.service.ts
 api/systemic-therapies.serviceInterface.ts
 api/terminology.service.ts
 api/terminology.serviceInterface.ts
+api/therapy-lines.service.ts
+api/therapy-lines.serviceInterface.ts
 api/treatment-responses.service.ts
 api/treatment-responses.serviceInterface.ts
 api/tumor-boards.service.ts
@@ -157,11 +159,13 @@ model/paginated-radiotherapy-schema.ts
 model/paginated-risk-assessment.ts
 model/paginated-surgery.ts
 model/paginated-systemic-therapy-schema.ts
+model/paginated-therapy-line-schema.ts
 model/paginated-treatment-response-schema.ts
 model/paginated-tumor-marker.ts
 model/paginated-vitals-schema.ts
 model/patient-case-bundle-create.ts
 model/patient-case-bundle.ts
+model/patient-case-consent-status-choices.ts
 model/patient-case-create.ts
 model/patient-case-data-categories.ts
 model/patient-case-data-completion-status-schema.ts
@@ -207,6 +211,10 @@ model/systemic-therapy-medication-create-schema.ts
 model/systemic-therapy-medication-schema.ts
 model/systemic-therapy-schema.ts
 model/terminology-filters.ts
+model/therapy-line-create-schema.ts
+model/therapy-line-filters.ts
+model/therapy-line-intent-choices.ts
+model/therapy-line-schema.ts
 model/tnm-staging-create.ts
 model/tnm-staging.ts
 model/token-pair-schema.ts

@@ -11,6 +11,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface FamilyHistoryCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s family\'s history is being recorded
      */

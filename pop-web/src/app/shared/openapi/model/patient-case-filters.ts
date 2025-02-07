@@ -43,6 +43,46 @@ export interface PatientCaseFilters {
      */
     'age.not.between'?: Array<any>;
     /**
+     * Overall survival - Filter for entries without a value
+     */
+    'overallSurvival.not.exists'?: boolean;
+    /**
+     * Overall survival - Filter for entries with a value
+     */
+    'overallSurvival.exists'?: boolean;
+    /**
+     * Overall survival - Filter for entries with values less than the specified value
+     */
+    'overallSurvival.lessThan'?: number;
+    /**
+     * Overall survival - Filter for entries with values less than or equal to the specified value
+     */
+    'overallSurvival.lessThanOrEqual'?: number;
+    /**
+     * Overall survival - Filter for entries with values greater than the specified value
+     */
+    'overallSurvival.greaterThan'?: number;
+    /**
+     * Overall survival - Filter for entries with values greater than or equal to the specified value
+     */
+    'overallSurvival.greaterThanOrEqual'?: number;
+    /**
+     * Overall survival - Filter for entries with values exactly equal to the specified value
+     */
+    'overallSurvival.equal'?: number;
+    /**
+     * Overall survival - Filter for entries with values not equal to the specified value
+     */
+    'overallSurvival.not.equal'?: number;
+    /**
+     * Overall survival - Filter for entries with values between two specified values (inclusive)
+     */
+    'overallSurvival.between'?: Array<any>;
+    /**
+     * Overall survival - Filter for entries with values between two specified values (inclusive)
+     */
+    'overallSurvival.not.between'?: Array<any>;
+    /**
      * Data completion rate - Filter for entries with values less than the specified value
      */
     'dataCompletionRate.lessThan'?: number;
@@ -107,78 +147,6 @@ export interface PatientCaseFilters {
      */
     'id.not.endsWith'?: string;
     /**
-     * Created At - Filter for entries with dates before the specified value
-     */
-    'createdAt.before'?: string;
-    /**
-     * Created At - Filter for entries with dates after the specified value
-     */
-    'createdAt.after'?: string;
-    /**
-     * Created At - Filter for entries with dates on or before the specified value
-     */
-    'createdAt.onOrBefore'?: string;
-    /**
-     * Created At - Filter for entries with dates on or after the specified value
-     */
-    'createdAt.onOrAfter'?: string;
-    /**
-     * Created At - Filter for entries with dates exactly matching the specified value
-     */
-    'createdAt.on'?: string;
-    /**
-     * Created At - Filter for entries with dates not matching the specified value
-     */
-    'createdAt.not.on'?: string;
-    /**
-     * Created At - Filter for entries with dates between two specified values (inclusive)
-     */
-    'createdAt.between'?: Array<any>;
-    /**
-     * Created At - Filter for entries with dates not between two specified values (inclusive)
-     */
-    'createdAt.not.between'?: Array<any>;
-    /**
-     * Updated At - Filter for entries with dates before the specified value
-     */
-    'updatedAt.before'?: string;
-    /**
-     * Updated At - Filter for entries with dates after the specified value
-     */
-    'updatedAt.after'?: string;
-    /**
-     * Updated At - Filter for entries with dates on or before the specified value
-     */
-    'updatedAt.onOrBefore'?: string;
-    /**
-     * Updated At - Filter for entries with dates on or after the specified value
-     */
-    'updatedAt.onOrAfter'?: string;
-    /**
-     * Updated At - Filter for entries with dates exactly matching the specified value
-     */
-    'updatedAt.on'?: string;
-    /**
-     * Updated At - Filter for entries with dates not matching the specified value
-     */
-    'updatedAt.not.on'?: string;
-    /**
-     * Updated At - Filter for entries with dates between two specified values (inclusive)
-     */
-    'updatedAt.between'?: Array<any>;
-    /**
-     * Updated At - Filter for entries with dates not between two specified values (inclusive)
-     */
-    'updatedAt.not.between'?: Array<any>;
-    /**
-     * Created By - Filter for entries without a value
-     */
-    'createdBy.not.exists'?: boolean;
-    /**
-     * Created By - Filter for entries with a value
-     */
-    'createdBy.exists'?: boolean;
-    /**
      * Pseudoidentifier - Filter for full text matches
      */
     pseudoidentifier?: string;
@@ -210,6 +178,76 @@ export interface PatientCaseFilters {
      * Pseudoidentifier - Filter for entries not ending with the text
      */
     'pseudoidentifier.not.endsWith'?: string;
+    /**
+     * Medical center - Filter for full text matches
+     */
+    clinicalCenter?: string;
+    /**
+     * Medical center - Filter for full text mismatches
+     */
+    'clinicalCenter.not'?: string;
+    /**
+     * Medical center - Filter for partial text matches
+     */
+    'clinicalCenter.contains'?: string;
+    /**
+     * Medical center - Filter for partial text mismatches
+     */
+    'clinicalCenter.not.contains'?: string;
+    /**
+     * Medical center - Filter for entries starting with the text
+     */
+    'clinicalCenter.beginsWith'?: string;
+    /**
+     * Medical center - Filter for entries not starting with the text
+     */
+    'clinicalCenter.not.beginsWith'?: string;
+    /**
+     * Medical center - Filter for entries ending with the text
+     */
+    'clinicalCenter.endsWith'?: string;
+    /**
+     * Medical center - Filter for entries not ending with the text
+     */
+    'clinicalCenter.not.endsWith'?: string;
+    /**
+     * Clinical identifier - Filter for full text matches
+     */
+    clinicalIdentifier?: string;
+    /**
+     * Clinical identifier - Filter for full text mismatches
+     */
+    'clinicalIdentifier.not'?: string;
+    /**
+     * Clinical identifier - Filter for partial text matches
+     */
+    'clinicalIdentifier.contains'?: string;
+    /**
+     * Clinical identifier - Filter for partial text mismatches
+     */
+    'clinicalIdentifier.not.contains'?: string;
+    /**
+     * Clinical identifier - Filter for entries starting with the text
+     */
+    'clinicalIdentifier.beginsWith'?: string;
+    /**
+     * Clinical identifier - Filter for entries not starting with the text
+     */
+    'clinicalIdentifier.not.beginsWith'?: string;
+    /**
+     * Clinical identifier - Filter for entries ending with the text
+     */
+    'clinicalIdentifier.endsWith'?: string;
+    /**
+     * Clinical identifier - Filter for entries not ending with the text
+     */
+    'clinicalIdentifier.not.endsWith'?: string;
+    consentStatus?: PatientCaseFilters.ConsentStatusEnum;
+    'consentStatus.not'?: PatientCaseFilters.ConsentStatusNotEnum;
+    /**
+     * Consent status - (\'Filter for excluding a subset of value choices\',)
+     */
+    'consentStatus.anyOf'?: Array<PatientCaseFilters.ConsentStatusAnyOfEnum>;
     /**
      * Gender - Filter for a matching concept code
      */
@@ -418,182 +456,27 @@ export interface PatientCaseFilters {
      * Cause of death - Filter for all child concepts of a given concepts code
      */
     'causeOfDeath.descendantsOf'?: string;
-    /**
-     * None - Filter for entries with values less than the specified value
-     */
-    'updatedBys.id.lessThan'?: number;
-    /**
-     * None - Filter for entries with values less than or equal to the specified value
-     */
-    'updatedBys.id.lessThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values greater than the specified value
-     */
-    'updatedBys.id.greaterThan'?: number;
-    /**
-     * None - Filter for entries with values greater than or equal to the specified value
-     */
-    'updatedBys.id.greaterThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values exactly equal to the specified value
-     */
-    'updatedBys.id.equal'?: number;
-    /**
-     * None - Filter for entries with values not equal to the specified value
-     */
-    'updatedBys.id.not.equal'?: number;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'updatedBys.id.between'?: Array<any>;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'updatedBys.id.not.between'?: Array<any>;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.username'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.username.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.username.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.username.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.username.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.username.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.username.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.username.not.endsWith'?: string;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.email'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.email.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.email.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.email.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.email.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.email.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.email.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.email.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'updatedBys.firstName.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'updatedBys.firstName.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.firstName'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.firstName.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.firstName.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.firstName.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.firstName.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.firstName.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.firstName.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.firstName.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'updatedBys.lastName.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'updatedBys.lastName.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.lastName'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.lastName.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.lastName.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.lastName.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.lastName.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.lastName.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.lastName.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.lastName.not.endsWith'?: string;
     manager?: string | null;
 }
+export namespace PatientCaseFilters {
+    export type ConsentStatusEnum = 'valid' | 'revoked' | 'unknown';
+    export const ConsentStatusEnum = {
+        Valid: 'valid' as ConsentStatusEnum,
+        Revoked: 'revoked' as ConsentStatusEnum,
+        Unknown: 'unknown' as ConsentStatusEnum
+    };
+    export type ConsentStatusNotEnum = 'valid' | 'revoked' | 'unknown';
+    export const ConsentStatusNotEnum = {
+        Valid: 'valid' as ConsentStatusNotEnum,
+        Revoked: 'revoked' as ConsentStatusNotEnum,
+        Unknown: 'unknown' as ConsentStatusNotEnum
+    };
+    export type ConsentStatusAnyOfEnum = 'valid' | 'revoked' | 'unknown';
+    export const ConsentStatusAnyOfEnum = {
+        Valid: 'valid' as ConsentStatusAnyOfEnum,
+        Revoked: 'revoked' as ConsentStatusAnyOfEnum,
+        Unknown: 'unknown' as ConsentStatusAnyOfEnum
+    };
+}
+
 

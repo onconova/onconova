@@ -31,6 +31,8 @@ export interface BreslowDepth {
      */
     updatedAt: string;
     createdBy?: UserSchema | null;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s cancer is staged
      */
@@ -42,7 +44,7 @@ export interface BreslowDepth {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */

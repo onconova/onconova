@@ -18,6 +18,8 @@ import { MicrosatelliteInstabilityCreateSchema } from './microsatellite-instabil
 
 
 export interface Payload2 { 
+    externalSource?: string;
+    externalSourceId?: string;
     /**
      * Indicates the case of the patient who\'s lifestyle is assesed
      */

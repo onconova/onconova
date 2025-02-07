@@ -13,6 +13,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface SystemicTherapyCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who received the systemic therapy
      */
@@ -31,6 +33,7 @@ export interface SystemicTherapyCreateSchema {
     intent: SystemicTherapyIntentChoices;
     role?: CodedConceptSchema | null;
     terminationReason?: CodedConceptSchema | null;
+    therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the systemic therapy
      */

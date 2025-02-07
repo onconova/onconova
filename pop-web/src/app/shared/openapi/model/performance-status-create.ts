@@ -10,6 +10,8 @@
 
 
 export interface PerformanceStatusCreate { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s performance status is assesed
      */

@@ -10,6 +10,8 @@
 
 
 export interface LossOfHeterozygosityCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient who\'s lifestyle is assesed
      */

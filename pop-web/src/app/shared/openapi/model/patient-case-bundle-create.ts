@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { NeoplasticEntityCreate } from './neoplastic-entity-create';
+import { PatientCaseConsentStatusChoices } from './patient-case-consent-status-choices';
 import { CodedConceptSchema } from './coded-concept-schema';
 
 
@@ -16,10 +17,24 @@ export interface PatientCaseBundleCreate {
      * Neoplastic entities
      */
     neoplasticEntities: Array<NeoplasticEntityCreate>;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Pseudoidentifier of the patient
      */
     pseudoidentifier: string;
+    /**
+     * Medical center where the patient data originally resides
+     */
+    clinicalCenter: string;
+    /**
+     * Unique clinical identifier (typically the clinical information system identifier) unique for a physical patient
+     */
+    clinicalIdentifier: string;
+    /**
+     * Status of the general consent by the patient for the use of their data for research purposes
+     */
+    consentStatus?: PatientCaseConsentStatusChoices;
     /**
      * Gender for administrative purposes
      */
@@ -34,4 +49,7 @@ export interface PatientCaseBundleCreate {
     dateOfDeath?: string | null;
     causeOfDeath?: CodedConceptSchema | null;
 }
+export namespace PatientCaseBundleCreate {
+}
+
 

@@ -43,254 +43,6 @@ export interface SystemicTherapyFilters {
      */
     'id.not.endsWith'?: string;
     /**
-     * Created At - Filter for entries with dates before the specified value
-     */
-    'createdAt.before'?: string;
-    /**
-     * Created At - Filter for entries with dates after the specified value
-     */
-    'createdAt.after'?: string;
-    /**
-     * Created At - Filter for entries with dates on or before the specified value
-     */
-    'createdAt.onOrBefore'?: string;
-    /**
-     * Created At - Filter for entries with dates on or after the specified value
-     */
-    'createdAt.onOrAfter'?: string;
-    /**
-     * Created At - Filter for entries with dates exactly matching the specified value
-     */
-    'createdAt.on'?: string;
-    /**
-     * Created At - Filter for entries with dates not matching the specified value
-     */
-    'createdAt.not.on'?: string;
-    /**
-     * Created At - Filter for entries with dates between two specified values (inclusive)
-     */
-    'createdAt.between'?: Array<any>;
-    /**
-     * Created At - Filter for entries with dates not between two specified values (inclusive)
-     */
-    'createdAt.not.between'?: Array<any>;
-    /**
-     * Updated At - Filter for entries with dates before the specified value
-     */
-    'updatedAt.before'?: string;
-    /**
-     * Updated At - Filter for entries with dates after the specified value
-     */
-    'updatedAt.after'?: string;
-    /**
-     * Updated At - Filter for entries with dates on or before the specified value
-     */
-    'updatedAt.onOrBefore'?: string;
-    /**
-     * Updated At - Filter for entries with dates on or after the specified value
-     */
-    'updatedAt.onOrAfter'?: string;
-    /**
-     * Updated At - Filter for entries with dates exactly matching the specified value
-     */
-    'updatedAt.on'?: string;
-    /**
-     * Updated At - Filter for entries with dates not matching the specified value
-     */
-    'updatedAt.not.on'?: string;
-    /**
-     * Updated At - Filter for entries with dates between two specified values (inclusive)
-     */
-    'updatedAt.between'?: Array<any>;
-    /**
-     * Updated At - Filter for entries with dates not between two specified values (inclusive)
-     */
-    'updatedAt.not.between'?: Array<any>;
-    /**
-     * Created By - Filter for entries without a value
-     */
-    'createdBy.not.exists'?: boolean;
-    /**
-     * Created By - Filter for entries with a value
-     */
-    'createdBy.exists'?: boolean;
-    /**
-     * None - Filter for entries with values less than the specified value
-     */
-    'updatedBys.id.lessThan'?: number;
-    /**
-     * None - Filter for entries with values less than or equal to the specified value
-     */
-    'updatedBys.id.lessThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values greater than the specified value
-     */
-    'updatedBys.id.greaterThan'?: number;
-    /**
-     * None - Filter for entries with values greater than or equal to the specified value
-     */
-    'updatedBys.id.greaterThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values exactly equal to the specified value
-     */
-    'updatedBys.id.equal'?: number;
-    /**
-     * None - Filter for entries with values not equal to the specified value
-     */
-    'updatedBys.id.not.equal'?: number;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'updatedBys.id.between'?: Array<any>;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'updatedBys.id.not.between'?: Array<any>;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.username'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.username.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.username.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.username.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.username.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.username.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.username.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.username.not.endsWith'?: string;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.email'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.email.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.email.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.email.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.email.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.email.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.email.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.email.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'updatedBys.firstName.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'updatedBys.firstName.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.firstName'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.firstName.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.firstName.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.firstName.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.firstName.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.firstName.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.firstName.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.firstName.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'updatedBys.lastName.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'updatedBys.lastName.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'updatedBys.lastName'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'updatedBys.lastName.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'updatedBys.lastName.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'updatedBys.lastName.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'updatedBys.lastName.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'updatedBys.lastName.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'updatedBys.lastName.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'updatedBys.lastName.not.endsWith'?: string;
-    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -441,6 +193,46 @@ export interface SystemicTherapyFilters {
      */
     'terminationReason.descendantsOf'?: string;
     /**
+     * Therapy line - Filter for entries without a value
+     */
+    'therapyLineId.not.exists'?: boolean;
+    /**
+     * Therapy line - Filter for entries with a value
+     */
+    'therapyLineId.exists'?: boolean;
+    /**
+     * Therapy line - Filter for reference matches
+     */
+    therapyLineId?: string;
+    /**
+     * Therapy line - Filter for reference mismatches
+     */
+    'therapyLineId.not'?: string;
+    /**
+     * Therapy line - Filter for partial text matches
+     */
+    'therapyLineId.contains'?: string;
+    /**
+     * Therapy line - Filter for partial text mismatches
+     */
+    'therapyLineId.not.contains'?: string;
+    /**
+     * Therapy line - Filter for entries starting with the text
+     */
+    'therapyLineId.beginsWith'?: string;
+    /**
+     * Therapy line - Filter for entries not starting with the text
+     */
+    'therapyLineId.not.beginsWith'?: string;
+    /**
+     * Therapy line - Filter for entries ending with the text
+     */
+    'therapyLineId.endsWith'?: string;
+    /**
+     * Therapy line - Filter for entries not ending with the text
+     */
+    'therapyLineId.not.endsWith'?: string;
+    /**
      * Targeted neoplastic entities - Filter for reference matches
      */
     targetedEntitiesIds?: string;
@@ -555,179 +347,179 @@ export interface SystemicTherapyFilters {
     /**
      * None - Filter for entries with values less than the specified value
      */
-    'medications.updatedBys.id.lessThan'?: number;
+    'medications.updatedBy.id.lessThan'?: number;
     /**
      * None - Filter for entries with values less than or equal to the specified value
      */
-    'medications.updatedBys.id.lessThanOrEqual'?: number;
+    'medications.updatedBy.id.lessThanOrEqual'?: number;
     /**
      * None - Filter for entries with values greater than the specified value
      */
-    'medications.updatedBys.id.greaterThan'?: number;
+    'medications.updatedBy.id.greaterThan'?: number;
     /**
      * None - Filter for entries with values greater than or equal to the specified value
      */
-    'medications.updatedBys.id.greaterThanOrEqual'?: number;
+    'medications.updatedBy.id.greaterThanOrEqual'?: number;
     /**
      * None - Filter for entries with values exactly equal to the specified value
      */
-    'medications.updatedBys.id.equal'?: number;
+    'medications.updatedBy.id.equal'?: number;
     /**
      * None - Filter for entries with values not equal to the specified value
      */
-    'medications.updatedBys.id.not.equal'?: number;
+    'medications.updatedBy.id.not.equal'?: number;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'medications.updatedBys.id.between'?: Array<any>;
+    'medications.updatedBy.id.between'?: Array<any>;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'medications.updatedBys.id.not.between'?: Array<any>;
+    'medications.updatedBy.id.not.between'?: Array<any>;
     /**
      * None - Filter for full text matches
      */
-    'medications.updatedBys.username'?: string;
+    'medications.updatedBy.username'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'medications.updatedBys.username.not'?: string;
+    'medications.updatedBy.username.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'medications.updatedBys.username.contains'?: string;
+    'medications.updatedBy.username.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'medications.updatedBys.username.not.contains'?: string;
+    'medications.updatedBy.username.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'medications.updatedBys.username.beginsWith'?: string;
+    'medications.updatedBy.username.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'medications.updatedBys.username.not.beginsWith'?: string;
+    'medications.updatedBy.username.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'medications.updatedBys.username.endsWith'?: string;
+    'medications.updatedBy.username.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'medications.updatedBys.username.not.endsWith'?: string;
+    'medications.updatedBy.username.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
-    'medications.updatedBys.email'?: string;
+    'medications.updatedBy.email'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'medications.updatedBys.email.not'?: string;
+    'medications.updatedBy.email.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'medications.updatedBys.email.contains'?: string;
+    'medications.updatedBy.email.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'medications.updatedBys.email.not.contains'?: string;
+    'medications.updatedBy.email.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'medications.updatedBys.email.beginsWith'?: string;
+    'medications.updatedBy.email.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'medications.updatedBys.email.not.beginsWith'?: string;
+    'medications.updatedBy.email.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'medications.updatedBys.email.endsWith'?: string;
+    'medications.updatedBy.email.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'medications.updatedBys.email.not.endsWith'?: string;
+    'medications.updatedBy.email.not.endsWith'?: string;
     /**
      * None - Filter for entries without a value
      */
-    'medications.updatedBys.firstName.not.exists'?: boolean;
+    'medications.updatedBy.firstName.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'medications.updatedBys.firstName.exists'?: boolean;
+    'medications.updatedBy.firstName.exists'?: boolean;
     /**
      * None - Filter for full text matches
      */
-    'medications.updatedBys.firstName'?: string;
+    'medications.updatedBy.firstName'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'medications.updatedBys.firstName.not'?: string;
+    'medications.updatedBy.firstName.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'medications.updatedBys.firstName.contains'?: string;
+    'medications.updatedBy.firstName.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'medications.updatedBys.firstName.not.contains'?: string;
+    'medications.updatedBy.firstName.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'medications.updatedBys.firstName.beginsWith'?: string;
+    'medications.updatedBy.firstName.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'medications.updatedBys.firstName.not.beginsWith'?: string;
+    'medications.updatedBy.firstName.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'medications.updatedBys.firstName.endsWith'?: string;
+    'medications.updatedBy.firstName.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'medications.updatedBys.firstName.not.endsWith'?: string;
+    'medications.updatedBy.firstName.not.endsWith'?: string;
     /**
      * None - Filter for entries without a value
      */
-    'medications.updatedBys.lastName.not.exists'?: boolean;
+    'medications.updatedBy.lastName.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'medications.updatedBys.lastName.exists'?: boolean;
+    'medications.updatedBy.lastName.exists'?: boolean;
     /**
      * None - Filter for full text matches
      */
-    'medications.updatedBys.lastName'?: string;
+    'medications.updatedBy.lastName'?: string;
     /**
      * None - Filter for full text mismatches
      */
-    'medications.updatedBys.lastName.not'?: string;
+    'medications.updatedBy.lastName.not'?: string;
     /**
      * None - Filter for partial text matches
      */
-    'medications.updatedBys.lastName.contains'?: string;
+    'medications.updatedBy.lastName.contains'?: string;
     /**
      * None - Filter for partial text mismatches
      */
-    'medications.updatedBys.lastName.not.contains'?: string;
+    'medications.updatedBy.lastName.not.contains'?: string;
     /**
      * None - Filter for entries starting with the text
      */
-    'medications.updatedBys.lastName.beginsWith'?: string;
+    'medications.updatedBy.lastName.beginsWith'?: string;
     /**
      * None - Filter for entries not starting with the text
      */
-    'medications.updatedBys.lastName.not.beginsWith'?: string;
+    'medications.updatedBy.lastName.not.beginsWith'?: string;
     /**
      * None - Filter for entries ending with the text
      */
-    'medications.updatedBys.lastName.endsWith'?: string;
+    'medications.updatedBy.lastName.endsWith'?: string;
     /**
      * None - Filter for entries not ending with the text
      */
-    'medications.updatedBys.lastName.not.endsWith'?: string;
+    'medications.updatedBy.lastName.not.endsWith'?: string;
     /**
      * None - Filter for full text matches
      */
@@ -760,6 +552,86 @@ export interface SystemicTherapyFilters {
      * None - Filter for entries not ending with the text
      */
     'medications.description.not.endsWith'?: string;
+    /**
+     * External data source - Filter for entries without a value
+     */
+    'medications.externalSource.not.exists'?: boolean;
+    /**
+     * External data source - Filter for entries with a value
+     */
+    'medications.externalSource.exists'?: boolean;
+    /**
+     * External data source - Filter for full text matches
+     */
+    'medications.externalSource'?: string;
+    /**
+     * External data source - Filter for full text mismatches
+     */
+    'medications.externalSource.not'?: string;
+    /**
+     * External data source - Filter for partial text matches
+     */
+    'medications.externalSource.contains'?: string;
+    /**
+     * External data source - Filter for partial text mismatches
+     */
+    'medications.externalSource.not.contains'?: string;
+    /**
+     * External data source - Filter for entries starting with the text
+     */
+    'medications.externalSource.beginsWith'?: string;
+    /**
+     * External data source - Filter for entries not starting with the text
+     */
+    'medications.externalSource.not.beginsWith'?: string;
+    /**
+     * External data source - Filter for entries ending with the text
+     */
+    'medications.externalSource.endsWith'?: string;
+    /**
+     * External data source - Filter for entries not ending with the text
+     */
+    'medications.externalSource.not.endsWith'?: string;
+    /**
+     * External data source Id - Filter for entries without a value
+     */
+    'medications.externalSourceId.not.exists'?: boolean;
+    /**
+     * External data source Id - Filter for entries with a value
+     */
+    'medications.externalSourceId.exists'?: boolean;
+    /**
+     * External data source Id - Filter for reference matches
+     */
+    'medications.externalSourceId'?: string;
+    /**
+     * External data source Id - Filter for reference mismatches
+     */
+    'medications.externalSourceId.not'?: string;
+    /**
+     * External data source Id - Filter for partial text matches
+     */
+    'medications.externalSourceId.contains'?: string;
+    /**
+     * External data source Id - Filter for partial text mismatches
+     */
+    'medications.externalSourceId.not.contains'?: string;
+    /**
+     * External data source Id - Filter for entries starting with the text
+     */
+    'medications.externalSourceId.beginsWith'?: string;
+    /**
+     * External data source Id - Filter for entries not starting with the text
+     */
+    'medications.externalSourceId.not.beginsWith'?: string;
+    /**
+     * External data source Id - Filter for entries ending with the text
+     */
+    'medications.externalSourceId.endsWith'?: string;
+    /**
+     * External data source Id - Filter for entries not ending with the text
+     */
+    'medications.externalSourceId.not.endsWith'?: string;
     /**
      * Antineoplastic Drug - Filter for a matching concept code
      */

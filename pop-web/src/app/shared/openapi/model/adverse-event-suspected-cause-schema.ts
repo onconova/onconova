@@ -28,11 +28,13 @@ export interface AdverseEventSuspectedCauseSchema {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
     /**
      * Human-readable description
      */
     description: string;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     systemicTherapyId?: string | null;
     medicationId?: string | null;
     radiotherapyId?: string | null;

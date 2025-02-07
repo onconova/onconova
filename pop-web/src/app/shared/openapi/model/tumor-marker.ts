@@ -35,6 +35,8 @@ export interface TumorMarker {
      */
     updatedAt: string;
     createdBy?: UserSchema | null;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient related to the tumor marker result
      */
@@ -61,7 +63,7 @@ export interface TumorMarker {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBys?: Array<UserSchema>;
+    updatedBy?: Array<UserSchema>;
     /**
      * References to the neoplastic entities that are related or the focus of the tumor marker analysis.
      */

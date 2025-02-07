@@ -11,6 +11,8 @@ import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface MolecularTumorBoardCreateSchema { 
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     /**
      * Indicates the case of the patient which was discussed at the tumor board
      */

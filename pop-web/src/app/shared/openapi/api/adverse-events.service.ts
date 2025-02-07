@@ -983,68 +983,6 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
-        const createdAtBefore = requestParameters?.createdAtBefore;
-        const createdAtAfter = requestParameters?.createdAtAfter;
-        const createdAtOnOrBefore = requestParameters?.createdAtOnOrBefore;
-        const createdAtOnOrAfter = requestParameters?.createdAtOnOrAfter;
-        const createdAtOn = requestParameters?.createdAtOn;
-        const createdAtNotOn = requestParameters?.createdAtNotOn;
-        const createdAtBetween = requestParameters?.createdAtBetween;
-        const createdAtNotBetween = requestParameters?.createdAtNotBetween;
-        const updatedAtBefore = requestParameters?.updatedAtBefore;
-        const updatedAtAfter = requestParameters?.updatedAtAfter;
-        const updatedAtOnOrBefore = requestParameters?.updatedAtOnOrBefore;
-        const updatedAtOnOrAfter = requestParameters?.updatedAtOnOrAfter;
-        const updatedAtOn = requestParameters?.updatedAtOn;
-        const updatedAtNotOn = requestParameters?.updatedAtNotOn;
-        const updatedAtBetween = requestParameters?.updatedAtBetween;
-        const updatedAtNotBetween = requestParameters?.updatedAtNotBetween;
-        const createdByNotExists = requestParameters?.createdByNotExists;
-        const createdByExists = requestParameters?.createdByExists;
-        const updatedBysIdLessThan = requestParameters?.updatedBysIdLessThan;
-        const updatedBysIdLessThanOrEqual = requestParameters?.updatedBysIdLessThanOrEqual;
-        const updatedBysIdGreaterThan = requestParameters?.updatedBysIdGreaterThan;
-        const updatedBysIdGreaterThanOrEqual = requestParameters?.updatedBysIdGreaterThanOrEqual;
-        const updatedBysIdEqual = requestParameters?.updatedBysIdEqual;
-        const updatedBysIdNotEqual = requestParameters?.updatedBysIdNotEqual;
-        const updatedBysIdBetween = requestParameters?.updatedBysIdBetween;
-        const updatedBysIdNotBetween = requestParameters?.updatedBysIdNotBetween;
-        const updatedBysUsername = requestParameters?.updatedBysUsername;
-        const updatedBysUsernameNot = requestParameters?.updatedBysUsernameNot;
-        const updatedBysUsernameContains = requestParameters?.updatedBysUsernameContains;
-        const updatedBysUsernameNotContains = requestParameters?.updatedBysUsernameNotContains;
-        const updatedBysUsernameBeginsWith = requestParameters?.updatedBysUsernameBeginsWith;
-        const updatedBysUsernameNotBeginsWith = requestParameters?.updatedBysUsernameNotBeginsWith;
-        const updatedBysUsernameEndsWith = requestParameters?.updatedBysUsernameEndsWith;
-        const updatedBysUsernameNotEndsWith = requestParameters?.updatedBysUsernameNotEndsWith;
-        const updatedBysEmail = requestParameters?.updatedBysEmail;
-        const updatedBysEmailNot = requestParameters?.updatedBysEmailNot;
-        const updatedBysEmailContains = requestParameters?.updatedBysEmailContains;
-        const updatedBysEmailNotContains = requestParameters?.updatedBysEmailNotContains;
-        const updatedBysEmailBeginsWith = requestParameters?.updatedBysEmailBeginsWith;
-        const updatedBysEmailNotBeginsWith = requestParameters?.updatedBysEmailNotBeginsWith;
-        const updatedBysEmailEndsWith = requestParameters?.updatedBysEmailEndsWith;
-        const updatedBysEmailNotEndsWith = requestParameters?.updatedBysEmailNotEndsWith;
-        const updatedBysFirstNameNotExists = requestParameters?.updatedBysFirstNameNotExists;
-        const updatedBysFirstNameExists = requestParameters?.updatedBysFirstNameExists;
-        const updatedBysFirstName = requestParameters?.updatedBysFirstName;
-        const updatedBysFirstNameNot = requestParameters?.updatedBysFirstNameNot;
-        const updatedBysFirstNameContains = requestParameters?.updatedBysFirstNameContains;
-        const updatedBysFirstNameNotContains = requestParameters?.updatedBysFirstNameNotContains;
-        const updatedBysFirstNameBeginsWith = requestParameters?.updatedBysFirstNameBeginsWith;
-        const updatedBysFirstNameNotBeginsWith = requestParameters?.updatedBysFirstNameNotBeginsWith;
-        const updatedBysFirstNameEndsWith = requestParameters?.updatedBysFirstNameEndsWith;
-        const updatedBysFirstNameNotEndsWith = requestParameters?.updatedBysFirstNameNotEndsWith;
-        const updatedBysLastNameNotExists = requestParameters?.updatedBysLastNameNotExists;
-        const updatedBysLastNameExists = requestParameters?.updatedBysLastNameExists;
-        const updatedBysLastName = requestParameters?.updatedBysLastName;
-        const updatedBysLastNameNot = requestParameters?.updatedBysLastNameNot;
-        const updatedBysLastNameContains = requestParameters?.updatedBysLastNameContains;
-        const updatedBysLastNameNotContains = requestParameters?.updatedBysLastNameNotContains;
-        const updatedBysLastNameBeginsWith = requestParameters?.updatedBysLastNameBeginsWith;
-        const updatedBysLastNameNotBeginsWith = requestParameters?.updatedBysLastNameNotBeginsWith;
-        const updatedBysLastNameEndsWith = requestParameters?.updatedBysLastNameEndsWith;
-        const updatedBysLastNameNotEndsWith = requestParameters?.updatedBysLastNameNotEndsWith;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -1113,50 +1051,50 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         const suspectedCausesUpdatedAtNotBetween = requestParameters?.suspectedCausesUpdatedAtNotBetween;
         const suspectedCausesCreatedByNotExists = requestParameters?.suspectedCausesCreatedByNotExists;
         const suspectedCausesCreatedByExists = requestParameters?.suspectedCausesCreatedByExists;
-        const suspectedCausesUpdatedBysIdLessThan = requestParameters?.suspectedCausesUpdatedBysIdLessThan;
-        const suspectedCausesUpdatedBysIdLessThanOrEqual = requestParameters?.suspectedCausesUpdatedBysIdLessThanOrEqual;
-        const suspectedCausesUpdatedBysIdGreaterThan = requestParameters?.suspectedCausesUpdatedBysIdGreaterThan;
-        const suspectedCausesUpdatedBysIdGreaterThanOrEqual = requestParameters?.suspectedCausesUpdatedBysIdGreaterThanOrEqual;
-        const suspectedCausesUpdatedBysIdEqual = requestParameters?.suspectedCausesUpdatedBysIdEqual;
-        const suspectedCausesUpdatedBysIdNotEqual = requestParameters?.suspectedCausesUpdatedBysIdNotEqual;
-        const suspectedCausesUpdatedBysIdBetween = requestParameters?.suspectedCausesUpdatedBysIdBetween;
-        const suspectedCausesUpdatedBysIdNotBetween = requestParameters?.suspectedCausesUpdatedBysIdNotBetween;
-        const suspectedCausesUpdatedBysUsername = requestParameters?.suspectedCausesUpdatedBysUsername;
-        const suspectedCausesUpdatedBysUsernameNot = requestParameters?.suspectedCausesUpdatedBysUsernameNot;
-        const suspectedCausesUpdatedBysUsernameContains = requestParameters?.suspectedCausesUpdatedBysUsernameContains;
-        const suspectedCausesUpdatedBysUsernameNotContains = requestParameters?.suspectedCausesUpdatedBysUsernameNotContains;
-        const suspectedCausesUpdatedBysUsernameBeginsWith = requestParameters?.suspectedCausesUpdatedBysUsernameBeginsWith;
-        const suspectedCausesUpdatedBysUsernameNotBeginsWith = requestParameters?.suspectedCausesUpdatedBysUsernameNotBeginsWith;
-        const suspectedCausesUpdatedBysUsernameEndsWith = requestParameters?.suspectedCausesUpdatedBysUsernameEndsWith;
-        const suspectedCausesUpdatedBysUsernameNotEndsWith = requestParameters?.suspectedCausesUpdatedBysUsernameNotEndsWith;
-        const suspectedCausesUpdatedBysEmail = requestParameters?.suspectedCausesUpdatedBysEmail;
-        const suspectedCausesUpdatedBysEmailNot = requestParameters?.suspectedCausesUpdatedBysEmailNot;
-        const suspectedCausesUpdatedBysEmailContains = requestParameters?.suspectedCausesUpdatedBysEmailContains;
-        const suspectedCausesUpdatedBysEmailNotContains = requestParameters?.suspectedCausesUpdatedBysEmailNotContains;
-        const suspectedCausesUpdatedBysEmailBeginsWith = requestParameters?.suspectedCausesUpdatedBysEmailBeginsWith;
-        const suspectedCausesUpdatedBysEmailNotBeginsWith = requestParameters?.suspectedCausesUpdatedBysEmailNotBeginsWith;
-        const suspectedCausesUpdatedBysEmailEndsWith = requestParameters?.suspectedCausesUpdatedBysEmailEndsWith;
-        const suspectedCausesUpdatedBysEmailNotEndsWith = requestParameters?.suspectedCausesUpdatedBysEmailNotEndsWith;
-        const suspectedCausesUpdatedBysFirstNameNotExists = requestParameters?.suspectedCausesUpdatedBysFirstNameNotExists;
-        const suspectedCausesUpdatedBysFirstNameExists = requestParameters?.suspectedCausesUpdatedBysFirstNameExists;
-        const suspectedCausesUpdatedBysFirstName = requestParameters?.suspectedCausesUpdatedBysFirstName;
-        const suspectedCausesUpdatedBysFirstNameNot = requestParameters?.suspectedCausesUpdatedBysFirstNameNot;
-        const suspectedCausesUpdatedBysFirstNameContains = requestParameters?.suspectedCausesUpdatedBysFirstNameContains;
-        const suspectedCausesUpdatedBysFirstNameNotContains = requestParameters?.suspectedCausesUpdatedBysFirstNameNotContains;
-        const suspectedCausesUpdatedBysFirstNameBeginsWith = requestParameters?.suspectedCausesUpdatedBysFirstNameBeginsWith;
-        const suspectedCausesUpdatedBysFirstNameNotBeginsWith = requestParameters?.suspectedCausesUpdatedBysFirstNameNotBeginsWith;
-        const suspectedCausesUpdatedBysFirstNameEndsWith = requestParameters?.suspectedCausesUpdatedBysFirstNameEndsWith;
-        const suspectedCausesUpdatedBysFirstNameNotEndsWith = requestParameters?.suspectedCausesUpdatedBysFirstNameNotEndsWith;
-        const suspectedCausesUpdatedBysLastNameNotExists = requestParameters?.suspectedCausesUpdatedBysLastNameNotExists;
-        const suspectedCausesUpdatedBysLastNameExists = requestParameters?.suspectedCausesUpdatedBysLastNameExists;
-        const suspectedCausesUpdatedBysLastName = requestParameters?.suspectedCausesUpdatedBysLastName;
-        const suspectedCausesUpdatedBysLastNameNot = requestParameters?.suspectedCausesUpdatedBysLastNameNot;
-        const suspectedCausesUpdatedBysLastNameContains = requestParameters?.suspectedCausesUpdatedBysLastNameContains;
-        const suspectedCausesUpdatedBysLastNameNotContains = requestParameters?.suspectedCausesUpdatedBysLastNameNotContains;
-        const suspectedCausesUpdatedBysLastNameBeginsWith = requestParameters?.suspectedCausesUpdatedBysLastNameBeginsWith;
-        const suspectedCausesUpdatedBysLastNameNotBeginsWith = requestParameters?.suspectedCausesUpdatedBysLastNameNotBeginsWith;
-        const suspectedCausesUpdatedBysLastNameEndsWith = requestParameters?.suspectedCausesUpdatedBysLastNameEndsWith;
-        const suspectedCausesUpdatedBysLastNameNotEndsWith = requestParameters?.suspectedCausesUpdatedBysLastNameNotEndsWith;
+        const suspectedCausesUpdatedByIdLessThan = requestParameters?.suspectedCausesUpdatedByIdLessThan;
+        const suspectedCausesUpdatedByIdLessThanOrEqual = requestParameters?.suspectedCausesUpdatedByIdLessThanOrEqual;
+        const suspectedCausesUpdatedByIdGreaterThan = requestParameters?.suspectedCausesUpdatedByIdGreaterThan;
+        const suspectedCausesUpdatedByIdGreaterThanOrEqual = requestParameters?.suspectedCausesUpdatedByIdGreaterThanOrEqual;
+        const suspectedCausesUpdatedByIdEqual = requestParameters?.suspectedCausesUpdatedByIdEqual;
+        const suspectedCausesUpdatedByIdNotEqual = requestParameters?.suspectedCausesUpdatedByIdNotEqual;
+        const suspectedCausesUpdatedByIdBetween = requestParameters?.suspectedCausesUpdatedByIdBetween;
+        const suspectedCausesUpdatedByIdNotBetween = requestParameters?.suspectedCausesUpdatedByIdNotBetween;
+        const suspectedCausesUpdatedByUsername = requestParameters?.suspectedCausesUpdatedByUsername;
+        const suspectedCausesUpdatedByUsernameNot = requestParameters?.suspectedCausesUpdatedByUsernameNot;
+        const suspectedCausesUpdatedByUsernameContains = requestParameters?.suspectedCausesUpdatedByUsernameContains;
+        const suspectedCausesUpdatedByUsernameNotContains = requestParameters?.suspectedCausesUpdatedByUsernameNotContains;
+        const suspectedCausesUpdatedByUsernameBeginsWith = requestParameters?.suspectedCausesUpdatedByUsernameBeginsWith;
+        const suspectedCausesUpdatedByUsernameNotBeginsWith = requestParameters?.suspectedCausesUpdatedByUsernameNotBeginsWith;
+        const suspectedCausesUpdatedByUsernameEndsWith = requestParameters?.suspectedCausesUpdatedByUsernameEndsWith;
+        const suspectedCausesUpdatedByUsernameNotEndsWith = requestParameters?.suspectedCausesUpdatedByUsernameNotEndsWith;
+        const suspectedCausesUpdatedByEmail = requestParameters?.suspectedCausesUpdatedByEmail;
+        const suspectedCausesUpdatedByEmailNot = requestParameters?.suspectedCausesUpdatedByEmailNot;
+        const suspectedCausesUpdatedByEmailContains = requestParameters?.suspectedCausesUpdatedByEmailContains;
+        const suspectedCausesUpdatedByEmailNotContains = requestParameters?.suspectedCausesUpdatedByEmailNotContains;
+        const suspectedCausesUpdatedByEmailBeginsWith = requestParameters?.suspectedCausesUpdatedByEmailBeginsWith;
+        const suspectedCausesUpdatedByEmailNotBeginsWith = requestParameters?.suspectedCausesUpdatedByEmailNotBeginsWith;
+        const suspectedCausesUpdatedByEmailEndsWith = requestParameters?.suspectedCausesUpdatedByEmailEndsWith;
+        const suspectedCausesUpdatedByEmailNotEndsWith = requestParameters?.suspectedCausesUpdatedByEmailNotEndsWith;
+        const suspectedCausesUpdatedByFirstNameNotExists = requestParameters?.suspectedCausesUpdatedByFirstNameNotExists;
+        const suspectedCausesUpdatedByFirstNameExists = requestParameters?.suspectedCausesUpdatedByFirstNameExists;
+        const suspectedCausesUpdatedByFirstName = requestParameters?.suspectedCausesUpdatedByFirstName;
+        const suspectedCausesUpdatedByFirstNameNot = requestParameters?.suspectedCausesUpdatedByFirstNameNot;
+        const suspectedCausesUpdatedByFirstNameContains = requestParameters?.suspectedCausesUpdatedByFirstNameContains;
+        const suspectedCausesUpdatedByFirstNameNotContains = requestParameters?.suspectedCausesUpdatedByFirstNameNotContains;
+        const suspectedCausesUpdatedByFirstNameBeginsWith = requestParameters?.suspectedCausesUpdatedByFirstNameBeginsWith;
+        const suspectedCausesUpdatedByFirstNameNotBeginsWith = requestParameters?.suspectedCausesUpdatedByFirstNameNotBeginsWith;
+        const suspectedCausesUpdatedByFirstNameEndsWith = requestParameters?.suspectedCausesUpdatedByFirstNameEndsWith;
+        const suspectedCausesUpdatedByFirstNameNotEndsWith = requestParameters?.suspectedCausesUpdatedByFirstNameNotEndsWith;
+        const suspectedCausesUpdatedByLastNameNotExists = requestParameters?.suspectedCausesUpdatedByLastNameNotExists;
+        const suspectedCausesUpdatedByLastNameExists = requestParameters?.suspectedCausesUpdatedByLastNameExists;
+        const suspectedCausesUpdatedByLastName = requestParameters?.suspectedCausesUpdatedByLastName;
+        const suspectedCausesUpdatedByLastNameNot = requestParameters?.suspectedCausesUpdatedByLastNameNot;
+        const suspectedCausesUpdatedByLastNameContains = requestParameters?.suspectedCausesUpdatedByLastNameContains;
+        const suspectedCausesUpdatedByLastNameNotContains = requestParameters?.suspectedCausesUpdatedByLastNameNotContains;
+        const suspectedCausesUpdatedByLastNameBeginsWith = requestParameters?.suspectedCausesUpdatedByLastNameBeginsWith;
+        const suspectedCausesUpdatedByLastNameNotBeginsWith = requestParameters?.suspectedCausesUpdatedByLastNameNotBeginsWith;
+        const suspectedCausesUpdatedByLastNameEndsWith = requestParameters?.suspectedCausesUpdatedByLastNameEndsWith;
+        const suspectedCausesUpdatedByLastNameNotEndsWith = requestParameters?.suspectedCausesUpdatedByLastNameNotEndsWith;
         const suspectedCausesDescription = requestParameters?.suspectedCausesDescription;
         const suspectedCausesDescriptionNot = requestParameters?.suspectedCausesDescriptionNot;
         const suspectedCausesDescriptionContains = requestParameters?.suspectedCausesDescriptionContains;
@@ -1165,6 +1103,26 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         const suspectedCausesDescriptionNotBeginsWith = requestParameters?.suspectedCausesDescriptionNotBeginsWith;
         const suspectedCausesDescriptionEndsWith = requestParameters?.suspectedCausesDescriptionEndsWith;
         const suspectedCausesDescriptionNotEndsWith = requestParameters?.suspectedCausesDescriptionNotEndsWith;
+        const suspectedCausesExternalSourceNotExists = requestParameters?.suspectedCausesExternalSourceNotExists;
+        const suspectedCausesExternalSourceExists = requestParameters?.suspectedCausesExternalSourceExists;
+        const suspectedCausesExternalSource = requestParameters?.suspectedCausesExternalSource;
+        const suspectedCausesExternalSourceNot = requestParameters?.suspectedCausesExternalSourceNot;
+        const suspectedCausesExternalSourceContains = requestParameters?.suspectedCausesExternalSourceContains;
+        const suspectedCausesExternalSourceNotContains = requestParameters?.suspectedCausesExternalSourceNotContains;
+        const suspectedCausesExternalSourceBeginsWith = requestParameters?.suspectedCausesExternalSourceBeginsWith;
+        const suspectedCausesExternalSourceNotBeginsWith = requestParameters?.suspectedCausesExternalSourceNotBeginsWith;
+        const suspectedCausesExternalSourceEndsWith = requestParameters?.suspectedCausesExternalSourceEndsWith;
+        const suspectedCausesExternalSourceNotEndsWith = requestParameters?.suspectedCausesExternalSourceNotEndsWith;
+        const suspectedCausesExternalSourceIdNotExists = requestParameters?.suspectedCausesExternalSourceIdNotExists;
+        const suspectedCausesExternalSourceIdExists = requestParameters?.suspectedCausesExternalSourceIdExists;
+        const suspectedCausesExternalSourceId = requestParameters?.suspectedCausesExternalSourceId;
+        const suspectedCausesExternalSourceIdNot = requestParameters?.suspectedCausesExternalSourceIdNot;
+        const suspectedCausesExternalSourceIdContains = requestParameters?.suspectedCausesExternalSourceIdContains;
+        const suspectedCausesExternalSourceIdNotContains = requestParameters?.suspectedCausesExternalSourceIdNotContains;
+        const suspectedCausesExternalSourceIdBeginsWith = requestParameters?.suspectedCausesExternalSourceIdBeginsWith;
+        const suspectedCausesExternalSourceIdNotBeginsWith = requestParameters?.suspectedCausesExternalSourceIdNotBeginsWith;
+        const suspectedCausesExternalSourceIdEndsWith = requestParameters?.suspectedCausesExternalSourceIdEndsWith;
+        const suspectedCausesExternalSourceIdNotEndsWith = requestParameters?.suspectedCausesExternalSourceIdNotEndsWith;
         const suspectedCausesSystemicTherapyIdNotExists = requestParameters?.suspectedCausesSystemicTherapyIdNotExists;
         const suspectedCausesSystemicTherapyIdExists = requestParameters?.suspectedCausesSystemicTherapyIdExists;
         const suspectedCausesSystemicTherapyId = requestParameters?.suspectedCausesSystemicTherapyId;
@@ -1236,50 +1194,50 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         const mitigationsUpdatedAtNotBetween = requestParameters?.mitigationsUpdatedAtNotBetween;
         const mitigationsCreatedByNotExists = requestParameters?.mitigationsCreatedByNotExists;
         const mitigationsCreatedByExists = requestParameters?.mitigationsCreatedByExists;
-        const mitigationsUpdatedBysIdLessThan = requestParameters?.mitigationsUpdatedBysIdLessThan;
-        const mitigationsUpdatedBysIdLessThanOrEqual = requestParameters?.mitigationsUpdatedBysIdLessThanOrEqual;
-        const mitigationsUpdatedBysIdGreaterThan = requestParameters?.mitigationsUpdatedBysIdGreaterThan;
-        const mitigationsUpdatedBysIdGreaterThanOrEqual = requestParameters?.mitigationsUpdatedBysIdGreaterThanOrEqual;
-        const mitigationsUpdatedBysIdEqual = requestParameters?.mitigationsUpdatedBysIdEqual;
-        const mitigationsUpdatedBysIdNotEqual = requestParameters?.mitigationsUpdatedBysIdNotEqual;
-        const mitigationsUpdatedBysIdBetween = requestParameters?.mitigationsUpdatedBysIdBetween;
-        const mitigationsUpdatedBysIdNotBetween = requestParameters?.mitigationsUpdatedBysIdNotBetween;
-        const mitigationsUpdatedBysUsername = requestParameters?.mitigationsUpdatedBysUsername;
-        const mitigationsUpdatedBysUsernameNot = requestParameters?.mitigationsUpdatedBysUsernameNot;
-        const mitigationsUpdatedBysUsernameContains = requestParameters?.mitigationsUpdatedBysUsernameContains;
-        const mitigationsUpdatedBysUsernameNotContains = requestParameters?.mitigationsUpdatedBysUsernameNotContains;
-        const mitigationsUpdatedBysUsernameBeginsWith = requestParameters?.mitigationsUpdatedBysUsernameBeginsWith;
-        const mitigationsUpdatedBysUsernameNotBeginsWith = requestParameters?.mitigationsUpdatedBysUsernameNotBeginsWith;
-        const mitigationsUpdatedBysUsernameEndsWith = requestParameters?.mitigationsUpdatedBysUsernameEndsWith;
-        const mitigationsUpdatedBysUsernameNotEndsWith = requestParameters?.mitigationsUpdatedBysUsernameNotEndsWith;
-        const mitigationsUpdatedBysEmail = requestParameters?.mitigationsUpdatedBysEmail;
-        const mitigationsUpdatedBysEmailNot = requestParameters?.mitigationsUpdatedBysEmailNot;
-        const mitigationsUpdatedBysEmailContains = requestParameters?.mitigationsUpdatedBysEmailContains;
-        const mitigationsUpdatedBysEmailNotContains = requestParameters?.mitigationsUpdatedBysEmailNotContains;
-        const mitigationsUpdatedBysEmailBeginsWith = requestParameters?.mitigationsUpdatedBysEmailBeginsWith;
-        const mitigationsUpdatedBysEmailNotBeginsWith = requestParameters?.mitigationsUpdatedBysEmailNotBeginsWith;
-        const mitigationsUpdatedBysEmailEndsWith = requestParameters?.mitigationsUpdatedBysEmailEndsWith;
-        const mitigationsUpdatedBysEmailNotEndsWith = requestParameters?.mitigationsUpdatedBysEmailNotEndsWith;
-        const mitigationsUpdatedBysFirstNameNotExists = requestParameters?.mitigationsUpdatedBysFirstNameNotExists;
-        const mitigationsUpdatedBysFirstNameExists = requestParameters?.mitigationsUpdatedBysFirstNameExists;
-        const mitigationsUpdatedBysFirstName = requestParameters?.mitigationsUpdatedBysFirstName;
-        const mitigationsUpdatedBysFirstNameNot = requestParameters?.mitigationsUpdatedBysFirstNameNot;
-        const mitigationsUpdatedBysFirstNameContains = requestParameters?.mitigationsUpdatedBysFirstNameContains;
-        const mitigationsUpdatedBysFirstNameNotContains = requestParameters?.mitigationsUpdatedBysFirstNameNotContains;
-        const mitigationsUpdatedBysFirstNameBeginsWith = requestParameters?.mitigationsUpdatedBysFirstNameBeginsWith;
-        const mitigationsUpdatedBysFirstNameNotBeginsWith = requestParameters?.mitigationsUpdatedBysFirstNameNotBeginsWith;
-        const mitigationsUpdatedBysFirstNameEndsWith = requestParameters?.mitigationsUpdatedBysFirstNameEndsWith;
-        const mitigationsUpdatedBysFirstNameNotEndsWith = requestParameters?.mitigationsUpdatedBysFirstNameNotEndsWith;
-        const mitigationsUpdatedBysLastNameNotExists = requestParameters?.mitigationsUpdatedBysLastNameNotExists;
-        const mitigationsUpdatedBysLastNameExists = requestParameters?.mitigationsUpdatedBysLastNameExists;
-        const mitigationsUpdatedBysLastName = requestParameters?.mitigationsUpdatedBysLastName;
-        const mitigationsUpdatedBysLastNameNot = requestParameters?.mitigationsUpdatedBysLastNameNot;
-        const mitigationsUpdatedBysLastNameContains = requestParameters?.mitigationsUpdatedBysLastNameContains;
-        const mitigationsUpdatedBysLastNameNotContains = requestParameters?.mitigationsUpdatedBysLastNameNotContains;
-        const mitigationsUpdatedBysLastNameBeginsWith = requestParameters?.mitigationsUpdatedBysLastNameBeginsWith;
-        const mitigationsUpdatedBysLastNameNotBeginsWith = requestParameters?.mitigationsUpdatedBysLastNameNotBeginsWith;
-        const mitigationsUpdatedBysLastNameEndsWith = requestParameters?.mitigationsUpdatedBysLastNameEndsWith;
-        const mitigationsUpdatedBysLastNameNotEndsWith = requestParameters?.mitigationsUpdatedBysLastNameNotEndsWith;
+        const mitigationsUpdatedByIdLessThan = requestParameters?.mitigationsUpdatedByIdLessThan;
+        const mitigationsUpdatedByIdLessThanOrEqual = requestParameters?.mitigationsUpdatedByIdLessThanOrEqual;
+        const mitigationsUpdatedByIdGreaterThan = requestParameters?.mitigationsUpdatedByIdGreaterThan;
+        const mitigationsUpdatedByIdGreaterThanOrEqual = requestParameters?.mitigationsUpdatedByIdGreaterThanOrEqual;
+        const mitigationsUpdatedByIdEqual = requestParameters?.mitigationsUpdatedByIdEqual;
+        const mitigationsUpdatedByIdNotEqual = requestParameters?.mitigationsUpdatedByIdNotEqual;
+        const mitigationsUpdatedByIdBetween = requestParameters?.mitigationsUpdatedByIdBetween;
+        const mitigationsUpdatedByIdNotBetween = requestParameters?.mitigationsUpdatedByIdNotBetween;
+        const mitigationsUpdatedByUsername = requestParameters?.mitigationsUpdatedByUsername;
+        const mitigationsUpdatedByUsernameNot = requestParameters?.mitigationsUpdatedByUsernameNot;
+        const mitigationsUpdatedByUsernameContains = requestParameters?.mitigationsUpdatedByUsernameContains;
+        const mitigationsUpdatedByUsernameNotContains = requestParameters?.mitigationsUpdatedByUsernameNotContains;
+        const mitigationsUpdatedByUsernameBeginsWith = requestParameters?.mitigationsUpdatedByUsernameBeginsWith;
+        const mitigationsUpdatedByUsernameNotBeginsWith = requestParameters?.mitigationsUpdatedByUsernameNotBeginsWith;
+        const mitigationsUpdatedByUsernameEndsWith = requestParameters?.mitigationsUpdatedByUsernameEndsWith;
+        const mitigationsUpdatedByUsernameNotEndsWith = requestParameters?.mitigationsUpdatedByUsernameNotEndsWith;
+        const mitigationsUpdatedByEmail = requestParameters?.mitigationsUpdatedByEmail;
+        const mitigationsUpdatedByEmailNot = requestParameters?.mitigationsUpdatedByEmailNot;
+        const mitigationsUpdatedByEmailContains = requestParameters?.mitigationsUpdatedByEmailContains;
+        const mitigationsUpdatedByEmailNotContains = requestParameters?.mitigationsUpdatedByEmailNotContains;
+        const mitigationsUpdatedByEmailBeginsWith = requestParameters?.mitigationsUpdatedByEmailBeginsWith;
+        const mitigationsUpdatedByEmailNotBeginsWith = requestParameters?.mitigationsUpdatedByEmailNotBeginsWith;
+        const mitigationsUpdatedByEmailEndsWith = requestParameters?.mitigationsUpdatedByEmailEndsWith;
+        const mitigationsUpdatedByEmailNotEndsWith = requestParameters?.mitigationsUpdatedByEmailNotEndsWith;
+        const mitigationsUpdatedByFirstNameNotExists = requestParameters?.mitigationsUpdatedByFirstNameNotExists;
+        const mitigationsUpdatedByFirstNameExists = requestParameters?.mitigationsUpdatedByFirstNameExists;
+        const mitigationsUpdatedByFirstName = requestParameters?.mitigationsUpdatedByFirstName;
+        const mitigationsUpdatedByFirstNameNot = requestParameters?.mitigationsUpdatedByFirstNameNot;
+        const mitigationsUpdatedByFirstNameContains = requestParameters?.mitigationsUpdatedByFirstNameContains;
+        const mitigationsUpdatedByFirstNameNotContains = requestParameters?.mitigationsUpdatedByFirstNameNotContains;
+        const mitigationsUpdatedByFirstNameBeginsWith = requestParameters?.mitigationsUpdatedByFirstNameBeginsWith;
+        const mitigationsUpdatedByFirstNameNotBeginsWith = requestParameters?.mitigationsUpdatedByFirstNameNotBeginsWith;
+        const mitigationsUpdatedByFirstNameEndsWith = requestParameters?.mitigationsUpdatedByFirstNameEndsWith;
+        const mitigationsUpdatedByFirstNameNotEndsWith = requestParameters?.mitigationsUpdatedByFirstNameNotEndsWith;
+        const mitigationsUpdatedByLastNameNotExists = requestParameters?.mitigationsUpdatedByLastNameNotExists;
+        const mitigationsUpdatedByLastNameExists = requestParameters?.mitigationsUpdatedByLastNameExists;
+        const mitigationsUpdatedByLastName = requestParameters?.mitigationsUpdatedByLastName;
+        const mitigationsUpdatedByLastNameNot = requestParameters?.mitigationsUpdatedByLastNameNot;
+        const mitigationsUpdatedByLastNameContains = requestParameters?.mitigationsUpdatedByLastNameContains;
+        const mitigationsUpdatedByLastNameNotContains = requestParameters?.mitigationsUpdatedByLastNameNotContains;
+        const mitigationsUpdatedByLastNameBeginsWith = requestParameters?.mitigationsUpdatedByLastNameBeginsWith;
+        const mitigationsUpdatedByLastNameNotBeginsWith = requestParameters?.mitigationsUpdatedByLastNameNotBeginsWith;
+        const mitigationsUpdatedByLastNameEndsWith = requestParameters?.mitigationsUpdatedByLastNameEndsWith;
+        const mitigationsUpdatedByLastNameNotEndsWith = requestParameters?.mitigationsUpdatedByLastNameNotEndsWith;
         const mitigationsDescription = requestParameters?.mitigationsDescription;
         const mitigationsDescriptionNot = requestParameters?.mitigationsDescriptionNot;
         const mitigationsDescriptionContains = requestParameters?.mitigationsDescriptionContains;
@@ -1288,6 +1246,26 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         const mitigationsDescriptionNotBeginsWith = requestParameters?.mitigationsDescriptionNotBeginsWith;
         const mitigationsDescriptionEndsWith = requestParameters?.mitigationsDescriptionEndsWith;
         const mitigationsDescriptionNotEndsWith = requestParameters?.mitigationsDescriptionNotEndsWith;
+        const mitigationsExternalSourceNotExists = requestParameters?.mitigationsExternalSourceNotExists;
+        const mitigationsExternalSourceExists = requestParameters?.mitigationsExternalSourceExists;
+        const mitigationsExternalSource = requestParameters?.mitigationsExternalSource;
+        const mitigationsExternalSourceNot = requestParameters?.mitigationsExternalSourceNot;
+        const mitigationsExternalSourceContains = requestParameters?.mitigationsExternalSourceContains;
+        const mitigationsExternalSourceNotContains = requestParameters?.mitigationsExternalSourceNotContains;
+        const mitigationsExternalSourceBeginsWith = requestParameters?.mitigationsExternalSourceBeginsWith;
+        const mitigationsExternalSourceNotBeginsWith = requestParameters?.mitigationsExternalSourceNotBeginsWith;
+        const mitigationsExternalSourceEndsWith = requestParameters?.mitigationsExternalSourceEndsWith;
+        const mitigationsExternalSourceNotEndsWith = requestParameters?.mitigationsExternalSourceNotEndsWith;
+        const mitigationsExternalSourceIdNotExists = requestParameters?.mitigationsExternalSourceIdNotExists;
+        const mitigationsExternalSourceIdExists = requestParameters?.mitigationsExternalSourceIdExists;
+        const mitigationsExternalSourceId = requestParameters?.mitigationsExternalSourceId;
+        const mitigationsExternalSourceIdNot = requestParameters?.mitigationsExternalSourceIdNot;
+        const mitigationsExternalSourceIdContains = requestParameters?.mitigationsExternalSourceIdContains;
+        const mitigationsExternalSourceIdNotContains = requestParameters?.mitigationsExternalSourceIdNotContains;
+        const mitigationsExternalSourceIdBeginsWith = requestParameters?.mitigationsExternalSourceIdBeginsWith;
+        const mitigationsExternalSourceIdNotBeginsWith = requestParameters?.mitigationsExternalSourceIdNotBeginsWith;
+        const mitigationsExternalSourceIdEndsWith = requestParameters?.mitigationsExternalSourceIdEndsWith;
+        const mitigationsExternalSourceIdNotEndsWith = requestParameters?.mitigationsExternalSourceIdNotEndsWith;
         const mitigationsCategory = requestParameters?.mitigationsCategory;
         const mitigationsCategoryNot = requestParameters?.mitigationsCategoryNot;
         const mitigationsCategoryAnyOf = requestParameters?.mitigationsCategoryAnyOf;
@@ -1354,266 +1332,6 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>idNotEndsWith, 'id.not.endsWith');
-        }
-        if (createdAtBefore !== undefined && createdAtBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtBefore, 'createdAt.before');
-        }
-        if (createdAtAfter !== undefined && createdAtAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtAfter, 'createdAt.after');
-        }
-        if (createdAtOnOrBefore !== undefined && createdAtOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtOnOrBefore, 'createdAt.onOrBefore');
-        }
-        if (createdAtOnOrAfter !== undefined && createdAtOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtOnOrAfter, 'createdAt.onOrAfter');
-        }
-        if (createdAtOn !== undefined && createdAtOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtOn, 'createdAt.on');
-        }
-        if (createdAtNotOn !== undefined && createdAtNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdAtNotOn, 'createdAt.not.on');
-        }
-        if (createdAtBetween) {
-            createdAtBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'createdAt.between');
-            })
-        }
-        if (createdAtNotBetween) {
-            createdAtNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'createdAt.not.between');
-            })
-        }
-        if (updatedAtBefore !== undefined && updatedAtBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtBefore, 'updatedAt.before');
-        }
-        if (updatedAtAfter !== undefined && updatedAtAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtAfter, 'updatedAt.after');
-        }
-        if (updatedAtOnOrBefore !== undefined && updatedAtOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtOnOrBefore, 'updatedAt.onOrBefore');
-        }
-        if (updatedAtOnOrAfter !== undefined && updatedAtOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtOnOrAfter, 'updatedAt.onOrAfter');
-        }
-        if (updatedAtOn !== undefined && updatedAtOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtOn, 'updatedAt.on');
-        }
-        if (updatedAtNotOn !== undefined && updatedAtNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedAtNotOn, 'updatedAt.not.on');
-        }
-        if (updatedAtBetween) {
-            updatedAtBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedAt.between');
-            })
-        }
-        if (updatedAtNotBetween) {
-            updatedAtNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedAt.not.between');
-            })
-        }
-        if (createdByNotExists !== undefined && createdByNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdByNotExists, 'createdBy.not.exists');
-        }
-        if (createdByExists !== undefined && createdByExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>createdByExists, 'createdBy.exists');
-        }
-        if (updatedBysIdLessThan !== undefined && updatedBysIdLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdLessThan, 'updatedBys.id.lessThan');
-        }
-        if (updatedBysIdLessThanOrEqual !== undefined && updatedBysIdLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdLessThanOrEqual, 'updatedBys.id.lessThanOrEqual');
-        }
-        if (updatedBysIdGreaterThan !== undefined && updatedBysIdGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdGreaterThan, 'updatedBys.id.greaterThan');
-        }
-        if (updatedBysIdGreaterThanOrEqual !== undefined && updatedBysIdGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdGreaterThanOrEqual, 'updatedBys.id.greaterThanOrEqual');
-        }
-        if (updatedBysIdEqual !== undefined && updatedBysIdEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdEqual, 'updatedBys.id.equal');
-        }
-        if (updatedBysIdNotEqual !== undefined && updatedBysIdNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysIdNotEqual, 'updatedBys.id.not.equal');
-        }
-        if (updatedBysIdBetween) {
-            updatedBysIdBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedBys.id.between');
-            })
-        }
-        if (updatedBysIdNotBetween) {
-            updatedBysIdNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'updatedBys.id.not.between');
-            })
-        }
-        if (updatedBysUsername !== undefined && updatedBysUsername !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsername, 'updatedBys.username');
-        }
-        if (updatedBysUsernameNot !== undefined && updatedBysUsernameNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNot, 'updatedBys.username.not');
-        }
-        if (updatedBysUsernameContains !== undefined && updatedBysUsernameContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameContains, 'updatedBys.username.contains');
-        }
-        if (updatedBysUsernameNotContains !== undefined && updatedBysUsernameNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNotContains, 'updatedBys.username.not.contains');
-        }
-        if (updatedBysUsernameBeginsWith !== undefined && updatedBysUsernameBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameBeginsWith, 'updatedBys.username.beginsWith');
-        }
-        if (updatedBysUsernameNotBeginsWith !== undefined && updatedBysUsernameNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNotBeginsWith, 'updatedBys.username.not.beginsWith');
-        }
-        if (updatedBysUsernameEndsWith !== undefined && updatedBysUsernameEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameEndsWith, 'updatedBys.username.endsWith');
-        }
-        if (updatedBysUsernameNotEndsWith !== undefined && updatedBysUsernameNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysUsernameNotEndsWith, 'updatedBys.username.not.endsWith');
-        }
-        if (updatedBysEmail !== undefined && updatedBysEmail !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmail, 'updatedBys.email');
-        }
-        if (updatedBysEmailNot !== undefined && updatedBysEmailNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNot, 'updatedBys.email.not');
-        }
-        if (updatedBysEmailContains !== undefined && updatedBysEmailContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailContains, 'updatedBys.email.contains');
-        }
-        if (updatedBysEmailNotContains !== undefined && updatedBysEmailNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNotContains, 'updatedBys.email.not.contains');
-        }
-        if (updatedBysEmailBeginsWith !== undefined && updatedBysEmailBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailBeginsWith, 'updatedBys.email.beginsWith');
-        }
-        if (updatedBysEmailNotBeginsWith !== undefined && updatedBysEmailNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNotBeginsWith, 'updatedBys.email.not.beginsWith');
-        }
-        if (updatedBysEmailEndsWith !== undefined && updatedBysEmailEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailEndsWith, 'updatedBys.email.endsWith');
-        }
-        if (updatedBysEmailNotEndsWith !== undefined && updatedBysEmailNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysEmailNotEndsWith, 'updatedBys.email.not.endsWith');
-        }
-        if (updatedBysFirstNameNotExists !== undefined && updatedBysFirstNameNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotExists, 'updatedBys.firstName.not.exists');
-        }
-        if (updatedBysFirstNameExists !== undefined && updatedBysFirstNameExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameExists, 'updatedBys.firstName.exists');
-        }
-        if (updatedBysFirstName !== undefined && updatedBysFirstName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstName, 'updatedBys.firstName');
-        }
-        if (updatedBysFirstNameNot !== undefined && updatedBysFirstNameNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNot, 'updatedBys.firstName.not');
-        }
-        if (updatedBysFirstNameContains !== undefined && updatedBysFirstNameContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameContains, 'updatedBys.firstName.contains');
-        }
-        if (updatedBysFirstNameNotContains !== undefined && updatedBysFirstNameNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotContains, 'updatedBys.firstName.not.contains');
-        }
-        if (updatedBysFirstNameBeginsWith !== undefined && updatedBysFirstNameBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameBeginsWith, 'updatedBys.firstName.beginsWith');
-        }
-        if (updatedBysFirstNameNotBeginsWith !== undefined && updatedBysFirstNameNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotBeginsWith, 'updatedBys.firstName.not.beginsWith');
-        }
-        if (updatedBysFirstNameEndsWith !== undefined && updatedBysFirstNameEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameEndsWith, 'updatedBys.firstName.endsWith');
-        }
-        if (updatedBysFirstNameNotEndsWith !== undefined && updatedBysFirstNameNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysFirstNameNotEndsWith, 'updatedBys.firstName.not.endsWith');
-        }
-        if (updatedBysLastNameNotExists !== undefined && updatedBysLastNameNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotExists, 'updatedBys.lastName.not.exists');
-        }
-        if (updatedBysLastNameExists !== undefined && updatedBysLastNameExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameExists, 'updatedBys.lastName.exists');
-        }
-        if (updatedBysLastName !== undefined && updatedBysLastName !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastName, 'updatedBys.lastName');
-        }
-        if (updatedBysLastNameNot !== undefined && updatedBysLastNameNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNot, 'updatedBys.lastName.not');
-        }
-        if (updatedBysLastNameContains !== undefined && updatedBysLastNameContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameContains, 'updatedBys.lastName.contains');
-        }
-        if (updatedBysLastNameNotContains !== undefined && updatedBysLastNameNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotContains, 'updatedBys.lastName.not.contains');
-        }
-        if (updatedBysLastNameBeginsWith !== undefined && updatedBysLastNameBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameBeginsWith, 'updatedBys.lastName.beginsWith');
-        }
-        if (updatedBysLastNameNotBeginsWith !== undefined && updatedBysLastNameNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotBeginsWith, 'updatedBys.lastName.not.beginsWith');
-        }
-        if (updatedBysLastNameEndsWith !== undefined && updatedBysLastNameEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameEndsWith, 'updatedBys.lastName.endsWith');
-        }
-        if (updatedBysLastNameNotEndsWith !== undefined && updatedBysLastNameNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>updatedBysLastNameNotEndsWith, 'updatedBys.lastName.not.endsWith');
         }
         if (caseId !== undefined && caseId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1913,185 +1631,185 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>suspectedCausesCreatedByExists, 'suspectedCauses.createdBy.exists');
         }
-        if (suspectedCausesUpdatedBysIdLessThan !== undefined && suspectedCausesUpdatedBysIdLessThan !== null) {
+        if (suspectedCausesUpdatedByIdLessThan !== undefined && suspectedCausesUpdatedByIdLessThan !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysIdLessThan, 'suspectedCauses.updatedBys.id.lessThan');
+            <any>suspectedCausesUpdatedByIdLessThan, 'suspectedCauses.updatedBy.id.lessThan');
         }
-        if (suspectedCausesUpdatedBysIdLessThanOrEqual !== undefined && suspectedCausesUpdatedBysIdLessThanOrEqual !== null) {
+        if (suspectedCausesUpdatedByIdLessThanOrEqual !== undefined && suspectedCausesUpdatedByIdLessThanOrEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysIdLessThanOrEqual, 'suspectedCauses.updatedBys.id.lessThanOrEqual');
+            <any>suspectedCausesUpdatedByIdLessThanOrEqual, 'suspectedCauses.updatedBy.id.lessThanOrEqual');
         }
-        if (suspectedCausesUpdatedBysIdGreaterThan !== undefined && suspectedCausesUpdatedBysIdGreaterThan !== null) {
+        if (suspectedCausesUpdatedByIdGreaterThan !== undefined && suspectedCausesUpdatedByIdGreaterThan !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysIdGreaterThan, 'suspectedCauses.updatedBys.id.greaterThan');
+            <any>suspectedCausesUpdatedByIdGreaterThan, 'suspectedCauses.updatedBy.id.greaterThan');
         }
-        if (suspectedCausesUpdatedBysIdGreaterThanOrEqual !== undefined && suspectedCausesUpdatedBysIdGreaterThanOrEqual !== null) {
+        if (suspectedCausesUpdatedByIdGreaterThanOrEqual !== undefined && suspectedCausesUpdatedByIdGreaterThanOrEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysIdGreaterThanOrEqual, 'suspectedCauses.updatedBys.id.greaterThanOrEqual');
+            <any>suspectedCausesUpdatedByIdGreaterThanOrEqual, 'suspectedCauses.updatedBy.id.greaterThanOrEqual');
         }
-        if (suspectedCausesUpdatedBysIdEqual !== undefined && suspectedCausesUpdatedBysIdEqual !== null) {
+        if (suspectedCausesUpdatedByIdEqual !== undefined && suspectedCausesUpdatedByIdEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysIdEqual, 'suspectedCauses.updatedBys.id.equal');
+            <any>suspectedCausesUpdatedByIdEqual, 'suspectedCauses.updatedBy.id.equal');
         }
-        if (suspectedCausesUpdatedBysIdNotEqual !== undefined && suspectedCausesUpdatedBysIdNotEqual !== null) {
+        if (suspectedCausesUpdatedByIdNotEqual !== undefined && suspectedCausesUpdatedByIdNotEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysIdNotEqual, 'suspectedCauses.updatedBys.id.not.equal');
+            <any>suspectedCausesUpdatedByIdNotEqual, 'suspectedCauses.updatedBy.id.not.equal');
         }
-        if (suspectedCausesUpdatedBysIdBetween) {
-            suspectedCausesUpdatedBysIdBetween.forEach((element) => {
+        if (suspectedCausesUpdatedByIdBetween) {
+            suspectedCausesUpdatedByIdBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'suspectedCauses.updatedBys.id.between');
+                  <any>element, 'suspectedCauses.updatedBy.id.between');
             })
         }
-        if (suspectedCausesUpdatedBysIdNotBetween) {
-            suspectedCausesUpdatedBysIdNotBetween.forEach((element) => {
+        if (suspectedCausesUpdatedByIdNotBetween) {
+            suspectedCausesUpdatedByIdNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'suspectedCauses.updatedBys.id.not.between');
+                  <any>element, 'suspectedCauses.updatedBy.id.not.between');
             })
         }
-        if (suspectedCausesUpdatedBysUsername !== undefined && suspectedCausesUpdatedBysUsername !== null) {
+        if (suspectedCausesUpdatedByUsername !== undefined && suspectedCausesUpdatedByUsername !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsername, 'suspectedCauses.updatedBys.username');
+            <any>suspectedCausesUpdatedByUsername, 'suspectedCauses.updatedBy.username');
         }
-        if (suspectedCausesUpdatedBysUsernameNot !== undefined && suspectedCausesUpdatedBysUsernameNot !== null) {
+        if (suspectedCausesUpdatedByUsernameNot !== undefined && suspectedCausesUpdatedByUsernameNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameNot, 'suspectedCauses.updatedBys.username.not');
+            <any>suspectedCausesUpdatedByUsernameNot, 'suspectedCauses.updatedBy.username.not');
         }
-        if (suspectedCausesUpdatedBysUsernameContains !== undefined && suspectedCausesUpdatedBysUsernameContains !== null) {
+        if (suspectedCausesUpdatedByUsernameContains !== undefined && suspectedCausesUpdatedByUsernameContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameContains, 'suspectedCauses.updatedBys.username.contains');
+            <any>suspectedCausesUpdatedByUsernameContains, 'suspectedCauses.updatedBy.username.contains');
         }
-        if (suspectedCausesUpdatedBysUsernameNotContains !== undefined && suspectedCausesUpdatedBysUsernameNotContains !== null) {
+        if (suspectedCausesUpdatedByUsernameNotContains !== undefined && suspectedCausesUpdatedByUsernameNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameNotContains, 'suspectedCauses.updatedBys.username.not.contains');
+            <any>suspectedCausesUpdatedByUsernameNotContains, 'suspectedCauses.updatedBy.username.not.contains');
         }
-        if (suspectedCausesUpdatedBysUsernameBeginsWith !== undefined && suspectedCausesUpdatedBysUsernameBeginsWith !== null) {
+        if (suspectedCausesUpdatedByUsernameBeginsWith !== undefined && suspectedCausesUpdatedByUsernameBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameBeginsWith, 'suspectedCauses.updatedBys.username.beginsWith');
+            <any>suspectedCausesUpdatedByUsernameBeginsWith, 'suspectedCauses.updatedBy.username.beginsWith');
         }
-        if (suspectedCausesUpdatedBysUsernameNotBeginsWith !== undefined && suspectedCausesUpdatedBysUsernameNotBeginsWith !== null) {
+        if (suspectedCausesUpdatedByUsernameNotBeginsWith !== undefined && suspectedCausesUpdatedByUsernameNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameNotBeginsWith, 'suspectedCauses.updatedBys.username.not.beginsWith');
+            <any>suspectedCausesUpdatedByUsernameNotBeginsWith, 'suspectedCauses.updatedBy.username.not.beginsWith');
         }
-        if (suspectedCausesUpdatedBysUsernameEndsWith !== undefined && suspectedCausesUpdatedBysUsernameEndsWith !== null) {
+        if (suspectedCausesUpdatedByUsernameEndsWith !== undefined && suspectedCausesUpdatedByUsernameEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameEndsWith, 'suspectedCauses.updatedBys.username.endsWith');
+            <any>suspectedCausesUpdatedByUsernameEndsWith, 'suspectedCauses.updatedBy.username.endsWith');
         }
-        if (suspectedCausesUpdatedBysUsernameNotEndsWith !== undefined && suspectedCausesUpdatedBysUsernameNotEndsWith !== null) {
+        if (suspectedCausesUpdatedByUsernameNotEndsWith !== undefined && suspectedCausesUpdatedByUsernameNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysUsernameNotEndsWith, 'suspectedCauses.updatedBys.username.not.endsWith');
+            <any>suspectedCausesUpdatedByUsernameNotEndsWith, 'suspectedCauses.updatedBy.username.not.endsWith');
         }
-        if (suspectedCausesUpdatedBysEmail !== undefined && suspectedCausesUpdatedBysEmail !== null) {
+        if (suspectedCausesUpdatedByEmail !== undefined && suspectedCausesUpdatedByEmail !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmail, 'suspectedCauses.updatedBys.email');
+            <any>suspectedCausesUpdatedByEmail, 'suspectedCauses.updatedBy.email');
         }
-        if (suspectedCausesUpdatedBysEmailNot !== undefined && suspectedCausesUpdatedBysEmailNot !== null) {
+        if (suspectedCausesUpdatedByEmailNot !== undefined && suspectedCausesUpdatedByEmailNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailNot, 'suspectedCauses.updatedBys.email.not');
+            <any>suspectedCausesUpdatedByEmailNot, 'suspectedCauses.updatedBy.email.not');
         }
-        if (suspectedCausesUpdatedBysEmailContains !== undefined && suspectedCausesUpdatedBysEmailContains !== null) {
+        if (suspectedCausesUpdatedByEmailContains !== undefined && suspectedCausesUpdatedByEmailContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailContains, 'suspectedCauses.updatedBys.email.contains');
+            <any>suspectedCausesUpdatedByEmailContains, 'suspectedCauses.updatedBy.email.contains');
         }
-        if (suspectedCausesUpdatedBysEmailNotContains !== undefined && suspectedCausesUpdatedBysEmailNotContains !== null) {
+        if (suspectedCausesUpdatedByEmailNotContains !== undefined && suspectedCausesUpdatedByEmailNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailNotContains, 'suspectedCauses.updatedBys.email.not.contains');
+            <any>suspectedCausesUpdatedByEmailNotContains, 'suspectedCauses.updatedBy.email.not.contains');
         }
-        if (suspectedCausesUpdatedBysEmailBeginsWith !== undefined && suspectedCausesUpdatedBysEmailBeginsWith !== null) {
+        if (suspectedCausesUpdatedByEmailBeginsWith !== undefined && suspectedCausesUpdatedByEmailBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailBeginsWith, 'suspectedCauses.updatedBys.email.beginsWith');
+            <any>suspectedCausesUpdatedByEmailBeginsWith, 'suspectedCauses.updatedBy.email.beginsWith');
         }
-        if (suspectedCausesUpdatedBysEmailNotBeginsWith !== undefined && suspectedCausesUpdatedBysEmailNotBeginsWith !== null) {
+        if (suspectedCausesUpdatedByEmailNotBeginsWith !== undefined && suspectedCausesUpdatedByEmailNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailNotBeginsWith, 'suspectedCauses.updatedBys.email.not.beginsWith');
+            <any>suspectedCausesUpdatedByEmailNotBeginsWith, 'suspectedCauses.updatedBy.email.not.beginsWith');
         }
-        if (suspectedCausesUpdatedBysEmailEndsWith !== undefined && suspectedCausesUpdatedBysEmailEndsWith !== null) {
+        if (suspectedCausesUpdatedByEmailEndsWith !== undefined && suspectedCausesUpdatedByEmailEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailEndsWith, 'suspectedCauses.updatedBys.email.endsWith');
+            <any>suspectedCausesUpdatedByEmailEndsWith, 'suspectedCauses.updatedBy.email.endsWith');
         }
-        if (suspectedCausesUpdatedBysEmailNotEndsWith !== undefined && suspectedCausesUpdatedBysEmailNotEndsWith !== null) {
+        if (suspectedCausesUpdatedByEmailNotEndsWith !== undefined && suspectedCausesUpdatedByEmailNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysEmailNotEndsWith, 'suspectedCauses.updatedBys.email.not.endsWith');
+            <any>suspectedCausesUpdatedByEmailNotEndsWith, 'suspectedCauses.updatedBy.email.not.endsWith');
         }
-        if (suspectedCausesUpdatedBysFirstNameNotExists !== undefined && suspectedCausesUpdatedBysFirstNameNotExists !== null) {
+        if (suspectedCausesUpdatedByFirstNameNotExists !== undefined && suspectedCausesUpdatedByFirstNameNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameNotExists, 'suspectedCauses.updatedBys.firstName.not.exists');
+            <any>suspectedCausesUpdatedByFirstNameNotExists, 'suspectedCauses.updatedBy.firstName.not.exists');
         }
-        if (suspectedCausesUpdatedBysFirstNameExists !== undefined && suspectedCausesUpdatedBysFirstNameExists !== null) {
+        if (suspectedCausesUpdatedByFirstNameExists !== undefined && suspectedCausesUpdatedByFirstNameExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameExists, 'suspectedCauses.updatedBys.firstName.exists');
+            <any>suspectedCausesUpdatedByFirstNameExists, 'suspectedCauses.updatedBy.firstName.exists');
         }
-        if (suspectedCausesUpdatedBysFirstName !== undefined && suspectedCausesUpdatedBysFirstName !== null) {
+        if (suspectedCausesUpdatedByFirstName !== undefined && suspectedCausesUpdatedByFirstName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstName, 'suspectedCauses.updatedBys.firstName');
+            <any>suspectedCausesUpdatedByFirstName, 'suspectedCauses.updatedBy.firstName');
         }
-        if (suspectedCausesUpdatedBysFirstNameNot !== undefined && suspectedCausesUpdatedBysFirstNameNot !== null) {
+        if (suspectedCausesUpdatedByFirstNameNot !== undefined && suspectedCausesUpdatedByFirstNameNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameNot, 'suspectedCauses.updatedBys.firstName.not');
+            <any>suspectedCausesUpdatedByFirstNameNot, 'suspectedCauses.updatedBy.firstName.not');
         }
-        if (suspectedCausesUpdatedBysFirstNameContains !== undefined && suspectedCausesUpdatedBysFirstNameContains !== null) {
+        if (suspectedCausesUpdatedByFirstNameContains !== undefined && suspectedCausesUpdatedByFirstNameContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameContains, 'suspectedCauses.updatedBys.firstName.contains');
+            <any>suspectedCausesUpdatedByFirstNameContains, 'suspectedCauses.updatedBy.firstName.contains');
         }
-        if (suspectedCausesUpdatedBysFirstNameNotContains !== undefined && suspectedCausesUpdatedBysFirstNameNotContains !== null) {
+        if (suspectedCausesUpdatedByFirstNameNotContains !== undefined && suspectedCausesUpdatedByFirstNameNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameNotContains, 'suspectedCauses.updatedBys.firstName.not.contains');
+            <any>suspectedCausesUpdatedByFirstNameNotContains, 'suspectedCauses.updatedBy.firstName.not.contains');
         }
-        if (suspectedCausesUpdatedBysFirstNameBeginsWith !== undefined && suspectedCausesUpdatedBysFirstNameBeginsWith !== null) {
+        if (suspectedCausesUpdatedByFirstNameBeginsWith !== undefined && suspectedCausesUpdatedByFirstNameBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameBeginsWith, 'suspectedCauses.updatedBys.firstName.beginsWith');
+            <any>suspectedCausesUpdatedByFirstNameBeginsWith, 'suspectedCauses.updatedBy.firstName.beginsWith');
         }
-        if (suspectedCausesUpdatedBysFirstNameNotBeginsWith !== undefined && suspectedCausesUpdatedBysFirstNameNotBeginsWith !== null) {
+        if (suspectedCausesUpdatedByFirstNameNotBeginsWith !== undefined && suspectedCausesUpdatedByFirstNameNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameNotBeginsWith, 'suspectedCauses.updatedBys.firstName.not.beginsWith');
+            <any>suspectedCausesUpdatedByFirstNameNotBeginsWith, 'suspectedCauses.updatedBy.firstName.not.beginsWith');
         }
-        if (suspectedCausesUpdatedBysFirstNameEndsWith !== undefined && suspectedCausesUpdatedBysFirstNameEndsWith !== null) {
+        if (suspectedCausesUpdatedByFirstNameEndsWith !== undefined && suspectedCausesUpdatedByFirstNameEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameEndsWith, 'suspectedCauses.updatedBys.firstName.endsWith');
+            <any>suspectedCausesUpdatedByFirstNameEndsWith, 'suspectedCauses.updatedBy.firstName.endsWith');
         }
-        if (suspectedCausesUpdatedBysFirstNameNotEndsWith !== undefined && suspectedCausesUpdatedBysFirstNameNotEndsWith !== null) {
+        if (suspectedCausesUpdatedByFirstNameNotEndsWith !== undefined && suspectedCausesUpdatedByFirstNameNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysFirstNameNotEndsWith, 'suspectedCauses.updatedBys.firstName.not.endsWith');
+            <any>suspectedCausesUpdatedByFirstNameNotEndsWith, 'suspectedCauses.updatedBy.firstName.not.endsWith');
         }
-        if (suspectedCausesUpdatedBysLastNameNotExists !== undefined && suspectedCausesUpdatedBysLastNameNotExists !== null) {
+        if (suspectedCausesUpdatedByLastNameNotExists !== undefined && suspectedCausesUpdatedByLastNameNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameNotExists, 'suspectedCauses.updatedBys.lastName.not.exists');
+            <any>suspectedCausesUpdatedByLastNameNotExists, 'suspectedCauses.updatedBy.lastName.not.exists');
         }
-        if (suspectedCausesUpdatedBysLastNameExists !== undefined && suspectedCausesUpdatedBysLastNameExists !== null) {
+        if (suspectedCausesUpdatedByLastNameExists !== undefined && suspectedCausesUpdatedByLastNameExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameExists, 'suspectedCauses.updatedBys.lastName.exists');
+            <any>suspectedCausesUpdatedByLastNameExists, 'suspectedCauses.updatedBy.lastName.exists');
         }
-        if (suspectedCausesUpdatedBysLastName !== undefined && suspectedCausesUpdatedBysLastName !== null) {
+        if (suspectedCausesUpdatedByLastName !== undefined && suspectedCausesUpdatedByLastName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastName, 'suspectedCauses.updatedBys.lastName');
+            <any>suspectedCausesUpdatedByLastName, 'suspectedCauses.updatedBy.lastName');
         }
-        if (suspectedCausesUpdatedBysLastNameNot !== undefined && suspectedCausesUpdatedBysLastNameNot !== null) {
+        if (suspectedCausesUpdatedByLastNameNot !== undefined && suspectedCausesUpdatedByLastNameNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameNot, 'suspectedCauses.updatedBys.lastName.not');
+            <any>suspectedCausesUpdatedByLastNameNot, 'suspectedCauses.updatedBy.lastName.not');
         }
-        if (suspectedCausesUpdatedBysLastNameContains !== undefined && suspectedCausesUpdatedBysLastNameContains !== null) {
+        if (suspectedCausesUpdatedByLastNameContains !== undefined && suspectedCausesUpdatedByLastNameContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameContains, 'suspectedCauses.updatedBys.lastName.contains');
+            <any>suspectedCausesUpdatedByLastNameContains, 'suspectedCauses.updatedBy.lastName.contains');
         }
-        if (suspectedCausesUpdatedBysLastNameNotContains !== undefined && suspectedCausesUpdatedBysLastNameNotContains !== null) {
+        if (suspectedCausesUpdatedByLastNameNotContains !== undefined && suspectedCausesUpdatedByLastNameNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameNotContains, 'suspectedCauses.updatedBys.lastName.not.contains');
+            <any>suspectedCausesUpdatedByLastNameNotContains, 'suspectedCauses.updatedBy.lastName.not.contains');
         }
-        if (suspectedCausesUpdatedBysLastNameBeginsWith !== undefined && suspectedCausesUpdatedBysLastNameBeginsWith !== null) {
+        if (suspectedCausesUpdatedByLastNameBeginsWith !== undefined && suspectedCausesUpdatedByLastNameBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameBeginsWith, 'suspectedCauses.updatedBys.lastName.beginsWith');
+            <any>suspectedCausesUpdatedByLastNameBeginsWith, 'suspectedCauses.updatedBy.lastName.beginsWith');
         }
-        if (suspectedCausesUpdatedBysLastNameNotBeginsWith !== undefined && suspectedCausesUpdatedBysLastNameNotBeginsWith !== null) {
+        if (suspectedCausesUpdatedByLastNameNotBeginsWith !== undefined && suspectedCausesUpdatedByLastNameNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameNotBeginsWith, 'suspectedCauses.updatedBys.lastName.not.beginsWith');
+            <any>suspectedCausesUpdatedByLastNameNotBeginsWith, 'suspectedCauses.updatedBy.lastName.not.beginsWith');
         }
-        if (suspectedCausesUpdatedBysLastNameEndsWith !== undefined && suspectedCausesUpdatedBysLastNameEndsWith !== null) {
+        if (suspectedCausesUpdatedByLastNameEndsWith !== undefined && suspectedCausesUpdatedByLastNameEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameEndsWith, 'suspectedCauses.updatedBys.lastName.endsWith');
+            <any>suspectedCausesUpdatedByLastNameEndsWith, 'suspectedCauses.updatedBy.lastName.endsWith');
         }
-        if (suspectedCausesUpdatedBysLastNameNotEndsWith !== undefined && suspectedCausesUpdatedBysLastNameNotEndsWith !== null) {
+        if (suspectedCausesUpdatedByLastNameNotEndsWith !== undefined && suspectedCausesUpdatedByLastNameNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesUpdatedBysLastNameNotEndsWith, 'suspectedCauses.updatedBys.lastName.not.endsWith');
+            <any>suspectedCausesUpdatedByLastNameNotEndsWith, 'suspectedCauses.updatedBy.lastName.not.endsWith');
         }
         if (suspectedCausesDescription !== undefined && suspectedCausesDescription !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -2124,6 +1842,86 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         if (suspectedCausesDescriptionNotEndsWith !== undefined && suspectedCausesDescriptionNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>suspectedCausesDescriptionNotEndsWith, 'suspectedCauses.description.not.endsWith');
+        }
+        if (suspectedCausesExternalSourceNotExists !== undefined && suspectedCausesExternalSourceNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceNotExists, 'suspectedCauses.externalSource.not.exists');
+        }
+        if (suspectedCausesExternalSourceExists !== undefined && suspectedCausesExternalSourceExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceExists, 'suspectedCauses.externalSource.exists');
+        }
+        if (suspectedCausesExternalSource !== undefined && suspectedCausesExternalSource !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSource, 'suspectedCauses.externalSource');
+        }
+        if (suspectedCausesExternalSourceNot !== undefined && suspectedCausesExternalSourceNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceNot, 'suspectedCauses.externalSource.not');
+        }
+        if (suspectedCausesExternalSourceContains !== undefined && suspectedCausesExternalSourceContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceContains, 'suspectedCauses.externalSource.contains');
+        }
+        if (suspectedCausesExternalSourceNotContains !== undefined && suspectedCausesExternalSourceNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceNotContains, 'suspectedCauses.externalSource.not.contains');
+        }
+        if (suspectedCausesExternalSourceBeginsWith !== undefined && suspectedCausesExternalSourceBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceBeginsWith, 'suspectedCauses.externalSource.beginsWith');
+        }
+        if (suspectedCausesExternalSourceNotBeginsWith !== undefined && suspectedCausesExternalSourceNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceNotBeginsWith, 'suspectedCauses.externalSource.not.beginsWith');
+        }
+        if (suspectedCausesExternalSourceEndsWith !== undefined && suspectedCausesExternalSourceEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceEndsWith, 'suspectedCauses.externalSource.endsWith');
+        }
+        if (suspectedCausesExternalSourceNotEndsWith !== undefined && suspectedCausesExternalSourceNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceNotEndsWith, 'suspectedCauses.externalSource.not.endsWith');
+        }
+        if (suspectedCausesExternalSourceIdNotExists !== undefined && suspectedCausesExternalSourceIdNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdNotExists, 'suspectedCauses.externalSourceId.not.exists');
+        }
+        if (suspectedCausesExternalSourceIdExists !== undefined && suspectedCausesExternalSourceIdExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdExists, 'suspectedCauses.externalSourceId.exists');
+        }
+        if (suspectedCausesExternalSourceId !== undefined && suspectedCausesExternalSourceId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceId, 'suspectedCauses.externalSourceId');
+        }
+        if (suspectedCausesExternalSourceIdNot !== undefined && suspectedCausesExternalSourceIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdNot, 'suspectedCauses.externalSourceId.not');
+        }
+        if (suspectedCausesExternalSourceIdContains !== undefined && suspectedCausesExternalSourceIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdContains, 'suspectedCauses.externalSourceId.contains');
+        }
+        if (suspectedCausesExternalSourceIdNotContains !== undefined && suspectedCausesExternalSourceIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdNotContains, 'suspectedCauses.externalSourceId.not.contains');
+        }
+        if (suspectedCausesExternalSourceIdBeginsWith !== undefined && suspectedCausesExternalSourceIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdBeginsWith, 'suspectedCauses.externalSourceId.beginsWith');
+        }
+        if (suspectedCausesExternalSourceIdNotBeginsWith !== undefined && suspectedCausesExternalSourceIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdNotBeginsWith, 'suspectedCauses.externalSourceId.not.beginsWith');
+        }
+        if (suspectedCausesExternalSourceIdEndsWith !== undefined && suspectedCausesExternalSourceIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdEndsWith, 'suspectedCauses.externalSourceId.endsWith');
+        }
+        if (suspectedCausesExternalSourceIdNotEndsWith !== undefined && suspectedCausesExternalSourceIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>suspectedCausesExternalSourceIdNotEndsWith, 'suspectedCauses.externalSourceId.not.endsWith');
         }
         if (suspectedCausesSystemicTherapyIdNotExists !== undefined && suspectedCausesSystemicTherapyIdNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -2419,185 +2217,185 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>mitigationsCreatedByExists, 'mitigations.createdBy.exists');
         }
-        if (mitigationsUpdatedBysIdLessThan !== undefined && mitigationsUpdatedBysIdLessThan !== null) {
+        if (mitigationsUpdatedByIdLessThan !== undefined && mitigationsUpdatedByIdLessThan !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysIdLessThan, 'mitigations.updatedBys.id.lessThan');
+            <any>mitigationsUpdatedByIdLessThan, 'mitigations.updatedBy.id.lessThan');
         }
-        if (mitigationsUpdatedBysIdLessThanOrEqual !== undefined && mitigationsUpdatedBysIdLessThanOrEqual !== null) {
+        if (mitigationsUpdatedByIdLessThanOrEqual !== undefined && mitigationsUpdatedByIdLessThanOrEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysIdLessThanOrEqual, 'mitigations.updatedBys.id.lessThanOrEqual');
+            <any>mitigationsUpdatedByIdLessThanOrEqual, 'mitigations.updatedBy.id.lessThanOrEqual');
         }
-        if (mitigationsUpdatedBysIdGreaterThan !== undefined && mitigationsUpdatedBysIdGreaterThan !== null) {
+        if (mitigationsUpdatedByIdGreaterThan !== undefined && mitigationsUpdatedByIdGreaterThan !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysIdGreaterThan, 'mitigations.updatedBys.id.greaterThan');
+            <any>mitigationsUpdatedByIdGreaterThan, 'mitigations.updatedBy.id.greaterThan');
         }
-        if (mitigationsUpdatedBysIdGreaterThanOrEqual !== undefined && mitigationsUpdatedBysIdGreaterThanOrEqual !== null) {
+        if (mitigationsUpdatedByIdGreaterThanOrEqual !== undefined && mitigationsUpdatedByIdGreaterThanOrEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysIdGreaterThanOrEqual, 'mitigations.updatedBys.id.greaterThanOrEqual');
+            <any>mitigationsUpdatedByIdGreaterThanOrEqual, 'mitigations.updatedBy.id.greaterThanOrEqual');
         }
-        if (mitigationsUpdatedBysIdEqual !== undefined && mitigationsUpdatedBysIdEqual !== null) {
+        if (mitigationsUpdatedByIdEqual !== undefined && mitigationsUpdatedByIdEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysIdEqual, 'mitigations.updatedBys.id.equal');
+            <any>mitigationsUpdatedByIdEqual, 'mitigations.updatedBy.id.equal');
         }
-        if (mitigationsUpdatedBysIdNotEqual !== undefined && mitigationsUpdatedBysIdNotEqual !== null) {
+        if (mitigationsUpdatedByIdNotEqual !== undefined && mitigationsUpdatedByIdNotEqual !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysIdNotEqual, 'mitigations.updatedBys.id.not.equal');
+            <any>mitigationsUpdatedByIdNotEqual, 'mitigations.updatedBy.id.not.equal');
         }
-        if (mitigationsUpdatedBysIdBetween) {
-            mitigationsUpdatedBysIdBetween.forEach((element) => {
+        if (mitigationsUpdatedByIdBetween) {
+            mitigationsUpdatedByIdBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'mitigations.updatedBys.id.between');
+                  <any>element, 'mitigations.updatedBy.id.between');
             })
         }
-        if (mitigationsUpdatedBysIdNotBetween) {
-            mitigationsUpdatedBysIdNotBetween.forEach((element) => {
+        if (mitigationsUpdatedByIdNotBetween) {
+            mitigationsUpdatedByIdNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'mitigations.updatedBys.id.not.between');
+                  <any>element, 'mitigations.updatedBy.id.not.between');
             })
         }
-        if (mitigationsUpdatedBysUsername !== undefined && mitigationsUpdatedBysUsername !== null) {
+        if (mitigationsUpdatedByUsername !== undefined && mitigationsUpdatedByUsername !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsername, 'mitigations.updatedBys.username');
+            <any>mitigationsUpdatedByUsername, 'mitigations.updatedBy.username');
         }
-        if (mitigationsUpdatedBysUsernameNot !== undefined && mitigationsUpdatedBysUsernameNot !== null) {
+        if (mitigationsUpdatedByUsernameNot !== undefined && mitigationsUpdatedByUsernameNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameNot, 'mitigations.updatedBys.username.not');
+            <any>mitigationsUpdatedByUsernameNot, 'mitigations.updatedBy.username.not');
         }
-        if (mitigationsUpdatedBysUsernameContains !== undefined && mitigationsUpdatedBysUsernameContains !== null) {
+        if (mitigationsUpdatedByUsernameContains !== undefined && mitigationsUpdatedByUsernameContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameContains, 'mitigations.updatedBys.username.contains');
+            <any>mitigationsUpdatedByUsernameContains, 'mitigations.updatedBy.username.contains');
         }
-        if (mitigationsUpdatedBysUsernameNotContains !== undefined && mitigationsUpdatedBysUsernameNotContains !== null) {
+        if (mitigationsUpdatedByUsernameNotContains !== undefined && mitigationsUpdatedByUsernameNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameNotContains, 'mitigations.updatedBys.username.not.contains');
+            <any>mitigationsUpdatedByUsernameNotContains, 'mitigations.updatedBy.username.not.contains');
         }
-        if (mitigationsUpdatedBysUsernameBeginsWith !== undefined && mitigationsUpdatedBysUsernameBeginsWith !== null) {
+        if (mitigationsUpdatedByUsernameBeginsWith !== undefined && mitigationsUpdatedByUsernameBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameBeginsWith, 'mitigations.updatedBys.username.beginsWith');
+            <any>mitigationsUpdatedByUsernameBeginsWith, 'mitigations.updatedBy.username.beginsWith');
         }
-        if (mitigationsUpdatedBysUsernameNotBeginsWith !== undefined && mitigationsUpdatedBysUsernameNotBeginsWith !== null) {
+        if (mitigationsUpdatedByUsernameNotBeginsWith !== undefined && mitigationsUpdatedByUsernameNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameNotBeginsWith, 'mitigations.updatedBys.username.not.beginsWith');
+            <any>mitigationsUpdatedByUsernameNotBeginsWith, 'mitigations.updatedBy.username.not.beginsWith');
         }
-        if (mitigationsUpdatedBysUsernameEndsWith !== undefined && mitigationsUpdatedBysUsernameEndsWith !== null) {
+        if (mitigationsUpdatedByUsernameEndsWith !== undefined && mitigationsUpdatedByUsernameEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameEndsWith, 'mitigations.updatedBys.username.endsWith');
+            <any>mitigationsUpdatedByUsernameEndsWith, 'mitigations.updatedBy.username.endsWith');
         }
-        if (mitigationsUpdatedBysUsernameNotEndsWith !== undefined && mitigationsUpdatedBysUsernameNotEndsWith !== null) {
+        if (mitigationsUpdatedByUsernameNotEndsWith !== undefined && mitigationsUpdatedByUsernameNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysUsernameNotEndsWith, 'mitigations.updatedBys.username.not.endsWith');
+            <any>mitigationsUpdatedByUsernameNotEndsWith, 'mitigations.updatedBy.username.not.endsWith');
         }
-        if (mitigationsUpdatedBysEmail !== undefined && mitigationsUpdatedBysEmail !== null) {
+        if (mitigationsUpdatedByEmail !== undefined && mitigationsUpdatedByEmail !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmail, 'mitigations.updatedBys.email');
+            <any>mitigationsUpdatedByEmail, 'mitigations.updatedBy.email');
         }
-        if (mitigationsUpdatedBysEmailNot !== undefined && mitigationsUpdatedBysEmailNot !== null) {
+        if (mitigationsUpdatedByEmailNot !== undefined && mitigationsUpdatedByEmailNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailNot, 'mitigations.updatedBys.email.not');
+            <any>mitigationsUpdatedByEmailNot, 'mitigations.updatedBy.email.not');
         }
-        if (mitigationsUpdatedBysEmailContains !== undefined && mitigationsUpdatedBysEmailContains !== null) {
+        if (mitigationsUpdatedByEmailContains !== undefined && mitigationsUpdatedByEmailContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailContains, 'mitigations.updatedBys.email.contains');
+            <any>mitigationsUpdatedByEmailContains, 'mitigations.updatedBy.email.contains');
         }
-        if (mitigationsUpdatedBysEmailNotContains !== undefined && mitigationsUpdatedBysEmailNotContains !== null) {
+        if (mitigationsUpdatedByEmailNotContains !== undefined && mitigationsUpdatedByEmailNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailNotContains, 'mitigations.updatedBys.email.not.contains');
+            <any>mitigationsUpdatedByEmailNotContains, 'mitigations.updatedBy.email.not.contains');
         }
-        if (mitigationsUpdatedBysEmailBeginsWith !== undefined && mitigationsUpdatedBysEmailBeginsWith !== null) {
+        if (mitigationsUpdatedByEmailBeginsWith !== undefined && mitigationsUpdatedByEmailBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailBeginsWith, 'mitigations.updatedBys.email.beginsWith');
+            <any>mitigationsUpdatedByEmailBeginsWith, 'mitigations.updatedBy.email.beginsWith');
         }
-        if (mitigationsUpdatedBysEmailNotBeginsWith !== undefined && mitigationsUpdatedBysEmailNotBeginsWith !== null) {
+        if (mitigationsUpdatedByEmailNotBeginsWith !== undefined && mitigationsUpdatedByEmailNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailNotBeginsWith, 'mitigations.updatedBys.email.not.beginsWith');
+            <any>mitigationsUpdatedByEmailNotBeginsWith, 'mitigations.updatedBy.email.not.beginsWith');
         }
-        if (mitigationsUpdatedBysEmailEndsWith !== undefined && mitigationsUpdatedBysEmailEndsWith !== null) {
+        if (mitigationsUpdatedByEmailEndsWith !== undefined && mitigationsUpdatedByEmailEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailEndsWith, 'mitigations.updatedBys.email.endsWith');
+            <any>mitigationsUpdatedByEmailEndsWith, 'mitigations.updatedBy.email.endsWith');
         }
-        if (mitigationsUpdatedBysEmailNotEndsWith !== undefined && mitigationsUpdatedBysEmailNotEndsWith !== null) {
+        if (mitigationsUpdatedByEmailNotEndsWith !== undefined && mitigationsUpdatedByEmailNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysEmailNotEndsWith, 'mitigations.updatedBys.email.not.endsWith');
+            <any>mitigationsUpdatedByEmailNotEndsWith, 'mitigations.updatedBy.email.not.endsWith');
         }
-        if (mitigationsUpdatedBysFirstNameNotExists !== undefined && mitigationsUpdatedBysFirstNameNotExists !== null) {
+        if (mitigationsUpdatedByFirstNameNotExists !== undefined && mitigationsUpdatedByFirstNameNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameNotExists, 'mitigations.updatedBys.firstName.not.exists');
+            <any>mitigationsUpdatedByFirstNameNotExists, 'mitigations.updatedBy.firstName.not.exists');
         }
-        if (mitigationsUpdatedBysFirstNameExists !== undefined && mitigationsUpdatedBysFirstNameExists !== null) {
+        if (mitigationsUpdatedByFirstNameExists !== undefined && mitigationsUpdatedByFirstNameExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameExists, 'mitigations.updatedBys.firstName.exists');
+            <any>mitigationsUpdatedByFirstNameExists, 'mitigations.updatedBy.firstName.exists');
         }
-        if (mitigationsUpdatedBysFirstName !== undefined && mitigationsUpdatedBysFirstName !== null) {
+        if (mitigationsUpdatedByFirstName !== undefined && mitigationsUpdatedByFirstName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstName, 'mitigations.updatedBys.firstName');
+            <any>mitigationsUpdatedByFirstName, 'mitigations.updatedBy.firstName');
         }
-        if (mitigationsUpdatedBysFirstNameNot !== undefined && mitigationsUpdatedBysFirstNameNot !== null) {
+        if (mitigationsUpdatedByFirstNameNot !== undefined && mitigationsUpdatedByFirstNameNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameNot, 'mitigations.updatedBys.firstName.not');
+            <any>mitigationsUpdatedByFirstNameNot, 'mitigations.updatedBy.firstName.not');
         }
-        if (mitigationsUpdatedBysFirstNameContains !== undefined && mitigationsUpdatedBysFirstNameContains !== null) {
+        if (mitigationsUpdatedByFirstNameContains !== undefined && mitigationsUpdatedByFirstNameContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameContains, 'mitigations.updatedBys.firstName.contains');
+            <any>mitigationsUpdatedByFirstNameContains, 'mitigations.updatedBy.firstName.contains');
         }
-        if (mitigationsUpdatedBysFirstNameNotContains !== undefined && mitigationsUpdatedBysFirstNameNotContains !== null) {
+        if (mitigationsUpdatedByFirstNameNotContains !== undefined && mitigationsUpdatedByFirstNameNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameNotContains, 'mitigations.updatedBys.firstName.not.contains');
+            <any>mitigationsUpdatedByFirstNameNotContains, 'mitigations.updatedBy.firstName.not.contains');
         }
-        if (mitigationsUpdatedBysFirstNameBeginsWith !== undefined && mitigationsUpdatedBysFirstNameBeginsWith !== null) {
+        if (mitigationsUpdatedByFirstNameBeginsWith !== undefined && mitigationsUpdatedByFirstNameBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameBeginsWith, 'mitigations.updatedBys.firstName.beginsWith');
+            <any>mitigationsUpdatedByFirstNameBeginsWith, 'mitigations.updatedBy.firstName.beginsWith');
         }
-        if (mitigationsUpdatedBysFirstNameNotBeginsWith !== undefined && mitigationsUpdatedBysFirstNameNotBeginsWith !== null) {
+        if (mitigationsUpdatedByFirstNameNotBeginsWith !== undefined && mitigationsUpdatedByFirstNameNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameNotBeginsWith, 'mitigations.updatedBys.firstName.not.beginsWith');
+            <any>mitigationsUpdatedByFirstNameNotBeginsWith, 'mitigations.updatedBy.firstName.not.beginsWith');
         }
-        if (mitigationsUpdatedBysFirstNameEndsWith !== undefined && mitigationsUpdatedBysFirstNameEndsWith !== null) {
+        if (mitigationsUpdatedByFirstNameEndsWith !== undefined && mitigationsUpdatedByFirstNameEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameEndsWith, 'mitigations.updatedBys.firstName.endsWith');
+            <any>mitigationsUpdatedByFirstNameEndsWith, 'mitigations.updatedBy.firstName.endsWith');
         }
-        if (mitigationsUpdatedBysFirstNameNotEndsWith !== undefined && mitigationsUpdatedBysFirstNameNotEndsWith !== null) {
+        if (mitigationsUpdatedByFirstNameNotEndsWith !== undefined && mitigationsUpdatedByFirstNameNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysFirstNameNotEndsWith, 'mitigations.updatedBys.firstName.not.endsWith');
+            <any>mitigationsUpdatedByFirstNameNotEndsWith, 'mitigations.updatedBy.firstName.not.endsWith');
         }
-        if (mitigationsUpdatedBysLastNameNotExists !== undefined && mitigationsUpdatedBysLastNameNotExists !== null) {
+        if (mitigationsUpdatedByLastNameNotExists !== undefined && mitigationsUpdatedByLastNameNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameNotExists, 'mitigations.updatedBys.lastName.not.exists');
+            <any>mitigationsUpdatedByLastNameNotExists, 'mitigations.updatedBy.lastName.not.exists');
         }
-        if (mitigationsUpdatedBysLastNameExists !== undefined && mitigationsUpdatedBysLastNameExists !== null) {
+        if (mitigationsUpdatedByLastNameExists !== undefined && mitigationsUpdatedByLastNameExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameExists, 'mitigations.updatedBys.lastName.exists');
+            <any>mitigationsUpdatedByLastNameExists, 'mitigations.updatedBy.lastName.exists');
         }
-        if (mitigationsUpdatedBysLastName !== undefined && mitigationsUpdatedBysLastName !== null) {
+        if (mitigationsUpdatedByLastName !== undefined && mitigationsUpdatedByLastName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastName, 'mitigations.updatedBys.lastName');
+            <any>mitigationsUpdatedByLastName, 'mitigations.updatedBy.lastName');
         }
-        if (mitigationsUpdatedBysLastNameNot !== undefined && mitigationsUpdatedBysLastNameNot !== null) {
+        if (mitigationsUpdatedByLastNameNot !== undefined && mitigationsUpdatedByLastNameNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameNot, 'mitigations.updatedBys.lastName.not');
+            <any>mitigationsUpdatedByLastNameNot, 'mitigations.updatedBy.lastName.not');
         }
-        if (mitigationsUpdatedBysLastNameContains !== undefined && mitigationsUpdatedBysLastNameContains !== null) {
+        if (mitigationsUpdatedByLastNameContains !== undefined && mitigationsUpdatedByLastNameContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameContains, 'mitigations.updatedBys.lastName.contains');
+            <any>mitigationsUpdatedByLastNameContains, 'mitigations.updatedBy.lastName.contains');
         }
-        if (mitigationsUpdatedBysLastNameNotContains !== undefined && mitigationsUpdatedBysLastNameNotContains !== null) {
+        if (mitigationsUpdatedByLastNameNotContains !== undefined && mitigationsUpdatedByLastNameNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameNotContains, 'mitigations.updatedBys.lastName.not.contains');
+            <any>mitigationsUpdatedByLastNameNotContains, 'mitigations.updatedBy.lastName.not.contains');
         }
-        if (mitigationsUpdatedBysLastNameBeginsWith !== undefined && mitigationsUpdatedBysLastNameBeginsWith !== null) {
+        if (mitigationsUpdatedByLastNameBeginsWith !== undefined && mitigationsUpdatedByLastNameBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameBeginsWith, 'mitigations.updatedBys.lastName.beginsWith');
+            <any>mitigationsUpdatedByLastNameBeginsWith, 'mitigations.updatedBy.lastName.beginsWith');
         }
-        if (mitigationsUpdatedBysLastNameNotBeginsWith !== undefined && mitigationsUpdatedBysLastNameNotBeginsWith !== null) {
+        if (mitigationsUpdatedByLastNameNotBeginsWith !== undefined && mitigationsUpdatedByLastNameNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameNotBeginsWith, 'mitigations.updatedBys.lastName.not.beginsWith');
+            <any>mitigationsUpdatedByLastNameNotBeginsWith, 'mitigations.updatedBy.lastName.not.beginsWith');
         }
-        if (mitigationsUpdatedBysLastNameEndsWith !== undefined && mitigationsUpdatedBysLastNameEndsWith !== null) {
+        if (mitigationsUpdatedByLastNameEndsWith !== undefined && mitigationsUpdatedByLastNameEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameEndsWith, 'mitigations.updatedBys.lastName.endsWith');
+            <any>mitigationsUpdatedByLastNameEndsWith, 'mitigations.updatedBy.lastName.endsWith');
         }
-        if (mitigationsUpdatedBysLastNameNotEndsWith !== undefined && mitigationsUpdatedBysLastNameNotEndsWith !== null) {
+        if (mitigationsUpdatedByLastNameNotEndsWith !== undefined && mitigationsUpdatedByLastNameNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsUpdatedBysLastNameNotEndsWith, 'mitigations.updatedBys.lastName.not.endsWith');
+            <any>mitigationsUpdatedByLastNameNotEndsWith, 'mitigations.updatedBy.lastName.not.endsWith');
         }
         if (mitigationsDescription !== undefined && mitigationsDescription !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -2630,6 +2428,86 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         if (mitigationsDescriptionNotEndsWith !== undefined && mitigationsDescriptionNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>mitigationsDescriptionNotEndsWith, 'mitigations.description.not.endsWith');
+        }
+        if (mitigationsExternalSourceNotExists !== undefined && mitigationsExternalSourceNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceNotExists, 'mitigations.externalSource.not.exists');
+        }
+        if (mitigationsExternalSourceExists !== undefined && mitigationsExternalSourceExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceExists, 'mitigations.externalSource.exists');
+        }
+        if (mitigationsExternalSource !== undefined && mitigationsExternalSource !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSource, 'mitigations.externalSource');
+        }
+        if (mitigationsExternalSourceNot !== undefined && mitigationsExternalSourceNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceNot, 'mitigations.externalSource.not');
+        }
+        if (mitigationsExternalSourceContains !== undefined && mitigationsExternalSourceContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceContains, 'mitigations.externalSource.contains');
+        }
+        if (mitigationsExternalSourceNotContains !== undefined && mitigationsExternalSourceNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceNotContains, 'mitigations.externalSource.not.contains');
+        }
+        if (mitigationsExternalSourceBeginsWith !== undefined && mitigationsExternalSourceBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceBeginsWith, 'mitigations.externalSource.beginsWith');
+        }
+        if (mitigationsExternalSourceNotBeginsWith !== undefined && mitigationsExternalSourceNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceNotBeginsWith, 'mitigations.externalSource.not.beginsWith');
+        }
+        if (mitigationsExternalSourceEndsWith !== undefined && mitigationsExternalSourceEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceEndsWith, 'mitigations.externalSource.endsWith');
+        }
+        if (mitigationsExternalSourceNotEndsWith !== undefined && mitigationsExternalSourceNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceNotEndsWith, 'mitigations.externalSource.not.endsWith');
+        }
+        if (mitigationsExternalSourceIdNotExists !== undefined && mitigationsExternalSourceIdNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdNotExists, 'mitigations.externalSourceId.not.exists');
+        }
+        if (mitigationsExternalSourceIdExists !== undefined && mitigationsExternalSourceIdExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdExists, 'mitigations.externalSourceId.exists');
+        }
+        if (mitigationsExternalSourceId !== undefined && mitigationsExternalSourceId !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceId, 'mitigations.externalSourceId');
+        }
+        if (mitigationsExternalSourceIdNot !== undefined && mitigationsExternalSourceIdNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdNot, 'mitigations.externalSourceId.not');
+        }
+        if (mitigationsExternalSourceIdContains !== undefined && mitigationsExternalSourceIdContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdContains, 'mitigations.externalSourceId.contains');
+        }
+        if (mitigationsExternalSourceIdNotContains !== undefined && mitigationsExternalSourceIdNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdNotContains, 'mitigations.externalSourceId.not.contains');
+        }
+        if (mitigationsExternalSourceIdBeginsWith !== undefined && mitigationsExternalSourceIdBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdBeginsWith, 'mitigations.externalSourceId.beginsWith');
+        }
+        if (mitigationsExternalSourceIdNotBeginsWith !== undefined && mitigationsExternalSourceIdNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdNotBeginsWith, 'mitigations.externalSourceId.not.beginsWith');
+        }
+        if (mitigationsExternalSourceIdEndsWith !== undefined && mitigationsExternalSourceIdEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdEndsWith, 'mitigations.externalSourceId.endsWith');
+        }
+        if (mitigationsExternalSourceIdNotEndsWith !== undefined && mitigationsExternalSourceIdNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>mitigationsExternalSourceIdNotEndsWith, 'mitigations.externalSourceId.not.endsWith');
         }
         if (mitigationsCategory !== undefined && mitigationsCategory !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
