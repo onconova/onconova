@@ -1,56 +1,165 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()" >
-        <div class="field">
-            <label class="form-label required">Gender</label>
-            <pop-concept-selector 
-                terminology="AdministrativeGender"
-                formControlName="gender"/>
-            <pop-form-control-error controlName="gender"></pop-form-control-error>
-        </div>
+    <form  [formGroup]="form" (ngSubmit)="onSave()" style="min-width: 35vw;" >
 
-        <div class="field">
-            <label for="date-of-birth" class="form-label required">Date of Birth</label>
-            <pop-datepicker 
-                formControlName="dateOfBirth"
-                view="month" 
-                dateFormat="mm/yy" 
-                placeholder="MM/YYYY" 
-            />
-            <small id="dateOfBirth-help">For de-identification, only the month and year are used.  </small>
-            <pop-form-control-error controlName="dateOfBirth"></pop-form-control-error>
-        </div>
+        <div class="p-1">
+            <p-stepper [value]="1" [linear]="true">
 
-        <div class="field flex">
-            <p-toggleswitch formControlName="isAlive" />
-            <label class="form-label ml-2 my-auto required">Patient is alive</label>
-        </div>
 
-        <div class="field" *ngIf="!form.value.isAlive">
-            <label class="form-label required">Date of Death</label>
-            <pop-datepicker 
-                formControlName="dateOfDeath"
-                view="month" 
-                dateFormat="mm/yy" 
-                placeholder="MM/YYYY" 
-                />
-            <pop-form-control-error controlName="dateOfDeath"></pop-form-control-error>
-        </div>
+                <p-step-item [value]="1">
+                    <p-step>Clinical Identification</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <div class="flex">
+                                <div [inlineSVG]="centerIllustration" class="illustration mr-3"></div>
+                                <div class="flex flex-column my-auto" formGroupName="identification">
+                                    <div class="field">
+                                        <label class="form-label required">Clinical center</label>
+                                        <p-autocomplete 
+                                            placeholder="Enter a name" 
+                                            formControlName="clinicalCenter"  
+                                            [suggestions]="centers" 
+                                            (completeMethod)="searchCenter($event)" />
 
-        <div class="field" *ngIf="!form.value.isAlive">
-            <label class="form-label">Cause of death</label>
-            <pop-concept-selector 
-                terminology="CauseOfDeath"
-                [showSynonyms]="false"
-                formControlName="causeOfDeath"/>
-            <pop-form-control-error controlName="causeOfDeath"></pop-form-control-error>
-        </div>
+                                        <div><small class="text-muted">The name of the center where the patient's record originated from.</small></div>
+                                    </div>
+                            
+                                    <div class="field">
+                                        <label class="form-label required">Clinical identifier</label>
+                                        <input pInputText placeholder="Enter a value" formControlName="clinicalIdentifier" />
+                                        <div><small class="text-muted">The clinical identifier unique for a given patient at a clinical center. Usually the clinical information system's identifier.</small></div>
 
-        <p-button 
-            type="submit" 
-            label="Save" 
-            styleClass="w-full p-3 mt-2"  
-            [loading]="loading"
-            [disabled]="form.invalid" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-3">
+                                <p-button label="Next" (onClick)="activateCallback(2)" [disabled]="!form.get('identification')?.valid"/>
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+        
+
+                <p-step-item [value]="2">
+                    <p-step>Patient Information</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <div class="flex flex-column" formGroupName="general">
+
+                                <div class="field">
+                                    <label class="form-label required">Gender</label>
+                                    <pop-concept-selector 
+                                        terminology="AdministrativeGender"
+                                        formControlName="gender"/>
+                                </div>
+                        
+                                <div class="field">
+                                    <label for="date-of-birth" class="form-label required">Date of Birth</label>
+                                    <pop-datepicker 
+                                        formControlName="dateOfBirth"
+                                        view="month" 
+                                        dateFormat="mm/yy" 
+                                        placeholder="MM/YYYY" 
+                                    />
+                                    <small id="dateOfBirth-help">For de-identification, only the month and year are used.  </small>
+                                </div>
+                        
+                                <div class="field flex">
+                                    <p-toggleswitch formControlName="isAlive" />
+                                    <label class="form-label ml-2 my-auto required">Patient is alive</label>
+                                </div>
+                        
+                                <div class="field" *ngIf="!form.value.general.isAlive">
+                                    <label class="form-label required">Date of Death</label>
+                                    <pop-datepicker 
+                                        formControlName="dateOfDeath"
+                                        view="month" 
+                                        dateFormat="mm/yy" 
+                                        placeholder="MM/YYYY" 
+                                        />
+                                </div>
+                        
+                                <div class="field" *ngIf="!form.value.general.isAlive">
+                                    <label class="form-label">Cause of death</label>
+                                    <pop-concept-selector 
+                                        terminology="CauseOfDeath"
+                                        [showSynonyms]="false"
+                                        formControlName="causeOfDeath"/>
+                                </div>
+                            </div>
+                            <div class="flex py-3 gap-3">
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                                <p-button label="Next" (onClick)="activateCallback(3)" [disabled]="!form.get('general')?.valid" class="flex-grow-1"/>
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+        
+
+
+                <p-step-item [value]="3">
+                    <p-step>Consent</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <div class="flex">
+                                <div [inlineSVG]="consentIllustration" class="illustration mr-3"></div>
+                                <div class="flex flex-column my-auto">
+                                    <p>Have you checked for consent/permission?</p>
+                                    <small class="text-muted">
+                                    A patient's case may only be included in the Precision Oncology Platform if the patient has provided explicit informed consent 
+                                    (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
+                                    or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>
+                                </div>
+                            </div>
+                            <div class="field flex mt-3"  formGroupName="consent">
+                                <p-toggleswitch formControlName="consentValid" />
+                                <label class="form-label ml-2 my-auto required">I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
+                            </div>
+                            <div class="flex py-3 gap-3">
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                                <p-button label="Next" (onClick)="activateCallback(4)" [disabled]="!form.value.consent.consentValid" class="flex-grow-1"/>
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+
+
+                <p-step-item [value]="4">
+                    <p-step>Submit</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <h4>Almost done!</h4>
+                            <div class="">
+                                Please check that the patient's information is correct:
+                                <div class="ml-3 mt-3" style="border-left: solid 4px var(--p-primary-500); padding-left: .5rem;">
+                                    <div><b>Center:</b> {{form.value.identification.clinicalCenter}}</div>
+                                    <div><b>ID:</b> {{form.value.identification.clinicalIdentifier}}</div>
+                                    <div><b>Gender</b>: {{form.value.general.gender?.display}}</div>
+                                    <div><b>Date of birth</b>: {{form.value.general.dateOfBirth | date:'MMM, y'}}</div>
+                                    <div><b>Alive</b>: {{form.value.general.isAlive ? 'Yes' : 'No'}}</div>
+                                    <ng-container *ngIf="!form.value.general.isAlive">
+                                        <div><b>Date of death</b>: {{form.value.general.dateOfDeath | date:'MMM, y'}}</div>
+                                        <div><b>Cause of death</b>: {{form.value.general.causeOfDeath?.display ?? 'N/S'}}</div>
+                                    </ng-container>
+                                    <div><b>Consent</b>: {{form.value.consent.consentValid ? 'Yes' : 'No'}}</div>
+                                </div>
+                            </div>
+                            <div class="flex py-3 gap-3">
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                                <p-button 
+                                    type="submit" 
+                                    icon="pi pi-verified"
+                                    label="Confirm & Save" 
+                                    class="flex-grow-1"
+                                    [loading]="loading"
+                                    [disabled]="form.invalid" />
+                            
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+
+            </p-stepper>
+        </div>
 
     </form>
-</p-fluid>  
+</p-fluid>

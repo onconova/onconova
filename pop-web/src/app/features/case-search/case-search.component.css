@@ -25,3 +25,10 @@ pop-case-search-item {
 .diagnosis-text {
     color: light-dark(var(--p-primary-950), var(--p-primary-50));
 }
+.p-dataview-emptymessage {
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    color: var(--p-surface-500);
+    font-size: 1.5rem;
+}
