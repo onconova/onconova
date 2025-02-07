@@ -12,6 +12,9 @@ import { Password } from 'primeng/password';
 import { InputText } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
 import { InlineSVGModule } from 'ng-inline-svg-2';
+import { FluidModule } from 'primeng/fluid';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 @Component({
     standalone: true,
@@ -29,6 +32,9 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
         CommonModule,
         FormsModule,
         InlineSVGModule,
+        FluidModule,
+        InputIconModule,
+        IconFieldModule,
         Button,
         Checkbox,
         Password,
