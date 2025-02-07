@@ -73,7 +73,9 @@ class TreatmentResponseController(ControllerBase):
         operation_id='deleteTreatmentResponse',
     )
     def delete_treatment_response(self, treatmentRresponseId: str):
-        get_object_or_404(TreatmentResponse, id=treatmentRresponseId).delete()
-        TherapyLine.assign_therapy_lines()
+        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        case = instance.case
+        instance.delete()
+        TherapyLine.assign_therapy_lines(case)
         return 204, None
     

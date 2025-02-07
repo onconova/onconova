@@ -37,14 +37,14 @@ class TestGetSchemaField(TestCase):
 
     def test_non_relation_field_with_default_value(self):
         field = CharField(max_length=255, default='test_default', name='test_field')
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, 'test_default')
 
     def test_non_relation_field_without_default_value(self):
         field = CharField(max_length=255, name='test_field')
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self.assertEqual(python_type, str)
         self.assertEqual(field_info.default, PydanticUndefined)
@@ -52,42 +52,42 @@ class TestGetSchemaField(TestCase):
     def test_charfield_with_choices(self):
         choices = [('a', 'optionA'),('b', 'optionB')]
         field = CharField(max_length=255, name='test_field', choices=choices)
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self.assertEqual([e.value for e in python_type], [choice[0] for choice in choices])
         self.assertEqual(field_info.default, PydanticUndefined)
         
     def test_relation_field_with_expand_true(self):
         field = self._create_foreign_key_field(model=self.MockModel)
-        schema_field_name, (python_type, field_info) = get_schema_field(field, expand='MockModel')
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field, expand='MockModel')
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self.assertIsInstance(python_type, type)
         self.assertEqual(field_info.default, PydanticUndefined)
 
     def test_relation_field_with_expand_false(self):
         field = self._create_foreign_key_field(model=self.MockModel)
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
         self.assertEqual(python_type, UUID)
         self.assertEqual(field_info.default, PydanticUndefined)
 
     def test_relation_field_with_optional_true(self):
         field = self._create_foreign_key_field(model=self.MockModel)
-        schema_field_name, (python_type, field_info) = get_schema_field(field, optional=True)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field, optional=True)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
         self.assertEqual(python_type, Optional[UUID])
         self.assertEqual(field_info.default, None)
 
     def test_relation_field_with_nullable_true(self):
         field = self._create_foreign_key_field(model=self.MockModel, null=True)
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldId', 'test_field_id')
         self.assertEqual(python_type, Optional[UUID])
         self.assertEqual(field_info.default, None)
 
     def test_coded_concept_field(self):
         field = self._create_foreign_key_field(model=self.MockCodedConcept)
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testField', 'test_field')
         self.assertEqual(python_type, CodedConceptSchema)
         self.assertEqual(field_info.default, PydanticUndefined)
@@ -97,7 +97,7 @@ class TestGetSchemaField(TestCase):
         field.is_relation = True
         field.related_model = self.MockModel
         field.concrete = False
-        schema_field_name, (python_type, field_info) = get_schema_field(field)
+        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
         self._assert_naming_and_aliases(schema_field_name, field_info, 'testFieldsIds', 'test_fields_ids')
         self.assertEqual(python_type, List[UUID])
         self.assertEqual(field_info.default, [])

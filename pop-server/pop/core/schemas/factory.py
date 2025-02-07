@@ -88,15 +88,20 @@ class SchemaFactory(NinjaSchemaFactory):
                 optional_fields = [f.name for f in model_fields_list]
 
         definitions = {}
+        resolvers = {}
+        resolvers2 = {}
         for fld in model_fields_list:
             if fld.name in self.IGNORE_FIELDS:
                 continue 
-            field_name, (python_type, field_info) = get_schema_field(
+            resolver_fcn, field_name, (python_type, field_info) = get_schema_field(
                 fld,
                 expand=(expand or dict()).get(fld.name),
                 optional=optional_fields and (fld.name in optional_fields),
                 exclude_related_fields=exclude,
             )
+            if resolver_fcn:
+                resolvers[f'resolve_{field_name}'] = staticmethod(resolver_fcn)
+                resolvers2[field_info.alias] = staticmethod(resolver_fcn)
             definitions[field_name] = (python_type, field_info)
             orm_metadata[field_name] = fld
 
@@ -114,6 +119,8 @@ class SchemaFactory(NinjaSchemaFactory):
             __validators__={},
             **definitions,
         )
+        for fcn_name, fcn in resolvers.items():
+            setattr(schema, fcn_name, fcn) 
         # Store ORM metadata
         schema.set_orm_model(model)
         schema.set_orm_metadata(**orm_metadata)

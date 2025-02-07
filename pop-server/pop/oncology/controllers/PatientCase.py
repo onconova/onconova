@@ -43,7 +43,7 @@ class PatientCaseController(ControllerBase):
         operation_id='createPatientCase',
     )
     def create_patient_case(self, payload: PatientCaseCreateSchema):
-        return PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django(user=self.context.request.user)
 
     @route.get(
         path='/{caseId}', 

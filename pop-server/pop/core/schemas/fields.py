@@ -67,7 +67,7 @@ def get_schema_field(
     examples = []    
     json_schema_extra = {}
     expanded = expand
-    
+    resolver_fcn = None
     is_array_field = isinstance(field, ArrayField)
     if is_array_field:
         field = field.base_field
@@ -75,7 +75,7 @@ def get_schema_field(
     # Handle relation fields
     if field.is_relation:
         if expand:
-            from pop.core.schemas import create_schema
+            from pop.core.schemas import create_schema, BaseSchema
             model = field.related_model
             if field.one_to_many:
                 if not exclude_related_fields:
@@ -85,9 +85,11 @@ def get_schema_field(
             if not field.concrete and field.auto_created or field.null:
                 default = None
             if field.one_to_many or field.many_to_many:
+                resolver_fcn = partial(BaseSchema._resolve_expanded_many_to_many, orm_field_name=field.name, related_schema=schema)
                 schema = List[schema]
                 default=[]
-
+            else:
+                resolver_fcn = partial(BaseSchema._resolve_expanded_foreign_key, orm_field_name=field.name, related_schema=schema)
             python_type = schema
         else:
             related_model = field.related_model 
@@ -99,6 +101,8 @@ def get_schema_field(
                 related_type = UserSchema   
                 
             else:
+                from pop.core.schemas import BaseSchema
+                resolver_fcn = partial(BaseSchema._resolve_foreign_key, orm_field_name=field.name)
                 internal_type = related_model._meta.get_field('id').get_internal_type()
                 django_field_name += '_id'
 
@@ -111,8 +115,11 @@ def get_schema_field(
 
             if field.one_to_many or field.many_to_many:
                 python_type = List[related_type] 
-                if not django_field_name.endswith('s') and django_field_name not in ['created_by', 'updated_by']:
-                    django_field_name += 's'
+                if django_field_name not in ['created_by', 'updated_by']:
+                    from pop.core.schemas.base import BaseSchema
+                    resolver_fcn = partial(BaseSchema._resolve_many_to_many, orm_field_name=field.name)
+                    if not django_field_name.endswith('s'):
+                        django_field_name += 's'
                 default=[]
             else:
                 python_type = related_type
@@ -171,7 +178,7 @@ def get_schema_field(
 
 
     schema_field_name = to_camel_case(django_field_name)
-    return schema_field_name, (
+    return resolver_fcn, schema_field_name, (
         python_type,
         FieldInfo(
             default=default,

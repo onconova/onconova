@@ -72,7 +72,9 @@ class SurgeryController(ControllerBase):
         operation_id='deleteSurgeryById',
     )
     def delete_surgery(self, surgeryId: str):
-        get_object_or_404(Surgery, id=surgeryId).delete()
-        TherapyLine.assign_therapy_lines()
+        instance = get_object_or_404(Surgery, id=surgeryId)
+        case = instance.case
+        instance.delete()
+        TherapyLine.assign_therapy_lines(case)
         return 204, None
     

@@ -64,7 +64,10 @@ class SystemicTherapyController(ControllerBase):
         operation_id='deleteSystemicTherapyById',
     )
     def delete_systemic_therapy(self, systemicTherapyId: str):
-        get_object_or_404(SystemicTherapy, id=systemicTherapyId).delete()
+        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        case = instance.case
+        instance.delete()
+        TherapyLine.assign_therapy_lines(case)
         return 204, None
     
     
@@ -139,7 +142,9 @@ class SystemicTherapyController(ControllerBase):
         operation_id='deleteSystemicTherapyMedication',
     )
     def delete_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str):
-        get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId).delete()
-        TherapyLine.assign_therapy_lines()
+        instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
+        case = instance.systemic_therapy.case
+        instance.delete()
+        TherapyLine.assign_therapy_lines(case)
         return 204, None
     

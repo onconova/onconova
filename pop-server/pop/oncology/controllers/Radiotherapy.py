@@ -69,8 +69,10 @@ class RadiotherapyController(ControllerBase):
         operation_id='deleteRadiotherapyById',
     )
     def delete_radiotherapy(self, radiotherapyId: str):
-        get_object_or_404(Radiotherapy, id=radiotherapyId).delete()
-        TherapyLine.assign_therapy_lines()
+        instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
+        case = instance.case
+        instance.delete()
+        TherapyLine.assign_therapy_lines(case)
         return 204, None
     
     

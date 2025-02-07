@@ -3,10 +3,11 @@ from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.core.measures.fields import MeasurementField
 from pop.core.utils import to_camel_case 
-from pydantic import BaseModel as PydanticBaseModel, ConfigDict
+from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
 from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
 
 from ninja import Schema, FilterSchema
+from ninja.schema import DjangoGetter as BaseDjangoGetter
 from django.db.models import Q, QuerySet
 from pydantic.fields import FieldInfo
 
@@ -102,6 +103,15 @@ class OrmMetadataMixin:
         return cls.__orm_model__
     
 
+class DjangoGetter(BaseDjangoGetter):
+    def __getattr__(self, key: str) -> Any:
+        resolver = getattr(self._schema_cls, f'resolve_{key}', None)
+        if resolver and isinstance(self._obj, DjangoModel):
+            value = resolver(self._obj)
+            print('RESOLVED', key, value, self._obj)
+            return self._convert_result(value)
+        else:
+            return super().__getattr__(key)
 
 
 class BaseSchema(Schema):
@@ -112,6 +122,15 @@ class BaseSchema(Schema):
         from_attributes=True,
         populate_by_name = True,
     )
+    @model_validator(mode="wrap")
+    @classmethod
+    def _run_root_validator(cls, values, handler, info):
+        forbids_extra = cls.model_config.get("extra") == "forbid"
+        should_validate_assignment = cls.model_config.get("validate_assignment", False)
+        if forbids_extra or should_validate_assignment:
+            handler(values)
+        values = DjangoGetter(values, cls, info.context)
+        return handler(values)
 
     def model_dump(self, *args, **kwargs):
         """
@@ -184,35 +203,33 @@ class BaseSchema(Schema):
 
             # Loop over all fields in the Django model's meta options
             for field in obj._meta.get_fields():
+                orm_field_name = field.name
                 # Check if the field is a relation (foreign key, many-to-many, etc.)
                 if field.is_relation:
                     # Determine if the field needs expansion based on class model fields
-                    expanded = to_camel_case(field.name) in cls.model_fields
+                    expanded = to_camel_case(orm_field_name) in cls.model_fields
+                    if expanded: 
+                        related_schema = cls.extract_related_model(field)
 
                     # Handle one-to-many or many-to-many relationships
                     if field.one_to_many or field.many_to_many:
-                        # Skip if the object does not have the related field attribute
-                        if not hasattr(obj, field.name):
-                            continue
-
-                        # Collect related objects and apply validation or get their IDs
-                        data[field.name if expanded else field.name + '_ids'] = [
-                            cls.extract_related_model(field).model_validate(related_object) if expanded else related_object.id
-                            for related_object in getattr(obj, field.name).all()
-                        ]
+                        if expanded:
+                            data[orm_field_name] = cls._resolve_expanded_many_to_many(obj, orm_field_name, related_schema)
+                        else:
+                            data[orm_field_name + '_ids'] = cls._resolve_many_to_many(obj, orm_field_name)
                     else:
                         # Handle one-to-one or foreign key relationships
-                        related_object = getattr(obj, field.name)
+                        related_object = getattr(obj, orm_field_name)
                         if related_object:
                             if expanded:
                                 # Validate the related object if expansion is needed
-                                data[field.name] = cls.extract_related_model(field).model_validate(related_object)
+                                data[orm_field_name] = cls._resolve_expanded_foreign_key(obj, orm_field_name, related_schema)
                             else:
                                 # Otherwise, just get the ID of the related object
-                                data[field.name + '_id'] = related_object.id
+                                data[orm_field_name + '_id'] = cls._resolve_foreign_key(obj, orm_field_name)
                 else:
                     # For non-relation fields, simply get the attribute value
-                    data[field.name] = getattr(obj, field.name)
+                    data[orm_field_name] = getattr(obj, orm_field_name)
 
             # Inspect class attributes to handle properties
             for attr_name in dir(obj.__class__):
@@ -233,6 +250,32 @@ class BaseSchema(Schema):
         # Call the superclass model_validate method with the constructed data
         return super().model_validate(obj=obj, *args, **kwargs)
 
+    @staticmethod
+    def _resolve_foreign_key(obj, orm_field_name):
+        if not getattr(obj, orm_field_name, None):
+            return None 
+        print('RESOLVING', orm_field_name, getattr(obj, orm_field_name).id)
+        return getattr(obj, orm_field_name).id
+
+    @staticmethod
+    def _resolve_expanded_foreign_key(obj, orm_field_name, related_schema):
+        if not getattr(obj, orm_field_name, None):
+            return None 
+        return  related_schema.model_validate(getattr(obj, orm_field_name))
+
+    @staticmethod
+    def _resolve_expanded_many_to_many(obj, orm_field_name, related_schema):
+        if not getattr(obj, orm_field_name, None):
+            return [] 
+        # Collect related objects and apply validation or get their IDs
+        return [related_schema.model_validate(related_object) for related_object in getattr(obj, orm_field_name).all()]
+    
+    @staticmethod
+    def _resolve_many_to_many(obj, orm_field_name):
+        if not getattr(obj, orm_field_name, None):
+            return [] 
+        # Collect related objects and apply validation or get their IDs
+        return [related_object.id for related_object in getattr(obj, orm_field_name).all()]
 
     def model_dump_django(self, model: Optional[Type[DjangoModel]] = None, instance: Optional[DjangoModel] = None, user: Optional[DjangoModel] = None, create: Optional[bool] = None) -> DjangoModel:
         """
