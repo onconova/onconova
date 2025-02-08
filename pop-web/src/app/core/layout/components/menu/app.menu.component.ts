@@ -32,17 +32,17 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Case Management',
+                label: 'Cases',
                 items: [
                     { label: 'Search Cases', icon: 'pi pi-fw pi-search', routerLink: ['/cases/search'] },
-                    { label: 'My Cases', icon: 'pi pi-fw pi-user', routerLink: ['/cases/search/', this.authService.getUsername()] },
-                    { label: 'Import Case', icon: 'pi pi-fw pi-file-import', routerLink: ['/cases/import'] },
+                    { label: 'My Cases', icon: 'pi pi-fw pi-search-plus', routerLink: ['/cases/search/', this.authService.getUsername()] },
+                    { label: 'Import', icon: 'pi pi-fw pi-file-import', routerLink: ['/cases/import'] },
                 ]
             },
             {
-                label: 'Cohort Analysis',
+                label: 'Cohorts',
                 items: [
-                    { label: 'Search Cohorts', icon: 'pi pi-fw pi-search', routerLink: ['/cohorts/search'] },
+                    { label: 'Search Cohorts', icon: 'pi pi-fw pi-users', routerLink: ['/cohorts/search'] },
                     { label: 'My Cohorts', icon: 'pi pi-fw pi-user', routerLink: ['/cohorts/search/', , this.authService.getUsername()] },
                     { label: 'Cohort Extraction', icon: 'pi pi-fw pi-table', routerLink: ['/notfound'] },
                 ]

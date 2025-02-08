@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService } from 'src/app/shared/openapi';
+import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLineSchema} from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -58,6 +58,7 @@ export class CaseBrowserCardComponent {
 
     // Injected services
     private authService: AuthService = inject(AuthService);
+    private therapyLinesService: TherapyLinesService = inject(TherapyLinesService);
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);
     private confirmationService: ConfirmationService = inject(ConfirmationService)
@@ -69,10 +70,11 @@ export class CaseBrowserCardComponent {
     public updatedByUsernames$: Observable<string>[] = [];
     public primaryEntity$!: Observable<NeoplasticEntity>;
     public latestStaging$!: Observable<AnyStaging>;
-    public latestTherapyLine$!: Observable<string>;
+    public latestTherapyLine$!: Observable<TherapyLineSchema>;
     public completionProgress: number = Math.round(Math.random()*100); 
     public loadingDiagnosis: boolean = true;
     public loadingStaging: boolean = true;
+    public loadingTherapyLine: boolean = true;
 
     @Output() delete = new EventEmitter<string>();
 
@@ -104,7 +106,10 @@ export class CaseBrowserCardComponent {
             this.loadingStaging = false;
             return data.items[0]
         }))
-        this.latestTherapyLine$ = of(`${this.getRandomInt(0,10)>2 ? 'P' : 'C'}LoT${this.getRandomInt(1,6)}`)
+        this.latestTherapyLine$ = this.therapyLinesService.getTherapyLines({caseId: this.case.id}).pipe(map(data => {
+            this.loadingTherapyLine = false;
+            return data.items[0]
+        }))
     }
 
     openCaseManagement() {

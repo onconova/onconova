@@ -60,9 +60,9 @@
         <div class="flex flex-column mb-3 diagnosis-text">
             @let latestTherapyLine = latestTherapyLine$ | async;
             <small class="text-muted mb-1">Therapy Line</small>
-            <ng-container *ngIf="!loadingStaging else therapyLineSkeleton">
+            <ng-container *ngIf="!loadingTherapyLine else therapyLineSkeleton">
                 <div *ngIf="latestTherapyLine">
-                    <div class="diagnosis-text my-auto">{{ latestTherapyLine }}</div>
+                    <div class="diagnosis-text my-auto">{{ latestTherapyLine.label }}</div>
                 </div>
                 <div *ngIf="!latestTherapyLine"> 
                     <div class="diagnosis-text">-</div>
@@ -71,6 +71,26 @@
             <ng-template #therapyLineSkeleton>
                 <p-skeleton [style]="{ width: '10rem', height: '1rem' }"></p-skeleton>      
             </ng-template>
+        </div>
+
+        <div class="flex flex-column mb-3 diagnosis-text">
+            <small class="text-muted mb-1">Consent</small>
+                <div *ngIf="case.consentStatus">
+                    <div class="diagnosis-text my-auto">
+                        <ng-container *ngIf="case.consentStatus == 'valid'">
+                            Valid
+                        </ng-container>
+                        <ng-container *ngIf="case.consentStatus == 'unknown'">
+                            -
+                        </ng-container>
+                        <ng-container *ngIf="case.consentStatus == 'revoked'">
+                            <i class="pi pi-ban"></i> Revoked
+                        </ng-container>
+                    </div>
+                </div>
+                <div *ngIf="!case.consentStatus"> 
+                    <div class="diagnosis-text">-</div>
+                </div>
         </div>
     </div>
 
@@ -83,21 +103,21 @@
                 <p-avatar 
                     label="{{ case.createdBy.username[0].toUpperCase() }}{{ case.createdBy.username[1].toUpperCase() }}" 
                     size="normal" 
-                    class="manager-avatar"
+                    class="manager-avatar my-auto"
                     [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
                     title="{{ case.createdBy.username }}" 
                     shape="circle"/>
         </div>
 
-        <div class="flex-column align-items-center text-muted my-auto">
-            <div>
+        <div class="flex-column align-items-center  my-auto">
+            <div class="text-muted">
                 <small>Created</small>
             </div>
             <div class="text-center">
-                <small class="font-semibold">{{ case.createdAt | date:'MMM dd' }}</small>
+                <small class="">{{ case.createdAt | date:'d. MMM' }}</small>
             </div> 
             <div class="text-center">
-                <small class="font-semibold">{{ case.createdAt | date:'yyyy' }}</small>
+                <small class="">{{ case.createdAt | date:'yyyy' }}</small>
             </div> 
         </div>
 

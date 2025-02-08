@@ -12,6 +12,8 @@ import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
+import { ToolbarModule } from 'primeng/toolbar';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 // Project dependencies
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
@@ -33,12 +35,14 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
     FormsModule,
     ReactiveFormsModule,
     IconFieldModule,
+    OverlayBadgeModule,
     InputIconModule,
     InputTextModule,
     ButtonModule,
     DataViewModule,
     SkeletonModule,
     DividerModule,
+    ToolbarModule,
   ],
 })
 
