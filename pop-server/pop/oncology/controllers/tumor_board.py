@@ -10,7 +10,7 @@ from typing import List, Union, TypeAlias
 from typing_extensions import TypeAliasType
 
 from pop.core.schemas import ModifiedResourceSchema, Paginated
-from pop.oncology.models.TumorBoard import TumorBoard, TumorBoardSpecialties, MolecularTumorBoard, MolecularTherapeuticRecommendation
+from pop.oncology.models.tumor_board import TumorBoard, TumorBoardSpecialties, MolecularTumorBoard, MolecularTherapeuticRecommendation
 from pop.oncology.schemas import (
     TumorBoardFilters,
     UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,

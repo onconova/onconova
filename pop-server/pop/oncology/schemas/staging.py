@@ -1,4 +1,4 @@
-from pop.oncology.models.Staging import (
+from pop.oncology.models.staging import (
     StagingDomain,
     Staging,
     FIGOStaging, 

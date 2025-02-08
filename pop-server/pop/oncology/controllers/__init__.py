@@ -1,22 +1,22 @@
-from .PatientCase import PatientCaseController
-from .NeoplasticEntity import NeoplasticEntityController
-from .Staging import StagingController
-from .TumorMarker import TumorMarkerController
-from .RiskAssessment import RiskAssessmentController
-from .SystemicTherapy import SystemicTherapyController
-from .PerformanceStatus import PerformanceStatusController
-from .TherapyLine import TherapyLineController
-from .Surgery import SurgeryController
-from .Radiotherapy import RadiotherapyController
-from .Lifestyle import LifestyleController
-from .FamilyHistory import FamilyHistoryController
-from .Comorbidities import ComorbiditiesAssessmentController, ComorbiditiesPanelsController
-from .Vitals import VitalsController
-from .AdverseEvent import AdverseEventController
-from .TreatmentResponse import TreatmentResponseController
-from .TumorBoard import TumorBoardController, MolecularTherapeuticRecommendationController
-from .GenomicVariant import GenomicVariantController
-from .GenomicSignature import GenomicSignatureController
+from .patient_case import PatientCaseController
+from .neoplastic_entity import NeoplasticEntityController
+from .staging import StagingController
+from .tumor_marker import TumorMarkerController
+from .risk_assessment import RiskAssessmentController
+from .systemic_therapy import SystemicTherapyController
+from .performance_status import PerformanceStatusController
+from .therapy_line import TherapyLineController
+from .surgery import SurgeryController
+from .radiotherapy import RadiotherapyController
+from .lifestyle import LifestyleController
+from .family_history import FamilyHistoryController
+from .comorbidities import ComorbiditiesAssessmentController, ComorbiditiesPanelsController
+from .vitals import VitalsController
+from .adverse_event import AdverseEventController
+from .treatment_response import TreatmentResponseController
+from .tumor_board import TumorBoardController, MolecularTherapeuticRecommendationController
+from .genomic_variant import GenomicVariantController
+from .genomic_signature import GenomicSignatureController
 
 __all__ = (
     PatientCaseController,

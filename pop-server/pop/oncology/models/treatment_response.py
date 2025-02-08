@@ -51,7 +51,7 @@ class TreatmentResponse(BaseModel):
     )
     
     def assign_therapy_line(self):
-        from pop.oncology.models.TherapyLine import TherapyLine
+        from pop.oncology.models.therapy_line import TherapyLine
         TherapyLine.assign_therapy_lines(self.case)
         self.refresh_from_db()
         return self

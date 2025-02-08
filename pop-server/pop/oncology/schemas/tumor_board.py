@@ -3,7 +3,7 @@ from typing import Literal
 from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
 from pydantic import Field, AliasChoices
 from typing import List
-from pop.oncology.models.TumorBoard import (
+from pop.oncology.models.tumor_board import (
     TumorBoardSpecialties,
     TumorBoard,
     UnspecifiedTumorBoard,

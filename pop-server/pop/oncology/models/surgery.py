@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase, NeoplasticEntity
-from pop.oncology.models.TherapyLine import TherapyLine
+from pop.oncology.models.therapy_line import TherapyLine
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 

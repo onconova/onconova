@@ -5,10 +5,10 @@ from django.core.validators import RegexValidator
 
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase 
-from pop.oncology.models.NeoplasticEntity import NeoplasticEntity
-from pop.oncology.models.GenomicVariant import GenomicVariant
-from pop.oncology.models.GenomicSignature import GenomicSignature
-from pop.oncology.models.TumorMarker import TumorMarker
+from pop.oncology.models.neoplastic_entity import NeoplasticEntity
+from pop.oncology.models.genomic_variant import GenomicVariant
+from pop.oncology.models.genomic_signature import GenomicSignature
+from pop.oncology.models.tumor_marker import TumorMarker
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 

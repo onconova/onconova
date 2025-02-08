@@ -1,12 +1,12 @@
 from pop.core.schemas import create_filters_schema
-from .PatientCase import (
+from .patient_case import (
     PatientCaseFilters,
     PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 
     PatientCaseBundleSchema, PatientCaseBundleCreateSchema
 )
-from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
-from .Staging import (
+from .neoplastic_entity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
+from .staging import (
     StagingSchema,
     TNMStagingSchema, TNMStagingCreateSchema,
     FIGOStagingSchema, FIGOStagingCreateSchema,
@@ -23,38 +23,38 @@ from .Staging import (
     RhabdomyosarcomaClinicalGroupSchema, RhabdomyosarcomaClinicalGroupCreateSchema,
     LymphomaStagingSchema, LymphomaStagingCreateSchema,
 )
-from .TherapyLine import TherapyLineSchema, TherapyLineCreateSchema
-from .TumorMarker import TumorMarkerSchema, TumorMarkerCreateSchema
-from .RiskAssessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
-from .SystemicTherapy import (
+from .therapy_line import TherapyLineSchema, TherapyLineCreateSchema
+from .tumor_marker import TumorMarkerSchema, TumorMarkerCreateSchema
+from .risk_assessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
+from .systemic_therapy import (
     SystemicTherapySchema, SystemicTherapyCreateSchema, 
     SystemicTherapyMedicationSchema, SystemicTherapyMedicationCreateSchema,
 )
-from .Surgery import SurgerySchema, SurgeryCreateSchema 
-from .Radiotherapy import (
+from .surgery import SurgerySchema, SurgeryCreateSchema 
+from .radiotherapy import (
     RadiotherapySchema, RadiotherapyCreateSchema, 
     RadiotherapyDosageSchema, RadiotherapyDosageCreateSchema,
     RadiotherapySettingSchema, RadiotherapySettingCreateSchema,
 )
-from .PerformanceStatus import PerformanceStatusSchema, PerformanceStatusCreateSchema
-from .AdverseEvent import (
+from .performance_status import PerformanceStatusSchema, PerformanceStatusCreateSchema
+from .adverse_event import (
     AdverseEventSchema, AdverseEventCreateSchema,
     AdverseEventSuspectedCauseSchema, AdverseEventSuspectedCauseCreateSchema,
     AdverseEventMitigationSchema, AdverseEventMitigationCreateSchema
 )
-from .Lifestyle import LifestyleSchema, LifestyleCreateSchema
-from .FamilyHistory import FamilyHistorySchema, FamilyHistoryCreateSchema
-from .Vitals import VitalsSchema, VitalsCreateSchema
-from .TreatmentResponse import TreatmentResponseSchema, TreatmentResponseCreateSchema
-from .TumorBoard import (
+from .lifestyle import LifestyleSchema, LifestyleCreateSchema
+from .family_history import FamilyHistorySchema, FamilyHistoryCreateSchema
+from .vitals import VitalsSchema, VitalsCreateSchema
+from .treatment_response import TreatmentResponseSchema, TreatmentResponseCreateSchema
+from .tumor_board import (
     TumorBoardSchema,
     UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema
 )
-from .Comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
-from .GenomicVariant import GenomicVariantSchema, GenomicVariantCreateSchema
-from .GenomicSignature import (
+from .comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
+from .genomic_variant import GenomicVariantSchema, GenomicVariantCreateSchema
+from .genomic_signature import (
     GenomicSignatureSchema,
     TumorMutationalBurdenSchema, TumorMutationalBurdenCreateSchema,
     MicrosatelliteInstabilitySchema, MicrosatelliteInstabilityCreateSchema,
@@ -85,7 +85,7 @@ GenomicVariantFilters = create_filters_schema(schema = GenomicVariantSchema, nam
 GenomicSignatureFilters = create_filters_schema(schema=GenomicSignatureSchema, name='GenomicSignatureFilters')
 TherapyLineFilters = create_filters_schema(schema=TherapyLineSchema, name='TherapyLineFilters')
 
-__all__ = (
+ONCOLOGY_SCHEMAS = (
     # PatientCase schemas
     PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 
@@ -173,3 +173,5 @@ __all__ = (
     GenomicSignatureFilters,
     TumorBoardFilters,
 )
+
+__all__ = [schema.__name__ for schema in ONCOLOGY_SCHEMAS]

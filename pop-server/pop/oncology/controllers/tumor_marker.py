@@ -8,7 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import TumorMarker
-from pop.oncology.models.TumorMarker import AnalyteDetails, ANALYTES_DATA
+from pop.oncology.models.tumor_marker import AnalyteDetails, ANALYTES_DATA
 
 from django.shortcuts import get_object_or_404
 from typing import List,Dict

@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Q, Min, Max, Func, Case, When, Value, F, Subquery, OuterRef
 from django.db.models.functions import Concat, Left, Greatest, Least, Lower, Upper, Now, Cast
 
-from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
+from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 import django.contrib.postgres.fields as postgres

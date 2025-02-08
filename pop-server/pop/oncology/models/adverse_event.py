@@ -7,9 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase 
-from pop.oncology.models.Radiotherapy import Radiotherapy 
-from pop.oncology.models.SystemicTherapy import SystemicTherapy, SystemicTherapyMedication
-from pop.oncology.models.Surgery import Surgery 
+from pop.oncology.models.radiotherapy import Radiotherapy 
+from pop.oncology.models.systemic_therapy import SystemicTherapy, SystemicTherapyMedication
+from pop.oncology.models.surgery import Surgery 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 

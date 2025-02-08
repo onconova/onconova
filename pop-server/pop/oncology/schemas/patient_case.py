@@ -2,7 +2,7 @@ from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from django.db.models import Q
 from datetime import datetime
 from pop.core.schemas import ModelSchema, ModelFilterSchema, CREATE_IGNORED_FIELDS, create_filters_schema
-from .NeoplasticEntity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
+from .neoplastic_entity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 from ninja import Schema
 from pydantic import Field, AliasChoices
 from typing import Optional, List

@@ -3,8 +3,8 @@ from datetime import date, datetime, timedelta
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from psycopg.types.range import Range as PostgresRange
-from pop.oncology.models.PatientCase import PatientCaseDataCompletion
-from pop.oncology.models.TherapyLine import TherapyLine
+from pop.oncology.models.patient_case import PatientCaseDataCompletion
+from pop.oncology.models.therapy_line import TherapyLine
 import pop.tests.factories as factories
 import pop.terminology.models as terminology
 
