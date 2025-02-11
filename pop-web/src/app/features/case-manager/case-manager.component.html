@@ -22,16 +22,51 @@
         </h2>
         <div *ngIf="case">
             {{ case.gender.display }}, 
-            {{ case.age }} years
+            {{ case.age }} years<span *ngIf="case.isDeceased">, †</span>
         </div>
         <div *ngIf="!case"> 
             <p-skeleton width="7rem" height="1.2rem" />
         </div>       
     </div>
     <p-divider layout="vertical"></p-divider>
-
     <div class="">
-        <div class="text-left ml-5">
+        <div class="text-left">
+            <small class="text-muted">Overall survival</small>
+            <div>
+                <span *ngIf="case">{{ case.overallSurvival | number:'1.0-0' }} months</span>      
+                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+            </div>
+        </div> 
+
+        <div class="text-left mt-1">
+            <small class="text-muted">Cause of death</small>
+            <div>
+                <span *ngIf="case">{{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}</span>
+                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+            </div>
+        </div> 
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        <div class="text-left">
+            <small class="text-muted">Clinical center</small>
+            <div>
+                <span *ngIf="case">{{ case.clinicalCenter }}</span>      
+                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+            </div>
+        </div> 
+
+        <div class="text-left mt-1">
+            <small class="text-muted">Clinical Identifier</small>
+            <div>
+                <span *ngIf="case" style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
+                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+            </div>
+        </div> 
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        <div class="text-left">
             <small class="text-muted">Created</small>
             <div>
                 <span *ngIf="case">{{ case.createdAt | date }}</span>      
@@ -39,7 +74,7 @@
             </div>
         </div> 
 
-        <div class="text-left ml-5 mt-1">
+        <div class="text-left mt-1">
             <small class="text-muted">Last updated</small>
             <div>
                 <span *ngIf="case">{{ case.updatedAt | date }}</span>      
