@@ -1,45 +1,79 @@
-<div class="mb-3">
-    <span class="text-muted">Welcome back,</span> <br> 
-    <h3 class="mt-0">{{ authService.getUsername() }}</h3>
+<div class="mb-5">
+    <h3 class="mb-0 font-semibold">Good {{ greet.toLowerCase() }}, {{ authService.getUsername() }}!</h3>
+</div>
+
+<div class="grid grid-nested">
+    <div class=" col-12 md:col-7 lg:col-7">
+        <div class="grid">
+            <div class="col-12">
+                <p-card styleClass="banner">
+                    <div class="mb-3">
+                        <h5 class="mb-0 font-semibold">Remember · Research-use only</h5>
+                    </div>
+                    <div class="flex banner-content">
+                        <div class="banner-content-text">
+                            <div >
+                                This platform is intended for <b>research and informational purposes</b> only.
+                            </div>
+                            <div class="mt-2">
+                                The information and resources presented here are <b>not intended for use in diagnosing or treating health problems or diseases</b> under any circumstances.
+                            </div>
+                            <p-button icon="pi pi-info-circle" styleClass="my-3" (click)="disclaimerDialogVisible = true" label="View disclaimer" />
+                            <div style="max-width: 35rem;">
+                                <small class="text-muted"> 
+                                *By using this platform, you are agreeing to comply with and be bound by the terms and conditions of use.    
+                                </small>
+                            </div>
+                            <p-dialog 
+                                header="Terms and Conditions of Use" 
+                                [modal]="true" 
+                                [(visible)]="disclaimerDialogVisible" 
+                                [style]="{ width: '40rem' }">
+                                <div class="flex items-center gap-4 mb-4">
+                                    By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this platform is intended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make any express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.
+                                    <br><br>
+                                    The information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a result of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.
+                                    <br><br>                    
+                                    These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.
+                                </div>
+                                <div class="flex justify-end gap-2">
+                                    <p-button label="Close" (click)="disclaimerDialogVisible = false" />
+                                </div>
+                            </p-dialog>
+                        </div>
+                        <div [inlineSVG]="illustration" class="illustration ml-3"></div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col-12">
+                <p-card styleClass="">
+                    <div class="mb-3">
+                        <h5 class="mb-0 font-semibold">Primary Sites</h5>
+                        <div class="text-muted">A summary of the existing cases classified by primary sites and their completion status</div>
+                    </div>
+                    <pop-primary-entities-table/>
+                </p-card>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 md:col-5 lg:col-5 ">
+        <p-card styleClass="">
+            <div class="mb-3">
+                <h5 class="mb-0 font-semibold">Data Platform Summary</h5>
+                <div class="text-muted">A summary of the current state of the data platform</div>
+            </div>
+            <pop-data-summary/>
+        </p-card>
+
+        <p-card styleClass="mt-3">
+            <div class="mb-3">
+                <h5 class="mb-0 font-semibold">Paper of the Day - {{ today | date }}</h5>
+                <div class="text-muted">A random selection from recent oncology publications to read today</div>
+            </div>
+            <pop-random-paper></pop-random-paper>
+        </p-card>
+    </div>
 </div>
 
 
-<p-card header="Remember · Research-use only" [style]="" styleClass="banner">
-    <div class="flex banner-content">
-        <div class="banner-content-text">
-            <div >
-                This platform is intended for <b>research and informational purposes</b> only.
-            </div>
-            <div class="mt-2">
-                The information and resources presented here are <b>not intended for use in diagnosing or treating health problems or diseases</b> under any circumstances.
-            </div>
-            <p-button styleClass="my-3" (click)="disclaimerDialogVisible = true" label="View disclaimer" />
-            <div>
-                <small class="text-muted"> 
-                *By using this platform, you are agreeing to comply with and be bound by the terms and conditions of use.    
-                </small>
-            </div>
-            <p-dialog 
-                header="Terms and Conditions of Use" 
-                [modal]="true" 
-                [(visible)]="disclaimerDialogVisible" 
-                [style]="{ width: '25rem' }">
-                <div class="flex items-center gap-4 mb-4">
-                    By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this platform is intended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make any express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.
-                    <br><br>
-                    The information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a result of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.
-                    <br><br>                    
-                    These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.
-                </div>
-                <div class="flex justify-end gap-2">
-                    <p-button label="Close" (click)="disclaimerDialogVisible = false" />
-                </div>
-            </p-dialog>
-        </div>
-        <div [inlineSVG]="illustration" class="illustration ml-3"></div>
-    </div>
-</p-card>
-
-
-<pop-random-paper></pop-random-paper>
 

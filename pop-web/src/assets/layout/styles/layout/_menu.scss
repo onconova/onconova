@@ -80,6 +80,7 @@
             &.active-route {
                 font-weight: 700;
                 color: var(--p-primary-color);
+                background: color-mix(in srgb, var(--p-primary-500), transparent 90%) !important;
             }
 
             &:hover {

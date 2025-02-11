@@ -12,6 +12,8 @@ import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
+import { provideNgxCountAnimations } from "ngx-count-animation";
+
 import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
@@ -47,6 +49,7 @@ export const appConfig: ApplicationConfig = {
                 color: 0.80,
                 grayscale: 0.50,
             },
-        }}
+        }},
+        provideNgxCountAnimations()
     ]
 };

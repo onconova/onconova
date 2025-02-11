@@ -1,7 +1,6 @@
 
 div.banner.p-card {
     background-color: light-dark(var(--p-primary-100), var(--p-primary-900))!important;
-    max-width: 1000px;
 }
 div.banner-content {
     position: relative;

@@ -19,13 +19,14 @@
     "@angular/router": "^18.2.12",
     "@auth0/angular-jwt": "^5.2.0",
     "@primeng/themes": "^18.0.0",
-    "chart.js": "^4.4.6",
+    "chart.js": "^4.4.7",
     "inputmask": "^5.0.9",
     "jdenticon": "^3.3.0",
     "jwt-decode": "^4.0.0",
     "lucide-angular": "^0.467.0",
     "ng-inline-svg-2": "^15.0.1",
     "ngx-angular-query-builder": "^18.0.0",
+    "ngx-count-animation": "^3.1.0",
     "ngx-jdenticon": "^2.0.0",
     "ngx-json-viewer": "^3.2.1",
     "primeflex": "^3.3.1",
@@ -36,6 +37,7 @@
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/inputmask": "^5.0.7",
     "@types/jasmine": "^5.1.5",
     "jasmine": "^5.5.0",

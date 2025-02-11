@@ -10,6 +10,8 @@ api/cohorts.service.ts
 api/cohorts.serviceInterface.ts
 api/comorbidities-assessments.service.ts
 api/comorbidities-assessments.serviceInterface.ts
+api/dashboard.service.ts
+api/dashboard.serviceInterface.ts
 api/family-histories.service.ts
 api/family-histories.serviceInterface.ts
 api/genomic-signatures.service.ts
@@ -73,6 +75,7 @@ model/binet-staging-create.ts
 model/binet-staging.ts
 model/breslow-depth-create.ts
 model/breslow-depth.ts
+model/cases-per-month-schema.ts
 model/clark-staging-create.ts
 model/clark-staging.ts
 model/coded-concept-schema.ts
@@ -94,7 +97,9 @@ model/comorbidities-assessment-schema.ts
 model/comorbidities-panel-schema.ts
 model/comorbidities-panel.ts
 model/comorbidity-panel-category.ts
+model/data-platform-statistics-schema.ts
 model/end.ts
+model/entity-statistics-schema.ts
 model/family-history-create-schema.ts
 model/family-history-filters.ts
 model/family-history-schema.ts

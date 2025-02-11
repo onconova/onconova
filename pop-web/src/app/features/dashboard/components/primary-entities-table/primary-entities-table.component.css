@@ -1,0 +1,7 @@
+.user-avatar {
+    background: light-dark(var(--p-primary-100), var(--p-primary-900)) !important;
+    color: light-dark(var(--p-primary-500),var(--p-primary-300)) !important;
+}
+.p-avatar-text {
+    font-size: .85rem !important;
+}

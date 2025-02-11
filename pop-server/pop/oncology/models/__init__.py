@@ -24,7 +24,7 @@ MODELS = (
     # Neoplastic entity    
     NeoplasticEntity,
     # Stagings
-    Staging, StagingDomain, TNMStaging, FIGOStaging, BinetStaging, RaiStaging, BreslowDepth, ClarkStaging, ISSStaging,
+    Staging, TNMStaging, FIGOStaging, BinetStaging, RaiStaging, BreslowDepth, ClarkStaging, ISSStaging,
     RISSStaging, GleasonGrade, INSSStage, INRGSSStage, WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging,
     # Tumor marker
     TumorMarker,
@@ -45,7 +45,7 @@ MODELS = (
     # Lifestyle
     Lifestyle,
     # Comorbidities
-    ComorbiditiesAssessment, ComorbiditiesPanel, ComorbidityPanelCategory,
+    ComorbiditiesAssessment,
     # Family history
     FamilyHistory,
     # Tumor boards
@@ -57,7 +57,7 @@ MODELS = (
     # Genomic variant
     GenomicVariant,
     # Genomic signatures
-    GenomicSignatureTypes,GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
+    GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
     LossOfHeterozygosity, HomologousRecombinationDeficiency, TumorNeoantigenBurden, AneuploidScore,
 )
 

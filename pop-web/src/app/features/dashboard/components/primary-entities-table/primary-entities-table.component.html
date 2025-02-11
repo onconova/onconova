@@ -1,0 +1,57 @@
+
+@let entityStatistics = entityStatistics$ | async;
+<ng-container *ngIf="entityStatistics">
+    <p-table 
+        [value]="entityStatistics"                                                    
+        [paginator]="true"
+        [rows]="8">
+        <ng-template #header>
+            <tr>
+                <th>Primary site</th>
+                <th>Cases</th>
+                <th>Completion</th>
+                <th>Contributors</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-entity>
+            <tr>
+                <td class="flex"><pop-cancer-icon [topography]="entity.topographyCode"></pop-cancer-icon> <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div></td>
+                <td> <span class="font-semibold">{{ entity.population }}</span></td>
+                <td><p-rating title="{{entity.dataCompletionAverage}}% average completion" [ngModel]="entity.dataCompletionAverage/20" [readonly]="true" /></td>
+                <td>
+                    <p-avatar-group>
+                        <ng-container *ngFor="let contributor of entity.contributors; let i = index;">
+                            <p-avatar styleClass="user-avatar" [label]="contributor[0].toUpperCase() + contributor[1].toUpperCase()" size="normal" shape="circle" *ngIf="i<3"/>
+                        </ng-container>
+                        <ng-container  *ngIf="entity.contributors.length>3">
+                            <p-avatar [label]="'+' + (entity.contributors.length-3).toString()" shape="circle" size="normal" />
+                        </ng-container>
+                    </p-avatar-group>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</ng-container>
+<ng-container *ngIf="!entityStatistics">
+        <p-table 
+        [value]="[1,2,3,4,5,6,7,8]"                                                    
+        [paginator]="true"
+        [rows]="8">
+        <ng-template #header>
+            <tr>
+                <th>Entity</th>
+                <th>Cases</th>
+                <th>Completion</th>
+                <th>Contributors</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-entity>
+            <tr>
+                <td><p-skeleton /></td>
+                <td><p-skeleton /></td>
+                <td><p-skeleton /></td>
+                <td><p-skeleton /></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</ng-container>

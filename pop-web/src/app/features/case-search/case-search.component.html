@@ -9,24 +9,24 @@
 
 
 <!-- use ngTemplateOutlet to conditionally render templates -->
-<p-toolbar styleClass="my-3 border-transparent	">
+<p-toolbar styleClass="my-3 border-transparent">
     <ng-template #start>
-        <p-iconfield>
-            <p-inputicon styleClass="pi pi-search"/>
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery" (ngModelChange)="refreshCases()" />
-        </p-iconfield>
         <div class="mt-auto ml-3">
-            <p-overlaybadge [value]="totalCases">
-                <i class="pi pi-users text-muted" style="font-size: 2rem"></i>
-            </p-overlaybadge>
+            <div class="text-muted"><small>Total cases</small></div>
+            <div class="text-center font-semibold" style="font-size: 2rem;" [ngxCountAnimation]="totalCases" duration="500"></div>
+
         </div>        
     </ng-template>
     <ng-template #end>
         <div class="flex">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search"/>
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery" (ngModelChange)="refreshCases()" />
+            </p-iconfield>
             <p-button 
                 icon="pi pi-sync"
                 severity="secondary"
-                class="mr-2"/>
+                class="mx-2"/>
             <p-button 
                 label="Filters" 
                 icon="pi pi-filter"
@@ -35,7 +35,7 @@
             <!-- Button to add new cases -->
             <p-button 
                 (onClick)="openNewCaseForm()" 
-                label="Register Case" 
+                label="Register Case"
                 icon="pi pi-plus"/>
         </div>
     </ng-template>

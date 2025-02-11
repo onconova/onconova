@@ -75,27 +75,43 @@ class Cohort(BaseModel):
 
     @property
     def age_average(self):
-        if not self.cases.exists():
-            return None
-        return round(self.cases.aggregate(Avg('db_age')).get('db_age__avg'),1)
+        return self.__class__.get_age_average(self.cases.all())
     
     @property
     def age_stddev(self):
-        if not self.cases.count()>2:
-            return None
-        return round(self.cases.aggregate(StdDev('db_age',sample=True)).get('db_age__stddev'),1)
-
+        return self.__class__.get_age_stddev(self.cases.all())
+    
     @property
     def data_completion_average(self):
-        if not self.cases.exists():
-            return None
-        return round(self.cases.aggregate(Avg('db_data_completion_rate')).get('db_data_completion_rate__avg'),1)
+        return self.__class__.get_data_completion_average(self.cases.all())
     
     @property
     def data_completion_stddev(self):
-        if not self.cases.count()>2:
+        return self.__class__.get_data_completion_stddev(self.cases.all())
+
+    @staticmethod
+    def get_age_average(cohort):
+        if not cohort.exists():
             return None
-        return round(self.cases.aggregate(StdDev('db_data_completion_rate',sample=True)).get('db_data_completion_rate__stddev'),1)
+        return round(cohort.aggregate(Avg('age')).get('age__avg'),1)
+    
+    @staticmethod
+    def get_age_stddev(cohort):
+        if not cohort.count()>2:
+            return None
+        return round(cohort.aggregate(StdDev('age',sample=True)).get('age__stddev'),1)
+
+    @staticmethod
+    def get_data_completion_average(cohort):
+        if not cohort.exists():
+            return None
+        return round(cohort.aggregate(Avg('data_completion_rate')).get('data_completion_rate__avg'),1)
+    
+    @staticmethod
+    def get_data_completion_stddev(cohort):
+        if not cohort.count()>2:
+            return None
+        return round(cohort.aggregate(StdDev('data_completion_rate',sample=True)).get('data_completion_rate__stddev'),1)
 
 
     def update_cohort_cases(self) -> models.QuerySet:        

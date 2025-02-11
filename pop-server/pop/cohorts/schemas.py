@@ -2,6 +2,7 @@
 
 from ninja import Schema, Field
 from typing import List, Dict, Literal, Optional, Any, Union
+from datetime import date
 from enum import Enum 
 from django.db.models import Q
 from pop.oncology import models as oncology_models
@@ -95,6 +96,28 @@ class CohortStatisticsSchema(Schema):
     dataCompletionStdDev: Optional[float] = None
     model_config = ConfigDict(title='CohortStatistics')
 
+
+class DataPlatformStatisticsSchema(Schema):
+    cases: int
+    primarySites: int
+    projects: int 
+    entries: int 
+    mutations: int
+    clinicalCenters: int 
+    contributors: int 
+
+class CasesPerMonthSchema(Schema):
+    month: date
+    cumulativeCount: int
+
+
+class EntityStatisticsSchema(Schema):
+    population: Optional[int] = None
+    dataCompletionAverage: Optional[float] = None
+    topographyCode: Optional[str] = None
+    topographyGroup: Optional[str] = None
+    contributors: Optional[List[str]] = None
+    model_config = ConfigDict(title='EntityStatistics')
 
 CohortFiltersBase = create_filters_schema(
     schema = CohortSchema, 

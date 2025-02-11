@@ -2,7 +2,7 @@ import factory
 from factory.fuzzy import FuzzyChoice
 import faker
 import random 
-
+from datetime import datetime
 from psycopg.types.range import Range as PostgresRange
 
 from django.contrib.auth.models import Group, User
@@ -55,6 +55,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 class PatientCaseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PatientCase
+    created_at =  factory.LazyFunction(lambda: faker.date_between(datetime(2020,1,1), datetime(2025,1,1)))
     created_by =  factory.SubFactory(UserFactory)
     date_of_birth = factory.LazyFunction(lambda: faker.date_of_birth(minimum_age=25, maximum_age=100))
     gender = make_terminology_factory(terminology.AdministrativeGender)
@@ -427,11 +428,13 @@ class VitalsFactory(factory.django.DjangoModelFactory):
 
 
 def fake_complete_case():
-    try:
+    if User.objects.count() < 20:
         user = UserFactory.create()
-    except:
+    else:
         user = User.objects.all()[random.randint(0, User.objects.count()-1)]
     case = PatientCaseFactory.create(created_by=user)
+    case.created_at = faker.date_between(datetime(2020,1,1), datetime(2025,1,1))
+    case.save()
     primary = PrimaryNeoplasticEntityFactory.create(case=case, created_by=user)
     if random.randint(0,100) > 40:
         MetastaticNeoplasticEntityFactory.create(case=case, related_primary=primary, created_by=user)

@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    --p-primary-color-transparent: color-mix(in srgb, var(--p-primary-500), transparent 80%);
 }
 
 html {

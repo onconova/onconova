@@ -30,7 +30,7 @@ from pop.oncology.controllers import (
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
 )
-from pop.cohorts.controllers import CohortsController, CohortBuilderController
+from pop.cohorts.controllers import CohortsController, CohortBuilderController, DashboardController
 
 
 
@@ -68,5 +68,5 @@ api.register_controllers(
     TerminologyController,
     CohortsController,
     CohortBuilderController,
-    
+    DashboardController,
 )

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, first, of, Observable, catchError } from 'rxjs';
 
+import { NgxCountAnimationDirective } from "ngx-count-animation";
+
 // PrimeNG dependencies
 import { MessageService } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -30,6 +32,7 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
   encapsulation: ViewEncapsulation.None,
   imports: [
     CaseBrowserCardComponent,
+    NgxCountAnimationDirective,
     ModalFormComponent,
     CommonModule,
     FormsModule,

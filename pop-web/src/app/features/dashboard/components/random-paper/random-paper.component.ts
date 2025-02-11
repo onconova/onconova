@@ -21,7 +21,6 @@ export class RandomPaperComponent {
   isLoading = false;
   errorMessage = '';
   illustration='assets/images/landing/papers.svg';
-  today = new Date();
 
   private readonly http = inject(HttpClient)
 

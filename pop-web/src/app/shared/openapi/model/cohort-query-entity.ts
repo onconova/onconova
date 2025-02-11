@@ -9,14 +9,13 @@
  */
 
 
-export type CohortQueryEntity = 'PatientCase' | 'PatientCaseDataCompletion' | 'NeoplasticEntity' | 'Staging' | 'StagingDomain' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TreatmentResponse' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'PerformanceStatus' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'Lifestyle' | 'ComorbiditiesAssessment' | 'ComorbiditiesPanel' | 'ComorbidityPanelCategory' | 'FamilyHistory' | 'TumorBoard' | 'MolecularTumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTherapeuticRecommendation' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'Vitals' | 'GenomicVariant' | 'GenomicSignatureTypes' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
+export type CohortQueryEntity = 'PatientCase' | 'PatientCaseDataCompletion' | 'NeoplasticEntity' | 'Staging' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TreatmentResponse' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'PerformanceStatus' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'Lifestyle' | 'ComorbiditiesAssessment' | 'FamilyHistory' | 'TumorBoard' | 'MolecularTumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTherapeuticRecommendation' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'Vitals' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
 
 export const CohortQueryEntity = {
     PatientCase: 'PatientCase' as CohortQueryEntity,
     PatientCaseDataCompletion: 'PatientCaseDataCompletion' as CohortQueryEntity,
     NeoplasticEntity: 'NeoplasticEntity' as CohortQueryEntity,
     Staging: 'Staging' as CohortQueryEntity,
-    StagingDomain: 'StagingDomain' as CohortQueryEntity,
     TnmStaging: 'TNMStaging' as CohortQueryEntity,
     FigoStaging: 'FIGOStaging' as CohortQueryEntity,
     BinetStaging: 'BinetStaging' as CohortQueryEntity,
@@ -44,8 +43,6 @@ export const CohortQueryEntity = {
     RadiotherapySetting: 'RadiotherapySetting' as CohortQueryEntity,
     Lifestyle: 'Lifestyle' as CohortQueryEntity,
     ComorbiditiesAssessment: 'ComorbiditiesAssessment' as CohortQueryEntity,
-    ComorbiditiesPanel: 'ComorbiditiesPanel' as CohortQueryEntity,
-    ComorbidityPanelCategory: 'ComorbidityPanelCategory' as CohortQueryEntity,
     FamilyHistory: 'FamilyHistory' as CohortQueryEntity,
     TumorBoard: 'TumorBoard' as CohortQueryEntity,
     MolecularTumorBoard: 'MolecularTumorBoard' as CohortQueryEntity,
@@ -56,7 +53,6 @@ export const CohortQueryEntity = {
     AdverseEventMitigation: 'AdverseEventMitigation' as CohortQueryEntity,
     Vitals: 'Vitals' as CohortQueryEntity,
     GenomicVariant: 'GenomicVariant' as CohortQueryEntity,
-    GenomicSignatureTypes: 'GenomicSignatureTypes' as CohortQueryEntity,
     GenomicSignature: 'GenomicSignature' as CohortQueryEntity,
     TumorMutationalBurden: 'TumorMutationalBurden' as CohortQueryEntity,
     MicrosatelliteInstability: 'MicrosatelliteInstability' as CohortQueryEntity,

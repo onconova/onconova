@@ -96,7 +96,7 @@
             <span class="monospace"><small>{{ data.createdBy.username }}</small></span>
             <div><small>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
         </div>
-        <div class="property" *ngIf="data.updatedBy">
+        <div class="property" *ngIf="data.updatedBy && data.updatedBy.length>0">
             <small class="property-label">Last updated by: </small>
             <span class="monospace"><small>{{ data.updatedBy[data.updatedBy.length-1].username }}</small></span>
             <div><small>{{ data.updatedAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
