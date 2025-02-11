@@ -140,10 +140,13 @@ class PatientCase(BaseModel):
             / DATA_CATEGORIES_COUNT * 100
         )  
     )
+    total_entities = AnnotationProperty(
+        annotation = Count('neoplastic_entities')
+    )
     overall_survival = AnnotationProperty(
         verbose_name = _('Overall survival since diagnosis in months'),
         annotation = Case(
-            When(neoplastic_entities__isnull=True, then=None),
+            When(total_entities=0, then=None),
             default = Func(
                 Cast(Case(When(date_of_death__isnull=False, then=F('date_of_death')),default=Func(function='NOW')), models.DateField())
                 -
