@@ -92,7 +92,6 @@ def get_measurement(measure, value, unit=None, original_unit=None):
     # Construct measurement
     m = measure(**{unit: value})
     if original_unit:
-        print('MEASUREMETN', original_unit)
         m.unit = original_unit
     if isinstance(m, BidimensionalMeasure):
         m.reference.value = 1
@@ -102,11 +101,11 @@ def get_measurement(measure, value, unit=None, original_unit=None):
 
 class Temperature(Measure):
     SU = Symbol('kelvin')
-    STANDARD_UNIT = 'K'
+    STANDARD_UNIT = 'kelvin'
     UNITS = {
-        '°C': SU - S(273.15),
-        '°F': (SU - S(273.15)) * S('9/5') + 32,
-        'K': 1.0
+        'celsius': SU - S(273.15),
+        'fahrenheit': (SU - S(273.15)) * S('9/5') + 32,
+        'kelvin': 1.0
     }
     ALIAS = {
         'celsius': '°C',
