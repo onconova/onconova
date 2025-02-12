@@ -3,7 +3,7 @@ from django.db.models import Q
 from typing import Iterator
 from pop.oncology import models as oncological_models
 from pop.core.schemas import filters as filters
-from pop.analytics.schemas import CohortFilter, CohortFilterRuleset, CohortFilterRule, RulesetCondition
+from pop.analytics.schemas import CohortFilterRuleset, CohortFilterRule, RulesetCondition
 
 
 def convert_rule_into_query(rule: CohortFilterRule) -> Q:
@@ -38,24 +38,3 @@ def build_query(data: CohortFilterRuleset | CohortFilterRule) -> Iterator[Q]:
                     query = rule_instance | query
         # Yield the completed, compiled logic for this branch of query back up the pipe:
         yield query
-
-def construct_filtered_cohort(filter: CohortFilter):
-    pass
-    # if self.frozen_set.exists():
-    #     return self.frozen_set.all()
-
-    # if self.is_public:
-    #     cohort = PatientCase.objects.all()
-    # else:
-    #     cohort = PatientCase.objects.filter(created_by=self.created_by)
-
-    # if filter.include_criteria:
-    #     query = build_query(CohortFilterRuleset.model_validate(self.include_criteria))
-    #     cohort = cohort.filter(next(query)).distinct()
-
-    # if filter.exclude_criteria:
-    #     query = build_query(CohortFilterRuleset.model_validate(self.exclude_criteria))
-    #     cohort = cohort.exclude(next(query)).distinct()
-
-    # cohort = cohort.union(self.manual_choices.all())
-    # return cohort
