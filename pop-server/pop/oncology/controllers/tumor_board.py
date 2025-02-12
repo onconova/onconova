@@ -1,14 +1,14 @@
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
 
-from typing import List, Union, TypeAlias 
+from typing import List, Union 
 from typing_extensions import TypeAliasType
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models.tumor_board import TumorBoard, TumorBoardSpecialties, MolecularTumorBoard, MolecularTherapeuticRecommendation
 from pop.oncology.schemas import (
@@ -52,6 +52,7 @@ class TumorBoardController(ControllerBase):
             200: Paginated[AnyResponseSchemas],
         },
         exclude_none=True,
+        permissions=[perms.CanViewCases],
         operation_id='getTumorBoards',
     )
     @paginate()
@@ -65,6 +66,7 @@ class TumorBoardController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createTumorBoard',
     )
     def create_tumor_board(self, payload: AnyPayloadSchemas): # type: ignore
@@ -77,6 +79,7 @@ class TumorBoardController(ControllerBase):
             404: None
         },
         exclude_none=True,
+        permissions=[perms.CanViewCases],
         operation_id='getTumorBoardById',
         )
     def get_tumor_board_by_id(self, tumorBoardId: str): 
@@ -90,6 +93,7 @@ class TumorBoardController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateTumorBoardById',
     )
     def update_tumor_board(self, tumorBoardId: str, payload: AnyPayloadSchemas): # type: ignore
@@ -102,6 +106,7 @@ class TumorBoardController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteTumorBoardById',
     )
     def delete_tumor_board(self, tumorBoardId: str):
@@ -124,6 +129,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
             200: List[MolecularTherapeuticRecommendationSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getMolecularTherapeuticRecommendations',
     )
     def get_molecular_tumor_board_therapeutic_recommendations_matching_the_query(self, tumorBoardId: str): # type: ignore
@@ -137,6 +143,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
             404: None
         },
         exclude_none=True,
+        permissions=[perms.CanViewCases],
         operation_id='getMOlecularTherapeuticRecommendationById',
         )
     def get_molecular_tumor_board_therapeutic_recommendation_by_id(self, tumorBoardId: str, recommendationId: str): 
@@ -147,6 +154,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createMolecularTherapeuticRecommendation',
     )
     def create_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, payload: MolecularTherapeuticRecommendationCreateSchema): # type: ignore
@@ -162,6 +170,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateMolecularTherapeuticRecommendation',
     )
     def update_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, recommendationId: str, payload: MolecularTherapeuticRecommendationCreateSchema): # type: ignore
@@ -176,6 +185,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteMolecularTherapeuticRecommendation',
     )
     def delete_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, recommendationId: str):

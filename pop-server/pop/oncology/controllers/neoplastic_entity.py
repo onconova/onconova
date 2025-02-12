@@ -6,7 +6,8 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core.schemas import ModifiedResourceSchema, Paginated, factory
+from pop.core import permissions as perms
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import NeoplasticEntity
 
 from django.shortcuts import get_object_or_404
@@ -27,6 +28,7 @@ class NeoplasticEntityController(ControllerBase):
         response={
             200: Paginated[NeoplasticEntitySchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getNeoplasticEntities',
     )
     @paginate()
@@ -39,6 +41,7 @@ class NeoplasticEntityController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createNeoplasticEntity',
     )
     def create_neoplastic_entity(self, payload: NeoplasticEntityCreateSchema): # type: ignore
@@ -50,6 +53,7 @@ class NeoplasticEntityController(ControllerBase):
             200: NeoplasticEntitySchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getNeoplasticEntityById',
     )
     def get_neoplastic_entity_by_id(self, entityId: str):
@@ -61,6 +65,7 @@ class NeoplasticEntityController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateNeoplasticEntityById',
     )
     def update_neoplastic_entity(self, entityId: str, payload: NeoplasticEntityCreateSchema): # type: ignore
@@ -73,6 +78,7 @@ class NeoplasticEntityController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteNeoplasticEntityById',
     )
     def delete_neoplastic_entity(self, entityId: str):

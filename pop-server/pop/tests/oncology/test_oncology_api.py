@@ -17,6 +17,10 @@ CONNECTION_SCENARIOS = [
     ('HTTPS Unauthenticated',  (401,), False, True),
     ('HTTP Unauthenticated',   (301,), False, False),
 ]
+EXPANDED_CONNECTION_SCENARIOS = [
+    *CONNECTION_SCENARIOS,
+    ('HTTPS Unauthorized',      (403,), True, True),
+]
 GET = 'get'
 DELETE = 'delete'
 PUT = 'put'
@@ -33,7 +37,7 @@ class ApiControllerTestCase:
     def setUpTestData(cls):
         cls.maxDiff = None
         # Create a fake user
-        cls.user = factories.UserFactory()
+        cls.user = factories.UserFactory.create(access_level=5)
         cls.username = cls.user.username
         cls.password = faker.password()
         cls.user.set_password(cls.password)
@@ -151,8 +155,11 @@ class ApiControllerTestCase:
                     result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
                     self.assertDictEqual(result, expected)
     
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_delete(self, scenario, *config):              
+    @parameterized.expand(EXPANDED_CONNECTION_SCENARIOS)
+    def test_delete(self, scenario, *config):         
+        if scenario == 'HTTPS Unauthorized':
+            self.user.access_level=1
+            self.user.save()                 
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
@@ -163,8 +170,11 @@ class ApiControllerTestCase:
                     self.assertEqual(response.status_code, 204)
                     self.assertFalse(self.MODEL[i].objects.filter(id=instance.id).exists())
 
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_create(self, scenario, *config):                     
+    @parameterized.expand(EXPANDED_CONNECTION_SCENARIOS)
+    def test_create(self, scenario, *config):             
+        if scenario == 'HTTPS Unauthorized':
+            self.user.access_level=1
+            self.user.save()                          
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
@@ -181,8 +191,11 @@ class ApiControllerTestCase:
                     self.assertEqual(self.user,created_instance.created_by)
                     self.assertIn(self.user, created_instance.updated_by.all())
 
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_update(self, scenario, *config):                   
+    @parameterized.expand(EXPANDED_CONNECTION_SCENARIOS)
+    def test_update(self, scenario, *config):               
+        if scenario == 'HTTPS Unauthorized':
+            self.user.access_level=1
+            self.user.save()                      
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i]()
             with self.subTest(i=i):           

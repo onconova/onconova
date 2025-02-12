@@ -1,6 +1,7 @@
 from ninja_extra import permissions, api_controller, http_get
 from django.db import models 
 from django.http import HttpRequest
+from django.contrib.auth.models import AnonymousUser
 from pop.core.models import User
 
 class BasePermission(permissions.BasePermission):
@@ -9,7 +10,7 @@ class BasePermission(permissions.BasePermission):
         raise NotImplementedError 
     
     def has_permission(self, request: HttpRequest, controller):
-        return request.user.is_superuser or request.user.is_system_admin or self.check_user_permission(request.user)
+        return request.user.is_superuser or (not isinstance(request.user, AnonymousUser) and (request.user.is_system_admin or self.check_user_permission(request.user)))
 
 
 class CanViewUsers(BasePermission):

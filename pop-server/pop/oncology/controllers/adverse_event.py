@@ -6,8 +6,10 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
+
 
 from django.shortcuts import get_object_or_404
 from django.db import transaction
@@ -31,6 +33,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: Paginated[AdverseEventSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getAdverseEvents',
     )
     @paginate()
@@ -43,6 +46,7 @@ class AdverseEventController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createAdverseEvent',
     )
     def create_adverse_event(self, payload: AdverseEventCreateSchema): # type: ignore
@@ -56,6 +60,7 @@ class AdverseEventController(ControllerBase):
             200: AdverseEventSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getAdverseEventById',
     )
     def get_adverse_event_by_id(self, adverseEventId: str):
@@ -67,6 +72,7 @@ class AdverseEventController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteAdverseEventById',
     )
     def delete_adverse_event(self, adverseEventId: str):
@@ -80,6 +86,7 @@ class AdverseEventController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateAdverseEvent',
     )
     def update_adverse_event(self, adverseEventId: str, payload: AdverseEventCreateSchema): # type: ignore
@@ -93,6 +100,7 @@ class AdverseEventController(ControllerBase):
             200: List[AdverseEventSuspectedCauseSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getAdverseEventSuspectedCauses',
     )
     def get_adverse_event_suspected_causes_matching_the_query(self, adverseEventId: str): # type: ignore
@@ -106,6 +114,7 @@ class AdverseEventController(ControllerBase):
             200: AdverseEventSuspectedCauseSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getAdverseEventSuspectedCauseById',
     )
     def get_adverse_event_suspected_cause_by_id(self, adverseEventId: str, causeId: str): # type: ignore
@@ -116,6 +125,7 @@ class AdverseEventController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createAdverseEventSuspectedCause',
     )
     def create_adverse_event_suspected_cause(self, adverseEventId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
@@ -128,6 +138,7 @@ class AdverseEventController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateAdverseEventSuspectedCause',
     )
     def update_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
@@ -141,6 +152,7 @@ class AdverseEventController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteAdverseEventSuspectedCause',
     )
     def delete_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str):
@@ -154,6 +166,7 @@ class AdverseEventController(ControllerBase):
             200: List[AdverseEventMitigationSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getAdverseEventMitigations',
     )
     def get_adverse_event_mitigations_matching_the_query(self, adverseEventId: str): # type: ignore
@@ -166,6 +179,7 @@ class AdverseEventController(ControllerBase):
             200: AdverseEventMitigationSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getAdverseEventMitigationById',
     )
     def get_adverse_event_mitigation_by_id(self, adverseEventId: str, mitigationId: str): # type: ignore
@@ -176,6 +190,7 @@ class AdverseEventController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createAdverseEventMitigation',
     )
     def create_adverse_event_mitigation(self, adverseEventId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
@@ -188,6 +203,7 @@ class AdverseEventController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateAdverseEventMitigation',
     )
     def update_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
@@ -201,6 +217,7 @@ class AdverseEventController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteAdverseEventMitigation',
     )
     def delete_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str):

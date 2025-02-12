@@ -4,6 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Vitals
 
@@ -23,6 +24,7 @@ class VitalsController(ControllerBase):
         response={
             200: Paginated[VitalsSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getVitals',
     )
     @paginate()
@@ -35,6 +37,7 @@ class VitalsController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createVitals',
     )
     def create_vitals(self, payload: VitalsCreateSchema): # type: ignore
@@ -47,6 +50,7 @@ class VitalsController(ControllerBase):
             200: VitalsSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getVitalsById',
     )
     def get_vitals_by_id(self, vitalsId: str):
@@ -59,6 +63,7 @@ class VitalsController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateVitalsById',
     )
     def update_vitals(self, vitalsId: str, payload: VitalsCreateSchema): # type: ignore
@@ -72,6 +77,7 @@ class VitalsController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteVitalsById',
     )
     def delete_vitals(self, vitalsId: str):

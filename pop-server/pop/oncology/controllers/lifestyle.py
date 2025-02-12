@@ -4,6 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Lifestyle
 
@@ -24,6 +25,7 @@ class LifestyleController(ControllerBase):
         response={
             200: Paginated[LifestyleSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getLifestyles',
     )
     @paginate()
@@ -37,6 +39,7 @@ class LifestyleController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createLifestyle',
     )
     def create_lifestyle(self, payload: LifestyleCreateSchema): # type: ignore
@@ -49,6 +52,7 @@ class LifestyleController(ControllerBase):
             200: LifestyleSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getLifestyleById',
     )
     def get_lifestyle_by_id(self, lifestyleId: str):
@@ -61,6 +65,7 @@ class LifestyleController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateLifestyleById',
     )
     def update_lifestyle(self, lifestyleId: str, payload: LifestyleCreateSchema): # type: ignore
@@ -73,6 +78,7 @@ class LifestyleController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteLifestyleById',
     )
     def delete_lifestyle(self, lifestyleId: str):

@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from typing import List, Union, TypeAlias 
 from typing_extensions import TypeAliasType
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
 from pop.oncology.schemas import (
@@ -62,6 +63,7 @@ class GenomicSignatureController(ControllerBase):
             200: Paginated[AnyResponseSchemas],
         },
         exclude_none=True,
+        permissions=[perms.CanViewCases],
         operation_id='getGenomicSignatures',
     )
     @paginate()
@@ -75,6 +77,7 @@ class GenomicSignatureController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createGenomicSignature',
     )
     def create_genomic_signature(self, payload: AnyPayloadSchemas): # type: ignore
@@ -87,6 +90,7 @@ class GenomicSignatureController(ControllerBase):
             404: None
         },
         exclude_none=True,
+        permissions=[perms.CanViewCases],
         operation_id='getGenomicSignatureById',
         )
     def get_genomic_signature_by_id(self, genomicSignatureId: str): 
@@ -100,6 +104,7 @@ class GenomicSignatureController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateGenomicSignatureById',
     )
     def update_genomic_signature(self, genomicSignatureId: str, payload: AnyPayloadSchemas): # type: ignore
@@ -113,6 +118,7 @@ class GenomicSignatureController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteGenomicSignatureById',
     )
     def delete_genomic_signature(self, genomicSignatureId: str):

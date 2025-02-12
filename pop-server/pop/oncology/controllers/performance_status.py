@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import PerformanceStatus
 
@@ -26,6 +27,7 @@ class PerformanceStatusController(ControllerBase):
         response={
             200: Paginated[PerformanceStatusSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPerformanceStatus',
     )
     @paginate()
@@ -38,6 +40,7 @@ class PerformanceStatusController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createPerformanceStatus',
     )
     def create_performance_status(self, payload: PerformanceStatusCreateSchema): # type: ignore
@@ -49,6 +52,7 @@ class PerformanceStatusController(ControllerBase):
             200: PerformanceStatusSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPerformanceStatusById',
     )
     def get_performance_status_by_id(self, performanceStatusId: str):
@@ -60,6 +64,7 @@ class PerformanceStatusController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updatePerformanceStatusById',
     )
     def update_performance_status(self, performanceStatusId: str, payload: PerformanceStatusCreateSchema): # type: ignore
@@ -72,6 +77,7 @@ class PerformanceStatusController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deletePerformanceStatus',
     )
     def delete_performance_status(self, performanceStatusId: str):

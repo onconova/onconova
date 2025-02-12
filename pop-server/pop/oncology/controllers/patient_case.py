@@ -8,6 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated, ModelFilterSchema
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
@@ -28,6 +29,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: Paginated[PatientCaseSchema]
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPatientCases',
     )
     @paginate()
@@ -40,6 +42,7 @@ class PatientCaseController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createPatientCase',
     )
     def create_patient_case(self, payload: PatientCaseCreateSchema):
@@ -51,6 +54,7 @@ class PatientCaseController(ControllerBase):
             200: PatientCaseSchema, 
             404: None
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPatientCaseById',
         )
     def get_patient_case_by_id(self, caseId: str): 
@@ -62,6 +66,7 @@ class PatientCaseController(ControllerBase):
             200: PatientCaseSchema, 
             404: None
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPatientCaseByPseudoidentifier',
         )
     def get_patient_case_by_pseudoidentifier(self, pseudoidentifier: str): 
@@ -73,6 +78,7 @@ class PatientCaseController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updatePatientCaseById',
     )
     def update_patient_case(self, caseId: str, payload: PatientCaseCreateSchema): # type: ignore
@@ -87,6 +93,7 @@ class PatientCaseController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deletePatientCaseById',
     )
     def delete_patient_case(self, caseId: str):
@@ -100,6 +107,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: PatientCaseDataCompletionStatusSchema,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPatientCaseDataCompletionStatus',
     )
     def get_patient_case_data_completion_status(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
@@ -115,6 +123,7 @@ class PatientCaseController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createPatientCaseDataCompletion',
     )
     def create_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
@@ -126,6 +135,7 @@ class PatientCaseController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deletePatientCaseDataCompletion',
     )
     def delete_patient_case_data_completion(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
@@ -140,6 +150,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: PatientCaseBundleSchema,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getPatientCaseBundleById',
     )
     def get_patient_case_bundle_by_id(self, caseId: str):
@@ -154,6 +165,7 @@ class PatientCaseController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createPatientCaseBundleById',
     )
     def create_patient_case_bundle(self, payload: PatientCaseBundleCreateSchema):

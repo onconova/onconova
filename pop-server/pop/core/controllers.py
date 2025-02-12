@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from typing import List 
 
+from pop.core import permissions as perms
 
 from pop.core.schemas import (
     UserSchema, 
@@ -47,21 +48,23 @@ class UsersController(ControllerBase):
 
     @route.get(
         path="/users",
-        operation_id='getUsers',
         response={
             200: List[UserSchema]
         }, 
+        permissions=[perms.CanViewUsers],
+        operation_id='getUsers',
     )
     def get_all_users_matching_the_query(self):
         return get_user_model().objects.all()
     
     @route.get(
         path="/users/{userId}", 
-        operation_id='getUserById',
         response={
             200: UserSchema,
             404: None
         }, 
+        permissions=[perms.CanViewUsers],
+        operation_id='getUserById',
     )
     def get_user_by_id(self, userId: int):
         return get_object_or_404(get_user_model(), id=userId)

@@ -4,6 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import TreatmentResponse, TherapyLine
 
@@ -23,6 +24,7 @@ class TreatmentResponseController(ControllerBase):
         response={
             200: Paginated[TreatmentResponseSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTreatmentResponses',
     )
     @paginate()
@@ -35,6 +37,7 @@ class TreatmentResponseController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createTreatmentResponse',
     )
     def create_treatment_response(self, payload: TreatmentResponseCreateSchema): # type: ignore
@@ -46,6 +49,7 @@ class TreatmentResponseController(ControllerBase):
             200: TreatmentResponseSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTreatmentResponseById',
     )
     def get_treatment_response_by_id(self, treatmentRresponseId: str):
@@ -58,6 +62,7 @@ class TreatmentResponseController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateTreatmentResponse',
     )
     def update_treatment_response(self, treatmentRresponseId: str, payload: TreatmentResponseCreateSchema): # type: ignore
@@ -70,6 +75,7 @@ class TreatmentResponseController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteTreatmentResponse',
     )
     def delete_treatment_response(self, treatmentRresponseId: str):

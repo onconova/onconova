@@ -8,6 +8,7 @@ from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.utils import is_list, is_optional, is_literal, is_enum
 from pop.core.schemas import CodedConceptSchema, filters as schema_filters
 from pop.core.schemas.fields import FILTERS_MAP
@@ -45,6 +46,7 @@ class CohortBuilderController(ControllerBase):
         response={
             200: CohortBuilderConfig
         },
+        permissions=[perms.CanViewCohorts],
         operation_id='getCohortBuilderConfig',
     )
     def get_cohort_builder_configuration(self):

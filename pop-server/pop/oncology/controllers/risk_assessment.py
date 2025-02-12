@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import RiskAssessment
 
@@ -26,6 +27,7 @@ class RiskAssessmentController(ControllerBase):
         response={
             200: Paginated[RiskAssessmentSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRiskAssessments',
     )
     @paginate()
@@ -38,6 +40,7 @@ class RiskAssessmentController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createRiskAssessment',
     )
     def create_risk_assessment(self, payload: RiskAssessmentCreateSchema): # type: ignore
@@ -49,6 +52,7 @@ class RiskAssessmentController(ControllerBase):
             200: RiskAssessmentSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRiskAssessmentById',
     )
     def get_risk_assessment_by_id(self, riskAssessmentId: str):
@@ -60,6 +64,7 @@ class RiskAssessmentController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateRiskAssessmentById',
     )
     def update_risk_assessment(self, riskAssessmentId: str, payload: RiskAssessmentCreateSchema): # type: ignore
@@ -72,6 +77,7 @@ class RiskAssessmentController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteRiskAssessmentById',
     )
     def delete_risk_assessment(self, riskAssessmentId: str):

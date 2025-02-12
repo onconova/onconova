@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import Paginated, ModifiedResourceSchema
 from pop.oncology import schemas as oncological_schemas
 
@@ -28,6 +29,7 @@ class CohortsController(ControllerBase):
         response={
             200: Paginated[CohortSchema],
         },
+        permissions=[perms.CanViewCohorts],
         operation_id='getCohorts',
     )
     @paginate()
@@ -40,6 +42,7 @@ class CohortsController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCohorts],
         operation_id='createCohort',
     )
     def create_cohort(self, payload: CohortCreateSchema): # type: ignore
@@ -54,6 +57,7 @@ class CohortsController(ControllerBase):
             200: CohortSchema,
             404: None,
         },
+        permissions=[perms.CanViewCohorts],
         operation_id='getCohortById',
     )
     def get_cohort_by_id(self, cohortId: str):
@@ -66,6 +70,7 @@ class CohortsController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCohorts],
         operation_id='deleteCohortById',
     )
     def delete_cohort(self, cohortId: str):
@@ -79,6 +84,7 @@ class CohortsController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCohorts],
         operation_id='updateCohort',
     )
     def update_cohort(self, cohortId: str, payload: CohortCreateSchema): # type: ignore
@@ -94,6 +100,7 @@ class CohortsController(ControllerBase):
             200: CohortStatisticsSchema,
             404: None,
         },
+        permissions=[perms.CanViewCohorts],
         operation_id='getCohortStatistics',
     )
     def get_cohort_statistics(self, cohortId: str):
@@ -112,6 +119,7 @@ class CohortsController(ControllerBase):
             200: Paginated[oncological_schemas.PatientCaseSchema],
             404: None,
         },
+        permissions=[perms.CanViewCohorts],
         operation_id='getCohortCases',
     )
     @paginate()

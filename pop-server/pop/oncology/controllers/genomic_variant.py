@@ -4,6 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import GenomicVariant
 
@@ -24,6 +25,7 @@ class GenomicVariantController(ControllerBase):
         response={
             200: Paginated[GenomicVariantSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getGenomicVariants',
     )
     @paginate()
@@ -37,6 +39,7 @@ class GenomicVariantController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createGenomicVariant',
     )
     def create_genomic_variant(self, payload: GenomicVariantCreateSchema): # type: ignore
@@ -49,6 +52,7 @@ class GenomicVariantController(ControllerBase):
             200: GenomicVariantSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getGenomicVariantById',
     )
     def get_genomic_variant_by_id(self, genomicVariantId: str):
@@ -61,6 +65,7 @@ class GenomicVariantController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateGenomicVariant',
     )
     def update_genomic_variant(self, genomicVariantId: str, payload: GenomicVariantCreateSchema): # type: ignore
@@ -74,6 +79,7 @@ class GenomicVariantController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteGenomicVariant',
     )
     def delete_genomic_variant(self, genomicVariantId: str):

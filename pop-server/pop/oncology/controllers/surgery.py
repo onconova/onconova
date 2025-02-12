@@ -4,6 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Surgery, TherapyLine
 
@@ -23,6 +24,7 @@ class SurgeryController(ControllerBase):
         response={
             200: Paginated[SurgerySchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getSurgeries',
     )
     @paginate()
@@ -35,6 +37,7 @@ class SurgeryController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createSurgery',
     )
     def create_surgery(self, payload: SurgeryCreateSchema): # type: ignore
@@ -46,6 +49,7 @@ class SurgeryController(ControllerBase):
             200: SurgerySchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getSurgeryById',
     )
     def get_surgery_by_id(self, surgeryId: str):
@@ -57,6 +61,7 @@ class SurgeryController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateSurgeryById',
     )
     def update_surgery(self, surgeryId: str, payload: SurgeryCreateSchema): # type: ignore
@@ -69,6 +74,7 @@ class SurgeryController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteSurgeryById',
     )
     def delete_surgery(self, surgeryId: str):

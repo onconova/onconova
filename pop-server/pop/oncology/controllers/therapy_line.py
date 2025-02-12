@@ -4,6 +4,8 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 from typing import List
+
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import TherapyLine, PatientCase
 
@@ -23,6 +25,7 @@ class TherapyLineController(ControllerBase):
         response={
             200: Paginated[TherapyLineSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTherapyLines',
     )
     @paginate()
@@ -35,6 +38,7 @@ class TherapyLineController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createTherapyLine',
     )
     def create_therapy_line(self, payload: TherapyLineCreateSchema): # type: ignore
@@ -46,6 +50,7 @@ class TherapyLineController(ControllerBase):
             200: TherapyLineSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTherapyLineById',
     )
     def get_therapy_line_by_id(self, therapyLineId: str):
@@ -58,6 +63,7 @@ class TherapyLineController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateTherapyLine',
     )
     def update_therapy_line(self, therapyLineId: str, payload: TherapyLineCreateSchema): # type: ignore
@@ -70,6 +76,7 @@ class TherapyLineController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteTherapyLine',
     )
     def delete_therapy_line(self, therapyLineId: str):
@@ -83,6 +90,7 @@ class TherapyLineController(ControllerBase):
             200: List[TherapyLineSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getReassignedPatientCaseTherapyLines',
     )
     def get_reassigned_patient_case_therapy_lines(self, caseId: str):

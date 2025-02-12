@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from typing import List, Union
 from typing_extensions import TypeAliasType
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Staging, StagingDomain
 from pop.oncology.schemas import (
@@ -86,6 +87,7 @@ class StagingController(ControllerBase):
         response={
             200: Paginated[AnyResponseSchemas],
         },
+        permissions=[perms.CanViewCases],
         exclude_none=True,
         operation_id='getStagings',
     )
@@ -100,6 +102,7 @@ class StagingController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createStaging',
     )
     def create_staging(self, payload: AnyPayloadSchemas): # type: ignore
@@ -111,6 +114,7 @@ class StagingController(ControllerBase):
             200: AnyResponseSchemas, 
             404: None
         },
+        permissions=[perms.CanViewCases],
         exclude_none=True,
         operation_id='getStagingById',
         )
@@ -125,6 +129,7 @@ class StagingController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateStagingById',
     )
     def update_staging(self, stagingId: str, payload: AnyPayloadSchemas): # type: ignore
@@ -138,6 +143,7 @@ class StagingController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteStagingById',
     )
     def delete_staging(self, stagingId: str):

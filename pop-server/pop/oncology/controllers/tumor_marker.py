@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import TumorMarker
 from pop.oncology.models.tumor_marker import AnalyteDetails, ANALYTES_DATA
@@ -27,6 +28,7 @@ class TumorMarkerController(ControllerBase):
         response={
             200: Paginated[TumorMarkerSchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTumorMarkers',
     )
     @paginate()
@@ -39,6 +41,7 @@ class TumorMarkerController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createTumorMarker',
     )
     def create_tumor_marker(self, payload: TumorMarkerCreateSchema): # type: ignore
@@ -51,6 +54,7 @@ class TumorMarkerController(ControllerBase):
             200: TumorMarkerSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTumorMarkerById',
     )
     def get_tumor_marker_by_id(self, tumorMarkerId: str):
@@ -63,6 +67,7 @@ class TumorMarkerController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateTumorMarkerById',
     )
     def update_neoplastic_entity(self, tumorMarkerId: str, payload: TumorMarkerCreateSchema): # type: ignore
@@ -76,6 +81,7 @@ class TumorMarkerController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteTumorMarkerById',
     )
     def delete_tumor_marker(self, tumorMarkerId: str):
@@ -88,6 +94,7 @@ class TumorMarkerController(ControllerBase):
             200: AnalyteDetails,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getTumorMarkerAnalyteDetailsByCode',
     )
     def get_tumor_marker_analyte_details_by_code(self, analyteCode: str):

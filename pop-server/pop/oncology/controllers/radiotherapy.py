@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import Radiotherapy, RadiotherapyDosage, RadiotherapySetting, TherapyLine
 
@@ -31,6 +32,7 @@ class RadiotherapyController(ControllerBase):
         response={
             200: Paginated[RadiotherapySchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRadiotherapies',
     )
     @paginate()
@@ -43,6 +45,7 @@ class RadiotherapyController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createRadiotherapy',
     )
     def create_radiotherapy(self, payload: RadiotherapyCreateSchema): # type: ignore
@@ -54,6 +57,7 @@ class RadiotherapyController(ControllerBase):
             200: RadiotherapySchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyById',
     )
     def get_radiotherapy_by_id(self, radiotherapyId: str):
@@ -66,6 +70,7 @@ class RadiotherapyController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteRadiotherapyById',
     )
     def delete_radiotherapy(self, radiotherapyId: str):
@@ -82,6 +87,7 @@ class RadiotherapyController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateRadiotherapy',
     )
     def update_radiotherapy(self, radiotherapyId: str, payload: RadiotherapyCreateSchema): # type: ignore
@@ -96,6 +102,7 @@ class RadiotherapyController(ControllerBase):
             200: List[RadiotherapyDosageSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyDosages',
     )
     def get_radiotherapy_dosages_matching_the_query(self, radiotherapyId: str): # type: ignore
@@ -108,6 +115,7 @@ class RadiotherapyController(ControllerBase):
             200: RadiotherapyDosageSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyDosageById',
     )
     def get_radiotherapy_dosage_by_id(self, radiotherapyId: str, dosageId: str): # type: ignore
@@ -118,6 +126,7 @@ class RadiotherapyController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createRadiotherapyDosage',
     )
     def create_radiotherapy_dosage(self, radiotherapyId: str, payload: RadiotherapyDosageCreateSchema): # type: ignore
@@ -131,6 +140,7 @@ class RadiotherapyController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateRadiotherapyDosage',
     )
     def update_radiotherapy_dosage(self, radiotherapyId: str, dosageId: str, payload: RadiotherapyDosageCreateSchema): # type: ignore
@@ -144,6 +154,7 @@ class RadiotherapyController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteRadiotherapyDosage',
     )
     def delete_radiotherapy_dosage(self, radiotherapyId: str, dosageId: str):
@@ -159,6 +170,7 @@ class RadiotherapyController(ControllerBase):
             200: List[RadiotherapySettingSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRadiotherapySettings',
     )
     def get_radiotherapy_settings_matching_the_query(self, radiotherapyId: str): # type: ignore
@@ -171,6 +183,7 @@ class RadiotherapyController(ControllerBase):
             200: RadiotherapySettingSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getRadiotherapySettingById',
     )
     def get_radiotherapy_setting_by_id(self, radiotherapyId: str, settingId: str): # type: ignore
@@ -181,6 +194,7 @@ class RadiotherapyController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createRadiotherapySetting',
     )
     def create_radiotherapy_setting(self, radiotherapyId: str, payload: RadiotherapySettingCreateSchema): # type: ignore
@@ -194,6 +208,7 @@ class RadiotherapyController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateRadiotherapySetting',
     )
     def update_radiotherapy_setting(self, radiotherapyId: str, settingId: str, payload: RadiotherapySettingCreateSchema): # type: ignore
@@ -207,6 +222,7 @@ class RadiotherapyController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteRadiotherapySetting',
     )
     def delete_radiotherapy_setting(self, radiotherapyId: str, settingId: str):

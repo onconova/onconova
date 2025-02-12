@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication, TherapyLine
 
@@ -27,6 +28,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             200: Paginated[SystemicTherapySchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapies',
     )
     @paginate()
@@ -39,6 +41,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createSystemicTherapy',
     )
     def create_systemic_therapy(self, payload: SystemicTherapyCreateSchema): # type: ignore
@@ -50,6 +53,7 @@ class SystemicTherapyController(ControllerBase):
             200: SystemicTherapySchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyById',
     )
     def get_systemic_therapy_by_id(self, systemicTherapyId: str):
@@ -61,6 +65,7 @@ class SystemicTherapyController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteSystemicTherapyById',
     )
     def delete_systemic_therapy(self, systemicTherapyId: str):
@@ -77,6 +82,7 @@ class SystemicTherapyController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateSystemicTherapy',
     )
     def update_systemic_therapy(self, systemicTherapyId: str, payload: SystemicTherapyCreateSchema): # type: ignore
@@ -91,6 +97,7 @@ class SystemicTherapyController(ControllerBase):
             200: List[SystemicTherapyMedicationSchema],
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyMedications',
     )
     def get_systemic_therapy_medications_matching_the_query(self, systemicTherapyId: str): # type: ignore
@@ -103,6 +110,7 @@ class SystemicTherapyController(ControllerBase):
             200: SystemicTherapyMedicationSchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyMedicationById',
     )
     def get_systemic_therapy_medication_by_id(self, systemicTherapyId: str, medicationId: str): # type: ignore
@@ -113,6 +121,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             201: ModifiedResourceSchema,
         },
+        permissions=[perms.CanManageCases],
         operation_id='createSystemicTherapyMedication',
     )
     def create_systemic_therapy_medication(self, systemicTherapyId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
@@ -126,6 +135,7 @@ class SystemicTherapyController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateSystemicTherapyMedication',
     )
     def update_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
@@ -139,6 +149,7 @@ class SystemicTherapyController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteSystemicTherapyMedication',
     )
     def delete_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str):

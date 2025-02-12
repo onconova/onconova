@@ -6,6 +6,7 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import FamilyHistory
 
@@ -26,6 +27,7 @@ class FamilyHistoryController(ControllerBase):
         response={
             200: Paginated[FamilyHistorySchema],
         },
+        permissions=[perms.CanViewCases],
         operation_id='getFamilyHistories',
     )
     @paginate()
@@ -38,6 +40,7 @@ class FamilyHistoryController(ControllerBase):
         response={
             201: ModifiedResourceSchema
         },
+        permissions=[perms.CanManageCases],
         operation_id='createFamilyHistory',
     )
     def create_family_history(self, payload: FamilyHistoryCreateSchema): # type: ignore
@@ -50,6 +53,7 @@ class FamilyHistoryController(ControllerBase):
             200: FamilyHistorySchema,
             404: None,
         },
+        permissions=[perms.CanViewCases],
         operation_id='getFamilyHistoryById',
     )
     def get_family_history_by_id(self, familyHistoryId: str):
@@ -62,6 +66,7 @@ class FamilyHistoryController(ControllerBase):
             204: None, 
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='deleteFamilyHistoryById',
     )
     def delete_family_history(self, familyHistoryId: str):
@@ -75,6 +80,7 @@ class FamilyHistoryController(ControllerBase):
             200: ModifiedResourceSchema,
             404: None,
         },
+        permissions=[perms.CanManageCases],
         operation_id='updateFamilyHistory',
     )
     def update_family_history(self, familyHistoryId: str, payload: FamilyHistoryCreateSchema): # type: ignore
