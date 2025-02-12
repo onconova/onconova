@@ -3,7 +3,7 @@ from typing import Optional, List, Dict, Union
 from uuid import UUID
 from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
-from pydantic import Field, ConfigDict, SecretStr,model_validator
+from pydantic import Field, ConfigDict, SecretStr,model_validator, AliasChoices
 from django.contrib.auth import get_user_model
 
 from ninja_extra.schemas import NinjaPaginationResponseSchema
@@ -21,11 +21,12 @@ CREATE_IGNORED_FIELDS = (
 
 
 class UserSchema(Schema):
-    id: int
+    id: UUID
     username: str
     email: str
     firstName: Optional[str] = Field(default=None, alias='first_name')
     lastName: Optional[str] = Field(default=None, alias='last_name')
+    accessLevel: int = Field(alias='access_level', validation_alias=AliasChoices('accessLevel','access_level'))
     # Schema config
     model_config = ConfigDict(
         title='User',

@@ -5,10 +5,11 @@ import random
 from datetime import datetime
 from psycopg.types.range import Range as PostgresRange
 
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password
 
 import pop.core.measures as measures
+from pop.core.models import User
 import pop.oncology.models as models
 import pop.terminology.models as terminology
 
@@ -38,18 +39,15 @@ def make_terminology_factory(terminology, code_iterator=None):
         concepts_count = terminology.objects.count()
         return factory.LazyFunction(lambda: terminology.objects.all()[random.randint(0,concepts_count-1)]) if concepts_count else None
 
-class GroupFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Group
-    name = factory.Sequence(lambda n: "Group #%s" % n)
-
-
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
-    username = factory.LazyFunction(lambda: faker.profile()['username'])
+    first_name = factory.LazyFunction(lambda: faker.first_name())
+    last_name = factory.LazyFunction(lambda: faker.last_name())
+    username = factory.LazyAttribute(lambda obj: f'{obj.last_name[:2].lower()}{obj.first_name[:2].lower()}')
     password = factory.LazyFunction(lambda: make_password(faker.password()))
-    email = factory.LazyAttribute(lambda obj: '%s@example.com' % obj.username)
+    email = factory.LazyAttribute(lambda obj: '%s@outlook.com' % obj.username)
+    access_level = factory.LazyFunction(lambda: random.randint(1,5))
 
 
 class PatientCaseFactory(factory.django.DjangoModelFactory):
@@ -423,7 +421,7 @@ class VitalsFactory(factory.django.DjangoModelFactory):
     weight = factory.LazyFunction(lambda: measures.Mass(kg=random.randint(55, 95)))     
     blood_pressure_systolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(100, 120)))     
     blood_pressure_diastolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(65, 85)))     
-    temperature = factory.LazyFunction(lambda: measures.Temperature(c=random.randint(37, 40)))     
+    temperature = factory.LazyFunction(lambda: measures.Temperature(celsius=random.randint(37, 40)))     
 
 
 

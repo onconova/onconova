@@ -63,6 +63,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# Register the custom user (do not change)
+AUTH_USER_MODEL = 'core.User'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',            # Provide several security enhancements to the request/response cycle
     'corsheaders.middleware.CorsMiddleware',
