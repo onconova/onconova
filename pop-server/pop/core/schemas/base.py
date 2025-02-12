@@ -108,7 +108,6 @@ class DjangoGetter(BaseDjangoGetter):
         resolver = getattr(self._schema_cls, f'resolve_{key}', None)
         if resolver and isinstance(self._obj, DjangoModel):
             value = resolver(self._obj)
-            print('RESOLVED', key, value, self._obj)
             return self._convert_result(value)
         else:
             return super().__getattr__(key)
@@ -254,7 +253,6 @@ class BaseSchema(Schema):
     def _resolve_foreign_key(obj, orm_field_name):
         if not getattr(obj, orm_field_name, None):
             return None 
-        print('RESOLVING', orm_field_name, getattr(obj, orm_field_name).id)
         return getattr(obj, orm_field_name).id
 
     @staticmethod

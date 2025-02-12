@@ -78,6 +78,7 @@ class TumorMarker(BaseModel):
         verbose_name= _('Arbitrary concentration'),
         help_text = _('Arbitrary concentration of the analyte (if revelant/measured)'),
         measurement = measures.ArbitraryConcentration,
+        default_unit = 'kIU__l',
         null=True, blank=True,
     )
     substance_concentration = MeasurementField(

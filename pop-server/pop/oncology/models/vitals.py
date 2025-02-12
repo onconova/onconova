@@ -41,6 +41,7 @@ class Vitals(BaseModel):
         expression = models.F('weight') / (models.F('height') * models.F('height')),
         output_field = MeasurementField(
             measurement = measures.MassPerArea,
+            default_unit = 'kg__square_meter',
         ),
         db_persist = True
     )
@@ -62,7 +63,7 @@ class Vitals(BaseModel):
         verbose_name = _('Temperature'),
         help_text = _("Temperature of the patient"),
         measurement = measures.Temperature,
-        default_unit = 'c',
+        default_unit = 'celsius',
         null=True, blank=True,
     )
     

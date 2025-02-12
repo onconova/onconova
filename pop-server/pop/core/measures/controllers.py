@@ -29,10 +29,10 @@ class MeasuresController(ControllerBase):
             return 404, None
         units = []
         if issubclass(measure, MeasureBase):
-            units = list(measure.UNITS.keys())
+            units = list(measure.get_units())
         elif issubclass(measure, BidimensionalMeasure):
-            primaries = list(measure.PRIMARY_DIMENSION.UNITS.keys())
-            references = list(measure.REFERENCE_DIMENSION.UNITS.keys())
+            primaries = list(measure.PRIMARY_DIMENSION.get_units())
+            references = list(measure.REFERENCE_DIMENSION.get_units())
             units = [
                 f'{primary}__{reference}' for primary in primaries for reference in references
             ]

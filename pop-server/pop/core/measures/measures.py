@@ -1,31 +1,120 @@
-from measurement.base import MeasureBase, BidimensionalMeasure
-from measurement.measures import Mass, Volume as VolumeBase, Distance, Temperature
+from measurement.base import MeasureBase, BidimensionalMeasure as BidimensionalMeasureBase
+from measurement.measures import Mass, Volume as VolumeBase, Distance
+from sympy import S, Symbol
+
+
+class Measure(MeasureBase):
+    
+    @property
+    def unit(self):
+        return self._default_unit
+
+    @unit.setter
+    def unit(self, value):
+        aliases = self.get_aliases()
+        laliases = self.get_lowercase_aliases()
+        units = self.get_units()
+        unit = None
+        if value in self.UNITS:
+            unit = value
+        elif value in aliases:
+            unit = aliases[unit]
+        elif value in units:
+            unit = value
+        elif value.lower() in units:
+            unit = value.lower()
+        elif value.lower() in laliases:
+            unit = laliases[value.lower]
+        if not unit:
+            raise ValueError('Invalid unit %s' % value)
+        self._default_unit = unit
+
+    def __str__(self):
+        value = getattr(self, self._default_unit)
+        return f'{round(value,2)} {self.unit}'
+        
+class BidimensionalMeasure(BidimensionalMeasureBase):
+
+    @property
+    def unit(self):
+        return '%s__%s' % (
+            self.primary.unit,
+            self.reference.unit,
+        )
+
+    @unit.setter
+    def unit(self, value):
+        primary, reference = value.rsplit('__',1)
+        reference_units = self.REFERENCE_DIMENSION.get_units()
+        if reference != self.reference.unit:
+            reference_chg = (
+                reference_units[self.reference.unit]/reference_units[reference]
+            )
+            self.primary.standard = self.primary.standard / reference_chg
+        self.primary.unit = primary
+        self.reference.unit = reference
+
+    def _get_unit_parts(self, measure_string):
+        if measure_string in self.ALIAS:
+            measure_string = self.ALIAS[measure_string]
+        try:
+            primary_unit, reference_unit = measure_string.rsplit('__', 1)
+        except:
+            primary_unit, reference_unit = super()._get_unit_parts(measure_string)
+        return primary_unit, reference_unit
+    
+    def __str__(self):
+        if isinstance( self.primary, Measure):
+            primary_unit = self.primary.get_aliases().get(self.primary.unit, self.primary.unit)
+        else:
+            primary_unit = self.primary
+        if isinstance( self.reference, Measure):
+            reference_unit = self.reference.get_aliases().get(self.reference.unit, self.reference.unit)
+        else:
+            reference_unit = self.reference
+        return f'{round(self.primary.value,2)} {primary_unit}/{reference_unit}'            
 
 def get_measurement(measure, value, unit=None, original_unit=None):
     """
     Creates a measurement object with the specified value and unit.
 
     Args:
-        measure (MeasureBase): The measure class to be instantiated.
+        measure (Measure): The measure class to be instantiated.
         value (float): The numerical value of the measurement.
         unit (str, optional): The unit of the measurement. Defaults to the measure's standard unit.
         original_unit (str, optional): The original unit of the measurement, if different from `unit`.
 
     Returns:
-        MeasureBase: An instance of the measure class with the specified value and unit.
+        Measure: An instance of the measure class with the specified value and unit.
     """
     # If unit is not specified use the class' standard unit
     unit = unit or measure.STANDARD_UNIT
     # Construct measurement
     m = measure(**{unit: value})
     if original_unit:
+        print('MEASUREMETN', original_unit)
         m.unit = original_unit
     if isinstance(m, BidimensionalMeasure):
         m.reference.value = 1
     return m
 
 
-class Unit(MeasureBase):
+
+class Temperature(Measure):
+    SU = Symbol('kelvin')
+    STANDARD_UNIT = 'K'
+    UNITS = {
+        '°C': SU - S(273.15),
+        '°F': (SU - S(273.15)) * S('9/5') + 32,
+        'K': 1.0
+    }
+    ALIAS = {
+        'celsius': '°C',
+        'fahrenheit': '°F',
+        'kelvin': 'K',
+    }
+
+class Unit(Measure):
     """
     International Unit (IU) of measurement.
 
@@ -44,11 +133,11 @@ class Unit(MeasureBase):
         'IU': 1.0,
     }
     ALIAS = {
-        'international unit': 'IU',
+        'IU': 'IU',
     }
     SI_UNITS = ['IU']
 
-class Substance(MeasureBase):
+class Substance(Measure):
     """
     A measurement of substance.
 
@@ -77,7 +166,7 @@ class Substance(MeasureBase):
     }
     SI_UNITS = ['mol']
 
-class MultipleOfMedian(MeasureBase):
+class MultipleOfMedian(Measure):
     """
     A measure of quantity as a multiple of the median.
 
@@ -98,16 +187,16 @@ class MultipleOfMedian(MeasureBase):
     >>> print(mom)
     10 M.o.M
     """
-    STANDARD_UNIT = 'M.o.M'
+    STANDARD_UNIT = 'multiple_of_median'
     UNITS = {
-        'M.o.M': 1.0,
+        'multiple_of_median': 1.0,
     }
     ALIAS = {
         'multiple_of_median': 'M.o.M',
     }
 
 
-class Pressure(MeasureBase):
+class Pressure(Measure):
     """
     A measure of pressure.
 
@@ -142,7 +231,7 @@ class Pressure(MeasureBase):
     }
     SI_UNITS = ['Pa']
 
-class RadiationDose(MeasureBase):
+class RadiationDose(Measure):
     """
     A measure of radiation dose.
 
@@ -168,7 +257,7 @@ class RadiationDose(MeasureBase):
     SI_UNITS = ['Gy']
     
 
-class Time(MeasureBase):
+class Time(Measure):
     """
     A measure of time.
 
@@ -248,7 +337,7 @@ class Volume(VolumeBase):
     SI_UNITS = ['l']
 
 
-class Area(MeasureBase):
+class Area(Measure):
     """
     Represents an area measurement.
 
@@ -274,8 +363,17 @@ class Area(MeasureBase):
         'square_inch': 1550.003,
         'square_yard': 1.19599,
     }
+    ALIAS = {
+        'square_millimeter': 'mm²',
+        'square_centimeter': 'cm²',
+        'square_decimeter': 'dm²',
+        'square_meter': 'm²',
+        'square_foot': 'ft²',
+        'square_inch': 'in²',
+        'square_yard': 'yd²',
+    }
     
-class Fraction(MeasureBase):
+class Fraction(Measure):
     """
     Represents a fraction measurement.
 
