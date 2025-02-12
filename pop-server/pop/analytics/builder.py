@@ -3,7 +3,7 @@ from django.db.models import Q
 from typing import Iterator
 from pop.oncology import models as oncological_models
 from pop.core.schemas import filters as filters
-from pop.cohorts.schemas import CohortFilter, CohortFilterRuleset, CohortFilterRule, RulesetCondition
+from pop.analytics.schemas import CohortFilter, CohortFilterRuleset, CohortFilterRule, RulesetCondition
 
 
 def convert_rule_into_query(rule: CohortFilterRule) -> Q:

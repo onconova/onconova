@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'pop.core',
     'pop.terminology',
     'pop.oncology',
-    'pop.cohorts',
+    'pop.analytics',
     'secured_fields',
     'ninja_extra',
     'corsheaders',

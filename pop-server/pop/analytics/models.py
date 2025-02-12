@@ -115,8 +115,8 @@ class Cohort(BaseModel):
 
 
     def update_cohort_cases(self) -> models.QuerySet:        
-        from pop.cohorts.builder import build_query
-        from pop.cohorts.schemas import CohortFilterRuleset 
+        from pop.analytics.builder import build_query
+        from pop.analytics.schemas import CohortFilterRuleset 
 
         if self.frozen_set.exists():
             return self.frozen_set.all()

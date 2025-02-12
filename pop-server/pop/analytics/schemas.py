@@ -10,7 +10,7 @@ from pop.core.schemas import filters as filters_module
 from pop.core.schemas import create_schema, create_filters_schema, CREATE_IGNORED_FIELDS, GetMixin, CreateMixin
 from pydantic import ConfigDict, AliasChoices
 
-from pop.cohorts.models import Cohort
+from pop.analytics.models import Cohort
 
 class RulesetCondition(str, Enum):
     AND = 'and'

@@ -30,7 +30,7 @@ from pop.oncology.controllers import (
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
 )
-from pop.cohorts.controllers import CohortsController, CohortBuilderController, DashboardController
+from pop.analytics.controllers import CohortsController, CohortBuilderController, DashboardController
 
 
 

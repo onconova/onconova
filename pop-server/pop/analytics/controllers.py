@@ -9,8 +9,8 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 from django.shortcuts import get_object_or_404
-from pop.cohorts.schemas import CohortSchema, CohortCreateSchema, CohortFilters, EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
-from pop.cohorts.models import Cohort
+from pop.analytics.schemas import CohortSchema, CohortCreateSchema, CohortFilters, EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
+from pop.analytics.models import Cohort
 from pop.oncology.schemas import PatientCaseSchema
 
 from collections import defaultdict
