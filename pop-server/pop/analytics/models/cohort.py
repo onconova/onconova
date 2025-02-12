@@ -121,6 +121,9 @@ class Cohort(BaseModel):
         if self.frozen_set.exists():
             return self.frozen_set.all()
 
+        if not self.include_criteria and not self.exclude_criteria:
+            return []
+
         if self.is_public:
             cohort = PatientCase.objects.all()
         else:
