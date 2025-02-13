@@ -14,7 +14,7 @@ from pop.terminology.models import ICD10Condition
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 
-from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory, ComorbiditiesAssessmentFilters
+from pop.oncology.schemas import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanel, ComorbidityPanelCategory, ComorbiditiesAssessmentFilters
 
 @api_controller(
     'comorbidities-assessments', 
@@ -102,14 +102,14 @@ class ComorbiditiesPanelsController(ControllerBase):
     @route.get(
         path='', 
         response={
-            200: List[ComorbiditiesPanelSchema], 
+            200: List[ComorbiditiesPanel], 
         },
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesPanels',
     )
     def get_all_comorbidities_panels(self): # type: ignore
         return [
-            ComorbiditiesPanelSchema(name=name, categories=[
+            ComorbiditiesPanel(name=name, categories=[
                 ComorbidityPanelCategory(
                     label=category.label,
                     conditions=list(ICD10Condition.objects.filter(codes__in=category.codes))
@@ -122,7 +122,7 @@ class ComorbiditiesPanelsController(ControllerBase):
     @route.get(
         path='/{panel}', 
         response={
-            200: ComorbiditiesPanelSchema, 
+            200: ComorbiditiesPanel, 
         },
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesPanelsByName',
@@ -131,7 +131,7 @@ class ComorbiditiesPanelsController(ControllerBase):
         panel_details = ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.get(panel)
         if not panel_details:
             return 404
-        return 200, ComorbiditiesPanelSchema(name=panel, categories=[
+        return 200, ComorbiditiesPanel(name=panel, categories=[
                 ComorbidityPanelCategory(
                     label=category.label,
                     default=ICD10Condition.objects.filter(code=category.default).first(),

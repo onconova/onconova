@@ -1,362 +1,141 @@
-from pop.oncology.models.staging import (
-    StagingDomain,
-    Staging,
-    FIGOStaging, 
-    TNMStaging,
-    BinetStaging,
-    RaiStaging, 
-    BreslowDepth, 
-    ClarkStaging, 
-    ISSStaging,
-    RISSStaging, 
-    GleasonGrade, 
-    INSSStage, 
-    INRGSSStage, 
-    WilmsStage, 
-    RhabdomyosarcomaClinicalGroup,
-    LymphomaStaging
-)
-from pop.core.schemas import ModelSchema, CodedConceptSchema, CREATE_IGNORED_FIELDS
 from typing import Literal
 from pydantic import Field 
 
-class StagingSchema(ModelSchema):
+from pop.oncology import models as orm
+from pop.oncology.models.staging import StagingDomain
+from pop.core.schemas import CodedConceptSchema
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+
+class StagingSchema(ModelGetSchema):
     stagingDomain: StagingDomain = Field(description='Staging domain')
-    description: str = Field(description='Human-readable description of the staging') 
     stage: CodedConceptSchema = Field(description='Classificiation of the stage')
+    config = SchemaConfig(model=orm.Staging)
 
-    class Meta:
-        name = 'Staging'
-        model = Staging
-        fields = '__all__'
 
-class TNMStagingSchema(ModelSchema):
+class TNMStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.TNM] = StagingDomain.TNM # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.TNMStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'TNMStaging'
-        model = TNMStaging
-        exclude = [
-            'staging',
-        ]
-
-class TNMStagingCreateSchema(ModelSchema):
+class TNMStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.TNM] = StagingDomain.TNM # type: ignore
-
-    class Meta:
-        name = 'TNMStagingCreate'
-        model = TNMStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.TNMStaging, exclude=['staging'])
 
 
-class FIGOStagingSchema(ModelSchema):
+class FIGOStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.FIGO] = StagingDomain.FIGO # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.FIGOStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'FIGOStaging'
-        model = FIGOStaging
-        exclude = [
-            'staging',
-        ]
-
-class FIGOStagingCreateSchema(ModelSchema):
+class FIGOStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.FIGO] = StagingDomain.FIGO # type: ignore
-
-    class Meta:
-        name = 'FIGOStagingCreate'
-        model = FIGOStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.FIGOStaging, exclude=['staging'])
 
 
-class BinetStagingSchema(ModelSchema):
+class BinetStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.BINET] = StagingDomain.BINET # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.BinetStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'BinetStaging'
-        model = BinetStaging
-        exclude = [
-            'staging',
-        ]
-
-class BinetStagingCreateSchema(ModelSchema):
+class BinetStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.BINET] = StagingDomain.BINET # type: ignore
-
-    class Meta:
-        name = 'BinetStagingCreate'
-        model = BinetStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.BinetStaging, exclude=['staging'])
 
 
-
-class RaiStagingSchema(ModelSchema):
+class RaiStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.RAI] = StagingDomain.RAI # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.RaiStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'RaiStaging'
-        model = RaiStaging
-        exclude = [
-            'staging',
-        ]
-
-class RaiStagingCreateSchema(ModelSchema):
+class RaiStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.RAI] = StagingDomain.RAI # type: ignore
-
-    class Meta:
-        name = 'RaiStagingCreate'
-        model = RaiStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.RaiStaging, exclude=['staging'])
 
 
-
-class BreslowDepthSchema(ModelSchema):
+class BreslowDepthSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.BRESLOW] = StagingDomain.BRESLOW # type: ignore
     stage: CodedConceptSchema
-    description: str = Field(description='Human-readable description of the staging') 
-    
-    class Meta:
-        name = 'BreslowDepth'
-        model = BreslowDepth
-        exclude = [
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.BreslowDepth, exclude=['staging'])
 
-class BreslowDepthCreateSchema(ModelSchema):
+class BreslowDepthCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.BRESLOW] = StagingDomain.BRESLOW # type: ignore
-
-    class Meta:
-        name = 'BreslowDepthCreate'
-        model = BreslowDepth
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
-        
+    config = SchemaConfig(model=orm.BreslowDepth, exclude=['staging'])
 
 
-
-class ClarkStagingSchema(ModelSchema):
+class ClarkStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.CLARK] = StagingDomain.CLARK # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.ClarkStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'ClarkStaging'
-        model = ClarkStaging
-        exclude = [
-            'staging',
-        ]
-
-class ClarkStagingCreateSchema(ModelSchema):
+class ClarkStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.CLARK] = StagingDomain.CLARK # type: ignore
-
-    class Meta:
-        name = 'ClarkStagingCreate'
-        model = ClarkStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
-    
+    config = SchemaConfig(model=orm.ClarkStaging, exclude=['staging'])
 
 
-
-class ISSStagingSchema(ModelSchema):
+class ISSStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.ISS] = StagingDomain.ISS # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.ISSStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'ISSStaging'
-        model = ISSStaging
-        exclude = [
-            'staging',
-        ]
-
-class ISSStagingCreateSchema(ModelSchema):
+class ISSStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.ISS] = StagingDomain.ISS # type: ignore
-
-    class Meta:
-        name = 'ISSStagingCreate'
-        model = ISSStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.ISSStaging, exclude=['staging'])
 
 
-class RISSStagingSchema(ModelSchema):
+class RISSStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.RISS] = StagingDomain.RISS # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.RISSStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'RISSStaging'
-        model = RISSStaging
-        exclude = [
-            'staging',
-        ]
-
-class RISSStagingCreateSchema(ModelSchema):
+class RISSStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.RISS] = StagingDomain.RISS # type: ignore
-
-    class Meta:
-        name = 'RISSStagingCreate'
-        model = RISSStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.RISSStaging, exclude=['staging'])
 
 
-
-class GleasonGradeSchema(ModelSchema):
+class GleasonGradeSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.GLEASON] = StagingDomain.GLEASON # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.GleasonGrade, exclude=['staging'])
 
-    class Meta:
-        name = 'GleasonGrade'
-        model = GleasonGrade
-        exclude = [
-            'staging',
-        ]
-
-class GleasonGradeCreateSchema(ModelSchema):
+class GleasonGradeCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.GLEASON] = StagingDomain.GLEASON # type: ignore
-
-    class Meta:
-        name = 'GleasonGradeCreate'
-        model = GleasonGrade
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.GleasonGrade, exclude=['staging'])
 
 
-class INSSStageSchema(ModelSchema):
+class INSSStageSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.INSS] = StagingDomain.INSS # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.INSSStage, exclude=['staging'])
 
-    class Meta:
-        name = 'INSSStage'
-        model = INSSStage
-        exclude = [
-            'staging',
-        ]
-
-class INSSStageCreateSchema(ModelSchema):
+class INSSStageCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.INSS] = StagingDomain.INSS # type: ignore
-
-    class Meta:
-        name = 'INSSStageCreate'
-        model = INSSStage
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.INSSStage, exclude=['staging'])
 
 
-class INRGSSStageSchema(ModelSchema):
+class INRGSSStageSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.INRGSS] = StagingDomain.INRGSS # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.INRGSSStage, exclude=['staging'])
 
-    class Meta:
-        name = 'INRGSSStage'
-        model = INRGSSStage
-        exclude = [
-            'staging',
-        ]
-
-class INRGSSStageCreateSchema(ModelSchema):
+class INRGSSStageCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.INRGSS] = StagingDomain.INRGSS # type: ignore
-
-    class Meta:
-        name = 'INRGSSStageCreate'
-        model = INRGSSStage
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.INRGSSStage, exclude=['staging'])
 
 
-class WilmsStageSchema(ModelSchema):
+class WilmsStageSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.WILMS] = StagingDomain.WILMS # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.WilmsStage, exclude=['staging'])
 
-    class Meta:
-        name = 'WilmsStage'
-        model = WilmsStage
-        exclude = [
-            'staging',
-        ]
-
-class WilmsStageCreateSchema(ModelSchema):
+class WilmsStageCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.WILMS] = StagingDomain.WILMS # type: ignore
-
-    class Meta:
-        name = 'WilmsStageCreate'
-        model = WilmsStage
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.WilmsStage, exclude=['staging'])
 
 
-class RhabdomyosarcomaClinicalGroupSchema(ModelSchema):
+class RhabdomyosarcomaClinicalGroupSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.RHABDO] = StagingDomain.RHABDO # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.RhabdomyosarcomaClinicalGroup, exclude=['staging'])
 
-    class Meta:
-        name = 'RhabdomyosarcomaClinicalGroup'
-        model = RhabdomyosarcomaClinicalGroup
-        exclude = [
-            'staging',
-        ]
-
-class RhabdomyosarcomaClinicalGroupCreateSchema(ModelSchema):
+class RhabdomyosarcomaClinicalGroupCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.RHABDO] = StagingDomain.RHABDO # type: ignore
-
-    class Meta:
-        name = 'RhabdomyosarcomaClinicalGroupCreate'
-        model = RhabdomyosarcomaClinicalGroup
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
+    config = SchemaConfig(model=orm.RhabdomyosarcomaClinicalGroup, exclude=['staging'])
 
 
-class LymphomaStagingSchema(ModelSchema):
+class LymphomaStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.LYMPHOMA] = StagingDomain.LYMPHOMA # type: ignore
-    description: str = Field(description='Human-readable description of the staging') 
+    config = SchemaConfig(model=orm.LymphomaStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'LymphomaStaging'
-        model = LymphomaStaging
-        exclude = [
-            'staging',
-        ]
-
-class LymphomaStagingCreateSchema(ModelSchema):
+class LymphomaStagingCreateSchema(ModelCreateSchema):
     stagingDomain: Literal[StagingDomain.LYMPHOMA] = StagingDomain.LYMPHOMA # type: ignore
+    config = SchemaConfig(model=orm.LymphomaStaging, exclude=['staging'])
 
-    class Meta:
-        name = 'LymphomaStagingCreate'
-        model = LymphomaStaging
-        exclude = [
-            *CREATE_IGNORED_FIELDS,
-            'staging',
-        ]
-        
         

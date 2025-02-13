@@ -5,9 +5,9 @@ from django.db.models import Model
 from ninja_extra.testing import TestClient
 from pop.oncology import models, schemas
 from pop.tests import factories 
-from pop.core.schemas import ModelSchema 
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
 from pop.core.controllers import AuthController 
-from parameterized import parameterized, parameterized_class
+from parameterized import parameterized
 
 import faker 
 faker = faker.Faker()
@@ -31,14 +31,17 @@ class ApiControllerTestCase:
     CONTROLLER_BASE_URL: str
     FACTORY: factories.factory.django.DjangoModelFactory
     MODEL: Model
-    SCHEMA: ModelSchema
-    CREATE_SCHEMA: ModelSchema      
+    SCHEMA: ModelGetSchema
+    CREATE_SCHEMA: ModelCreateSchema      
 
     @classmethod
     def setUpTestData(cls):
         cls.maxDiff = None
+        cls.username = f'user-{uuid.uuid4()}'
         # Create a fake user
-        cls.user = factories.UserFactory.create(username=f'user-{uuid.uuid4()}', access_level=5)
+        cls.user = models.User.objects.filter(username=cls.username).first()
+        if not cls.user:
+            cls.user = factories.UserFactory.create(username=f'user-{uuid.uuid4()}', access_level=5)
         cls.username = cls.user.username
         cls.password = faker.password()
         cls.user.set_password(cls.password)

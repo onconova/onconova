@@ -1,8 +1,6 @@
 from django.db.models import Model as DjangoModel, Field as DjangoField
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
-from pop.core.measures.fields import MeasurementField
-from pop.core.utils import to_camel_case 
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
 from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
 
@@ -12,6 +10,8 @@ from django.db.models import Q, QuerySet
 from pydantic.fields import FieldInfo
 
 from pop.terminology.models import CodedConcept
+from pop.core.measures.fields import MeasurementField
+from pop.core.utils import to_camel_case 
 
 class FilterBaseSchema(FilterSchema):
     _queryset_model: Type[DjangoModel] = None
@@ -384,5 +384,13 @@ class BaseSchema(Schema):
         # Save instance and return
         instance.save()            
         return instance
+
+
+class ModelFilterSchema(BaseSchema):
+
+    @classmethod
+    def get_django_lookup(cls, filter_name):
+        filter_info = cls.model_fields.get(filter_name)
+        return filter_info.json_schema_extra.get('django_lookup')
 
 

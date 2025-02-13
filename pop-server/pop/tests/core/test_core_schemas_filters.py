@@ -7,7 +7,7 @@ from datetime import datetime
 from unittest.mock import MagicMock
 from enum import Enum
 from pop.terminology.models import AdministrativeGender as TestCodedConcept
-import pop.core.schemas.filters as f
+import pop.core.filters as f
 
 class OptionsEnum(Enum):
     OPTIONA = 'optionA'

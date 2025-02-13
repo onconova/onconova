@@ -1,6 +1,6 @@
 import unittest
 from django.db.models import Model, CharField, IntegerField
-from pop.core.schemas.base import OrmMetadataMixin
+from pop.core.schemas.factory.base import OrmMetadataMixin
 
 class TestOrmMetadataMixin(unittest.TestCase):
 

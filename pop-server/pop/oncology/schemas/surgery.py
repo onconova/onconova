@@ -1,20 +1,8 @@
-from pop.oncology.models import Surgery
-from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
-from pydantic import Field
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-class SurgerySchema(ModelSchema):
-    description: str = Field(description='Human-readable description of the surgery') 
+class SurgerySchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.Surgery)
 
-    class Meta:
-        name = 'Surgery'
-        model = Surgery
-        fields = '__all__'
-
-class SurgeryCreateSchema(ModelSchema):
-    
-    class Meta:
-        name = 'SurgeryCreate'
-        model = Surgery
-        exclude = (
-            *CREATE_IGNORED_FIELDS,
-        )
+class SurgeryCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.Surgery)

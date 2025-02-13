@@ -1,10 +1,11 @@
-from pop.oncology.models import PerformanceStatus
-from pop.core.schemas import ModelSchema, CodedConceptSchema, CREATE_IGNORED_FIELDS
 from typing import Optional
 from pydantic import Field, AliasChoices
 
-class PerformanceStatusSchema(ModelSchema):
-    description: str = Field(description='Human-readable description of the performance status') 
+from pop.oncology import models as orm
+from pop.core.schemas import CodedConceptSchema
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+
+class PerformanceStatusSchema(ModelGetSchema):
     ecogInterpretation: Optional[CodedConceptSchema] = Field(
             description='Official interpretation of the ECOG score',
             alias='ecog_interpretation',
@@ -15,17 +16,8 @@ class PerformanceStatusSchema(ModelSchema):
         alias='karnofsky_interpretation',
         validation_alias=AliasChoices('karnofskyInterpretation', 'karnofsky_interpretation'),
     )
-    
-    class Meta:
-        name = 'PerformanceStatus'
-        model = PerformanceStatus
-        fields = '__all__'
+    config = SchemaConfig(model=orm.PerformanceStatus)
 
-class PerformanceStatusCreateSchema(ModelSchema):
-    
-    class Meta:
-        name = 'PerformanceStatusCreate'
-        model = PerformanceStatus
-        exclude = (
-            *CREATE_IGNORED_FIELDS,
-        )
+
+class PerformanceStatusCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.PerformanceStatus)

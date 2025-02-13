@@ -1,20 +1,8 @@
-from pop.oncology.models import TumorMarker
-from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
-from pydantic import Field
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-class TumorMarkerSchema(ModelSchema):
-    description: str = Field(description='Human-readable description of the tumor marker') 
+class TumorMarkerSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.TumorMarker)
 
-    class Meta:
-        name = 'TumorMarker'
-        model = TumorMarker
-        fields = '__all__'
-
-class TumorMarkerCreateSchema(ModelSchema):
-    
-    class Meta:
-        name = 'TumorMarkerCreate'
-        model = TumorMarker
-        exclude = (
-            *CREATE_IGNORED_FIELDS,
-        )
+class TumorMarkerCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.TumorMarker)

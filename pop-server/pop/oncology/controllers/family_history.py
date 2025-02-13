@@ -11,8 +11,6 @@ from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import FamilyHistory
 
 from django.shortcuts import get_object_or_404
-from django.db import transaction
-
 from pop.oncology.schemas import FamilyHistorySchema, FamilyHistoryCreateSchema, FamilyHistoryFilters
 
 @api_controller(

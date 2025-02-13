@@ -1,14 +1,8 @@
-from pop.oncology.models import Lifestyle
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
-from ninja import Schema
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-LifestyleBase: Schema = create_schema(
-    Lifestyle, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
-)
+class LifestyleSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.Lifestyle)
 
-class LifestyleSchema(LifestyleBase, GetMixin):
-    model_config = ConfigDict(title='Lifestyle')
-
-class LifestyleCreateSchema(LifestyleBase, CreateMixin):
-    model_config = ConfigDict(title='LifestyleCreate',)
+class LifestyleCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.Lifestyle)

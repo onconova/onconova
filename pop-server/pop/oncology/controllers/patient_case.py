@@ -9,7 +9,7 @@ from ninja_extra import api_controller, ControllerBase, route
 from django.shortcuts import get_object_or_404
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated, ModelFilterSchema
+from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,

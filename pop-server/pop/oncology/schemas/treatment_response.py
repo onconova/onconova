@@ -1,14 +1,8 @@
-from pop.oncology.models import TreatmentResponse
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
-from ninja import Schema
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-TreatmentResponseBase: Schema = create_schema(
-    TreatmentResponse, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
-)
+class TreatmentResponseSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.TreatmentResponse)
 
-class TreatmentResponseSchema(TreatmentResponseBase, GetMixin):
-    model_config = ConfigDict(title='TreatmentResponse')
-
-class TreatmentResponseCreateSchema(TreatmentResponseBase, CreateMixin):
-    model_config = ConfigDict(title='TreatmentResponseCreate',)
+class TreatmentResponseCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.TreatmentResponse)

@@ -1,17 +1,13 @@
-from pop.oncology.models import Vitals
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
-from pop.core.measures import MeasureSchema
 from typing import Optional
-from ninja import Schema, Field
+from ninja import Field
 
-VitalsBase: Schema = create_schema(
-    Vitals, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'body_mass_index'),
-)
+from pop.oncology import models as orm
+from pop.core.measures import MeasureSchema
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-class VitalsSchema(VitalsBase, GetMixin):
+class VitalsSchema(ModelGetSchema):
     body_mass_index: Optional[MeasureSchema] = Field(None, description='Bodymass index of the patient')
-    model_config = ConfigDict(title='Vitals')
-    
-class VitalsCreateSchema(VitalsBase, CreateMixin):
-    model_config = ConfigDict(title='VitalsCreate')
+    config = SchemaConfig(model=orm.Vitals, exclude=('body_mass_index',))
+
+class VitalsCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.Vitals, exclude=('body_mass_index',))

@@ -1,15 +1,11 @@
-from pop.oncology.models import TherapyLine
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict, PeriodSchema
-from ninja import Schema, Field
-from pydantic import AliasChoices
+from pydantic import Field, AliasChoices
 from typing import Optional
 
-TherapyLineBase: Schema = create_schema(
-    TherapyLine, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'label'),
-)
+from pop.oncology import models as orm
+from pop.core.schemas import PeriodSchema
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-class TherapyLineSchema(TherapyLineBase, GetMixin):
+class TherapyLineSchema(ModelGetSchema):
     period: Optional[PeriodSchema] =  Field(
         None,
         title='Period',
@@ -27,8 +23,8 @@ class TherapyLineSchema(TherapyLineBase, GetMixin):
         description='Progression-free survival (PFS) of the patient for the therapy line', 
         alias='progression_free_survival',
         validation_alias=AliasChoices('progression_free_survival', 'progressionFreeSurvival')
-    )   
-    model_config = ConfigDict(title='TherapyLine')
+    ) 
+    config = SchemaConfig(model=orm.TherapyLine, exclude=['label'])
 
-class TherapyLineCreateSchema(TherapyLineBase, CreateMixin):
-    model_config = ConfigDict(title='TherapyLineCreate')
+class TherapyLineCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.TherapyLine, exclude=['label'])

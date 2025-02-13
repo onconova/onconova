@@ -1,4 +1,4 @@
-from pop.core.schemas import create_filters_schema
+from pop.core.schemas.factory import create_filters_schema
 from .patient_case import (
     PatientCaseFilters,
     PatientCaseSchema, PatientCaseCreateSchema,
@@ -52,7 +52,7 @@ from .tumor_board import (
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema
 )
-from .comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory
+from .comorbidities import ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanel, ComorbidityPanelCategory
 from .genomic_variant import GenomicVariantSchema, GenomicVariantCreateSchema
 from .genomic_signature import (
     GenomicSignatureSchema,
@@ -142,7 +142,7 @@ ONCOLOGY_SCHEMAS = (
     # Vitals 
     VitalsSchema, VitalsCreateSchema,
     # Comorbidities
-    ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanelSchema, ComorbidityPanelCategory,
+    ComorbiditiesAssessmentSchema, ComorbiditiesAssessmentCreateSchema, ComorbiditiesPanel, ComorbidityPanelCategory,
     # Genomic variant schemas 
     GenomicVariantSchema, GenomicVariantCreateSchema,
     # Genomic signature schemas

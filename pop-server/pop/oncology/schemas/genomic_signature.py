@@ -1,114 +1,67 @@
 from ninja import Schema
 from typing import Literal
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
-from pop.oncology.models import (
-    GenomicSignatureTypes,
-    GenomicSignature,
-    TumorMutationalBurden,
-    MicrosatelliteInstability,
-    LossOfHeterozygosity,
-    HomologousRecombinationDeficiency,
-    TumorNeoantigenBurden,
-    AneuploidScore,
-)
 
-GenomicSignatureBase: Schema = create_schema(
-    GenomicSignature, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
-)
+from pop.oncology import models as orm
+from pop.oncology.models.genomic_signature import GenomicSignatureTypes
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-class GenomicSignatureSchema(GenomicSignatureBase, GetMixin):
+class GenomicSignatureSchema(ModelGetSchema):
     category: GenomicSignatureTypes
-    model_config = ConfigDict(title='GenomicSignature')
+    config = SchemaConfig(model=orm.GenomicSignature)
 
 
-TumorMutationalBurdenBase: Schema = create_schema(
-    TumorMutationalBurden, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'genomic_signature'),
-)
-
-class TumorMutationalBurdenSchema(TumorMutationalBurdenBase, GetMixin):
+class TumorMutationalBurdenSchema(ModelGetSchema):
     category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN # type: ignore
-    model_config = ConfigDict(title='TumorMutationalBurden')
+    config = SchemaConfig(model=orm.TumorMutationalBurden, exclude=['genomic_signature'])
 
-class TumorMutationalBurdenCreateSchema(TumorMutationalBurdenBase, CreateMixin):
+class TumorMutationalBurdenCreateSchema(ModelCreateSchema):
     category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN # type: ignore    
-    model_config = ConfigDict(title='TumorMutationalBurdenCreate')
+    config = SchemaConfig(model=orm.TumorMutationalBurden, exclude=['genomic_signature'])
 
 
-
-MicrosatelliteInstabilityBase: Schema = create_schema(
-    MicrosatelliteInstability, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'genomic_signature'),
-)
-
-class MicrosatelliteInstabilitySchema(MicrosatelliteInstabilityBase, GetMixin):
+class MicrosatelliteInstabilitySchema(ModelGetSchema):
     category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = GenomicSignatureTypes.MICROSATELLITE_INSTABILITY # type: ignore
-    model_config = ConfigDict(title='MicrosatelliteInstability')
+    config = SchemaConfig(model=orm.MicrosatelliteInstability, exclude=['genomic_signature'])
 
-class MicrosatelliteInstabilityCreateSchema(MicrosatelliteInstabilityBase, CreateMixin):
+class MicrosatelliteInstabilityCreateSchema(ModelCreateSchema):
     category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = GenomicSignatureTypes.MICROSATELLITE_INSTABILITY # type: ignore    
-    model_config = ConfigDict(title='MicrosatelliteInstabilityCreate')
+    config = SchemaConfig(model=orm.MicrosatelliteInstability, exclude=['genomic_signature'])
 
 
-
-LossOfHeterozygosityBase: Schema = create_schema(
-    LossOfHeterozygosity, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'genomic_signature'),
-)
-
-class LossOfHeterozygositySchema(LossOfHeterozygosityBase, GetMixin):
+class LossOfHeterozygositySchema(ModelGetSchema):
     category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY # type: ignore
-    model_config = ConfigDict(title='LossOfHeterozygosity')
+    config = SchemaConfig(model=orm.LossOfHeterozygosity, exclude=['genomic_signature'])
 
-class LossOfHeterozygosityCreateSchema(LossOfHeterozygosityBase, CreateMixin):
+class LossOfHeterozygosityCreateSchema(ModelCreateSchema):
     category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY # type: ignore    
-    model_config = ConfigDict(title='LossOfHeterozygosityCreate')
+    config = SchemaConfig(model=orm.LossOfHeterozygosity, exclude=['genomic_signature'])
 
 
-
-HomologousRecombinationDeficiencyBase: Schema = create_schema(
-    HomologousRecombinationDeficiency, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'genomic_signature'),
-)
-
-class HomologousRecombinationDeficiencySchema(HomologousRecombinationDeficiencyBase, GetMixin):
+class HomologousRecombinationDeficiencySchema(ModelGetSchema):
     category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY # type: ignore
-    model_config = ConfigDict(title='HomologousRecombinationDeficiency')
+    config = SchemaConfig(model=orm.HomologousRecombinationDeficiency, exclude=['genomic_signature'])
 
-class HomologousRecombinationDeficiencyCreateSchema(HomologousRecombinationDeficiencyBase, CreateMixin):
+class HomologousRecombinationDeficiencyCreateSchema(ModelCreateSchema):
     category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY # type: ignore    
-    model_config = ConfigDict(title='HomologousRecombinationDeficiencyCreate')
+    config = SchemaConfig(model=orm.HomologousRecombinationDeficiency, exclude=['genomic_signature'])
 
 
-
-TumorNeoantigenBurdenBase: Schema = create_schema(
-    TumorNeoantigenBurden, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'genomic_signature'),
-)
-
-class TumorNeoantigenBurdenSchema(TumorNeoantigenBurdenBase, GetMixin):
+class TumorNeoantigenBurdenSchema(ModelGetSchema):
     category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN # type: ignore
-    model_config = ConfigDict(title='TumorNeoantigenBurden')
+    config = SchemaConfig(model=orm.TumorNeoantigenBurden, exclude=['genomic_signature'])
 
-class TumorNeoantigenBurdenCreateSchema(TumorNeoantigenBurdenBase, CreateMixin):
+class TumorNeoantigenBurdenCreateSchema(ModelCreateSchema):
     category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN # type: ignore    
-    model_config = ConfigDict(title='TumorNeoantigenBurdenCreate')
+    config = SchemaConfig(model=orm.TumorNeoantigenBurden, exclude=['genomic_signature'])
 
 
-
-AneuploidScoreBase: Schema = create_schema(
-    AneuploidScore, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'genomic_signature'),
-)
-
-class AneuploidScoreSchema(AneuploidScoreBase, GetMixin):
+class AneuploidScoreSchema(ModelGetSchema):
     category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = GenomicSignatureTypes.ANEUPLOID_SCORE # type: ignore
-    model_config = ConfigDict(title='AneuploidScore')
+    config = SchemaConfig(model=orm.AneuploidScore, exclude=['genomic_signature'])
 
-class AneuploidScoreCreateSchema(AneuploidScoreBase, CreateMixin):
+class AneuploidScoreCreateSchema(ModelCreateSchema):
     category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = GenomicSignatureTypes.ANEUPLOID_SCORE # type: ignore    
-    model_config = ConfigDict(title='AneuploidScoreCreate')
+    config = SchemaConfig(model=orm.AneuploidScore, exclude=['genomic_signature'])
 
 
 

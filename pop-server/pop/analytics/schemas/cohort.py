@@ -3,22 +3,18 @@
 from ninja import Schema, Field
 from typing import Optional
 from django.db.models import Q
-from pop.core.schemas import create_schema, create_filters_schema, CREATE_IGNORED_FIELDS, GetMixin, CreateMixin
 from pydantic import ConfigDict, AliasChoices
 
-from pop.analytics.models import Cohort
+from pop.analytics import models as orm
+from pop.core.schemas.factory import create_filters_schema
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-CohortBase: Schema = create_schema(
-    Cohort, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
-)
-
-class CohortSchema(CohortBase, GetMixin):
+class CohortSchema(ModelGetSchema):
     population: int = Field(title='Population', description='Cohort population', alias='db_population', validation_alias=AliasChoices('db_population','population'))
-    model_config = ConfigDict(title='Cohort')
+    config = SchemaConfig(model=orm.Cohort)
 
-class CohortCreateSchema(CohortBase, CreateMixin):
-    model_config = ConfigDict(title='CohortCreate')
+class CohortCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.Cohort)
 
 class CohortStatisticsSchema(Schema):
     ageAverage: Optional[float] = None

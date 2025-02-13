@@ -10,8 +10,9 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.utils import is_list, is_optional, is_literal, is_enum
-from pop.core.schemas import CodedConceptSchema, filters as schema_filters
-from pop.core.schemas.fields import FILTERS_MAP
+from pop.core.schemas import CodedConceptSchema
+from pop.core import filters as schema_filters
+from pop.core.schemas.factory.fields import FILTERS_MAP
 from pop.core.measures import MeasureSchema
 from pop.oncology import models as oncological_models
 from pop.oncology import schemas as oncological_schemas

@@ -2,7 +2,7 @@ from ninja import Schema, Field
 from typing import List, Dict, Literal, Any, Union, Optional
 from enum import Enum 
 from pop.oncology import models as oncology_models
-from pop.core.schemas import filters as filters_module
+from pop.core import filters as filters_module
 
 class RulesetCondition(str, Enum):
     AND = 'and'

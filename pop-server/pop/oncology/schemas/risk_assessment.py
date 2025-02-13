@@ -1,20 +1,8 @@
-from pop.oncology.models import RiskAssessment
-from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
-from pydantic import Field
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-class RiskAssessmentSchema(ModelSchema):
-    description: str = Field(description='Human-readable description of the tumor marker') 
+class RiskAssessmentSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.RiskAssessment)
 
-    class Meta:
-        name = 'RiskAssessment'
-        model = RiskAssessment
-        fields = '__all__'
-
-class RiskAssessmentCreateSchema(ModelSchema):
-    
-    class Meta:
-        name = 'RiskAssessmentCreate'
-        model = RiskAssessment
-        exclude = (
-            *CREATE_IGNORED_FIELDS,
-        )
+class RiskAssessmentCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.RiskAssessment)

@@ -1,47 +1,33 @@
-from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin
-from ninja import Schema
-from pydantic import Field, ConfigDict, AliasChoices
 from typing import List 
+from pydantic import Field, AliasChoices
 
-AdverseEventBase: Schema = create_schema(
-    AdverseEvent, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'is_resolved'),
-)
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-AdverseEventSuspectedCauseBase: Schema = create_schema(
-    AdverseEventSuspectedCause, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'adverse_event'),
-)
+class AdverseEventSuspectedCauseSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.AdverseEventSuspectedCause, exclude=('adverse_event',))
 
-AdverseEventMitigationBase: Schema = create_schema(
-    AdverseEventMitigation, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'adverse_event'),
-)
+class AdverseEventSuspectedCauseCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.AdverseEventSuspectedCause, exclude=('adverse_event',))
 
+class AdverseEventMitigationSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.AdverseEventMitigation, exclude=('adverse_event',))
 
-class AdverseEventSuspectedCauseSchema(AdverseEventSuspectedCauseBase, GetMixin):
-    model_config = ConfigDict(title='AdverseEventSuspectedCause')
-
-class AdverseEventSuspectedCauseCreateSchema(AdverseEventSuspectedCauseBase, CreateMixin):
-    model_config = ConfigDict(title='AdverseEventSuspectedCauseCreate',)
-
-class AdverseEventMitigationSchema(AdverseEventMitigationBase, GetMixin):
-    model_config = ConfigDict(title='AdverseEventMitigation')
-
-class AdverseEventMitigationCreateSchema(AdverseEventMitigationBase, CreateMixin):
-    model_config = ConfigDict(title='AdverseEventMitigationCreate',)
+class AdverseEventMitigationCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.AdverseEventMitigation, exclude=('adverse_event',))
     
-class AdverseEventSchema(AdverseEventBase, GetMixin):
-    model_config = ConfigDict(title='AdverseEvent')
+class AdverseEventSchema(ModelGetSchema):
     suspectedCauses: List[AdverseEventSuspectedCauseSchema] = Field(
         description='Suspected causes of the adverse event',
         alias='suspected_causes',
         validation_aliases=AliasChoices('suspected_causes','suspectedCauses')
     )
-    mitigations: List[AdverseEventMitigationSchema] = Field(description='Mitigations of the adverse event')
+    mitigations: List[AdverseEventMitigationSchema] = Field(
+        description='Mitigations of the adverse event',
+    )
+    config = SchemaConfig(model=orm.AdverseEvent, exclude=('is_resolved',))    
 
-class AdverseEventCreateSchema(AdverseEventBase, CreateMixin):
-    model_config = ConfigDict(title='AdverseEventCreate')
+class AdverseEventCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.AdverseEvent, exclude=('is_resolved',))    
     
     

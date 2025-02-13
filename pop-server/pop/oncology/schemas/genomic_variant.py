@@ -1,14 +1,8 @@
-from pop.oncology.models import GenomicVariant
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
-from ninja import Schema
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-GenomicVariantBase: Schema = create_schema(
-    GenomicVariant, 
-    exclude=(*CREATE_IGNORED_FIELDS, 'is_vus', 'is_pathogenic'),
-)
+class GenomicVariantSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'))
 
-class GenomicVariantSchema(GenomicVariantBase, GetMixin):
-    model_config = ConfigDict(title='GenomicVariant')
-
-class GenomicVariantCreateSchema(GenomicVariantBase, CreateMixin):
-    model_config = ConfigDict(title='GenomicVariantCreate',)
+class GenomicVariantCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'))

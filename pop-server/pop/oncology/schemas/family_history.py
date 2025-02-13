@@ -1,15 +1,8 @@
-from pop.oncology.models import FamilyHistory
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict
-from ninja import Schema
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-
-FamilyHistoryBase: Schema = create_schema(
-    FamilyHistory, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
-)
-
-class FamilyHistorySchema(FamilyHistoryBase, GetMixin):
-    model_config = ConfigDict(title='FamilyHistory')
+class FamilyHistorySchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.FamilyHistory)
     
-class FamilyHistoryCreateSchema(FamilyHistoryBase, CreateMixin):
-    model_config = ConfigDict(title='FamilyHistoryCreate')
+class FamilyHistoryCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.FamilyHistory)

@@ -1,25 +1,8 @@
-from pop.oncology.models import NeoplasticEntity
-from pop.core.schemas import ModelSchema, CREATE_IGNORED_FIELDS
-from pydantic import Field 
+from pop.oncology import models as orm
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
+class NeoplasticEntitySchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.NeoplasticEntity)
 
-class NeoplasticEntitySchema(ModelSchema):
-    description: str = Field(description='Human-readable description of the neoplastic entity') 
-
-    class Meta:
-        name = 'NeoplasticEntity'
-        model = NeoplasticEntity
-        fields = '__all__'
-
-class NeoplasticEntityCreateSchema(ModelSchema):
-    
-    class Meta:
-        name = 'NeoplasticEntityCreate'
-        model = NeoplasticEntity
-        exclude = (
-            *CREATE_IGNORED_FIELDS,
-        )
-
-
-class NeoplasticEntityUpdateSchema(NeoplasticEntityCreateSchema):
-    pass
+class NeoplasticEntityCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.NeoplasticEntity)

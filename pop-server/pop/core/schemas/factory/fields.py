@@ -14,12 +14,12 @@ from ninja.orm.fields import TYPES as BASE_TYPES, title_if_lower
 
 from pydantic import AliasChoices, BaseModel as PydanticBaseModel
 from pydantic.fields import FieldInfo
-from pydantic_core import PydanticUndefined
+from pydantic_core import PydanticUndefined #type: ignore
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema, UserSchema
+from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
 from pop.core.measures import MeasureSchema
-from pop.core.schemas import filters as schema_filters
+from pop.core import filters as schema_filters
 from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case, camel_to_snake
 from pop.core.measures.fields import MeasurementField
 
@@ -75,7 +75,8 @@ def get_schema_field(
     # Handle relation fields
     if field.is_relation:
         if expand:
-            from pop.core.schemas import create_schema, BaseSchema
+            from .base import BaseSchema
+            from .factory import create_schema
             model = field.related_model
             if field.one_to_many:
                 if not exclude_related_fields:
@@ -98,10 +99,10 @@ def get_schema_field(
                 related_type = CodedConceptSchema   
             elif issubclass(related_model, UserModel):
                 expanded = True
+                from pop.core.schemas.user import UserSchema
                 related_type = UserSchema   
-                
             else:
-                from pop.core.schemas import BaseSchema
+                from .base import BaseSchema
                 resolver_fcn = partial(BaseSchema._resolve_foreign_key, orm_field_name=field.name)
                 internal_type = related_model._meta.get_field('id').get_internal_type()
                 django_field_name += '_id'
@@ -116,7 +117,7 @@ def get_schema_field(
             if field.one_to_many or field.many_to_many:
                 python_type = List[related_type] 
                 if django_field_name not in ['created_by', 'updated_by']:
-                    from pop.core.schemas.base import BaseSchema
+                    from .base import BaseSchema
                     resolver_fcn = partial(BaseSchema._resolve_many_to_many, orm_field_name=field.name)
                     if not django_field_name.endswith('s'):
                         django_field_name += 's'

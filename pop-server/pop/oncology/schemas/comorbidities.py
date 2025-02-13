@@ -1,28 +1,24 @@
-from pop.oncology.models import ComorbiditiesAssessment
-from pop.core.schemas import CREATE_IGNORED_FIELDS, create_schema, GetMixin, CreateMixin, ConfigDict, CodedConceptSchema
 from ninja import Schema, Field
 from typing import Optional, List
 
+from pop.oncology import models as orm
+from pop.core.schemas import CodedConceptSchema
+from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
-ComorbiditiesAssessmentBase: Schema = create_schema(
-    ComorbiditiesAssessment, 
-    exclude=(*CREATE_IGNORED_FIELDS,),
-)
+class ComorbiditiesAssessmentSchema(ModelGetSchema):
+    config = SchemaConfig(model=orm.ComorbiditiesAssessment)    
+    index: Optional[int] | float = Field(default=None, description='Comorbidity score')
+    
+class ComorbiditiesAssessmentCreateSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.ComorbiditiesAssessment)    
+
 
 class ComorbidityPanelCategory(Schema):
-    label: str
+    label: str = Field(description='Label of the comorbidity panel category')
     default: CodedConceptSchema = Field(description='Default choice for category')
-    conditions: List[CodedConceptSchema]
+    conditions: List[CodedConceptSchema] = Field(description='List of conditions included in the panel category')
 
-class ComorbiditiesAssessmentSchema(ComorbiditiesAssessmentBase, GetMixin):
-    index: Optional[int] | float = Field(None, description='Comorbidity score')
-    model_config = ConfigDict(title='ComorbiditiesAssessment')
-    
-class ComorbiditiesAssessmentCreateSchema(ComorbiditiesAssessmentBase, CreateMixin):
-    model_config = ConfigDict(title='ComorbiditiesAssessmentCreate')
-    
-class ComorbiditiesPanelSchema(Schema):
+class ComorbiditiesPanel(Schema):
     name: str = Field(description='Comorbidity panel name')
     categories: List[ComorbidityPanelCategory] = Field(None, description='Comorbidity panel categories')
-    model_config = ConfigDict(title='ComorbiditiesPanel')
     

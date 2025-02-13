@@ -1,20 +1,18 @@
 
 from typing import Optional, List
 from uuid import UUID
-from pydantic_core import PydanticUndefined
 
-from django.test import TestCase, TransactionTestCase
+from django.test import TestCase
 from django.db import models as django_models
-from django.db.models import CharField, ForeignKey, ManyToManyField, TextChoices
+from django.db.models import CharField, ForeignKey, ManyToManyField
+from pydantic import BaseModel
 
 from pop.oncology.models import PatientCase
-from pop.terminology.models import CodedConcept as CodedConceptBase, AdministrativeGender
-from pop.core.schemas.fields import get_schema_field, CodedConceptSchema, get_schema_field, PydanticUndefined
-from pop.core.schemas.factory import SchemaFactory
+from pop.terminology.models import AdministrativeGender
 from pop.core.schemas import CodedConceptSchema
-from pop.tests.factories import UserFactory, PatientCaseFactory
-
-
+from pop.core.schemas.factory.fields import get_schema_field, CodedConceptSchema, get_schema_field, PydanticUndefined
+from pop.core.schemas.factory.factory import SchemaFactory
+from pop.core.schemas.factory.base import FilterBaseSchema
 
 class TestGetSchemaField(TestCase):
 
@@ -102,10 +100,6 @@ class TestGetSchemaField(TestCase):
         self.assertEqual(python_type, List[UUID])
         self.assertEqual(field_info.default, [])
 
-
-from pydantic import BaseModel
-from unittest.mock import MagicMock
-from pop.core.schemas.base import FilterBaseSchema
 
 
 class TestCreateFiltersSchema(TestCase):

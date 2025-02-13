@@ -9,8 +9,8 @@ from ninja.errors import ConfigError
 from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
 
-from pop.core.schemas.fields import get_schema_field, get_schema_field_filters
-from pop.core.schemas.base import BaseSchema, FilterBaseSchema, OrmMetadataMixin
+from .fields import get_schema_field, get_schema_field_filters
+from .base import BaseSchema, FilterBaseSchema, OrmMetadataMixin
 
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]

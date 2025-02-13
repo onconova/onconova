@@ -1,7 +1,6 @@
 from enum import Enum
 
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
@@ -72,7 +71,7 @@ def cast_to_model_schema(model_instance, schemas, payload=None):
     return next((
         schema.model_validate(payload or model_instance)
             for schema in schemas 
-                if isinstance(model_instance, schema.Meta.model) 
+                if (payload and payload.stagingDomain == schema.model_fields['stagingDomain'].default)  or (model_instance and model_instance.staging_domain == schema.model_fields['stagingDomain'].default)
     ))
     
 @api_controller(
