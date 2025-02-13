@@ -6,9 +6,12 @@ from django.shortcuts import get_object_or_404
 from typing import List 
 
 from pop.core import permissions as perms
-
+from pop.core.models import User
 from pop.core.schemas import (
     UserSchema, 
+    UserCreateSchema,
+    UserProfileSchema,
+    ModifiedResourceSchema,
     TokenRefreshSchema, 
     RefreshedTokenPairSchema,
     TokenPairSchema, 
@@ -70,3 +73,39 @@ class UsersController(ControllerBase):
         return get_object_or_404(get_user_model(), id=userId)
 
 
+    @route.post(
+        path="/users", 
+        response={
+            201: ModifiedResourceSchema,
+        }, 
+        permissions=[perms.CanManageUsers],
+        operation_id='createUser',
+    )
+    def create_user(self, payload: UserCreateSchema):
+        return payload.model_dump_django()
+
+    @route.put(
+        path='/users/{userId}', 
+       response={
+            200: UserSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageUsers],
+        operation_id='UpdateUser',
+    )
+    def update_user(self, userId: str, payload: UserCreateSchema):
+        return payload.model_dump_django(instance=get_object_or_404(User, id=userId))
+    
+    @route.put(
+        path='/users/{userId}/profile', 
+       response={
+            200: UserSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageUsers | perms.IsRequestingUser],
+        operation_id='updateUserProfile',
+    )
+    def update_user_profile(self, userId: str, payload: UserProfileSchema):
+        User.objects.filter(pk=userId).update(**payload.model_dump())
+        return get_object_or_404(User, id=userId)
+    

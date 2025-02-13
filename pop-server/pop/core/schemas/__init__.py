@@ -9,6 +9,7 @@ from .others import (
 from .user import (
     UserSchema, 
     UserCreateSchema, 
+    UserProfileSchema,
 )
 from .auth import (
     RefreshedTokenPairSchema,
@@ -19,7 +20,7 @@ from .auth import (
 __all__ = (
     PeriodSchema, RangeSchema,
     CodedConceptSchema,
-    UserSchema, UserCreateSchema,
+    UserSchema, UserCreateSchema, UserProfileSchema,
     ModifiedResourceSchema,
     RefreshedTokenPairSchema, 
     TokenRefreshSchema, 

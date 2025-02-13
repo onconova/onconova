@@ -66,3 +66,10 @@ class CanAuditLogs(BasePermission):
 class CanManageUsers(BasePermission):
     def check_user_permission(self, user: User):
         return user.can_manage_users
+
+class IsRequestingUser(permissions.BasePermission):
+    def has_permission(self, request: HttpRequest, controller):
+        # Access route context and compute parameters
+        controller.context.compute_route_parameters()
+        userId = controller.context.kwargs.get('userId')
+        return request.user.id == userId

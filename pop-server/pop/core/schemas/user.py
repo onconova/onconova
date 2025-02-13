@@ -7,3 +7,6 @@ class UserSchema(ModelGetSchema):
 
 class UserCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.User, exclude=['date_joined', 'groups', 'is_staff', 'is_superuser', 'user_permissions'])    
+
+class UserProfileSchema(ModelCreateSchema):
+    config = SchemaConfig(model=orm.User, fields=['first_name', 'last_name', 'organization', 'title', 'department'])    
