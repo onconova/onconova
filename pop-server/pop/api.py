@@ -1,5 +1,6 @@
 from ninja_jwt.controller import NinjaJWTDefaultController
 from ninja_extra import NinjaExtraAPI
+from ninja import Redoc
 
 from django.conf import settings 
 
@@ -38,6 +39,7 @@ api = NinjaExtraAPI(
     title="POP API",
     description="Precision Oncology Platform API for exchange of research cancer data",
     urls_namespace="pop",
+    docs=Redoc(),
     servers=[]
 )
 api.register_controllers(

@@ -45,7 +45,7 @@ class User(AbstractUser):
     )
     department = models.CharField(
         verbose_name = _('Department'),
-        help_text = _('Department within an rganization to which the user belongs to'),
+        help_text = _('Department within an organization to which the user belongs to'),
         max_length = 100, 
         blank = True, 
         null = True
