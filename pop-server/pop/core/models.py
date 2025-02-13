@@ -30,6 +30,27 @@ class User(AbstractUser):
         default=uuid.uuid4, 
         editable=False
     )
+    title = models.CharField(
+        verbose_name = _('Title'),
+        help_text = _('Personal title of the user'),
+        max_length = 100, 
+        blank = True, 
+        null = True
+    )
+    organization = models.CharField(
+        verbose_name = _('Organization'),
+        help_text = _('Organization to which the user belongs to'),
+        max_length = 100, 
+        blank = True, 
+        null = True
+    )
+    department = models.CharField(
+        verbose_name = _('Department'),
+        help_text = _('Department within an rganization to which the user belongs to'),
+        max_length = 100, 
+        blank = True, 
+        null = True
+    )
     access_level = models.IntegerField(
         verbose_name = _('Access level'),
         help_text = _('Level of access of the user in terms of permissions'),
