@@ -21,8 +21,8 @@ with open("pyproject.toml", "rb") as f:
     VERSION = tomllib.load(f).get('tool',{}).get('poetry',{}).get('version', None)
 
 # Security configuration
-SECRET_KEY = env("DJANGO_SECRET_KEY")  # Used to provide cryptographic signing, and should be set to a unique, unpredictable value.
-ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']# Host/domain names that this Django site can serve
+SECRET_KEY = env("DJANGO_SECRET_KEY")  
+ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']
 ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
 HOST = env('HOST')
 HOST_PORT = env('HTTPS_WEB_PORT')
@@ -35,9 +35,7 @@ DEBUG = env("DEBUG")                         # A boolean that turns on/off debug
 
 # HTTPS Settings
 SESSION_COOKIE_SECURE = True                # Cookie will only be sent over an HTTPS connection
-# CSRF_COOKIE_SECURE = True                   # Cookie will only be sent over an HTTPS connection
 SECURE_SSL_REDIRECT = True                  # Redirect all non-HTTPS requests to HTTPS
-# CSRF_TRUSTED_ORIGINS = [f'https://{env("HOST")}:{env("HTTPS_WEB_PORT")}'] # A list of trusted origins for unsafe requests (e.g. POST).
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")   # Trust the X-Forwarded-Proto header that comes from the Nginx proxy and that the request is guaranteed to be secure
 
 # HTTP Strict Transport Security (HSTS) settings
@@ -52,7 +50,6 @@ INSTALLED_APPS = [
     'pop.terminology',
     'pop.oncology',
     'pop.analytics',
-    'secured_fields',
     'ninja_extra',
     'corsheaders',
     'django.contrib.admin',
@@ -77,22 +74,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',   # Add simple clickjacking protection via the X-Frame-Options header 
 ]
 
-# Session timeout settings
-SESSION_EXPIRE_SECONDS = 3600*12  # Sessions expire after 12 hours
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False # Close sessions when closing browsers
-
 NINJA_JWT = {
     "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.AccessToken","ninja_jwt.tokens.RefreshToken"),
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
-
-# User time-limited edit permission expiration
-EDIT_PERMISSION_EXPIRE = 48 # Time-limited users' permission to edit resources expires after 48 hours 
-
-# Database field encryption
-SECURED_FIELDS_KEY = env('POSTGRES_ENCRYPTED_FIELDS_KEY')
-SECURED_FIELDS_HASH_SALT = env('POSTGRES_ENCRYPTED_FIELDS_HASH_SALT')
 
 ROOT_URLCONF = 'pop.urls'
 
@@ -128,18 +114,10 @@ DATABASES = {
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
@@ -156,9 +134,6 @@ STATIC_URL = '/static/'                                             # URL to use
 STATIC_ROOT = '/app/static' # Absolute path to the directory where collectstatic will collect static files for deployment.
 MEDIA_ROOT = '/app/media'      # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_URL = '/media/'                                               # URL that handles the media served from MEDIA_ROOT, used for managing stored files
-
-FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
-                        "django_excel.TemporaryExcelFileUploadHandler")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
