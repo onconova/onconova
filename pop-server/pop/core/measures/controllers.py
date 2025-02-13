@@ -5,8 +5,7 @@ from ninja_jwt.authentication import JWTAuth
 from measurement.base import MeasureBase, BidimensionalMeasure
 
 from pop.core.measures.schemas import MeasureConversionSchema, MeasureSchema
-import pop.core.measures.measures as measures
-
+from pop.core.measures import measures
 
 @api_controller(
     '/measures', 

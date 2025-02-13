@@ -4,6 +4,9 @@ from pop.tests import common, factories
 from pop.core.models import User 
 from pop.core.schemas import UserSchema, UserCreateSchema, UserProfileSchema
 from parameterized import parameterized
+
+from pop.core.measures import measures
+from pop.core.measures.schemas import MeasureConversionSchema   
    
 class TestUserController(common.ApiControllerTestMixin, TestCase):
     controller_path = '/api/auth/users'
@@ -107,3 +110,46 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(self.user.last_name, new_last_name) 
         # Clean-up
         User.objects.all().delete()
+        
+        
+
+
+class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
+    controller_path = '/api/measures'
+    
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_measure_units(self, scenario, config):
+        measure = measures.Volume
+        # Call the API endpoint
+        response = self.call_api_endpoint('GET', f'/{measure.__name__}/units', **config)
+        # Assert response content
+        if scenario == 'HTTPS Authenticated':
+            # Assert resonse status
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(list(measure.get_units().keys()), response.json())
+            
+            
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_measure_default_units(self, scenario, config):
+        measure = measures.Volume
+        # Call the API endpoint
+        response = self.call_api_endpoint('GET', f'/{measure.__name__}/units/default', **config)
+        # Assert response content
+        if scenario == 'HTTPS Authenticated':
+            # Assert resonse status
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(measure.STANDARD_UNIT, response.json())
+            
+            
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_convert_units(self, scenario, config):
+        measure = measures.Mass
+        data = MeasureConversionSchema(value=1, unit='kg', new_unit='g').model_dump(mode='json')
+        # Call the API endpoint
+        response = self.call_api_endpoint('POST', f'/{measure.__name__}/units/conversion', data=data, **config)
+        # Assert response content
+        if scenario == 'HTTPS Authenticated':
+            # Assert resonse status
+            converted_measure = response.json()
+            self.assertEqual(converted_measure['unit'], 'g')
+            self.assertEqual(converted_measure['value'], 1000)
