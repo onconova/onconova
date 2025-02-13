@@ -1,4 +1,5 @@
 
+import uuid
 from django.test import TestCase, Client
 from django.db.models import Model
 from ninja_extra.testing import TestClient
@@ -31,13 +32,13 @@ class ApiControllerTestCase:
     FACTORY: factories.factory.django.DjangoModelFactory
     MODEL: Model
     SCHEMA: ModelSchema
-    CREATE_SCHEMA: ModelSchema
+    CREATE_SCHEMA: ModelSchema      
 
     @classmethod
     def setUpTestData(cls):
         cls.maxDiff = None
         # Create a fake user
-        cls.user = factories.UserFactory.create(access_level=5)
+        cls.user = factories.UserFactory.create(username=f'user-{uuid.uuid4()}', access_level=5)
         cls.username = cls.user.username
         cls.password = faker.password()
         cls.user.set_password(cls.password)
