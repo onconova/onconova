@@ -1,35 +1,12 @@
 
-import uuid
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.db.models import Model
-from ninja_extra.testing import TestClient
 from pop.oncology import models, schemas
-from pop.tests import factories 
+from pop.tests import factories, common 
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
-from pop.core.controllers import AuthController 
-from pop.core.models import User 
 from parameterized import parameterized
 
-import faker 
-faker = faker.Faker()
-
-CONNECTION_SCENARIOS = [
-    ('HTTPS Authenticated',    (200, 204, 201), True, True),
-    ('HTTP Authenticated',     (301,), True, False),
-    ('HTTPS Unauthenticated',  (401,), False, True),
-    ('HTTP Unauthenticated',   (301,), False, False),
-]
-EXPANDED_CONNECTION_SCENARIOS = [
-    *CONNECTION_SCENARIOS,
-    ('HTTPS Unauthorized',      (403,), True, True),
-]
-GET = 'get'
-DELETE = 'delete'
-PUT = 'put'
-POST = 'post'
-
-class ApiControllerTestCase:
-    CONTROLLER_BASE_URL: str
+class ApiControllerTextMixin(common.ApiControllerTestMixin):
     FACTORY: factories.factory.django.DjangoModelFactory
     MODEL: Model
     SCHEMA: ModelGetSchema
@@ -37,66 +14,14 @@ class ApiControllerTestCase:
 
     @classmethod
     def setUpTestData(cls):
-        cls.maxDiff = None
-        cls.username = f'user-{uuid.uuid4()}'
-        # Create a fake user
-        cls.user = User.objects.filter(username=cls.username).first()
-        if not cls.user:
-            cls.user = factories.UserFactory.create(username=f'user-{uuid.uuid4()}', access_level=5)
-        cls.username = cls.user.username
-        cls.password = faker.password()
-        cls.user.set_password(cls.password)
-        cls.user.save()
         # Ensure class settings are iterable
         cls.FACTORY = [cls.FACTORY] if not isinstance(cls.FACTORY, list) else cls.FACTORY
         cls.SUBTESTS = len(cls.FACTORY)
         cls.MODEL = [cls.MODEL]*cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
         cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
         cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
+        super().setUpTestData()
         
-    def get_route_url(self, instance):
-        return f''
-        
-    def get_route_url_with_id(self, instance):
-        return f'/{instance.id}'
-        
-    def _authenticate_user(self):
-        # Login the user and retrieve the JWT token
-        auth_client = TestClient(AuthController)
-        response = auth_client.post(
-            "/pair", 
-            json={
-                "username": self.username, 
-                "password": self.password
-            }, 
-            secure=True)
-        token = response.json()["access"]
-        return {"Authorization": f"Bearer {str(token)}"}
-
-    def call_api_endpoint(self, verb, route, expected_responses, authenticate, secure, data=None):        
-        # Login the fake user and retrieve the JWT token
-        auth_header = self._authenticate_user() if authenticate else {}
-        # Prepare the controller
-        client = Client(headers=auth_header)
-        action = {
-            POST: client.post,
-            GET: client.get,
-            PUT: client.put,
-            DELETE: client.delete,
-        }
-        response = action[verb](
-            f'{self.CONTROLLER_BASE_URL}{route}', 
-            secure=secure, 
-            data=data if data is not None else None, 
-            content_type="application/json"
-        )
-        self.assertIn(
-            response.status_code, 
-            expected_responses, 
-            f'Unexpected response status code: {response.status_code}'
-        )
-        return response
-
     def _remove_key_recursive(self, dictionary, keys_to_remove):
         """
         Recursively removes a key from a dictionary that contains lists.
@@ -123,12 +48,12 @@ class ApiControllerTestCase:
             dictionary = __remove_key_recursive(dictionary, key_to_remove)
         return dictionary
 
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_get_all(self, scenario, *config):            
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_all(self, scenario, config):            
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
-            response = self.call_api_endpoint(GET, self.get_route_url(instance), *config)
+            response = self.call_api_endpoint('GET', self.get_route_url(instance), **config)
             with self.subTest(i=i):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -144,12 +69,12 @@ class ApiControllerTestCase:
                     self.assertEqual(expected, result)
                 self.MODEL[i].objects.all().delete()
 
-    @parameterized.expand(CONNECTION_SCENARIOS)
-    def test_get_by_id(self, scenario, *config):              
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_by_id(self, scenario, config):              
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
-            response = self.call_api_endpoint(GET, self.get_route_url_with_id(instance), *config)
+            response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -159,33 +84,29 @@ class ApiControllerTestCase:
                     expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
                     result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
                     self.assertDictEqual(result, expected)
+                self.MODEL[i].objects.all().delete()
     
-    @parameterized.expand(EXPANDED_CONNECTION_SCENARIOS)
-    def test_delete(self, scenario, *config):         
-        if scenario == 'HTTPS Unauthorized':
-            self.user.access_level=1
-            self.user.save()                 
+    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    def test_delete(self, scenario, config):            
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             # Call the API endpoint
-            response = self.call_api_endpoint(DELETE, self.get_route_url_with_id(instance), *config)
+            response = self.call_api_endpoint('DELETE', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):       
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 204)
                     self.assertFalse(self.MODEL[i].objects.filter(id=instance.id).exists())
+                self.MODEL[i].objects.all().delete()
 
-    @parameterized.expand(EXPANDED_CONNECTION_SCENARIOS)
-    def test_create(self, scenario, *config):             
-        if scenario == 'HTTPS Unauthorized':
-            self.user.access_level=1
-            self.user.save()                          
+    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    def test_create(self, scenario, config):                  
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i](created_by=self.user)
             json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
             instance.delete()
             # Call the API endpoint.
-            response = self.call_api_endpoint(POST, self.get_route_url(instance), *config, data=json_data)
+            response = self.call_api_endpoint('POST', self.get_route_url(instance), data=json_data, **config)
             with self.subTest(i=i):       
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -195,12 +116,10 @@ class ApiControllerTestCase:
                     self.assertIsNotNone(created_instance)
                     self.assertEqual(self.user,created_instance.created_by)
                     self.assertIn(self.user, created_instance.updated_by.all())
+                self.MODEL[i].objects.all().delete()
 
-    @parameterized.expand(EXPANDED_CONNECTION_SCENARIOS)
-    def test_update(self, scenario, *config):               
-        if scenario == 'HTTPS Unauthorized':
-            self.user.access_level=1
-            self.user.save()                      
+    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    def test_update(self, scenario, config):              
         for i in range(self.SUBTESTS):
             instance = self.FACTORY[i]()
             with self.subTest(i=i):           
@@ -208,7 +127,7 @@ class ApiControllerTestCase:
                 creator = instance.created_by
                 json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
                 # Call the API endpoint
-                response = self.call_api_endpoint(PUT, self.get_route_url_with_id(instance), *config, data=json_data)
+                response = self.call_api_endpoint('PUT', self.get_route_url_with_id(instance), data=json_data, **config)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     updated_id = response.json()['id']
@@ -217,27 +136,28 @@ class ApiControllerTestCase:
                     self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
                     self.assertEqual(creator, updated_instance.created_by) 
                     self.assertIn(self.user, updated_instance.updated_by.all()) 
+                self.MODEL[i].objects.all().delete()
                
                 
     
-class TestPatientCaseController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/patient-cases'
+class TestPatientCaseController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/patient-cases'
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
     SCHEMA = schemas.PatientCaseSchema
     CREATE_SCHEMA = schemas.PatientCaseCreateSchema             
 
 
-class TestNeoplastcEntityController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/neoplastic-entities'
+class TestNeoplastcEntityController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/neoplastic-entities'
     FACTORY = factories.PrimaryNeoplasticEntityFactory
     MODEL = models.NeoplasticEntity
     SCHEMA = schemas.NeoplasticEntitySchema
     CREATE_SCHEMA = schemas.NeoplasticEntityCreateSchema    
     
 
-class TestStagingController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/stagings'
+class TestStagingController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/stagings'
     FACTORY = [
         factories.TNMStagingFactory, 
         factories.FIGOStagingFactory,
@@ -256,32 +176,32 @@ class TestStagingController(ApiControllerTestCase, TestCase):
     ]
     
 
-class TestTumorMarkerController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/tumor-markers'
+class TestTumorMarkerController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/tumor-markers'
     FACTORY = factories.TumorMarkerTestFactory
     MODEL = models.TumorMarker
     SCHEMA = schemas.TumorMarkerSchema
     CREATE_SCHEMA = schemas.TumorMarkerCreateSchema    
     
 
-class TestRiskAssessmentController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/risk-assessments'
+class TestRiskAssessmentController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/risk-assessments'
     FACTORY = factories.RiskAssessmentFactory
     MODEL = models.RiskAssessment
     SCHEMA = schemas.RiskAssessmentSchema
     CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema    
     
     
-class TestSystemicTherapyController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/systemic-therapies'
+class TestSystemicTherapyController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/systemic-therapies'
     FACTORY = factories.SystemicTherapyFactory
     MODEL = models.SystemicTherapy
     SCHEMA = schemas.SystemicTherapySchema
     CREATE_SCHEMA = schemas.SystemicTherapyCreateSchema    
     
     
-class TestSystemicTherapyMedicationController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/systemic-therapies'
+class TestSystemicTherapyMedicationController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/systemic-therapies'
     FACTORY = factories.SystemicTherapyMedicationFactory
     MODEL = models.SystemicTherapyMedication
     SCHEMA = schemas.SystemicTherapyMedicationSchema
@@ -293,23 +213,23 @@ class TestSystemicTherapyMedicationController(ApiControllerTestCase, TestCase):
     def get_route_url_with_id(self, instance):
         return f'/{instance.systemic_therapy.id}/medications/{instance.id}'
 
-class TestSurgeryController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/surgeries'
+class TestSurgeryController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/surgeries'
     FACTORY = factories.SurgeryFactory
     MODEL = models.Surgery
     SCHEMA = schemas.SurgerySchema
     CREATE_SCHEMA = schemas.SurgeryCreateSchema    
     
     
-class TestRadiotherapyController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/radiotherapies'
+class TestRadiotherapyController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/radiotherapies'
     FACTORY = factories.RadiotherapyFactory
     MODEL = models.Radiotherapy
     SCHEMA = schemas.RadiotherapySchema
     CREATE_SCHEMA = schemas.RadiotherapyCreateSchema    
     
-class TestRadiotherapyDosageController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/radiotherapies'
+class TestRadiotherapyDosageController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/radiotherapies'
     FACTORY = factories.RadiotherapyDosageFactory
     MODEL = models.RadiotherapyDosage
     SCHEMA = schemas.RadiotherapyDosageSchema
@@ -322,8 +242,8 @@ class TestRadiotherapyDosageController(ApiControllerTestCase, TestCase):
         return f'/{instance.radiotherapy.id}/dosages/{instance.id}'
     
 
-class TestRadiotherapySettingController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/radiotherapies'
+class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/radiotherapies'
     FACTORY = factories.RadiotherapySettingFactory
     MODEL = models.RadiotherapySetting
     SCHEMA = schemas.RadiotherapySettingSchema
@@ -336,23 +256,23 @@ class TestRadiotherapySettingController(ApiControllerTestCase, TestCase):
         return f'/{instance.radiotherapy.id}/settings/{instance.id}'
     
     
-class TestTreatmentResponseController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/treatment-responses'
+class TestTreatmentResponseController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/treatment-responses'
     FACTORY = factories.TreatmentResponseFactory
     MODEL = models.TreatmentResponse
     SCHEMA = schemas.TreatmentResponseSchema
     CREATE_SCHEMA = schemas.TreatmentResponseCreateSchema    
     
     
-class TestAdverseEventController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/adverse-events'
+class TestAdverseEventController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/adverse-events'
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
     SCHEMA = schemas.AdverseEventSchema
     CREATE_SCHEMA = schemas.AdverseEventCreateSchema    
     
-class TestAdverseEventSuspectedCauseController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/adverse-events'
+class TestAdverseEventSuspectedCauseController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/adverse-events'
     FACTORY = factories.AdverseEventSuspectedCauseFactory
     MODEL = models.AdverseEventSuspectedCause
     SCHEMA = schemas.AdverseEventSuspectedCauseSchema
@@ -365,8 +285,8 @@ class TestAdverseEventSuspectedCauseController(ApiControllerTestCase, TestCase):
         return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}'
     
 
-class TestAdverseEventMitigationController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/adverse-events'
+class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/adverse-events'
     FACTORY = factories.AdverseEventMitigationFactory
     MODEL = models.AdverseEventMitigation
     SCHEMA = schemas.AdverseEventMitigationSchema
@@ -379,16 +299,16 @@ class TestAdverseEventMitigationController(ApiControllerTestCase, TestCase):
         return f'/{instance.adverse_event.id}/mitigations/{instance.id}'
     
         
-class TestGenomicVariantController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/genomic-variants'
+class TestGenomicVariantController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/genomic-variants'
     FACTORY = factories.GenomicVariantFactory
     MODEL = models.GenomicVariant
     SCHEMA = schemas.GenomicVariantSchema
     CREATE_SCHEMA = schemas.GenomicVariantCreateSchema    
     
 
-class TestTumorBoardController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/tumor-boards'
+class TestTumorBoardController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/tumor-boards'
     FACTORY = [
         factories.TumorBoardFactory,
         factories.MolecularTumorBoardFactory,
@@ -406,8 +326,8 @@ class TestTumorBoardController(ApiControllerTestCase, TestCase):
         schemas.MolecularTumorBoardCreateSchema,
     ]
     
-class TestMolecularTherapeuticRecommendationController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/molecular-tumor-boards'
+class TestMolecularTherapeuticRecommendationController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/molecular-tumor-boards'
     FACTORY = factories.MolecularTherapeuticRecommendationFactory
     MODEL = models.MolecularTherapeuticRecommendation
     SCHEMA = schemas.MolecularTherapeuticRecommendationSchema
@@ -420,56 +340,56 @@ class TestMolecularTherapeuticRecommendationController(ApiControllerTestCase, Te
         return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}'
     
         
-class TestTherapyLineController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/therapy-lines'
+class TestTherapyLineController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/therapy-lines'
     FACTORY = factories.TherapyLineFactory
     MODEL = models.TherapyLine
     SCHEMA = schemas.TherapyLineSchema
     CREATE_SCHEMA = schemas.TherapyLineCreateSchema    
 
 
-class TestPerformanceStatusController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/performance-status'
+class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/performance-status'
     FACTORY = factories.PerformanceStatusFactory
     MODEL = models.PerformanceStatus
     SCHEMA = schemas.PerformanceStatusSchema
     CREATE_SCHEMA = schemas.PerformanceStatusCreateSchema    
     
     
-class TestLifestyleController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/lifestyles'
+class TestLifestyleController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/lifestyles'
     FACTORY = factories.LifestyleFactory
     MODEL = models.Lifestyle
     SCHEMA = schemas.LifestyleSchema
     CREATE_SCHEMA = schemas.LifestyleCreateSchema    
     
     
-class TestFamilyHistoryController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/family-histories'
+class TestFamilyHistoryController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/family-histories'
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
     SCHEMA = schemas.FamilyHistorySchema
     CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema    
 
 
-class TestVitalsController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/vitals'
+class TestVitalsController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/vitals'
     FACTORY = factories.VitalsFactory
     MODEL = models.Vitals
     SCHEMA = schemas.VitalsSchema
     CREATE_SCHEMA = schemas.VitalsCreateSchema    
 
 
-class TestComorbiditiesAssessmentController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/comorbidities-assessments'
+class TestComorbiditiesAssessmentController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/comorbidities-assessments'
     FACTORY = factories.ComorbiditiesAssessmentFactory
     MODEL = models.ComorbiditiesAssessment
     SCHEMA = schemas.ComorbiditiesAssessmentSchema
     CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreateSchema    
 
 
-class TestGenomicSignatureController(ApiControllerTestCase, TestCase):
-    CONTROLLER_BASE_URL = '/api/genomic-signatures'
+class TestGenomicSignatureController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/genomic-signatures'
     FACTORY = [
         factories.TumorMutationalBurdenFactory, 
         factories.LossOfHeterozygosityFactory,

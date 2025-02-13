@@ -72,4 +72,4 @@ class IsRequestingUser(permissions.BasePermission):
         # Access route context and compute parameters
         controller.context.compute_route_parameters()
         userId = controller.context.kwargs.get('userId')
-        return request.user.id == userId
+        return str(request.user.id) == str(userId)

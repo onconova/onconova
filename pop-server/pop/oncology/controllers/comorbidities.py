@@ -127,7 +127,7 @@ class ComorbiditiesPanelsController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesPanelsByName',
     )
-    def get_comorbidities_panel_by_name(self, panel: ComorbiditiesPanel): # type: ignore
+    def get_comorbidities_panel_by_name(self, panel: ComorbiditiesPanel):
         panel_details = ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.get(panel)
         if not panel_details:
             return 404

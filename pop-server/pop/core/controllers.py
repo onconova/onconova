@@ -1,13 +1,16 @@
 from ninja_extra import route, api_controller, ControllerBase
+from ninja_extra.pagination import paginate
 from ninja_jwt.authentication import JWTAuth
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from typing import List 
 
+
 from pop.core import permissions as perms
 from pop.core.models import User
 from pop.core.schemas import (
+    Paginated,
     UserSchema, 
     UserCreateSchema,
     UserProfileSchema,
@@ -52,11 +55,12 @@ class UsersController(ControllerBase):
     @route.get(
         path="/users",
         response={
-            200: List[UserSchema]
+            200: Paginated[UserSchema]
         }, 
         permissions=[perms.CanViewUsers],
         operation_id='getUsers',
     )
+    @paginate
     def get_all_users_matching_the_query(self):
         return get_user_model().objects.all()
     
@@ -69,7 +73,7 @@ class UsersController(ControllerBase):
         permissions=[perms.CanViewUsers],
         operation_id='getUserById',
     )
-    def get_user_by_id(self, userId: int):
+    def get_user_by_id(self, userId: str):
         return get_object_or_404(get_user_model(), id=userId)
 
 
@@ -95,6 +99,7 @@ class UsersController(ControllerBase):
     )
     def update_user(self, userId: str, payload: UserCreateSchema):
         return payload.model_dump_django(instance=get_object_or_404(User, id=userId))
+
     
     @route.put(
         path='/users/{userId}/profile', 
@@ -106,6 +111,7 @@ class UsersController(ControllerBase):
         operation_id='updateUserProfile',
     )
     def update_user_profile(self, userId: str, payload: UserProfileSchema):
-        User.objects.filter(pk=userId).update(**payload.model_dump())
-        return get_object_or_404(User, id=userId)
+        user = get_object_or_404(User, id=userId)
+        User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
+        return get_object_or_404(User, id=user.id)
     

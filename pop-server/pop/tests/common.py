@@ -39,3 +39,86 @@ class AbstractModelMixinTestCase(TestCase):
             editor.delete_model(cls.model)
 
         connection.close()
+
+
+
+
+import uuid
+from django.test import TestCase, Client
+from ninja_extra.testing import TestClient
+from pop.tests import factories 
+from pop.core.controllers import AuthController 
+from pop.core.models import User 
+from faker import Faker
+
+class ApiControllerTestMixin:
+    
+    # Properties
+    controller_path: str
+    scenarios = [
+        ('HTTPS Authenticated', dict(expected_responses=(200, 204, 201), authenticated=True, use_https=True, access_level=5)),
+        ('HTTP Authenticated', dict(expected_responses=(301,), authenticated=True, use_https=False, access_level=5)),
+        ('HTTPS Unauthenticated', dict(expected_responses=(401,), authenticated=False, use_https=True, access_level=5)),
+        ('HTTP Unauthenticated', dict(expected_responses=(301,), authenticated=False, use_https=False, access_level=5)),
+        ('HTTPS Unauthorized', dict(expected_responses=(403,), authenticated=True, use_https=True, access_level=1)),
+    ]
+    get_scenarios = scenarios[:-1]
+    
+    @classmethod
+    def setUpTestData(cls):
+        cls.maxDiff = None
+        # Generate user credentials
+        username = f'user-{uuid.uuid4()}'
+        password = Faker().password()
+        # Create a fake user with known credentials if not exists
+        cls.user = User.objects.filter(username=username).first()
+        if not cls.user:
+            cls.user = factories.UserFactory.create(username=username)
+        cls.user.set_password(password)
+        cls.user.save()
+        cls.credentials = {'username': username, 'password': password}
+        
+    def get_route_url(self, instance):
+        return f''
+        
+    def get_route_url_with_id(self, instance):
+        return f'/{instance.id}'
+        
+    def _authenticate_user(self):
+        # Login the user and retrieve the JWT token
+        auth_client = TestClient(AuthController)
+        response = auth_client.post("/pair", json=self.credentials, secure=True)
+        token = response.json()["access"]
+        return {"Authorization": f"Bearer {str(token)}"}
+
+    def call_api_endpoint(self, verb, route, expected_responses, authenticated, use_https, access_level, data=None):        
+        # Set the user access level for this call
+        self.user.access_level = access_level
+        self.user.save()
+        # Login the fake user and retrieve the JWT token
+        auth_header = self._authenticate_user() if authenticated else {}
+        # Prepare the controller
+        client = Client(headers=auth_header)
+        action = {
+            'POST': client.post,
+            'GET': client.get,
+            'PUT': client.put,
+            'DELETE': client.delete,
+        }
+        response = action[verb](
+            f'{self.controller_path}{route}', 
+            secure=use_https, 
+            data=data if data is not None else None, 
+            content_type="application/json"
+        )
+        # Assert that there were no errors
+        if response.status_code == 500:
+            raise RuntimeError('An error ocurred during the API call (returned 500)')
+        
+        # Assert response status code
+        self.assertIn(
+            response.status_code, 
+            expected_responses, 
+            f'Endpoint responded with {response.status_code}'
+        )
+        return response
