@@ -2,7 +2,7 @@
 from django.db.models import Q
 from typing import Iterator
 from pop.oncology import models as oncological_models
-from pop.core.schemas import filters as filters
+from pop.core import filters as filters
 from pop.analytics.schemas import CohortFilterRuleset, CohortFilterRule, RulesetCondition
 
 

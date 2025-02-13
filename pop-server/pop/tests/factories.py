@@ -11,6 +11,7 @@ from django.contrib.auth.hashers import make_password
 import pop.core.measures as measures
 from pop.core.models import User
 import pop.oncology.models as models
+import pop.analytics.models as analytics_models
 import pop.terminology.models as terminology
 
 import sys
@@ -422,6 +423,13 @@ class VitalsFactory(factory.django.DjangoModelFactory):
     blood_pressure_systolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(100, 120)))     
     blood_pressure_diastolic = factory.LazyFunction(lambda: measures.Pressure(mmHg=random.randint(65, 85)))     
     temperature = factory.LazyFunction(lambda: measures.Temperature(celsius=random.randint(37, 40)))     
+
+class CohortFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = analytics_models.Cohort
+    created_by =  factory.SubFactory(UserFactory)
+    name = factory.LazyFunction(lambda: f'Cohort #{random.randint(1111,9999)}')
+    is_public = factory.LazyFunction(lambda: random.random()>0.5)  
 
 
 
