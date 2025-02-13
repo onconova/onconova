@@ -7,6 +7,7 @@ from pop.oncology import models, schemas
 from pop.tests import factories 
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
 from pop.core.controllers import AuthController 
+from pop.core.models import User 
 from parameterized import parameterized
 
 import faker 
@@ -39,7 +40,7 @@ class ApiControllerTestCase:
         cls.maxDiff = None
         cls.username = f'user-{uuid.uuid4()}'
         # Create a fake user
-        cls.user = models.User.objects.filter(username=cls.username).first()
+        cls.user = User.objects.filter(username=cls.username).first()
         if not cls.user:
             cls.user = factories.UserFactory.create(username=f'user-{uuid.uuid4()}', access_level=5)
         cls.username = cls.user.username
