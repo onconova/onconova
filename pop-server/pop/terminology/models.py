@@ -575,7 +575,7 @@ class TumorMarkerAnalyte(CodedConcept):
 
     @classmethod
     def transform(cls, concept):
-        from pop.oncology.models.TumorMarker import ANALYTES_DATA
+        from pop.oncology.models.tumor_marker import ANALYTES_DATA
         analyte_data = ANALYTES_DATA.get(concept.code)
         concept.properties = analyte_data.model_dump(mode='json') if analyte_data else None
         return concept
