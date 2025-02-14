@@ -64,11 +64,11 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
         return primary_unit, reference_unit
     
     def __str__(self):
-        if isinstance( self.primary, Measure):
+        if isinstance( self.primary, (Measure, MeasureBase)):
             primary_unit = self.primary.get_aliases().get(self.primary.unit, self.primary.unit)
         else:
             primary_unit = self.primary
-        if isinstance( self.reference, Measure):
+        if isinstance( self.reference, (Measure, MeasureBase)):
             reference_unit = self.reference.get_aliases().get(self.reference.unit, self.reference.unit)
         else:
             reference_unit = self.reference
