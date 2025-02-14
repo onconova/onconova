@@ -35,8 +35,9 @@
             <!-- Button to add new cases -->
             <p-button 
                 (onClick)="openNewCaseForm()" 
+                [disabled]="!authService.user.canManageCases"
                 label="Register Case"
-                icon="pi pi-plus"/>
+                [icon]="authService.user.canManageCases ? 'pi pi-plus' : 'pi pi-lock'"/>
         </div>
     </ng-template>
 </p-toolbar>

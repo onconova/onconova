@@ -126,7 +126,8 @@
             <p-confirmdialog />
             <p-splitbutton 
                 label="Edit" 
-                icon="pi pi-pencil" 
+                [disabled]="!authService.user.canManageCases"
+                [icon]="authService.user.canManageCases? 'pi pi-pencil' : 'pi pi-lock'" 
                 dropdownIcon="pi pi-cog" 
                 (onClick)="visibleChange.emit(false); update.emit(data)"
                 [model]="actionItems" 

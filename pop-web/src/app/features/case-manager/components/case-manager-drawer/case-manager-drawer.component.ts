@@ -12,13 +12,14 @@ import { ConfirmationService } from 'primeng/api';
 import { Tree } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 
-import { AuthService, CodedConcept, Measure, Period } from 'src/app/shared/openapi';
+import { CodedConcept, Measure, Period } from 'src/app/shared/openapi';
 import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 
 import { List, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 
 import { map, first, Observable, share } from 'rxjs';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 
 @Pipe({
@@ -107,7 +108,7 @@ export class getObjectPropertiesPipe implements PipeTransform {
 })
 export class CaseManagerDrawerComponent {
 
-    private userService = inject(AuthService)
+    public authService = inject(AuthService)
     private confirmationService = inject(ConfirmationService)
 
     @Input() data!: any;
@@ -138,6 +139,7 @@ export class CaseManagerDrawerComponent {
         },
         {
             label: 'Export',
+            disabled: !this.authService.user.canExportData,
             icon: 'pi pi-file-export',
             command: () => {
                 console.log('export', this.data.id)

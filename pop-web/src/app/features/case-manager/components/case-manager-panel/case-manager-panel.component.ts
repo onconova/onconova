@@ -55,7 +55,7 @@ export class CaseManagerPanelComponent implements OnInit {
     private readonly patienCaseService = inject(PatientCasesService);
     private readonly modalFormService = inject(ModalFormService);
     private readonly messageService = inject(MessageService);
-    private authService = inject(AuthService)
+    public authService = inject(AuthService)
     private confirmationService = inject(ConfirmationService)
     public readonly destroyRef = inject(DestroyRef);
 

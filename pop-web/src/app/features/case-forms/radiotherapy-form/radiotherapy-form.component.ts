@@ -121,7 +121,6 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
                 return this.constructSettingsSubform(initialSetting)
             }
         ))
-        console.log('this.initialData', this.initialData)
         this.form = this.formBuilder.group({
             period: [this.initialData?.period, Validators.required],
             targetedEntities: [this.initialData?.targetedEntitiesIds, Validators.required],

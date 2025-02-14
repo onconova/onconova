@@ -23,6 +23,7 @@ import { CaseBrowserCardComponent } from './components/case-card/case-search-ite
 import { PatientFormComponent } from 'src/app/features/case-forms';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 
 @Component({
@@ -52,9 +53,10 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
 export class CaseBrowserComponent implements OnInit {
   
   // Injected services  
-  private patientCasesService = inject(PatientCasesService)
-  private modalFormService = inject(ModalFormService)
-  private messageService = inject(MessageService) 
+  private readonly patientCasesService = inject(PatientCasesService)
+  private readonly modalFormService = inject(ModalFormService)
+  public readonly authService = inject(AuthService)
+  private readonly messageService = inject(MessageService) 
 
 
   @Input() public manager: string | undefined;

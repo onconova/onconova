@@ -23,6 +23,7 @@
         </div>
         @let menuItems = menuItems$ | async;
         <span 
+            *ngIf="authService.user.canManageCases"
             class="pi pi-cog cursor-pointer ml-auto my-auto" 
             style="color: var(--p-button-text-secondary-color)" 
             (click)="menu.toggle($event)"></span>

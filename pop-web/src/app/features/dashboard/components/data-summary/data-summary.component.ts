@@ -55,7 +55,6 @@ export class DataSummaryComponent {
     }
 
     initChart() {
-        console.log('INIT CHART')
         const documentStyle = getComputedStyle(document.documentElement);
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');

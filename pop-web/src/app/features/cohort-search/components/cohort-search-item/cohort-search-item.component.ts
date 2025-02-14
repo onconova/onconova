@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, CohortsService, CohortStatisticsSchema } from 'src/app/shared/openapi';
+import { CohortsService, CohortStatisticsSchema } from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -22,6 +22,7 @@ import { LucideAngularModule } from 'lucide-angular';
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
     standalone: true,
@@ -51,6 +52,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 })
 export class CohortSearchItemComponent {
 
+    public authService = inject(AuthService)
     private readonly router = inject(Router);
     private readonly cohortsService = inject(CohortsService);
 

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine} from 'src/app/shared/openapi';
+import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine} from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -21,6 +21,7 @@ import { NgxJdenticonModule } from "ngx-jdenticon";
 
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
     standalone: true,
@@ -55,7 +56,7 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
 export class CaseBrowserCardComponent {
 
     // Injected services
-    private authService: AuthService = inject(AuthService);
+    public authService: AuthService = inject(AuthService);
     private therapyLinesService: TherapyLinesService = inject(TherapyLinesService);
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);
@@ -79,6 +80,7 @@ export class CaseBrowserCardComponent {
     actionItems = [
         {
             label: 'Export',
+            disabled: !this.authService.user.canExportData,
             icon: 'pi pi-file-export',
             command: (event: any) => {
                 console.log('export', this.case.id)
@@ -89,7 +91,6 @@ export class CaseBrowserCardComponent {
             icon: 'pi pi-trash',
             styleClass: 'delete-action',
             command: (event: any) => {
-                console.log('delete', this.case.id)
                 this.confirmDelete(event);
             },
         },

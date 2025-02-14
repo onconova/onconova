@@ -41,7 +41,6 @@ export class CaseImporterComponent {
 
     
     onFileChange(event: any): void {
-        console.log('UPLOADED')
         const file = event.target.files[0];
         const isValid = (value: PatientCaseBundle): value is PatientCaseBundle => !!value?.id;
 

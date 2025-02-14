@@ -42,7 +42,6 @@ export class AuthService {
   }
 
   setUsername(username: string) {
-    console.log('SET USERNAME', username)
     this.username = username;
     localStorage.setItem('pop_logged_username', username);
   }
@@ -63,7 +62,6 @@ export class AuthService {
   getUser(username: string) {
     return this.apiAuth.getUsers({username: username, limit: 1}).pipe(
       map((response: PaginatedUser) => {
-        console.log('GOT USER', username)
         return response.items[0];
       })
     )

@@ -18,9 +18,10 @@
             <!-- Button to add new cohorts -->
             <p-button 
                 (onClick)="openNewCohortForm()" 
+                [disabled]="!authService.user.canManageCohorts"
                 label="New cohort" 
                 class="ml-3"
-                icon="pi pi-plus"/>
+                [icon]="authService.user.canManageCohorts ? 'pi pi-plus' : 'pi pi-lock'"/>
         </div>
     </div>
     

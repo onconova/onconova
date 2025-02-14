@@ -65,7 +65,6 @@ export class getEventGradesPipe implements PipeTransform {
                 description: properties[`grade${grade}`].trim(),                
             }
         })
-        console.log(gradeChoices)
         return gradeChoices.filter((choice) => choice.description !== '-')
     }
 }

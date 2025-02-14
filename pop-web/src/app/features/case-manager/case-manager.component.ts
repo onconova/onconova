@@ -65,6 +65,7 @@ import {
 
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
 import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 
 
@@ -91,6 +92,7 @@ import { CaseManagerPanelComponent,DataService } from './components/case-manager
 export class CaseManagerComponent implements OnInit {
 
     // Injected dependencies
+    public authService: AuthService = inject(AuthService);
     private caseService: PatientCasesService = inject(PatientCasesService);
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);

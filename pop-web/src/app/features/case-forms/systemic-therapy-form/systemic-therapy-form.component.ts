@@ -130,7 +130,6 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
                 return this.constructMedicationSubform(initialMedication)
             }
         ))
-        console.log('this.initialData', this.initialData)
         this.form = this.formBuilder.group({
             period: [this.initialData?.period, Validators.required],
             targetedEntities: [this.initialData?.targetedEntitiesIds, Validators.required],
@@ -182,7 +181,6 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     }
 
     constructAPIPayload(data: any): SystemicTherapyCreate {    
-        console.log('constructAPIPayload', data)
         return {
             caseId: this.caseId,
             targetedEntitiesIds: data.targetedEntities,

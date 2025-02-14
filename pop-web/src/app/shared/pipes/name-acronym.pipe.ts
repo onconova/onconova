@@ -8,7 +8,6 @@ import { User } from "../openapi"
 export class GetNameAcronymPipe implements PipeTransform {
   
     transform(user: User): string {
-        console.log(user)
         if (user.firstName && user.lastName) {
             return user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
         } else {

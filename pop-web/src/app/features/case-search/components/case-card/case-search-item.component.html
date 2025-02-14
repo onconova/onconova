@@ -119,7 +119,9 @@
         <p-splitbutton
             label="Open case management"
             class="mt-auto"
-            dropdownIcon="pi pi-cog" [model]="actionItems"
+            [menuButtonDisabled]="!authService.user.canManageCases"
+            [dropdownIcon]="authService.user.canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
+            [model]="actionItems"
             (onClick)="openCaseManagement()" />
     </div>
 </div>

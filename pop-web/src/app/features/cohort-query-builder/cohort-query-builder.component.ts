@@ -191,6 +191,8 @@ export class filterByEntityPipe implements PipeTransform {
 })
 export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
+    @Input() disabled: boolean = false;
+
     private cohortsService = inject(CohortsService);
     public formControl: FormControl = new FormControl();
 
@@ -218,7 +220,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
     // Emit the updated query value when it changes in the query-builder
     onQueryChange(updatedQuery: any) {
-        console.log('updatedQuery', updatedQuery)
         if ( updatedQuery.rules.length > 0){
             this.formControl.patchValue(updatedQuery);
         } else {

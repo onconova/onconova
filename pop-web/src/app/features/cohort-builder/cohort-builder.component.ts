@@ -21,6 +21,7 @@ import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-quer
 import { first, map } from 'rxjs';
 
 import { CaseBrowserCardComponent } from '../case-search/components/case-card/case-search-item.component';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 
 @Component({
@@ -53,6 +54,7 @@ export class CohortBuilderComponent {
     private readonly messageService = inject(MessageService);
     public readonly formBuilder = inject(FormBuilder);
     public readonly location = inject(Location);
+    public readonly authService = inject(AuthService)
 
 
     public cohortControl!: FormGroup;

@@ -118,7 +118,6 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
     const relatedPrimary = this.form.get('relatedPrimary')
     if (relationship === NeoplasticEntityRelationshipChoices.Primary) {
       relatedPrimary?.removeValidators(Validators.required);
-      console.log('relatedPrimary not required')
     } else {
       relatedPrimary?.addValidators(Validators.required);
     }  

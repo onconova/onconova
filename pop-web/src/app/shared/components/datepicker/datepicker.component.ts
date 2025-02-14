@@ -85,7 +85,6 @@ export class DatePickerComponent implements ControlValueAccessor {
             if (this.selectionMode === 'range') {
                 // Convert user-friendly format -> ISO for range
                 const dates = val.includes(' - ') ? val.split(' - ') : val;
-                console.log('dates', dates)
                 if (dates.length === 2) {
                     const isoStart = this.parseToISO(dates[0]);
                     const isoEnd = this.parseToISO(dates[1]);

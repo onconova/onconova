@@ -44,7 +44,6 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Search Cohorts', icon: 'pi pi-fw pi-users', routerLink: ['/cohorts/search'] },
                     { label: 'My Cohorts', icon: 'pi pi-fw pi-user', routerLink: ['/cohorts/search/', , this.authService.getUsername()] },
-                    { label: 'Cohort Extraction', icon: 'pi pi-fw pi-table', routerLink: ['/notfound'] },
                 ]
             },
             {

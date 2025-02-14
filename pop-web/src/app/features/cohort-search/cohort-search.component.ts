@@ -21,6 +21,7 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
 
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
 import { CohortFormComponent } from 'src/app/features/case-forms/cohort-form/cohort-form.component';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
   standalone: true,
@@ -49,6 +50,7 @@ import { CohortFormComponent } from 'src/app/features/case-forms/cohort-form/coh
 export class CohortSearchComponent implements OnInit {
   
   // Injected services  
+  public authService = inject(AuthService)
   private cohortsService = inject(CohortsService)
   private modalFormService = inject(ModalFormService)
   private messageService = inject(MessageService) 

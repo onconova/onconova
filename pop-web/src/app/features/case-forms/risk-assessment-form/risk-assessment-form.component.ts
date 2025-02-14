@@ -71,7 +71,6 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   }
 
   constructForm(): void {
-    console.log(this.initialData)
     this.form = this.formBuilder.group({
         date: [this.initialData?.date, Validators.required],
         assessedEntities: [this.initialData?.assessedEntitiesIds, Validators.required],

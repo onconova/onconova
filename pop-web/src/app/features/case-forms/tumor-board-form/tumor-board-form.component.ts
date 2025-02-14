@@ -180,7 +180,6 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
 
         this.molecularTherapeuticRecommendationsFormArray = this.formBuilder.array((this.initialData?.therapeuticRecommendations || [])?.map(
             (initialRecommendation: MolecularTherapeuticRecommendation) => {
-                console.log('initialRecommendation',initialRecommendation)
                 const subform = this.constructMolecularTherapeuticRecommendationSubForm(initialRecommendation);
                 this.changeTherapeuticRecommendationValidation(subform, subform.value.recommendationType)
                 return subform
@@ -305,7 +304,6 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
                 form.get(field)?.setValidators([])
             }
         );
-        console.log('VALIDATORS', category)
         switch (category) {
             case this.TherapeuticRecommendationType.Drugs:
                 fieldNames.filter(field => field!='clinicalTrial').forEach(
