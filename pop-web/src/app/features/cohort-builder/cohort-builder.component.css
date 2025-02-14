@@ -39,3 +39,7 @@ pop-case-search-item {
 .is-public-chip.p-chip, .is-public-chip .p-chip-icon{
     color: light-dark(var(--p-primary-700), var(--p-primary-300)) !important;
 }
+
+.p-tabpanels, .p-tablist-tab-list {
+    background: none !important;
+}

@@ -60,7 +60,7 @@
             <small class="text-muted">Clinical Identifier</small>
             <div>
                 <span *ngIf="case && !authService.user.canAccessSensitiveData" style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
-                <span *ngIf="case && authService.user.canAccessSensitiveData" style="opacity: 0.45;">{{ case.clinicalIdentifier}}</span>
+                <span *ngIf="case && authService.user.canAccessSensitiveData">{{ case.clinicalIdentifier}}</span>
                 <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
             </div>
         </div> 

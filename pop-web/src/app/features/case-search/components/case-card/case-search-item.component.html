@@ -73,25 +73,6 @@
             </ng-template>
         </div>
 
-        <div class="flex flex-column mb-3 diagnosis-text">
-            <small class="text-muted mb-1">Consent</small>
-                <div *ngIf="case.consentStatus">
-                    <div class="diagnosis-text my-auto">
-                        <ng-container *ngIf="case.consentStatus == 'valid'">
-                            Valid
-                        </ng-container>
-                        <ng-container *ngIf="case.consentStatus == 'unknown'">
-                            -
-                        </ng-container>
-                        <ng-container *ngIf="case.consentStatus == 'revoked'">
-                            <i class="pi pi-ban"></i> Revoked
-                        </ng-container>
-                    </div>
-                </div>
-                <div *ngIf="!case.consentStatus"> 
-                    <div class="diagnosis-text">-</div>
-                </div>
-        </div>
     </div>
 
 
@@ -115,10 +96,30 @@
             </div> 
         </div>
 
+        <div class="flex-column align-items-center  mb-auto">
+            <small class="text-muted mb-1">Consent</small>
+                <div *ngIf="case.consentStatus">
+                    <div class="diagnosis-text my-auto">
+                        <ng-container *ngIf="case.consentStatus == 'valid'">
+                            Valid
+                        </ng-container>
+                        <ng-container *ngIf="case.consentStatus == 'unknown'">
+                            -
+                        </ng-container>
+                        <ng-container *ngIf="case.consentStatus == 'revoked'">
+                            Revoked
+                        </ng-container>
+                    </div>
+                </div>
+                <div *ngIf="!case.consentStatus"> 
+                    <div class="diagnosis-text">-</div>
+                </div>
+        </div>
+
         <p-confirmdialog />
         <p-splitbutton
-            label="Open case management"
-            class="mt-auto"
+            label="Open case"
+            class="mt-auto ml-auto"
             [menuButtonDisabled]="!authService.user.canManageCases"
             [dropdownIcon]="authService.user.canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
             [model]="actionItems"

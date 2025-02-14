@@ -10,6 +10,8 @@ import { InputText } from 'primeng/inputtext';
 import { Avatar } from 'primeng/avatar';
 import { DataView } from 'primeng/dataview';
 import { Chip } from 'primeng/chip';
+import { TabsModule } from 'primeng/tabs';
+import { Divider } from 'primeng/divider';
 
 // Icons
 import { Users, CalendarClock, ClipboardCheck } from 'lucide-angular';
@@ -22,6 +24,7 @@ import { first, map } from 'rxjs';
 
 import { CaseBrowserCardComponent } from '../case-search/components/case-card/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 
 
 @Component({
@@ -40,6 +43,9 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
         Panel,
         Card,
         InputText,
+        UserBadgeComponent,
+        Divider,
+        TabsModule,
         Avatar,
         DataView,
         Button,
