@@ -25,12 +25,15 @@
         <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
         <p-menu #profile [model]="profile_items" [popup]="true">
             <ng-template #start>
-                <div class="flex m-3">
-                    @let username = authService.getUsername();
-                    <p-avatar [label]="username.toUpperCase()[0]" size="large" class="mr-2" shape="circle" />
+                <div class="flex flex-column m-3 text-center">
+                    @let user = authService.user;
+                    <p-avatar label="{{ user | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
                     <div class="flex-col my-auto">
-                        <div class="font-bold mb-0">{{username}}</div>
-                        <small>Admin</small>
+                        <div class="font-bold mb-0">{{user | fullname}}</div>
+                        <div class="ml-1 text-muted">{{user.role}}</div>
+                        <div class="text-muted my-1">
+                            <i class="pi pi-lock"></i> {{ user.accessLevel}}
+                        </div>
                     </div>
                 </div>
             </ng-template>

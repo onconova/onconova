@@ -100,13 +100,7 @@
 
         <div class="flex flex-column align-items-center	gap-1" *ngIf="this.case.createdBy" >
             <small class="text-muted">Manager</small>
-                <p-avatar 
-                    label="{{ case.createdBy.username[0].toUpperCase() }}{{ case.createdBy.username[1].toUpperCase() }}" 
-                    size="normal" 
-                    class="manager-avatar my-auto"
-                    [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                    title="{{ case.createdBy.username }}" 
-                    shape="circle"/>
+                <pop-user-badge [user]="case.createdBy"/>
         </div>
 
         <div class="flex-column align-items-center  my-auto">

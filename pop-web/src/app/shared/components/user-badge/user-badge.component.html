@@ -1,0 +1,15 @@
+
+<p-avatar label="{{ user | acronym }}" styleClass="user-avatar" size="normal" shape="circle" [pTooltip]="userTooltipContent"/>
+<ng-template #userTooltipContent>
+    <div class="user-tooltip-content">
+        <p-avatar label="{{ user | acronym }}" styleClass="user-avatar" size="large" shape="circle"/>
+        <div class="flex flex-column my-auto">
+            <div class="user-tooltip-content-name">
+              {{ user | fullname }}          
+            </div>
+            <div class="user-tooltip-content-role text-muted">
+                <i class="pi pi-lock mr-1"></i>{{ user.accessLevel }}, {{ user.role }}          
+            </div>
+        </div>
+    </div>
+</ng-template>

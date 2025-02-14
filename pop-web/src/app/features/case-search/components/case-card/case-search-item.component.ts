@@ -20,16 +20,13 @@ import { Knob } from 'primeng/knob';
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
+import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 
 @Component({
     standalone: true,
     selector: 'pop-case-search-item',
     templateUrl: './case-search-item.component.html',
     styles: `
-        .manager-avatar.p-avatar {
-            color: var(--p-primary-500) !important;
-            background: color-mix(in srgb, var(--p-primary-500), transparent 80%)  !important;
-        }
         text.p-knob-text::after {
             content: '%' !important;
         }
@@ -51,6 +48,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
         Knob,
         SkeletonModule,
         CancerIconComponent,
+        UserBadgeComponent,
     ],
     encapsulation: ViewEncapsulation.None,
 })

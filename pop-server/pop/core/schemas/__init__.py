@@ -17,14 +17,21 @@ from .auth import (
     TokenPair, 
     UserCredentials,
 )
+from pop.core.schemas.factory import create_filters_schema
+
+
+# Filter schemas
+UserFilters = create_filters_schema(schema = UserSchema, name='UserFilters')
+
 __all__ = (
     PeriodSchema, RangeSchema,
     CodedConceptSchema,
-    UserSchema, UserCreateSchema, UserProfileSchema,
+    UserSchema, UserCreateSchema, UserProfileSchema, UserFilters,
     ModifiedResourceSchema,
     RefreshedTokenPair, 
     TokenRefresh, 
     TokenPair, 
     Paginated,
     UserCredentials
+    
 )

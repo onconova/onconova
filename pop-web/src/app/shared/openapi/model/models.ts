@@ -190,6 +190,7 @@ export * from './unspecified-tumor-board-create';
 export * from './user';
 export * from './user-create';
 export * from './user-credentials';
+export * from './user-filters';
 export * from './user-profile-schema';
 export * from './vitals';
 export * from './vitals-create';

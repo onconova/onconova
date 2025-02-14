@@ -7,11 +7,14 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SkeletonModule } from 'primeng/skeleton';
 
 import { EntityStatisticsSchema, DashboardService } from 'src/app/shared/openapi';
+import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { GetUserPipe } from 'src/app/shared/pipes/get-user.pipe';
 
 @Component({
     standalone: true,
@@ -23,14 +26,17 @@ import { FormsModule } from '@angular/forms';
         CommonModule,
         FormsModule,
         CancerIconComponent,
+        UserBadgeComponent,
         AvatarModule,
         AvatarGroupModule,
         RatingModule,
         TableModule,
         SkeletonModule,
+        GetUserPipe
     ],
 })
 export class PrimaryEntitiesTableComponent {
+    public readonly authService = inject(AuthService)
     public readonly dashboardService = inject(DashboardService);
     public entityStatistics$: Observable<EntityStatisticsSchema[]> = this.dashboardService.getPrimarySiteStatistics()    
 }

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AuthService as APIAuthService } from 'src/app/shared/openapi';
-import { Observable } from 'rxjs'
+import { inject, Injectable } from '@angular/core';
+import { AuthService as APIAuthService, PaginatedUser } from 'src/app/shared/openapi';
+import { first, map, Observable, switchMap } from 'rxjs'
 import { tap, firstValueFrom } from 'rxjs';
-import { GetTokenPairRequestParams, UserCredentials, TokenPair, TokenRefresh, RefreshedTokenPair} from 'src/app/shared/openapi/';
+import { User, UserCredentials, TokenPair, TokenRefresh, RefreshedTokenPair} from 'src/app/shared/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -10,19 +10,17 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  public username: string | null = null;
+  private apiAuth = inject(APIAuthService);
+  public username: string | null = this.getUsername();
+  public user!: User;
 
-  constructor(
-    private apiAuth: APIAuthService,
-  ) {}
-
-  login(username: string, password: string): Observable<TokenPair> {
+  login(username: string, password: string): Observable<void> {
     const userCredentials: UserCredentials = {
         username: username,
         password: password
     }
-    return this.apiAuth.getTokenPair({userCredentials: userCredentials})
-      .pipe(tap((response: TokenPair) => {
+    return this.apiAuth.getTokenPair({userCredentials: userCredentials}).pipe(
+      map((response: TokenPair) => {
         this.setAccessToken(response.access);
         this.setRefreshToken(response.refresh);
         this.setUsername(response.username);
@@ -47,6 +45,7 @@ export class AuthService {
     localStorage.setItem('pop_logged_username', username);
   }
 
+
   getUsername(): string {
     return this.username || localStorage.getItem('pop_logged_username') || '?';
   }
@@ -57,6 +56,24 @@ export class AuthService {
 
   getRefreshToken(): string | null {
     return localStorage.getItem('pop_refresh_token');
+  }
+
+  getUser(username: string) {
+    return this.apiAuth.getUsers({username: username, limit: 1}).pipe(
+      map((response: PaginatedUser) => {
+        console.log('GOT USER', username)
+        return response.items[0];
+      })
+    )
+  }
+
+  checkUserExists() {
+    if (!this.user) {
+      this.getUser(this.getUsername()).pipe(
+        map(user => {this.user=user})
+        ,first()
+      ).subscribe()
+    }
   }
 
   async refreshTokenPair() {

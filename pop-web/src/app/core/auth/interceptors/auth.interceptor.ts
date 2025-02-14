@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
-import { Observable, from, filter, mergeMap } from 'rxjs';
+import { Observable, from, filter, mergeMap, first } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { BASE_PATH } from 'src/app/shared/openapi';
 import { Router } from '@angular/router';

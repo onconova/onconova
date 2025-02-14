@@ -246,6 +246,7 @@ model/unspecified-tumor-board-create.ts
 model/unspecified-tumor-board.ts
 model/user-create.ts
 model/user-credentials.ts
+model/user-filters.ts
 model/user-profile-schema.ts
 model/user.ts
 model/vitals-create.ts

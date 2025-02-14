@@ -12,6 +12,7 @@ import { ChartModule } from 'primeng/chart';
 import { PrimaryEntitiesTableComponent } from './components/primary-entities-table/primary-entities-table.component';
 import { DataSummaryComponent } from './components/data-summary/data-summary.component';
 import { PatientCasesService } from 'src/app/shared/openapi';
+import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 
 import { CommonModule } from '@angular/common';
 import { map } from 'rxjs';
@@ -31,6 +32,7 @@ import { map } from 'rxjs';
         RandomPaperComponent,
         DataSummaryComponent,
         PrimaryEntitiesTableComponent,
+        GetFullNamePipe,
     ],
 })
 export class DashboardComponent {

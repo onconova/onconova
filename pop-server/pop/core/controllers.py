@@ -1,3 +1,4 @@
+from ninja import Query
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
 from ninja_jwt.authentication import JWTAuth
@@ -11,6 +12,7 @@ from pop.core import permissions as perms
 from pop.core.models import User
 from pop.core.schemas import (
     Paginated,
+    UserFilters,
     UserSchema, 
     UserCreateSchema,
     UserProfileSchema,
@@ -61,8 +63,9 @@ class UsersController(ControllerBase):
         operation_id='getUsers',
     )
     @paginate
-    def get_all_users_matching_the_query(self):
-        return get_user_model().objects.all()
+    def get_all_users_matching_the_query(self, query: Query[UserFilters]): # type: ignore
+        queryset = get_user_model().objects.all()
+        return query.filter(queryset)
     
     @route.get(
         path="/users/{userId}", 

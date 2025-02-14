@@ -13,6 +13,7 @@ import { Tree } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 
 import { AuthService, CodedConcept, Measure, Period } from 'src/app/shared/openapi';
+import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 
 import { List, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
@@ -97,6 +98,7 @@ export class getObjectPropertiesPipe implements PipeTransform {
         Button,
         GetConceptTreePipe,
         getObjectPropertiesPipe,
+        GetFullNamePipe,
         ReplacePipe,
         Tree,
         SplitButton,

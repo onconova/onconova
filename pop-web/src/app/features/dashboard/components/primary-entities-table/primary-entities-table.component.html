@@ -20,9 +20,17 @@
                 <td><p-rating title="{{entity.dataCompletionAverage}}% average completion" [ngModel]="entity.dataCompletionAverage/20" [readonly]="true" /></td>
                 <td>
                     <p-avatar-group>
-                        <ng-container *ngFor="let contributor of entity.contributors; let i = index;">
-                            <p-avatar styleClass="user-avatar" [label]="contributor[0].toUpperCase() + contributor[1].toUpperCase()" size="normal" shape="circle" *ngIf="i<3"/>
-                        </ng-container>
+                        <ng-container *ngFor="let contributorUsername of entity.contributors; let i = index;">
+                            <ng-container *ngIf="i<3">
+                                @let contributor = contributorUsername | getUser | async;
+                                <ng-container *ngIf="contributor"> 
+                                  <pop-user-badge [user]="contributor"/>
+                                </ng-container>
+                                <ng-container *ngIf="!contributor">
+                                    <p-skeleton shape="circle" size="2rem"/>
+                                </ng-container>
+                            </ng-container>
+                    </ng-container>
                         <ng-container  *ngIf="entity.contributors.length>3">
                             <p-avatar [label]="'+' + (entity.contributors.length-3).toString()" shape="circle" size="normal" />
                         </ng-container>

@@ -7,6 +7,8 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 
 import { SettingsDialogComponent } from '../settings/app.settings.component';
+import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
+import { GetNameAcronymPipe } from 'src/app/shared/pipes/name-acronym.pipe';
 
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
@@ -28,6 +30,8 @@ import { Button } from 'primeng/button';
         Button,
         InlineSVGModule,
         SettingsDialogComponent,
+        GetFullNamePipe,
+        GetNameAcronymPipe
     ]
 })
 export class AppTopBarComponent {
@@ -56,10 +60,10 @@ export class AppTopBarComponent {
                 separator: true
             },
             {
-                label: 'Profile',
+                label: 'Menu',
                 items: [
                     {
-                        label: 'Settings',
+                        label: 'Preferences',
                         icon: 'pi pi-cog',
                         command: () => {
                             this.showSettingsDialog();
@@ -67,7 +71,7 @@ export class AppTopBarComponent {
                     },
                     {
                         label: 'Logout',
-                        icon: 'pi pi-file',
+                        icon: 'pi pi-sign-out',
                         command: () => {
                             this.logout();
                         }
