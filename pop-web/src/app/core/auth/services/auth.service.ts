@@ -28,8 +28,9 @@ export class AuthService {
   }
   
   logout(): void {
+    localStorage.removeItem('pop_logged_username');
     localStorage.removeItem('pop_access_token');
-    localStorage.removeItem('pop_access_token');
+    localStorage.removeItem('pop_refresh_token');
   }
 
   setAccessToken(token: string) {
@@ -41,6 +42,7 @@ export class AuthService {
   }
 
   setUsername(username: string) {
+    console.log('SET USERNAME', username)
     this.username = username;
     localStorage.setItem('pop_logged_username', username);
   }
@@ -68,7 +70,7 @@ export class AuthService {
   }
 
   checkUserExists() {
-    if (!this.user) {
+    if (!this.user || this.user.username !== this.getUsername()) {
       this.getUser(this.getUsername()).pipe(
         map(user => {this.user=user})
         ,first()
