@@ -12,7 +12,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
 import { 
-    CodedConceptSchema,
+    CodedConcept,
     TerminologyService,
     PerformanceStatusCreate,
     PerformanceStatusService,
@@ -94,7 +94,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
         this.terminologyService.getTerminologyConcepts({terminologyName: 'ECOGPerformanceStatusInterpretation'}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: data => {
                 data.items.forEach(
-                    (concept: CodedConceptSchema, idx: number) => {
+                    (concept: CodedConcept, idx: number) => {
                         this.ecogScores[idx].label = `${this.ecogScores[idx].label} | ${concept.display || ''}`;
                     }
                 )
@@ -103,7 +103,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
         this.terminologyService.getTerminologyConcepts({terminologyName: 'KarnofskyPerformanceStatusInterpretation'}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
             next: data => {
                 data.items.forEach(
-                    (concept: CodedConceptSchema, idx: number) => {
+                    (concept: CodedConcept, idx: number) => {
                         this.karnofskyScores[idx].label = `${this.karnofskyScores[idx].label} | ${concept.display || ''}`;
                     }
                 )

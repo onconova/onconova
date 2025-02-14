@@ -8,11 +8,11 @@
  * Do not edit the class manually.
  */
 import { MeasureSchema } from './measure-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
-export interface SystemicTherapyMedicationSchema { 
+export interface SystemicTherapyMedication { 
     /**
      * 
      */
@@ -39,8 +39,8 @@ export interface SystemicTherapyMedicationSchema {
     /**
      * Antineoplastic drug/medication administered to the patient
      */
-    drug: CodedConceptSchema;
-    route?: CodedConceptSchema | null;
+    drug: CodedConcept;
+    route?: CodedConcept | null;
     usedOfflabel?: boolean | null;
     withinSoc?: boolean | null;
     dosageMassConcentration?: MeasureSchema | null;

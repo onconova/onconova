@@ -11,17 +11,17 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { FamilyHistoryCreateSchema } from '../model/models';
-import { FamilyHistorySchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedFamilyHistorySchema } from '../model/models';
+import { FamilyHistory } from '../model/models';
+import { FamilyHistoryCreate } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedFamilyHistory } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateFamilyHistoryRequestParams {
-    familyHistoryCreateSchema: FamilyHistoryCreateSchema;
+    familyHistoryCreate: FamilyHistoryCreate;
 }
 
 export interface DeleteFamilyHistoryByIdRequestParams {
@@ -96,7 +96,7 @@ export interface GetFamilyHistoryByIdRequestParams {
 
 export interface UpdateFamilyHistoryRequestParams {
     familyHistoryId: string;
-    familyHistoryCreateSchema: FamilyHistoryCreateSchema;
+    familyHistoryCreate: FamilyHistoryCreate;
 }
 
 
@@ -109,7 +109,7 @@ export interface FamilyHistoriesServiceInterface {
      * 
 * @param requestParameters
      */
-    createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Family History
@@ -123,20 +123,20 @@ export interface FamilyHistoriesServiceInterface {
      * 
 * @param requestParameters
      */
-    getFamilyHistories(requestParameters: GetFamilyHistoriesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedFamilyHistorySchema>;
+    getFamilyHistories(requestParameters: GetFamilyHistoriesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedFamilyHistory>;
 
     /**
      * Get Family History By Id
      * 
 * @param requestParameters
      */
-    getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, extraHttpRequestParams?: any): Observable<FamilyHistorySchema>;
+    getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, extraHttpRequestParams?: any): Observable<FamilyHistory>;
 
     /**
      * Update Family History
      * 
 * @param requestParameters
      */
-    updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

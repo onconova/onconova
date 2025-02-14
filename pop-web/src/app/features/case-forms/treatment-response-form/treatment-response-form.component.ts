@@ -14,7 +14,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { 
     NeoplasticEntity, 
     NeoplasticEntitiesService, 
-    TreatmentResponseCreateSchema,
+    TreatmentResponseCreate,
     TreatmentResponsesService,
 } from '../../../shared/openapi'
 
@@ -53,15 +53,15 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = (payload: TreatmentResponseCreateSchema) => this.treatmentResponsesService.createTreatmentResponse({treatmentResponseCreateSchema: payload});
-    public readonly updateService = (id: string, payload: TreatmentResponseCreateSchema) => this.treatmentResponsesService.updateTreatmentResponse({treatmentRresponseId: id, treatmentResponseCreateSchema: payload});
+    public readonly createService = (payload: TreatmentResponseCreate) => this.treatmentResponsesService.createTreatmentResponse({treatmentResponseCreate: payload});
+    public readonly updateService = (id: string, payload: TreatmentResponseCreate) => this.treatmentResponsesService.updateTreatmentResponse({treatmentRresponseId: id, treatmentResponseCreate: payload});
 
     public readonly title: string = 'Risk Assessment'
     public readonly subtitle: string = 'Add new risk assessment'
     public readonly icon = HeartPulse;
 
     private caseId!: string;
-    public initialData: TreatmentResponseCreateSchema | any = {};
+    public initialData: TreatmentResponseCreate | any = {};
     public relatedEntities$!: Observable<NeoplasticEntity[]>; 
     public resultsType: string[] = [];
     public readonly interpretationChoices: RadioChoice[] = [
@@ -88,7 +88,7 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
     }
     
 
-    constructAPIPayload(data: any): TreatmentResponseCreateSchema {    
+    constructAPIPayload(data: any): TreatmentResponseCreate {    
         return {
         caseId: this.caseId,
         assessedEntitiesIds: data.assessedEntities,

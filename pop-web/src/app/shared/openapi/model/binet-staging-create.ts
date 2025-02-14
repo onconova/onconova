@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface BinetStagingCreate { 
@@ -29,7 +29,7 @@ export interface BinetStagingCreate {
     /**
      * The value of the Binet stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace BinetStagingCreate {
     export type StagingDomainEnum = 'binet';

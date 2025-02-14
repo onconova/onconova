@@ -9,10 +9,10 @@
  */
 import { PeriodSchema } from './period-schema';
 import { RadiotherapyIntentChoices } from './radiotherapy-intent-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface RadiotherapyCreateSchema { 
+export interface RadiotherapyCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -31,14 +31,14 @@ export interface RadiotherapyCreateSchema {
      * Treatment intent of the system therapy
      */
     intent: RadiotherapyIntentChoices;
-    terminationReason?: CodedConceptSchema | null;
+    terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the radiotherapy
      */
     targetedEntitiesIds?: Array<string>;
 }
-export namespace RadiotherapyCreateSchema {
+export namespace RadiotherapyCreate {
 }
 
 

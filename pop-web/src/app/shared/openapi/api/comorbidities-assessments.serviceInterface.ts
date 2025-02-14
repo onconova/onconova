@@ -11,18 +11,18 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ComorbiditiesAssessmentCreateSchema } from '../model/models';
-import { ComorbiditiesAssessmentSchema } from '../model/models';
-import { ComorbiditiesPanelSchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedComorbiditiesAssessmentSchema } from '../model/models';
+import { ComorbiditiesAssessment } from '../model/models';
+import { ComorbiditiesAssessmentCreate } from '../model/models';
+import { ComorbiditiesPanel } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedComorbiditiesAssessment } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateComorbiditiesAssessmentRequestParams {
-    comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema;
+    comorbiditiesAssessmentCreate: ComorbiditiesAssessmentCreate;
 }
 
 export interface DeleteComorbiditiesAssessmentRequestParams {
@@ -34,6 +34,16 @@ export interface GetComorbiditiesAssessmentByIdRequestParams {
 }
 
 export interface GetComorbiditiesAssessmentsRequestParams {
+    indexNotExists?: boolean;
+    indexExists?: boolean;
+    indexLessThan?: number;
+    indexLessThanOrEqual?: number;
+    indexGreaterThan?: number;
+    indexGreaterThanOrEqual?: number;
+    indexEqual?: number;
+    indexNotEqual?: number;
+    indexBetween?: Array<any>;
+    indexNotBetween?: Array<any>;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -151,27 +161,17 @@ export interface GetComorbiditiesAssessmentsRequestParams {
     absentConditionsSynonymsExists?: boolean;
     absentConditionsPropertiesNotExists?: boolean;
     absentConditionsPropertiesExists?: boolean;
-    indexNotExists?: boolean;
-    indexExists?: boolean;
-    indexLessThan?: number;
-    indexLessThanOrEqual?: number;
-    indexGreaterThan?: number;
-    indexGreaterThanOrEqual?: number;
-    indexEqual?: number;
-    indexNotEqual?: number;
-    indexBetween?: Array<any>;
-    indexNotBetween?: Array<any>;
     limit?: number;
     offset?: number;
 }
 
 export interface GetComorbiditiesPanelsByNameRequestParams {
-    panel: 'Charlson' | 'Elixhauser' | 'NCI';
+    panel: string;
 }
 
 export interface UpdateComorbiditiesAssessmentRequestParams {
     comorbiditiesAssessmentId: string;
-    comorbiditiesAssessmentCreateSchema: ComorbiditiesAssessmentCreateSchema;
+    comorbiditiesAssessmentCreate: ComorbiditiesAssessmentCreate;
 }
 
 
@@ -184,7 +184,7 @@ export interface ComorbiditiesAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Comorbidities Assessment
@@ -198,33 +198,33 @@ export interface ComorbiditiesAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<ComorbiditiesAssessmentSchema>;
+    getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<ComorbiditiesAssessment>;
 
     /**
      * Get All Comorbidities Assessments Matching The Query
      * 
 * @param requestParameters
      */
-    getComorbiditiesAssessments(requestParameters: GetComorbiditiesAssessmentsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedComorbiditiesAssessmentSchema>;
+    getComorbiditiesAssessments(requestParameters: GetComorbiditiesAssessmentsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedComorbiditiesAssessment>;
 
     /**
      * Get All Comorbidities Panels
      * 
 */
-    getComorbiditiesPanels(extraHttpRequestParams?: any): Observable<Array<ComorbiditiesPanelSchema>>;
+    getComorbiditiesPanels(extraHttpRequestParams?: any): Observable<Array<ComorbiditiesPanel>>;
 
     /**
      * Get Comorbidities Panel By Name
      * 
 * @param requestParameters
      */
-    getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, extraHttpRequestParams?: any): Observable<ComorbiditiesPanelSchema>;
+    getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, extraHttpRequestParams?: any): Observable<ComorbiditiesPanel>;
 
     /**
      * Update Comorbidities Assessment
      * 
 * @param requestParameters
      */
-    updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

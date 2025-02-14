@@ -17,17 +17,17 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { Cohort } from '../model/cohort';
+// @ts-ignore
 import { CohortBuilderConfig } from '../model/cohort-builder-config';
 // @ts-ignore
-import { CohortCreateSchema } from '../model/cohort-create-schema';
-// @ts-ignore
-import { CohortSchema } from '../model/cohort-schema';
+import { CohortCreate } from '../model/cohort-create';
 // @ts-ignore
 import { CohortStatisticsSchema } from '../model/cohort-statistics-schema';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedCohortSchema } from '../model/paginated-cohort-schema';
+import { PaginatedCohort } from '../model/paginated-cohort';
 // @ts-ignore
 import { PaginatedPatientCase } from '../model/paginated-patient-case';
 
@@ -118,13 +118,13 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createCohort(requestParameters: CreateCohortRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createCohort(requestParameters: CreateCohortRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createCohort(requestParameters: CreateCohortRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createCohort(requestParameters: CreateCohortRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createCohort(requestParameters: CreateCohortRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createCohort(requestParameters: CreateCohortRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createCohort(requestParameters: CreateCohortRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const cohortCreateSchema = requestParameters?.cohortCreateSchema;
-        if (cohortCreateSchema === null || cohortCreateSchema === undefined) {
-            throw new Error('Required parameter cohortCreateSchema was null or undefined when calling createCohort.');
+        const cohortCreate = requestParameters?.cohortCreate;
+        if (cohortCreate === null || cohortCreate === undefined) {
+            throw new Error('Required parameter cohortCreate was null or undefined when calling createCohort.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -180,10 +180,10 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: cohortCreateSchema,
+                body: cohortCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -338,9 +338,9 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohortById(requestParameters: GetCohortByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CohortSchema>;
-    public getCohortById(requestParameters: GetCohortByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CohortSchema>>;
-    public getCohortById(requestParameters: GetCohortByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CohortSchema>>;
+    public getCohortById(requestParameters: GetCohortByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Cohort>;
+    public getCohortById(requestParameters: GetCohortByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Cohort>>;
+    public getCohortById(requestParameters: GetCohortByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Cohort>>;
     public getCohortById(requestParameters: GetCohortByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
@@ -391,7 +391,7 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<CohortSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Cohort>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -567,10 +567,18 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohorts(requestParameters?: GetCohortsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCohortSchema>;
-    public getCohorts(requestParameters?: GetCohortsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCohortSchema>>;
-    public getCohorts(requestParameters?: GetCohortsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCohortSchema>>;
+    public getCohorts(requestParameters?: GetCohortsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCohort>;
+    public getCohorts(requestParameters?: GetCohortsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCohort>>;
+    public getCohorts(requestParameters?: GetCohortsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCohort>>;
     public getCohorts(requestParameters?: GetCohortsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const populationLessThan = requestParameters?.populationLessThan;
+        const populationLessThanOrEqual = requestParameters?.populationLessThanOrEqual;
+        const populationGreaterThan = requestParameters?.populationGreaterThan;
+        const populationGreaterThanOrEqual = requestParameters?.populationGreaterThanOrEqual;
+        const populationEqual = requestParameters?.populationEqual;
+        const populationNotEqual = requestParameters?.populationNotEqual;
+        const populationBetween = requestParameters?.populationBetween;
+        const populationNotBetween = requestParameters?.populationNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -598,19 +606,47 @@ export class CohortsService implements CohortsServiceInterface {
         const manualChoicesIdsNot = requestParameters?.manualChoicesIdsNot;
         const frozenSetIds = requestParameters?.frozenSetIds;
         const frozenSetIdsNot = requestParameters?.frozenSetIdsNot;
-        const populationLessThan = requestParameters?.populationLessThan;
-        const populationLessThanOrEqual = requestParameters?.populationLessThanOrEqual;
-        const populationGreaterThan = requestParameters?.populationGreaterThan;
-        const populationGreaterThanOrEqual = requestParameters?.populationGreaterThanOrEqual;
-        const populationEqual = requestParameters?.populationEqual;
-        const populationNotEqual = requestParameters?.populationNotEqual;
-        const populationBetween = requestParameters?.populationBetween;
-        const populationNotBetween = requestParameters?.populationNotBetween;
         const createdBy = requestParameters?.createdBy;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (populationLessThan !== undefined && populationLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>populationLessThan, 'population.lessThan');
+        }
+        if (populationLessThanOrEqual !== undefined && populationLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>populationLessThanOrEqual, 'population.lessThanOrEqual');
+        }
+        if (populationGreaterThan !== undefined && populationGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>populationGreaterThan, 'population.greaterThan');
+        }
+        if (populationGreaterThanOrEqual !== undefined && populationGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>populationGreaterThanOrEqual, 'population.greaterThanOrEqual');
+        }
+        if (populationEqual !== undefined && populationEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>populationEqual, 'population.equal');
+        }
+        if (populationNotEqual !== undefined && populationNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>populationNotEqual, 'population.not.equal');
+        }
+        if (populationBetween) {
+            populationBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'population.between');
+            })
+        }
+        if (populationNotBetween) {
+            populationNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'population.not.between');
+            })
+        }
         if (id !== undefined && id !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>id, 'id');
@@ -719,42 +755,6 @@ export class CohortsService implements CohortsServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>frozenSetIdsNot, 'frozenSetIds.not');
         }
-        if (populationLessThan !== undefined && populationLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>populationLessThan, 'population.lessThan');
-        }
-        if (populationLessThanOrEqual !== undefined && populationLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>populationLessThanOrEqual, 'population.lessThanOrEqual');
-        }
-        if (populationGreaterThan !== undefined && populationGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>populationGreaterThan, 'population.greaterThan');
-        }
-        if (populationGreaterThanOrEqual !== undefined && populationGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>populationGreaterThanOrEqual, 'population.greaterThanOrEqual');
-        }
-        if (populationEqual !== undefined && populationEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>populationEqual, 'population.equal');
-        }
-        if (populationNotEqual !== undefined && populationNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>populationNotEqual, 'population.not.equal');
-        }
-        if (populationBetween) {
-            populationBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'population.between');
-            })
-        }
-        if (populationNotBetween) {
-            populationNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'population.not.between');
-            })
-        }
         if (createdBy !== undefined && createdBy !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>createdBy, 'createdBy');
@@ -812,7 +812,7 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts`;
-        return this.httpClient.request<PaginatedCohortSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedCohort>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -832,17 +832,17 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCohort(requestParameters: UpdateCohortRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateCohort(requestParameters: UpdateCohortRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateCohort(requestParameters: UpdateCohortRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateCohort(requestParameters: UpdateCohortRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateCohort(requestParameters: UpdateCohortRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateCohort(requestParameters: UpdateCohortRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateCohort(requestParameters: UpdateCohortRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
             throw new Error('Required parameter cohortId was null or undefined when calling updateCohort.');
         }
-        const cohortCreateSchema = requestParameters?.cohortCreateSchema;
-        if (cohortCreateSchema === null || cohortCreateSchema === undefined) {
-            throw new Error('Required parameter cohortCreateSchema was null or undefined when calling updateCohort.');
+        const cohortCreate = requestParameters?.cohortCreate;
+        if (cohortCreate === null || cohortCreate === undefined) {
+            throw new Error('Required parameter cohortCreate was null or undefined when calling updateCohort.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -898,10 +898,10 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: cohortCreateSchema,
+                body: cohortCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

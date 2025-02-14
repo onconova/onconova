@@ -11,24 +11,24 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedSystemicTherapySchema } from '../model/models';
-import { SystemicTherapyCreateSchema } from '../model/models';
-import { SystemicTherapyMedicationCreateSchema } from '../model/models';
-import { SystemicTherapyMedicationSchema } from '../model/models';
-import { SystemicTherapySchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedSystemicTherapy } from '../model/models';
+import { SystemicTherapy } from '../model/models';
+import { SystemicTherapyCreate } from '../model/models';
+import { SystemicTherapyMedication } from '../model/models';
+import { SystemicTherapyMedicationCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateSystemicTherapyRequestParams {
-    systemicTherapyCreateSchema: SystemicTherapyCreateSchema;
+    systemicTherapyCreate: SystemicTherapyCreate;
 }
 
 export interface CreateSystemicTherapyMedicationRequestParams {
     systemicTherapyId: string;
-    systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema;
+    systemicTherapyMedicationCreate: SystemicTherapyMedicationCreate;
 }
 
 export interface DeleteSystemicTherapyByIdRequestParams {
@@ -41,65 +41,6 @@ export interface DeleteSystemicTherapyMedicationRequestParams {
 }
 
 export interface GetSystemicTherapiesRequestParams {
-    id?: string;
-    idNot?: string;
-    idContains?: string;
-    idNotContains?: string;
-    idBeginsWith?: string;
-    idNotBeginsWith?: string;
-    idEndsWith?: string;
-    idNotEndsWith?: string;
-    caseId?: string;
-    caseIdNot?: string;
-    caseIdContains?: string;
-    caseIdNotContains?: string;
-    caseIdBeginsWith?: string;
-    caseIdNotBeginsWith?: string;
-    caseIdEndsWith?: string;
-    caseIdNotEndsWith?: string;
-    periodOverlaps?: Array<any>;
-    periodNotOverlaps?: Array<any>;
-    periodContains?: Array<any>;
-    periodNotContains?: Array<any>;
-    periodContainedBy?: Array<any>;
-    periodNotContainedBy?: Array<any>;
-    cyclesLessThan?: number;
-    cyclesLessThanOrEqual?: number;
-    cyclesGreaterThan?: number;
-    cyclesGreaterThanOrEqual?: number;
-    cyclesEqual?: number;
-    cyclesNotEqual?: number;
-    cyclesBetween?: Array<any>;
-    cyclesNotBetween?: Array<any>;
-    intent?: string;
-    intentNot?: string;
-    intentAnyOf?: Array<'curative' | 'palliative'>;
-    roleNotExists?: boolean;
-    roleExists?: boolean;
-    role?: string;
-    roleNot?: string;
-    roleAnyOf?: Array<string>;
-    roleNotAnyOf?: Array<string>;
-    roleDescendantsOf?: string;
-    terminationReasonNotExists?: boolean;
-    terminationReasonExists?: boolean;
-    terminationReason?: string;
-    terminationReasonNot?: string;
-    terminationReasonAnyOf?: Array<string>;
-    terminationReasonNotAnyOf?: Array<string>;
-    terminationReasonDescendantsOf?: string;
-    therapyLineIdNotExists?: boolean;
-    therapyLineIdExists?: boolean;
-    therapyLineId?: string;
-    therapyLineIdNot?: string;
-    therapyLineIdContains?: string;
-    therapyLineIdNotContains?: string;
-    therapyLineIdBeginsWith?: string;
-    therapyLineIdNotBeginsWith?: string;
-    therapyLineIdEndsWith?: string;
-    therapyLineIdNotEndsWith?: string;
-    targetedEntitiesIds?: string;
-    targetedEntitiesIdsNot?: string;
     medicationsId?: string;
     medicationsIdNot?: string;
     medicationsIdContains?: string;
@@ -108,96 +49,6 @@ export interface GetSystemicTherapiesRequestParams {
     medicationsIdNotBeginsWith?: string;
     medicationsIdEndsWith?: string;
     medicationsIdNotEndsWith?: string;
-    medicationsCreatedAtBefore?: string;
-    medicationsCreatedAtAfter?: string;
-    medicationsCreatedAtOnOrBefore?: string;
-    medicationsCreatedAtOnOrAfter?: string;
-    medicationsCreatedAtOn?: string;
-    medicationsCreatedAtNotOn?: string;
-    medicationsCreatedAtBetween?: Array<any>;
-    medicationsCreatedAtNotBetween?: Array<any>;
-    medicationsUpdatedAtBefore?: string;
-    medicationsUpdatedAtAfter?: string;
-    medicationsUpdatedAtOnOrBefore?: string;
-    medicationsUpdatedAtOnOrAfter?: string;
-    medicationsUpdatedAtOn?: string;
-    medicationsUpdatedAtNotOn?: string;
-    medicationsUpdatedAtBetween?: Array<any>;
-    medicationsUpdatedAtNotBetween?: Array<any>;
-    medicationsCreatedByNotExists?: boolean;
-    medicationsCreatedByExists?: boolean;
-    medicationsUpdatedByIdLessThan?: number;
-    medicationsUpdatedByIdLessThanOrEqual?: number;
-    medicationsUpdatedByIdGreaterThan?: number;
-    medicationsUpdatedByIdGreaterThanOrEqual?: number;
-    medicationsUpdatedByIdEqual?: number;
-    medicationsUpdatedByIdNotEqual?: number;
-    medicationsUpdatedByIdBetween?: Array<any>;
-    medicationsUpdatedByIdNotBetween?: Array<any>;
-    medicationsUpdatedByUsername?: string;
-    medicationsUpdatedByUsernameNot?: string;
-    medicationsUpdatedByUsernameContains?: string;
-    medicationsUpdatedByUsernameNotContains?: string;
-    medicationsUpdatedByUsernameBeginsWith?: string;
-    medicationsUpdatedByUsernameNotBeginsWith?: string;
-    medicationsUpdatedByUsernameEndsWith?: string;
-    medicationsUpdatedByUsernameNotEndsWith?: string;
-    medicationsUpdatedByEmail?: string;
-    medicationsUpdatedByEmailNot?: string;
-    medicationsUpdatedByEmailContains?: string;
-    medicationsUpdatedByEmailNotContains?: string;
-    medicationsUpdatedByEmailBeginsWith?: string;
-    medicationsUpdatedByEmailNotBeginsWith?: string;
-    medicationsUpdatedByEmailEndsWith?: string;
-    medicationsUpdatedByEmailNotEndsWith?: string;
-    medicationsUpdatedByFirstNameNotExists?: boolean;
-    medicationsUpdatedByFirstNameExists?: boolean;
-    medicationsUpdatedByFirstName?: string;
-    medicationsUpdatedByFirstNameNot?: string;
-    medicationsUpdatedByFirstNameContains?: string;
-    medicationsUpdatedByFirstNameNotContains?: string;
-    medicationsUpdatedByFirstNameBeginsWith?: string;
-    medicationsUpdatedByFirstNameNotBeginsWith?: string;
-    medicationsUpdatedByFirstNameEndsWith?: string;
-    medicationsUpdatedByFirstNameNotEndsWith?: string;
-    medicationsUpdatedByLastNameNotExists?: boolean;
-    medicationsUpdatedByLastNameExists?: boolean;
-    medicationsUpdatedByLastName?: string;
-    medicationsUpdatedByLastNameNot?: string;
-    medicationsUpdatedByLastNameContains?: string;
-    medicationsUpdatedByLastNameNotContains?: string;
-    medicationsUpdatedByLastNameBeginsWith?: string;
-    medicationsUpdatedByLastNameNotBeginsWith?: string;
-    medicationsUpdatedByLastNameEndsWith?: string;
-    medicationsUpdatedByLastNameNotEndsWith?: string;
-    medicationsDescription?: string;
-    medicationsDescriptionNot?: string;
-    medicationsDescriptionContains?: string;
-    medicationsDescriptionNotContains?: string;
-    medicationsDescriptionBeginsWith?: string;
-    medicationsDescriptionNotBeginsWith?: string;
-    medicationsDescriptionEndsWith?: string;
-    medicationsDescriptionNotEndsWith?: string;
-    medicationsExternalSourceNotExists?: boolean;
-    medicationsExternalSourceExists?: boolean;
-    medicationsExternalSource?: string;
-    medicationsExternalSourceNot?: string;
-    medicationsExternalSourceContains?: string;
-    medicationsExternalSourceNotContains?: string;
-    medicationsExternalSourceBeginsWith?: string;
-    medicationsExternalSourceNotBeginsWith?: string;
-    medicationsExternalSourceEndsWith?: string;
-    medicationsExternalSourceNotEndsWith?: string;
-    medicationsExternalSourceIdNotExists?: boolean;
-    medicationsExternalSourceIdExists?: boolean;
-    medicationsExternalSourceId?: string;
-    medicationsExternalSourceIdNot?: string;
-    medicationsExternalSourceIdContains?: string;
-    medicationsExternalSourceIdNotContains?: string;
-    medicationsExternalSourceIdBeginsWith?: string;
-    medicationsExternalSourceIdNotBeginsWith?: string;
-    medicationsExternalSourceIdEndsWith?: string;
-    medicationsExternalSourceIdNotEndsWith?: string;
     medicationsDrug?: string;
     medicationsDrugNot?: string;
     medicationsDrugAnyOf?: Array<string>;
@@ -296,6 +147,65 @@ export interface GetSystemicTherapiesRequestParams {
     medicationsDosageRateMassSurfaceNotEqual?: number;
     medicationsDosageRateMassSurfaceBetween?: Array<any>;
     medicationsDosageRateMassSurfaceNotBetween?: Array<any>;
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    periodOverlaps?: Array<any>;
+    periodNotOverlaps?: Array<any>;
+    periodContains?: Array<any>;
+    periodNotContains?: Array<any>;
+    periodContainedBy?: Array<any>;
+    periodNotContainedBy?: Array<any>;
+    cyclesLessThan?: number;
+    cyclesLessThanOrEqual?: number;
+    cyclesGreaterThan?: number;
+    cyclesGreaterThanOrEqual?: number;
+    cyclesEqual?: number;
+    cyclesNotEqual?: number;
+    cyclesBetween?: Array<any>;
+    cyclesNotBetween?: Array<any>;
+    intent?: string;
+    intentNot?: string;
+    intentAnyOf?: Array<'curative' | 'palliative'>;
+    roleNotExists?: boolean;
+    roleExists?: boolean;
+    role?: string;
+    roleNot?: string;
+    roleAnyOf?: Array<string>;
+    roleNotAnyOf?: Array<string>;
+    roleDescendantsOf?: string;
+    terminationReasonNotExists?: boolean;
+    terminationReasonExists?: boolean;
+    terminationReason?: string;
+    terminationReasonNot?: string;
+    terminationReasonAnyOf?: Array<string>;
+    terminationReasonNotAnyOf?: Array<string>;
+    terminationReasonDescendantsOf?: string;
+    therapyLineIdNotExists?: boolean;
+    therapyLineIdExists?: boolean;
+    therapyLineId?: string;
+    therapyLineIdNot?: string;
+    therapyLineIdContains?: string;
+    therapyLineIdNotContains?: string;
+    therapyLineIdBeginsWith?: string;
+    therapyLineIdNotBeginsWith?: string;
+    therapyLineIdEndsWith?: string;
+    therapyLineIdNotEndsWith?: string;
+    targetedEntitiesIds?: string;
+    targetedEntitiesIdsNot?: string;
     limit?: number;
     offset?: number;
 }
@@ -315,13 +225,13 @@ export interface GetSystemicTherapyMedicationsRequestParams {
 
 export interface UpdateSystemicTherapyRequestParams {
     systemicTherapyId: string;
-    systemicTherapyCreateSchema: SystemicTherapyCreateSchema;
+    systemicTherapyCreate: SystemicTherapyCreate;
 }
 
 export interface UpdateSystemicTherapyMedicationRequestParams {
     systemicTherapyId: string;
     medicationId: string;
-    systemicTherapyMedicationCreateSchema: SystemicTherapyMedicationCreateSchema;
+    systemicTherapyMedicationCreate: SystemicTherapyMedicationCreate;
 }
 
 
@@ -334,14 +244,14 @@ export interface SystemicTherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    createSystemicTherapy(requestParameters: CreateSystemicTherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createSystemicTherapy(requestParameters: CreateSystemicTherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Systemic Therapy Medication
      * 
 * @param requestParameters
      */
-    createSystemicTherapyMedication(requestParameters: CreateSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createSystemicTherapyMedication(requestParameters: CreateSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Systemic Therapy
@@ -362,41 +272,41 @@ export interface SystemicTherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getSystemicTherapies(requestParameters: GetSystemicTherapiesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedSystemicTherapySchema>;
+    getSystemicTherapies(requestParameters: GetSystemicTherapiesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedSystemicTherapy>;
 
     /**
      * Get Systemic Therapy By Id
      * 
 * @param requestParameters
      */
-    getSystemicTherapyById(requestParameters: GetSystemicTherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapySchema>;
+    getSystemicTherapyById(requestParameters: GetSystemicTherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapy>;
 
     /**
      * Get Systemic Therapy Medication By Id
      * 
 * @param requestParameters
      */
-    getSystemicTherapyMedicationById(requestParameters: GetSystemicTherapyMedicationByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapyMedicationSchema>;
+    getSystemicTherapyMedicationById(requestParameters: GetSystemicTherapyMedicationByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapyMedication>;
 
     /**
      * Get Systemic Therapy Medications Matching The Query
      * 
 * @param requestParameters
      */
-    getSystemicTherapyMedications(requestParameters: GetSystemicTherapyMedicationsRequestParams, extraHttpRequestParams?: any): Observable<Array<SystemicTherapyMedicationSchema>>;
+    getSystemicTherapyMedications(requestParameters: GetSystemicTherapyMedicationsRequestParams, extraHttpRequestParams?: any): Observable<Array<SystemicTherapyMedication>>;
 
     /**
      * Update Systemic Therapy
      * 
 * @param requestParameters
      */
-    updateSystemicTherapy(requestParameters: UpdateSystemicTherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateSystemicTherapy(requestParameters: UpdateSystemicTherapyRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Systemic Therapy Medication
      * 
 * @param requestParameters
      */
-    updateSystemicTherapyMedication(requestParameters: UpdateSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateSystemicTherapyMedication(requestParameters: UpdateSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

@@ -18,24 +18,24 @@ import { RadioButton } from 'primeng/radiobutton';
 
 
 import { 
-    CodedConceptSchema,
+    CodedConcept,
     SystemicTherapiesService,
-    SystemicTherapySchema,
-    SystemicTherapyMedicationSchema,
+    SystemicTherapy,
+    SystemicTherapyMedication,
     RadiotherapiesService,
-    RadiotherapySchema,
+    Radiotherapy,
     SurgeriesService,
     Surgery,
     AdverseEventOutcomeChoices,
     AdverseEventSuspectedCauseCausalityChoices,
     AdverseEventMitigationCategoryChoices,
     AdverseEventsService,
-    AdverseEventSchema,
-    AdverseEventCreateSchema,
-    AdverseEventSuspectedCauseCreateSchema,
-    AdverseEventSuspectedCauseSchema,
-    AdverseEventMitigationSchema,
-    AdverseEventMitigationCreateSchema,
+    AdverseEvent,
+    AdverseEventCreate,
+    AdverseEventSuspectedCauseCreate,
+    AdverseEventSuspectedCause,
+    AdverseEventMitigation,
+    AdverseEventMitigationCreate,
 } from '../../../shared/openapi'
 
 import { 
@@ -56,7 +56,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
   })
 export class getEventGradesPipe implements PipeTransform {
   
-    transform(concept: CodedConceptSchema) {
+    transform(concept: CodedConcept) {
         const grades = Array.from({length: 5}, (_, i) => i+1);
         let gradeChoices = grades.map((grade: number) => {
             const properties = concept.properties as { [key: string]: any };
@@ -104,22 +104,22 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     private readonly adverseEventsService: AdverseEventsService = inject(AdverseEventsService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = (payload: AdverseEventCreateSchema) => this.adverseEventsService.createAdverseEvent({adverseEventCreateSchema: payload});
-    public readonly updateService = (id: string, payload: AdverseEventCreateSchema) => this.adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreateSchema: payload});
+    public readonly createService = (payload: AdverseEventCreate) => this.adverseEventsService.createAdverseEvent({adverseEventCreate: payload});
+    public readonly updateService = (id: string, payload: AdverseEventCreate) => this.adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreate: payload});
     override readonly subformsServices = [
         {
             payloads: this.constructSuspectedCausePayloads.bind(this),
             deletedEntries: this.getdeletedSuspectedCauses.bind(this),
             delete: (parentId: string, id: string) => this.adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
-            create: (parentId: string, payload: AdverseEventSuspectedCauseCreateSchema) => this.adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreateSchema: payload}),
-            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreateSchema) => this.adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreateSchema: payload}),
+            create: (parentId: string, payload: AdverseEventSuspectedCauseCreate) => this.adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreate) => this.adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreate: payload}),
         },
         {
             payloads: this.constructMitigationsPayloads.bind(this),
             deletedEntries: this.getdeletedMitigations.bind(this),
             delete: (parentId: string, id: string) => this.adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
-            create: (parentId: string, payload: AdverseEventMitigationCreateSchema) => this.adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreateSchema: payload}),
-            update: (parentId: string, id: string, payload: AdverseEventMitigationCreateSchema) => this.adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreateSchema: payload}),
+            create: (parentId: string, payload: AdverseEventMitigationCreate) => this.adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventMitigationCreate) => this.adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreate: payload}),
         },
     ]
     private deletedMitigations: string[] = [];
@@ -132,8 +132,8 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     private caseId!: string;
     public suspectedCausesFormArray!: FormArray;
     public mitigationsFormArray!: FormArray;
-    public initialData: AdverseEventSchema | any = {};
-    public relatedSuspectedCauses$!: Observable<(SystemicTherapySchema | SystemicTherapyMedicationSchema | RadiotherapySchema | Surgery)[]>;
+    public initialData: AdverseEvent | any = {};
+    public relatedSuspectedCauses$!: Observable<(SystemicTherapy | SystemicTherapyMedication | Radiotherapy | Surgery)[]>;
 
     public readonly AdverseEventOutcomeChoices = AdverseEventOutcomeChoices;
     public readonly outcomeChoices: RadioChoice[] = [
@@ -182,10 +182,10 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     constructForm(): void {
 
         this.suspectedCausesFormArray = this.formBuilder.array((this.initialData?.suspectedCauses || [])?.map(
-            (initialSuspectedCause: AdverseEventSuspectedCauseSchema) => this.constructSuspectedCauseSubForm(initialSuspectedCause)
+            (initialSuspectedCause: AdverseEventSuspectedCause) => this.constructSuspectedCauseSubForm(initialSuspectedCause)
         ))
         this.mitigationsFormArray = this.formBuilder.array((this.initialData?.mitigations || [])?.map(
-            (initialMitigation: AdverseEventMitigationSchema) => this.constructMitigationSubform(initialMitigation)
+            (initialMitigation: AdverseEventMitigation) => this.constructMitigationSubform(initialMitigation)
         ))
 
         this.form = this.formBuilder.group({
@@ -200,7 +200,7 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     }
 
 
-    constructSuspectedCauseSubForm(initalData: AdverseEventSuspectedCauseSchema | null ) {
+    constructSuspectedCauseSubForm(initalData: AdverseEventSuspectedCause | null ) {
         return this.formBuilder.group({
             id: [initalData?.id],
             cause:[initalData?.medicationId || initalData?.radiotherapyId || initalData?.surgeryId || initalData?.systemicTherapyId, Validators.required],
@@ -208,7 +208,7 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
         })
     }
 
-    constructMitigationSubform(initalData: AdverseEventMitigationSchema | null ) {
+    constructMitigationSubform(initalData: AdverseEventMitigation | null ) {
         return this.formBuilder.group({
             id: [initalData?.id],
             category: [initalData?.category, Validators.required],
@@ -219,7 +219,7 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
         })
     }
 
-    constructAPIPayload(data: any): AdverseEventCreateSchema {    
+    constructAPIPayload(data: any): AdverseEventCreate {    
         return {
             caseId: this.caseId,
             date: data.date,
@@ -230,7 +230,7 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
         }
     }
 
-    private constructSuspectedCausePayloads(data: any): AdverseEventSuspectedCauseCreateSchema {
+    private constructSuspectedCausePayloads(data: any): AdverseEventSuspectedCauseCreate {
         return data.suspectedCauses.map((subformData: any) => {return {
             id: subformData.id,
             causality: subformData.causality,            
@@ -242,7 +242,7 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     }
 
 
-    private constructMitigationsPayloads(data: any): AdverseEventMitigationCreateSchema {
+    private constructMitigationsPayloads(data: any): AdverseEventMitigationCreate {
         return data.mitigations.map((subformData: any) => {return {
             id: subformData.id,
             category: subformData.category,
@@ -254,11 +254,11 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
     }
 
     public addSuspectedCause() {
-        this.suspectedCausesFormArray.push(this.constructSuspectedCauseSubForm({} as AdverseEventSuspectedCauseSchema));
+        this.suspectedCausesFormArray.push(this.constructSuspectedCauseSubForm({} as AdverseEventSuspectedCause));
     }
 
     public addMitigation() {
-        this.mitigationsFormArray.push(this.constructMitigationSubform({} as AdverseEventMitigationSchema));
+        this.mitigationsFormArray.push(this.constructMitigationSubform({} as AdverseEventMitigation));
     }
 
     public removeSuspectedCause(index: number) {

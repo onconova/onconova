@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface TNMStagingCreate { 
@@ -29,18 +29,18 @@ export interface TNMStagingCreate {
     /**
      * The information determined as a result of making the observation, if the information has a simple value
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema | null;
+    stage: CodedConcept;
+    methodology?: CodedConcept | null;
     pathological?: boolean | null;
-    primarytumor?: CodedConceptSchema | null;
-    regionalnodes?: CodedConceptSchema | null;
-    distantmetastases?: CodedConceptSchema | null;
-    grade?: CodedConceptSchema | null;
-    residualtumor?: CodedConceptSchema | null;
-    lymphaticinvasion?: CodedConceptSchema | null;
-    venousinvasion?: CodedConceptSchema | null;
-    perineuralinvasion?: CodedConceptSchema | null;
-    serumtumormarkerlevel?: CodedConceptSchema | null;
+    primarytumor?: CodedConcept | null;
+    regionalnodes?: CodedConcept | null;
+    distantmetastases?: CodedConcept | null;
+    grade?: CodedConcept | null;
+    residualtumor?: CodedConcept | null;
+    lymphaticinvasion?: CodedConcept | null;
+    venousinvasion?: CodedConcept | null;
+    perineuralinvasion?: CodedConcept | null;
+    serumtumormarkerlevel?: CodedConcept | null;
 }
 export namespace TNMStagingCreate {
     export type StagingDomainEnum = 'tnm';

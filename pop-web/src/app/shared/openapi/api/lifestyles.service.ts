@@ -17,13 +17,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { LifestyleCreateSchema } from '../model/lifestyle-create-schema';
+import { Lifestyle } from '../model/lifestyle';
 // @ts-ignore
-import { LifestyleSchema } from '../model/lifestyle-schema';
+import { LifestyleCreate } from '../model/lifestyle-create';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedLifestyleSchema } from '../model/paginated-lifestyle-schema';
+import { PaginatedLifestyle } from '../model/paginated-lifestyle';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -110,13 +110,13 @@ export class LifestylesService implements LifestylesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createLifestyle(requestParameters: CreateLifestyleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const lifestyleCreateSchema = requestParameters?.lifestyleCreateSchema;
-        if (lifestyleCreateSchema === null || lifestyleCreateSchema === undefined) {
-            throw new Error('Required parameter lifestyleCreateSchema was null or undefined when calling createLifestyle.');
+        const lifestyleCreate = requestParameters?.lifestyleCreate;
+        if (lifestyleCreate === null || lifestyleCreate === undefined) {
+            throw new Error('Required parameter lifestyleCreate was null or undefined when calling createLifestyle.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -172,10 +172,10 @@ export class LifestylesService implements LifestylesServiceInterface {
         }
 
         let localVarPath = `/api/lifestyles`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: lifestyleCreateSchema,
+                body: lifestyleCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -263,9 +263,9 @@ export class LifestylesService implements LifestylesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<LifestyleSchema>;
-    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LifestyleSchema>>;
-    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LifestyleSchema>>;
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Lifestyle>;
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Lifestyle>>;
+    public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Lifestyle>>;
     public getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const lifestyleId = requestParameters?.lifestyleId;
         if (lifestyleId === null || lifestyleId === undefined) {
@@ -316,7 +316,7 @@ export class LifestylesService implements LifestylesServiceInterface {
         }
 
         let localVarPath = `/api/lifestyles/${this.configuration.encodeParam({name: "lifestyleId", value: lifestyleId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<LifestyleSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Lifestyle>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -335,9 +335,9 @@ export class LifestylesService implements LifestylesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedLifestyleSchema>;
-    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedLifestyleSchema>>;
-    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedLifestyleSchema>>;
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedLifestyle>;
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedLifestyle>>;
+    public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedLifestyle>>;
     public getLifestyles(requestParameters?: GetLifestylesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
@@ -1160,7 +1160,7 @@ export class LifestylesService implements LifestylesServiceInterface {
         }
 
         let localVarPath = `/api/lifestyles`;
-        return this.httpClient.request<PaginatedLifestyleSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedLifestyle>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1180,17 +1180,17 @@ export class LifestylesService implements LifestylesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const lifestyleId = requestParameters?.lifestyleId;
         if (lifestyleId === null || lifestyleId === undefined) {
             throw new Error('Required parameter lifestyleId was null or undefined when calling updateLifestyleById.');
         }
-        const lifestyleCreateSchema = requestParameters?.lifestyleCreateSchema;
-        if (lifestyleCreateSchema === null || lifestyleCreateSchema === undefined) {
-            throw new Error('Required parameter lifestyleCreateSchema was null or undefined when calling updateLifestyleById.');
+        const lifestyleCreate = requestParameters?.lifestyleCreate;
+        if (lifestyleCreate === null || lifestyleCreate === undefined) {
+            throw new Error('Required parameter lifestyleCreate was null or undefined when calling updateLifestyleById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -1246,10 +1246,10 @@ export class LifestylesService implements LifestylesServiceInterface {
         }
 
         let localVarPath = `/api/lifestyles/${this.configuration.encodeParam({name: "lifestyleId", value: lifestyleId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: lifestyleCreateSchema,
+                body: lifestyleCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

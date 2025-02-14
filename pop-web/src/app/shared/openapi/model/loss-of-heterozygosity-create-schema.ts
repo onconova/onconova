@@ -9,7 +9,7 @@
  */
 
 
-export interface LossOfHeterozygosityCreateSchema { 
+export interface LossOfHeterozygosityCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -24,9 +24,9 @@ export interface LossOfHeterozygosityCreateSchema {
      * Loss of heterozygosity (LOH) as a percentage
      */
     value: number;
-    category?: LossOfHeterozygosityCreateSchema.CategoryEnum;
+    category?: LossOfHeterozygosityCreate.CategoryEnum;
 }
-export namespace LossOfHeterozygosityCreateSchema {
+export namespace LossOfHeterozygosityCreate {
     export type CategoryEnum = 'loss_of_heterozygosity';
     export const CategoryEnum = {
         LossOfHeterozygosity: 'loss_of_heterozygosity' as CategoryEnum

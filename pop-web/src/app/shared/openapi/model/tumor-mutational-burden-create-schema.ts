@@ -10,7 +10,7 @@
 import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-status-choices';
 
 
-export interface TumorMutationalBurdenCreateSchema { 
+export interface TumorMutationalBurdenCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -26,9 +26,9 @@ export interface TumorMutationalBurdenCreateSchema {
      */
     value: number;
     status?: TumorMutationalBurdenStatusChoices | null;
-    category?: TumorMutationalBurdenCreateSchema.CategoryEnum;
+    category?: TumorMutationalBurdenCreate.CategoryEnum;
 }
-export namespace TumorMutationalBurdenCreateSchema {
+export namespace TumorMutationalBurdenCreate {
     export type CategoryEnum = 'tumor_mutational_burden';
     export const CategoryEnum = {
         TumorMutationalBurden: 'tumor_mutational_burden' as CategoryEnum

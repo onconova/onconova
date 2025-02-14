@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface MicrosatelliteInstabilityCreateSchema { 
+export interface MicrosatelliteInstabilityCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -24,10 +24,10 @@ export interface MicrosatelliteInstabilityCreateSchema {
     /**
      * Microsatellite instability (MSI) classification
      */
-    value: CodedConceptSchema;
-    category?: MicrosatelliteInstabilityCreateSchema.CategoryEnum;
+    value: CodedConcept;
+    category?: MicrosatelliteInstabilityCreate.CategoryEnum;
 }
-export namespace MicrosatelliteInstabilityCreateSchema {
+export namespace MicrosatelliteInstabilityCreate {
     export type CategoryEnum = 'microsatellite_instability';
     export const CategoryEnum = {
         MicrosatelliteInstability: 'microsatellite_instability' as CategoryEnum

@@ -9,7 +9,7 @@
  */
 
 
-export interface AneuploidScoreCreateSchema { 
+export interface AneuploidScoreCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -24,9 +24,9 @@ export interface AneuploidScoreCreateSchema {
      * The actual aneuploid score (AS) value in total altered arms
      */
     value: number;
-    category?: AneuploidScoreCreateSchema.CategoryEnum;
+    category?: AneuploidScoreCreate.CategoryEnum;
 }
-export namespace AneuploidScoreCreateSchema {
+export namespace AneuploidScoreCreate {
     export type CategoryEnum = 'aneuploid_score';
     export const CategoryEnum = {
         AneuploidScore: 'aneuploid_score' as CategoryEnum

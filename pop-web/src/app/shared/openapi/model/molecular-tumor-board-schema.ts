@@ -8,7 +8,7 @@
  * Do not edit the class manually.
  */
 import { MolecularTherapeuticRecommendationSchema } from './molecular-therapeutic-recommendation-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -48,7 +48,7 @@ export interface MolecularTumorBoardSchema {
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema> | null;
+    recommendations?: Array<CodedConcept> | null;
     conductedMolecularComparison?: boolean | null;
     molecularComparisonMatchId?: string | null;
     conductedCupCharacterization?: boolean | null;

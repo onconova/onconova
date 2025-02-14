@@ -8,10 +8,10 @@
  * Do not edit the class manually.
  */
 import { AdverseEventOutcomeChoices } from './adverse-event-outcome-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface AdverseEventCreateSchema { 
+export interface AdverseEventCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -25,7 +25,7 @@ export interface AdverseEventCreateSchema {
     /**
      * Classification of the adverse event using CTCAE criteria
      */
-    event: CodedConceptSchema;
+    event: CodedConcept;
     /**
      * The grade associated with the severity of an adverse event, using CTCAE criteria.
      */
@@ -36,7 +36,7 @@ export interface AdverseEventCreateSchema {
     outcome: AdverseEventOutcomeChoices;
     dateResolved?: string | null;
 }
-export namespace AdverseEventCreateSchema {
+export namespace AdverseEventCreate {
 }
 
 

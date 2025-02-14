@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyStaging } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedAnyStaging } from '../model/models';
 import { Payload } from '../model/models';
 
@@ -86,7 +86,7 @@ export interface StagingsServiceInterface {
      * 
 * @param requestParameters
      */
-    createStaging(requestParameters: CreateStagingRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createStaging(requestParameters: CreateStagingRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Staging
@@ -114,6 +114,6 @@ export interface StagingsServiceInterface {
      * 
 * @param requestParameters
      */
-    updateStagingById(requestParameters: UpdateStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateStagingById(requestParameters: UpdateStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

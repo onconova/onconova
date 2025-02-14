@@ -9,6 +9,9 @@
  */
 
 
+/**
+ * The upper bound of the range, if not exists, assumed to be unbounded
+ */
 export interface End { 
 }
 

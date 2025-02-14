@@ -13,8 +13,8 @@ import { InputNumber } from 'primeng/inputnumber';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 import { 
-    FamilyHistorySchema,
-    FamilyHistoryCreateSchema,
+    FamilyHistory,
+    FamilyHistoryCreate,
     FamilyHistoriesService,
 } from '../../../shared/openapi'
 
@@ -53,15 +53,15 @@ export class FamilyHistoryFormComponent extends AbstractFormBase implements OnIn
     private readonly familyHistoriesService: FamilyHistoriesService = inject(FamilyHistoriesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = (payload: FamilyHistoryCreateSchema) => this.familyHistoriesService.createFamilyHistory({familyHistoryCreateSchema: payload});
-    public readonly updateService = (id: string, payload: FamilyHistoryCreateSchema) => this.familyHistoriesService.updateFamilyHistory({familyHistoryId: id, familyHistoryCreateSchema: payload})
+    public readonly createService = (payload: FamilyHistoryCreate) => this.familyHistoriesService.createFamilyHistory({familyHistoryCreate: payload});
+    public readonly updateService = (id: string, payload: FamilyHistoryCreate) => this.familyHistoriesService.updateFamilyHistory({familyHistoryId: id, familyHistoryCreate: payload})
 
     public readonly title: string = 'Family History'
     public readonly subtitle: string = 'Add new family history entry'
     public readonly icon = History;
 
     private caseId!: string;
-    public initialData: FamilyHistoryCreateSchema | FamilyHistorySchema | any = {};
+    public initialData: FamilyHistoryCreate | FamilyHistory | any = {};
 
     public readonly contributedToDeathChoices : RadioChoice[] = [
         {name: 'Unknown', value: null},
@@ -94,7 +94,7 @@ export class FamilyHistoryFormComponent extends AbstractFormBase implements OnIn
   }
   
 
-  constructAPIPayload(data: any): FamilyHistoryCreateSchema {    
+  constructAPIPayload(data: any): FamilyHistoryCreate {    
     return {
       caseId: this.caseId,
       date: data.date,

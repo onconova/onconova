@@ -11,17 +11,17 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { GenomicVariantCreateSchema } from '../model/models';
-import { GenomicVariantSchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedGenomicVariantSchema } from '../model/models';
+import { GenomicVariant } from '../model/models';
+import { GenomicVariantCreate } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedGenomicVariant } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateGenomicVariantRequestParams {
-    genomicVariantCreateSchema: GenomicVariantCreateSchema;
+    genomicVariantCreate: GenomicVariantCreate;
 }
 
 export interface DeleteGenomicVariantRequestParams {
@@ -330,7 +330,7 @@ export interface GetGenomicVariantsRequestParams {
 
 export interface UpdateGenomicVariantRequestParams {
     genomicVariantId: string;
-    genomicVariantCreateSchema: GenomicVariantCreateSchema;
+    genomicVariantCreate: GenomicVariantCreate;
 }
 
 
@@ -343,7 +343,7 @@ export interface GenomicVariantsServiceInterface {
      * 
 * @param requestParameters
      */
-    createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Genomic Variant
@@ -357,20 +357,20 @@ export interface GenomicVariantsServiceInterface {
      * 
 * @param requestParameters
      */
-    getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, extraHttpRequestParams?: any): Observable<GenomicVariantSchema>;
+    getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, extraHttpRequestParams?: any): Observable<GenomicVariant>;
 
     /**
      * Get All Genomic Variants Matching The Query
      * 
 * @param requestParameters
      */
-    getGenomicVariants(requestParameters: GetGenomicVariantsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedGenomicVariantSchema>;
+    getGenomicVariants(requestParameters: GetGenomicVariantsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedGenomicVariant>;
 
     /**
      * Update Genomic Variant
      * 
 * @param requestParameters
      */
-    updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

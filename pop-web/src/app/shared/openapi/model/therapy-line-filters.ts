@@ -11,6 +11,110 @@
 
 export interface TherapyLineFilters { 
     /**
+     * Period - Filter for entries without a value
+     */
+    'period.not.exists'?: boolean;
+    /**
+     * Period - Filter for entries with a value
+     */
+    'period.exists'?: boolean;
+    /**
+     * Period - Filter for entries overlapping with the time period
+     */
+    'period.overlaps'?: Array<any>;
+    /**
+     * Period - Filter for entries not overlapping with the time period
+     */
+    'period.not.overlaps'?: Array<any>;
+    /**
+     * Period - Filter for entries containing the time period
+     */
+    'period.contains'?: Array<any>;
+    /**
+     * Period - Filter for entries not containing the time period
+     */
+    'period.not.contains'?: Array<any>;
+    /**
+     * Period - Filter for entries whose period are contined by the time period
+     */
+    'period.containedBy'?: Array<any>;
+    /**
+     * Period - Filter for entries whose period are not contined by the time period
+     */
+    'period.not.containedBy'?: Array<any>;
+    /**
+     * Label - Filter for full text matches
+     */
+    label?: string;
+    /**
+     * Label - Filter for full text mismatches
+     */
+    'label.not'?: string;
+    /**
+     * Label - Filter for partial text matches
+     */
+    'label.contains'?: string;
+    /**
+     * Label - Filter for partial text mismatches
+     */
+    'label.not.contains'?: string;
+    /**
+     * Label - Filter for entries starting with the text
+     */
+    'label.beginsWith'?: string;
+    /**
+     * Label - Filter for entries not starting with the text
+     */
+    'label.not.beginsWith'?: string;
+    /**
+     * Label - Filter for entries ending with the text
+     */
+    'label.endsWith'?: string;
+    /**
+     * Label - Filter for entries not ending with the text
+     */
+    'label.not.endsWith'?: string;
+    /**
+     * Progression-free survival in months - Filter for entries without a value
+     */
+    'progressionFreeSurvival.not.exists'?: boolean;
+    /**
+     * Progression-free survival in months - Filter for entries with a value
+     */
+    'progressionFreeSurvival.exists'?: boolean;
+    /**
+     * Progression-free survival in months - Filter for entries with values less than the specified value
+     */
+    'progressionFreeSurvival.lessThan'?: number;
+    /**
+     * Progression-free survival in months - Filter for entries with values less than or equal to the specified value
+     */
+    'progressionFreeSurvival.lessThanOrEqual'?: number;
+    /**
+     * Progression-free survival in months - Filter for entries with values greater than the specified value
+     */
+    'progressionFreeSurvival.greaterThan'?: number;
+    /**
+     * Progression-free survival in months - Filter for entries with values greater than or equal to the specified value
+     */
+    'progressionFreeSurvival.greaterThanOrEqual'?: number;
+    /**
+     * Progression-free survival in months - Filter for entries with values exactly equal to the specified value
+     */
+    'progressionFreeSurvival.equal'?: number;
+    /**
+     * Progression-free survival in months - Filter for entries with values not equal to the specified value
+     */
+    'progressionFreeSurvival.not.equal'?: number;
+    /**
+     * Progression-free survival in months - Filter for entries with values between two specified values (inclusive)
+     */
+    'progressionFreeSurvival.between'?: Array<any>;
+    /**
+     * Progression-free survival in months - Filter for entries with values between two specified values (inclusive)
+     */
+    'progressionFreeSurvival.not.between'?: Array<any>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -152,110 +256,6 @@ export interface TherapyLineFilters {
      * Begin of progression - Filter for entries with dates not between two specified values (inclusive)
      */
     'progressionDate.not.between'?: Array<any>;
-    /**
-     * Period - Filter for entries without a value
-     */
-    'period.not.exists'?: boolean;
-    /**
-     * Period - Filter for entries with a value
-     */
-    'period.exists'?: boolean;
-    /**
-     * Period - Filter for entries overlapping with the time period
-     */
-    'period.overlaps'?: Array<any>;
-    /**
-     * Period - Filter for entries not overlapping with the time period
-     */
-    'period.not.overlaps'?: Array<any>;
-    /**
-     * Period - Filter for entries containing the time period
-     */
-    'period.contains'?: Array<any>;
-    /**
-     * Period - Filter for entries not containing the time period
-     */
-    'period.not.contains'?: Array<any>;
-    /**
-     * Period - Filter for entries whose period are contined by the time period
-     */
-    'period.containedBy'?: Array<any>;
-    /**
-     * Period - Filter for entries whose period are not contined by the time period
-     */
-    'period.not.containedBy'?: Array<any>;
-    /**
-     * Label - Filter for full text matches
-     */
-    label?: string;
-    /**
-     * Label - Filter for full text mismatches
-     */
-    'label.not'?: string;
-    /**
-     * Label - Filter for partial text matches
-     */
-    'label.contains'?: string;
-    /**
-     * Label - Filter for partial text mismatches
-     */
-    'label.not.contains'?: string;
-    /**
-     * Label - Filter for entries starting with the text
-     */
-    'label.beginsWith'?: string;
-    /**
-     * Label - Filter for entries not starting with the text
-     */
-    'label.not.beginsWith'?: string;
-    /**
-     * Label - Filter for entries ending with the text
-     */
-    'label.endsWith'?: string;
-    /**
-     * Label - Filter for entries not ending with the text
-     */
-    'label.not.endsWith'?: string;
-    /**
-     * Progression-free survival in months - Filter for entries without a value
-     */
-    'progressionFreeSurvival.not.exists'?: boolean;
-    /**
-     * Progression-free survival in months - Filter for entries with a value
-     */
-    'progressionFreeSurvival.exists'?: boolean;
-    /**
-     * Progression-free survival in months - Filter for entries with values less than the specified value
-     */
-    'progressionFreeSurvival.lessThan'?: number;
-    /**
-     * Progression-free survival in months - Filter for entries with values less than or equal to the specified value
-     */
-    'progressionFreeSurvival.lessThanOrEqual'?: number;
-    /**
-     * Progression-free survival in months - Filter for entries with values greater than the specified value
-     */
-    'progressionFreeSurvival.greaterThan'?: number;
-    /**
-     * Progression-free survival in months - Filter for entries with values greater than or equal to the specified value
-     */
-    'progressionFreeSurvival.greaterThanOrEqual'?: number;
-    /**
-     * Progression-free survival in months - Filter for entries with values exactly equal to the specified value
-     */
-    'progressionFreeSurvival.equal'?: number;
-    /**
-     * Progression-free survival in months - Filter for entries with values not equal to the specified value
-     */
-    'progressionFreeSurvival.not.equal'?: number;
-    /**
-     * Progression-free survival in months - Filter for entries with values between two specified values (inclusive)
-     */
-    'progressionFreeSurvival.between'?: Array<any>;
-    /**
-     * Progression-free survival in months - Filter for entries with values between two specified values (inclusive)
-     */
-    'progressionFreeSurvival.not.between'?: Array<any>;
 }
 export namespace TherapyLineFilters {
     export type IntentEnum = 'curative' | 'palliative';

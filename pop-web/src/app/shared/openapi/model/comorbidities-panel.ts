@@ -7,13 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ComorbidityPanelCategory } from './comorbidity-panel-category';
 
 
-export type ComorbiditiesPanel = 'Charlson' | 'Elixhauser' | 'NCI';
-
-export const ComorbiditiesPanel = {
-    Charlson: 'Charlson' as ComorbiditiesPanel,
-    Elixhauser: 'Elixhauser' as ComorbiditiesPanel,
-    Nci: 'NCI' as ComorbiditiesPanel
-};
+export interface ComorbiditiesPanel { 
+    /**
+     * Comorbidity panel name
+     */
+    name: string;
+    /**
+     * Comorbidity panel categories
+     */
+    categories?: Array<ComorbidityPanelCategory>;
+}
 

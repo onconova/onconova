@@ -17,13 +17,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedTreatmentResponseSchema } from '../model/paginated-treatment-response-schema';
+import { PaginatedTreatmentResponse } from '../model/paginated-treatment-response';
 // @ts-ignore
-import { TreatmentResponseCreateSchema } from '../model/treatment-response-create-schema';
+import { TreatmentResponse } from '../model/treatment-response';
 // @ts-ignore
-import { TreatmentResponseSchema } from '../model/treatment-response-schema';
+import { TreatmentResponseCreate } from '../model/treatment-response-create';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -110,13 +110,13 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const treatmentResponseCreateSchema = requestParameters?.treatmentResponseCreateSchema;
-        if (treatmentResponseCreateSchema === null || treatmentResponseCreateSchema === undefined) {
-            throw new Error('Required parameter treatmentResponseCreateSchema was null or undefined when calling createTreatmentResponse.');
+        const treatmentResponseCreate = requestParameters?.treatmentResponseCreate;
+        if (treatmentResponseCreate === null || treatmentResponseCreate === undefined) {
+            throw new Error('Required parameter treatmentResponseCreate was null or undefined when calling createTreatmentResponse.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -172,10 +172,10 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         }
 
         let localVarPath = `/api/treatment-responses`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: treatmentResponseCreateSchema,
+                body: treatmentResponseCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -263,9 +263,9 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TreatmentResponseSchema>;
-    public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TreatmentResponseSchema>>;
-    public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TreatmentResponseSchema>>;
+    public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TreatmentResponse>;
+    public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TreatmentResponse>>;
+    public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TreatmentResponse>>;
     public getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const treatmentRresponseId = requestParameters?.treatmentRresponseId;
         if (treatmentRresponseId === null || treatmentRresponseId === undefined) {
@@ -316,7 +316,7 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         }
 
         let localVarPath = `/api/treatment-responses/${this.configuration.encodeParam({name: "treatmentRresponseId", value: treatmentRresponseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<TreatmentResponseSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<TreatmentResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -335,9 +335,9 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedTreatmentResponseSchema>;
-    public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedTreatmentResponseSchema>>;
-    public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedTreatmentResponseSchema>>;
+    public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedTreatmentResponse>;
+    public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedTreatmentResponse>>;
+    public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedTreatmentResponse>>;
     public getTreatmentResponses(requestParameters?: GetTreatmentResponsesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
@@ -803,7 +803,7 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         }
 
         let localVarPath = `/api/treatment-responses`;
-        return this.httpClient.request<PaginatedTreatmentResponseSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedTreatmentResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -823,17 +823,17 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const treatmentRresponseId = requestParameters?.treatmentRresponseId;
         if (treatmentRresponseId === null || treatmentRresponseId === undefined) {
             throw new Error('Required parameter treatmentRresponseId was null or undefined when calling updateTreatmentResponse.');
         }
-        const treatmentResponseCreateSchema = requestParameters?.treatmentResponseCreateSchema;
-        if (treatmentResponseCreateSchema === null || treatmentResponseCreateSchema === undefined) {
-            throw new Error('Required parameter treatmentResponseCreateSchema was null or undefined when calling updateTreatmentResponse.');
+        const treatmentResponseCreate = requestParameters?.treatmentResponseCreate;
+        if (treatmentResponseCreate === null || treatmentResponseCreate === undefined) {
+            throw new Error('Required parameter treatmentResponseCreate was null or undefined when calling updateTreatmentResponse.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -889,10 +889,10 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         }
 
         let localVarPath = `/api/treatment-responses/${this.configuration.encodeParam({name: "treatmentRresponseId", value: treatmentRresponseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: treatmentResponseCreateSchema,
+                body: treatmentResponseCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

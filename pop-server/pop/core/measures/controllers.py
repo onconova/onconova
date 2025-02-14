@@ -4,7 +4,7 @@ from ninja_jwt.authentication import JWTAuth
 
 from measurement.base import MeasureBase, BidimensionalMeasure
 
-from pop.core.measures.schemas import MeasureConversionSchema, MeasureSchema
+from pop.core.measures.schemas import MeasureConversion, Measure
 from pop.core.measures import measures
 
 @api_controller(
@@ -56,14 +56,14 @@ class MeasuresController(ControllerBase):
         path="/{measureName}/units/conversion", 
         operation_id='convertUnits',
         response={
-            200: MeasureSchema,
+            200: Measure,
             404: None
         }, 
     )
-    def convert_units(self, measureName: str, payload: MeasureConversionSchema):
+    def convert_units(self, measureName: str, payload: MeasureConversion):
         measureClass = getattr(measures, measureName, None)
         if measureClass is None:
             return 404, None
         measure = measureClass(**{payload.unit: payload.value})
         converted_value = getattr(measure, payload.new_unit)
-        return 200, MeasureSchema(unit=payload.new_unit, value=converted_value)
+        return 200, Measure(unit=payload.new_unit, value=converted_value)

@@ -7,16 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 import { SurgeryIntentChoices } from './surgery-intent-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
 
 
 export interface Surgery { 
-    /**
-     * Human-readable description of the surgery
-     */
-    description: string;
     /**
      * 
      */
@@ -29,7 +25,7 @@ export interface Surgery {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -43,24 +39,28 @@ export interface Surgery {
     /**
      * The specific surgical procedure that was performed
      */
-    procedure: CodedConceptSchema;
+    procedure: CodedConcept;
     /**
      * Therapeutic intent of the surgery
      */
     intent: SurgeryIntentChoices;
-    bodysite?: CodedConceptSchema | null;
-    bodysiteQualifier?: CodedConceptSchema | null;
-    bodysiteLaterality?: CodedConceptSchema | null;
-    outcome?: CodedConceptSchema | null;
+    bodysite?: CodedConcept | null;
+    bodysiteQualifier?: CodedConcept | null;
+    bodysiteLaterality?: CodedConcept | null;
+    outcome?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were targeted by the surgery
      */
     targetedEntitiesIds?: Array<string>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace Surgery {
 }

@@ -8,11 +8,11 @@
  * Do not edit the class manually.
  */
 import { AdverseEventMitigationCategoryChoices } from './adverse-event-mitigation-category-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
-export interface AdverseEventMitigationSchema { 
+export interface AdverseEventMitigation { 
     /**
      * 
      */
@@ -40,12 +40,12 @@ export interface AdverseEventMitigationSchema {
      * Type of mitigation employed
      */
     category: AdverseEventMitigationCategoryChoices;
-    adjustment?: CodedConceptSchema | null;
-    drug?: CodedConceptSchema | null;
-    procedure?: CodedConceptSchema | null;
-    management?: CodedConceptSchema | null;
+    adjustment?: CodedConcept | null;
+    drug?: CodedConcept | null;
+    procedure?: CodedConcept | null;
+    management?: CodedConcept | null;
 }
-export namespace AdverseEventMitigationSchema {
+export namespace AdverseEventMitigation {
 }
 
 

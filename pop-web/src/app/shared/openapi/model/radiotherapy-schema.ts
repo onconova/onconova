@@ -11,11 +11,11 @@ import { RadiotherapyDosageSchema } from './radiotherapy-dosage-schema';
 import { RadiotherapySettingSchema } from './radiotherapy-setting-schema';
 import { PeriodSchema } from './period-schema';
 import { RadiotherapyIntentChoices } from './radiotherapy-intent-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
-export interface RadiotherapySchema { 
+export interface Radiotherapy { 
     /**
      * 
      */
@@ -55,7 +55,7 @@ export interface RadiotherapySchema {
      * Treatment intent of the system therapy
      */
     intent: RadiotherapyIntentChoices;
-    terminationReason?: CodedConceptSchema | null;
+    terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the radiotherapy
@@ -70,7 +70,7 @@ export interface RadiotherapySchema {
      */
     settings: Array<RadiotherapySettingSchema>;
 }
-export namespace RadiotherapySchema {
+export namespace Radiotherapy {
 }
 
 

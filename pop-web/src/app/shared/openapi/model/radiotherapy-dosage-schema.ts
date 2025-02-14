@@ -8,7 +8,7 @@
  * Do not edit the class manually.
  */
 import { MeasureSchema } from './measure-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -41,8 +41,8 @@ export interface RadiotherapyDosageSchema {
     /**
      * Anatomical location of the irradiated volume
      */
-    irradiatedVolume: CodedConceptSchema;
-    irradiatedVolumeMorphology?: CodedConceptSchema | null;
-    irradiatedVolumeQualifier?: CodedConceptSchema | null;
+    irradiatedVolume: CodedConcept;
+    irradiatedVolumeMorphology?: CodedConcept | null;
+    irradiatedVolumeQualifier?: CodedConcept | null;
 }
 

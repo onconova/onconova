@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -35,11 +35,11 @@ export interface MolecularTherapeuticRecommendationSchema {
     description: string;
     externalSource?: string | null;
     externalSourceId?: string | null;
-    expectedEffect?: CodedConceptSchema | null;
+    expectedEffect?: CodedConcept | null;
     clinicalTrial?: string | null;
     offLabelUse?: boolean | null;
     withinSoc?: boolean | null;
-    drugs?: Array<CodedConceptSchema> | null;
+    drugs?: Array<CodedConcept> | null;
     supportingGenomicVariantsIds?: Array<string> | null;
     supportingGenomicSignaturesIds?: Array<string> | null;
     supportingTumorMarkersIds?: Array<string> | null;

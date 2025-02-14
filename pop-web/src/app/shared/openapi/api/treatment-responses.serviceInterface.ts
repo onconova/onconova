@@ -11,17 +11,17 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedTreatmentResponseSchema } from '../model/models';
-import { TreatmentResponseCreateSchema } from '../model/models';
-import { TreatmentResponseSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedTreatmentResponse } from '../model/models';
+import { TreatmentResponse } from '../model/models';
+import { TreatmentResponseCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateTreatmentResponseRequestParams {
-    treatmentResponseCreateSchema: TreatmentResponseCreateSchema;
+    treatmentResponseCreate: TreatmentResponseCreate;
 }
 
 export interface DeleteTreatmentResponseRequestParams {
@@ -118,7 +118,7 @@ export interface GetTreatmentResponsesRequestParams {
 
 export interface UpdateTreatmentResponseRequestParams {
     treatmentRresponseId: string;
-    treatmentResponseCreateSchema: TreatmentResponseCreateSchema;
+    treatmentResponseCreate: TreatmentResponseCreate;
 }
 
 
@@ -131,7 +131,7 @@ export interface TreatmentResponsesServiceInterface {
      * 
 * @param requestParameters
      */
-    createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTreatmentResponse(requestParameters: CreateTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Treatment Response
@@ -145,20 +145,20 @@ export interface TreatmentResponsesServiceInterface {
      * 
 * @param requestParameters
      */
-    getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, extraHttpRequestParams?: any): Observable<TreatmentResponseSchema>;
+    getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, extraHttpRequestParams?: any): Observable<TreatmentResponse>;
 
     /**
      * Get All Treatment Responses Matching The Query
      * 
 * @param requestParameters
      */
-    getTreatmentResponses(requestParameters: GetTreatmentResponsesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTreatmentResponseSchema>;
+    getTreatmentResponses(requestParameters: GetTreatmentResponsesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTreatmentResponse>;
 
     /**
      * Update Treatment Response
      * 
 * @param requestParameters
      */
-    updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateTreatmentResponse(requestParameters: UpdateTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

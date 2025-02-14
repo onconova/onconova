@@ -17,7 +17,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { PaginatedCodedConceptSchema } from '../model/paginated-coded-concept-schema';
+import { PaginatedCodedConcept } from '../model/paginated-coded-concept';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -100,9 +100,9 @@ export class TerminologyService implements TerminologyServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCodedConceptSchema>;
-    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCodedConceptSchema>>;
-    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCodedConceptSchema>>;
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedCodedConcept>;
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedCodedConcept>>;
+    public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedCodedConcept>>;
     public getTerminologyConcepts(requestParameters: GetTerminologyConceptsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const terminologyName = requestParameters?.terminologyName;
         if (terminologyName === null || terminologyName === undefined) {
@@ -170,7 +170,7 @@ export class TerminologyService implements TerminologyServiceInterface {
         }
 
         let localVarPath = `/api/terminologies/${this.configuration.encodeParam({name: "terminologyName", value: terminologyName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/concepts`;
-        return this.httpClient.request<PaginatedCodedConceptSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedCodedConcept>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

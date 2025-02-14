@@ -7,16 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 
 
 export interface TNMStaging { 
     stagingDomain?: TNMStaging.StagingDomainEnum;
-    /**
-     * Human-readable description of the staging
-     */
-    description: string;
     /**
      * 
      */
@@ -29,7 +25,7 @@ export interface TNMStaging {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -43,7 +39,7 @@ export interface TNMStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -51,18 +47,22 @@ export interface TNMStaging {
     /**
      * The information determined as a result of making the observation, if the information has a simple value
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema | null;
+    stage: CodedConcept;
+    methodology?: CodedConcept | null;
     pathological?: boolean | null;
-    primarytumor?: CodedConceptSchema | null;
-    regionalnodes?: CodedConceptSchema | null;
-    distantmetastases?: CodedConceptSchema | null;
-    grade?: CodedConceptSchema | null;
-    residualtumor?: CodedConceptSchema | null;
-    lymphaticinvasion?: CodedConceptSchema | null;
-    venousinvasion?: CodedConceptSchema | null;
-    perineuralinvasion?: CodedConceptSchema | null;
-    serumtumormarkerlevel?: CodedConceptSchema | null;
+    primarytumor?: CodedConcept | null;
+    regionalnodes?: CodedConcept | null;
+    distantmetastases?: CodedConcept | null;
+    grade?: CodedConcept | null;
+    residualtumor?: CodedConcept | null;
+    lymphaticinvasion?: CodedConcept | null;
+    venousinvasion?: CodedConcept | null;
+    perineuralinvasion?: CodedConcept | null;
+    serumtumormarkerlevel?: CodedConcept | null;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace TNMStaging {
     export type StagingDomainEnum = 'tnm';

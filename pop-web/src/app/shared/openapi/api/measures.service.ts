@@ -17,9 +17,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { MeasureConversionSchema } from '../model/measure-conversion-schema';
+import { Measure } from '../model/measure';
 // @ts-ignore
-import { MeasureSchema } from '../model/measure-schema';
+import { MeasureConversion } from '../model/measure-conversion';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -104,17 +104,17 @@ export class MeasuresService implements MeasuresServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<MeasureSchema>;
-    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<MeasureSchema>>;
-    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<MeasureSchema>>;
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Measure>;
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Measure>>;
+    public convertUnits(requestParameters: ConvertUnitsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Measure>>;
     public convertUnits(requestParameters: ConvertUnitsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const measureName = requestParameters?.measureName;
         if (measureName === null || measureName === undefined) {
             throw new Error('Required parameter measureName was null or undefined when calling convertUnits.');
         }
-        const measureConversionSchema = requestParameters?.measureConversionSchema;
-        if (measureConversionSchema === null || measureConversionSchema === undefined) {
-            throw new Error('Required parameter measureConversionSchema was null or undefined when calling convertUnits.');
+        const measureConversion = requestParameters?.measureConversion;
+        if (measureConversion === null || measureConversion === undefined) {
+            throw new Error('Required parameter measureConversion was null or undefined when calling convertUnits.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -170,10 +170,10 @@ export class MeasuresService implements MeasuresServiceInterface {
         }
 
         let localVarPath = `/api/measures/${this.configuration.encodeParam({name: "measureName", value: measureName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/units/conversion`;
-        return this.httpClient.request<MeasureSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Measure>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: measureConversionSchema,
+                body: measureConversion,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

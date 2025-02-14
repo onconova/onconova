@@ -10,7 +10,7 @@
 import { MeasureSchema } from './measure-schema';
 
 
-export interface VitalsCreateSchema { 
+export interface VitalsCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**

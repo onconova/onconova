@@ -7,7 +7,7 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 
-import { MeasuresService, MeasureSchema } from 'src/app/shared/openapi';
+import { MeasuresService, Measure } from 'src/app/shared/openapi';
 
 export interface MeasureUnit {
     unit: string; 
@@ -50,7 +50,7 @@ export class MeasureInputComponent implements ControlValueAccessor {
     public inputValue!: number | null;
 
     // Form control to track the value
-    public formControl = new FormControl<MeasureSchema | null>(null);
+    public formControl = new FormControl<Measure | null>(null);
 
     ngOnInit() {
         // Fetch allowed units for the given measure from the service

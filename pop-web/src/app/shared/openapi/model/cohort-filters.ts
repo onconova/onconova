@@ -11,6 +11,38 @@
 
 export interface CohortFilters { 
     /**
+     * Population - Filter for entries with values less than the specified value
+     */
+    'population.lessThan'?: number;
+    /**
+     * Population - Filter for entries with values less than or equal to the specified value
+     */
+    'population.lessThanOrEqual'?: number;
+    /**
+     * Population - Filter for entries with values greater than the specified value
+     */
+    'population.greaterThan'?: number;
+    /**
+     * Population - Filter for entries with values greater than or equal to the specified value
+     */
+    'population.greaterThanOrEqual'?: number;
+    /**
+     * Population - Filter for entries with values exactly equal to the specified value
+     */
+    'population.equal'?: number;
+    /**
+     * Population - Filter for entries with values not equal to the specified value
+     */
+    'population.not.equal'?: number;
+    /**
+     * Population - Filter for entries with values between two specified values (inclusive)
+     */
+    'population.between'?: Array<any>;
+    /**
+     * Population - Filter for entries with values between two specified values (inclusive)
+     */
+    'population.not.between'?: Array<any>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -118,38 +150,6 @@ export interface CohortFilters {
      * Frozen cases - Filter for reference mismatches
      */
     'frozenSetIds.not'?: string;
-    /**
-     * Population - Filter for entries with values less than the specified value
-     */
-    'population.lessThan'?: number;
-    /**
-     * Population - Filter for entries with values less than or equal to the specified value
-     */
-    'population.lessThanOrEqual'?: number;
-    /**
-     * Population - Filter for entries with values greater than the specified value
-     */
-    'population.greaterThan'?: number;
-    /**
-     * Population - Filter for entries with values greater than or equal to the specified value
-     */
-    'population.greaterThanOrEqual'?: number;
-    /**
-     * Population - Filter for entries with values exactly equal to the specified value
-     */
-    'population.equal'?: number;
-    /**
-     * Population - Filter for entries with values not equal to the specified value
-     */
-    'population.not.equal'?: number;
-    /**
-     * Population - Filter for entries with values between two specified values (inclusive)
-     */
-    'population.between'?: Array<any>;
-    /**
-     * Population - Filter for entries with values between two specified values (inclusive)
-     */
-    'population.not.between'?: Array<any>;
     createdBy?: string | null;
 }
 

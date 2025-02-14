@@ -1,8 +1,7 @@
 
 from ninja import Schema
-from pydantic import ConfigDict
 
-class MeasureSchema(Schema):
+class Measure(Schema):
     """
     Represents a measure value with its unit.
 
@@ -13,13 +12,8 @@ class MeasureSchema(Schema):
     value: float
     unit: str
 
-    # Schema config
-    model_config = ConfigDict(
-        title='Measure',
-    )
 
-
-class MeasureConversionSchema(Schema):
+class MeasureConversion(Schema):
     """
     Represents a measure value to be converted to another unit.
 
@@ -33,7 +27,3 @@ class MeasureConversionSchema(Schema):
     unit: str
     new_unit: str
 
-    # Schema config
-    model_config = ConfigDict(
-        title='MeasureConversion',
-    )

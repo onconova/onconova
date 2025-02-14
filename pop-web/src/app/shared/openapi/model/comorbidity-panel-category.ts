@@ -7,15 +7,21 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface ComorbidityPanelCategory { 
+    /**
+     * Label of the comorbidity panel category
+     */
     label: string;
     /**
      * Default choice for category
      */
-    'default': CodedConceptSchema;
-    conditions: Array<CodedConceptSchema>;
+    'default': CodedConcept;
+    /**
+     * List of conditions included in the panel category
+     */
+    conditions: Array<CodedConcept>;
 }
 

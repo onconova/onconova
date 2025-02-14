@@ -7,9 +7,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CodedConcept } from './coded-concept';
 import { LymphomaStagingCreate } from './lymphoma-staging-create';
 import { FIGOStagingCreate } from './figo-staging-create';
-import { CodedConceptSchema } from './coded-concept-schema';
 import { BinetStagingCreate } from './binet-staging-create';
 import { ClarkStagingCreate } from './clark-staging-create';
 import { INRGSSStageCreate } from './inrgss-stage-create';
@@ -43,18 +43,18 @@ export interface Payload {
     /**
      * The value of the Lymphoma stage
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema;
+    stage: CodedConcept;
+    methodology?: CodedConcept;
     pathological?: boolean;
-    primarytumor?: CodedConceptSchema;
-    regionalnodes?: CodedConceptSchema;
-    distantmetastases?: CodedConceptSchema;
-    grade?: CodedConceptSchema;
-    residualtumor?: CodedConceptSchema;
-    lymphaticinvasion?: CodedConceptSchema;
-    venousinvasion?: CodedConceptSchema;
-    perineuralinvasion?: CodedConceptSchema;
-    serumtumormarkerlevel?: CodedConceptSchema;
+    primarytumor?: CodedConcept;
+    regionalnodes?: CodedConcept;
+    distantmetastases?: CodedConcept;
+    grade?: CodedConcept;
+    residualtumor?: CodedConcept;
+    lymphaticinvasion?: CodedConcept;
+    venousinvasion?: CodedConcept;
+    perineuralinvasion?: CodedConcept;
+    serumtumormarkerlevel?: CodedConcept;
     /**
      * Breslow depth given in milimeters
      */
@@ -64,7 +64,7 @@ export interface Payload {
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifiers?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConcept>;
 }
 export namespace Payload {
     export type StagingDomainEnum = 'lymphoma';

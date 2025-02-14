@@ -11,7 +11,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
 import { 
-    VitalsCreateSchema,
+    VitalsCreate,
     VitalsService,
 } from '../../../shared/openapi'
 
@@ -49,15 +49,15 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
     private readonly vitalsService: VitalsService = inject(VitalsService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = (payload: VitalsCreateSchema) => this.vitalsService.createVitals({vitalsCreateSchema: payload});
-    public readonly updateService = (id: string, payload: VitalsCreateSchema) => this.vitalsService.updateVitalsById({vitalsId: id, vitalsCreateSchema: payload});
+    public readonly createService = (payload: VitalsCreate) => this.vitalsService.createVitals({vitalsCreate: payload});
+    public readonly updateService = (id: string, payload: VitalsCreate) => this.vitalsService.updateVitalsById({vitalsId: id, vitalsCreate: payload});
 
     public readonly title: string = 'Vitals';
     public readonly subtitle: string = 'Add new vitals';
     public readonly icon = Activity;
 
     private caseId!: string;
-    public initialData: VitalsCreateSchema | any = {};
+    public initialData: VitalsCreate | any = {};
 
     ngOnInit() {
         this.constructForm()
@@ -74,7 +74,7 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
         });
     }
 
-    constructAPIPayload(data: any): VitalsCreateSchema {    
+    constructAPIPayload(data: any): VitalsCreate {    
         return {
             caseId: this.caseId,
             date: data.date,

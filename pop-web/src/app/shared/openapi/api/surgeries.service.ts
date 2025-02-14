@@ -17,7 +17,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedSurgery } from '../model/paginated-surgery';
 // @ts-ignore
@@ -110,9 +110,9 @@ export class SurgeriesService implements SurgeriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createSurgery(requestParameters: CreateSurgeryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createSurgery(requestParameters: CreateSurgeryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createSurgery(requestParameters: CreateSurgeryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createSurgery(requestParameters: CreateSurgeryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createSurgery(requestParameters: CreateSurgeryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createSurgery(requestParameters: CreateSurgeryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createSurgery(requestParameters: CreateSurgeryRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const surgeryCreate = requestParameters?.surgeryCreate;
         if (surgeryCreate === null || surgeryCreate === undefined) {
@@ -172,7 +172,7 @@ export class SurgeriesService implements SurgeriesServiceInterface {
         }
 
         let localVarPath = `/api/surgeries`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: surgeryCreate,
@@ -802,9 +802,9 @@ export class SurgeriesService implements SurgeriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const surgeryId = requestParameters?.surgeryId;
         if (surgeryId === null || surgeryId === undefined) {
@@ -868,7 +868,7 @@ export class SurgeriesService implements SurgeriesServiceInterface {
         }
 
         let localVarPath = `/api/surgeries/${this.configuration.encodeParam({name: "surgeryId", value: surgeryId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: surgeryCreate,

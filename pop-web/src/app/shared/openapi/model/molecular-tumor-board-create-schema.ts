@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface MolecularTumorBoardCreateSchema { 
+export interface MolecularTumorBoardCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -25,7 +25,7 @@ export interface MolecularTumorBoardCreateSchema {
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema> | null;
+    recommendations?: Array<CodedConcept> | null;
     conductedMolecularComparison?: boolean | null;
     molecularComparisonMatchId?: string | null;
     conductedCupCharacterization?: boolean | null;
@@ -34,9 +34,9 @@ export interface MolecularTumorBoardCreateSchema {
      * 
      */
     reviewedReports: Array<string>;
-    category?: MolecularTumorBoardCreateSchema.CategoryEnum;
+    category?: MolecularTumorBoardCreate.CategoryEnum;
 }
-export namespace MolecularTumorBoardCreateSchema {
+export namespace MolecularTumorBoardCreate {
     export type CategoryEnum = 'molecular';
     export const CategoryEnum = {
         Molecular: 'molecular' as CategoryEnum

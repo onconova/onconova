@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -38,10 +38,10 @@ export interface RadiotherapySettingSchema {
     /**
      * Modality of external beam or brachytherapy radiation procedures
      */
-    modality: CodedConceptSchema;
+    modality: CodedConcept;
     /**
      * Technique of external beam or brachytherapy radiation procedures
      */
-    technique: CodedConceptSchema;
+    technique: CodedConcept;
 }
 

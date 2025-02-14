@@ -12,9 +12,9 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyTumorBoard } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
-import { MolecularTherapeuticRecommendationCreateSchema } from '../model/models';
-import { MolecularTherapeuticRecommendationSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { MolecularTherapeuticRecommendation } from '../model/models';
+import { MolecularTherapeuticRecommendationCreate } from '../model/models';
 import { PaginatedAnyTumorBoard } from '../model/models';
 import { Payload1 } from '../model/models';
 
@@ -24,7 +24,7 @@ import { Configuration }                                     from '../configurat
 
 export interface CreateMolecularTherapeuticRecommendationRequestParams {
     tumorBoardId: string;
-    molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema;
+    molecularTherapeuticRecommendationCreate: MolecularTherapeuticRecommendationCreate;
 }
 
 export interface CreateTumorBoardRequestParams {
@@ -127,7 +127,7 @@ export interface GetTumorBoardsRequestParams {
 export interface UpdateMolecularTherapeuticRecommendationRequestParams {
     tumorBoardId: string;
     recommendationId: string;
-    molecularTherapeuticRecommendationCreateSchema: MolecularTherapeuticRecommendationCreateSchema;
+    molecularTherapeuticRecommendationCreate: MolecularTherapeuticRecommendationCreate;
 }
 
 export interface UpdateTumorBoardByIdRequestParams {
@@ -145,14 +145,14 @@ export interface TumorBoardsServiceInterface {
      * 
 * @param requestParameters
      */
-    createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createMolecularTherapeuticRecommendation(requestParameters: CreateMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Tumor Board
      * 
 * @param requestParameters
      */
-    createTumorBoard(requestParameters: CreateTumorBoardRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTumorBoard(requestParameters: CreateTumorBoardRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Molecular Tumor Board Therapeutic Recommendation
@@ -173,14 +173,14 @@ export interface TumorBoardsServiceInterface {
      * 
 * @param requestParameters
      */
-    getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, extraHttpRequestParams?: any): Observable<MolecularTherapeuticRecommendationSchema>;
+    getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, extraHttpRequestParams?: any): Observable<MolecularTherapeuticRecommendation>;
 
     /**
      * Get Molecular Tumor Board Therapeutic Recommendations Matching The Query
      * 
 * @param requestParameters
      */
-    getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, extraHttpRequestParams?: any): Observable<Array<MolecularTherapeuticRecommendationSchema>>;
+    getMolecularTherapeuticRecommendations(requestParameters: GetMolecularTherapeuticRecommendationsRequestParams, extraHttpRequestParams?: any): Observable<Array<MolecularTherapeuticRecommendation>>;
 
     /**
      * Get Tumor Board By Id
@@ -201,13 +201,13 @@ export interface TumorBoardsServiceInterface {
      * 
 * @param requestParameters
      */
-    updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateMolecularTherapeuticRecommendation(requestParameters: UpdateMolecularTherapeuticRecommendationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Tumor Board
      * 
 * @param requestParameters
      */
-    updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateTumorBoardById(requestParameters: UpdateTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

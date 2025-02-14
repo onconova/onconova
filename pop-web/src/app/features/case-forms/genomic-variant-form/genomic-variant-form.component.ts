@@ -13,7 +13,7 @@ import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { 
-    GenomicVariantCreateSchema,
+    GenomicVariantCreate,
     GenomicVariantsService,
     GenomicVariantClinicalRelevanceChoices,
     GenomicVariantConfidenceChoices,
@@ -56,15 +56,15 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     private readonly genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = (payload: GenomicVariantCreateSchema) => this.genomicVariantsService.createGenomicVariant({genomicVariantCreateSchema: payload});
-    public readonly updateService = (id: string, payload: GenomicVariantCreateSchema) => this.genomicVariantsService.updateGenomicVariant({genomicVariantId: id, genomicVariantCreateSchema: payload});
+    public readonly createService = (payload: GenomicVariantCreate) => this.genomicVariantsService.createGenomicVariant({genomicVariantCreate: payload});
+    public readonly updateService = (id: string, payload: GenomicVariantCreate) => this.genomicVariantsService.updateGenomicVariant({genomicVariantId: id, genomicVariantCreate: payload});
 
     public readonly title: string = 'Genomic variant';
     public readonly subtitle: string = 'Add new genomic variant';
     public readonly icon = Dna;
 
     private caseId!: string;
-    public initialData: GenomicVariantCreateSchema | any = {};
+    public initialData: GenomicVariantCreate | any = {};
     
 
     public confidenceChoices: RadioChoice[] = [
@@ -131,7 +131,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     }
 
 
-    constructAPIPayload(data: any): GenomicVariantCreateSchema {    
+    constructAPIPayload(data: any): GenomicVariantCreate {    
         return {
             caseId: this.caseId,
             date: data.date,

@@ -11,7 +11,7 @@ import { AdverseEventSuspectedCauseCausalityChoices } from './adverse-event-susp
 import { UserSchema } from './user-schema';
 
 
-export interface AdverseEventSuspectedCauseSchema { 
+export interface AdverseEventSuspectedCause { 
     /**
      * 
      */
@@ -41,7 +41,7 @@ export interface AdverseEventSuspectedCauseSchema {
     surgeryId?: string | null;
     causality?: AdverseEventSuspectedCauseCausalityChoices | null;
 }
-export namespace AdverseEventSuspectedCauseSchema {
+export namespace AdverseEventSuspectedCause {
 }
 
 

@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface GleasonGradeCreate { 
@@ -29,7 +29,7 @@ export interface GleasonGradeCreate {
     /**
      * The value of the Gleason grade stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace GleasonGradeCreate {
     export type StagingDomainEnum = 'gleason';

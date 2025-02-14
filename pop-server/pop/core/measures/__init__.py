@@ -1,6 +1,6 @@
 from .fields import MeasurementField
 from .controllers import MeasuresController
-from .schemas import MeasureSchema, MeasureConversionSchema
+from .schemas import Measure, MeasureConversion
 from .measures import (
     Unit,
     Substance,
@@ -27,8 +27,8 @@ from .measures import (
 __all__ = (
     MeasurementField,
     MeasuresController,
-    MeasureSchema,
-    MeasureConversionSchema,
+    Measure,
+    MeasureConversion,
     Unit,
     Substance,
     Mass,

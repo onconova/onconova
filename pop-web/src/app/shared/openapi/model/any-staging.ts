@@ -10,14 +10,14 @@
 import { FIGOStaging } from './figo-staging';
 import { BreslowDepth } from './breslow-depth';
 import { INRGSSStage } from './inrgss-stage';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 import { TNMStaging } from './tnm-staging';
 import { RISSStaging } from './riss-staging';
 import { ClarkStaging } from './clark-staging';
 import { BinetStaging } from './binet-staging';
 import { WilmsStage } from './wilms-stage';
-import { CodedConceptSchema } from './coded-concept-schema';
 import { RaiStaging } from './rai-staging';
-import { UserSchema } from './user-schema';
 import { GleasonGrade } from './gleason-grade';
 import { ISSStaging } from './iss-staging';
 import { RhabdomyosarcomaClinicalGroup } from './rhabdomyosarcoma-clinical-group';
@@ -27,10 +27,6 @@ import { LymphomaStaging } from './lymphoma-staging';
 
 export interface AnyStaging { 
     stagingDomain?: AnyStaging.StagingDomainEnum;
-    /**
-     * Human-readable description of the staging
-     */
-    description: string;
     /**
      * 
      */
@@ -43,7 +39,7 @@ export interface AnyStaging {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema;
+    createdBy?: User;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -57,7 +53,7 @@ export interface AnyStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -65,18 +61,22 @@ export interface AnyStaging {
     /**
      * The value of the Lymphoma stage
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema;
+    stage: CodedConcept;
+    methodology?: CodedConcept;
     pathological?: boolean;
-    primarytumor?: CodedConceptSchema;
-    regionalnodes?: CodedConceptSchema;
-    distantmetastases?: CodedConceptSchema;
-    grade?: CodedConceptSchema;
-    residualtumor?: CodedConceptSchema;
-    lymphaticinvasion?: CodedConceptSchema;
-    venousinvasion?: CodedConceptSchema;
-    perineuralinvasion?: CodedConceptSchema;
-    serumtumormarkerlevel?: CodedConceptSchema;
+    primarytumor?: CodedConcept;
+    regionalnodes?: CodedConcept;
+    distantmetastases?: CodedConcept;
+    grade?: CodedConcept;
+    residualtumor?: CodedConcept;
+    lymphaticinvasion?: CodedConcept;
+    venousinvasion?: CodedConcept;
+    perineuralinvasion?: CodedConcept;
+    serumtumormarkerlevel?: CodedConcept;
+    /**
+     * Human-readable description
+     */
+    description: string;
     /**
      * Breslow depth given in milimeters
      */
@@ -86,7 +86,7 @@ export interface AnyStaging {
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifiers?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConcept>;
 }
 export namespace AnyStaging {
     export type StagingDomainEnum = 'lymphoma';

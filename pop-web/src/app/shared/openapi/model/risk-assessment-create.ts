@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface RiskAssessmentCreate { 
@@ -24,11 +24,11 @@ export interface RiskAssessmentCreate {
     /**
      * Indicates the method or type of risk assessment
      */
-    methodology: CodedConceptSchema;
+    methodology: CodedConcept;
     /**
      * Assessed risk
      */
-    risk: CodedConceptSchema;
+    risk: CodedConcept;
     score?: number | null;
     /**
      * References to the neoplastic entities that were assessed to estimate the risk.

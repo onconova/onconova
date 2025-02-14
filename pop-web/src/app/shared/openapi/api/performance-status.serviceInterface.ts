@@ -11,7 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedPerformanceStatus } from '../model/models';
 import { PerformanceStatus } from '../model/models';
 import { PerformanceStatusCreate } from '../model/models';
@@ -110,7 +110,7 @@ export interface PerformanceStatusServiceInterface {
      * 
 * @param requestParameters
      */
-    createPerformanceStatus(requestParameters: CreatePerformanceStatusRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPerformanceStatus(requestParameters: CreatePerformanceStatusRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Performance Status
@@ -138,6 +138,6 @@ export interface PerformanceStatusServiceInterface {
      * 
 * @param requestParameters
      */
-    updatePerformanceStatusById(requestParameters: UpdatePerformanceStatusByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updatePerformanceStatusById(requestParameters: UpdatePerformanceStatusByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

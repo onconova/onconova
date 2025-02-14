@@ -7,8 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CodedConcept } from './coded-concept';
 import { SurgeryIntentChoices } from './surgery-intent-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface SurgeryCreate { 
@@ -25,15 +25,15 @@ export interface SurgeryCreate {
     /**
      * The specific surgical procedure that was performed
      */
-    procedure: CodedConceptSchema;
+    procedure: CodedConcept;
     /**
      * Therapeutic intent of the surgery
      */
     intent: SurgeryIntentChoices;
-    bodysite?: CodedConceptSchema | null;
-    bodysiteQualifier?: CodedConceptSchema | null;
-    bodysiteLaterality?: CodedConceptSchema | null;
-    outcome?: CodedConceptSchema | null;
+    bodysite?: CodedConcept | null;
+    bodysiteQualifier?: CodedConcept | null;
+    bodysiteLaterality?: CodedConcept | null;
+    outcome?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the surgery

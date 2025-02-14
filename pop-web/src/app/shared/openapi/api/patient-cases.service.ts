@@ -17,7 +17,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedPatientCase } from '../model/paginated-patient-case';
 // @ts-ignore
@@ -122,9 +122,9 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createPatientCase(requestParameters: CreatePatientCaseRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const patientCaseCreate = requestParameters?.patientCaseCreate;
         if (patientCaseCreate === null || patientCaseCreate === undefined) {
@@ -184,7 +184,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         }
 
         let localVarPath = `/api/patient-cases`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: patientCaseCreate,
@@ -204,9 +204,9 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const patientCaseBundleCreate = requestParameters?.patientCaseBundleCreate;
         if (patientCaseBundleCreate === null || patientCaseBundleCreate === undefined) {
@@ -266,7 +266,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         }
 
         let localVarPath = `/api/patient-cases/bundle`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: patientCaseBundleCreate,
@@ -286,9 +286,9 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const caseId = requestParameters?.caseId;
         if (caseId === null || caseId === undefined) {
@@ -343,7 +343,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         }
 
         let localVarPath = `/api/patient-cases/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/data-completion/${this.configuration.encodeParam({name: "category", value: category, in: "path", style: "simple", explode: false, dataType: "'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses'", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1493,9 +1493,9 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const caseId = requestParameters?.caseId;
         if (caseId === null || caseId === undefined) {
@@ -1559,7 +1559,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         }
 
         let localVarPath = `/api/patient-cases/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: patientCaseCreate,

@@ -9,7 +9,7 @@
  */
 import { ComorbiditiesAssessmentPanelChoices } from './comorbidities-assessment-panel-choices';
 import { Index } from './index';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -50,8 +50,8 @@ export interface ComorbiditiesAssessmentSchema {
      */
     indexconditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
-    presentConditions?: Array<CodedConceptSchema> | null;
-    absentConditions?: Array<CodedConceptSchema> | null;
+    presentConditions?: Array<CodedConcept> | null;
+    absentConditions?: Array<CodedConcept> | null;
     index?: Index | null;
 }
 export namespace ComorbiditiesAssessmentSchema {

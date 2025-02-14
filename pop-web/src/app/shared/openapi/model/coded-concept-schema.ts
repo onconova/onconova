@@ -9,7 +9,7 @@
  */
 
 
-export interface CodedConceptSchema { 
+export interface CodedConcept { 
     code: string;
     system: string;
     display?: string | null;

@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -46,14 +46,14 @@ export interface FamilyHistorySchema {
     /**
      * Relationship to the patient
      */
-    relationship: CodedConceptSchema;
+    relationship: CodedConcept;
     /**
      * Whether the family member has a history of cancer
      */
     hadCancer: boolean;
     contributedToDeath?: boolean | null;
     onsetAge?: number | null;
-    topography?: CodedConceptSchema | null;
-    morphology?: CodedConceptSchema | null;
+    topography?: CodedConcept | null;
+    morphology?: CodedConcept | null;
 }
 

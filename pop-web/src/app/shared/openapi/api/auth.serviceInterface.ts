@@ -11,26 +11,49 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { RefreshedTokenPairSchema } from '../model/models';
-import { TokenPairSchema } from '../model/models';
-import { TokenRefreshSchema } from '../model/models';
-import { UserCredentialsSchema } from '../model/models';
-import { UserSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedUser } from '../model/models';
+import { RefreshedTokenPair } from '../model/models';
+import { TokenPair } from '../model/models';
+import { TokenRefresh } from '../model/models';
+import { User } from '../model/models';
+import { UserCreate } from '../model/models';
+import { UserCredentials } from '../model/models';
+import { UserProfileSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
+export interface CreateUserRequestParams {
+    userCreate: UserCreate;
+}
+
 export interface GetTokenPairRequestParams {
-    userCredentialsSchema: UserCredentialsSchema;
+    userCredentials: UserCredentials;
 }
 
 export interface GetUserByIdRequestParams {
-    userId: number;
+    userId: string;
+}
+
+export interface GetUsersRequestParams {
+    limit?: number;
+    offset?: number;
 }
 
 export interface RefreshTokenPairRequestParams {
-    tokenRefreshSchema: TokenRefreshSchema;
+    tokenRefresh: TokenRefresh;
+}
+
+export interface UpdateUserRequestParams {
+    userId: string;
+    userCreate: UserCreate;
+}
+
+export interface UpdateUserProfileRequestParams {
+    userId: string;
+    userProfileSchema: UserProfileSchema;
 }
 
 
@@ -39,30 +62,52 @@ export interface AuthServiceInterface {
     configuration: Configuration;
 
     /**
+     * Create User
+     * 
+* @param requestParameters
+     */
+    createUser(requestParameters: CreateUserRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
      * Obtain Token Pair
      * 
 * @param requestParameters
      */
-    getTokenPair(requestParameters: GetTokenPairRequestParams, extraHttpRequestParams?: any): Observable<TokenPairSchema>;
+    getTokenPair(requestParameters: GetTokenPairRequestParams, extraHttpRequestParams?: any): Observable<TokenPair>;
 
     /**
      * Get User By Id
      * 
 * @param requestParameters
      */
-    getUserById(requestParameters: GetUserByIdRequestParams, extraHttpRequestParams?: any): Observable<UserSchema>;
+    getUserById(requestParameters: GetUserByIdRequestParams, extraHttpRequestParams?: any): Observable<User>;
 
     /**
      * Get All Users Matching The Query
      * 
-*/
-    getUsers(extraHttpRequestParams?: any): Observable<Array<UserSchema>>;
+* @param requestParameters
+     */
+    getUsers(requestParameters: GetUsersRequestParams, extraHttpRequestParams?: any): Observable<PaginatedUser>;
 
     /**
      * Refresh Token Pair
      * 
 * @param requestParameters
      */
-    refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, extraHttpRequestParams?: any): Observable<RefreshedTokenPairSchema>;
+    refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, extraHttpRequestParams?: any): Observable<RefreshedTokenPair>;
+
+    /**
+     * Update User
+     * 
+* @param requestParameters
+     */
+    updateUser(requestParameters: UpdateUserRequestParams, extraHttpRequestParams?: any): Observable<User>;
+
+    /**
+     * Update User Profile
+     * 
+* @param requestParameters
+     */
+    updateUserProfile(requestParameters: UpdateUserProfileRequestParams, extraHttpRequestParams?: any): Observable<User>;
 
 }

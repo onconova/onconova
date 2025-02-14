@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 import { NeoplasticEntity } from './neoplastic-entity';
 import { PatientCaseConsentStatusChoices } from './patient-case-consent-status-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
 
 
 export interface PatientCaseBundle { 
@@ -34,7 +34,7 @@ export interface PatientCaseBundle {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -56,10 +56,10 @@ export interface PatientCaseBundle {
     /**
      * Gender for administrative purposes
      */
-    gender: CodedConceptSchema;
-    race?: CodedConceptSchema | null;
-    sexAtBirth?: CodedConceptSchema | null;
-    genderIdentity?: CodedConceptSchema | null;
+    gender: CodedConcept;
+    race?: CodedConcept | null;
+    sexAtBirth?: CodedConcept | null;
+    genderIdentity?: CodedConcept | null;
     /**
      * Anonymized date of birth (year/month). The day is set to the first day of the month by convention.
      */
@@ -69,11 +69,15 @@ export interface PatientCaseBundle {
      */
     isDeceased: boolean;
     dateOfDeath?: string | null;
-    causeOfDeath?: CodedConceptSchema | null;
+    causeOfDeath?: CodedConcept | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace PatientCaseBundle {
 }

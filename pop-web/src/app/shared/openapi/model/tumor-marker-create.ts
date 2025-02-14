@@ -8,12 +8,12 @@
  * Do not edit the class manually.
  */
 import { TumorMarkerTumorProportionScoreChoices } from './tumor-marker-tumor-proportion-score-choices';
-import { MeasureSchema } from './measure-schema';
+import { CodedConcept } from './coded-concept';
 import { TumorMarkerNuclearExpressionStatusChoices } from './tumor-marker-nuclear-expression-status-choices';
+import { Measure } from './measure';
 import { TumorMarkerImmunohistochemicalScoreChoices } from './tumor-marker-immunohistochemical-score-choices';
 import { TumorMarkerPresenceChoices } from './tumor-marker-presence-choices';
 import { TumorMarkerImmuneCellScoreChoices } from './tumor-marker-immune-cell-score-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface TumorMarkerCreate { 
@@ -30,15 +30,15 @@ export interface TumorMarkerCreate {
     /**
      * The chemical or biological substance/agent that is analyzed.
      */
-    analyte: CodedConceptSchema;
-    massConcentration?: MeasureSchema | null;
-    arbitraryConcentration?: MeasureSchema | null;
-    substanceConcentration?: MeasureSchema | null;
-    fraction?: MeasureSchema | null;
-    multipleOfMedian?: MeasureSchema | null;
+    analyte: CodedConcept;
+    massConcentration?: Measure | null;
+    arbitraryConcentration?: Measure | null;
+    substanceConcentration?: Measure | null;
+    fraction?: Measure | null;
+    multipleOfMedian?: Measure | null;
     tumorProportionScore?: TumorMarkerTumorProportionScoreChoices | null;
     immuneCellScore?: TumorMarkerImmuneCellScoreChoices | null;
-    combinedPositiveScore?: MeasureSchema | null;
+    combinedPositiveScore?: Measure | null;
     immunohistochemicalScore?: TumorMarkerImmunohistochemicalScoreChoices | null;
     presence?: TumorMarkerPresenceChoices | null;
     nuclearExpressionStatus?: TumorMarkerNuclearExpressionStatusChoices | null;

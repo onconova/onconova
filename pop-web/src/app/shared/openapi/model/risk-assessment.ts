@@ -7,15 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 
 
 export interface RiskAssessment { 
-    /**
-     * Human-readable description of the tumor marker
-     */
-    description: string;
     /**
      * 
      */
@@ -28,7 +24,7 @@ export interface RiskAssessment {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -42,19 +38,23 @@ export interface RiskAssessment {
     /**
      * Indicates the method or type of risk assessment
      */
-    methodology: CodedConceptSchema;
+    methodology: CodedConcept;
     /**
      * Assessed risk
      */
-    risk: CodedConceptSchema;
+    risk: CodedConcept;
     score?: number | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were assessed to estimate the risk.
      */
     assessedEntitiesIds?: Array<string>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 

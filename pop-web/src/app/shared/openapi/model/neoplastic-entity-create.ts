@@ -7,8 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CodedConcept } from './coded-concept';
 import { NeoplasticEntityRelationshipChoices } from './neoplastic-entity-relationship-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
 
 
 export interface NeoplasticEntityCreate { 
@@ -30,13 +30,13 @@ export interface NeoplasticEntityCreate {
     /**
      * Anatomical location of the neoplasm(s)
      */
-    topography: CodedConceptSchema;
+    topography: CodedConcept;
     /**
      * Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself
      */
-    morphology: CodedConceptSchema;
-    differentitation?: CodedConceptSchema | null;
-    laterality?: CodedConceptSchema | null;
+    morphology: CodedConcept;
+    differentitation?: CodedConcept | null;
+    laterality?: CodedConcept | null;
 }
 export namespace NeoplasticEntityCreate {
 }

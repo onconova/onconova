@@ -17,13 +17,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { FamilyHistoryCreateSchema } from '../model/family-history-create-schema';
+import { FamilyHistory } from '../model/family-history';
 // @ts-ignore
-import { FamilyHistorySchema } from '../model/family-history-schema';
+import { FamilyHistoryCreate } from '../model/family-history-create';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedFamilyHistorySchema } from '../model/paginated-family-history-schema';
+import { PaginatedFamilyHistory } from '../model/paginated-family-history';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -110,13 +110,13 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createFamilyHistory(requestParameters: CreateFamilyHistoryRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const familyHistoryCreateSchema = requestParameters?.familyHistoryCreateSchema;
-        if (familyHistoryCreateSchema === null || familyHistoryCreateSchema === undefined) {
-            throw new Error('Required parameter familyHistoryCreateSchema was null or undefined when calling createFamilyHistory.');
+        const familyHistoryCreate = requestParameters?.familyHistoryCreate;
+        if (familyHistoryCreate === null || familyHistoryCreate === undefined) {
+            throw new Error('Required parameter familyHistoryCreate was null or undefined when calling createFamilyHistory.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -172,10 +172,10 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
         }
 
         let localVarPath = `/api/family-histories`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: familyHistoryCreateSchema,
+                body: familyHistoryCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -263,9 +263,9 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedFamilyHistorySchema>;
-    public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedFamilyHistorySchema>>;
-    public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedFamilyHistorySchema>>;
+    public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedFamilyHistory>;
+    public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedFamilyHistory>>;
+    public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedFamilyHistory>>;
     public getFamilyHistories(requestParameters?: GetFamilyHistoriesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
@@ -629,7 +629,7 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
         }
 
         let localVarPath = `/api/family-histories`;
-        return this.httpClient.request<PaginatedFamilyHistorySchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedFamilyHistory>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -649,9 +649,9 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<FamilyHistorySchema>;
-    public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FamilyHistorySchema>>;
-    public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FamilyHistorySchema>>;
+    public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<FamilyHistory>;
+    public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FamilyHistory>>;
+    public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FamilyHistory>>;
     public getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const familyHistoryId = requestParameters?.familyHistoryId;
         if (familyHistoryId === null || familyHistoryId === undefined) {
@@ -702,7 +702,7 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
         }
 
         let localVarPath = `/api/family-histories/${this.configuration.encodeParam({name: "familyHistoryId", value: familyHistoryId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<FamilyHistorySchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<FamilyHistory>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -721,17 +721,17 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateFamilyHistory(requestParameters: UpdateFamilyHistoryRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const familyHistoryId = requestParameters?.familyHistoryId;
         if (familyHistoryId === null || familyHistoryId === undefined) {
             throw new Error('Required parameter familyHistoryId was null or undefined when calling updateFamilyHistory.');
         }
-        const familyHistoryCreateSchema = requestParameters?.familyHistoryCreateSchema;
-        if (familyHistoryCreateSchema === null || familyHistoryCreateSchema === undefined) {
-            throw new Error('Required parameter familyHistoryCreateSchema was null or undefined when calling updateFamilyHistory.');
+        const familyHistoryCreate = requestParameters?.familyHistoryCreate;
+        if (familyHistoryCreate === null || familyHistoryCreate === undefined) {
+            throw new Error('Required parameter familyHistoryCreate was null or undefined when calling updateFamilyHistory.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -787,10 +787,10 @@ export class FamilyHistoriesService implements FamilyHistoriesServiceInterface {
         }
 
         let localVarPath = `/api/family-histories/${this.configuration.encodeParam({name: "familyHistoryId", value: familyHistoryId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: familyHistoryCreateSchema,
+                body: familyHistoryCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

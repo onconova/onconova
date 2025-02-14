@@ -7,14 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AdverseEventMitigationSchema } from './adverse-event-mitigation-schema';
-import { AdverseEventSuspectedCauseSchema } from './adverse-event-suspected-cause-schema';
+import { AdverseEventMitigation } from './adverse-event-mitigation-schema';
+import { AdverseEventSuspectedCause } from './adverse-event-suspected-cause-schema';
 import { AdverseEventOutcomeChoices } from './adverse-event-outcome-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
-export interface AdverseEventSchema { 
+export interface AdverseEvent { 
     /**
      * 
      */
@@ -49,7 +49,7 @@ export interface AdverseEventSchema {
     /**
      * Classification of the adverse event using CTCAE criteria
      */
-    event: CodedConceptSchema;
+    event: CodedConcept;
     /**
      * The grade associated with the severity of an adverse event, using CTCAE criteria.
      */
@@ -62,13 +62,13 @@ export interface AdverseEventSchema {
     /**
      * Suspected causes of the adverse event
      */
-    suspectedCauses: Array<AdverseEventSuspectedCauseSchema>;
+    suspectedCauses: Array<AdverseEventSuspectedCause>;
     /**
      * Mitigations of the adverse event
      */
-    mitigations: Array<AdverseEventMitigationSchema>;
+    mitigations: Array<AdverseEventMitigation>;
 }
-export namespace AdverseEventSchema {
+export namespace AdverseEvent {
 }
 
 

@@ -7,17 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 
 
 export interface PerformanceStatus { 
-    /**
-     * Human-readable description of the performance status
-     */
-    description: string;
-    ecogInterpretation: CodedConceptSchema | null;
-    karnofskyInterpretation: CodedConceptSchema | null;
+    ecogInterpretation: CodedConcept | null;
+    karnofskyInterpretation: CodedConcept | null;
     /**
      * 
      */
@@ -30,7 +26,7 @@ export interface PerformanceStatus {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -46,6 +42,10 @@ export interface PerformanceStatus {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 

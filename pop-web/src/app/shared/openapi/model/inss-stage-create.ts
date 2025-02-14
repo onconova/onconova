@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface INSSStageCreate { 
@@ -29,7 +29,7 @@ export interface INSSStageCreate {
     /**
      * The value of the INSS stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace INSSStageCreate {
     export type StagingDomainEnum = 'inss';

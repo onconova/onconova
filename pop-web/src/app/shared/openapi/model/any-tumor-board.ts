@@ -7,14 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UnspecifiedTumorBoardSchema } from './unspecified-tumor-board-schema';
-import { MolecularTherapeuticRecommendationSchema } from './molecular-therapeutic-recommendation-schema';
-import { MolecularTumorBoardSchema } from './molecular-tumor-board-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
+import { MolecularTherapeuticRecommendation } from './molecular-therapeutic-recommendation';
+import { UnspecifiedTumorBoard } from './unspecified-tumor-board';
+import { MolecularTumorBoard } from './molecular-tumor-board';
 
 
 export interface AnyTumorBoard { 
+    category?: AnyTumorBoard.CategoryEnum;
     /**
      * 
      */
@@ -27,15 +28,7 @@ export interface AnyTumorBoard {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<UserSchema>;
-    /**
-     * Human-readable description
-     */
-    description: string;
+    createdBy?: User;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -47,11 +40,22 @@ export interface AnyTumorBoard {
      */
     date: string;
     /**
+     * The user(s) who updated the data since its creation
+     */
+    updatedBy?: Array<User>;
+    /**
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema>;
-    category?: AnyTumorBoard.CategoryEnum;
+    recommendations?: Array<CodedConcept>;
+    /**
+     * Human-readable description
+     */
+    description: string;
+    /**
+     * Therapeutic recommendations of the molecular tumor board
+     */
+    therapeuticRecommendations: Array<MolecularTherapeuticRecommendation>;
     conductedMolecularComparison?: boolean;
     molecularComparisonMatchId?: string;
     conductedCupCharacterization?: boolean;
@@ -60,10 +64,6 @@ export interface AnyTumorBoard {
      * 
      */
     reviewedReports: Array<string>;
-    /**
-     * Therapeutic recommendations of the molecular tumor board
-     */
-    therapeuticRecommendations: Array<MolecularTherapeuticRecommendationSchema>;
 }
 export namespace AnyTumorBoard {
     export type CategoryEnum = 'molecular';

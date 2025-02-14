@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnalyteDetails } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedTumorMarker } from '../model/models';
 import { TumorMarker } from '../model/models';
 import { TumorMarkerCreate } from '../model/models';
@@ -173,7 +173,7 @@ export interface TumorMarkersServiceInterface {
      * 
 * @param requestParameters
      */
-    createTumorMarker(requestParameters: CreateTumorMarkerRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTumorMarker(requestParameters: CreateTumorMarkerRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Tumor Marker
@@ -208,6 +208,6 @@ export interface TumorMarkersServiceInterface {
      * 
 * @param requestParameters
      */
-    updateTumorMarkerById(requestParameters: UpdateTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateTumorMarkerById(requestParameters: UpdateTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

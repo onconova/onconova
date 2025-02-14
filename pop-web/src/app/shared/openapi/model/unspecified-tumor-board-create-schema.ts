@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface UnspecifiedTumorBoardCreateSchema { 
+export interface UnspecifiedTumorBoardCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -25,10 +25,10 @@ export interface UnspecifiedTumorBoardCreateSchema {
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema> | null;
-    category?: UnspecifiedTumorBoardCreateSchema.CategoryEnum;
+    recommendations?: Array<CodedConcept> | null;
+    category?: UnspecifiedTumorBoardCreate.CategoryEnum;
 }
-export namespace UnspecifiedTumorBoardCreateSchema {
+export namespace UnspecifiedTumorBoardCreate {
     export type CategoryEnum = 'unspecified';
     export const CategoryEnum = {
         Unspecified: 'unspecified' as CategoryEnum

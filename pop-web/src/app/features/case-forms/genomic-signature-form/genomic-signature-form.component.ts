@@ -17,10 +17,10 @@ import {
     HomologousRecombinationDeficiencyInterpretationChoices,
     AnyGenomicSignature,
     GenomicSignaturesService,
-    TumorMutationalBurdenCreateSchema,
-    MicrosatelliteInstabilityCreateSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    LossOfHeterozygosityCreateSchema
+    TumorMutationalBurdenCreate,
+    MicrosatelliteInstabilityCreate,
+    TumorNeoantigenBurdenCreate,
+    LossOfHeterozygosityCreate
 } from '../../../shared/openapi'
 
 import { 
@@ -33,7 +33,7 @@ import {
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 
-export type AnyGenomicSignatureCreateSchema = TumorMutationalBurdenCreateSchema | MicrosatelliteInstabilityCreateSchema |TumorNeoantigenBurdenCreateSchema | LossOfHeterozygosityCreateSchema;
+export type AnyGenomicSignatureCreate = TumorMutationalBurdenCreate | MicrosatelliteInstabilityCreate |TumorNeoantigenBurdenCreate | LossOfHeterozygosityCreate;
 
 @Component({
   standalone: true,
@@ -58,8 +58,8 @@ export class GenomicSignatureFormComponent extends AbstractFormBase implements O
     private readonly genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = (payload: AnyGenomicSignatureCreateSchema) => this.genomicSignaturesService.createGenomicSignature({payload2: payload as any});
-    public readonly updateService = (id: string, payload: AnyGenomicSignatureCreateSchema) => this.genomicSignaturesService.updateGenomicSignatureById({genomicSignatureId: id, payload2: payload as any});
+    public readonly createService = (payload: AnyGenomicSignatureCreate) => this.genomicSignaturesService.createGenomicSignature({payload2: payload as any});
+    public readonly updateService = (id: string, payload: AnyGenomicSignatureCreate) => this.genomicSignaturesService.updateGenomicSignatureById({genomicSignatureId: id, payload2: payload as any});
 
     public readonly title: string = 'Genomic Signature';
     public readonly subtitle: string = 'Add new genomic signature';
@@ -153,7 +153,7 @@ export class GenomicSignatureFormComponent extends AbstractFormBase implements O
     }
 
 
-    constructAPIPayload(data: any): AnyGenomicSignatureCreateSchema {    
+    constructAPIPayload(data: any): AnyGenomicSignatureCreate {    
         let signatureValue: any
         let additionalData: object = {}
         switch (data.category) {

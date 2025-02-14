@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface PaginatedCodedConceptSchema { 
+export interface PaginatedCodedConcept { 
     count: number;
-    items: Array<CodedConceptSchema>;
+    items: Array<CodedConcept>;
 }
 

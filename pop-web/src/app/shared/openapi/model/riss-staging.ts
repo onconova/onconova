@@ -7,16 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 
 
 export interface RISSStaging { 
     stagingDomain?: RISSStaging.StagingDomainEnum;
-    /**
-     * Human-readable description of the staging
-     */
-    description: string;
     /**
      * 
      */
@@ -29,7 +25,7 @@ export interface RISSStaging {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -43,7 +39,7 @@ export interface RISSStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -51,7 +47,11 @@ export interface RISSStaging {
     /**
      * The value of the RISS stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace RISSStaging {
     export type StagingDomainEnum = 'riss';

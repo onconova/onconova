@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService as APIAuthService } from 'src/app/shared/openapi';
 import { Observable } from 'rxjs'
 import { tap, firstValueFrom } from 'rxjs';
-import { GetTokenPairRequestParams, UserCredentialsSchema, TokenPairSchema, TokenRefreshSchema, RefreshedTokenPairSchema} from 'src/app/shared/openapi/';
+import { GetTokenPairRequestParams, UserCredentials, TokenPair, TokenRefresh, RefreshedTokenPair} from 'src/app/shared/openapi/';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -16,13 +16,13 @@ export class AuthService {
     private apiAuth: APIAuthService,
   ) {}
 
-  login(username: string, password: string): Observable<TokenPairSchema> {
-    const userCredentials: UserCredentialsSchema = {
+  login(username: string, password: string): Observable<TokenPair> {
+    const userCredentials: UserCredentials = {
         username: username,
         password: password
     }
-    return this.apiAuth.getTokenPair({userCredentialsSchema: userCredentials})
-      .pipe(tap((response: TokenPairSchema) => {
+    return this.apiAuth.getTokenPair({userCredentials: userCredentials})
+      .pipe(tap((response: TokenPair) => {
         this.setAccessToken(response.access);
         this.setRefreshToken(response.refresh);
         this.setUsername(response.username);
@@ -62,10 +62,10 @@ export class AuthService {
   async refreshTokenPair() {
     const refreshToken = this.getRefreshToken()
     if (refreshToken) {
-      const slidingToken: TokenRefreshSchema = {
+      const slidingToken: TokenRefresh = {
         refresh: refreshToken,
       }
-      const freshTokenPair: RefreshedTokenPairSchema = await firstValueFrom(this.apiAuth.refreshTokenPair({tokenRefreshSchema: slidingToken}))
+      const freshTokenPair: RefreshedTokenPair = await firstValueFrom(this.apiAuth.refreshTokenPair({tokenRefresh: slidingToken}))
       if (freshTokenPair.access) {
         this.setAccessToken(freshTokenPair.access);
         this.setRefreshToken(freshTokenPair.refresh);

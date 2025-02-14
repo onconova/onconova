@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface LymphomaStagingCreate { 
@@ -29,14 +29,14 @@ export interface LymphomaStagingCreate {
     /**
      * The value of the Lymphoma stage
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema | null;
+    stage: CodedConcept;
+    methodology?: CodedConcept | null;
     bulky?: boolean | null;
     pathological?: boolean | null;
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifiers?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConcept>;
 }
 export namespace LymphomaStagingCreate {
     export type StagingDomainEnum = 'lymphoma';

@@ -18,7 +18,7 @@ from pydantic_core import PydanticUndefined #type: ignore
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
-from pop.core.measures import MeasureSchema
+from pop.core.measures import Measure
 from pop.core import filters as schema_filters
 from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case, camel_to_snake
 from pop.core.measures.fields import MeasurementField
@@ -134,7 +134,7 @@ def get_schema_field(
         max_length = field_options.get("max_length")
 
         if isinstance(field, MeasurementField):
-            python_type = MeasureSchema
+            python_type = Measure
         elif isinstance(field, DateRangeField):
             python_type = PeriodSchema
         elif isinstance(field, BigIntegerRangeField):
@@ -207,7 +207,7 @@ FILTERS_MAP = {
     PeriodSchema: schema_filters.PERIOD_FILTERS,
     int: schema_filters.INTEGER_FILTERS,
     float: schema_filters.FLOAT_FILTERS,
-    MeasureSchema: schema_filters.FLOAT_FILTERS,
+    Measure: schema_filters.FLOAT_FILTERS,
     bool: schema_filters.BOOLEAN_FILTERS,
     CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
 }
@@ -236,6 +236,8 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
         if issubclass(list_type, PydanticBaseModel):
             subfield_filters = []
             for subfield_name, subfield in list_type.model_fields.items():
+                if subfield_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource']:
+                    continue
                 subfield_filters.extend(get_schema_field_filters(f'{field_name}.{subfield_name}', subfield))
             return subfield_filters 
                  

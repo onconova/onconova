@@ -13,7 +13,7 @@ from pop.core.utils import is_list, is_optional, is_literal, is_enum
 from pop.core.schemas import CodedConceptSchema
 from pop.core import filters as schema_filters
 from pop.core.schemas.factory.fields import FILTERS_MAP
-from pop.core.measures import MeasureSchema
+from pop.core.measures import Measure
 from pop.oncology import models as oncological_models
 from pop.oncology import schemas as oncological_schemas
 
@@ -31,7 +31,7 @@ TYPES_MAP = {
     float: CohortRuleType.NUMBER,
     bool: CohortRuleType.BOOLEAN,
     CodedConceptSchema: CohortRuleType.CODED_CONCEPT,
-    MeasureSchema: CohortRuleType.MEASURE,
+    Measure: CohortRuleType.MEASURE,
     enum.Enum: CohortRuleType.ENUM,
 }
 

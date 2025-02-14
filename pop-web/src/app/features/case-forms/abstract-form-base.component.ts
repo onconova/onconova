@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api';
 import { Ribbon } from 'lucide-angular';
 import { EmptyObject } from 'chart.js/dist/types/basic';
 import { Call } from '@angular/compiler';
-import { ModifiedResourceSchema } from 'src/app/shared/openapi';
+import { ModifiedResource } from 'src/app/shared/openapi';
 
 interface Resource {
     id: string;
@@ -95,7 +95,7 @@ export abstract class AbstractFormBase {
       ]).pipe(
         takeUntilDestroyed(this.destroyRef)
       ).subscribe({
-          next: (response: ModifiedResourceSchema[]) => {
+          next: (response: ModifiedResource[]) => {
           // Report the successful creation of the resource
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + response[0].description });
               this.loading = false;  
@@ -134,7 +134,7 @@ export abstract class AbstractFormBase {
           takeUntilDestroyed(this.destroyRef)
         )
         .subscribe({
-          next: (response: ModifiedResourceSchema) => {
+          next: (response: ModifiedResource) => {
             // Report the successful creation of the resource
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved '+ this.title.toLowerCase() + response.description });
             this.loading = false;  

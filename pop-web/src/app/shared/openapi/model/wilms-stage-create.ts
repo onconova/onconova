@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface WilmsStageCreate { 
@@ -29,7 +29,7 @@ export interface WilmsStageCreate {
     /**
      * The value of the Wilms stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace WilmsStageCreate {
     export type StagingDomainEnum = 'wilms';

@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -47,7 +47,7 @@ export interface UnspecifiedTumorBoardSchema {
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema> | null;
+    recommendations?: Array<CodedConcept> | null;
     category?: UnspecifiedTumorBoardSchema.CategoryEnum;
 }
 export namespace UnspecifiedTumorBoardSchema {

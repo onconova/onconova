@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
@@ -46,7 +46,7 @@ export interface MicrosatelliteInstabilitySchema {
     /**
      * Microsatellite instability (MSI) classification
      */
-    value: CodedConceptSchema;
+    value: CodedConcept;
     category?: MicrosatelliteInstabilitySchema.CategoryEnum;
 }
 export namespace MicrosatelliteInstabilitySchema {

@@ -11,7 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedRiskAssessment } from '../model/models';
 import { RiskAssessment } from '../model/models';
 import { RiskAssessmentCreate } from '../model/models';
@@ -98,7 +98,7 @@ export interface RiskAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    createRiskAssessment(requestParameters: CreateRiskAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createRiskAssessment(requestParameters: CreateRiskAssessmentRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Risk Assessment
@@ -126,6 +126,6 @@ export interface RiskAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    updateRiskAssessmentById(requestParameters: UpdateRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateRiskAssessmentById(requestParameters: UpdateRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

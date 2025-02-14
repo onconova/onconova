@@ -15,7 +15,7 @@ import { Chip } from 'primeng/chip';
 import { Users, CalendarClock, ClipboardCheck } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, CohortSchema, PatientCase, CohortCreateSchema, CohortStatisticsSchema, ModifiedResourceSchema } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, PatientCase, CohortCreate, CohortStatisticsSchema, ModifiedResource } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
 import { first, map } from 'rxjs';
@@ -57,7 +57,7 @@ export class CohortBuilderComponent {
 
     public cohortControl!: FormGroup;
     public cohortCases: PatientCase[] = [];
-    public cohort!: CohortSchema; 
+    public cohort!: Cohort; 
     public loading: boolean = false;
     public initloading: boolean = true;
     public editCohortName: boolean = false;
@@ -79,7 +79,7 @@ export class CohortBuilderComponent {
 
     refreshCohortData() {
         this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(first()).subscribe({
-            next: (cohort: CohortSchema) => {
+            next: (cohort: Cohort) => {
                 this.cohort = cohort
                 if (!this.cohortControl){
                     this.cohortControl = this.formBuilder.group({
@@ -123,14 +123,14 @@ export class CohortBuilderComponent {
         this.editCohortName = false;
         this.loading = true;
         const cohortData = this.cohortControl.value;
-        const payload: CohortCreateSchema = {
+        const payload: CohortCreate = {
             name: cohortData.name,
             isPublic: cohortData.isPublic,
             includeCriteria: cohortData.includeCriteria,
             excludeCriteria: cohortData.excludeCriteria,
         };
-        this.cohortsService.updateCohort({cohortId: this.cohortId, cohortCreateSchema: payload}).pipe(first()).subscribe({
-            next: (response: ModifiedResourceSchema) => {
+        this.cohortsService.updateCohort({cohortId: this.cohortId, cohortCreate: payload}).pipe(first()).subscribe({
+            next: (response: ModifiedResource) => {
                 this.refreshCohortData()
                 this.refreshCohortCases()
                 this.refreshCohortStatistics()

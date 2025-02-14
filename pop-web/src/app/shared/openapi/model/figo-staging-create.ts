@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface FIGOStagingCreate { 
@@ -29,8 +29,8 @@ export interface FIGOStagingCreate {
     /**
      * The value of the FIGO stage
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema | null;
+    stage: CodedConcept;
+    methodology?: CodedConcept | null;
 }
 export namespace FIGOStagingCreate {
     export type StagingDomainEnum = 'figo';

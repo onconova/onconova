@@ -15,10 +15,10 @@ from pop.core.schemas import (
     UserCreateSchema,
     UserProfileSchema,
     ModifiedResourceSchema,
-    TokenRefreshSchema, 
-    RefreshedTokenPairSchema,
-    TokenPairSchema, 
-    UserCredentialsSchema
+    TokenRefresh, 
+    RefreshedTokenPair,
+    TokenPair, 
+    UserCredentials
 )
 
 @api_controller(
@@ -29,19 +29,19 @@ class AuthController(ControllerBase):
 
     @route.post(
         "/pair",
-        response=TokenPairSchema,
+        response=TokenPair,
         operation_id="getTokenPair",
     )
-    def obtain_token_pair(self, credentials: UserCredentialsSchema):
+    def obtain_token_pair(self, credentials: UserCredentials):
         credentials.check_user_authentication_rule()
         return credentials.to_response_schema()
 
     @route.post(
         "/refresh",
-        response=RefreshedTokenPairSchema,
+        response=RefreshedTokenPair,
         operation_id="refreshTokenPair",
     )
-    def refresh_token_pair(self, refresh_token: TokenRefreshSchema):
+    def refresh_token_pair(self, refresh_token: TokenRefresh):
         return refresh_token.to_response_schema()
     
     

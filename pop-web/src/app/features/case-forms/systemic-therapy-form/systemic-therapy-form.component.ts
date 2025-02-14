@@ -13,14 +13,14 @@ import { InputNumber } from 'primeng/inputnumber';
 import { Fieldset } from 'primeng/fieldset';
 
 import { 
-    CodedConceptSchema,
+    CodedConcept,
     NeoplasticEntity, 
     NeoplasticEntitiesService, 
-    SystemicTherapyCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapyMedicationCreateSchema,
+    SystemicTherapyCreate,
+    SystemicTherapyMedication,
+    SystemicTherapyMedicationCreate,
     SystemicTherapiesService,
-    SystemicTherapySchema,
+    SystemicTherapy,
     SystemicTherapyIntentChoices
 } from '../../../shared/openapi'
 
@@ -62,14 +62,14 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
     public readonly formBuilder = inject(FormBuilder)
 
-    public readonly createService = (payload: SystemicTherapyCreateSchema) => this.systemicTherapiesService.createSystemicTherapy({systemicTherapyCreateSchema: payload});
-    public readonly updateService = (id: string, payload: SystemicTherapyCreateSchema) => this.systemicTherapiesService.updateSystemicTherapy({systemicTherapyId: id, systemicTherapyCreateSchema: payload})
+    public readonly createService = (payload: SystemicTherapyCreate) => this.systemicTherapiesService.createSystemicTherapy({systemicTherapyCreate: payload});
+    public readonly updateService = (id: string, payload: SystemicTherapyCreate) => this.systemicTherapiesService.updateSystemicTherapy({systemicTherapyId: id, systemicTherapyCreate: payload})
     override readonly subformsServices = [{
         payloads: this.constructMedicationPayloads.bind(this),
         deletedEntries: this.getDeletedMedications.bind(this),
         delete: (parentId: string, id: string) => this.systemicTherapiesService.deleteSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id}),
-        create: (parentId: string, payload: SystemicTherapyMedicationCreateSchema) => this.systemicTherapiesService.createSystemicTherapyMedication({systemicTherapyId: parentId, systemicTherapyMedicationCreateSchema: payload}),
-        update: (parentId: string, id: string, payload: SystemicTherapyMedicationCreateSchema) => this.systemicTherapiesService.updateSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id, systemicTherapyMedicationCreateSchema: payload}),
+        create: (parentId: string, payload: SystemicTherapyMedicationCreate) => this.systemicTherapiesService.createSystemicTherapyMedication({systemicTherapyId: parentId, systemicTherapyMedicationCreate: payload}),
+        update: (parentId: string, id: string, payload: SystemicTherapyMedicationCreate) => this.systemicTherapiesService.updateSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id, systemicTherapyMedicationCreate: payload}),
     }]
 
     public readonly title: string = 'Systemic Therapy'
@@ -78,7 +78,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
 
     private caseId!: string;
     public medicationFormArray!: FormArray;
-    public initialData: SystemicTherapySchema | any = {};
+    public initialData: SystemicTherapy | any = {};
     public relatedEntities: NeoplasticEntity[] = []; 
 
     public readonly intentChoices: RadioChoice[] = [
@@ -104,15 +104,15 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     }
 
     ngAfterViewInit() {
-        this.form.get('drugs')?.valueChanges.subscribe((drugs: CodedConceptSchema[]) => {
+        this.form.get('drugs')?.valueChanges.subscribe((drugs: CodedConcept[]) => {
             // Add subforms for new drugs
-            drugs.forEach((drug: CodedConceptSchema) => {
-                if (!this.medicationFormArray.value.map( (medication: SystemicTherapyMedicationSchema) => medication.drug ).includes(drug) ){
-                    this.medicationFormArray.push(this.constructMedicationSubform({drug: drug} as SystemicTherapyMedicationSchema));    
+            drugs.forEach((drug: CodedConcept) => {
+                if (!this.medicationFormArray.value.map( (medication: SystemicTherapyMedication) => medication.drug ).includes(drug) ){
+                    this.medicationFormArray.push(this.constructMedicationSubform({drug: drug} as SystemicTherapyMedication));    
                 }
             });
             // Remove subforms for drugs that are no longer selected
-            this.medicationFormArray.value.forEach((medication: SystemicTherapyMedicationSchema, index: number) => {
+            this.medicationFormArray.value.forEach((medication: SystemicTherapyMedication, index: number) => {
                 if (!drugs.includes(medication.drug)) {
                     if (medication.id) {
                         this.deletedMedications.push(medication.id);
@@ -126,7 +126,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     constructForm(): void {
 
         this.medicationFormArray = this.formBuilder.array((this.initialData?.medications || [])?.map(
-            (initialMedication: SystemicTherapyMedicationSchema) => {
+            (initialMedication: SystemicTherapyMedication) => {
                 return this.constructMedicationSubform(initialMedication)
             }
         ))
@@ -143,7 +143,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         });
     }
 
-    constructMedicationSubform(initalData: SystemicTherapyMedicationSchema) {
+    constructMedicationSubform(initalData: SystemicTherapyMedication) {
         return this.formBuilder.group({
             id: [initalData.id],
             drug: [initalData.drug, Validators.required],
@@ -160,7 +160,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         })
     }
 
-    getInitialDosageType(data: SystemicTherapyMedicationSchema) {
+    getInitialDosageType(data: SystemicTherapyMedication) {
         if (data.dosageMass || data.dosageRateMass) {
             return 'Mass'
         } else if (data.dosageMassConcentration || data.dosageRateMassConcentration) {
@@ -181,7 +181,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         return [];
     }
 
-    constructAPIPayload(data: any): SystemicTherapyCreateSchema {    
+    constructAPIPayload(data: any): SystemicTherapyCreate {    
         console.log('constructAPIPayload', data)
         return {
             caseId: this.caseId,
@@ -196,7 +196,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         };
     }
 
-    private constructMedicationPayloads(data: any): SystemicTherapyMedicationCreateSchema {
+    private constructMedicationPayloads(data: any): SystemicTherapyMedicationCreate {
         return data.medications.map((subformData: any) => {return {
             id: subformData.id,
             drug: subformData.drug,

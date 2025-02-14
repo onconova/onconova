@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
 
 import { TerminologyService } from '../../openapi/api/terminology.service';
-import { PaginatedCodedConceptSchema } from '../../openapi';
+import { PaginatedCodedConcept } from '../../openapi';
 
 // Mock the TerminologyService
 class MockTerminologyService {
@@ -22,7 +22,7 @@ class MockTerminologyService {
         { display: 'Concept B', code: 'B002', synonyms: [], system: '' },
         { display: 'Concept C', code: 'C003', synonyms: [], system: '' },
       ]
-      } as PaginatedCodedConceptSchema);
+      } as PaginatedCodedConcept);
   }
 }
 

@@ -10,7 +10,7 @@
 import { HomologousRecombinationDeficiencyInterpretationChoices } from './homologous-recombination-deficiency-interpretation-choices';
 
 
-export interface HomologousRecombinationDeficiencyCreateSchema { 
+export interface HomologousRecombinationDeficiencyCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -23,9 +23,9 @@ export interface HomologousRecombinationDeficiencyCreateSchema {
     date: string;
     value?: number | null;
     interpretation?: HomologousRecombinationDeficiencyInterpretationChoices | null;
-    category?: HomologousRecombinationDeficiencyCreateSchema.CategoryEnum;
+    category?: HomologousRecombinationDeficiencyCreate.CategoryEnum;
 }
-export namespace HomologousRecombinationDeficiencyCreateSchema {
+export namespace HomologousRecombinationDeficiencyCreate {
     export type CategoryEnum = 'homologous_recombination_deficiency';
     export const CategoryEnum = {
         HomologousRecombinationDeficiency: 'homologous_recombination_deficiency' as CategoryEnum

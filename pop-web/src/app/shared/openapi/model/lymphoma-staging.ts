@@ -7,16 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 
 
 export interface LymphomaStaging { 
     stagingDomain?: LymphomaStaging.StagingDomainEnum;
-    /**
-     * Human-readable description of the staging
-     */
-    description: string;
     /**
      * 
      */
@@ -29,7 +25,7 @@ export interface LymphomaStaging {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -43,7 +39,7 @@ export interface LymphomaStaging {
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -51,14 +47,18 @@ export interface LymphomaStaging {
     /**
      * The value of the Lymphoma stage
      */
-    stage: CodedConceptSchema;
-    methodology?: CodedConceptSchema | null;
+    stage: CodedConcept;
+    methodology?: CodedConcept | null;
     bulky?: boolean | null;
     pathological?: boolean | null;
     /**
      * Qualifier acting as modifier for the lymphoma stage
      */
-    modifiers?: Array<CodedConceptSchema>;
+    modifiers?: Array<CodedConcept>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace LymphomaStaging {
     export type StagingDomainEnum = 'lymphoma';

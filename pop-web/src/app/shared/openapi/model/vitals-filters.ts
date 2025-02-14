@@ -11,6 +11,46 @@
 
 export interface VitalsFilters { 
     /**
+     * None - Filter for entries without a value
+     */
+    'body_mass_index.not.exists'?: boolean;
+    /**
+     * None - Filter for entries with a value
+     */
+    'body_mass_index.exists'?: boolean;
+    /**
+     * None - Filter for entries with values less than the specified value
+     */
+    'body_mass_index.lessThan'?: number;
+    /**
+     * None - Filter for entries with values less than or equal to the specified value
+     */
+    'body_mass_index.lessThanOrEqual'?: number;
+    /**
+     * None - Filter for entries with values greater than the specified value
+     */
+    'body_mass_index.greaterThan'?: number;
+    /**
+     * None - Filter for entries with values greater than or equal to the specified value
+     */
+    'body_mass_index.greaterThanOrEqual'?: number;
+    /**
+     * None - Filter for entries with values exactly equal to the specified value
+     */
+    'body_mass_index.equal'?: number;
+    /**
+     * None - Filter for entries with values not equal to the specified value
+     */
+    'body_mass_index.not.equal'?: number;
+    /**
+     * None - Filter for entries with values between two specified values (inclusive)
+     */
+    'body_mass_index.between'?: Array<any>;
+    /**
+     * None - Filter for entries with values between two specified values (inclusive)
+     */
+    'body_mass_index.not.between'?: Array<any>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -306,45 +346,5 @@ export interface VitalsFilters {
      * Temperature - Filter for entries with values between two specified values (inclusive)
      */
     'temperature.not.between'?: Array<any>;
-    /**
-     * None - Filter for entries without a value
-     */
-    'body_mass_index.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'body_mass_index.exists'?: boolean;
-    /**
-     * None - Filter for entries with values less than the specified value
-     */
-    'body_mass_index.lessThan'?: number;
-    /**
-     * None - Filter for entries with values less than or equal to the specified value
-     */
-    'body_mass_index.lessThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values greater than the specified value
-     */
-    'body_mass_index.greaterThan'?: number;
-    /**
-     * None - Filter for entries with values greater than or equal to the specified value
-     */
-    'body_mass_index.greaterThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values exactly equal to the specified value
-     */
-    'body_mass_index.equal'?: number;
-    /**
-     * None - Filter for entries with values not equal to the specified value
-     */
-    'body_mass_index.not.equal'?: number;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'body_mass_index.between'?: Array<any>;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'body_mass_index.not.between'?: Array<any>;
 }
 

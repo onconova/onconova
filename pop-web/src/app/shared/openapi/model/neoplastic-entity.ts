@@ -7,16 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 import { NeoplasticEntityRelationshipChoices } from './neoplastic-entity-relationship-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
 
 
 export interface NeoplasticEntity { 
-    /**
-     * Human-readable description of the neoplastic entity
-     */
-    description: string;
     /**
      * 
      */
@@ -29,7 +25,7 @@ export interface NeoplasticEntity {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -48,17 +44,21 @@ export interface NeoplasticEntity {
     /**
      * Anatomical location of the neoplasm(s)
      */
-    topography: CodedConceptSchema;
+    topography: CodedConcept;
     /**
      * Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself
      */
-    morphology: CodedConceptSchema;
-    differentitation?: CodedConceptSchema | null;
-    laterality?: CodedConceptSchema | null;
+    morphology: CodedConcept;
+    differentitation?: CodedConcept | null;
+    laterality?: CodedConcept | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace NeoplasticEntity {
 }

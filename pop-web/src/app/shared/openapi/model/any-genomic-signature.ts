@@ -7,18 +7,19 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TumorNeoantigenBurdenSchema } from './tumor-neoantigen-burden-schema';
-import { AneuploidScoreSchema } from './aneuploid-score-schema';
-import { LossOfHeterozygositySchema } from './loss-of-heterozygosity-schema';
+import { TumorNeoantigenBurden } from './tumor-neoantigen-burden';
+import { LossOfHeterozygosity } from './loss-of-heterozygosity';
+import { MicrosatelliteInstability } from './microsatellite-instability';
+import { User } from './user';
 import { HomologousRecombinationDeficiencyInterpretationChoices } from './homologous-recombination-deficiency-interpretation-choices';
+import { HomologousRecombinationDeficiency } from './homologous-recombination-deficiency';
 import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-status-choices';
-import { HomologousRecombinationDeficiencySchema } from './homologous-recombination-deficiency-schema';
-import { TumorMutationalBurdenSchema } from './tumor-mutational-burden-schema';
-import { MicrosatelliteInstabilitySchema } from './microsatellite-instability-schema';
-import { UserSchema } from './user-schema';
+import { TumorMutationalBurden } from './tumor-mutational-burden';
+import { AneuploidScore } from './aneuploid-score';
 
 
 export interface AnyGenomicSignature { 
+    category?: AnyGenomicSignature.CategoryEnum;
     /**
      * 
      */
@@ -31,15 +32,7 @@ export interface AnyGenomicSignature {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<UserSchema>;
-    /**
-     * Human-readable description
-     */
-    description: string;
+    createdBy?: User;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -51,10 +44,17 @@ export interface AnyGenomicSignature {
      */
     date: string;
     /**
+     * The user(s) who updated the data since its creation
+     */
+    updatedBy?: Array<User>;
+    /**
      * The actual aneuploid score (AS) value in total altered arms
      */
     value: number;
-    category?: AnyGenomicSignature.CategoryEnum;
+    /**
+     * Human-readable description
+     */
+    description: string;
     status?: TumorMutationalBurdenStatusChoices;
     interpretation?: HomologousRecombinationDeficiencyInterpretationChoices;
 }

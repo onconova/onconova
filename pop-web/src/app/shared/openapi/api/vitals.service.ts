@@ -17,13 +17,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedVitalsSchema } from '../model/paginated-vitals-schema';
+import { PaginatedVitals } from '../model/paginated-vitals';
 // @ts-ignore
-import { VitalsCreateSchema } from '../model/vitals-create-schema';
+import { Vitals } from '../model/vitals';
 // @ts-ignore
-import { VitalsSchema } from '../model/vitals-schema';
+import { VitalsCreate } from '../model/vitals-create';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -110,13 +110,13 @@ export class VitalsService implements VitalsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVitals(requestParameters: CreateVitalsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createVitals(requestParameters: CreateVitalsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createVitals(requestParameters: CreateVitalsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createVitals(requestParameters: CreateVitalsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createVitals(requestParameters: CreateVitalsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createVitals(requestParameters: CreateVitalsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createVitals(requestParameters: CreateVitalsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const vitalsCreateSchema = requestParameters?.vitalsCreateSchema;
-        if (vitalsCreateSchema === null || vitalsCreateSchema === undefined) {
-            throw new Error('Required parameter vitalsCreateSchema was null or undefined when calling createVitals.');
+        const vitalsCreate = requestParameters?.vitalsCreate;
+        if (vitalsCreate === null || vitalsCreate === undefined) {
+            throw new Error('Required parameter vitalsCreate was null or undefined when calling createVitals.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -172,10 +172,10 @@ export class VitalsService implements VitalsServiceInterface {
         }
 
         let localVarPath = `/api/vitals`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: vitalsCreateSchema,
+                body: vitalsCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -263,10 +263,20 @@ export class VitalsService implements VitalsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getVitals(requestParameters?: GetVitalsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedVitalsSchema>;
-    public getVitals(requestParameters?: GetVitalsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedVitalsSchema>>;
-    public getVitals(requestParameters?: GetVitalsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedVitalsSchema>>;
+    public getVitals(requestParameters?: GetVitalsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedVitals>;
+    public getVitals(requestParameters?: GetVitalsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedVitals>>;
+    public getVitals(requestParameters?: GetVitalsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedVitals>>;
     public getVitals(requestParameters?: GetVitalsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const bodyMassIndexNotExists = requestParameters?.bodyMassIndexNotExists;
+        const bodyMassIndexExists = requestParameters?.bodyMassIndexExists;
+        const bodyMassIndexLessThan = requestParameters?.bodyMassIndexLessThan;
+        const bodyMassIndexLessThanOrEqual = requestParameters?.bodyMassIndexLessThanOrEqual;
+        const bodyMassIndexGreaterThan = requestParameters?.bodyMassIndexGreaterThan;
+        const bodyMassIndexGreaterThanOrEqual = requestParameters?.bodyMassIndexGreaterThanOrEqual;
+        const bodyMassIndexEqual = requestParameters?.bodyMassIndexEqual;
+        const bodyMassIndexNotEqual = requestParameters?.bodyMassIndexNotEqual;
+        const bodyMassIndexBetween = requestParameters?.bodyMassIndexBetween;
+        const bodyMassIndexNotBetween = requestParameters?.bodyMassIndexNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -341,20 +351,54 @@ export class VitalsService implements VitalsServiceInterface {
         const temperatureNotEqual = requestParameters?.temperatureNotEqual;
         const temperatureBetween = requestParameters?.temperatureBetween;
         const temperatureNotBetween = requestParameters?.temperatureNotBetween;
-        const bodyMassIndexNotExists = requestParameters?.bodyMassIndexNotExists;
-        const bodyMassIndexExists = requestParameters?.bodyMassIndexExists;
-        const bodyMassIndexLessThan = requestParameters?.bodyMassIndexLessThan;
-        const bodyMassIndexLessThanOrEqual = requestParameters?.bodyMassIndexLessThanOrEqual;
-        const bodyMassIndexGreaterThan = requestParameters?.bodyMassIndexGreaterThan;
-        const bodyMassIndexGreaterThanOrEqual = requestParameters?.bodyMassIndexGreaterThanOrEqual;
-        const bodyMassIndexEqual = requestParameters?.bodyMassIndexEqual;
-        const bodyMassIndexNotEqual = requestParameters?.bodyMassIndexNotEqual;
-        const bodyMassIndexBetween = requestParameters?.bodyMassIndexBetween;
-        const bodyMassIndexNotBetween = requestParameters?.bodyMassIndexNotBetween;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (bodyMassIndexNotExists !== undefined && bodyMassIndexNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexNotExists, 'body_mass_index.not.exists');
+        }
+        if (bodyMassIndexExists !== undefined && bodyMassIndexExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexExists, 'body_mass_index.exists');
+        }
+        if (bodyMassIndexLessThan !== undefined && bodyMassIndexLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexLessThan, 'body_mass_index.lessThan');
+        }
+        if (bodyMassIndexLessThanOrEqual !== undefined && bodyMassIndexLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexLessThanOrEqual, 'body_mass_index.lessThanOrEqual');
+        }
+        if (bodyMassIndexGreaterThan !== undefined && bodyMassIndexGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexGreaterThan, 'body_mass_index.greaterThan');
+        }
+        if (bodyMassIndexGreaterThanOrEqual !== undefined && bodyMassIndexGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexGreaterThanOrEqual, 'body_mass_index.greaterThanOrEqual');
+        }
+        if (bodyMassIndexEqual !== undefined && bodyMassIndexEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexEqual, 'body_mass_index.equal');
+        }
+        if (bodyMassIndexNotEqual !== undefined && bodyMassIndexNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bodyMassIndexNotEqual, 'body_mass_index.not.equal');
+        }
+        if (bodyMassIndexBetween) {
+            bodyMassIndexBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'body_mass_index.between');
+            })
+        }
+        if (bodyMassIndexNotBetween) {
+            bodyMassIndexNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'body_mass_index.not.between');
+            })
+        }
         if (id !== undefined && id !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>id, 'id');
@@ -675,50 +719,6 @@ export class VitalsService implements VitalsServiceInterface {
                   <any>element, 'temperature.not.between');
             })
         }
-        if (bodyMassIndexNotExists !== undefined && bodyMassIndexNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexNotExists, 'body_mass_index.not.exists');
-        }
-        if (bodyMassIndexExists !== undefined && bodyMassIndexExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexExists, 'body_mass_index.exists');
-        }
-        if (bodyMassIndexLessThan !== undefined && bodyMassIndexLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexLessThan, 'body_mass_index.lessThan');
-        }
-        if (bodyMassIndexLessThanOrEqual !== undefined && bodyMassIndexLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexLessThanOrEqual, 'body_mass_index.lessThanOrEqual');
-        }
-        if (bodyMassIndexGreaterThan !== undefined && bodyMassIndexGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexGreaterThan, 'body_mass_index.greaterThan');
-        }
-        if (bodyMassIndexGreaterThanOrEqual !== undefined && bodyMassIndexGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexGreaterThanOrEqual, 'body_mass_index.greaterThanOrEqual');
-        }
-        if (bodyMassIndexEqual !== undefined && bodyMassIndexEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexEqual, 'body_mass_index.equal');
-        }
-        if (bodyMassIndexNotEqual !== undefined && bodyMassIndexNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>bodyMassIndexNotEqual, 'body_mass_index.not.equal');
-        }
-        if (bodyMassIndexBetween) {
-            bodyMassIndexBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'body_mass_index.between');
-            })
-        }
-        if (bodyMassIndexNotBetween) {
-            bodyMassIndexNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'body_mass_index.not.between');
-            })
-        }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>limit, 'limit');
@@ -772,7 +772,7 @@ export class VitalsService implements VitalsServiceInterface {
         }
 
         let localVarPath = `/api/vitals`;
-        return this.httpClient.request<PaginatedVitalsSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedVitals>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -792,9 +792,9 @@ export class VitalsService implements VitalsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<VitalsSchema>;
-    public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<VitalsSchema>>;
-    public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<VitalsSchema>>;
+    public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Vitals>;
+    public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Vitals>>;
+    public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Vitals>>;
     public getVitalsById(requestParameters: GetVitalsByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const vitalsId = requestParameters?.vitalsId;
         if (vitalsId === null || vitalsId === undefined) {
@@ -845,7 +845,7 @@ export class VitalsService implements VitalsServiceInterface {
         }
 
         let localVarPath = `/api/vitals/${this.configuration.encodeParam({name: "vitalsId", value: vitalsId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<VitalsSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Vitals>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -864,17 +864,17 @@ export class VitalsService implements VitalsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const vitalsId = requestParameters?.vitalsId;
         if (vitalsId === null || vitalsId === undefined) {
             throw new Error('Required parameter vitalsId was null or undefined when calling updateVitalsById.');
         }
-        const vitalsCreateSchema = requestParameters?.vitalsCreateSchema;
-        if (vitalsCreateSchema === null || vitalsCreateSchema === undefined) {
-            throw new Error('Required parameter vitalsCreateSchema was null or undefined when calling updateVitalsById.');
+        const vitalsCreate = requestParameters?.vitalsCreate;
+        if (vitalsCreate === null || vitalsCreate === undefined) {
+            throw new Error('Required parameter vitalsCreate was null or undefined when calling updateVitalsById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -930,10 +930,10 @@ export class VitalsService implements VitalsServiceInterface {
         }
 
         let localVarPath = `/api/vitals/${this.configuration.encodeParam({name: "vitalsId", value: vitalsId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: vitalsCreateSchema,
+                body: vitalsCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

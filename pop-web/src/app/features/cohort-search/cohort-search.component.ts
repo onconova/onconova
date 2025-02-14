@@ -14,7 +14,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
-import { CohortSchema, CohortsService} from 'src/app/shared/openapi';
+import { Cohort, CohortsService} from 'src/app/shared/openapi';
 import { PatientFormComponent } from 'src/app/features/case-forms';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
@@ -65,7 +65,7 @@ export class CohortSearchComponent implements OnInit {
   public searchQuery: string = "";
 
   // Observables
-  public cohorts$!: Observable<CohortSchema[]> 
+  public cohorts$!: Observable<Cohort[]> 
 
   ngOnInit() {
     this.refreshCohorts();

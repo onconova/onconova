@@ -11,17 +11,17 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { LifestyleCreateSchema } from '../model/models';
-import { LifestyleSchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedLifestyleSchema } from '../model/models';
+import { Lifestyle } from '../model/models';
+import { LifestyleCreate } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedLifestyle } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateLifestyleRequestParams {
-    lifestyleCreateSchema: LifestyleCreateSchema;
+    lifestyleCreate: LifestyleCreate;
 }
 
 export interface DeleteLifestyleByIdRequestParams {
@@ -187,7 +187,7 @@ export interface GetLifestylesRequestParams {
 
 export interface UpdateLifestyleByIdRequestParams {
     lifestyleId: string;
-    lifestyleCreateSchema: LifestyleCreateSchema;
+    lifestyleCreate: LifestyleCreate;
 }
 
 
@@ -200,7 +200,7 @@ export interface LifestylesServiceInterface {
      * 
 * @param requestParameters
      */
-    createLifestyle(requestParameters: CreateLifestyleRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createLifestyle(requestParameters: CreateLifestyleRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Lifestyle
@@ -214,20 +214,20 @@ export interface LifestylesServiceInterface {
      * 
 * @param requestParameters
      */
-    getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<LifestyleSchema>;
+    getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<Lifestyle>;
 
     /**
      * Get All Lifestyles Matching The Query
      * 
 * @param requestParameters
      */
-    getLifestyles(requestParameters: GetLifestylesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedLifestyleSchema>;
+    getLifestyles(requestParameters: GetLifestylesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedLifestyle>;
 
     /**
      * Update Lifestyle
      * 
 * @param requestParameters
      */
-    updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateLifestyleById(requestParameters: UpdateLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

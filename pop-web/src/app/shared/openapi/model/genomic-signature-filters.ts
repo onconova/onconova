@@ -10,6 +10,12 @@
 
 
 export interface GenomicSignatureFilters { 
+    category?: GenomicSignatureFilters.CategoryEnum;
+    'category.not'?: GenomicSignatureFilters.CategoryNotEnum;
+    /**
+     * None - (\'Filter for excluding a subset of value choices\',)
+     */
+    'category.anyOf'?: Array<GenomicSignatureFilters.CategoryAnyOfEnum>;
     /**
      * Id - Filter for full text matches
      */
@@ -106,12 +112,6 @@ export interface GenomicSignatureFilters {
      * Assessment date - Filter for entries with dates not between two specified values (inclusive)
      */
     'date.not.between'?: Array<any>;
-    category?: GenomicSignatureFilters.CategoryEnum;
-    'category.not'?: GenomicSignatureFilters.CategoryNotEnum;
-    /**
-     * None - (\'Filter for excluding a subset of value choices\',)
-     */
-    'category.anyOf'?: Array<GenomicSignatureFilters.CategoryAnyOfEnum>;
 }
 export namespace GenomicSignatureFilters {
     export type CategoryEnum = 'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score';

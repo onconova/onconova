@@ -8,10 +8,10 @@
  * Do not edit the class manually.
  */
 import { MeasureSchema } from './measure-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface LifestyleCreateSchema { 
+export interface LifestyleCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -22,12 +22,12 @@ export interface LifestyleCreateSchema {
      * Clinically-relevant date at which the patient\'s lifetyle was assessed and recorded.
      */
     date: string;
-    smokingStatus?: CodedConceptSchema | null;
+    smokingStatus?: CodedConcept | null;
     smokingPackyears?: number | null;
     smokingQuited?: MeasureSchema | null;
-    alcoholConsumption?: CodedConceptSchema | null;
+    alcoholConsumption?: CodedConcept | null;
     nightSleep?: MeasureSchema | null;
-    recreationalDrugs?: Array<CodedConceptSchema> | null;
-    exposures?: Array<CodedConceptSchema> | null;
+    recreationalDrugs?: Array<CodedConcept> | null;
+    exposures?: Array<CodedConcept> | null;
 }
 

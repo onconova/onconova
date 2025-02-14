@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLineSchema} from 'src/app/shared/openapi';
+import { PatientCase, AuthService, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine} from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -70,7 +70,7 @@ export class CaseBrowserCardComponent {
     public updatedByUsernames$: Observable<string>[] = [];
     public primaryEntity$!: Observable<NeoplasticEntity>;
     public latestStaging$!: Observable<AnyStaging>;
-    public latestTherapyLine$!: Observable<TherapyLineSchema>;
+    public latestTherapyLine$!: Observable<TherapyLine>;
     public completionProgress: number = Math.round(Math.random()*100); 
     public loadingDiagnosis: boolean = true;
     public loadingStaging: boolean = true;

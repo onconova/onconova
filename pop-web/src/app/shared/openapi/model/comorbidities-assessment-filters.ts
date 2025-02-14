@@ -11,6 +11,46 @@
 
 export interface ComorbiditiesAssessmentFilters { 
     /**
+     * None - Filter for entries without a value
+     */
+    'index.not.exists'?: boolean;
+    /**
+     * None - Filter for entries with a value
+     */
+    'index.exists'?: boolean;
+    /**
+     * None - Filter for entries with values less than the specified value
+     */
+    'index.lessThan'?: number;
+    /**
+     * None - Filter for entries with values less than or equal to the specified value
+     */
+    'index.lessThanOrEqual'?: number;
+    /**
+     * None - Filter for entries with values greater than the specified value
+     */
+    'index.greaterThan'?: number;
+    /**
+     * None - Filter for entries with values greater than or equal to the specified value
+     */
+    'index.greaterThanOrEqual'?: number;
+    /**
+     * None - Filter for entries with values exactly equal to the specified value
+     */
+    'index.equal'?: number;
+    /**
+     * None - Filter for entries with values not equal to the specified value
+     */
+    'index.not.equal'?: number;
+    /**
+     * None - Filter for entries with values between two specified values (inclusive)
+     */
+    'index.between'?: Array<any>;
+    /**
+     * None - Filter for entries with values between two specified values (inclusive)
+     */
+    'index.not.between'?: Array<any>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -472,46 +512,6 @@ export interface ComorbiditiesAssessmentFilters {
      * None - Filter for entries with a value
      */
     'absentConditions.properties.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'index.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'index.exists'?: boolean;
-    /**
-     * None - Filter for entries with values less than the specified value
-     */
-    'index.lessThan'?: number;
-    /**
-     * None - Filter for entries with values less than or equal to the specified value
-     */
-    'index.lessThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values greater than the specified value
-     */
-    'index.greaterThan'?: number;
-    /**
-     * None - Filter for entries with values greater than or equal to the specified value
-     */
-    'index.greaterThanOrEqual'?: number;
-    /**
-     * None - Filter for entries with values exactly equal to the specified value
-     */
-    'index.equal'?: number;
-    /**
-     * None - Filter for entries with values not equal to the specified value
-     */
-    'index.not.equal'?: number;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'index.between'?: Array<any>;
-    /**
-     * None - Filter for entries with values between two specified values (inclusive)
-     */
-    'index.not.between'?: Array<any>;
 }
 export namespace ComorbiditiesAssessmentFilters {
     export type PanelEnum = 'Charlson' | 'Elixhauser' | 'NCI';

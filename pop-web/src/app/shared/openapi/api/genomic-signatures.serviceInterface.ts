@@ -12,7 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyGenomicSignature } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedAnyGenomicSignature } from '../model/models';
 import { Payload2 } from '../model/models';
 
@@ -33,6 +33,9 @@ export interface GetGenomicSignatureByIdRequestParams {
 }
 
 export interface GetGenomicSignaturesRequestParams {
+    category?: string;
+    categoryNot?: string;
+    categoryAnyOf?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -57,9 +60,6 @@ export interface GetGenomicSignaturesRequestParams {
     dateNotOn?: string;
     dateBetween?: Array<any>;
     dateNotBetween?: Array<any>;
-    category?: string;
-    categoryNot?: string;
-    categoryAnyOf?: Array<'tumor_mutational_burden' | 'loss_of_heterozygosity' | 'microsatellite_instability' | 'homologous_recombination_deficiency' | 'tumor_neoantigen_burden' | 'aneuploid_score'>;
     limit?: number;
     offset?: number;
 }
@@ -79,7 +79,7 @@ export interface GenomicSignaturesServiceInterface {
      * 
 * @param requestParameters
      */
-    createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Genomic Signature
@@ -107,6 +107,6 @@ export interface GenomicSignaturesServiceInterface {
      * 
 * @param requestParameters
      */
-    updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

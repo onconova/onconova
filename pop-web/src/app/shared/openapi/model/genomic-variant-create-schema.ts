@@ -10,11 +10,11 @@
 import { GenomicVariantAssessmentChoices } from './genomic-variant-assessment-choices';
 import { GenomicVariantConfidenceChoices } from './genomic-variant-confidence-choices';
 import { GenomicVariantClinicalRelevanceChoices } from './genomic-variant-clinical-relevance-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { RangeSchema } from './range-schema';
 
 
-export interface GenomicVariantCreateSchema { 
+export interface GenomicVariantCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -28,24 +28,24 @@ export interface GenomicVariantCreateSchema {
     genePanel?: string | null;
     assessment?: GenomicVariantAssessmentChoices | null;
     confidence?: GenomicVariantConfidenceChoices | null;
-    analysisMethod?: CodedConceptSchema | null;
+    analysisMethod?: CodedConcept | null;
     clinicalRelevance?: GenomicVariantClinicalRelevanceChoices | null;
     cytogeneticLocation?: string | null;
-    genomeAssemblyVersion?: CodedConceptSchema | null;
+    genomeAssemblyVersion?: CodedConcept | null;
     genomicRefseq?: string | null;
     transcriptRefseq?: string | null;
     codingHgvs?: string | null;
     proteinHgvs?: string | null;
     genomicHgvs?: string | null;
-    dnaChangeType?: CodedConceptSchema | null;
-    aminoacidChangeType?: CodedConceptSchema | null;
-    molecularConsequence?: CodedConceptSchema | null;
+    dnaChangeType?: CodedConcept | null;
+    aminoacidChangeType?: CodedConcept | null;
+    molecularConsequence?: CodedConcept | null;
     copyNumber?: number | null;
     alleleFrequency?: number | null;
     alleleDepth?: number | null;
-    zygosity?: CodedConceptSchema | null;
-    inheritance?: CodedConceptSchema | null;
-    coordinateSystem?: CodedConceptSchema | null;
+    zygosity?: CodedConcept | null;
+    inheritance?: CodedConcept | null;
+    coordinateSystem?: CodedConcept | null;
     exactGenomicCoordinates?: RangeSchema | null;
     innerGenomicCoordinates?: RangeSchema | null;
     outerGenomicCoordinates?: RangeSchema | null;
@@ -53,10 +53,10 @@ export interface GenomicVariantCreateSchema {
     /**
      * Gene(s) affected by this variant
      */
-    genes?: Array<CodedConceptSchema>;
-    chromosomes?: Array<CodedConceptSchema> | null;
+    genes?: Array<CodedConcept>;
+    chromosomes?: Array<CodedConcept> | null;
 }
-export namespace GenomicVariantCreateSchema {
+export namespace GenomicVariantCreate {
 }
 
 

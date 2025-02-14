@@ -16,9 +16,9 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { 
     NeoplasticEntity, 
     NeoplasticEntitiesService,
-    CodedConceptSchema,
+    CodedConcept,
     ComorbidityPanelCategory,
-    ComorbiditiesAssessmentCreateSchema,
+    ComorbiditiesAssessmentCreate,
     ComorbiditiesAssessmentsService,
     ComorbiditiesAssessmentPanelChoices,
 } from '../../../shared/openapi'
@@ -59,15 +59,15 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
     private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     public readonly formBuilder = inject(FormBuilder);
 
-    public readonly createService = (payload: ComorbiditiesAssessmentCreateSchema) => this.comorbiditiesASsessmentService.createComorbiditiesAssessment({comorbiditiesAssessmentCreateSchema: payload});
-    public readonly updateService = (id: string, payload: ComorbiditiesAssessmentCreateSchema) => this.comorbiditiesASsessmentService.updateComorbiditiesAssessment({comorbiditiesAssessmentId: id, comorbiditiesAssessmentCreateSchema: payload});
+    public readonly createService = (payload: ComorbiditiesAssessmentCreate) => this.comorbiditiesASsessmentService.createComorbiditiesAssessment({comorbiditiesAssessmentCreate: payload});
+    public readonly updateService = (id: string, payload: ComorbiditiesAssessmentCreate) => this.comorbiditiesASsessmentService.updateComorbiditiesAssessment({comorbiditiesAssessmentId: id, comorbiditiesAssessmentCreate: payload});
 
     public readonly title: string = 'Comorbidities Assessment';
     public readonly subtitle: string = 'Add new comorbidities assessment';
     public readonly icon = DiamondPlus;
 
     private caseId!: string;
-    public initialData: ComorbiditiesAssessmentCreateSchema | any = {};
+    public initialData: ComorbiditiesAssessmentCreate | any = {};
     public relatedEntities: NeoplasticEntity[] = []; 
     public panelCategories: ComorbidityPanelCategory[] | undefined = []; 
     public resultsType: string[] = [];
@@ -111,7 +111,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
             next: (response) => {
                 this.panelCategories = response.categories || [];
                 this.panelForm = this.panelCategories.map((category) => {
-                    const initialCondition = this.initialData?.presentConditions?.find((condition: CodedConceptSchema) => category.conditions.map(cond=>cond.code).includes(condition.code));
+                    const initialCondition = this.initialData?.presentConditions?.find((condition: CodedConcept) => category.conditions.map(cond=>cond.code).includes(condition.code));
                     return {
                         label: category.label,
                         checked: this.initialData ? category.conditions.some((condition) => this.initialData?.presentConditions?.map((cond: any)=>cond.code).includes(condition.code)) : false,
@@ -127,8 +127,8 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
   }
 
   comorbiditiesPanelToPayload() {
-    let presentConditions: CodedConceptSchema[] = [];
-    let absentConditions: CodedConceptSchema[] = [];
+    let presentConditions: CodedConcept[] = [];
+    let absentConditions: CodedConcept[] = [];
     if (!this.panelForm || this.panelForm.length==0){
         return null
     }
@@ -144,7 +144,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
     return {present: presentConditions, absent: absentConditions}
   }
 
-  constructAPIPayload(data: any): ComorbiditiesAssessmentCreateSchema {    
+  constructAPIPayload(data: any): ComorbiditiesAssessmentCreate {    
     const panelData = this.comorbiditiesPanelToPayload()
     return {
       caseId: this.caseId,

@@ -11,17 +11,17 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedTherapyLineSchema } from '../model/models';
-import { TherapyLineCreateSchema } from '../model/models';
-import { TherapyLineSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedTherapyLine } from '../model/models';
+import { TherapyLine } from '../model/models';
+import { TherapyLineCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateTherapyLineRequestParams {
-    therapyLineCreateSchema: TherapyLineCreateSchema;
+    therapyLineCreate: TherapyLineCreate;
 }
 
 export interface DeleteTherapyLineRequestParams {
@@ -37,6 +37,32 @@ export interface GetTherapyLineByIdRequestParams {
 }
 
 export interface GetTherapyLinesRequestParams {
+    periodNotExists?: boolean;
+    periodExists?: boolean;
+    periodOverlaps?: Array<any>;
+    periodNotOverlaps?: Array<any>;
+    periodContains?: Array<any>;
+    periodNotContains?: Array<any>;
+    periodContainedBy?: Array<any>;
+    periodNotContainedBy?: Array<any>;
+    label?: string;
+    labelNot?: string;
+    labelContains?: string;
+    labelNotContains?: string;
+    labelBeginsWith?: string;
+    labelNotBeginsWith?: string;
+    labelEndsWith?: string;
+    labelNotEndsWith?: string;
+    progressionFreeSurvivalNotExists?: boolean;
+    progressionFreeSurvivalExists?: boolean;
+    progressionFreeSurvivalLessThan?: number;
+    progressionFreeSurvivalLessThanOrEqual?: number;
+    progressionFreeSurvivalGreaterThan?: number;
+    progressionFreeSurvivalGreaterThanOrEqual?: number;
+    progressionFreeSurvivalEqual?: number;
+    progressionFreeSurvivalNotEqual?: number;
+    progressionFreeSurvivalBetween?: Array<any>;
+    progressionFreeSurvivalNotBetween?: Array<any>;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -74,39 +100,13 @@ export interface GetTherapyLinesRequestParams {
     progressionDateNotOn?: string;
     progressionDateBetween?: Array<any>;
     progressionDateNotBetween?: Array<any>;
-    periodNotExists?: boolean;
-    periodExists?: boolean;
-    periodOverlaps?: Array<any>;
-    periodNotOverlaps?: Array<any>;
-    periodContains?: Array<any>;
-    periodNotContains?: Array<any>;
-    periodContainedBy?: Array<any>;
-    periodNotContainedBy?: Array<any>;
-    label?: string;
-    labelNot?: string;
-    labelContains?: string;
-    labelNotContains?: string;
-    labelBeginsWith?: string;
-    labelNotBeginsWith?: string;
-    labelEndsWith?: string;
-    labelNotEndsWith?: string;
-    progressionFreeSurvivalNotExists?: boolean;
-    progressionFreeSurvivalExists?: boolean;
-    progressionFreeSurvivalLessThan?: number;
-    progressionFreeSurvivalLessThanOrEqual?: number;
-    progressionFreeSurvivalGreaterThan?: number;
-    progressionFreeSurvivalGreaterThanOrEqual?: number;
-    progressionFreeSurvivalEqual?: number;
-    progressionFreeSurvivalNotEqual?: number;
-    progressionFreeSurvivalBetween?: Array<any>;
-    progressionFreeSurvivalNotBetween?: Array<any>;
     limit?: number;
     offset?: number;
 }
 
 export interface UpdateTherapyLineRequestParams {
     therapyLineId: string;
-    therapyLineCreateSchema: TherapyLineCreateSchema;
+    therapyLineCreate: TherapyLineCreate;
 }
 
 
@@ -119,7 +119,7 @@ export interface TherapyLinesServiceInterface {
      * 
 * @param requestParameters
      */
-    createTherapyLine(requestParameters: CreateTherapyLineRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createTherapyLine(requestParameters: CreateTherapyLineRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Therapy Line
@@ -133,27 +133,27 @@ export interface TherapyLinesServiceInterface {
      * 
 * @param requestParameters
      */
-    getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, extraHttpRequestParams?: any): Observable<Array<TherapyLineSchema>>;
+    getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, extraHttpRequestParams?: any): Observable<Array<TherapyLine>>;
 
     /**
      * Get Therapy Line By Id
      * 
 * @param requestParameters
      */
-    getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, extraHttpRequestParams?: any): Observable<TherapyLineSchema>;
+    getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, extraHttpRequestParams?: any): Observable<TherapyLine>;
 
     /**
      * Get All Therapy Lines Matching The Query
      * 
 * @param requestParameters
      */
-    getTherapyLines(requestParameters: GetTherapyLinesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTherapyLineSchema>;
+    getTherapyLines(requestParameters: GetTherapyLinesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTherapyLine>;
 
     /**
      * Update Therapy Line
      * 
 * @param requestParameters
      */
-    updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

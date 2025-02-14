@@ -26,7 +26,7 @@ import {
   TumorMarkerImmunohistochemicalScoreChoices,
   TumorMarkerNuclearExpressionStatusChoices,
   TerminologyService,
-  CodedConceptSchema,
+  CodedConcept,
 } from '../../../shared/openapi'
 
 import { 
@@ -80,7 +80,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
   public readonly icon = TestTubeDiagonal;
 
   public readonly analyteResultTypes = AnalyteResultType;
-  public readonly analytes$: Observable<CodedConceptSchema[]> = this.terminologyService.getTerminologyConcepts({terminologyName: 'TumorMarkerAnalyte'}).pipe(
+  public readonly analytes$: Observable<CodedConcept[]> = this.terminologyService.getTerminologyConcepts({terminologyName: 'TumorMarkerAnalyte'}).pipe(
     map((data) => data.items || [])
   );
   public readonly analyteResultTypeChoices: RadioChoice[] = [

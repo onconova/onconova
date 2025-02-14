@@ -19,16 +19,16 @@ import {
     NeoplasticEntitiesService,
     NeoplasticEntity,
     GenomicVariantsService,
-    GenomicVariantSchema,
+    GenomicVariant,
     TumorMarkersService,
     TumorMarker,
     GenomicSignaturesService,
     AnyGenomicSignature,
     AnyTumorBoard,
     TumorBoardsService,
-    UnspecifiedTumorBoardCreateSchema,
-    MolecularTherapeuticRecommendationSchema,
-    MolecularTherapeuticRecommendationCreateSchema,
+    UnspecifiedTumorBoardCreate,
+    MolecularTherapeuticRecommendation,
+    MolecularTherapeuticRecommendationCreate,
 } from '../../../shared/openapi'
 
 import { 
@@ -47,7 +47,7 @@ const TumorBoardSpecialties = {
     Unspecified: 'unspecified',
 }
 
-export type AnyTumorBoardCreateSchema = UnspecifiedTumorBoardCreateSchema | MolecularTherapeuticRecommendationCreateSchema;
+export type AnyTumorBoardCreate = UnspecifiedTumorBoardCreate | MolecularTherapeuticRecommendationCreate;
 
 @Component({
   standalone: true,
@@ -80,16 +80,16 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     private readonly genomicSignaturesService: GenomicSignaturesService = inject(GenomicSignaturesService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = (payload: AnyTumorBoardCreateSchema) => this.tumorBoardsService.createTumorBoard({payload1: payload as any});
-    public readonly updateService = (id: string, payload: AnyTumorBoardCreateSchema) => this.tumorBoardsService.updateTumorBoardById({tumorBoardId: id, payload1: payload as any});
+    public readonly createService = (payload: AnyTumorBoardCreate) => this.tumorBoardsService.createTumorBoard({payload1: payload as any});
+    public readonly updateService = (id: string, payload: AnyTumorBoardCreate) => this.tumorBoardsService.updateTumorBoardById({tumorBoardId: id, payload1: payload as any});
     override readonly subformsServices = [
         {
             condition: (data: any) => data.category === TumorBoardSpecialties.Molecular,
             payloads: this.constructMolecularTherapeuticRecommendationPayloads.bind(this),
             deletedEntries: this.getdeletedMolecularTherapeuticRecommendations.bind(this),
             delete: (parentId: string, id: string) => this.tumorBoardsService.deleteMolecularTherapeuticRecommendation({tumorBoardId: parentId, recommendationId: id}),
-            create: (parentId: string, payload: MolecularTherapeuticRecommendationCreateSchema) => this.tumorBoardsService.createMolecularTherapeuticRecommendation({tumorBoardId: parentId, molecularTherapeuticRecommendationCreateSchema: payload}),
-            update: (parentId: string, id: string, payload: MolecularTherapeuticRecommendationCreateSchema) => this.tumorBoardsService.updateMolecularTherapeuticRecommendation({tumorBoardId: parentId, recommendationId: id, molecularTherapeuticRecommendationCreateSchema: payload}),
+            create: (parentId: string, payload: MolecularTherapeuticRecommendationCreate) => this.tumorBoardsService.createMolecularTherapeuticRecommendation({tumorBoardId: parentId, molecularTherapeuticRecommendationCreate: payload}),
+            update: (parentId: string, id: string, payload: MolecularTherapeuticRecommendationCreate) => this.tumorBoardsService.updateMolecularTherapeuticRecommendation({tumorBoardId: parentId, recommendationId: id, molecularTherapeuticRecommendationCreate: payload}),
         },
     ]
     private deletedMolecularTherapeuticRecommendations: string[] = [];
@@ -103,7 +103,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     public initialData: AnyTumorBoard | any = {};
     public relatedEntities$!: Observable<NeoplasticEntity[]>;
     public relatedPrimaryEntities$!: Observable<NeoplasticEntity[]>; 
-    public relatedEvidence$!: Observable<(GenomicVariantSchema | TumorMarker | AnyGenomicSignature)[]>;
+    public relatedEvidence$!: Observable<(GenomicVariant | TumorMarker | AnyGenomicSignature)[]>;
     public relatedReports$!: Observable<RadioChoice[]>;
 
     public readonly TumorBoardSpecialties = TumorBoardSpecialties;
@@ -133,7 +133,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
         this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId}).pipe(map((response) => response.items))
         this.relatedPrimaryEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId, relationship: 'primary'}).pipe(map((response) => response.items))
         this.relatedReports$ = this.genomicVariantsService.getGenomicVariants({caseId:this.caseId}).pipe(map( (response) => {
-            return Array.from(new Set(response.items.map((variant: GenomicVariantSchema) => {
+            return Array.from(new Set(response.items.map((variant: GenomicVariant) => {
                 const entry = `${variant.genePanel || 'Unknown test'} (${variant.date})`;
                 return {name: entry, value: entry}
             })))
@@ -179,7 +179,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     constructForm(): void {
 
         this.molecularTherapeuticRecommendationsFormArray = this.formBuilder.array((this.initialData?.therapeuticRecommendations || [])?.map(
-            (initialRecommendation: MolecularTherapeuticRecommendationSchema) => {
+            (initialRecommendation: MolecularTherapeuticRecommendation) => {
                 console.log('initialRecommendation',initialRecommendation)
                 const subform = this.constructMolecularTherapeuticRecommendationSubForm(initialRecommendation);
                 this.changeTherapeuticRecommendationValidation(subform, subform.value.recommendationType)
@@ -205,7 +205,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     }
 
 
-    constructMolecularTherapeuticRecommendationSubForm(initalData: MolecularTherapeuticRecommendationSchema | null ) {
+    constructMolecularTherapeuticRecommendationSubForm(initalData: MolecularTherapeuticRecommendation | null ) {
         return this.formBuilder.group({
             id: [initalData?.id],
             expectedEffect: [initalData?.expectedEffect, Validators.required],
@@ -218,7 +218,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
         })
     }
 
-    constructAPIPayload(data: any): AnyTumorBoardCreateSchema {    
+    constructAPIPayload(data: any): AnyTumorBoardCreate {    
         let additionalData: object = {}
         switch (data.category) {
             case TumorBoardSpecialties.Unspecified:
@@ -243,7 +243,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
         };
     }
 
-    private constructMolecularTherapeuticRecommendationPayloads(data: any): MolecularTherapeuticRecommendationCreateSchema {
+    private constructMolecularTherapeuticRecommendationPayloads(data: any): MolecularTherapeuticRecommendationCreate {
         return data.therapeuticRecommendations.map((subformData: any) => {return {
             id: subformData.id,
             expectedEffect: subformData.expectedEffect,
@@ -258,7 +258,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     }
 
     public addMolecularTherapeuticRecommendation() {
-        const newSubform = this.constructMolecularTherapeuticRecommendationSubForm({} as MolecularTherapeuticRecommendationSchema);
+        const newSubform = this.constructMolecularTherapeuticRecommendationSubForm({} as MolecularTherapeuticRecommendation);
         newSubform.get('recommendationType')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((category: any) => {
             const fieldNames = [
                 'clinicalTrial', 

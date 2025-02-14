@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface ClarkStagingCreate { 
@@ -29,7 +29,7 @@ export interface ClarkStagingCreate {
     /**
      * The value of the Clark level stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace ClarkStagingCreate {
     export type StagingDomainEnum = 'clark';

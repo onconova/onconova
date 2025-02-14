@@ -9,12 +9,12 @@
  */
 import { SystemicTherapyIntentChoices } from './systemic-therapy-intent-choices';
 import { PeriodSchema } from './period-schema';
-import { SystemicTherapyMedicationSchema } from './systemic-therapy-medication-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { SystemicTherapyMedication } from './systemic-therapy-medication-schema';
+import { CodedConcept } from './coded-concept-schema';
 import { UserSchema } from './user-schema';
 
 
-export interface SystemicTherapySchema { 
+export interface SystemicTherapy { 
     /**
      * 
      */
@@ -54,8 +54,8 @@ export interface SystemicTherapySchema {
      * Treatment intent of the system therapy
      */
     intent: SystemicTherapyIntentChoices;
-    role?: CodedConceptSchema | null;
-    terminationReason?: CodedConceptSchema | null;
+    role?: CodedConcept | null;
+    terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the systemic therapy
@@ -64,9 +64,9 @@ export interface SystemicTherapySchema {
     /**
      * Medications administered during the systemic therapy
      */
-    medications: Array<SystemicTherapyMedicationSchema>;
+    medications: Array<SystemicTherapyMedication>;
 }
-export namespace SystemicTherapySchema {
+export namespace SystemicTherapy {
 }
 
 

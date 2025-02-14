@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AdverseEventSchema } from './adverse-event-schema';
+import { AdverseEvent } from './adverse-event-schema';
 
 
-export interface PaginatedAdverseEventSchema { 
+export interface PaginatedAdverseEvent { 
     count: number;
-    items: Array<AdverseEventSchema>;
+    items: Array<AdverseEvent>;
 }
 

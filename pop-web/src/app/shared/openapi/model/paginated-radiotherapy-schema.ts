@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RadiotherapySchema } from './radiotherapy-schema';
+import { Radiotherapy } from './radiotherapy-schema';
 
 
-export interface PaginatedRadiotherapySchema { 
+export interface PaginatedRadiotherapy { 
     count: number;
-    items: Array<RadiotherapySchema>;
+    items: Array<Radiotherapy>;
 }
 

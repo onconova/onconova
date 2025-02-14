@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface RISSStagingCreate { 
@@ -29,7 +29,7 @@ export interface RISSStagingCreate {
     /**
      * The value of the RISS stage
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace RISSStagingCreate {
     export type StagingDomainEnum = 'riss';

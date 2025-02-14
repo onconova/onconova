@@ -11,7 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedSurgery } from '../model/models';
 import { Surgery } from '../model/models';
 import { SurgeryCreate } from '../model/models';
@@ -124,7 +124,7 @@ export interface SurgeriesServiceInterface {
      * 
 * @param requestParameters
      */
-    createSurgery(requestParameters: CreateSurgeryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createSurgery(requestParameters: CreateSurgeryRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Surgery
@@ -152,6 +152,6 @@ export interface SurgeriesServiceInterface {
      * 
 * @param requestParameters
      */
-    updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateSurgeryById(requestParameters: UpdateSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

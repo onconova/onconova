@@ -17,15 +17,15 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ComorbiditiesAssessmentCreateSchema } from '../model/comorbidities-assessment-create-schema';
+import { ComorbiditiesAssessment } from '../model/comorbidities-assessment';
 // @ts-ignore
-import { ComorbiditiesAssessmentSchema } from '../model/comorbidities-assessment-schema';
+import { ComorbiditiesAssessmentCreate } from '../model/comorbidities-assessment-create';
 // @ts-ignore
-import { ComorbiditiesPanelSchema } from '../model/comorbidities-panel-schema';
+import { ComorbiditiesPanel } from '../model/comorbidities-panel';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedComorbiditiesAssessmentSchema } from '../model/paginated-comorbidities-assessment-schema';
+import { PaginatedComorbiditiesAssessment } from '../model/paginated-comorbidities-assessment';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -113,13 +113,13 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createComorbiditiesAssessment(requestParameters: CreateComorbiditiesAssessmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const comorbiditiesAssessmentCreateSchema = requestParameters?.comorbiditiesAssessmentCreateSchema;
-        if (comorbiditiesAssessmentCreateSchema === null || comorbiditiesAssessmentCreateSchema === undefined) {
-            throw new Error('Required parameter comorbiditiesAssessmentCreateSchema was null or undefined when calling createComorbiditiesAssessment.');
+        const comorbiditiesAssessmentCreate = requestParameters?.comorbiditiesAssessmentCreate;
+        if (comorbiditiesAssessmentCreate === null || comorbiditiesAssessmentCreate === undefined) {
+            throw new Error('Required parameter comorbiditiesAssessmentCreate was null or undefined when calling createComorbiditiesAssessment.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -175,10 +175,10 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         }
 
         let localVarPath = `/api/comorbidities-assessments`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: comorbiditiesAssessmentCreateSchema,
+                body: comorbiditiesAssessmentCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -266,9 +266,9 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ComorbiditiesAssessmentSchema>;
-    public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ComorbiditiesAssessmentSchema>>;
-    public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ComorbiditiesAssessmentSchema>>;
+    public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ComorbiditiesAssessment>;
+    public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ComorbiditiesAssessment>>;
+    public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ComorbiditiesAssessment>>;
     public getComorbiditiesAssessmentById(requestParameters: GetComorbiditiesAssessmentByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const comorbiditiesAssessmentId = requestParameters?.comorbiditiesAssessmentId;
         if (comorbiditiesAssessmentId === null || comorbiditiesAssessmentId === undefined) {
@@ -319,7 +319,7 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         }
 
         let localVarPath = `/api/comorbidities-assessments/${this.configuration.encodeParam({name: "comorbiditiesAssessmentId", value: comorbiditiesAssessmentId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ComorbiditiesAssessmentSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ComorbiditiesAssessment>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -338,10 +338,20 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedComorbiditiesAssessmentSchema>;
-    public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedComorbiditiesAssessmentSchema>>;
-    public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedComorbiditiesAssessmentSchema>>;
+    public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedComorbiditiesAssessment>;
+    public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedComorbiditiesAssessment>>;
+    public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedComorbiditiesAssessment>>;
     public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const indexNotExists = requestParameters?.indexNotExists;
+        const indexExists = requestParameters?.indexExists;
+        const indexLessThan = requestParameters?.indexLessThan;
+        const indexLessThanOrEqual = requestParameters?.indexLessThanOrEqual;
+        const indexGreaterThan = requestParameters?.indexGreaterThan;
+        const indexGreaterThanOrEqual = requestParameters?.indexGreaterThanOrEqual;
+        const indexEqual = requestParameters?.indexEqual;
+        const indexNotEqual = requestParameters?.indexNotEqual;
+        const indexBetween = requestParameters?.indexBetween;
+        const indexNotBetween = requestParameters?.indexNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -459,20 +469,54 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         const absentConditionsSynonymsExists = requestParameters?.absentConditionsSynonymsExists;
         const absentConditionsPropertiesNotExists = requestParameters?.absentConditionsPropertiesNotExists;
         const absentConditionsPropertiesExists = requestParameters?.absentConditionsPropertiesExists;
-        const indexNotExists = requestParameters?.indexNotExists;
-        const indexExists = requestParameters?.indexExists;
-        const indexLessThan = requestParameters?.indexLessThan;
-        const indexLessThanOrEqual = requestParameters?.indexLessThanOrEqual;
-        const indexGreaterThan = requestParameters?.indexGreaterThan;
-        const indexGreaterThanOrEqual = requestParameters?.indexGreaterThanOrEqual;
-        const indexEqual = requestParameters?.indexEqual;
-        const indexNotEqual = requestParameters?.indexNotEqual;
-        const indexBetween = requestParameters?.indexBetween;
-        const indexNotBetween = requestParameters?.indexNotBetween;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (indexNotExists !== undefined && indexNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexNotExists, 'index.not.exists');
+        }
+        if (indexExists !== undefined && indexExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexExists, 'index.exists');
+        }
+        if (indexLessThan !== undefined && indexLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexLessThan, 'index.lessThan');
+        }
+        if (indexLessThanOrEqual !== undefined && indexLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexLessThanOrEqual, 'index.lessThanOrEqual');
+        }
+        if (indexGreaterThan !== undefined && indexGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexGreaterThan, 'index.greaterThan');
+        }
+        if (indexGreaterThanOrEqual !== undefined && indexGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexGreaterThanOrEqual, 'index.greaterThanOrEqual');
+        }
+        if (indexEqual !== undefined && indexEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexEqual, 'index.equal');
+        }
+        if (indexNotEqual !== undefined && indexNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>indexNotEqual, 'index.not.equal');
+        }
+        if (indexBetween) {
+            indexBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'index.between');
+            })
+        }
+        if (indexNotBetween) {
+            indexNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'index.not.between');
+            })
+        }
         if (id !== undefined && id !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>id, 'id');
@@ -947,50 +991,6 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>absentConditionsPropertiesExists, 'absentConditions.properties.exists');
         }
-        if (indexNotExists !== undefined && indexNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexNotExists, 'index.not.exists');
-        }
-        if (indexExists !== undefined && indexExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexExists, 'index.exists');
-        }
-        if (indexLessThan !== undefined && indexLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexLessThan, 'index.lessThan');
-        }
-        if (indexLessThanOrEqual !== undefined && indexLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexLessThanOrEqual, 'index.lessThanOrEqual');
-        }
-        if (indexGreaterThan !== undefined && indexGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexGreaterThan, 'index.greaterThan');
-        }
-        if (indexGreaterThanOrEqual !== undefined && indexGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexGreaterThanOrEqual, 'index.greaterThanOrEqual');
-        }
-        if (indexEqual !== undefined && indexEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexEqual, 'index.equal');
-        }
-        if (indexNotEqual !== undefined && indexNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexNotEqual, 'index.not.equal');
-        }
-        if (indexBetween) {
-            indexBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'index.between');
-            })
-        }
-        if (indexNotBetween) {
-            indexNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'index.not.between');
-            })
-        }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>limit, 'limit');
@@ -1044,7 +1044,7 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         }
 
         let localVarPath = `/api/comorbidities-assessments`;
-        return this.httpClient.request<PaginatedComorbiditiesAssessmentSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedComorbiditiesAssessment>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1063,9 +1063,9 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getComorbiditiesPanels(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ComorbiditiesPanelSchema>>;
-    public getComorbiditiesPanels(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ComorbiditiesPanelSchema>>>;
-    public getComorbiditiesPanels(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ComorbiditiesPanelSchema>>>;
+    public getComorbiditiesPanels(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ComorbiditiesPanel>>;
+    public getComorbiditiesPanels(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ComorbiditiesPanel>>>;
+    public getComorbiditiesPanels(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ComorbiditiesPanel>>>;
     public getComorbiditiesPanels(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -1112,7 +1112,7 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         }
 
         let localVarPath = `/api/comorbidities-panels`;
-        return this.httpClient.request<Array<ComorbiditiesPanelSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ComorbiditiesPanel>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1131,9 +1131,9 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ComorbiditiesPanelSchema>;
-    public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ComorbiditiesPanelSchema>>;
-    public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ComorbiditiesPanelSchema>>;
+    public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ComorbiditiesPanel>;
+    public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ComorbiditiesPanel>>;
+    public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ComorbiditiesPanel>>;
     public getComorbiditiesPanelsByName(requestParameters: GetComorbiditiesPanelsByNameRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const panel = requestParameters?.panel;
         if (panel === null || panel === undefined) {
@@ -1183,8 +1183,8 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
             }
         }
 
-        let localVarPath = `/api/comorbidities-panels/${this.configuration.encodeParam({name: "panel", value: panel, in: "path", style: "simple", explode: false, dataType: "'Charlson' | 'Elixhauser' | 'NCI'", dataFormat: undefined})}`;
-        return this.httpClient.request<ComorbiditiesPanelSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/comorbidities-panels/${this.configuration.encodeParam({name: "panel", value: panel, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<ComorbiditiesPanel>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1203,17 +1203,17 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateComorbiditiesAssessment(requestParameters: UpdateComorbiditiesAssessmentRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const comorbiditiesAssessmentId = requestParameters?.comorbiditiesAssessmentId;
         if (comorbiditiesAssessmentId === null || comorbiditiesAssessmentId === undefined) {
             throw new Error('Required parameter comorbiditiesAssessmentId was null or undefined when calling updateComorbiditiesAssessment.');
         }
-        const comorbiditiesAssessmentCreateSchema = requestParameters?.comorbiditiesAssessmentCreateSchema;
-        if (comorbiditiesAssessmentCreateSchema === null || comorbiditiesAssessmentCreateSchema === undefined) {
-            throw new Error('Required parameter comorbiditiesAssessmentCreateSchema was null or undefined when calling updateComorbiditiesAssessment.');
+        const comorbiditiesAssessmentCreate = requestParameters?.comorbiditiesAssessmentCreate;
+        if (comorbiditiesAssessmentCreate === null || comorbiditiesAssessmentCreate === undefined) {
+            throw new Error('Required parameter comorbiditiesAssessmentCreate was null or undefined when calling updateComorbiditiesAssessment.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -1269,10 +1269,10 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         }
 
         let localVarPath = `/api/comorbidities-assessments/${this.configuration.encodeParam({name: "comorbiditiesAssessmentId", value: comorbiditiesAssessmentId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: comorbiditiesAssessmentCreateSchema,
+                body: comorbiditiesAssessmentCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

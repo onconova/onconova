@@ -8,10 +8,10 @@
  * Do not edit the class manually.
  */
 import { ComorbiditiesAssessmentPanelChoices } from './comorbidities-assessment-panel-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface ComorbiditiesAssessmentCreateSchema { 
+export interface ComorbiditiesAssessmentCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -27,10 +27,10 @@ export interface ComorbiditiesAssessmentCreateSchema {
      */
     indexconditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
-    presentConditions?: Array<CodedConceptSchema> | null;
-    absentConditions?: Array<CodedConceptSchema> | null;
+    presentConditions?: Array<CodedConcept> | null;
+    absentConditions?: Array<CodedConcept> | null;
 }
-export namespace ComorbiditiesAssessmentCreateSchema {
+export namespace ComorbiditiesAssessmentCreate {
 }
 
 

@@ -11,17 +11,17 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedVitalsSchema } from '../model/models';
-import { VitalsCreateSchema } from '../model/models';
-import { VitalsSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedVitals } from '../model/models';
+import { Vitals } from '../model/models';
+import { VitalsCreate } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateVitalsRequestParams {
-    vitalsCreateSchema: VitalsCreateSchema;
+    vitalsCreate: VitalsCreate;
 }
 
 export interface DeleteVitalsByIdRequestParams {
@@ -29,6 +29,16 @@ export interface DeleteVitalsByIdRequestParams {
 }
 
 export interface GetVitalsRequestParams {
+    bodyMassIndexNotExists?: boolean;
+    bodyMassIndexExists?: boolean;
+    bodyMassIndexLessThan?: number;
+    bodyMassIndexLessThanOrEqual?: number;
+    bodyMassIndexGreaterThan?: number;
+    bodyMassIndexGreaterThanOrEqual?: number;
+    bodyMassIndexEqual?: number;
+    bodyMassIndexNotEqual?: number;
+    bodyMassIndexBetween?: Array<any>;
+    bodyMassIndexNotBetween?: Array<any>;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -103,16 +113,6 @@ export interface GetVitalsRequestParams {
     temperatureNotEqual?: number;
     temperatureBetween?: Array<any>;
     temperatureNotBetween?: Array<any>;
-    bodyMassIndexNotExists?: boolean;
-    bodyMassIndexExists?: boolean;
-    bodyMassIndexLessThan?: number;
-    bodyMassIndexLessThanOrEqual?: number;
-    bodyMassIndexGreaterThan?: number;
-    bodyMassIndexGreaterThanOrEqual?: number;
-    bodyMassIndexEqual?: number;
-    bodyMassIndexNotEqual?: number;
-    bodyMassIndexBetween?: Array<any>;
-    bodyMassIndexNotBetween?: Array<any>;
     limit?: number;
     offset?: number;
 }
@@ -123,7 +123,7 @@ export interface GetVitalsByIdRequestParams {
 
 export interface UpdateVitalsByIdRequestParams {
     vitalsId: string;
-    vitalsCreateSchema: VitalsCreateSchema;
+    vitalsCreate: VitalsCreate;
 }
 
 
@@ -136,7 +136,7 @@ export interface VitalsServiceInterface {
      * 
 * @param requestParameters
      */
-    createVitals(requestParameters: CreateVitalsRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createVitals(requestParameters: CreateVitalsRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Vitals
@@ -150,20 +150,20 @@ export interface VitalsServiceInterface {
      * 
 * @param requestParameters
      */
-    getVitals(requestParameters: GetVitalsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedVitalsSchema>;
+    getVitals(requestParameters: GetVitalsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedVitals>;
 
     /**
      * Get Vitals By Id
      * 
 * @param requestParameters
      */
-    getVitalsById(requestParameters: GetVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<VitalsSchema>;
+    getVitalsById(requestParameters: GetVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<Vitals>;
 
     /**
      * Update Vitals
      * 
 * @param requestParameters
      */
-    updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateVitalsById(requestParameters: UpdateVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

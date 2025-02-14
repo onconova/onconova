@@ -17,13 +17,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedTherapyLineSchema } from '../model/paginated-therapy-line-schema';
+import { PaginatedTherapyLine } from '../model/paginated-therapy-line';
 // @ts-ignore
-import { TherapyLineCreateSchema } from '../model/therapy-line-create-schema';
+import { TherapyLine } from '../model/therapy-line';
 // @ts-ignore
-import { TherapyLineSchema } from '../model/therapy-line-schema';
+import { TherapyLineCreate } from '../model/therapy-line-create';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -111,13 +111,13 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createTherapyLine(requestParameters: CreateTherapyLineRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const therapyLineCreateSchema = requestParameters?.therapyLineCreateSchema;
-        if (therapyLineCreateSchema === null || therapyLineCreateSchema === undefined) {
-            throw new Error('Required parameter therapyLineCreateSchema was null or undefined when calling createTherapyLine.');
+        const therapyLineCreate = requestParameters?.therapyLineCreate;
+        if (therapyLineCreate === null || therapyLineCreate === undefined) {
+            throw new Error('Required parameter therapyLineCreate was null or undefined when calling createTherapyLine.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -173,10 +173,10 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
         }
 
         let localVarPath = `/api/therapy-lines`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: therapyLineCreateSchema,
+                body: therapyLineCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -264,9 +264,9 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TherapyLineSchema>>;
-    public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TherapyLineSchema>>>;
-    public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TherapyLineSchema>>>;
+    public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TherapyLine>>;
+    public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TherapyLine>>>;
+    public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TherapyLine>>>;
     public getReassignedPatientCaseTherapyLines(requestParameters: GetReassignedPatientCaseTherapyLinesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const caseId = requestParameters?.caseId;
         if (caseId === null || caseId === undefined) {
@@ -317,7 +317,7 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
         }
 
         let localVarPath = `/api/therapy-lines/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/re-assignments`;
-        return this.httpClient.request<Array<TherapyLineSchema>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<TherapyLine>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -336,9 +336,9 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TherapyLineSchema>;
-    public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TherapyLineSchema>>;
-    public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TherapyLineSchema>>;
+    public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<TherapyLine>;
+    public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TherapyLine>>;
+    public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TherapyLine>>;
     public getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const therapyLineId = requestParameters?.therapyLineId;
         if (therapyLineId === null || therapyLineId === undefined) {
@@ -389,7 +389,7 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
         }
 
         let localVarPath = `/api/therapy-lines/${this.configuration.encodeParam({name: "therapyLineId", value: therapyLineId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<TherapyLineSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<TherapyLine>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -408,10 +408,36 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedTherapyLineSchema>;
-    public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedTherapyLineSchema>>;
-    public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedTherapyLineSchema>>;
+    public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedTherapyLine>;
+    public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedTherapyLine>>;
+    public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedTherapyLine>>;
     public getTherapyLines(requestParameters?: GetTherapyLinesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const periodNotExists = requestParameters?.periodNotExists;
+        const periodExists = requestParameters?.periodExists;
+        const periodOverlaps = requestParameters?.periodOverlaps;
+        const periodNotOverlaps = requestParameters?.periodNotOverlaps;
+        const periodContains = requestParameters?.periodContains;
+        const periodNotContains = requestParameters?.periodNotContains;
+        const periodContainedBy = requestParameters?.periodContainedBy;
+        const periodNotContainedBy = requestParameters?.periodNotContainedBy;
+        const label = requestParameters?.label;
+        const labelNot = requestParameters?.labelNot;
+        const labelContains = requestParameters?.labelContains;
+        const labelNotContains = requestParameters?.labelNotContains;
+        const labelBeginsWith = requestParameters?.labelBeginsWith;
+        const labelNotBeginsWith = requestParameters?.labelNotBeginsWith;
+        const labelEndsWith = requestParameters?.labelEndsWith;
+        const labelNotEndsWith = requestParameters?.labelNotEndsWith;
+        const progressionFreeSurvivalNotExists = requestParameters?.progressionFreeSurvivalNotExists;
+        const progressionFreeSurvivalExists = requestParameters?.progressionFreeSurvivalExists;
+        const progressionFreeSurvivalLessThan = requestParameters?.progressionFreeSurvivalLessThan;
+        const progressionFreeSurvivalLessThanOrEqual = requestParameters?.progressionFreeSurvivalLessThanOrEqual;
+        const progressionFreeSurvivalGreaterThan = requestParameters?.progressionFreeSurvivalGreaterThan;
+        const progressionFreeSurvivalGreaterThanOrEqual = requestParameters?.progressionFreeSurvivalGreaterThanOrEqual;
+        const progressionFreeSurvivalEqual = requestParameters?.progressionFreeSurvivalEqual;
+        const progressionFreeSurvivalNotEqual = requestParameters?.progressionFreeSurvivalNotEqual;
+        const progressionFreeSurvivalBetween = requestParameters?.progressionFreeSurvivalBetween;
+        const progressionFreeSurvivalNotBetween = requestParameters?.progressionFreeSurvivalNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -449,36 +475,130 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
         const progressionDateNotOn = requestParameters?.progressionDateNotOn;
         const progressionDateBetween = requestParameters?.progressionDateBetween;
         const progressionDateNotBetween = requestParameters?.progressionDateNotBetween;
-        const periodNotExists = requestParameters?.periodNotExists;
-        const periodExists = requestParameters?.periodExists;
-        const periodOverlaps = requestParameters?.periodOverlaps;
-        const periodNotOverlaps = requestParameters?.periodNotOverlaps;
-        const periodContains = requestParameters?.periodContains;
-        const periodNotContains = requestParameters?.periodNotContains;
-        const periodContainedBy = requestParameters?.periodContainedBy;
-        const periodNotContainedBy = requestParameters?.periodNotContainedBy;
-        const label = requestParameters?.label;
-        const labelNot = requestParameters?.labelNot;
-        const labelContains = requestParameters?.labelContains;
-        const labelNotContains = requestParameters?.labelNotContains;
-        const labelBeginsWith = requestParameters?.labelBeginsWith;
-        const labelNotBeginsWith = requestParameters?.labelNotBeginsWith;
-        const labelEndsWith = requestParameters?.labelEndsWith;
-        const labelNotEndsWith = requestParameters?.labelNotEndsWith;
-        const progressionFreeSurvivalNotExists = requestParameters?.progressionFreeSurvivalNotExists;
-        const progressionFreeSurvivalExists = requestParameters?.progressionFreeSurvivalExists;
-        const progressionFreeSurvivalLessThan = requestParameters?.progressionFreeSurvivalLessThan;
-        const progressionFreeSurvivalLessThanOrEqual = requestParameters?.progressionFreeSurvivalLessThanOrEqual;
-        const progressionFreeSurvivalGreaterThan = requestParameters?.progressionFreeSurvivalGreaterThan;
-        const progressionFreeSurvivalGreaterThanOrEqual = requestParameters?.progressionFreeSurvivalGreaterThanOrEqual;
-        const progressionFreeSurvivalEqual = requestParameters?.progressionFreeSurvivalEqual;
-        const progressionFreeSurvivalNotEqual = requestParameters?.progressionFreeSurvivalNotEqual;
-        const progressionFreeSurvivalBetween = requestParameters?.progressionFreeSurvivalBetween;
-        const progressionFreeSurvivalNotBetween = requestParameters?.progressionFreeSurvivalNotBetween;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (periodNotExists !== undefined && periodNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>periodNotExists, 'period.not.exists');
+        }
+        if (periodExists !== undefined && periodExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>periodExists, 'period.exists');
+        }
+        if (periodOverlaps) {
+            periodOverlaps.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.overlaps');
+            })
+        }
+        if (periodNotOverlaps) {
+            periodNotOverlaps.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.not.overlaps');
+            })
+        }
+        if (periodContains) {
+            periodContains.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.contains');
+            })
+        }
+        if (periodNotContains) {
+            periodNotContains.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.not.contains');
+            })
+        }
+        if (periodContainedBy) {
+            periodContainedBy.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.containedBy');
+            })
+        }
+        if (periodNotContainedBy) {
+            periodNotContainedBy.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'period.not.containedBy');
+            })
+        }
+        if (label !== undefined && label !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>label, 'label');
+        }
+        if (labelNot !== undefined && labelNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelNot, 'label.not');
+        }
+        if (labelContains !== undefined && labelContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelContains, 'label.contains');
+        }
+        if (labelNotContains !== undefined && labelNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelNotContains, 'label.not.contains');
+        }
+        if (labelBeginsWith !== undefined && labelBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelBeginsWith, 'label.beginsWith');
+        }
+        if (labelNotBeginsWith !== undefined && labelNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelNotBeginsWith, 'label.not.beginsWith');
+        }
+        if (labelEndsWith !== undefined && labelEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelEndsWith, 'label.endsWith');
+        }
+        if (labelNotEndsWith !== undefined && labelNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>labelNotEndsWith, 'label.not.endsWith');
+        }
+        if (progressionFreeSurvivalNotExists !== undefined && progressionFreeSurvivalNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalNotExists, 'progressionFreeSurvival.not.exists');
+        }
+        if (progressionFreeSurvivalExists !== undefined && progressionFreeSurvivalExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalExists, 'progressionFreeSurvival.exists');
+        }
+        if (progressionFreeSurvivalLessThan !== undefined && progressionFreeSurvivalLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalLessThan, 'progressionFreeSurvival.lessThan');
+        }
+        if (progressionFreeSurvivalLessThanOrEqual !== undefined && progressionFreeSurvivalLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalLessThanOrEqual, 'progressionFreeSurvival.lessThanOrEqual');
+        }
+        if (progressionFreeSurvivalGreaterThan !== undefined && progressionFreeSurvivalGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalGreaterThan, 'progressionFreeSurvival.greaterThan');
+        }
+        if (progressionFreeSurvivalGreaterThanOrEqual !== undefined && progressionFreeSurvivalGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalGreaterThanOrEqual, 'progressionFreeSurvival.greaterThanOrEqual');
+        }
+        if (progressionFreeSurvivalEqual !== undefined && progressionFreeSurvivalEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalEqual, 'progressionFreeSurvival.equal');
+        }
+        if (progressionFreeSurvivalNotEqual !== undefined && progressionFreeSurvivalNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>progressionFreeSurvivalNotEqual, 'progressionFreeSurvival.not.equal');
+        }
+        if (progressionFreeSurvivalBetween) {
+            progressionFreeSurvivalBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'progressionFreeSurvival.between');
+            })
+        }
+        if (progressionFreeSurvivalNotBetween) {
+            progressionFreeSurvivalNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'progressionFreeSurvival.not.between');
+            })
+        }
         if (id !== undefined && id !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>id, 'id');
@@ -637,126 +757,6 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
                   <any>element, 'progressionDate.not.between');
             })
         }
-        if (periodNotExists !== undefined && periodNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>periodNotExists, 'period.not.exists');
-        }
-        if (periodExists !== undefined && periodExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>periodExists, 'period.exists');
-        }
-        if (periodOverlaps) {
-            periodOverlaps.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'period.overlaps');
-            })
-        }
-        if (periodNotOverlaps) {
-            periodNotOverlaps.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'period.not.overlaps');
-            })
-        }
-        if (periodContains) {
-            periodContains.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'period.contains');
-            })
-        }
-        if (periodNotContains) {
-            periodNotContains.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'period.not.contains');
-            })
-        }
-        if (periodContainedBy) {
-            periodContainedBy.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'period.containedBy');
-            })
-        }
-        if (periodNotContainedBy) {
-            periodNotContainedBy.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'period.not.containedBy');
-            })
-        }
-        if (label !== undefined && label !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>label, 'label');
-        }
-        if (labelNot !== undefined && labelNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelNot, 'label.not');
-        }
-        if (labelContains !== undefined && labelContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelContains, 'label.contains');
-        }
-        if (labelNotContains !== undefined && labelNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelNotContains, 'label.not.contains');
-        }
-        if (labelBeginsWith !== undefined && labelBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelBeginsWith, 'label.beginsWith');
-        }
-        if (labelNotBeginsWith !== undefined && labelNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelNotBeginsWith, 'label.not.beginsWith');
-        }
-        if (labelEndsWith !== undefined && labelEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelEndsWith, 'label.endsWith');
-        }
-        if (labelNotEndsWith !== undefined && labelNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>labelNotEndsWith, 'label.not.endsWith');
-        }
-        if (progressionFreeSurvivalNotExists !== undefined && progressionFreeSurvivalNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalNotExists, 'progressionFreeSurvival.not.exists');
-        }
-        if (progressionFreeSurvivalExists !== undefined && progressionFreeSurvivalExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalExists, 'progressionFreeSurvival.exists');
-        }
-        if (progressionFreeSurvivalLessThan !== undefined && progressionFreeSurvivalLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalLessThan, 'progressionFreeSurvival.lessThan');
-        }
-        if (progressionFreeSurvivalLessThanOrEqual !== undefined && progressionFreeSurvivalLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalLessThanOrEqual, 'progressionFreeSurvival.lessThanOrEqual');
-        }
-        if (progressionFreeSurvivalGreaterThan !== undefined && progressionFreeSurvivalGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalGreaterThan, 'progressionFreeSurvival.greaterThan');
-        }
-        if (progressionFreeSurvivalGreaterThanOrEqual !== undefined && progressionFreeSurvivalGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalGreaterThanOrEqual, 'progressionFreeSurvival.greaterThanOrEqual');
-        }
-        if (progressionFreeSurvivalEqual !== undefined && progressionFreeSurvivalEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalEqual, 'progressionFreeSurvival.equal');
-        }
-        if (progressionFreeSurvivalNotEqual !== undefined && progressionFreeSurvivalNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>progressionFreeSurvivalNotEqual, 'progressionFreeSurvival.not.equal');
-        }
-        if (progressionFreeSurvivalBetween) {
-            progressionFreeSurvivalBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'progressionFreeSurvival.between');
-            })
-        }
-        if (progressionFreeSurvivalNotBetween) {
-            progressionFreeSurvivalNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'progressionFreeSurvival.not.between');
-            })
-        }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>limit, 'limit');
@@ -810,7 +810,7 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
         }
 
         let localVarPath = `/api/therapy-lines`;
-        return this.httpClient.request<PaginatedTherapyLineSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedTherapyLine>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -830,17 +830,17 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateTherapyLine(requestParameters: UpdateTherapyLineRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const therapyLineId = requestParameters?.therapyLineId;
         if (therapyLineId === null || therapyLineId === undefined) {
             throw new Error('Required parameter therapyLineId was null or undefined when calling updateTherapyLine.');
         }
-        const therapyLineCreateSchema = requestParameters?.therapyLineCreateSchema;
-        if (therapyLineCreateSchema === null || therapyLineCreateSchema === undefined) {
-            throw new Error('Required parameter therapyLineCreateSchema was null or undefined when calling updateTherapyLine.');
+        const therapyLineCreate = requestParameters?.therapyLineCreate;
+        if (therapyLineCreate === null || therapyLineCreate === undefined) {
+            throw new Error('Required parameter therapyLineCreate was null or undefined when calling updateTherapyLine.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -896,10 +896,10 @@ export class TherapyLinesService implements TherapyLinesServiceInterface {
         }
 
         let localVarPath = `/api/therapy-lines/${this.configuration.encodeParam({name: "therapyLineId", value: therapyLineId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: therapyLineCreateSchema,
+                body: therapyLineCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

@@ -7,7 +7,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { Fluid } from 'primeng/fluid';
 import { InputText } from 'primeng/inputtext';
 
-import { CohortCreateSchema, CohortSchema, CohortsService } from '../../../shared/openapi'
+import { CohortCreate, Cohort, CohortsService } from '../../../shared/openapi'
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { 
@@ -37,8 +37,8 @@ export class CohortFormComponent extends AbstractFormBase implements OnInit {
   private readonly cohortsService = inject(CohortsService);
   public readonly formBuilder = inject(FormBuilder);
 
-  public readonly createService = (payload: CohortCreateSchema) => this.cohortsService.createCohort({cohortCreateSchema: payload});
-  public readonly updateService = (id: string, payload: CohortCreateSchema) => this.cohortsService.updateCohort({cohortId: id, cohortCreateSchema: payload});
+  public readonly createService = (payload: CohortCreate) => this.cohortsService.createCohort({cohortCreate: payload});
+  public readonly updateService = (id: string, payload: CohortCreate) => this.cohortsService.updateCohort({cohortId: id, cohortCreate: payload});
   public initialData: any = {};
 
   public readonly title: string = 'Cohort'
@@ -56,7 +56,7 @@ export class CohortFormComponent extends AbstractFormBase implements OnInit {
     });
   }
 
-  constructAPIPayload(data: any): CohortCreateSchema {
+  constructAPIPayload(data: any): CohortCreate {
     return {
       name: data.name,
       isPublic: data.isPublic,

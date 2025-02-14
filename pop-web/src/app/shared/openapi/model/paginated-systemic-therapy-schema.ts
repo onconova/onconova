@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SystemicTherapySchema } from './systemic-therapy-schema';
+import { SystemicTherapy } from './systemic-therapy-schema';
 
 
-export interface PaginatedSystemicTherapySchema { 
+export interface PaginatedSystemicTherapy { 
     count: number;
-    items: Array<SystemicTherapySchema>;
+    items: Array<SystemicTherapy>;
 }
 

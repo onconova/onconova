@@ -11,7 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { NeoplasticEntity } from '../model/models';
 import { NeoplasticEntityCreate } from '../model/models';
 import { PaginatedNeoplasticEntity } from '../model/models';
@@ -113,7 +113,7 @@ export interface NeoplasticEntitiesServiceInterface {
      * 
 * @param requestParameters
      */
-    createNeoplasticEntity(requestParameters: CreateNeoplasticEntityRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createNeoplasticEntity(requestParameters: CreateNeoplasticEntityRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Neoplastic Entity
@@ -141,6 +141,6 @@ export interface NeoplasticEntitiesServiceInterface {
      * 
 * @param requestParameters
      */
-    updateNeoplasticEntityById(requestParameters: UpdateNeoplasticEntityByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateNeoplasticEntityById(requestParameters: UpdateNeoplasticEntityByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

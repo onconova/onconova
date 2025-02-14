@@ -12,19 +12,19 @@ from .user import (
     UserProfileSchema,
 )
 from .auth import (
-    RefreshedTokenPairSchema,
-    TokenRefreshSchema,  
-    TokenPairSchema, 
-    UserCredentialsSchema,
+    RefreshedTokenPair,
+    TokenRefresh,  
+    TokenPair, 
+    UserCredentials,
 )
 __all__ = (
     PeriodSchema, RangeSchema,
     CodedConceptSchema,
     UserSchema, UserCreateSchema, UserProfileSchema,
     ModifiedResourceSchema,
-    RefreshedTokenPairSchema, 
-    TokenRefreshSchema, 
-    TokenPairSchema, 
+    RefreshedTokenPair, 
+    TokenRefresh, 
+    TokenPair, 
     Paginated,
-    UserCredentialsSchema
+    UserCredentials
 )

@@ -19,7 +19,7 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { AnyGenomicSignature } from '../model/any-genomic-signature';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedAnyGenomicSignature } from '../model/paginated-any-genomic-signature';
 // @ts-ignore
@@ -110,9 +110,9 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createGenomicSignature(requestParameters: CreateGenomicSignatureRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const payload2 = requestParameters?.payload2;
         if (payload2 === null || payload2 === undefined) {
@@ -172,7 +172,7 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
         }
 
         let localVarPath = `/api/genomic-signatures`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: payload2,
@@ -339,6 +339,9 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
     public getGenomicSignatures(requestParameters?: GetGenomicSignaturesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedAnyGenomicSignature>>;
     public getGenomicSignatures(requestParameters?: GetGenomicSignaturesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedAnyGenomicSignature>>;
     public getGenomicSignatures(requestParameters?: GetGenomicSignaturesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const category = requestParameters?.category;
+        const categoryNot = requestParameters?.categoryNot;
+        const categoryAnyOf = requestParameters?.categoryAnyOf;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -363,13 +366,24 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
         const dateNotOn = requestParameters?.dateNotOn;
         const dateBetween = requestParameters?.dateBetween;
         const dateNotBetween = requestParameters?.dateNotBetween;
-        const category = requestParameters?.category;
-        const categoryNot = requestParameters?.categoryNot;
-        const categoryAnyOf = requestParameters?.categoryAnyOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (category !== undefined && category !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>category, 'category');
+        }
+        if (categoryNot !== undefined && categoryNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>categoryNot, 'category.not');
+        }
+        if (categoryAnyOf) {
+            categoryAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'category.anyOf');
+            })
+        }
         if (id !== undefined && id !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>id, 'id');
@@ -470,20 +484,6 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
                   <any>element, 'date.not.between');
             })
         }
-        if (category !== undefined && category !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>category, 'category');
-        }
-        if (categoryNot !== undefined && categoryNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>categoryNot, 'category.not');
-        }
-        if (categoryAnyOf) {
-            categoryAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'category.anyOf');
-            })
-        }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>limit, 'limit');
@@ -557,9 +557,9 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateGenomicSignatureById(requestParameters: UpdateGenomicSignatureByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const genomicSignatureId = requestParameters?.genomicSignatureId;
         if (genomicSignatureId === null || genomicSignatureId === undefined) {
@@ -623,7 +623,7 @@ export class GenomicSignaturesService implements GenomicSignaturesServiceInterfa
         }
 
         let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: payload2,

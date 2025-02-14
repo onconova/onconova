@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
 
 
 export interface RhabdomyosarcomaClinicalGroupCreate { 
@@ -29,7 +29,7 @@ export interface RhabdomyosarcomaClinicalGroupCreate {
     /**
      * The value of the rhabdomyosarcoma clinical group
      */
-    stage: CodedConceptSchema;
+    stage: CodedConcept;
 }
 export namespace RhabdomyosarcomaClinicalGroupCreate {
     export type StagingDomainEnum = 'rhabdomyosarcoma';

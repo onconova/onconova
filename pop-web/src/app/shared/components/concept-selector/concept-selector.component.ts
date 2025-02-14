@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
 import { TerminologyService } from '../../openapi/api/terminology.service';
-import { CodedConceptSchema, PaginatedCodedConceptSchema } from '../../openapi';
+import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
 
 @Component({
     standalone: true,
@@ -48,8 +48,8 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
     @Input() returnCode: boolean = false;
 
     public formControl: FormControl = new FormControl();
-    public concepts$: Observable<CodedConceptSchema[]> = new Observable<CodedConceptSchema[]>();
-    public concepts: CodedConceptSchema[] = [];
+    public concepts$: Observable<CodedConcept[]> = new Observable<CodedConcept[]>();
+    public concepts: CodedConcept[] = [];
     public terminologySize!: number;
     public subsetSize!: number;
     public conceptsCount!: number;
@@ -66,7 +66,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
 
     loadConcepts() {
         this.concepts$ = this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology}).pipe(map(
-            (response: PaginatedCodedConceptSchema) => {
+            (response: PaginatedCodedConcept) => {
                 this.terminologySize = response.count;
                 this.subsetSize = response.items.length;
                 this.concepts = response.items;
@@ -82,7 +82,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
 
     updateConcepts(event: {originalEvent: Event, query: string}) {
         this.concepts$ = this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology, query: event.query}).pipe(
-            map((response: PaginatedCodedConceptSchema) => {
+            map((response: PaginatedCodedConcept) => {
                 this.subsetSize = response.items.length;
                 this.concepts = response.items;
                 return response.items
@@ -107,7 +107,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
         this.formControl.valueChanges.subscribe(val => fn(val));
     }
 
-    conceptTrackBy(index: number, concept: CodedConceptSchema) {
+    conceptTrackBy(index: number, concept: CodedConcept) {
         return concept.code;
        }
 }

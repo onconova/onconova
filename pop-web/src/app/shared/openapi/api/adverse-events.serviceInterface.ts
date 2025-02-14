@@ -11,31 +11,31 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { AdverseEventCreateSchema } from '../model/models';
-import { AdverseEventMitigationCreateSchema } from '../model/models';
-import { AdverseEventMitigationSchema } from '../model/models';
-import { AdverseEventSchema } from '../model/models';
-import { AdverseEventSuspectedCauseCreateSchema } from '../model/models';
-import { AdverseEventSuspectedCauseSchema } from '../model/models';
-import { ModifiedResourceSchema } from '../model/models';
-import { PaginatedAdverseEventSchema } from '../model/models';
+import { AdverseEvent } from '../model/models';
+import { AdverseEventCreate } from '../model/models';
+import { AdverseEventMitigation } from '../model/models';
+import { AdverseEventMitigationCreate } from '../model/models';
+import { AdverseEventSuspectedCause } from '../model/models';
+import { AdverseEventSuspectedCauseCreate } from '../model/models';
+import { ModifiedResource } from '../model/models';
+import { PaginatedAdverseEvent } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
 
 
 export interface CreateAdverseEventRequestParams {
-    adverseEventCreateSchema: AdverseEventCreateSchema;
+    adverseEventCreate: AdverseEventCreate;
 }
 
 export interface CreateAdverseEventMitigationRequestParams {
     adverseEventId: string;
-    adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema;
+    adverseEventMitigationCreate: AdverseEventMitigationCreate;
 }
 
 export interface CreateAdverseEventSuspectedCauseRequestParams {
     adverseEventId: string;
-    adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema;
+    adverseEventSuspectedCauseCreate: AdverseEventSuspectedCauseCreate;
 }
 
 export interface DeleteAdverseEventByIdRequestParams {
@@ -75,56 +75,6 @@ export interface GetAdverseEventSuspectedCausesRequestParams {
 }
 
 export interface GetAdverseEventsRequestParams {
-    id?: string;
-    idNot?: string;
-    idContains?: string;
-    idNotContains?: string;
-    idBeginsWith?: string;
-    idNotBeginsWith?: string;
-    idEndsWith?: string;
-    idNotEndsWith?: string;
-    caseId?: string;
-    caseIdNot?: string;
-    caseIdContains?: string;
-    caseIdNotContains?: string;
-    caseIdBeginsWith?: string;
-    caseIdNotBeginsWith?: string;
-    caseIdEndsWith?: string;
-    caseIdNotEndsWith?: string;
-    dateBefore?: string;
-    dateAfter?: string;
-    dateOnOrBefore?: string;
-    dateOnOrAfter?: string;
-    dateOn?: string;
-    dateNotOn?: string;
-    dateBetween?: Array<any>;
-    dateNotBetween?: Array<any>;
-    event?: string;
-    eventNot?: string;
-    eventAnyOf?: Array<string>;
-    eventNotAnyOf?: Array<string>;
-    eventDescendantsOf?: string;
-    gradeLessThan?: number;
-    gradeLessThanOrEqual?: number;
-    gradeGreaterThan?: number;
-    gradeGreaterThanOrEqual?: number;
-    gradeEqual?: number;
-    gradeNotEqual?: number;
-    gradeBetween?: Array<any>;
-    gradeNotBetween?: Array<any>;
-    outcome?: string;
-    outcomeNot?: string;
-    outcomeAnyOf?: Array<'resolved' | 'resolved-with-sequelae' | 'recovering' | 'ongoing' | 'fatal' | 'unknown'>;
-    dateResolvedNotExists?: boolean;
-    dateResolvedExists?: boolean;
-    dateResolvedBefore?: string;
-    dateResolvedAfter?: string;
-    dateResolvedOnOrBefore?: string;
-    dateResolvedOnOrAfter?: string;
-    dateResolvedOn?: string;
-    dateResolvedNotOn?: string;
-    dateResolvedBetween?: Array<any>;
-    dateResolvedNotBetween?: Array<any>;
     suspectedCausesId?: string;
     suspectedCausesIdNot?: string;
     suspectedCausesIdContains?: string;
@@ -133,96 +83,6 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesIdNotBeginsWith?: string;
     suspectedCausesIdEndsWith?: string;
     suspectedCausesIdNotEndsWith?: string;
-    suspectedCausesCreatedAtBefore?: string;
-    suspectedCausesCreatedAtAfter?: string;
-    suspectedCausesCreatedAtOnOrBefore?: string;
-    suspectedCausesCreatedAtOnOrAfter?: string;
-    suspectedCausesCreatedAtOn?: string;
-    suspectedCausesCreatedAtNotOn?: string;
-    suspectedCausesCreatedAtBetween?: Array<any>;
-    suspectedCausesCreatedAtNotBetween?: Array<any>;
-    suspectedCausesUpdatedAtBefore?: string;
-    suspectedCausesUpdatedAtAfter?: string;
-    suspectedCausesUpdatedAtOnOrBefore?: string;
-    suspectedCausesUpdatedAtOnOrAfter?: string;
-    suspectedCausesUpdatedAtOn?: string;
-    suspectedCausesUpdatedAtNotOn?: string;
-    suspectedCausesUpdatedAtBetween?: Array<any>;
-    suspectedCausesUpdatedAtNotBetween?: Array<any>;
-    suspectedCausesCreatedByNotExists?: boolean;
-    suspectedCausesCreatedByExists?: boolean;
-    suspectedCausesUpdatedByIdLessThan?: number;
-    suspectedCausesUpdatedByIdLessThanOrEqual?: number;
-    suspectedCausesUpdatedByIdGreaterThan?: number;
-    suspectedCausesUpdatedByIdGreaterThanOrEqual?: number;
-    suspectedCausesUpdatedByIdEqual?: number;
-    suspectedCausesUpdatedByIdNotEqual?: number;
-    suspectedCausesUpdatedByIdBetween?: Array<any>;
-    suspectedCausesUpdatedByIdNotBetween?: Array<any>;
-    suspectedCausesUpdatedByUsername?: string;
-    suspectedCausesUpdatedByUsernameNot?: string;
-    suspectedCausesUpdatedByUsernameContains?: string;
-    suspectedCausesUpdatedByUsernameNotContains?: string;
-    suspectedCausesUpdatedByUsernameBeginsWith?: string;
-    suspectedCausesUpdatedByUsernameNotBeginsWith?: string;
-    suspectedCausesUpdatedByUsernameEndsWith?: string;
-    suspectedCausesUpdatedByUsernameNotEndsWith?: string;
-    suspectedCausesUpdatedByEmail?: string;
-    suspectedCausesUpdatedByEmailNot?: string;
-    suspectedCausesUpdatedByEmailContains?: string;
-    suspectedCausesUpdatedByEmailNotContains?: string;
-    suspectedCausesUpdatedByEmailBeginsWith?: string;
-    suspectedCausesUpdatedByEmailNotBeginsWith?: string;
-    suspectedCausesUpdatedByEmailEndsWith?: string;
-    suspectedCausesUpdatedByEmailNotEndsWith?: string;
-    suspectedCausesUpdatedByFirstNameNotExists?: boolean;
-    suspectedCausesUpdatedByFirstNameExists?: boolean;
-    suspectedCausesUpdatedByFirstName?: string;
-    suspectedCausesUpdatedByFirstNameNot?: string;
-    suspectedCausesUpdatedByFirstNameContains?: string;
-    suspectedCausesUpdatedByFirstNameNotContains?: string;
-    suspectedCausesUpdatedByFirstNameBeginsWith?: string;
-    suspectedCausesUpdatedByFirstNameNotBeginsWith?: string;
-    suspectedCausesUpdatedByFirstNameEndsWith?: string;
-    suspectedCausesUpdatedByFirstNameNotEndsWith?: string;
-    suspectedCausesUpdatedByLastNameNotExists?: boolean;
-    suspectedCausesUpdatedByLastNameExists?: boolean;
-    suspectedCausesUpdatedByLastName?: string;
-    suspectedCausesUpdatedByLastNameNot?: string;
-    suspectedCausesUpdatedByLastNameContains?: string;
-    suspectedCausesUpdatedByLastNameNotContains?: string;
-    suspectedCausesUpdatedByLastNameBeginsWith?: string;
-    suspectedCausesUpdatedByLastNameNotBeginsWith?: string;
-    suspectedCausesUpdatedByLastNameEndsWith?: string;
-    suspectedCausesUpdatedByLastNameNotEndsWith?: string;
-    suspectedCausesDescription?: string;
-    suspectedCausesDescriptionNot?: string;
-    suspectedCausesDescriptionContains?: string;
-    suspectedCausesDescriptionNotContains?: string;
-    suspectedCausesDescriptionBeginsWith?: string;
-    suspectedCausesDescriptionNotBeginsWith?: string;
-    suspectedCausesDescriptionEndsWith?: string;
-    suspectedCausesDescriptionNotEndsWith?: string;
-    suspectedCausesExternalSourceNotExists?: boolean;
-    suspectedCausesExternalSourceExists?: boolean;
-    suspectedCausesExternalSource?: string;
-    suspectedCausesExternalSourceNot?: string;
-    suspectedCausesExternalSourceContains?: string;
-    suspectedCausesExternalSourceNotContains?: string;
-    suspectedCausesExternalSourceBeginsWith?: string;
-    suspectedCausesExternalSourceNotBeginsWith?: string;
-    suspectedCausesExternalSourceEndsWith?: string;
-    suspectedCausesExternalSourceNotEndsWith?: string;
-    suspectedCausesExternalSourceIdNotExists?: boolean;
-    suspectedCausesExternalSourceIdExists?: boolean;
-    suspectedCausesExternalSourceId?: string;
-    suspectedCausesExternalSourceIdNot?: string;
-    suspectedCausesExternalSourceIdContains?: string;
-    suspectedCausesExternalSourceIdNotContains?: string;
-    suspectedCausesExternalSourceIdBeginsWith?: string;
-    suspectedCausesExternalSourceIdNotBeginsWith?: string;
-    suspectedCausesExternalSourceIdEndsWith?: string;
-    suspectedCausesExternalSourceIdNotEndsWith?: string;
     suspectedCausesSystemicTherapyIdNotExists?: boolean;
     suspectedCausesSystemicTherapyIdExists?: boolean;
     suspectedCausesSystemicTherapyId?: string;
@@ -276,96 +136,6 @@ export interface GetAdverseEventsRequestParams {
     mitigationsIdNotBeginsWith?: string;
     mitigationsIdEndsWith?: string;
     mitigationsIdNotEndsWith?: string;
-    mitigationsCreatedAtBefore?: string;
-    mitigationsCreatedAtAfter?: string;
-    mitigationsCreatedAtOnOrBefore?: string;
-    mitigationsCreatedAtOnOrAfter?: string;
-    mitigationsCreatedAtOn?: string;
-    mitigationsCreatedAtNotOn?: string;
-    mitigationsCreatedAtBetween?: Array<any>;
-    mitigationsCreatedAtNotBetween?: Array<any>;
-    mitigationsUpdatedAtBefore?: string;
-    mitigationsUpdatedAtAfter?: string;
-    mitigationsUpdatedAtOnOrBefore?: string;
-    mitigationsUpdatedAtOnOrAfter?: string;
-    mitigationsUpdatedAtOn?: string;
-    mitigationsUpdatedAtNotOn?: string;
-    mitigationsUpdatedAtBetween?: Array<any>;
-    mitigationsUpdatedAtNotBetween?: Array<any>;
-    mitigationsCreatedByNotExists?: boolean;
-    mitigationsCreatedByExists?: boolean;
-    mitigationsUpdatedByIdLessThan?: number;
-    mitigationsUpdatedByIdLessThanOrEqual?: number;
-    mitigationsUpdatedByIdGreaterThan?: number;
-    mitigationsUpdatedByIdGreaterThanOrEqual?: number;
-    mitigationsUpdatedByIdEqual?: number;
-    mitigationsUpdatedByIdNotEqual?: number;
-    mitigationsUpdatedByIdBetween?: Array<any>;
-    mitigationsUpdatedByIdNotBetween?: Array<any>;
-    mitigationsUpdatedByUsername?: string;
-    mitigationsUpdatedByUsernameNot?: string;
-    mitigationsUpdatedByUsernameContains?: string;
-    mitigationsUpdatedByUsernameNotContains?: string;
-    mitigationsUpdatedByUsernameBeginsWith?: string;
-    mitigationsUpdatedByUsernameNotBeginsWith?: string;
-    mitigationsUpdatedByUsernameEndsWith?: string;
-    mitigationsUpdatedByUsernameNotEndsWith?: string;
-    mitigationsUpdatedByEmail?: string;
-    mitigationsUpdatedByEmailNot?: string;
-    mitigationsUpdatedByEmailContains?: string;
-    mitigationsUpdatedByEmailNotContains?: string;
-    mitigationsUpdatedByEmailBeginsWith?: string;
-    mitigationsUpdatedByEmailNotBeginsWith?: string;
-    mitigationsUpdatedByEmailEndsWith?: string;
-    mitigationsUpdatedByEmailNotEndsWith?: string;
-    mitigationsUpdatedByFirstNameNotExists?: boolean;
-    mitigationsUpdatedByFirstNameExists?: boolean;
-    mitigationsUpdatedByFirstName?: string;
-    mitigationsUpdatedByFirstNameNot?: string;
-    mitigationsUpdatedByFirstNameContains?: string;
-    mitigationsUpdatedByFirstNameNotContains?: string;
-    mitigationsUpdatedByFirstNameBeginsWith?: string;
-    mitigationsUpdatedByFirstNameNotBeginsWith?: string;
-    mitigationsUpdatedByFirstNameEndsWith?: string;
-    mitigationsUpdatedByFirstNameNotEndsWith?: string;
-    mitigationsUpdatedByLastNameNotExists?: boolean;
-    mitigationsUpdatedByLastNameExists?: boolean;
-    mitigationsUpdatedByLastName?: string;
-    mitigationsUpdatedByLastNameNot?: string;
-    mitigationsUpdatedByLastNameContains?: string;
-    mitigationsUpdatedByLastNameNotContains?: string;
-    mitigationsUpdatedByLastNameBeginsWith?: string;
-    mitigationsUpdatedByLastNameNotBeginsWith?: string;
-    mitigationsUpdatedByLastNameEndsWith?: string;
-    mitigationsUpdatedByLastNameNotEndsWith?: string;
-    mitigationsDescription?: string;
-    mitigationsDescriptionNot?: string;
-    mitigationsDescriptionContains?: string;
-    mitigationsDescriptionNotContains?: string;
-    mitigationsDescriptionBeginsWith?: string;
-    mitigationsDescriptionNotBeginsWith?: string;
-    mitigationsDescriptionEndsWith?: string;
-    mitigationsDescriptionNotEndsWith?: string;
-    mitigationsExternalSourceNotExists?: boolean;
-    mitigationsExternalSourceExists?: boolean;
-    mitigationsExternalSource?: string;
-    mitigationsExternalSourceNot?: string;
-    mitigationsExternalSourceContains?: string;
-    mitigationsExternalSourceNotContains?: string;
-    mitigationsExternalSourceBeginsWith?: string;
-    mitigationsExternalSourceNotBeginsWith?: string;
-    mitigationsExternalSourceEndsWith?: string;
-    mitigationsExternalSourceNotEndsWith?: string;
-    mitigationsExternalSourceIdNotExists?: boolean;
-    mitigationsExternalSourceIdExists?: boolean;
-    mitigationsExternalSourceId?: string;
-    mitigationsExternalSourceIdNot?: string;
-    mitigationsExternalSourceIdContains?: string;
-    mitigationsExternalSourceIdNotContains?: string;
-    mitigationsExternalSourceIdBeginsWith?: string;
-    mitigationsExternalSourceIdNotBeginsWith?: string;
-    mitigationsExternalSourceIdEndsWith?: string;
-    mitigationsExternalSourceIdNotEndsWith?: string;
     mitigationsCategory?: string;
     mitigationsCategoryNot?: string;
     mitigationsCategoryAnyOf?: Array<'adjustment' | 'pharmacological' | 'procedure'>;
@@ -397,25 +167,75 @@ export interface GetAdverseEventsRequestParams {
     mitigationsManagementAnyOf?: Array<string>;
     mitigationsManagementNotAnyOf?: Array<string>;
     mitigationsManagementDescendantsOf?: string;
+    id?: string;
+    idNot?: string;
+    idContains?: string;
+    idNotContains?: string;
+    idBeginsWith?: string;
+    idNotBeginsWith?: string;
+    idEndsWith?: string;
+    idNotEndsWith?: string;
+    caseId?: string;
+    caseIdNot?: string;
+    caseIdContains?: string;
+    caseIdNotContains?: string;
+    caseIdBeginsWith?: string;
+    caseIdNotBeginsWith?: string;
+    caseIdEndsWith?: string;
+    caseIdNotEndsWith?: string;
+    dateBefore?: string;
+    dateAfter?: string;
+    dateOnOrBefore?: string;
+    dateOnOrAfter?: string;
+    dateOn?: string;
+    dateNotOn?: string;
+    dateBetween?: Array<any>;
+    dateNotBetween?: Array<any>;
+    event?: string;
+    eventNot?: string;
+    eventAnyOf?: Array<string>;
+    eventNotAnyOf?: Array<string>;
+    eventDescendantsOf?: string;
+    gradeLessThan?: number;
+    gradeLessThanOrEqual?: number;
+    gradeGreaterThan?: number;
+    gradeGreaterThanOrEqual?: number;
+    gradeEqual?: number;
+    gradeNotEqual?: number;
+    gradeBetween?: Array<any>;
+    gradeNotBetween?: Array<any>;
+    outcome?: string;
+    outcomeNot?: string;
+    outcomeAnyOf?: Array<'resolved' | 'resolved-with-sequelae' | 'recovering' | 'ongoing' | 'fatal' | 'unknown'>;
+    dateResolvedNotExists?: boolean;
+    dateResolvedExists?: boolean;
+    dateResolvedBefore?: string;
+    dateResolvedAfter?: string;
+    dateResolvedOnOrBefore?: string;
+    dateResolvedOnOrAfter?: string;
+    dateResolvedOn?: string;
+    dateResolvedNotOn?: string;
+    dateResolvedBetween?: Array<any>;
+    dateResolvedNotBetween?: Array<any>;
     limit?: number;
     offset?: number;
 }
 
 export interface UpdateAdverseEventRequestParams {
     adverseEventId: string;
-    adverseEventCreateSchema: AdverseEventCreateSchema;
+    adverseEventCreate: AdverseEventCreate;
 }
 
 export interface UpdateAdverseEventMitigationRequestParams {
     adverseEventId: string;
     mitigationId: string;
-    adverseEventMitigationCreateSchema: AdverseEventMitigationCreateSchema;
+    adverseEventMitigationCreate: AdverseEventMitigationCreate;
 }
 
 export interface UpdateAdverseEventSuspectedCauseRequestParams {
     adverseEventId: string;
     causeId: string;
-    adverseEventSuspectedCauseCreateSchema: AdverseEventSuspectedCauseCreateSchema;
+    adverseEventSuspectedCauseCreate: AdverseEventSuspectedCauseCreate;
 }
 
 
@@ -428,21 +248,21 @@ export interface AdverseEventsServiceInterface {
      * 
 * @param requestParameters
      */
-    createAdverseEvent(requestParameters: CreateAdverseEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createAdverseEvent(requestParameters: CreateAdverseEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Adverse Event Mitigation
      * 
 * @param requestParameters
      */
-    createAdverseEventMitigation(requestParameters: CreateAdverseEventMitigationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createAdverseEventMitigation(requestParameters: CreateAdverseEventMitigationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Adverse Event Suspected Cause
      * 
 * @param requestParameters
      */
-    createAdverseEventSuspectedCause(requestParameters: CreateAdverseEventSuspectedCauseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createAdverseEventSuspectedCause(requestParameters: CreateAdverseEventSuspectedCauseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Adverse Event
@@ -470,62 +290,62 @@ export interface AdverseEventsServiceInterface {
      * 
 * @param requestParameters
      */
-    getAdverseEventById(requestParameters: GetAdverseEventByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventSchema>;
+    getAdverseEventById(requestParameters: GetAdverseEventByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEvent>;
 
     /**
      * Get Adverse Event Mitigation By Id
      * 
 * @param requestParameters
      */
-    getAdverseEventMitigationById(requestParameters: GetAdverseEventMitigationByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventMitigationSchema>;
+    getAdverseEventMitigationById(requestParameters: GetAdverseEventMitigationByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventMitigation>;
 
     /**
      * Get Adverse Event Mitigations Matching The Query
      * 
 * @param requestParameters
      */
-    getAdverseEventMitigations(requestParameters: GetAdverseEventMitigationsRequestParams, extraHttpRequestParams?: any): Observable<Array<AdverseEventMitigationSchema>>;
+    getAdverseEventMitigations(requestParameters: GetAdverseEventMitigationsRequestParams, extraHttpRequestParams?: any): Observable<Array<AdverseEventMitigation>>;
 
     /**
      * Get Adverse Event Suspected Cause By Id
      * 
 * @param requestParameters
      */
-    getAdverseEventSuspectedCauseById(requestParameters: GetAdverseEventSuspectedCauseByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventSuspectedCauseSchema>;
+    getAdverseEventSuspectedCauseById(requestParameters: GetAdverseEventSuspectedCauseByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventSuspectedCause>;
 
     /**
      * Get Adverse Event Suspected Causes Matching The Query
      * 
 * @param requestParameters
      */
-    getAdverseEventSuspectedCauses(requestParameters: GetAdverseEventSuspectedCausesRequestParams, extraHttpRequestParams?: any): Observable<Array<AdverseEventSuspectedCauseSchema>>;
+    getAdverseEventSuspectedCauses(requestParameters: GetAdverseEventSuspectedCausesRequestParams, extraHttpRequestParams?: any): Observable<Array<AdverseEventSuspectedCause>>;
 
     /**
      * Get All Adverse Events Matching The Query
      * 
 * @param requestParameters
      */
-    getAdverseEvents(requestParameters: GetAdverseEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAdverseEventSchema>;
+    getAdverseEvents(requestParameters: GetAdverseEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAdverseEvent>;
 
     /**
      * Update Adverse Event
      * 
 * @param requestParameters
      */
-    updateAdverseEvent(requestParameters: UpdateAdverseEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateAdverseEvent(requestParameters: UpdateAdverseEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Adverse Event Mitigation
      * 
 * @param requestParameters
      */
-    updateAdverseEventMitigation(requestParameters: UpdateAdverseEventMitigationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateAdverseEventMitigation(requestParameters: UpdateAdverseEventMitigationRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Adverse Event Suspected Cause
      * 
 * @param requestParameters
      */
-    updateAdverseEventSuspectedCause(requestParameters: UpdateAdverseEventSuspectedCauseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updateAdverseEventSuspectedCause(requestParameters: UpdateAdverseEventSuspectedCauseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

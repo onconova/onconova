@@ -9,7 +9,7 @@
  */
 
 
-export interface TumorNeoantigenBurdenCreateSchema { 
+export interface TumorNeoantigenBurdenCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -24,9 +24,9 @@ export interface TumorNeoantigenBurdenCreateSchema {
      * The actual tumor neoantigen burden (TNB) value in neoantigens/Mb
      */
     value: number;
-    category?: TumorNeoantigenBurdenCreateSchema.CategoryEnum;
+    category?: TumorNeoantigenBurdenCreate.CategoryEnum;
 }
-export namespace TumorNeoantigenBurdenCreateSchema {
+export namespace TumorNeoantigenBurdenCreate {
     export type CategoryEnum = 'tumor_neoantigen_burden';
     export const CategoryEnum = {
         TumorNeoantigenBurden: 'tumor_neoantigen_burden' as CategoryEnum

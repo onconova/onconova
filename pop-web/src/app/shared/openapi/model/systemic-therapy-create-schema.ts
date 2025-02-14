@@ -9,10 +9,10 @@
  */
 import { SystemicTherapyIntentChoices } from './systemic-therapy-intent-choices';
 import { PeriodSchema } from './period-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface SystemicTherapyCreateSchema { 
+export interface SystemicTherapyCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -31,15 +31,15 @@ export interface SystemicTherapyCreateSchema {
      * Treatment intent of the system therapy
      */
     intent: SystemicTherapyIntentChoices;
-    role?: CodedConceptSchema | null;
-    terminationReason?: CodedConceptSchema | null;
+    role?: CodedConcept | null;
+    terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
      * References to the neoplastic entities that were targeted by the systemic therapy
      */
     targetedEntitiesIds?: Array<string>;
 }
-export namespace SystemicTherapyCreateSchema {
+export namespace SystemicTherapyCreate {
 }
 
 

@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept-schema';
 
 
-export interface TreatmentResponseCreateSchema { 
+export interface TreatmentResponseCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -24,16 +24,16 @@ export interface TreatmentResponseCreateSchema {
     /**
      * The classification of the treatment response according to RECIST
      */
-    recist: CodedConceptSchema;
+    recist: CodedConcept;
     recistInterpreted?: boolean | null;
     /**
      * Method used to assess and classify the treatment response
      */
-    methodology: CodedConceptSchema;
+    methodology: CodedConcept;
     /**
      * References to the neoplastic entities that were assesed for treatment response
      */
     assessedEntitiesIds?: Array<string>;
-    assessedBodysites?: Array<CodedConceptSchema> | null;
+    assessedBodysites?: Array<CodedConcept> | null;
 }
 

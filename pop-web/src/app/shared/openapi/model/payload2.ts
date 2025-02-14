@@ -7,17 +7,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { HomologousRecombinationDeficiencyCreateSchema } from './homologous-recombination-deficiency-create-schema';
+import { HomologousRecombinationDeficiencyCreate } from './homologous-recombination-deficiency-create';
+import { LossOfHeterozygosityCreate } from './loss-of-heterozygosity-create';
+import { AneuploidScoreCreate } from './aneuploid-score-create';
 import { HomologousRecombinationDeficiencyInterpretationChoices } from './homologous-recombination-deficiency-interpretation-choices';
-import { TumorMutationalBurdenCreateSchema } from './tumor-mutational-burden-create-schema';
-import { LossOfHeterozygosityCreateSchema } from './loss-of-heterozygosity-create-schema';
+import { TumorMutationalBurdenCreate } from './tumor-mutational-burden-create';
 import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-status-choices';
-import { TumorNeoantigenBurdenCreateSchema } from './tumor-neoantigen-burden-create-schema';
-import { AneuploidScoreCreateSchema } from './aneuploid-score-create-schema';
-import { MicrosatelliteInstabilityCreateSchema } from './microsatellite-instability-create-schema';
+import { TumorNeoantigenBurdenCreate } from './tumor-neoantigen-burden-create';
+import { MicrosatelliteInstabilityCreate } from './microsatellite-instability-create';
 
 
 export interface Payload2 { 
+    category?: Payload2.CategoryEnum;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -33,7 +34,6 @@ export interface Payload2 {
      */
     value: number;
     status?: TumorMutationalBurdenStatusChoices;
-    category?: Payload2.CategoryEnum;
     interpretation?: HomologousRecombinationDeficiencyInterpretationChoices;
 }
 export namespace Payload2 {

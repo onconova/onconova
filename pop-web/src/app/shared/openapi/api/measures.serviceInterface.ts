@@ -11,8 +11,8 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { MeasureConversionSchema } from '../model/models';
-import { MeasureSchema } from '../model/models';
+import { Measure } from '../model/models';
+import { MeasureConversion } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -20,7 +20,7 @@ import { Configuration }                                     from '../configurat
 
 export interface ConvertUnitsRequestParams {
     measureName: string;
-    measureConversionSchema: MeasureConversionSchema;
+    measureConversion: MeasureConversion;
 }
 
 export interface GetMeasureDefaultUnitsRequestParams {
@@ -41,7 +41,7 @@ export interface MeasuresServiceInterface {
      * 
 * @param requestParameters
      */
-    convertUnits(requestParameters: ConvertUnitsRequestParams, extraHttpRequestParams?: any): Observable<MeasureSchema>;
+    convertUnits(requestParameters: ConvertUnitsRequestParams, extraHttpRequestParams?: any): Observable<Measure>;
 
     /**
      * Get Measure Default Units

@@ -11,7 +11,7 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { ModifiedResourceSchema } from '../model/models';
+import { ModifiedResource } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
 import { PatientCaseBundle } from '../model/models';
@@ -196,21 +196,21 @@ export interface PatientCasesServiceInterface {
      * 
 * @param requestParameters
      */
-    createPatientCase(requestParameters: CreatePatientCaseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPatientCase(requestParameters: CreatePatientCaseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Patient Case Bundle
      * 
 * @param requestParameters
      */
-    createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Patient Case Data Completion
      * 
 * @param requestParameters
      */
-    createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    createPatientCaseDataCompletion(requestParameters: CreatePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Delete Patient Case
@@ -266,6 +266,6 @@ export interface PatientCasesServiceInterface {
      * 
 * @param requestParameters
      */
-    updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResourceSchema>;
+    updatePatientCaseById(requestParameters: UpdatePatientCaseByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
 }

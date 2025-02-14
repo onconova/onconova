@@ -8,20 +8,16 @@
  * Do not edit the class manually.
  */
 import { TumorMarkerTumorProportionScoreChoices } from './tumor-marker-tumor-proportion-score-choices';
-import { MeasureSchema } from './measure-schema';
+import { User } from './user';
+import { CodedConcept } from './coded-concept';
 import { TumorMarkerNuclearExpressionStatusChoices } from './tumor-marker-nuclear-expression-status-choices';
+import { Measure } from './measure';
 import { TumorMarkerImmunohistochemicalScoreChoices } from './tumor-marker-immunohistochemical-score-choices';
 import { TumorMarkerPresenceChoices } from './tumor-marker-presence-choices';
 import { TumorMarkerImmuneCellScoreChoices } from './tumor-marker-immune-cell-score-choices';
-import { CodedConceptSchema } from './coded-concept-schema';
-import { UserSchema } from './user-schema';
 
 
 export interface TumorMarker { 
-    /**
-     * Human-readable description of the tumor marker
-     */
-    description: string;
     /**
      * 
      */
@@ -34,7 +30,7 @@ export interface TumorMarker {
      * 
      */
     updatedAt: string;
-    createdBy?: UserSchema | null;
+    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -48,26 +44,30 @@ export interface TumorMarker {
     /**
      * The chemical or biological substance/agent that is analyzed.
      */
-    analyte: CodedConceptSchema;
-    massConcentration?: MeasureSchema | null;
-    arbitraryConcentration?: MeasureSchema | null;
-    substanceConcentration?: MeasureSchema | null;
-    fraction?: MeasureSchema | null;
-    multipleOfMedian?: MeasureSchema | null;
+    analyte: CodedConcept;
+    massConcentration?: Measure | null;
+    arbitraryConcentration?: Measure | null;
+    substanceConcentration?: Measure | null;
+    fraction?: Measure | null;
+    multipleOfMedian?: Measure | null;
     tumorProportionScore?: TumorMarkerTumorProportionScoreChoices | null;
     immuneCellScore?: TumorMarkerImmuneCellScoreChoices | null;
-    combinedPositiveScore?: MeasureSchema | null;
+    combinedPositiveScore?: Measure | null;
     immunohistochemicalScore?: TumorMarkerImmunohistochemicalScoreChoices | null;
     presence?: TumorMarkerPresenceChoices | null;
     nuclearExpressionStatus?: TumorMarkerNuclearExpressionStatusChoices | null;
     /**
      * The user(s) who updated the data since its creation
      */
-    updatedBy?: Array<UserSchema>;
+    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that are related or the focus of the tumor marker analysis.
      */
     relatedEntitiesIds?: Array<string>;
+    /**
+     * Human-readable description
+     */
+    description: string;
 }
 export namespace TumorMarker {
 }

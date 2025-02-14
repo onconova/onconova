@@ -12,7 +12,7 @@ import { ConfirmationService } from 'primeng/api';
 import { Tree } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 
-import { AuthService, CodedConceptSchema, MeasureSchema, PeriodSchema } from 'src/app/shared/openapi';
+import { AuthService, CodedConcept, Measure, Period } from 'src/app/shared/openapi';
 
 import { List, LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
@@ -26,7 +26,7 @@ import { map, first, Observable, share } from 'rxjs';
   })
 export class GetConceptTreePipe implements PipeTransform {
   
-    transform(concept: CodedConceptSchema): TreeNode[] | any[] {
+    transform(concept: CodedConcept): TreeNode[] | any[] {
         let nodes =  [{
             key: '0',
             label: concept.display,
@@ -119,9 +119,9 @@ export class CaseManagerDrawerComponent {
     public createdBy$!: Observable<string>
     public lastUpdatedBy$!: Observable<string>
 
-    public readonly isCodeableConcept = (value: CodedConceptSchema): value is CodedConceptSchema => !!value?.code;
-    public readonly isPeriod = (value: PeriodSchema): value is PeriodSchema => !!value?.start;
-    public readonly isMeasure = (value: MeasureSchema): value is MeasureSchema => !!value?.value;
+    public readonly isCodeableConcept = (value: CodedConcept): value is CodedConcept => !!value?.code;
+    public readonly isPeriod = (value: Period): value is Period => !!value?.start;
+    public readonly isMeasure = (value: Measure): value is Measure => !!value?.value;
     public readonly isObject = (x: any) => typeof x === 'object' && !Array.isArray(x) && x !== null
     public readonly isArray = (x: any) => x instanceof Array
 

@@ -11,7 +11,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
 import { 
-    LifestyleCreateSchema,
+    LifestyleCreate,
     LifestylesService,
 } from '../../../shared/openapi'
 
@@ -49,15 +49,15 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
     private readonly lifestyleService: LifestylesService = inject(LifestylesService);
     public readonly formBuilder = inject(FormBuilder);
     
-    public readonly createService = (payload: LifestyleCreateSchema) => this.lifestyleService.createLifestyle({lifestyleCreateSchema: payload});
-    public readonly updateService = (id: string, payload: LifestyleCreateSchema) => this.lifestyleService.updateLifestyleById({lifestyleId: id, lifestyleCreateSchema: payload});
+    public readonly createService = (payload: LifestyleCreate) => this.lifestyleService.createLifestyle({lifestyleCreate: payload});
+    public readonly updateService = (id: string, payload: LifestyleCreate) => this.lifestyleService.updateLifestyleById({lifestyleId: id, lifestyleCreate: payload});
 
     public readonly title: string = 'Lifestyle';
     public readonly subtitle: string = 'Add new lifestyle details';
     public readonly icon = Cigarette;
 
     private caseId!: string;
-    public initialData: LifestyleCreateSchema | any = {};
+    public initialData: LifestyleCreate | any = {};
 
     public readonly smokingStatusCodeClassification = {
         neverSmoker: '266919005',
@@ -83,7 +83,7 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
     }
 
 
-    constructAPIPayload(data: any): LifestyleCreateSchema {    
+    constructAPIPayload(data: any): LifestyleCreate {    
         return {
             caseId: this.caseId,
             date: data.date,

@@ -17,13 +17,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { GenomicVariantCreateSchema } from '../model/genomic-variant-create-schema';
+import { GenomicVariant } from '../model/genomic-variant';
 // @ts-ignore
-import { GenomicVariantSchema } from '../model/genomic-variant-schema';
+import { GenomicVariantCreate } from '../model/genomic-variant-create';
 // @ts-ignore
-import { ModifiedResourceSchema } from '../model/modified-resource-schema';
+import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedGenomicVariantSchema } from '../model/paginated-genomic-variant-schema';
+import { PaginatedGenomicVariant } from '../model/paginated-genomic-variant';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -110,13 +110,13 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public createGenomicVariant(requestParameters: CreateGenomicVariantRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const genomicVariantCreateSchema = requestParameters?.genomicVariantCreateSchema;
-        if (genomicVariantCreateSchema === null || genomicVariantCreateSchema === undefined) {
-            throw new Error('Required parameter genomicVariantCreateSchema was null or undefined when calling createGenomicVariant.');
+        const genomicVariantCreate = requestParameters?.genomicVariantCreate;
+        if (genomicVariantCreate === null || genomicVariantCreate === undefined) {
+            throw new Error('Required parameter genomicVariantCreate was null or undefined when calling createGenomicVariant.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -172,10 +172,10 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         }
 
         let localVarPath = `/api/genomic-variants`;
-        return this.httpClient.request<ModifiedResourceSchema>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: genomicVariantCreateSchema,
+                body: genomicVariantCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -263,9 +263,9 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<GenomicVariantSchema>;
-    public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<GenomicVariantSchema>>;
-    public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<GenomicVariantSchema>>;
+    public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<GenomicVariant>;
+    public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<GenomicVariant>>;
+    public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<GenomicVariant>>;
     public getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const genomicVariantId = requestParameters?.genomicVariantId;
         if (genomicVariantId === null || genomicVariantId === undefined) {
@@ -316,7 +316,7 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         }
 
         let localVarPath = `/api/genomic-variants/${this.configuration.encodeParam({name: "genomicVariantId", value: genomicVariantId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<GenomicVariantSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<GenomicVariant>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -335,9 +335,9 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedGenomicVariantSchema>;
-    public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedGenomicVariantSchema>>;
-    public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedGenomicVariantSchema>>;
+    public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedGenomicVariant>;
+    public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedGenomicVariant>>;
+    public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedGenomicVariant>>;
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
@@ -1905,7 +1905,7 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         }
 
         let localVarPath = `/api/genomic-variants`;
-        return this.httpClient.request<PaginatedGenomicVariantSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedGenomicVariant>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1925,17 +1925,17 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResourceSchema>;
-    public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResourceSchema>>;
-    public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResourceSchema>>;
+    public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
     public updateGenomicVariant(requestParameters: UpdateGenomicVariantRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const genomicVariantId = requestParameters?.genomicVariantId;
         if (genomicVariantId === null || genomicVariantId === undefined) {
             throw new Error('Required parameter genomicVariantId was null or undefined when calling updateGenomicVariant.');
         }
-        const genomicVariantCreateSchema = requestParameters?.genomicVariantCreateSchema;
-        if (genomicVariantCreateSchema === null || genomicVariantCreateSchema === undefined) {
-            throw new Error('Required parameter genomicVariantCreateSchema was null or undefined when calling updateGenomicVariant.');
+        const genomicVariantCreate = requestParameters?.genomicVariantCreate;
+        if (genomicVariantCreate === null || genomicVariantCreate === undefined) {
+            throw new Error('Required parameter genomicVariantCreate was null or undefined when calling updateGenomicVariant.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -1991,10 +1991,10 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         }
 
         let localVarPath = `/api/genomic-variants/${this.configuration.encodeParam({name: "genomicVariantId", value: genomicVariantId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<ModifiedResourceSchema>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: genomicVariantCreateSchema,
+                body: genomicVariantCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

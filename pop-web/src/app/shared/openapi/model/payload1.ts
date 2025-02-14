@@ -7,12 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MolecularTumorBoardCreateSchema } from './molecular-tumor-board-create-schema';
-import { UnspecifiedTumorBoardCreateSchema } from './unspecified-tumor-board-create-schema';
-import { CodedConceptSchema } from './coded-concept-schema';
+import { CodedConcept } from './coded-concept';
+import { UnspecifiedTumorBoardCreate } from './unspecified-tumor-board-create';
+import { MolecularTumorBoardCreate } from './molecular-tumor-board-create';
 
 
 export interface Payload1 { 
+    category?: Payload1.CategoryEnum;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -27,8 +28,7 @@ export interface Payload1 {
      * References to the neoplastic entities that were the focus of the tumor board.
      */
     relatedEntitiesIds?: Array<string>;
-    recommendations?: Array<CodedConceptSchema>;
-    category?: Payload1.CategoryEnum;
+    recommendations?: Array<CodedConcept>;
     conductedMolecularComparison?: boolean;
     molecularComparisonMatchId?: string;
     conductedCupCharacterization?: boolean;
