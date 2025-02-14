@@ -13,6 +13,7 @@ export const routes: Routes = [
         loadComponent: () => import('./core/layout/app.layout.component').then(m => m.AppLayoutComponent),
         canActivate: [AuthGuard],
         children: [
+            { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
             { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'cases', 
                 children: [
