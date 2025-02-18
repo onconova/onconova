@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef, inject, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, first, map, of } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -62,6 +62,9 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
         if (changes['terminology']) {
             this.loadConcepts();
         }
+        if (changes['multiple']) {
+            this.writeValue(null);
+        }
     }
 
     loadConcepts() {
@@ -95,13 +98,43 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
         })
     }
 
-    writeValue(value: any): void {
+writeValue(value: any): void {
+    if (this.returnCode) {
+        if (value) {
+            // Find the concept by code
+            this.concepts$.pipe(first()).subscribe({
+                next: (response) => {
+                    if (this.multiple) {
+                        this.formControl.patchValue(
+                            value.map((val: string) => this.concepts.find(c => c.code === val))
+                        );
+                    } else {
+                        this.formControl.patchValue(this.concepts.find(c => c.code === value));
+                    }
+                },
+            })
+        } else {
+            this.formControl.patchValue(value);
+        }
+    } else {
         this.formControl.patchValue(value);
     }
+}
 
-    registerOnChange(fn: any): void {
-        this.formControl.valueChanges.subscribe((val) => fn(val));
-    }
+registerOnChange(fn: any): void {
+    this.formControl.valueChanges.subscribe((val) => {
+        if (this.returnCode) {
+            if (this.multiple) {
+                console.log('registerOnChange multiple', val, val ? val.map((c: CodedConcept) => c.code) : null)
+                fn(val ? val.map((c: CodedConcept) => c.code) : []);
+            } else {
+                fn(val ? val.code : null);
+            }
+        } else {
+            fn(val);
+        }
+    });
+}
 
     registerOnTouched(fn: any): void {
         this.formControl.valueChanges.subscribe(val => fn(val));

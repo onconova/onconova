@@ -18,6 +18,7 @@ import { ButtonGroup } from 'primeng/buttongroup';
 import { RadioButton } from 'primeng/radiobutton';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from 'primeng/select';
+import { MultiSelect } from 'primeng/multiselect';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 
@@ -183,6 +184,7 @@ export class filterByEntityPipe implements PipeTransform {
         InputNumber,
         InputText,
         Select,
+        MultiSelect,
         ConceptSelectorComponent,
         DatePickerComponent,
         MapOperatorsPipe,        

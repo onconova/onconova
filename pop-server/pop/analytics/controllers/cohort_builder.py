@@ -86,8 +86,9 @@ class CohortBuilderController(ControllerBase):
                     for filter in schema_filters.ENUM_FILTERS:
                         filter.value_type = List[annotation] if is_list(filter.value_type) else annotation
                         filters.append(filter)
-                        options = [{'name': e.name, 'value': e.value} for e in annotation]
-                        annotation = enum.Enum
+                    options = [{'name': e.name, 'value': e.value} for e in annotation]
+                    annotation = enum.Enum
+                    print('SET', options)
 
                 field_type = TYPES_MAP.get(annotation)
                 if not field_type:
@@ -103,10 +104,12 @@ class CohortBuilderController(ControllerBase):
                         filter.__name__ for filter in filters
                     ]
                 )
+                print('OPTS',unique_key, fields[unique_key].options, options)
                 terminology = ''
                 if annotation is CodedConceptSchema and fieldinfo.json_schema_extra:
                     terminology = fieldinfo.json_schema_extra.get('x-terminology')
                     fields[unique_key].options = [{'name': 'terminology', 'value': terminology}]
+                
 
         return CohortBuilderConfig(
             entities = entities,

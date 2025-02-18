@@ -1,5 +1,4 @@
 @let config = config$ | async;
-
 <ng-container *ngIf="config">
 <query-builder 
     [(ngModel)]="query" 
@@ -81,6 +80,7 @@
             [(ngModel)]="rule.operator" 
             [filter]="true" 
             filterBy="name" 
+            (onChange)="rule.value = null;"
             [disabled]="disabled"
             placeholder="Select a filter" 
             optionValue="value" 
@@ -108,11 +108,24 @@
     <!-- Override input component for 'enum' type -->
     <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Enum">
         <p-select 
+            *ngIf="!['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator)"
             [options]="options" 
             [(ngModel)]="rule.value"
             [disabled]="disabled" 
-            placeholder="Select a filter" 
+            optionLabel="value"
+            optionValue="value"
+            placeholder="Select an option" 
             appendTo="body"/>
+        <p-multiselect 
+            *ngIf="['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator)"
+            [options]="options" 
+            [(ngModel)]="rule.value" 
+            optionLabel="value" 
+            optionValue="value"
+            placeholder="Select one or more options" 
+            display="chip"
+            appendTo="body"/>
+
     </ng-container>
 
     <!-- Override input component for 'number' type -->
@@ -155,8 +168,7 @@
     <!-- Override input component for 'coded_concept' type -->
     <ng-container *queryInput="let rule; let field=field; let options=options; type: CohortRuleType.CodedConcept">
         <pop-concept-selector 
-            [ngModel]="selectedCodedConcept" 
-            (ngModelChange)="rule.value = getCodesFromEvent($event)"
+            [(ngModel)]="rule.value" 
             [terminology]="options[0].value"
             [returnCode]="true"
             [disabled]="disabled"
