@@ -40,6 +40,7 @@ class ExactStringFilter(DjangoFilter):
     description = 'Filter for full text matches'
     value_type = str
     lookup = 'iexact'
+    
 class NotExactStringFilter(ExactStringFilter):
     name = 'not'
     description = 'Filter for full text mismatches'

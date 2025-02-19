@@ -6,7 +6,7 @@ from pop.core.schemas import UserSchema, UserCreateSchema, UserProfileSchema
 from parameterized import parameterized
 
 from pop.core.measures import measures
-from pop.core.measures.schemas import MeasureConversionSchema   
+from pop.core.measures.schemas import MeasureConversion   
    
 class TestUserController(common.ApiControllerTestMixin, TestCase):
     controller_path = '/api/auth/users'
@@ -144,7 +144,7 @@ class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_convert_units(self, scenario, config):
         measure = measures.Mass
-        data = MeasureConversionSchema(value=1, unit='kg', new_unit='g').model_dump(mode='json')
+        data = MeasureConversion(value=1, unit='kg', new_unit='g').model_dump(mode='json')
         # Call the API endpoint
         response = self.call_api_endpoint('POST', f'/{measure.__name__}/units/conversion', data=data, **config)
         # Assert response content
