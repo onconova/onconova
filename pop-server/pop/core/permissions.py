@@ -27,6 +27,9 @@ class CanViewCohorts(BasePermission):
     def check_user_permission(self, user: User):
         return user.can_view_cohorts
 
+class CanViewDatasets(BasePermission):
+    def check_user_permission(self, user: User):
+        return user.can_view_datasets
 
 class CanViewProjects(BasePermission):
     def check_user_permission(self, user: User):
@@ -36,6 +39,11 @@ class CanViewProjects(BasePermission):
 class CanManageCases(BasePermission):
     def check_user_permission(self, user: User):
         return user.can_manage_cases    
+
+
+class CanManageDatasets(BasePermission):
+    def check_user_permission(self, user: User):
+        return user.can_manage_datasets  
 
 
 class CanManageCohorts(BasePermission):

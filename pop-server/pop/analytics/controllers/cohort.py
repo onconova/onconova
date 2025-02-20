@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 
+from typing import List, Any
+
 from ninja import Query
 from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
@@ -10,11 +12,14 @@ from pop.core import permissions as perms
 from pop.core.schemas import Paginated, ModifiedResourceSchema
 from pop.oncology import schemas as oncological_schemas
 
-from pop.analytics.models import Cohort
+from pop.analytics.datasets import construct_dataset
+from pop.analytics.models import Cohort, Dataset
 from pop.analytics.schemas.cohort import (
     CohortSchema, CohortCreateSchema, 
     CohortFilters, CohortStatisticsSchema
 )
+from pop.analytics.schemas.datasets import DatasetRule
+
 
 @api_controller(
     "/cohorts", 
@@ -126,4 +131,31 @@ class CohortsController(ControllerBase):
     def get_cohort_cases(self, cohortId: str):
         return get_object_or_404(Cohort, id=cohortId).cases.all()
 
+    @route.post(
+        path='/{cohortId}/dynamic-dataset', 
+        response={
+            200: Paginated[Any],
+            404: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='getCohortDatasetDynamically',
+    )
+    @paginate()
+    def get_cohort_dataset_dynamically(self, cohortId: str, rules: List[DatasetRule]):
+        return construct_dataset(cohort=get_object_or_404(Cohort, id=cohortId), rules=rules)
 
+    @route.get(
+        path='/{cohortId}/datasets/{datasetId}', 
+        response={
+            200: Paginated[Any],
+            404: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='getCohortDataset',
+    )
+    @paginate()
+    def get_cohort_dataset(self, cohortId: str, datasetId: str):
+        return construct_dataset(
+            cohort=get_object_or_404(Cohort, id=cohortId),
+            rules=get_object_or_404(Dataset, id=datasetId).rules,
+        )

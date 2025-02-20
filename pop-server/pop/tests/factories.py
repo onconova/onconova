@@ -432,6 +432,14 @@ class CohortFactory(factory.django.DjangoModelFactory):
     is_public = factory.LazyFunction(lambda: random.random()>0.5)  
 
 
+class DatasetFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = analytics_models.Dataset
+    created_by =  factory.SubFactory(UserFactory)
+    name = factory.LazyFunction(lambda: f'Dataset #{random.randint(1111,9999)}')
+    is_public = factory.LazyFunction(lambda: random.random()>0.5)  
+
+
 
 def fake_complete_case():
     if User.objects.count() < 20:

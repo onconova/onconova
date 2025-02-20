@@ -12,3 +12,12 @@ class TestCohortController(ApiControllerTextMixin, TestCase):
     MODEL = models.Cohort
     SCHEMA = schemas.CohortSchema
     CREATE_SCHEMA = schemas.CohortCreateSchema             
+
+
+    
+class TestDatasetController(ApiControllerTextMixin, TestCase):
+    controller_path = '/api/datasets'
+    FACTORY = factories.DatasetFactory
+    MODEL = models.Dataset
+    SCHEMA = schemas.Dataset
+    CREATE_SCHEMA = schemas.DatasetCreate             
