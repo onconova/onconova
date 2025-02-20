@@ -4,6 +4,8 @@ from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model 
 from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg
 
+from queryable_properties.properties.base import QueryablePropertyDescriptor
+
 from pop.core import transforms
 from pop.core.utils import get_related_model_from_field, to_camel_case
 
@@ -61,6 +63,8 @@ class DatasetRuleProcessor:
     @property
     def resource_model_field(self):
         """Gets the Django model field corresponding to the schema alias."""
+        if isinstance(getattr(self.resource_model, self.schema_field_info.alias,None), QueryablePropertyDescriptor):
+            return getattr(self.resource_model, self.schema_field_info.alias).prop
         return self.resource_model._meta.get_field(self.schema_field_info.alias)
 
     @property
