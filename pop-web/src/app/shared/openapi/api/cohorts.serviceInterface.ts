@@ -15,7 +15,9 @@ import { Cohort } from '../model/models';
 import { CohortBuilderConfig } from '../model/models';
 import { CohortCreate } from '../model/models';
 import { CohortStatisticsSchema } from '../model/models';
+import { DatasetRule } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedAny } from '../model/models';
 import { PaginatedCohort } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 
@@ -37,6 +39,20 @@ export interface GetCohortByIdRequestParams {
 
 export interface GetCohortCasesRequestParams {
     cohortId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetCohortDatasetRequestParams {
+    cohortId: string;
+    datasetId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetCohortDatasetDynamicallyRequestParams {
+    cohortId: string;
+    datasetRule: Array<DatasetRule>;
     limit?: number;
     offset?: number;
 }
@@ -129,6 +145,20 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     getCohortCases(requestParameters: GetCohortCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+
+    /**
+     * Get Cohort Dataset
+     * 
+* @param requestParameters
+     */
+    getCohortDataset(requestParameters: GetCohortDatasetRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAny>;
+
+    /**
+     * Get Cohort Dataset Dynamically
+     * 
+* @param requestParameters
+     */
+    getCohortDatasetDynamically(requestParameters: GetCohortDatasetDynamicallyRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAny>;
 
     /**
      * Get Cohort Statistics

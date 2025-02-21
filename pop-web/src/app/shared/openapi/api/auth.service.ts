@@ -362,9 +362,11 @@ export class AuthService implements AuthServiceInterface {
         const canViewProjects = requestParameters?.canViewProjects;
         const canViewCohorts = requestParameters?.canViewCohorts;
         const canViewUsers = requestParameters?.canViewUsers;
+        const canViewDatasets = requestParameters?.canViewDatasets;
         const canImportData = requestParameters?.canImportData;
         const canManageCases = requestParameters?.canManageCases;
         const canManageCohorts = requestParameters?.canManageCohorts;
+        const canManageDatasets = requestParameters?.canManageDatasets;
         const canAnalyzeData = requestParameters?.canAnalyzeData;
         const canExportData = requestParameters?.canExportData;
         const canManageProjects = requestParameters?.canManageProjects;
@@ -501,6 +503,10 @@ export class AuthService implements AuthServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>canViewUsers, 'canViewUsers');
         }
+        if (canViewDatasets !== undefined && canViewDatasets !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>canViewDatasets, 'canViewDatasets');
+        }
         if (canImportData !== undefined && canImportData !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>canImportData, 'canImportData');
@@ -512,6 +518,10 @@ export class AuthService implements AuthServiceInterface {
         if (canManageCohorts !== undefined && canManageCohorts !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>canManageCohorts, 'canManageCohorts');
+        }
+        if (canManageDatasets !== undefined && canManageDatasets !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>canManageDatasets, 'canManageDatasets');
         }
         if (canAnalyzeData !== undefined && canAnalyzeData !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

@@ -35,6 +35,10 @@ export interface UserFilters {
     /**
      * None - (\'Filter for yes/no statement\',)
      */
+    canViewDatasets?: boolean;
+    /**
+     * None - (\'Filter for yes/no statement\',)
+     */
     canImportData?: boolean;
     /**
      * None - (\'Filter for yes/no statement\',)
@@ -44,6 +48,10 @@ export interface UserFilters {
      * None - (\'Filter for yes/no statement\',)
      */
     canManageCohorts?: boolean;
+    /**
+     * None - (\'Filter for yes/no statement\',)
+     */
+    canManageDatasets?: boolean;
     /**
      * None - (\'Filter for yes/no statement\',)
      */

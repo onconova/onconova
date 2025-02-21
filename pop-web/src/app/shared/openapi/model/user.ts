@@ -19,9 +19,11 @@ export interface User {
     canViewProjects: boolean;
     canViewCohorts: boolean;
     canViewUsers: boolean;
+    canViewDatasets: boolean;
     canImportData: boolean;
     canManageCases: boolean;
     canManageCohorts: boolean;
+    canManageDatasets: boolean;
     canAnalyzeData: boolean;
     canExportData: boolean;
     canManageProjects: boolean;

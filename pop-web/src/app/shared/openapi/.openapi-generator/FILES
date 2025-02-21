@@ -12,6 +12,8 @@ api/comorbidities-assessments.service.ts
 api/comorbidities-assessments.serviceInterface.ts
 api/dashboard.service.ts
 api/dashboard.serviceInterface.ts
+api/datasets.service.ts
+api/datasets.serviceInterface.ts
 api/family-histories.service.ts
 api/family-histories.serviceInterface.ts
 api/genomic-signatures.service.ts
@@ -98,6 +100,11 @@ model/comorbidities-assessment.ts
 model/comorbidities-panel.ts
 model/comorbidity-panel-category.ts
 model/data-platform-statistics-schema.ts
+model/data-resource.ts
+model/dataset-create.ts
+model/dataset-filters.ts
+model/dataset-rule.ts
+model/dataset.ts
 model/end.ts
 model/entity-statistics-schema.ts
 model/family-history-create.ts
@@ -151,9 +158,11 @@ model/paginated-adverse-event.ts
 model/paginated-any-genomic-signature.ts
 model/paginated-any-staging.ts
 model/paginated-any-tumor-board.ts
+model/paginated-any.ts
 model/paginated-coded-concept.ts
 model/paginated-cohort.ts
 model/paginated-comorbidities-assessment.ts
+model/paginated-dataset.ts
 model/paginated-family-history.ts
 model/paginated-genomic-variant.ts
 model/paginated-lifestyle.ts
@@ -225,6 +234,7 @@ model/tnm-staging-create.ts
 model/tnm-staging.ts
 model/token-pair.ts
 model/token-refresh.ts
+model/transform.ts
 model/treatment-response-create.ts
 model/treatment-response-filters.ts
 model/treatment-response.ts
