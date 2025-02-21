@@ -161,8 +161,9 @@
     <p-tablist>
         <p-tab value="0">Composition</p-tab>
         <p-tab value="1">Analysis</p-tab>
-        <p-tab value="2">Contributors</p-tab>
-        <p-tab value="3">History</p-tab>
+        <p-tab value="2">Datasets</p-tab>
+        <p-tab value="3">Contributors</p-tab>
+        <p-tab value="4">History</p-tab>
     </p-tablist>
     <p-tabpanels>
         <p-tabpanel value="0">
@@ -193,6 +194,11 @@
             
         </p-tabpanel>
         <p-tabpanel value="2">
+            <pop-dataset-composer [cohortId]="cohort.id"></pop-dataset-composer>
+        </p-tabpanel>
+        <p-tabpanel value="3">
+        </p-tabpanel>
+        <p-tabpanel value="4">
             
         </p-tabpanel>
     </p-tabpanels>

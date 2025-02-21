@@ -4,3 +4,4 @@ export * from "./measure-input/measure-input.component";
 export * from "./form-control-error/form-control-error.component";
 export * from "./multi-reference-select/multi-reference-select.component"
 export * from './radio-select/radio-select.component'
+export * from "./nested-table/nested-table.component"

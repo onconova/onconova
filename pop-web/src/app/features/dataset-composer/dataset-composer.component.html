@@ -1,0 +1,66 @@
+
+<h4>Dataset Rules</h4>
+
+<div class="flex gap-4">
+<p-megamenu 
+    [model]="resourceItems" 
+    orientation="vertical" 
+    appendTo="body" />
+
+<ng-container *ngIf="dataset$">
+    @let dataset = dataset$ | async;
+    <p-table 
+        [value]="dataset || []" 
+        [scrollable]="true"
+        [paginator]="true" 
+        [showCurrentPageReport]="true"
+        lazy="true"
+        [rows]="pageSize" 
+        [rowsPerPageOptions]="pageSizeChoices"
+        [totalRecords]="totalEntries"
+        (onLazyLoad)="setPaginationAndRefresh($event)"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of getColumns(dataset || [])">{{ col }}</th>
+          </tr>
+        </ng-template>
+      
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td *ngFor="let col of getColumns(dataset || []); let first = first">
+              <!-- Check if the value is an object/array (nested structure) -->
+              <ng-container *ngIf="isNested(rowData[col]); else simpleValue">
+                <button pButton type="button" icon="pi pi-chevron-down" (click)="rowData[col].expanded = !rowData[col].expanded"></button>
+                <div *ngIf="rowData[col].expanded">
+                  <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                </div>
+              </ng-container>
+      
+              <!-- If it's a simple value, display normally -->
+              <ng-template #simpleValue>
+                <ng-container *ngIf="first">
+                    <div class="flex gap-3">
+                        <p-avatar size="normal" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
+                            <svg class="jdenticon" width="2rem" height="2rem" [data-jdenticon-value]="[rowData[col]]"></svg>
+                        </p-avatar>
+                        <div class="my-auto">
+                            {{ rowData[col] }}
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!first">
+                    {{ rowData[col] }}
+                </ng-container>
+              </ng-template>
+            </td>
+          </tr>
+    
+        </ng-template>
+      </p-table>
+</ng-container>
+
+
+</div>
+
