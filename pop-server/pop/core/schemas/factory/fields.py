@@ -107,6 +107,12 @@ def get_schema_field(
                 internal_type = related_model._meta.get_field('id').get_internal_type()
                 django_field_name += '_id'
 
+                if field.one_to_many or field.many_to_many:
+                    if django_field_name not in ['created_by', 'updated_by']:
+                        from .base import BaseSchema
+                        resolver_fcn = partial(BaseSchema._resolve_many_to_many, orm_field_name=field.name)
+                        if not django_field_name.endswith('s'):
+                            django_field_name += 's'
             if not field.concrete and field.auto_created or field.null or field.blank or optional:
                 default = None
                 nullable = True
@@ -116,11 +122,6 @@ def get_schema_field(
 
             if field.one_to_many or field.many_to_many:
                 python_type = List[related_type] 
-                if django_field_name not in ['created_by', 'updated_by']:
-                    from .base import BaseSchema
-                    resolver_fcn = partial(BaseSchema._resolve_many_to_many, orm_field_name=field.name)
-                    if not django_field_name.endswith('s'):
-                        django_field_name += 's'
                 default=[]
             else:
                 python_type = related_type
