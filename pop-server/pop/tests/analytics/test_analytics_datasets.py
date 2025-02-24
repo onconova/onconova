@@ -8,12 +8,12 @@ from django.db.models import F
 from django_mock_queries.query import MockModel
 from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg
-
+from pydantic import ValidationError
 from pop.tests import factories
 import pop.oncology.models as models
 from pop.analytics.models import Cohort 
 from pop.analytics.schemas import DatasetRule
-from pop.analytics.datasets import construct_dataset, AggregationNode, AnnotationNode, AnnotationCompiler
+from pop.analytics.datasets import DatasetRuleProcessingError, DatasetRuleProcessor, construct_dataset, AggregationNode, AnnotationNode, AnnotationCompiler
    
 
 class TestConstructDataset(TestCase):
@@ -74,49 +74,45 @@ class TestConstructDataset(TestCase):
         therapy = factories.SystemicTherapyFactory.create(case=self.case)
         medication1 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
         medication2 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
-        
-        
-        from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel
-        from pprint import pprint 
-        print()
-        pprint(list(self.cohort.cases.annotate(
-            systemicTherapies=ArrayAgg(Subquery(
-                models.SystemicTherapy.objects.filter(
-                    id=OuterRef(f'systemic_therapies__id')
-                ).annotate(                        
-                    related_json_object=JSONObject(
-                        intent=F('intent'),
-                        medications=ArrayAgg(Subquery(
-                            models.SystemicTherapyMedication.objects.filter(
-                                id=OuterRef(f'medications__id')
-                            ).annotate(
-                                related_json_object=JSONObject(
-                                    drug_text=F('drug__display'), 
-                                    drug_code=F('drug__code')
-                                )
-                            ).values('related_json_object')[:1]
-                        ), distinct=True)
-                    )
-                ).values('related_json_object')[:1]
-            ), distinct=True)
-        ).values('systemicTherapies')))
-        
         rules = [
-            DatasetRule(resource='SystemicTherapy', field='intent'),
-            DatasetRule(resource='SystemicTherapyMedication', field='drug'),
+            DatasetRule(resource='SystemicTherapy', field='intent', relatedResource='PatientCase'),
+            DatasetRule(resource='SystemicTherapyMedication', field='drug', relatedResource='SystemicTherapy', transform='GetCodedConceptDisplay'),
         ]
         dataset = construct_dataset(self.cohort, rules)[0]
-
-        pprint(dataset)
-
-
-
         self.assertIn('systemicTherapies', dataset)
         self.assertIn('medications', dataset['systemicTherapies'][0])
         self.assertEqual(therapy.intent, dataset['systemicTherapies'][0]['intent'])
-        self.assertEqual(medication1.drug.display, dataset['systemicTherapies'][0]['medications'][0]['drug.text'])
-        self.assertEqual(medication2.drug.display, dataset['systemicTherapies'][0]['medications'][1]['drug.text'])
+        drugs = [d['drug.text'] for d in dataset['systemicTherapies'][0]['medications']]
+        self.assertIn(medication1.drug.display, drugs)
+        self.assertIn(medication2.drug.display, drugs)
 
+
+    def test_nested_resources_without_intermediate(self):
+        therapy = factories.SystemicTherapyFactory.create(case=self.case)
+        medication1 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
+        medication2 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
+        rules = [
+            DatasetRule(resource='SystemicTherapyMedication', field='drug', relatedResource='SystemicTherapy', transform='GetCodedConceptDisplay'),
+        ]
+        dataset = construct_dataset(self.cohort, rules)[0]
+        self.assertIn('systemicTherapies', dataset)
+        self.assertIn('medications', dataset['systemicTherapies'][0])
+        self.assertEqual(therapy.intent, dataset['systemicTherapies'][0]['intent'])
+        drugs = [d['drug.text'] for d in dataset['systemicTherapies'][0]['medications']]
+        self.assertIn(medication1.drug.display, drugs)
+        self.assertIn(medication2.drug.display, drugs)
+
+    def test_raises_error_non_existing_schema(self):
+        with self.assertRaises(ValidationError):
+            rule = DatasetRule(resource='DoesNotExist', field='id')
+            construct_dataset(self.cohort, [rule])
+
+    def test_raises_error_non_existing_field(self):
+        with self.assertRaises(DatasetRuleProcessingError):
+            rule = DatasetRule(resource='PatientCase', field='doesNotExist')
+            construct_dataset(self.cohort, [rule])
+            
+            
 class TestAggregationNode(TestCase):
 
     @classmethod
@@ -128,7 +124,7 @@ class TestAggregationNode(TestCase):
                 AnnotationNode(key='key2', expression=F('key2')),
             ],
             aggregated_model=MockModel,  
-            aggregations_model_related_name='related_name'
+            aggregated_model_parent_related_name='related_name'
         )
 
     def test_construct_subquery_valid_annotations(self):
@@ -139,7 +135,7 @@ class TestAggregationNode(TestCase):
                 AnnotationNode(key='case', expression=F('case')),
             ],
             aggregated_model=models.NeoplasticEntity,  
-            aggregations_model_related_name='neoplastic_entities',
+            aggregated_model_parent_related_name='neoplastic_entities',
         )
         subquery = self.node.aggregated_subquery
         self.assertIsInstance(subquery, ArrayAgg)
@@ -154,13 +150,11 @@ class TestAggregationNode(TestCase):
         with self.assertRaises(AttributeError):
             self.node.aggregated_subquery
 
-    def test_construct_subquery_missing_aggregations_model_related_name(self):
-        self.node.aggregations_model_related_name = None
+    def test_construct_subquery_missing_aggregated_model_parent_related_name(self):
+        self.node.aggregated_model_parent_related_name = None
         with self.assertRaises(AttributeError):
             self.node.aggregated_subquery
             
-
-
     def test_annotations_calls_extract_annotations(self):
         node = AggregationNode('key')
         node._extract_annotations = MagicMock()
@@ -172,6 +166,26 @@ class TestAggregationNode(TestCase):
         self.assertEqual(self.node.annotations, expected_annotations)
 
 
+class TestDatasetRuleProcessor(TestCase):
+    
+    def test_basic_rule(self):
+        processor = DatasetRuleProcessor(DatasetRule(resource='PatientCase', field='causeOfDeath'))
+        self.assertEqual(processor.resource_model, models.PatientCase)
+        self.assertEqual(processor.dataset_field, 'causeOfDeath')
+        self.assertEqual(processor.model_field_name, 'cause_of_death')
+        self.assertEqual(processor.value_transformer, None)
+    
+    def test_nested_rule(self):
+        processor = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='relationship', relatedResource='PatientCase'))
+        self.assertEqual(processor.resource_model, models.NeoplasticEntity)
+        self.assertEqual(processor.parent_model, models.PatientCase)
+        self.assertEqual(processor.parent_related_name, 'neoplastic_entities')
+        self.assertEqual(processor.dataset_field, 'relationship')
+        self.assertEqual(processor.model_field_name, 'relationship')
+        self.assertEqual(processor.value_transformer, None)
+        
+        
+        
 class TestAnnotationCompiler(TestCase):
 
     def test_empty_rules(self):
@@ -227,7 +241,6 @@ class TestAnnotationCompiler(TestCase):
         self.assertEqual(len(result[0].nested_aggregation_nodes[0].annotation_nodes), 1)
         self.assertEqual(result[0].nested_aggregation_nodes[0].annotation_nodes[0].key, 'fieldB')
 
-
     def test_no_aggregation_nodes(self):
         compiler = AnnotationCompiler([])
         annotations, queryset_fields = compiler.generate_annotations()
@@ -246,7 +259,7 @@ class TestAnnotationCompiler(TestCase):
     def test_aggregation_node_with_key_and_annotations(self):
         compiler = AnnotationCompiler([])
         annotation_node = AnnotationNode(key='test_annotation', expression=F('test_annotation_expression'))
-        aggregation_node = AggregationNode(key='test_key', annotation_nodes=[annotation_node], aggregated_model=MagicMock(), aggregations_model_related_name='related_name')
+        aggregation_node = AggregationNode(key='test_key', annotation_nodes=[annotation_node], aggregated_model=MagicMock(), aggregated_model_parent_related_name='related_name')
         compiler.aggregation_nodes = [aggregation_node]
         annotations, queryset_fields = compiler.generate_annotations()
         self.assertEqual(queryset_fields, ['pseudoidentifier', 'test_key'])
@@ -255,8 +268,8 @@ class TestAnnotationCompiler(TestCase):
         compiler = AnnotationCompiler([])
         annotation_node1 = AnnotationNode(key='test_annotation1', expression=F('test_expression1'))
         annotation_node2 = AnnotationNode(key='test_annotation2', expression=F('test_expression2'))
-        aggregation_node1 = AggregationNode(key=None, annotation_nodes=[annotation_node1], aggregated_model=MagicMock(), aggregations_model_related_name='related_name')
-        aggregation_node2 = AggregationNode(key='test_key2', annotation_nodes=[annotation_node2], aggregated_model=MagicMock(), aggregations_model_related_name='related_name')
+        aggregation_node1 = AggregationNode(key=None, annotation_nodes=[annotation_node1], aggregated_model=MagicMock(), aggregated_model_parent_related_name='related_name')
+        aggregation_node2 = AggregationNode(key='test_key2', annotation_nodes=[annotation_node2], aggregated_model=MagicMock(), aggregated_model_parent_related_name='related_name')
         compiler.aggregation_nodes = [aggregation_node1, aggregation_node2]
         annotations, queryset_fields = compiler.generate_annotations()
         self.assertEqual(queryset_fields, ['pseudoidentifier', 'test_annotation1', 'test_key2'])

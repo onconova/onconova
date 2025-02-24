@@ -104,7 +104,6 @@ class CohortBuilderController(ControllerBase):
                         filter.__name__ for filter in filters
                     ]
                 )
-                print('OPTS',unique_key, fields[unique_key].options, options)
                 terminology = ''
                 if annotation is CodedConceptSchema and fieldinfo.json_schema_extra:
                     terminology = fieldinfo.json_schema_extra.get('x-terminology')

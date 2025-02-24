@@ -39,8 +39,3 @@ class GetCodedConceptSystem(DjangoTransform):
     @staticmethod
     def generate_annotation_expression(field_path, *args):
         return F(f'{field_path}__system')
-
-
-DEFAULT_TRANSFORMATIONS = {
-    CodedConceptSchema: GetCodedConceptDisplay
-}

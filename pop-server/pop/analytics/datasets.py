@@ -6,99 +6,98 @@ from django.contrib.postgres.aggregates import ArrayAgg
 
 from queryable_properties.properties.base import QueryablePropertyDescriptor
 
-from pop.core import transforms
 from pop.core.utils import get_related_model_from_field, to_camel_case
 
-from pop.oncology.schemas import ONCOLOGY_SCHEMAS
+from dataclasses import dataclass, field
+from typing import Dict, List, Any
+
 from pop.oncology.models import PatientCase
 from pop.core.schemas.factory.metaclasses import ModelGetSchema
 from pop.analytics.schemas import DatasetRule
 
+class DatasetRuleProcessingError(RuntimeError): pass
 
 DATASET_ROOT_FIELDS = [f.name for f in PatientCase._meta.get_fields()]
 
 class DatasetRuleProcessor:
     """Processes individual dataset rules and extracts necessary query information."""
     
+    parent_model = None
     
     def __init__(self, rule: DatasetRule):
-        self.parent_model: Optional[DjangoModel] = None
-        self.parent_relation_lookup: Optional[str] = None
         self.dataset_field = rule.field
-        self.resource_schema = self._get_schema(rule.resource.value)
-        self.resource_model = self.resource_schema.__orm_model__
-        self._set_parent_model()
+        # Get the schema specified by the rule 
+        schema = self._get_schema(rule.resource.value)
+        self.resource_model = self._get_orm_model(schema)
+        # Resolve the related 
+        if rule.relatedResource:
+            parent_schema = self._get_schema(rule.relatedResource.value)
+            self.parent_model = self._get_orm_model(parent_schema)
+        # Get other values
+        self.model_field_name = self._get_model_field_name(schema)
         self.value_transformer = self._get_transformer(rule.transform)
-        
+    
+
+    
     def _get_schema(self, resource_name: str):
         """Retrieves the corresponding schema for the resource."""
         from pop.oncology import schemas as oncology_schemas
-        return getattr(oncology_schemas, f"{resource_name}Schema")
+        schema = getattr(oncology_schemas, f"{resource_name}Schema", None)
+        if not schema:
+            raise DatasetRuleProcessingError(f'Could not resolve schema "{resource_name}" into an existing class object.')
+        return schema
+    
+    def _get_orm_model(self, schema):
+        """Retrieves the corresponding schema for the resource."""
+        orm_model = schema.__orm_model__
+        if not orm_model:
+            raise DatasetRuleProcessingError(f'The schema "{schema.__name__}" has no associated ORM model.')
+        return orm_model
+    
+    def _get_model_field_name(self, schema):
+        """Retrieves the corresponding schema for the resource."""
+        schema_field_info = schema.model_fields.get(self.dataset_field)        
+        if not schema_field_info or not schema_field_info.alias:
+            raise DatasetRuleProcessingError(f'Could not resolve field "{self.dataset_field}" into a schema or ORM model field.')
+        return schema_field_info.alias
 
     def _get_transformer(self, transform: Optional[Union[str, tuple]]):
         """Fetches transformation function if specified, otherwise defaults."""
-        return getattr(transforms, transform or "", None) or transforms.DEFAULT_TRANSFORMATIONS.get(self.field_data_type)
+        if not transform:
+            return None
+        from pop.core import transforms
+        transform_class = getattr(transforms, transform or "", None)
+        if not transform_class:
+            raise DatasetRuleProcessingError(f'Could not resolve transform "{transform}" into a transform class object.')
+        return transform_class
 
-    def _set_parent_model(self):
-        for schema in ONCOLOGY_SCHEMAS:
-            child_resources = [
-                get_related_model_from_field(field) for field in schema.model_fields.values() if get_related_model_from_field(field) and issubclass(get_related_model_from_field(field), ModelGetSchema) 
-            ]
-            if self.resource_schema in child_resources:
-                self.parent_model = schema.__orm_model__
-                self.parent_relation_lookup = {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model]
-                return 
-            
     @property
     def annotation_key(self) -> str:
         """Returns a unique key used in dataset query annotations."""
         return f"{self.dataset_field}.{self.value_transformer.name}" if self.value_transformer else self.dataset_field
+
+    @property 
+    def parent_related_name(self):
+        return {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model] if self.parent_model else None
 
     @property
     def related_model_lookup(self) -> str:
         """Determines the Django ORM lookup for related models."""
         if self.resource_model._meta.model_name == "patientcase":
             return ""  # No relation needed for PatientCase
-        print(self.resource_schema, self.parent_model)
         if self.parent_model:
             return {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model]
         return self.resource_model._meta.get_field("case").related_query_name()
 
-    @property 
-    def child_resources(self):
-        return [
-            get_related_model_from_field(field) for field in self.resource_schema.model_fields.values() if get_related_model_from_field(field) and issubclass(get_related_model_from_field(field), ModelGetSchema) 
-        ]
-    
-
-    @property
-    def schema_field_info(self):
-        """Retrieves metadata about the dataset field from the schema."""
-        return self.resource_schema.model_fields.get(self.dataset_field)
-
-    @property
-    def field_data_type(self):
-        """Determines the data type of the field in the schema."""
-        return get_related_model_from_field(self.schema_field_info) or self.schema_field_info.annotation
-
-    @property
-    def resource_model_field(self):
-        """Gets the Django model field corresponding to the schema alias."""
-        if isinstance(getattr(self.resource_model, self.schema_field_info.alias,None), QueryablePropertyDescriptor):
-            return getattr(self.resource_model, self.schema_field_info.alias).prop
-        return self.resource_model._meta.get_field(self.schema_field_info.alias)
-
     @property
     def query_lookup_path(self) -> str:
         """Generates the Django ORM lookup path for querying the dataset field."""
-        return self.resource_model_field.name
+        return self.model_field_name
 
     @property
     def field_annotation(self):
         """Returns the Django ORM annotation for this dataset field."""
         return self.value_transformer.generate_annotation_expression(self.query_lookup_path) if self.value_transformer else F(self.query_lookup_path)
-from dataclasses import dataclass, field
-from typing import Dict, List, Any
 
 
 
@@ -113,8 +112,6 @@ class AnnotationNode:
     """
     key: str
     expression: Expression
-
-
 
 
 @dataclass
@@ -138,7 +135,7 @@ class AggregationNode:
     annotation_nodes: List[AnnotationNode] = field(default_factory=list)
     nested_aggregation_nodes: List["AggregationNode"] = field(default_factory=list)
     aggregated_model: DjangoModel = None 
-    aggregations_model_related_name: str = None
+    aggregated_model_parent_related_name: str = None
 
     @property
     def annotations(self) -> Dict[str, Expression]:
@@ -182,17 +179,19 @@ class AggregationNode:
             AttributeError: If the aggregation node's subquery cannot be
                 constructed without annotations.
         """
-        if not self.aggregated_model or not self.aggregations_model_related_name:
+        if not self.aggregated_model or not self.aggregated_model_parent_related_name:
             raise AttributeError("The aggregation node's subquery cannot be constructed without an aggregated model and its related name.")
         annotations = self.annotations
+        if 'id' not in annotations:
+            annotations.update({'id': F('id')})
         if not annotations:
             raise AttributeError("The aggregation node's subquery cannot be constructed without annotations.")
 
         return ArrayAgg(Subquery(
             self.aggregated_model.objects.filter(
-                id=OuterRef(f'{self.aggregations_model_related_name}__id')
+                id=OuterRef(f'{self.aggregated_model_parent_related_name}__id')
             ).annotate(
-                related_json_object=JSONObject(id=F('id'), **annotations)
+                related_json_object=JSONObject(**annotations)
             ).values('related_json_object')[:1]
         ), distinct=True)
 
@@ -277,7 +276,6 @@ class AnnotationCompiler:
             rules: A list of dataset rules
         """
         self.rules = [DatasetRuleProcessor(rule) for rule in rules]
-        self._resolve_rule_resource_relations()
         self.aggregation_nodes: List[AggregationNode] = self._build_aggregation_tree(self.rules)
 
     def generate_annotations(self) -> Tuple[Dict[str, Expression], List[str]]:
@@ -321,16 +319,6 @@ class AnnotationCompiler:
         # Remove duplicates 
         return annotations, queryset_fields
     
-    def _resolve_rule_resource_relations(self) -> None:
-        """
-        Resolves the resource relations between rules.
-
-        The method creates a dictionary that maps each resource schema to
-        its corresponding rule. The dictionary is then used to resolve the
-        parent model and related lookup for each rule.
-        """
-        for rule in self.rules:
-            rule._set_parent_model()
 
     def _build_aggregation_tree(self, rules: List[DatasetRuleProcessor], parent_node: Optional[AggregationNode] = None, assigned_rules: Set[DatasetRuleProcessor] = None) -> List[AggregationNode]:
         """
@@ -349,7 +337,7 @@ class AnnotationCompiler:
         Returns:
             A list of root nodes in the aggregation tree
         """
-        node_map = {}  
+        node_map = {}            
         if assigned_rules is None:
             assigned_rules = set()
         for rule in rules:
@@ -357,19 +345,19 @@ class AnnotationCompiler:
                 continue
             else:
                 assigned_rules.add(rule)
-            resource_key = to_camel_case(rule.related_model_lookup or rule.parent_relation_lookup or '')
+            resource_key = to_camel_case(rule.related_model_lookup or rule.parent_related_name or '')
             if resource_key not in node_map:
                 node = AggregationNode(
                     key=resource_key,
                     aggregated_model=rule.resource_model,
-                    aggregations_model_related_name=rule.related_model_lookup
+                    aggregated_model_parent_related_name=rule.parent_related_name
                 )
                 node_map[resource_key] = node
             node = node_map[resource_key]
             # Add annotation nodes to the corresponding AggregationNode
             node.add_annotation_node(rule.annotation_key, rule.field_annotation)
             # Recursively build the tree for child rules
-            child_rules = [r for r in rules if r.parent_relation_lookup == rule.related_model_lookup]
+            child_rules = [r for r in rules if r.parent_model == rule.resource_model]
             if child_rules:
                 child_node = self._build_aggregation_tree(child_rules, node, assigned_rules)
                 node.nested_aggregation_nodes.extend(child_node)
