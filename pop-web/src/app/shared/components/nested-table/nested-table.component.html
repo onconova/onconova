@@ -1,29 +1,32 @@
-<p-table [value]="nestedData" [tableStyle]="{ 'min-width': '40rem' }">
+<p-table [value]="nestedData" >
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let col of getColumns(nestedData)">{{ col }}</th>
+        <th *ngFor="let col of getColumns(nestedData)">{{ col | camelCaseToTitleCase }}</th>
       </tr>
     </ng-template>
   
     <ng-template pTemplate="body" let-rowData>
         <tr>
             <td *ngFor="let col of getColumns(nestedData)">
-                <ng-container *ngIf="isNested(rowData[col]); else simpleValue">
-                    <button pButton type="button" icon="pi pi-chevron-down" (click)="rowData[col].expanded = !rowData[col].expanded"></button>
-                </ng-container>  
+                <div *ngIf="isNested(rowData[col]); else simpleValue" class="flex">
+                    <p-button 
+                        [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
+                        [rounded]="true" 
+                        [outlined]="true"
+                        (onClick)="rowData[col].expanded = !rowData[col].expanded"
+                        class="expand-nested-table-button"/>
+                    <div *ngIf="rowData[col].expanded">
+                        <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                    </div>
+                    <div *ngIf="isNested(rowData[col]) && !rowData[col].expanded">
+                        {{ rowData[col].length }} entries
+                    </div>
+                </div>  
                 <ng-template #simpleValue>
-                    {{ rowData[col] }}
+                    {{ rowData[col] || '-' }}
                 </ng-template>
             </td>
         </tr>
-
-        <ng-container *ngFor="let col of getColumns(nestedData)">
-            <tr *ngIf="rowData[col].expanded">
-                <td colspan="4">    
-                    <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
-                </td>
-            </tr>
-        </ng-container>
     </ng-template>
   </p-table>
   

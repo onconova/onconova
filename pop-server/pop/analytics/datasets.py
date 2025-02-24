@@ -10,7 +10,7 @@ from pop.core import transforms
 from pop.core.utils import get_related_model_from_field, to_camel_case
 
 from pop.oncology.models import PatientCase
-
+from pop.core.schemas.factory.metaclasses import ModelGetSchema
 from pop.analytics.schemas import DatasetRule
 
 
@@ -50,6 +50,11 @@ class DatasetRuleProcessor:
             return {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model]
         return self.resource_model._meta.get_field("case").related_query_name()
 
+    @property 
+    def child_resources(self):
+        return [
+            get_related_model_from_field(field) for field in self.resource_schema.model_fields.values() if get_related_model_from_field(field) and issubclass(get_related_model_from_field(field), ModelGetSchema) 
+        ]
     @property
     def schema_field_info(self):
         """Retrieves metadata about the dataset field from the schema."""
@@ -70,7 +75,7 @@ class DatasetRuleProcessor:
     @property
     def query_lookup_path(self) -> str:
         """Generates the Django ORM lookup path for querying the dataset field."""
-        return f"{self.related_model_lookup}__{self.resource_model_field.name}" if self.related_model_lookup else self.resource_model_field.name
+        return self.resource_model_field.name
 
     @property
     def field_annotation(self):
@@ -166,13 +171,14 @@ class AggregationNode:
         annotations = self.annotations
         if not annotations:
             raise AttributeError("The aggregation node's subquery cannot be constructed without annotations.")
-        return Subquery(
+
+        return ArrayAgg(Subquery(
             self.aggregated_model.objects.filter(
                 id=OuterRef(f'{self.aggregations_model_related_name}__id')
             ).annotate(
-                related_json_object=ArrayAgg(JSONObject(**annotations), distinct=True)
+                related_json_object=JSONObject(**annotations)
             ).values('related_json_object')[:1]
-        )
+        ), distinct=False)
 
     def add_annotation_node(self, key: str, expression: Expression) -> None:
         """
@@ -294,7 +300,7 @@ class AnnotationCompiler:
                     if annotation_node.key not in queryset_fields:
                         queryset_fields.append(annotation_node.key)                                
             elif aggregation_node.annotations:
-                annotations[aggregation_node.key] = ArrayAgg(JSONObject(**aggregation_node.annotations), distinct=True)
+                annotations[aggregation_node.key] = aggregation_node.aggregated_subquery
                 queryset_fields.append(aggregation_node.key)      
         # Remove duplicates 
         return annotations, queryset_fields
@@ -307,12 +313,12 @@ class AnnotationCompiler:
         its corresponding rule. The dictionary is then used to resolve the
         parent model and related lookup for each rule.
         """
-        schema_to_rule = {rule.resource_schema: rule for rule in self.rules}
         for rule in self.rules:
-            if rule.resource_schema in schema_to_rule:
-                parent_rule = schema_to_rule[rule.resource_schema]
-                rule.parent_model = parent_rule.resource_model
-                rule.parent_relation_lookup = parent_rule.related_model_lookup
+            for other_rule in self.rules:
+                if rule.resource_schema in other_rule.child_resources:
+                    parent_rule = other_rule
+                    rule.parent_model = parent_rule.resource_model
+                    rule.parent_relation_lookup = parent_rule.related_model_lookup
 
     def _build_aggregation_tree(self, rules: List[DatasetRuleProcessor], parent_node: Optional[AggregationNode] = None, assigned_rules: Set[DatasetRuleProcessor] = None) -> List[AggregationNode]:
         """
@@ -339,12 +345,12 @@ class AnnotationCompiler:
                 continue
             else:
                 assigned_rules.add(rule)
-            resource_key = to_camel_case(rule.related_model_lookup or rule.parent_relation_lookup)
+            resource_key = to_camel_case(rule.related_model_lookup or rule.parent_relation_lookup or '')
             if resource_key not in node_map:
                 node = AggregationNode(
                     key=resource_key,
                     aggregated_model=rule.resource_model,
-                    aggregations_model_related_name=rule.parent_relation_lookup
+                    aggregations_model_related_name=rule.related_model_lookup
                 )
                 node_map[resource_key] = node
             node = node_map[resource_key]
@@ -386,7 +392,6 @@ class QueryCompiler:
             QuerySet: The dataset for the cohort
         """
         annotations, queryset_fields = self.rule_compiler.generate_annotations()
-        print(annotations, queryset_fields)
         return self.cohort.cases.annotate(**annotations).values(*queryset_fields)
     
 def construct_dataset(cohort, rules: List[DatasetRule]) -> QuerySet:

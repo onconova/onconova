@@ -1,0 +1,21 @@
+
+.expand-nested-table-button {
+    margin: auto 0;
+    margin-right: .5rem !important;
+}
+.expand-nested-table-button .p-button{
+    padding: .15rem;
+    width: fit-content;
+    height: fit-content;
+}
+.dataset-table-container {
+    flex-grow: 1; 
+    overflow-x: auto;
+}
+/* Make table header not overlap with menu items when expanded */
+thead.p-datatable-thead {
+    position: static !important;
+}
+.p-megamenu ul.p-megamenu-root-list {
+    max-height: none !important;
+}

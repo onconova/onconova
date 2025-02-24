@@ -1,14 +1,39 @@
 
-<h4>Dataset Rules</h4>
+<p-toolbar styleClass="mb-3">
+    <ng-template #start>
+        <p-button 
+            icon="pi pi-eraser" 
+            label='Clear' 
+            class="mr-2" 
+            severity="secondary" 
+            (onClick)="clearDatasetRules()"/>
+        <p-button 
+            icon="pi pi-cloud-upload" 
+            label="Save" 
+            severity="primary" />
+    </ng-template>
+    <ng-template #end>
+        <p-button 
+            [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
+            label="Download" 
+            [disabled]="!authService.user.canExportData"/>
+    </ng-template>
+</p-toolbar>
+
 
 <div class="flex gap-4">
-<p-megamenu 
-    [model]="resourceItems" 
-    orientation="vertical" 
-    appendTo="body" />
 
+    <div>
+        <div class="text-muted mb-3">Select data fields:</div>
+        <p-megamenu 
+            [model]="resourceItems" 
+            orientation="vertical" 
+            appendTo="body" />
+    </div>
 <ng-container *ngIf="dataset$">
     @let dataset = dataset$ | async;
+    <div class="dataset-table-container">
+
     <p-table 
         [value]="dataset || []" 
         [scrollable]="true"
@@ -23,20 +48,28 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="header">
           <tr>
-            <th *ngFor="let col of getColumns(dataset || [])">{{ col }}</th>
+            <th *ngFor="let col of getColumns(dataset || []); let first = first" pFrozenColumn [frozen]="first">{{ col | camelCaseToTitleCase }}</th>
           </tr>
         </ng-template>
       
         <ng-template pTemplate="body" let-rowData>
           <tr>
-            <td *ngFor="let col of getColumns(dataset || []); let first = first">
-              <!-- Check if the value is an object/array (nested structure) -->
-              <ng-container *ngIf="isNested(rowData[col]); else simpleValue">
-                <button pButton type="button" icon="pi pi-chevron-down" (click)="rowData[col].expanded = !rowData[col].expanded"></button>
-                <div *ngIf="rowData[col].expanded">
-                  <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+            <td *ngFor="let col of getColumns(dataset || []); let first = first" pFrozenColumn [frozen]="first">
+                <!-- Check if the value is an object/array (nested structure) -->
+                <div *ngIf="isNested(rowData[col]); else simpleValue" class="flex">
+                    <p-button 
+                        [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
+                        [rounded]="true" 
+                        [outlined]="true"
+                        (onClick)="rowData[col].expanded = !rowData[col].expanded"
+                        class="expand-nested-table-button"/>
+                    <div *ngIf="rowData[col].expanded">
+                        <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                    </div>
+                    <div *ngIf="!rowData[col].expanded">
+                        {{ rowData[col].length }} entries
+                    </div>
                 </div>
-              </ng-container>
       
               <!-- If it's a simple value, display normally -->
               <ng-template #simpleValue>
@@ -59,6 +92,7 @@
     
         </ng-template>
       </p-table>
+    </div>
 </ng-container>
 
 

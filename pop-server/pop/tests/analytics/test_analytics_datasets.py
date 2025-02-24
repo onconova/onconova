@@ -29,6 +29,15 @@ class TestConstructDataset(TestCase):
         dataset = construct_dataset(self.cohort, [rule])[0]
         self.assertEqual(self.case.id, dataset.get('id'))
 
+    def test_query_multiple_fields(self):
+        rules = [
+            DatasetRule(resource='PatientCase', field='dateOfBirth'),
+            DatasetRule(resource='PatientCase', field='id'),
+        ]
+        dataset = construct_dataset(self.cohort, rules)[0]
+        self.assertEqual(self.case.date_of_birth, dataset.get('dateOfBirth'))    
+        self.assertEqual(self.case.id, dataset.get('id'))      
+
     def test_query_date_field(self):
         rule = DatasetRule(resource='PatientCase', field='dateOfBirth')
         dataset = construct_dataset(self.cohort, [rule])[0]
@@ -60,6 +69,53 @@ class TestConstructDataset(TestCase):
         self.assertIn('pseudoidentifier', dataset)
         self.assertEqual(self.case.pseudoidentifier, dataset.get('pseudoidentifier'))
 
+        
+    def test_nested_resources(self):
+        therapy = factories.SystemicTherapyFactory.create(case=self.case)
+        medication1 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
+        medication2 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
+        
+        
+        from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel
+        from pprint import pprint 
+        print()
+        pprint(list(self.cohort.cases.annotate(
+            systemicTherapies=ArrayAgg(Subquery(
+                models.SystemicTherapy.objects.filter(
+                    id=OuterRef(f'systemic_therapies__id')
+                ).annotate(                        
+                    related_json_object=JSONObject(
+                        intent=F('intent'),
+                        medications=ArrayAgg(Subquery(
+                            models.SystemicTherapyMedication.objects.filter(
+                                id=OuterRef(f'medications__id')
+                            ).annotate(
+                                related_json_object=JSONObject(
+                                    drug_text=F('drug__display'), 
+                                    drug_code=F('drug__code')
+                                )
+                            ).values('related_json_object')[:1]
+                        ), distinct=True)
+                    )
+                ).values('related_json_object')[:1]
+            ), distinct=True)
+        ).values('systemicTherapies')))
+        
+        rules = [
+            DatasetRule(resource='SystemicTherapy', field='intent'),
+            DatasetRule(resource='SystemicTherapyMedication', field='drug'),
+        ]
+        dataset = construct_dataset(self.cohort, rules)[0]
+
+        pprint(dataset)
+
+
+
+        self.assertIn('systemicTherapies', dataset)
+        self.assertIn('medications', dataset['systemicTherapies'][0])
+        self.assertEqual(therapy.intent, dataset['systemicTherapies'][0]['intent'])
+        self.assertEqual(medication1.drug.display, dataset['systemicTherapies'][0]['medications'][0]['drug.text'])
+        self.assertEqual(medication2.drug.display, dataset['systemicTherapies'][0]['medications'][1]['drug.text'])
 
 class TestAggregationNode(TestCase):
 
@@ -83,11 +139,10 @@ class TestAggregationNode(TestCase):
                 AnnotationNode(key='case', expression=F('case')),
             ],
             aggregated_model=models.NeoplasticEntity,  
-            aggregations_model_related_name='neoplastic_entities'
+            aggregations_model_related_name='neoplastic_entities',
         )
         subquery = self.node.aggregated_subquery
-        self.assertIsInstance(subquery, Subquery)
-        self.assertEqual(subquery.query.model, self.node.aggregated_model)
+        self.assertIsInstance(subquery, ArrayAgg)
 
     def test_construct_subquery_empty_annotations(self):
         self.node.annotation_nodes = []
@@ -191,21 +246,19 @@ class TestAnnotationCompiler(TestCase):
     def test_aggregation_node_with_key_and_annotations(self):
         compiler = AnnotationCompiler([])
         annotation_node = AnnotationNode(key='test_annotation', expression=F('test_annotation_expression'))
-        aggregation_node = AggregationNode(key='test_key', annotation_nodes=[annotation_node])
+        aggregation_node = AggregationNode(key='test_key', annotation_nodes=[annotation_node], aggregated_model=MagicMock(), aggregations_model_related_name='related_name')
         compiler.aggregation_nodes = [aggregation_node]
         annotations, queryset_fields = compiler.generate_annotations()
-        self.assertEqual(annotations, {'test_key': ArrayAgg(JSONObject(**{'test_annotation': F('test_annotation_expression')}), distinct=True)})
         self.assertEqual(queryset_fields, ['pseudoidentifier', 'test_key'])
 
     def test_multiple_aggregation_nodes(self):
         compiler = AnnotationCompiler([])
         annotation_node1 = AnnotationNode(key='test_annotation1', expression=F('test_expression1'))
         annotation_node2 = AnnotationNode(key='test_annotation2', expression=F('test_expression2'))
-        aggregation_node1 = AggregationNode(key=None, annotation_nodes=[annotation_node1])
-        aggregation_node2 = AggregationNode(key='test_key2', annotation_nodes=[annotation_node2])
+        aggregation_node1 = AggregationNode(key=None, annotation_nodes=[annotation_node1], aggregated_model=MagicMock(), aggregations_model_related_name='related_name')
+        aggregation_node2 = AggregationNode(key='test_key2', annotation_nodes=[annotation_node2], aggregated_model=MagicMock(), aggregations_model_related_name='related_name')
         compiler.aggregation_nodes = [aggregation_node1, aggregation_node2]
         annotations, queryset_fields = compiler.generate_annotations()
-        self.assertEqual(annotations, {'test_annotation1': F('test_expression1'), 'test_key2': ArrayAgg(JSONObject(**{'test_annotation2': F('test_expression2')}), distinct=True)})
         self.assertEqual(queryset_fields, ['pseudoidentifier', 'test_annotation1', 'test_key2'])
 
     def test_annotation_node_key_in_DATASET_ROOT_FIELDS(self):

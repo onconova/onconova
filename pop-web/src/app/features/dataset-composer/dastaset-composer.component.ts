@@ -7,27 +7,33 @@ import { MegaMenu } from 'primeng/megamenu';
 import { MegaMenuItem, MenuItem } from "primeng/api";
 import { TableModule } from 'primeng/table';
 import { Avatar } from "primeng/avatar";
-
-import { CohortsService } from "src/app/shared/openapi";
+import { Button } from "primeng/button";
+import { Toolbar } from "primeng/toolbar";
 
 import openApiSchema from "../../../../openapi.json"; // Import OpenAPI JSON (if possible)
+import { CohortsService } from "src/app/shared/openapi";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
-
+import { AuthService } from "src/app/core/auth/services/auth.service";
+import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-case.pipe";
 
 @Component({
     standalone: true,
     selector: 'pop-dataset-composer',
     templateUrl: './dataset-composer.component.html',
+    styleUrl: './dataset-composer.component.css',
     providers: [],
     imports: [
         CommonModule,
         FormsModule,
         Avatar,
+        Button,
+        Toolbar,
         MegaMenu,
         TableModule,
         NgxJdenticonModule,
         NestedTableComponent,
+        CamelCaseToTitleCasePipe,
     ],
     encapsulation: ViewEncapsulation.None,
 })
@@ -45,12 +51,12 @@ export class DatasetComposerComponent {
     }
     // ==========================================
 
-
+    public authService = inject(AuthService);
     private cohortService = inject(CohortsService);
 
     @Input({required: true}) cohortId!: string;
 
-    public selectedFields: any[] = []
+    public datasetRules: any[] = []
     public pageSizeChoices: number[] = [10, 20, 50, 100];
     public pageSize: number = this.pageSizeChoices[0];
     public totalEntries: number = 0;
@@ -62,28 +68,60 @@ export class DatasetComposerComponent {
     private apiSchemaKeys = Object.fromEntries(
       Object.entries(openApiSchema.components.schemas).map(([key, schema]: any) => [
         key,
-        Object.keys(schema.properties || {}).filter(property => !this.createMetadataItems('').map(item => item['field']).includes(property) && property !== 'caseId')
+        Object.keys(schema.properties || {}).filter(property => !this.createMetadataItems('').map(item => item['field']).includes(property) && !['caseId', 'description'].includes(property))
             .map(property => this.createMenuItem(key, schema.properties[property].title, property, schema.properties[property].type) )
       ])
     )
-      
+    
 
     public resourceItems: MegaMenuItem[] = [
         {label: 'Patient Case', items: this.createSchemaMegaMenuItems('PatientCase')},
         {label: 'Neoplastic Entities', items: this.createSchemaMegaMenuItems('NeoplasticEntity')},
-        {label: 'Systemic Therapy', items: this.createSchemaMegaMenuItems('SystemicTherapy')},
+        {label: 'Stagings', items: this.createSchemaMegaMenuItems('AnyStaging')},
+        {label: 'Risk assessments', items: this.createSchemaMegaMenuItems('RiskAssessment')},
+        {label: 'Therapy Lines', items: this.createSchemaMegaMenuItems('TherapyLine')},
+        {label: 'Systemic Therapy', items: [
+            this.createSchemaMegaMenuItems('SystemicTherapy', ['medications'])[0],
+            [{label: "Medications", items: this.apiSchemaKeys['SystemicTherapyMedication']}],
+            [{label: "Metadata", items: this.createMetadataItems('SystemicTherapy')}],
+
+        ]},
+        {label: 'Surgeries', items: this.createSchemaMegaMenuItems('Surgery')},
+        {label: 'Radiotherapies',  items: [
+            this.createSchemaMegaMenuItems('Radiotherapy', ['dosages', 'settings'])[0],
+            [{label: "Dosages", items: this.apiSchemaKeys['RadiotherapyDosage']}],
+            [{label: "Settings", items: this.apiSchemaKeys['RadiotherapySetting']}],
+            [{label: "Metadata", items: this.createMetadataItems('RadiotherRadiotherapyapySetting')}],
+        ]},
+        {label: 'Treatment Responses', items: this.createSchemaMegaMenuItems('TreatmentResponse')},
+        {label: 'Genomic Variants', items: this.createSchemaMegaMenuItems('GenomicVariant')},
+        // {label: 'Genomic Signatures', items: this.createSchemaMegaMenuItems('GenomicSignature')},
+        {label: 'AdverseEvent',  items: [
+            this.createSchemaMegaMenuItems('AdverseEvent', ['suspectedCauses', 'mitigations'])[0],
+            [{label: "Suspected Causes", items: this.apiSchemaKeys['AdverseEventSuspectedCause']}],
+            [{label: "Mitigations", items: this.apiSchemaKeys['AdverseEventMitigation']}],
+            [{label: "Metadata", items: this.createMetadataItems('AdverseEvent')}],
+        ]},
+        {label: 'Performance Status', items: this.createSchemaMegaMenuItems('PerformanceStatus')},
+        {label: 'Lifestyle', items: this.createSchemaMegaMenuItems('Lifestyle')},
+        {label: 'FamilyHistory', items: this.createSchemaMegaMenuItems('FamilyHistory')},
+        {label: 'Comorbidities', items: this.createSchemaMegaMenuItems('ComorbiditiesAssessment')},
+        {label: 'Vitals', items: this.createSchemaMegaMenuItems('Vitals')},
     ]
 
     
-    private createSchemaMegaMenuItems(schema: string): MenuItem[][] {
+    private createSchemaMegaMenuItems(schema: string, exclude: string[] = []): MenuItem[][] {
+        if (!this.apiSchemaKeys.hasOwnProperty(schema)) {
+            console.error(`Schema "${schema}" does not exist.`)
+        }
         return [
-            [{label: "Properties", items: this.apiSchemaKeys[schema]}],
+            [{label: "Properties", items: this.apiSchemaKeys[schema].filter(((item: any) => !exclude.includes(item.field)))}],
             [{label: "Metadata", items: this.createMetadataItems(schema)}],
         ]
     }
 
     private refreshDatasetObservable() {
-        this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.selectedFields, limit: this.pageSize, offset: this.currentOffset}).pipe(
+        this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.datasetRules, limit: this.pageSize, offset: this.currentOffset}).pipe(
             map(response => {
                 this.totalEntries = response.count;
                 return response.items
@@ -97,9 +135,14 @@ export class DatasetComposerComponent {
         this.refreshDatasetObservable()
      }
      
-    private createMenuItem(resource: string, label: string, field: string, type: string): MenuItem {
+    public clearDatasetRules() {
+        this.datasetRules = [];
+        this.refreshDatasetObservable()
+    }
+
+    private createMenuItem(resource: string, label: string, field: string, type: string) {
         return {label: label, field: field, command: () => {
-            this.selectedFields.push({resource: resource, field: field, type: type})
+            this.datasetRules.push({resource: resource, field: field})
             this.refreshDatasetObservable()
         }}
     }
