@@ -70,6 +70,25 @@ def to_camel_case(string: str) -> str:
             for n,word in enumerate(string.split('_'))
     ])
 
+def to_pascal_case(string: str) -> str:
+    """
+    Convert a string from snake_case to PascalCase.
+
+    Args:
+        string (str): The string to convert.
+
+    Returns:
+        str: The converted string.
+    """
+    if '_' in string:
+        return ''.join([
+            word.capitalize()
+                for word in string.split('_')
+        ])
+    elif len(string)>1:
+        return string[0].upper() + string[1:]
+    else:
+        return string.upper()
 
 def camel_to_snake(name: str) -> str:
     """

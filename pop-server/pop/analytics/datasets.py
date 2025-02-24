@@ -6,12 +6,12 @@ from django.contrib.postgres.aggregates import ArrayAgg
 
 from queryable_properties.properties.base import QueryablePropertyDescriptor
 
-from pop.core.utils import get_related_model_from_field, to_camel_case
+from pop.core.utils import get_related_model_from_field, to_pascal_case
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
 
-from pop.oncology.models import PatientCase
+from pop.oncology.models import PatientCase, MODELS
 from pop.core.schemas.factory.metaclasses import ModelGetSchema
 from pop.analytics.schemas import DatasetRule
 
@@ -22,17 +22,22 @@ DATASET_ROOT_FIELDS = [f.name for f in PatientCase._meta.get_fields()]
 class DatasetRuleProcessor:
     """Processes individual dataset rules and extracts necessary query information."""
     
-    parent_model = None
-    
     def __init__(self, rule: DatasetRule):
         self.dataset_field = rule.field
         # Get the schema specified by the rule 
         schema = self._get_schema(rule.resource.value)
         self.resource_model = self._get_orm_model(schema)
         # Resolve the related 
-        if rule.relatedResource:
-            parent_schema = self._get_schema(rule.relatedResource.value)
-            self.parent_model = self._get_orm_model(parent_schema)
+        if self.resource_model == PatientCase:
+            self.parent_model = None
+        elif hasattr(self.resource_model, 'case'):
+            self.parent_model = PatientCase
+        else:
+            # TODO: Currently uses name-convention, must be improved/changed
+            self.parent_model = next((
+                field.related_model for field in self.resource_model._meta.get_fields() 
+                    if field.related_model and field.related_model.__name__ in self.resource_model.__name__
+            ))                                
         # Get other values
         self.model_field_name = self._get_model_field_name(schema)
         self.value_transformer = self._get_transformer(rule.transform)
@@ -74,7 +79,7 @@ class DatasetRuleProcessor:
     @property
     def annotation_key(self) -> str:
         """Returns a unique key used in dataset query annotations."""
-        return f"{self.dataset_field}.{self.value_transformer.name}" if self.value_transformer else self.dataset_field
+        return f"{to_pascal_case(self.dataset_field)}.{self.value_transformer.name}" if self.value_transformer else to_pascal_case(self.dataset_field)
 
     @property 
     def parent_related_name(self):
@@ -211,7 +216,7 @@ class AggregationNode:
         Returns:
             None
         """
-        self.annotation_nodes.append(AnnotationNode(key, expression))
+        self.annotation_nodes.append(AnnotationNode(to_pascal_case(key), expression))
 
     def add_nested_aggregation_node(self, node: "AggregationNode") -> None:
         """
@@ -312,59 +317,53 @@ class AnnotationCompiler:
                     if annotation_node.key not in DATASET_ROOT_FIELDS:
                         annotations[annotation_node.key] = annotation_node.expression
                     if annotation_node.key not in queryset_fields:
-                        queryset_fields.append(annotation_node.key)                                
+                        queryset_fields.append(annotation_node.key)                        
             elif aggregation_node.annotations:
                 annotations[aggregation_node.key] = aggregation_node.aggregated_subquery
                 queryset_fields.append(aggregation_node.key)      
         # Remove duplicates 
         return annotations, queryset_fields
     
-
-    def _build_aggregation_tree(self, rules: List[DatasetRuleProcessor], parent_node: Optional[AggregationNode] = None, assigned_rules: Set[DatasetRuleProcessor] = None) -> List[AggregationNode]:
-        """
-        Recursively builds an aggregation tree from a list of dataset rules.
-
-        The tree is built by grouping rules by their resource models and
-        creating an AggregationNode for each group. Annotation nodes are then
-        added to the corresponding AggregationNode. The tree is built
-        recursively by processing child rules for each node.
-
-        Args:
-            rules: A list of dataset rules
-            parent_node: The parent node of the current node
-            assigned_rules: A set of rules that have already been processed
-
-        Returns:
-            A list of root nodes in the aggregation tree
-        """
-        node_map = {}            
-        if assigned_rules is None:
-            assigned_rules = set()
+    def _generate_node_map(self, rules):
+        from collections import defaultdict
+        node_map = defaultdict(dict)            
         for rule in rules:
-            if rule in assigned_rules:
-                continue
-            else:
-                assigned_rules.add(rule)
-            resource_key = to_camel_case(rule.related_model_lookup or rule.parent_related_name or '')
-            if resource_key not in node_map:
+            if rule.parent_model not in node_map or rule.resource_model not in node_map[rule.parent_model]:
                 node = AggregationNode(
-                    key=resource_key,
+                    key=to_pascal_case(rule.related_model_lookup or ''),
                     aggregated_model=rule.resource_model,
                     aggregated_model_parent_related_name=rule.parent_related_name
                 )
-                node_map[resource_key] = node
-            node = node_map[resource_key]
+                node_map[rule.parent_model][rule.resource_model] = node
+            node = node_map[rule.parent_model][rule.resource_model]
             # Add annotation nodes to the corresponding AggregationNode
             node.add_annotation_node(rule.annotation_key, rule.field_annotation)
-            # Recursively build the tree for child rules
-            child_rules = [r for r in rules if r.parent_model == rule.resource_model]
-            if child_rules:
-                child_node = self._build_aggregation_tree(child_rules, node, assigned_rules)
-                node.nested_aggregation_nodes.extend(child_node)
-        # Return the root nodes (i.e., nodes with no parent)
-        root_nodes = [node for node in node_map.values() if parent_node is None or node.key != parent_node.key]
-        return root_nodes
+        
+        for rule in rules:
+            if rule.parent_model:
+                grandparent_model = PatientCase
+                grandparent_related_field = {field.related_model: field for field in grandparent_model._meta.get_fields()}.get(rule.parent_model)                
+                if grandparent_related_field and rule.parent_model not in node_map[grandparent_model]:
+                    node = AggregationNode(
+                        key=to_pascal_case(grandparent_related_field.name or ''),
+                        aggregated_model=rule.parent_model,
+                        aggregated_model_parent_related_name=grandparent_related_field.name
+                    )
+                    node.add_annotation_node('id', F('id'))       
+                    node_map[grandparent_model][rule.parent_model] = node
+        return node_map
 
+    def _build_aggregation_tree(self, rules):
+        self.nodes_map = self._generate_node_map(rules)
+        return self._build_tree(None) + self._build_tree(PatientCase)
+
+    def _build_tree(self, parent) -> List[AggregationNode]:
+        nodes = []
+        for node in self.nodes_map[parent].values():
+            child_nodes = self._build_tree(node.aggregated_model)
+            node.nested_aggregation_nodes.extend(child_nodes)
+            nodes.append(node)
+        return nodes 
 
 
 class QueryCompiler:

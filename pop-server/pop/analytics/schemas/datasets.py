@@ -13,7 +13,6 @@ DataResource = Enum('DataResource', {
 
 class DatasetRule(Schema):
     resource: DataResource # type: ignore
-    relatedResource: Optional[DataResource] = None # type: ignore
     field: str
     transform: Optional[Union[str, Tuple[str, Any]]] = None   
 

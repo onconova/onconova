@@ -15,7 +15,6 @@ from pop.analytics.models import Cohort
 from pop.analytics.schemas import DatasetRule
 from pop.analytics.datasets import DatasetRuleProcessingError, DatasetRuleProcessor, construct_dataset, AggregationNode, AnnotationNode, AnnotationCompiler
    
-
 class TestConstructDataset(TestCase):
 
     def setUp(self):
@@ -27,7 +26,7 @@ class TestConstructDataset(TestCase):
     def test_basic_dataset(self):
         rule = DatasetRule(resource='PatientCase', field='id')
         dataset = construct_dataset(self.cohort, [rule])[0]
-        self.assertEqual(self.case.id, dataset.get('id'))
+        self.assertEqual(self.case.id, dataset.get('Id'))
 
     def test_query_multiple_fields(self):
         rules = [
@@ -35,33 +34,33 @@ class TestConstructDataset(TestCase):
             DatasetRule(resource='PatientCase', field='id'),
         ]
         dataset = construct_dataset(self.cohort, rules)[0]
-        self.assertEqual(self.case.date_of_birth, dataset.get('dateOfBirth'))    
-        self.assertEqual(self.case.id, dataset.get('id'))      
+        self.assertEqual(self.case.date_of_birth, dataset.get('DateOfBirth'))    
+        self.assertEqual(self.case.id, dataset.get('Id'))      
 
     def test_query_date_field(self):
         rule = DatasetRule(resource='PatientCase', field='dateOfBirth')
         dataset = construct_dataset(self.cohort, [rule])[0]
-        self.assertEqual(self.case.date_of_birth, dataset.get('dateOfBirth'))       
+        self.assertEqual(self.case.date_of_birth, dataset.get('DateOfBirth'))       
         
     def test_query_annotated_property(self):
         rule = DatasetRule(resource='PatientCase', field='age')
         dataset = construct_dataset(self.cohort, [rule])[0]
-        self.assertEqual(self.case.age, dataset.get('age'))     
+        self.assertEqual(self.case.age, dataset.get('Age'))     
 
     def test_query_coded_concept_text(self):
         rule = DatasetRule(resource='PatientCase', field='gender', transform='GetCodedConceptDisplay')
         dataset = construct_dataset(self.cohort, [rule])[0]
-        self.assertEqual(self.case.gender.display, dataset.get('gender.text'))     
+        self.assertEqual(self.case.gender.display, dataset.get('Gender.text'))     
 
     def test_query_coded_concept_code(self):
         rule = DatasetRule(resource='PatientCase', field='gender', transform='GetCodedConceptCode')
         dataset = construct_dataset(self.cohort, [rule])[0]
-        self.assertEqual(self.case.gender.code, dataset.get('gender.code'))     
+        self.assertEqual(self.case.gender.code, dataset.get('Gender.code'))     
 
     def test_query_coded_concept_system(self):
         rule = DatasetRule(resource='PatientCase', field='gender', transform='GetCodedConceptSystem')
         dataset = construct_dataset(self.cohort, [rule])[0]
-        self.assertEqual(self.case.gender.system, dataset.get('gender.system'))     
+        self.assertEqual(self.case.gender.system, dataset.get('Gender.system'))     
         
     def test_case_pseudoidentifier_always_contained(self):
         rule = DatasetRule(resource='PatientCase', field='id')
@@ -75,14 +74,14 @@ class TestConstructDataset(TestCase):
         medication1 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
         medication2 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
         rules = [
-            DatasetRule(resource='SystemicTherapy', field='intent', relatedResource='PatientCase'),
-            DatasetRule(resource='SystemicTherapyMedication', field='drug', relatedResource='SystemicTherapy', transform='GetCodedConceptDisplay'),
+            DatasetRule(resource='SystemicTherapy', field='intent'),
+            DatasetRule(resource='SystemicTherapyMedication', field='drug', transform='GetCodedConceptDisplay'),
         ]
         dataset = construct_dataset(self.cohort, rules)[0]
-        self.assertIn('systemicTherapies', dataset)
-        self.assertIn('medications', dataset['systemicTherapies'][0])
-        self.assertEqual(therapy.intent, dataset['systemicTherapies'][0]['intent'])
-        drugs = [d['drug.text'] for d in dataset['systemicTherapies'][0]['medications']]
+        self.assertIn('SystemicTherapies', dataset)
+        self.assertIn('Medications', dataset['SystemicTherapies'][0])
+        self.assertEqual(therapy.intent, dataset['SystemicTherapies'][0]['Intent'])
+        drugs = [d['Drug.text'] for d in dataset['SystemicTherapies'][0]['Medications']]
         self.assertIn(medication1.drug.display, drugs)
         self.assertIn(medication2.drug.display, drugs)
 
@@ -95,10 +94,10 @@ class TestConstructDataset(TestCase):
             DatasetRule(resource='SystemicTherapyMedication', field='drug', relatedResource='SystemicTherapy', transform='GetCodedConceptDisplay'),
         ]
         dataset = construct_dataset(self.cohort, rules)[0]
-        self.assertIn('systemicTherapies', dataset)
-        self.assertIn('medications', dataset['systemicTherapies'][0])
-        self.assertEqual(therapy.intent, dataset['systemicTherapies'][0]['intent'])
-        drugs = [d['drug.text'] for d in dataset['systemicTherapies'][0]['medications']]
+        self.assertIn('SystemicTherapies', dataset)
+        self.assertIn('Medications', dataset['SystemicTherapies'][0])
+        self.assertEqual(str(therapy.id), dataset['SystemicTherapies'][0]['Id'])
+        drugs = [d['Drug.text'] for d in dataset['SystemicTherapies'][0]['Medications']]
         self.assertIn(medication1.drug.display, drugs)
         self.assertIn(medication2.drug.display, drugs)
 
@@ -176,12 +175,21 @@ class TestDatasetRuleProcessor(TestCase):
         self.assertEqual(processor.value_transformer, None)
     
     def test_nested_rule(self):
-        processor = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='relationship', relatedResource='PatientCase'))
+        processor = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='relationship'))
         self.assertEqual(processor.resource_model, models.NeoplasticEntity)
         self.assertEqual(processor.parent_model, models.PatientCase)
         self.assertEqual(processor.parent_related_name, 'neoplastic_entities')
         self.assertEqual(processor.dataset_field, 'relationship')
         self.assertEqual(processor.model_field_name, 'relationship')
+        self.assertEqual(processor.value_transformer, None)
+        
+    def test_nested_rule_2(self):
+        processor = DatasetRuleProcessor(DatasetRule(resource='SystemicTherapyMedication', field='drug'))
+        self.assertEqual(processor.resource_model, models.SystemicTherapyMedication)
+        self.assertEqual(processor.parent_model, models.SystemicTherapy)
+        self.assertEqual(processor.parent_related_name, 'medications')
+        self.assertEqual(processor.dataset_field, 'drug')
+        self.assertEqual(processor.model_field_name, 'drug')
         self.assertEqual(processor.value_transformer, None)
         
         
@@ -196,50 +204,64 @@ class TestAnnotationCompiler(TestCase):
 
     def test_build_aggregation_tree_with_single_rule(self):
         compiler = AnnotationCompiler([])
-        rule = MagicMock(annotation_key='fieldA', field_annotation=F('fieldA'), resource_model=models.NeoplasticEntity, related_model_lookup='neoplastic_entities')
+        rule = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='relationship'))
         result = compiler._build_aggregation_tree([rule])
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].key, 'neoplasticEntities')
+        self.assertEqual(result[0].key, 'NeoplasticEntities')
         self.assertEqual(len(result[0].annotation_nodes), 1)
-        self.assertEqual(result[0].annotation_nodes[0].key, 'fieldA')
+        self.assertEqual(result[0].annotation_nodes[0].key, 'Relationship')
 
     def test_build_aggregation_tree_with_multiple_rules_same_resource_model(self):
         compiler = AnnotationCompiler([])
-        rule1 = MagicMock(annotation_key='fieldA', field_annotation=F('fieldA'), resource_model=models.NeoplasticEntity, related_model_lookup='neoplastic_entities')
-        rule2 = MagicMock(annotation_key='fieldB', field_annotation=F('fieldB'), resource_model=models.NeoplasticEntity, related_model_lookup='neoplastic_entities')
+        rule1 = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='relationship'))
+        rule2 = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='morphology'))
         result = compiler._build_aggregation_tree([rule1, rule2])
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].key, 'neoplasticEntities')
+        self.assertEqual(result[0].key, 'NeoplasticEntities')
         self.assertEqual(len(result[0].annotation_nodes), 2)
-        self.assertEqual(result[0].annotation_nodes[0].key, 'fieldA')
-        self.assertEqual(result[0].annotation_nodes[1].key, 'fieldB')
+        self.assertEqual(result[0].annotation_nodes[0].key, 'Relationship')
+        self.assertEqual(result[0].annotation_nodes[1].key, 'Morphology')
 
     def test_build_aggregation_tree_with_multiple_rules_different_resource_models(self):
         compiler = AnnotationCompiler([])
-        rule1 = MagicMock(annotation_key='fieldA', field_annotation=F('fieldA'), resource_model=models.NeoplasticEntity, related_model_lookup='neoplastic_entities')
-        rule2 = MagicMock(annotation_key='fieldB', field_annotation=F('fieldB'), resource_model=models.SystemicTherapy, related_model_lookup='systemic_therapies')
+        rule1 = DatasetRuleProcessor(DatasetRule(resource='NeoplasticEntity', field='relationship'))
+        rule2 = DatasetRuleProcessor(DatasetRule(resource='SystemicTherapy', field='intent'))
         result = compiler._build_aggregation_tree([rule1, rule2])
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[0].key, 'neoplasticEntities')
+        self.assertEqual(result[0].key, 'NeoplasticEntities')
         self.assertEqual(len(result[0].annotation_nodes), 1)
-        self.assertEqual(result[0].annotation_nodes[0].key, 'fieldA')
-        self.assertEqual(result[1].key, 'systemicTherapies')
+        self.assertEqual(result[0].annotation_nodes[0].key, 'Relationship')
+        self.assertEqual(result[1].key, 'SystemicTherapies')
         self.assertEqual(len(result[1].annotation_nodes), 1)
-        self.assertEqual(result[1].annotation_nodes[0].key, 'fieldB')
+        self.assertEqual(result[1].annotation_nodes[0].key, 'Intent')
 
     def test_build_aggregation_tree_with_child_rules(self):
         compiler = AnnotationCompiler([])
-        rule1 = MagicMock(annotation_key='fieldA', field_annotation=F('fieldA'), resource_model=models.SystemicTherapy, related_model_lookup='systemic_therapies')
-        rule2 = MagicMock(annotation_key='fieldB', field_annotation=F('fieldB'), resource_model=models.SystemicTherapyMedication, related_model_lookup='medications', parent_model=models.SystemicTherapy, parent_relation_lookup='systemic_therapies')
+        rule1 = DatasetRuleProcessor(DatasetRule(resource='SystemicTherapy', field='intent'))
+        rule2 = DatasetRuleProcessor(DatasetRule(resource='SystemicTherapyMedication', field='drug'))
         result = compiler._build_aggregation_tree([rule1, rule2])
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].key, 'systemicTherapies')
+        self.assertEqual(result[0].key, 'SystemicTherapies')
         self.assertEqual(len(result[0].annotation_nodes), 1)
-        self.assertEqual(result[0].annotation_nodes[0].key, 'fieldA')
+        self.assertEqual(result[0].annotation_nodes[0].key, 'Intent')
         self.assertEqual(len(result[0].nested_aggregation_nodes), 1)
-        self.assertEqual(result[0].nested_aggregation_nodes[0].key, 'medications')
+        self.assertEqual(result[0].nested_aggregation_nodes[0].key, 'Medications')
         self.assertEqual(len(result[0].nested_aggregation_nodes[0].annotation_nodes), 1)
-        self.assertEqual(result[0].nested_aggregation_nodes[0].annotation_nodes[0].key, 'fieldB')
+        self.assertEqual(result[0].nested_aggregation_nodes[0].annotation_nodes[0].key, 'Drug')
+
+
+    def test_build_aggregation_tree_with_child_rules_missing_parent(self):
+        compiler = AnnotationCompiler([])
+        rule2 = DatasetRuleProcessor(DatasetRule(resource='SystemicTherapyMedication', field='drug'))
+        result = compiler._build_aggregation_tree([rule2])
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].key, 'SystemicTherapies')
+        self.assertEqual(len(result[0].annotation_nodes), 1)
+        self.assertEqual(result[0].annotation_nodes[0].key, 'Id')
+        self.assertEqual(len(result[0].nested_aggregation_nodes), 1)
+        self.assertEqual(result[0].nested_aggregation_nodes[0].key, 'Medications')
+        self.assertEqual(len(result[0].nested_aggregation_nodes[0].annotation_nodes), 1)
+        self.assertEqual(result[0].nested_aggregation_nodes[0].annotation_nodes[0].key, 'Drug')
 
     def test_no_aggregation_nodes(self):
         compiler = AnnotationCompiler([])
