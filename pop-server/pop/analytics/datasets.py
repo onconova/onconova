@@ -9,6 +9,7 @@ from queryable_properties.properties.base import QueryablePropertyDescriptor
 from pop.core import transforms
 from pop.core.utils import get_related_model_from_field, to_camel_case
 
+from pop.oncology.schemas import ONCOLOGY_SCHEMAS
 from pop.oncology.models import PatientCase
 from pop.core.schemas.factory.metaclasses import ModelGetSchema
 from pop.analytics.schemas import DatasetRule
@@ -18,15 +19,17 @@ DATASET_ROOT_FIELDS = [f.name for f in PatientCase._meta.get_fields()]
 
 class DatasetRuleProcessor:
     """Processes individual dataset rules and extracts necessary query information."""
-
+    
+    
     def __init__(self, rule: DatasetRule):
+        self.parent_model: Optional[DjangoModel] = None
+        self.parent_relation_lookup: Optional[str] = None
         self.dataset_field = rule.field
         self.resource_schema = self._get_schema(rule.resource.value)
         self.resource_model = self.resource_schema.__orm_model__
+        self._set_parent_model()
         self.value_transformer = self._get_transformer(rule.transform)
-        self.parent_model: Optional[DjangoModel] = None
-        self.parent_relation_lookup: Optional[str] = None
-
+        
     def _get_schema(self, resource_name: str):
         """Retrieves the corresponding schema for the resource."""
         from pop.oncology import schemas as oncology_schemas
@@ -36,6 +39,16 @@ class DatasetRuleProcessor:
         """Fetches transformation function if specified, otherwise defaults."""
         return getattr(transforms, transform or "", None) or transforms.DEFAULT_TRANSFORMATIONS.get(self.field_data_type)
 
+    def _set_parent_model(self):
+        for schema in ONCOLOGY_SCHEMAS:
+            child_resources = [
+                get_related_model_from_field(field) for field in schema.model_fields.values() if get_related_model_from_field(field) and issubclass(get_related_model_from_field(field), ModelGetSchema) 
+            ]
+            if self.resource_schema in child_resources:
+                self.parent_model = schema.__orm_model__
+                self.parent_relation_lookup = {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model]
+                return 
+            
     @property
     def annotation_key(self) -> str:
         """Returns a unique key used in dataset query annotations."""
@@ -46,6 +59,7 @@ class DatasetRuleProcessor:
         """Determines the Django ORM lookup for related models."""
         if self.resource_model._meta.model_name == "patientcase":
             return ""  # No relation needed for PatientCase
+        print(self.resource_schema, self.parent_model)
         if self.parent_model:
             return {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model]
         return self.resource_model._meta.get_field("case").related_query_name()
@@ -55,6 +69,8 @@ class DatasetRuleProcessor:
         return [
             get_related_model_from_field(field) for field in self.resource_schema.model_fields.values() if get_related_model_from_field(field) and issubclass(get_related_model_from_field(field), ModelGetSchema) 
         ]
+    
+
     @property
     def schema_field_info(self):
         """Retrieves metadata about the dataset field from the schema."""
@@ -176,9 +192,9 @@ class AggregationNode:
             self.aggregated_model.objects.filter(
                 id=OuterRef(f'{self.aggregations_model_related_name}__id')
             ).annotate(
-                related_json_object=JSONObject(**annotations)
+                related_json_object=JSONObject(id=F('id'), **annotations)
             ).values('related_json_object')[:1]
-        ), distinct=False)
+        ), distinct=True)
 
     def add_annotation_node(self, key: str, expression: Expression) -> None:
         """
@@ -314,11 +330,7 @@ class AnnotationCompiler:
         parent model and related lookup for each rule.
         """
         for rule in self.rules:
-            for other_rule in self.rules:
-                if rule.resource_schema in other_rule.child_resources:
-                    parent_rule = other_rule
-                    rule.parent_model = parent_rule.resource_model
-                    rule.parent_relation_lookup = parent_rule.related_model_lookup
+            rule._set_parent_model()
 
     def _build_aggregation_tree(self, rules: List[DatasetRuleProcessor], parent_node: Optional[AggregationNode] = None, assigned_rules: Set[DatasetRuleProcessor] = None) -> List[AggregationNode]:
         """
