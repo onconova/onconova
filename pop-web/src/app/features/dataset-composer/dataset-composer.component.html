@@ -22,15 +22,19 @@
     </ng-template>
 </p-toolbar>
 
-
 <div class="flex gap-4">
 
     <div>
-        <div class="text-muted mb-3">Select data fields:</div>
-        <p-megamenu 
-            [model]="resourceItems" 
-            orientation="vertical" 
-            appendTo="body" />
+        <div class="flex-auto md:flex md:justify-start md:items-center flex-col">
+            <p-tree 
+                [value]="resourceItems" 
+                selectionMode="multiple" 
+                [(selection)]="selectedNodes"
+                (selectionChange)="updateDataset($event)"
+                styleClass="w-full md:w-[30rem]"
+                [filter]="true" 
+                filterPlaceholder="Search and select"/>
+        </div>
     </div>
 <ng-container *ngIf="dataset$">
     @let dataset = dataset$ | async;
@@ -55,7 +59,7 @@
         </ng-template>
       
         <ng-template pTemplate="body" let-rowData>
-          <tr>
+          <tr @fadeAnimation> 
             <td *ngFor="let col of getColumns(dataset || []); let first = first" pFrozenColumn [frozen]="first">
                 <!-- Check if the value is an object/array (nested structure) -->
                 <div *ngIf="isNested(rowData[col]); else simpleValue" class="flex">
@@ -86,7 +90,7 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="!first">
-                    {{ rowData[col] }}
+                    {{ rowData[col] || '-' }}
                 </ng-container>
               </ng-template>
             </td>

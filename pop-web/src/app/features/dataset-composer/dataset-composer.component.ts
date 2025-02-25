@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, Input, ViewEncapsulation } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 import { forkJoin, map, Observable, of, take } from "rxjs";
 
 import JSZip from 'jszip';
@@ -12,7 +14,9 @@ import { TableModule } from 'primeng/table';
 import { Avatar } from "primeng/avatar";
 import { Button } from "primeng/button";
 import { Toolbar } from "primeng/toolbar";
-import { MessageService } from "primeng/api";
+import { MessageService, TreeNode } from "primeng/api";
+import { TreeModule} from 'primeng/tree';
+
 
 import openApiSchema from "../../../../openapi.json"; // Import OpenAPI JSON (if possible)
 import { CohortsService } from "src/app/shared/openapi";
@@ -34,11 +38,19 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
         Button,
         Toolbar,
         Menu,
+        TreeModule,
         MegaMenu,
         TableModule,
         NgxJdenticonModule,
         NestedTableComponent,
         CamelCaseToTitleCasePipe,
+    ],
+    animations: [
+      trigger('fadeAnimation', [
+        state('void', style({ opacity: 0 })),  // Initial state (not visible)
+        transition(':enter', [animate('500ms ease-in')]),  // Fade-in effect
+        transition(':leave', [animate('500ms ease-out')])  // Fade-out effect
+      ])
     ],
     encapsulation: ViewEncapsulation.None,
 })
@@ -79,42 +91,60 @@ export class DatasetComposerComponent {
       ])
     )
     
+    selectedNodes!: TreeNode[];
 
-    public resourceItems: MegaMenuItem[] = [
-        {label: 'Patient Case', items: this.createSchemaMegaMenuItems('PatientCase')},
-        {label: 'Neoplastic Entities', items: this.createSchemaMegaMenuItems('NeoplasticEntity')},
-        {label: 'Stagings', items: this.createSchemaMegaMenuItems('AnyStaging')},
-        {label: 'Risk assessments', items: this.createSchemaMegaMenuItems('RiskAssessment')},
-        {label: 'Therapy Lines', items: this.createSchemaMegaMenuItems('TherapyLine')},
-        {label: 'Systemic Therapy', items: [
-            this.createSchemaMegaMenuItems('SystemicTherapy', ['medications'])[0],
-            [{label: "Medications", items: this.apiSchemaKeys['SystemicTherapyMedication']}],
-            [{label: "Metadata", items: this.createMetadataItems('SystemicTherapy')}],
+    public resourceItems: TreeNode<any>[] = [
+        {key: this.makeRandom(6), label: 'Patient Case', children: this.createSchemaTreeNodes('PatientCase')},
+        {key: this.makeRandom(6), label: 'Neoplastic Entities', children: this.createSchemaTreeNodes('NeoplasticEntity')},
+        {key: this.makeRandom(6), label: 'Stagings', children: this.createSchemaTreeNodes('AnyStaging')},
+        {key: this.makeRandom(6), label: 'Risk assessments', children: this.createSchemaTreeNodes('RiskAssessment')},
+        {key: this.makeRandom(6), label: 'Therapy Lines', children: this.createSchemaTreeNodes('TherapyLine')},
+        {key: this.makeRandom(6), label: 'Systemic Therapy', children: [
+            this.createSchemaTreeNodes('SystemicTherapy', ['medications'])[0],
+            {key: this.makeRandom(6), label: "Medications", children: this.apiSchemaKeys['SystemicTherapyMedication']},
+            {key: this.makeRandom(6), label: "Metadata", children: this.createMetadataItems('SystemicTherapy')},
 
         ]},
-        {label: 'Surgeries', items: this.createSchemaMegaMenuItems('Surgery')},
-        {label: 'Radiotherapies',  items: [
-            this.createSchemaMegaMenuItems('Radiotherapy', ['dosages', 'settings'])[0],
-            [{label: "Dosages", items: this.apiSchemaKeys['RadiotherapyDosage']}],
-            [{label: "Settings", items: this.apiSchemaKeys['RadiotherapySetting']}],
-            [{label: "Metadata", items: this.createMetadataItems('RadiotherRadiotherapyapySetting')}],
+        {key: this.makeRandom(6), label: 'Surgeries', children: this.createSchemaTreeNodes('Surgery')},
+        {key: this.makeRandom(6), label: 'Radiotherapies',  children: [
+            this.createSchemaTreeNodes('Radiotherapy', ['dosages', 'settings'])[0],
+            {key: this.makeRandom(6), label: "Dosages", children: this.apiSchemaKeys['RadiotherapyDosage']},
+            {key: this.makeRandom(6), label: "Settings", children: this.apiSchemaKeys['RadiotherapySetting']},
+            {key: this.makeRandom(6), label: "Metadata", children: this.createMetadataItems('RadiotherRadiotherapyapySetting')},
         ]},
-        {label: 'Treatment Responses', items: this.createSchemaMegaMenuItems('TreatmentResponse')},
-        {label: 'Genomic Variants', items: this.createSchemaMegaMenuItems('GenomicVariant')},
-        // {label: 'Genomic Signatures', items: this.createSchemaMegaMenuItems('GenomicSignature')},
-        {label: 'AdverseEvent',  items: [
-            this.createSchemaMegaMenuItems('AdverseEvent', ['suspectedCauses', 'mitigations'])[0],
-            [{label: "Suspected Causes", items: this.apiSchemaKeys['AdverseEventSuspectedCause']}],
-            [{label: "Mitigations", items: this.apiSchemaKeys['AdverseEventMitigation']}],
-            [{label: "Metadata", items: this.createMetadataItems('AdverseEvent')}],
+        {key: this.makeRandom(6), label: 'Treatment Responses', children: this.createSchemaTreeNodes('TreatmentResponse')},
+        {key: this.makeRandom(6), label: 'Genomic Variants', children: this.createSchemaTreeNodes('GenomicVariant')},
+        // {label: 'Genomic Signatures', items: this.createSchemaTreeNodes('GenomicSignature')},
+        {key: this.makeRandom(6), label: 'AdverseEvent',  children: [
+            this.createSchemaTreeNodes('AdverseEvent', ['suspectedCauses', 'mitigations'])[0],
+            {key: this.makeRandom(6), label: "Suspected Causes", children: this.apiSchemaKeys['AdverseEventSuspectedCause']},
+            {key: this.makeRandom(6), label: "Mitigations", children: this.apiSchemaKeys['AdverseEventMitigation']},
+            {key: this.makeRandom(6), label: "Metadata", children: this.createMetadataItems('AdverseEvent')},
         ]},
-        {label: 'Performance Status', items: this.createSchemaMegaMenuItems('PerformanceStatus')},
-        {label: 'Lifestyle', items: this.createSchemaMegaMenuItems('Lifestyle')},
-        {label: 'FamilyHistory', items: this.createSchemaMegaMenuItems('FamilyHistory')},
-        {label: 'Comorbidities', items: this.createSchemaMegaMenuItems('ComorbiditiesAssessment')},
-        {label: 'Vitals', items: this.createSchemaMegaMenuItems('Vitals')},
+        {key: this.makeRandom(6), label: 'Performance Status', children: this.createSchemaTreeNodes('PerformanceStatus')},
+        {key: this.makeRandom(6), label: 'Lifestyle', children: this.createSchemaTreeNodes('Lifestyle')},
+        {key: this.makeRandom(6), label: 'FamilyHistory', children: this.createSchemaTreeNodes('FamilyHistory')},
+        {key: this.makeRandom(6), label: 'Comorbidities', children: this.createSchemaTreeNodes('ComorbiditiesAssessment')},
+        {key: this.makeRandom(6), label: 'Vitals', children: this.createSchemaTreeNodes('Vitals')},
     ]
 
+    public datasetFieldActions = [
+        {
+            label: 'Actions',
+            items: [
+                {
+                    label: 'Remove',
+                    icon: 'pi pi-times',
+                    command: () => console.log('REMOVE')
+                },
+                {
+                    label: 'Transformation',
+                    icon: 'pi pi-filter',
+                    command: () => console.log('TRANSFORM')
+                }
+            ]
+        }
+    ];
 
     public items: MenuItem[] = [
         {
@@ -141,14 +171,22 @@ export class DatasetComposerComponent {
     ];
 
     
-    private createSchemaMegaMenuItems(schema: string, exclude: string[] = []): MenuItem[][] {
+    private createSchemaTreeNodes(schema: string, exclude: string[] = []): TreeNode<any>[] {
         if (!this.apiSchemaKeys.hasOwnProperty(schema)) {
             console.error(`Schema "${schema}" does not exist.`)
         }
         return [
-            [{label: "Properties", items: this.apiSchemaKeys[schema].filter(((item: any) => !exclude.includes(item.field)))}],
-            [{label: "Metadata", items: this.createMetadataItems(schema)}],
+            {key: this.makeRandom(6), label: "Properties", children: this.apiSchemaKeys[schema].filter(((item: any) => !exclude.includes(item.field)))},
+            {key: this.makeRandom(6), label: "Metadata", children: this.createMetadataItems(schema)},
         ]
+    }
+
+    public updateDataset(selectedNodes: any) {
+        this.selectedNodes = selectedNodes.filter((node: TreeNode) => !node.children)
+        if (this.selectedNodes!=selectedNodes) {
+            this.datasetRules = this.selectedNodes.filter(node => node.data).map(node => node.data)
+            this.refreshDatasetObservable()    
+        }
     }
 
     private refreshDatasetObservable() {
@@ -344,10 +382,7 @@ export class DatasetComposerComponent {
 
 
     private createMenuItem(resource: string, label: string, field: string, type: string) {
-        return {label: label, field: field, command: () => {
-            this.datasetRules.push({resource: resource, field: field})
-            this.refreshDatasetObservable()
-        }}
+        return {key: this.makeRandom(6), label: label, field: field, data: {resource: resource, field: field}, icon: 'pi pi-file'}
     }
 
     private createMetadataItems(schema: string) {
@@ -361,5 +396,13 @@ export class DatasetComposerComponent {
             this.createMenuItem(schema, 'External source ID', 'externalSourceId', 'string'),
         ]
     }
+
+    private makeRandom(lengthOfCode: number, possible: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890,./;\'[]\\=-)(*&^%$#@!~`") {
+        let text = "";
+        for (let i = 0; i < lengthOfCode; i++) {
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+      }
 
 }   
