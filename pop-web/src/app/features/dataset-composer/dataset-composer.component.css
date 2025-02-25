@@ -19,3 +19,6 @@ thead.p-datatable-thead {
 .p-megamenu ul.p-megamenu-root-list {
     max-height: none !important;
 }
+span.p-menu-item-label.ng-star-inserted {
+    white-space: nowrap;
+}

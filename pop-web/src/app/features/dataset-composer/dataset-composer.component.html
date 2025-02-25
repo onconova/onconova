@@ -13,9 +13,11 @@
             severity="primary" />
     </ng-template>
     <ng-template #end>
+        <p-menu #downloadMenu [model]="items" [popup]="true" />
         <p-button 
             [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
             label="Download" 
+            (onClick)="downloadMenu.toggle($event)"
             [disabled]="!authService.user.canExportData"/>
     </ng-template>
 </p-toolbar>

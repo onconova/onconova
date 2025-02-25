@@ -25,7 +25,7 @@ import { first, map } from 'rxjs';
 import { CaseBrowserCardComponent } from '../case-search/components/case-card/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
-import { DatasetComposerComponent } from 'src/app/features/dataset-composer/dastaset-composer.component';
+import { DatasetComposerComponent } from 'src/app/features/dataset-composer/dataset-composer.component';
 
 
 @Component({

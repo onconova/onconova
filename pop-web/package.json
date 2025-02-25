@@ -22,6 +22,7 @@
     "chart.js": "^4.4.7",
     "inputmask": "^5.0.9",
     "jdenticon": "^3.3.0",
+    "jszip": "^3.10.1",
     "jwt-decode": "^4.0.0",
     "lucide-angular": "^0.467.0",
     "ng-inline-svg-2": "^15.0.1",
