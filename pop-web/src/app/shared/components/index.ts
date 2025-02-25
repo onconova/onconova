@@ -5,3 +5,4 @@ export * from "./form-control-error/form-control-error.component";
 export * from "./multi-reference-select/multi-reference-select.component"
 export * from './radio-select/radio-select.component'
 export * from "./nested-table/nested-table.component"
+export * from "./range-input/range-input.component"

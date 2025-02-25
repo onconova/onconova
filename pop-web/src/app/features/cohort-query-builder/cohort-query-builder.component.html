@@ -143,7 +143,14 @@
 
     <!-- Override input component for 'number' type -->
     <ng-container *queryInput="let rule; type: CohortRuleType.Number">
-        <p-inputnumber 
+        @let requiresRange = ['NotBetweenIntegerFilter','BetweenIntegerFilter', 'NotBetweenFloatFilter','BetweenFloatFilter'].includes(rule.operator);
+        <ng-container *ngIf="requiresRange">
+            <pop-range-input
+                [(range)]="rule.value"
+                [disabled]="disabled"/>
+        </ng-container>
+        <ng-container *ngIf="!requiresRange">
+            <p-inputnumber 
             [(ngModel)]="rule.value" 
             [disabled]="disabled"
             placeholder="Enter a value" 
@@ -152,6 +159,8 @@
             [minFractionDigits]="1" 
             [maxFractionDigits]="3" 
             locale="en-US"/>
+        </ng-container>
+    
     </ng-container>
 
     <!-- Override input component for 'boolean' type -->
