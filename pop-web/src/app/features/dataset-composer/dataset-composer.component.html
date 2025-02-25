@@ -1,6 +1,15 @@
 
 <p-toolbar styleClass="mb-3">
     <ng-template #start>
+        @let userDatasets = userDatasets$ | async;
+        <p-autocomplete 
+            [(ngModel)]="selectedDataset" 
+            [dropdown]="true" 
+            [suggestions]="userDatasetOptions" 
+            placeholder="Enter new or existing dataset name"
+            class="mr-2" 
+            optionLabel="name"
+            (completeMethod)="searchUserDatasets($event)"/>
         <p-button 
             icon="pi pi-eraser" 
             label='Clear' 
@@ -8,15 +17,32 @@
             severity="secondary" 
             (onClick)="clearDatasetRules()"/>
         <p-button 
+            icon="pi pi-sync" 
+            class="mr-2" 
+            label="Load" 
+            (onClick)="loadUserDataset()"
+            [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
+            severity="secondary" />
+        <p-button 
+            icon="pi pi-trash" 
+            label='Delete' 
+            class="mr-2" 
+            severity="secondary" 
+            [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
+            (onClick)="deleteUserDataset()"/>
+        <p-button 
             icon="pi pi-cloud-upload" 
-            label="Save" 
-            severity="primary" />
+            class="mr-2" 
+            [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' " 
+            (onClick)="createUserDataset()"
+            [disabled]="!selectedDataset || !datasetRules"
+            severity="primary"/>
     </ng-template>
     <ng-template #end>
         <p-menu #downloadMenu [model]="items" [popup]="true" />
         <p-button 
             [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
-            label="Download" 
+            label="Download Dataset" 
             (onClick)="downloadMenu.toggle($event)"
             [disabled]="!authService.user.canExportData"/>
     </ng-template>
@@ -28,7 +54,7 @@
         <div class="flex-auto md:flex md:justify-start md:items-center flex-col">
             <p-tree 
                 [value]="resourceItems" 
-                selectionMode="multiple" 
+                selectionMode="checkbox" 
                 [(selection)]="selectedNodes"
                 (selectionChange)="updateDataset($event)"
                 styleClass="w-full md:w-[30rem]"

@@ -16,9 +16,12 @@
 thead.p-datatable-thead {
     position: static !important;
 }
-.p-megamenu ul.p-megamenu-root-list {
-    max-height: none !important;
+span.p-tree-node-label {
+    white-space: nowrap;
 }
 span.p-menu-item-label.ng-star-inserted {
     white-space: nowrap;
+}
+.p-checkbox.p-variant-filled:not(.p-checkbox-checked):has(minusicon) .p-checkbox-box {
+    background-color: color-mix(in srgb, var(--p-primary-color), transparent 50%);
 }
