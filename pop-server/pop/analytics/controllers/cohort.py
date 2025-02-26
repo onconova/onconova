@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 
+from collections import Counter
 from typing import List, Any
 
 from ninja import Query
@@ -9,14 +10,16 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import Paginated, ModifiedResourceSchema
+from pop.core.models import User
+from pop.core.schemas import Paginated, ModifiedResourceSchema, UserSchema
 from pop.oncology import schemas as oncological_schemas
 
 from pop.analytics.datasets import construct_dataset
 from pop.analytics.models import Cohort, Dataset
 from pop.analytics.schemas.cohort import (
     CohortSchema, CohortCreateSchema, 
-    CohortFilters, CohortStatisticsSchema
+    CohortFilters, CohortStatisticsSchema,
+    CohortContribution,
 )
 from pop.analytics.schemas.datasets import DatasetRule
 
@@ -130,6 +133,25 @@ class CohortsController(ControllerBase):
     @paginate()
     def get_cohort_cases(self, cohortId: str):
         return get_object_or_404(Cohort, id=cohortId).cases.all()
+
+    @route.get(
+        path='/{cohortId}/contributors', 
+        response={
+            200: List[CohortContribution],
+            404: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='getCohortContributors',
+    )
+    @paginate()
+    def get_cohort_contributions(self, cohortId: str):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        contributions = Counter(list(cohort.cases.values_list('created_by', flat=True)))
+        return 200, [
+            CohortContribution(contributor=User.objects.get(id=contributor), contributions=contributions)
+            for contributor, contributions in contributions.items() if contributor
+        ]
+
 
     @route.post(
         path='/{cohortId}/dynamic-dataset', 

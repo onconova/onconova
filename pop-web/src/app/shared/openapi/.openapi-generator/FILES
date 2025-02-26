@@ -86,6 +86,7 @@ model/cohort-builder-config.ts
 model/cohort-builder-entity.ts
 model/cohort-builder-field-option.ts
 model/cohort-builder-field.ts
+model/cohort-contribution.ts
 model/cohort-create.ts
 model/cohort-filters.ts
 model/cohort-query-entity.ts

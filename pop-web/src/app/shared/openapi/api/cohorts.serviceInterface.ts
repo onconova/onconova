@@ -13,6 +13,7 @@ import { Observable }                                        from 'rxjs';
 
 import { Cohort } from '../model/models';
 import { CohortBuilderConfig } from '../model/models';
+import { CohortContribution } from '../model/models';
 import { CohortCreate } from '../model/models';
 import { CohortStatisticsSchema } from '../model/models';
 import { DatasetRule } from '../model/models';
@@ -38,6 +39,12 @@ export interface GetCohortByIdRequestParams {
 }
 
 export interface GetCohortCasesRequestParams {
+    cohortId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetCohortContributorsRequestParams {
     cohortId: string;
     limit?: number;
     offset?: number;
@@ -145,6 +152,13 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     getCohortCases(requestParameters: GetCohortCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+
+    /**
+     * Get Cohort Contributions
+     * 
+* @param requestParameters
+     */
+    getCohortContributors(requestParameters: GetCohortContributorsRequestParams, extraHttpRequestParams?: any): Observable<Array<CohortContribution>>;
 
     /**
      * Get Cohort Dataset

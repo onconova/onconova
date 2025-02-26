@@ -17,7 +17,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, PatientCase, CohortCreate, CohortStatisticsSchema, ModifiedResource } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, PatientCase, CohortCreate, CohortStatisticsSchema, ModifiedResource, CohortContribution } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
 import { first, map } from 'rxjs';
@@ -26,6 +26,7 @@ import { CaseBrowserCardComponent } from '../case-search/components/case-card/ca
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { DatasetComposerComponent } from 'src/app/features/dataset-composer/dataset-composer.component';
+import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.components';
 
 
 @Component({
@@ -39,6 +40,7 @@ import { DatasetComposerComponent } from 'src/app/features/dataset-composer/data
         ReactiveFormsModule,
         FormsModule,
         LucideAngularModule,
+        CohortContributorsComponent,
         CohortQueryBuilderComponent,
         CaseBrowserCardComponent,
         DatasetComposerComponent,
@@ -71,6 +73,7 @@ export class CohortBuilderComponent {
     public loading: boolean = false;
     public initloading: boolean = true;
     public editCohortName: boolean = false;
+    public cohortContributions!: CohortContribution[];
     public cohortStatistics!: CohortStatisticsSchema;
     public currentOffset: number = 0
     public pageSize: number = 15
@@ -84,6 +87,7 @@ export class CohortBuilderComponent {
         this.refreshCohortData()
         this.refreshCohortCases()
         this.refreshCohortStatistics()
+        this.refreshCohortContributions()
     }    
     
 
@@ -102,6 +106,17 @@ export class CohortBuilderComponent {
                 }
             },
             error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.message })
+        })
+    }
+
+    refreshCohortContributions() {
+        this.cohortsService.getCohortContributors({cohortId: this.cohortId}).pipe(
+            map((contributions: CohortContribution[])  => {
+                    this.cohortContributions = contributions;
+            }),
+            first()
+        ).subscribe({
+            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort contributors', detail: error.message })
         })
     }
 
@@ -144,6 +159,7 @@ export class CohortBuilderComponent {
                 this.refreshCohortData()
                 this.refreshCohortCases()
                 this.refreshCohortStatistics()
+                this.refreshCohortContributions()
                 this.loading = false;
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
             },

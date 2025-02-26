@@ -29,6 +29,7 @@ export * from './cohort-builder-config';
 export * from './cohort-builder-entity';
 export * from './cohort-builder-field';
 export * from './cohort-builder-field-option';
+export * from './cohort-contribution';
 export * from './cohort-create';
 export * from './cohort-filters';
 export * from './cohort-query-entity';

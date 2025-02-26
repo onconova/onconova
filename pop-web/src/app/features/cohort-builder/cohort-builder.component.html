@@ -194,9 +194,10 @@
             
         </p-tabpanel>
         <p-tabpanel value="2">
-            <pop-dataset-composer [cohortId]="cohort.id"></pop-dataset-composer>
+            <pop-dataset-composer [cohortId]="cohort.id"/>
         </p-tabpanel>
         <p-tabpanel value="3">
+            <pop-cohort-contributors *ngIf="cohortContributions" [cohortContributions]="cohortContributions"/>
         </p-tabpanel>
         <p-tabpanel value="4">
             

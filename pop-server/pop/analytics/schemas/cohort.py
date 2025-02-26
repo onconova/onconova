@@ -6,6 +6,7 @@ from django.db.models import Q
 from pydantic import ConfigDict, AliasChoices
 
 from pop.analytics import models as orm
+from pop.core.schemas import UserSchema
 from pop.core.schemas.factory import create_filters_schema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
@@ -22,6 +23,11 @@ class CohortStatisticsSchema(Schema):
     dataCompletionAverage: Optional[float] = None
     dataCompletionStdDev: Optional[float] = None
     model_config = ConfigDict(title='CohortStatistics')
+
+
+class CohortContribution(Schema):
+    contributor: UserSchema
+    contributions: int
 
 CohortFiltersBase = create_filters_schema(
     schema = CohortSchema, 
