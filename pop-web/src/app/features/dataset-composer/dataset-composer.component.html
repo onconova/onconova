@@ -1,4 +1,4 @@
-
+<p-card styleClass="h-[65rem]">
 <p-toolbar styleClass="mb-3">
     <ng-template #start>
         @let userDatasets = userDatasets$ | async;
@@ -59,7 +59,9 @@
                 (selectionChange)="updateDataset($event)"
                 styleClass="w-full md:w-[30rem]"
                 [filter]="true" 
-                filterPlaceholder="Search and select"/>
+                filterPlaceholder="Search and select">
+
+            </p-tree>
         </div>
     </div>
 <ng-container *ngIf="dataset$">
@@ -130,3 +132,4 @@
 
 </div>
 
+</p-card>

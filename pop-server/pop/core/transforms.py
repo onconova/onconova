@@ -1,5 +1,5 @@
 
-from pop.core.schemas import CodedConceptSchema
+from pop.core.schemas import CodedConceptSchema,UserSchema
 from django.db.models import F 
 
 
@@ -39,3 +39,13 @@ class GetCodedConceptSystem(DjangoTransform):
     @staticmethod
     def generate_annotation_expression(field_path, *args):
         return F(f'{field_path}__system')
+
+
+class GetUserUsername(DjangoTransform):
+    name='username'
+    description = 'Get username of an user'
+    value_type = UserSchema
+
+    @staticmethod
+    def generate_annotation_expression(field_path, *args):
+        return F(f'{field_path}__username')

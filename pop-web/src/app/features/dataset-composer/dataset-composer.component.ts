@@ -9,6 +9,8 @@ import { catchError, forkJoin, map, Observable, of, take } from "rxjs";
 import { Menu } from "primeng/menu";
 import { MegaMenu } from 'primeng/megamenu';
 import { MegaMenuItem, MenuItem } from "primeng/api";
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { Card } from "primeng/card";
 import { TableModule } from 'primeng/table';
 import { Avatar } from "primeng/avatar";
 import { Button } from "primeng/button";
@@ -47,7 +49,9 @@ export class IsStringPipe implements PipeTransform {
         Avatar,
         Button,
         Toolbar,
+        Card,
         Menu,
+        ContextMenuModule,
         AutoComplete,
         TreeModule,
         MegaMenu,
@@ -105,14 +109,29 @@ export class DatasetComposerComponent {
     public selectedDataset!: Dataset | string;
     public selectedNodes!: TreeNode[];
 
+
     // Extract keys from OpenAPI schema
     private apiSchemaKeys = Object.fromEntries(
       Object.entries(openApiSchema.components.schemas).map(([key, schema]: any) => [
         key,
         Object.keys(schema.properties || {}).filter(property => !this.createMetadataItems('').map(item => item['field']).includes(property) && !['caseId', 'description'].includes(property))
-            .map(property => this.createTreeNode(key, schema.properties[property].title, property, schema.properties[property].type) )
+          .map(propertyName => {
+            let propertyType;
+            const property = schema.properties[propertyName]
+            if (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null') {
+                propertyType = property.anyOf[0];
+            } else {
+                propertyType = property;
+            }
+            if (propertyType.type === undefined && propertyType.$ref) {
+              propertyType = propertyType.$ref.split('/').pop();
+            } else {
+                propertyType = propertyType.type;
+            }
+            return this.createTreeNode(key, property.title, propertyName, propertyType);
+          })
       ])
-    )    
+    )  
     public resourceItems: TreeNode<any>[] = [
         this.constructResourceTreeNode(DataResource.PatientCase, 'Patient case', {exclude: ['pseudoidentifier']}),
         this.constructResourceTreeNode(DataResource.NeoplasticEntity, 'Neoplastic Entities'),
@@ -189,7 +208,33 @@ export class DatasetComposerComponent {
     }
 
     private createTreeNode(resource: string, label: string, field: string, type: string) {
-        return {key: `${resource}-${field}`, label: label, field: field, data: {resource: resource, field: field}}
+        if (field=='race') {
+            console.log(field, type)
+        }
+        let defaultTransform;
+        switch (type) {
+            case 'CodedConcept':
+                defaultTransform = 'GetCodedConceptDisplay';
+                break
+            case 'User':
+                defaultTransform = 'GetUserUsername';
+                break
+            default:
+                defaultTransform = null;
+                break
+        }
+        
+        return {
+            key: `${resource}-${field}`, 
+            label: label, 
+            field: field, 
+            type: type, 
+            data: {
+                resource: resource, 
+                field: field,
+                transform: defaultTransform,
+            }
+        }
     }
 
     private createMetadataItems(schema: string) {
