@@ -128,7 +128,7 @@ export class DatasetComposerComponent {
             } else {
                 propertyType = propertyType.type;
             }
-            return this.createTreeNode(key, property.title, propertyName, propertyType);
+            return this.createTreeNode(key, property.title, propertyName, propertyType, property.description);
           })
       ])
     )  
@@ -207,8 +207,8 @@ export class DatasetComposerComponent {
         return treeNode
     }
 
-    private createTreeNode(resource: string, label: string, field: string, type: string) {
-        if (field=='race') {
+    private createTreeNode(resource: string, label: string, field: string, type: string, description: string | null = null) {
+        if (field=='overallSurvival') {
             console.log(field, type)
         }
         let defaultTransform;
@@ -233,7 +233,8 @@ export class DatasetComposerComponent {
                 resource: resource, 
                 field: field,
                 transform: defaultTransform,
-            }
+            },
+            description: description,
         }
     }
 

@@ -61,6 +61,24 @@
                 [filter]="true" 
                 filterPlaceholder="Search and select">
 
+                <ng-template let-node pTemplate="CodedConcept">
+                    <span title="{{node.description}}">{{ node.label }}</span>
+                </ng-template>
+                <ng-template let-node pTemplate="date">
+                    <span title="{{node.description}}">{{ node.label }}</span>
+                </ng-template>
+                <ng-template let-node pTemplate="string">
+                    <span title="{{node.description}}">{{ node.label }}</span>
+                </ng-template>
+                <ng-template let-node pTemplate="integer">
+                    <span title="{{node.description}}">{{ node.label }}</span>
+                </ng-template>
+                <ng-template let-node pTemplate="number">
+                    <span title="{{node.description}}">{{ node.label }}</span>
+                </ng-template>
+                <ng-template let-node pTemplate="default">
+                    <span title="{{node.description}}">{{ node.label }}</span>
+                </ng-template>
             </p-tree>
         </div>
     </div>
