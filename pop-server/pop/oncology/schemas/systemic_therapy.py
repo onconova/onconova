@@ -13,6 +13,7 @@ class SystemicTherapyMedicationCreateSchema(ModelCreateSchema):
 
 class SystemicTherapySchema(ModelGetSchema):
     medications: List[SystemicTherapyMedicationSchema] = Field(description='Medications administered during the systemic therapy')
+    duration: float = Field(description='Duration of treatment in days')
     config = SchemaConfig(model=orm.SystemicTherapy)
 
 class SystemicTherapyCreateSchema(ModelCreateSchema):

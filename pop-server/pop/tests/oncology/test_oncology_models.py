@@ -108,6 +108,12 @@ class SystemicTherapyModelTest(TestCase):
     def test_therapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower 
         self.assertEqual(self.therapy.duration, expected_duration.days)
+        
+    def test_therapy_drugs_combination_is_correctly_annotated(self):
+        self.med1 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=self.therapy)
+        self.med2 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=self.therapy)        
+        expected_combination = f'{self.med1.drug}/{self.med2.drug}'
+        self.assertEqual(self.therapy.drug_combination, expected_combination)
 
 class RadiotherapyModelTest(TestCase):
     

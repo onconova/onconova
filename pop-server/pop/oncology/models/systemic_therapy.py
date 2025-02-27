@@ -1,6 +1,8 @@
 
 from django.db import models
 from django.db.models import ExpressionWrapper, Value, Func, F
+from django.db.models.functions import Coalesce
+from django.contrib.postgres.aggregates import StringAgg
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
 
@@ -84,6 +86,10 @@ class SystemicTherapy(BaseModel):
         related_name = 'systemic_therapies',
         on_delete = models.SET_NULL,
         null = True, blank = True,
+    )
+    drug_combination = AnnotationProperty(
+        verbose_name = _('Drug combination'),
+        annotation =Coalesce(StringAgg('medications__drug__display', '/'), Value(''), output_field=models.TextField()),
     )
 
     @property
