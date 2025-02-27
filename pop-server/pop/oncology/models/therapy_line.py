@@ -169,9 +169,9 @@ class TherapyLine(BaseModel):
                 continue
                 
             # If SACT was not tolerated by the patient... 
-            if previous_SACT and previous_SACT.termination_reason == terminology.TreatmentTerminationReason.objects.get(code=TREATMENT_NOT_TOLERATED):
-                previous_SACT_drugs_class = '/'.join(set([drug.therapyCategory if drug.therapyCategory else drug.parent for drug in previous_SACT.drugs]))
-                SACT_drugs_class = '/'.join(set([drug.therapyCategory if drug.therapyCategory else drug.parent for therapy in systemic_therapies for drug in therapy.drugs]))        
+            if previous_SACT and previous_SACT.termination_reason == terminology.TreatmentTerminationReason.objects.filter(code=TREATMENT_NOT_TOLERATED).first():
+                previous_SACT_drugs_class = '/'.join(set([drug.therapyCategory if drug.therapyCategory else drug.parent if drug.parent else 'Unknown' for drug in previous_SACT.drugs]))
+                SACT_drugs_class = '/'.join(set([drug.therapyCategory if drug.therapyCategory else drug.parent  if drug.parent else 'Unknown' for therapy in systemic_therapies for drug in therapy.drugs]))        
                 # ... assign a new therapy line only if the drugs used in the SACT are of a different class as the previous SACT
                 if SACT_drugs_class == previous_SACT_drugs_class or is_anti_hormonal(previous_SACT):
                     assign_therapy_to_previous_line()
