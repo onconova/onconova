@@ -44,6 +44,15 @@ class PatientCaseModelTest(TestCase):
         delta = self.patient.date_of_death - self.patient.date_of_birth
         self.assertLess(self.patient.age - delta.days/365, 1)
 
+
+    def test_age_at_diagnosis_based_on_first_diagnosis(self):
+        diagnosis = factories.PrimaryNeoplasticEntityFactory(case=self.patient, assertion_date=datetime(2010,1,1).date())
+        delta = diagnosis.assertion_date - self.patient.date_of_birth
+        self.assertLess(self.patient.age_at_diagnosis - delta.days/365, 1)
+
+    def test_age_at_diagnosis_is_null_without_diagnosis(self):
+        self.assertIsNone(self.patient.age_at_diagnosis)
+
     def test_data_completion_rate_based_on_completed_categories(self):
         factories.PatientCaseDataCompletionFactory(case=self.patient)
         expected = self.patient.completed_data_categories.count() / PatientCaseDataCompletion.DATA_CATEGORIES_COUNT * 100

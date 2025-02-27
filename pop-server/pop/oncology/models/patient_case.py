@@ -3,7 +3,7 @@ import string
 
 from django.db import models 
 from django.contrib.postgres.fields import ArrayField
-from django.db.models.functions import Round, Cast, Now, ExtractMonth, ExtractYear
+from django.db.models.functions import Round, Cast, Now, ExtractMonth, ExtractYear, Least
 from django.db.models import Q, F, Func, Min, ExpressionWrapper, Case, When, Value, Count
 from django.utils.translation import gettext_lazy as _
 
@@ -111,6 +111,19 @@ class PatientCase(BaseModel):
         ),
         output_field=models.IntegerField(),
     ))
+    age_at_diagnosis = AnnotationProperty(
+        verbose_name = _('Age at diagnosis'),
+        annotation = Case(
+            When(Q(neoplastic_entities__isnull=True), then=None),
+            default=ExtractYear(
+                Func(
+                    Min('neoplastic_entities__assertion_date'),
+                    F('date_of_birth'),
+                    function='AGE'
+                ),
+            ), output_field=models.IntegerField(),
+        )
+    )
     is_deceased = models.GeneratedField(
         verbose_name = _('Is deceased'),
         help_text = _("Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)"),

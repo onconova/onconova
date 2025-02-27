@@ -21,6 +21,12 @@ class PatientCaseSchema(ModelGetSchema):
         description='Overall survival of the patient since diagnosis',
         validation_alias=AliasChoices('overall_survival','overallSurvival'),
     ) 
+    ageAtDiagnosis: int = Field(
+        title='Age at diagnosis', 
+        description='Approximate age of the patient in years at the time of the initial diagnosis',
+        alias='age_at_diagnosis', 
+        validation_alias=AliasChoices('age_at_diagnosis','ageAtDiagnosis'),
+    ) 
     dataCompletionRate: float = Field(
         title='Data completion rate',
         description='Percentage indicating the completeness of a case in terms of its data.', 
