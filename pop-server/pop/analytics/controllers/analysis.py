@@ -62,7 +62,7 @@ class CohortAnalysisController(ControllerBase):
     def get_cohort_overall_survival_curve(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
         # Get all the OS values for the cohort
-        overall_survivals = cohort.cases.values_list('overall_survival',flat=True)
+        overall_survivals = list(cohort.cases.annotate(overall_survival=F('overall_survival')).values_list('overall_survival',flat=True))
         # Compute and return the OS KM-curve
         months, probabilities, confidence_bands = calculate_Kappler_Maier_survival_curve(overall_survivals)
         return 200, KapplerMeierCurve(

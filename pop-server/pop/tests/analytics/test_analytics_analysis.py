@@ -27,6 +27,14 @@ class TestKapplerMeierCurves(TestCase):
         }
         self._assert_correct_KM_Curve()
 
+
+    def test_non_integer_survivals(self):
+        self.survival_months = [1.1, 2.2, 2.3, 3.4, 3.2, 3.2, 4.1, 5.0]
+        self.expected_survival_axis = [0, 1, 2, 3, 4, 5]
+        self.expected_survival_prob = [1.0, 0.875, 0.625, 0.25, 0.125, 0.0]
+        self.expected_ci = None
+        self._assert_correct_KM_Curve()
+
     def test_no_censored_data(self):
         self.survival_months = [1, 2, 3, 4, 5]
         self.expected_survival_axis = [0, 1, 2, 3, 4, 5]

@@ -41,6 +41,9 @@ def calculate_Kappler_Maier_survival_curve(survival_months, confidence_level=0.9
     if survival_months is None or len(survival_months)==0:
         raise ValueError('The input argument cannot be empty or None')
 
+    # Round months to integers
+    survival_months = np.round(survival_months,0)
+
     # Generate the axis of survived months
     survival_axis = np.arange(0, np.max(survival_months) + 1)
     
@@ -55,7 +58,7 @@ def calculate_Kappler_Maier_survival_curve(survival_months, confidence_level=0.9
     survival_axis = survival_axis[valid]
     events = events[valid]
     alive = alive[valid]
-    
+
     # Evaluate the KM survival probability estimator
     est_survival_prob = np.cumprod(1 - events / alive)
 
