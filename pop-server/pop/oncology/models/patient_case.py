@@ -3,11 +3,11 @@ import string
 
 from django.db import models 
 from django.contrib.postgres.fields import ArrayField
-from django.db.models.functions import Round, Cast, Now, ExtractMonth, ExtractYear, Least
-from django.db.models import Q, F, Func, Min, ExpressionWrapper, Case, When, Value, Count
+from django.db.models.functions import Round, Cast, Now, ExtractMonth, ExtractYear, Least, FirstValue
+from django.db.models import Q, F, Func, Min, ExpressionWrapper, Case, When, Value, Count, Window
 from django.utils.translation import gettext_lazy as _
 
-from queryable_properties.properties import AnnotationProperty
+from queryable_properties.properties import AnnotationProperty, RelatedExistenceCheckProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel 
@@ -111,12 +111,13 @@ class PatientCase(BaseModel):
         ),
         output_field=models.IntegerField(),
     ))
+    has_neoplastic_entities = RelatedExistenceCheckProperty('neoplastic_entities')
     age_at_diagnosis = AnnotationProperty(
         verbose_name = _('Age at diagnosis'),
         annotation = Case(
-            When(Q(neoplastic_entities__isnull=True), then=None),
+            When(Q(has_neoplastic_entities=False), then=None),
             default=ExtractYear(
-                Func(
+                Func(                      
                     Min('neoplastic_entities__assertion_date'),
                     F('date_of_birth'),
                     function='AGE'
