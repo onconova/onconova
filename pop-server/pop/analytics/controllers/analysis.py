@@ -1,6 +1,6 @@
 from typing import List
 from django.shortcuts import get_object_or_404
-from django.db.models import Subquery, F, OuterRef
+from django.db.models import Subquery, F, OuterRef, Case, When, Value, Q
 
 from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
@@ -20,6 +20,7 @@ class FeaturesCounters(str,Enum):
     age = 'age'
     age_at_diagnosis = 'age_at_diagnosis'
     vital_status = 'vital_status'    
+    therapy_line = 'therapy_line'    
 
 @api_controller(
     "/cohorts", 
@@ -46,9 +47,9 @@ class CohortAnalysisController(ControllerBase):
         elif feature == FeaturesCounters.gender:
             feature_values = cohort.cases.values_list('gender__display',flat=True)
         elif feature == FeaturesCounters.vital_status:
-            feature_values = cohort.cases.values_list('is_deceased',flat=True)
-        elif feature == FeaturesCounters.vital_status:
-            feature_values = cohort.cases.values_list('is_deceased',flat=True)
+            feature_values = cohort.cases.annotate(vital_status=Case(When(Q(is_deceased=True), then=Value('Deceased')), default=Value('Alive'))).values_list('vital_status',flat=True)
+        elif feature == FeaturesCounters.therapy_line:
+            feature_values = cohort.cases.values_list('therapy_lines__label',flat=True)
         return 200, Counter(feature_values)
     
     @route.get(

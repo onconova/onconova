@@ -147,6 +147,14 @@ export interface GetSystemicTherapiesRequestParams {
     medicationsDosageRateMassSurfaceNotEqual?: number;
     medicationsDosageRateMassSurfaceBetween?: Array<any>;
     medicationsDosageRateMassSurfaceNotBetween?: Array<any>;
+    durationLessThan?: number;
+    durationLessThanOrEqual?: number;
+    durationGreaterThan?: number;
+    durationGreaterThanOrEqual?: number;
+    durationEqual?: number;
+    durationNotEqual?: number;
+    durationBetween?: Array<any>;
+    durationNotBetween?: Array<any>;
     id?: string;
     idNot?: string;
     idContains?: string;

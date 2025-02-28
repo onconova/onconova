@@ -435,6 +435,38 @@ export interface SystemicTherapyFilters {
      */
     'medications.dosageRateMassSurface.not.between'?: Array<any>;
     /**
+     * None - Filter for entries with values less than the specified value
+     */
+    'duration.lessThan'?: number;
+    /**
+     * None - Filter for entries with values less than or equal to the specified value
+     */
+    'duration.lessThanOrEqual'?: number;
+    /**
+     * None - Filter for entries with values greater than the specified value
+     */
+    'duration.greaterThan'?: number;
+    /**
+     * None - Filter for entries with values greater than or equal to the specified value
+     */
+    'duration.greaterThanOrEqual'?: number;
+    /**
+     * None - Filter for entries with values exactly equal to the specified value
+     */
+    'duration.equal'?: number;
+    /**
+     * None - Filter for entries with values not equal to the specified value
+     */
+    'duration.not.equal'?: number;
+    /**
+     * None - Filter for entries with values between two specified values (inclusive)
+     */
+    'duration.between'?: Array<any>;
+    /**
+     * None - Filter for entries with values between two specified values (inclusive)
+     */
+    'duration.not.between'?: Array<any>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;

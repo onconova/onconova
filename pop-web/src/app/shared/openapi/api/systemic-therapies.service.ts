@@ -543,6 +543,14 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         const medicationsDosageRateMassSurfaceNotEqual = requestParameters?.medicationsDosageRateMassSurfaceNotEqual;
         const medicationsDosageRateMassSurfaceBetween = requestParameters?.medicationsDosageRateMassSurfaceBetween;
         const medicationsDosageRateMassSurfaceNotBetween = requestParameters?.medicationsDosageRateMassSurfaceNotBetween;
+        const durationLessThan = requestParameters?.durationLessThan;
+        const durationLessThanOrEqual = requestParameters?.durationLessThanOrEqual;
+        const durationGreaterThan = requestParameters?.durationGreaterThan;
+        const durationGreaterThanOrEqual = requestParameters?.durationGreaterThanOrEqual;
+        const durationEqual = requestParameters?.durationEqual;
+        const durationNotEqual = requestParameters?.durationNotEqual;
+        const durationBetween = requestParameters?.durationBetween;
+        const durationNotBetween = requestParameters?.durationNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -1068,6 +1076,42 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
             medicationsDosageRateMassSurfaceNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'medications.dosageRateMassSurface.not.between');
+            })
+        }
+        if (durationLessThan !== undefined && durationLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>durationLessThan, 'duration.lessThan');
+        }
+        if (durationLessThanOrEqual !== undefined && durationLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>durationLessThanOrEqual, 'duration.lessThanOrEqual');
+        }
+        if (durationGreaterThan !== undefined && durationGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>durationGreaterThan, 'duration.greaterThan');
+        }
+        if (durationGreaterThanOrEqual !== undefined && durationGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>durationGreaterThanOrEqual, 'duration.greaterThanOrEqual');
+        }
+        if (durationEqual !== undefined && durationEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>durationEqual, 'duration.equal');
+        }
+        if (durationNotEqual !== undefined && durationNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>durationNotEqual, 'duration.not.equal');
+        }
+        if (durationBetween) {
+            durationBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'duration.between');
+            })
+        }
+        if (durationNotBetween) {
+            durationNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'duration.not.between');
             })
         }
         if (id !== undefined && id !== null) {

@@ -18,6 +18,7 @@ export interface PatientCase {
      */
     age: number;
     overallSurvival?: number | null;
+    ageAtDiagnosis?: number | null;
     /**
      * Percentage indicating the completeness of a case in terms of its data.
      */

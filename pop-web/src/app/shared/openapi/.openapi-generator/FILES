@@ -111,6 +111,7 @@ model/entity-statistics-schema.ts
 model/family-history-create.ts
 model/family-history-filters.ts
 model/family-history.ts
+model/features-counters.ts
 model/figo-staging-create.ts
 model/figo-staging.ts
 model/genomic-signature-filters.ts
@@ -134,6 +135,7 @@ model/inss-stage-create.ts
 model/inss-stage.ts
 model/iss-staging-create.ts
 model/iss-staging.ts
+model/kappler-meier-curve.ts
 model/lifestyle-create.ts
 model/lifestyle-filters.ts
 model/lifestyle.ts

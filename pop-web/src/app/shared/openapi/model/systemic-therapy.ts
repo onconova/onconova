@@ -20,6 +20,10 @@ export interface SystemicTherapy {
      */
     medications: Array<SystemicTherapyMedication>;
     /**
+     * Duration of treatment in days
+     */
+    duration: number;
+    /**
      * 
      */
     id: string;

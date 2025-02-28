@@ -17,6 +17,7 @@ import { CohortContribution } from '../model/models';
 import { CohortCreate } from '../model/models';
 import { CohortStatisticsSchema } from '../model/models';
 import { DatasetRule } from '../model/models';
+import { KapplerMeierCurve } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedAny } from '../model/models';
 import { PaginatedCohort } from '../model/models';
@@ -62,6 +63,25 @@ export interface GetCohortDatasetDynamicallyRequestParams {
     datasetRule: Array<DatasetRule>;
     limit?: number;
     offset?: number;
+}
+
+export interface GetCohortFeatureCounterRequestParams {
+    cohortId: string;
+    feature: 'gender' | 'age' | 'age_at_diagnosis' | 'vital_status' | 'therapy_line';
+}
+
+export interface GetCohortOverallSurvivalCurveRequestParams {
+    cohortId: string;
+}
+
+export interface GetCohortProgressionFreeSurvivalCurveRequestParams {
+    cohortId: string;
+    therapyLine: string;
+}
+
+export interface GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams {
+    cohortId: string;
+    therapyLine: string;
 }
 
 export interface GetCohortStatisticsRequestParams {
@@ -173,6 +193,34 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     getCohortDatasetDynamically(requestParameters: GetCohortDatasetDynamicallyRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAny>;
+
+    /**
+     * Get Cohort Feature Counter
+     * 
+* @param requestParameters
+     */
+    getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, extraHttpRequestParams?: any): Observable<object>;
+
+    /**
+     * Get Cohort Overall Survival Curve
+     * 
+* @param requestParameters
+     */
+    getCohortOverallSurvivalCurve(requestParameters: GetCohortOverallSurvivalCurveRequestParams, extraHttpRequestParams?: any): Observable<KapplerMeierCurve>;
+
+    /**
+     * Get Cohort Progression Free Survival Curve
+     * 
+* @param requestParameters
+     */
+    getCohortProgressionFreeSurvivalCurve(requestParameters: GetCohortProgressionFreeSurvivalCurveRequestParams, extraHttpRequestParams?: any): Observable<KapplerMeierCurve>;
+
+    /**
+     * Get Cohort Progression Free Survival Curve By Drug Combinations
+     * 
+* @param requestParameters
+     */
+    getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, extraHttpRequestParams?: any): Observable<object>;
 
     /**
      * Get Cohort Statistics

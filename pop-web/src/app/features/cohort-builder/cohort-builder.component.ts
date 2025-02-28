@@ -27,6 +27,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { DatasetComposerComponent } from 'src/app/features/dataset-composer/dataset-composer.component';
 import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.components';
+import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.component';
 
 
 @Component({
@@ -40,6 +41,7 @@ import { CohortContributorsComponent } from './components/cohort-constributors/c
         ReactiveFormsModule,
         FormsModule,
         LucideAngularModule,
+        CohortGraphsComponent,
         CohortContributorsComponent,
         CohortQueryBuilderComponent,
         CaseBrowserCardComponent,

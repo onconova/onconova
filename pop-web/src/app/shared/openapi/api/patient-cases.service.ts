@@ -822,6 +822,16 @@ export class PatientCasesService implements PatientCasesServiceInterface {
         const overallSurvivalNotEqual = requestParameters?.overallSurvivalNotEqual;
         const overallSurvivalBetween = requestParameters?.overallSurvivalBetween;
         const overallSurvivalNotBetween = requestParameters?.overallSurvivalNotBetween;
+        const ageAtDiagnosisNotExists = requestParameters?.ageAtDiagnosisNotExists;
+        const ageAtDiagnosisExists = requestParameters?.ageAtDiagnosisExists;
+        const ageAtDiagnosisLessThan = requestParameters?.ageAtDiagnosisLessThan;
+        const ageAtDiagnosisLessThanOrEqual = requestParameters?.ageAtDiagnosisLessThanOrEqual;
+        const ageAtDiagnosisGreaterThan = requestParameters?.ageAtDiagnosisGreaterThan;
+        const ageAtDiagnosisGreaterThanOrEqual = requestParameters?.ageAtDiagnosisGreaterThanOrEqual;
+        const ageAtDiagnosisEqual = requestParameters?.ageAtDiagnosisEqual;
+        const ageAtDiagnosisNotEqual = requestParameters?.ageAtDiagnosisNotEqual;
+        const ageAtDiagnosisBetween = requestParameters?.ageAtDiagnosisBetween;
+        const ageAtDiagnosisNotBetween = requestParameters?.ageAtDiagnosisNotBetween;
         const dataCompletionRateLessThan = requestParameters?.dataCompletionRateLessThan;
         const dataCompletionRateLessThanOrEqual = requestParameters?.dataCompletionRateLessThanOrEqual;
         const dataCompletionRateGreaterThan = requestParameters?.dataCompletionRateGreaterThan;
@@ -1000,6 +1010,50 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             overallSurvivalNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'overallSurvival.not.between');
+            })
+        }
+        if (ageAtDiagnosisNotExists !== undefined && ageAtDiagnosisNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisNotExists, 'ageAtDiagnosis.not.exists');
+        }
+        if (ageAtDiagnosisExists !== undefined && ageAtDiagnosisExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisExists, 'ageAtDiagnosis.exists');
+        }
+        if (ageAtDiagnosisLessThan !== undefined && ageAtDiagnosisLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisLessThan, 'ageAtDiagnosis.lessThan');
+        }
+        if (ageAtDiagnosisLessThanOrEqual !== undefined && ageAtDiagnosisLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisLessThanOrEqual, 'ageAtDiagnosis.lessThanOrEqual');
+        }
+        if (ageAtDiagnosisGreaterThan !== undefined && ageAtDiagnosisGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisGreaterThan, 'ageAtDiagnosis.greaterThan');
+        }
+        if (ageAtDiagnosisGreaterThanOrEqual !== undefined && ageAtDiagnosisGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisGreaterThanOrEqual, 'ageAtDiagnosis.greaterThanOrEqual');
+        }
+        if (ageAtDiagnosisEqual !== undefined && ageAtDiagnosisEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisEqual, 'ageAtDiagnosis.equal');
+        }
+        if (ageAtDiagnosisNotEqual !== undefined && ageAtDiagnosisNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>ageAtDiagnosisNotEqual, 'ageAtDiagnosis.not.equal');
+        }
+        if (ageAtDiagnosisBetween) {
+            ageAtDiagnosisBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'ageAtDiagnosis.between');
+            })
+        }
+        if (ageAtDiagnosisNotBetween) {
+            ageAtDiagnosisNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'ageAtDiagnosis.not.between');
             })
         }
         if (dataCompletionRateLessThan !== undefined && dataCompletionRateLessThan !== null) {

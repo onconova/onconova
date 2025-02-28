@@ -83,6 +83,46 @@ export interface PatientCaseFilters {
      */
     'overallSurvival.not.between'?: Array<any>;
     /**
+     * Age at diagnosis - Filter for entries without a value
+     */
+    'ageAtDiagnosis.not.exists'?: boolean;
+    /**
+     * Age at diagnosis - Filter for entries with a value
+     */
+    'ageAtDiagnosis.exists'?: boolean;
+    /**
+     * Age at diagnosis - Filter for entries with values less than the specified value
+     */
+    'ageAtDiagnosis.lessThan'?: number;
+    /**
+     * Age at diagnosis - Filter for entries with values less than or equal to the specified value
+     */
+    'ageAtDiagnosis.lessThanOrEqual'?: number;
+    /**
+     * Age at diagnosis - Filter for entries with values greater than the specified value
+     */
+    'ageAtDiagnosis.greaterThan'?: number;
+    /**
+     * Age at diagnosis - Filter for entries with values greater than or equal to the specified value
+     */
+    'ageAtDiagnosis.greaterThanOrEqual'?: number;
+    /**
+     * Age at diagnosis - Filter for entries with values exactly equal to the specified value
+     */
+    'ageAtDiagnosis.equal'?: number;
+    /**
+     * Age at diagnosis - Filter for entries with values not equal to the specified value
+     */
+    'ageAtDiagnosis.not.equal'?: number;
+    /**
+     * Age at diagnosis - Filter for entries with values between two specified values (inclusive)
+     */
+    'ageAtDiagnosis.between'?: Array<any>;
+    /**
+     * Age at diagnosis - Filter for entries with values between two specified values (inclusive)
+     */
+    'ageAtDiagnosis.not.between'?: Array<any>;
+    /**
      * Data completion rate - Filter for entries with values less than the specified value
      */
     'dataCompletionRate.lessThan'?: number;

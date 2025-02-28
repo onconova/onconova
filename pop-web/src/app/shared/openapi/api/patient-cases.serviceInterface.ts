@@ -81,6 +81,16 @@ export interface GetPatientCasesRequestParams {
     overallSurvivalNotEqual?: number;
     overallSurvivalBetween?: Array<any>;
     overallSurvivalNotBetween?: Array<any>;
+    ageAtDiagnosisNotExists?: boolean;
+    ageAtDiagnosisExists?: boolean;
+    ageAtDiagnosisLessThan?: number;
+    ageAtDiagnosisLessThanOrEqual?: number;
+    ageAtDiagnosisGreaterThan?: number;
+    ageAtDiagnosisGreaterThanOrEqual?: number;
+    ageAtDiagnosisEqual?: number;
+    ageAtDiagnosisNotEqual?: number;
+    ageAtDiagnosisBetween?: Array<any>;
+    ageAtDiagnosisNotBetween?: Array<any>;
     dataCompletionRateLessThan?: number;
     dataCompletionRateLessThanOrEqual?: number;
     dataCompletionRateGreaterThan?: number;
