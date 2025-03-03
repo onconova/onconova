@@ -96,7 +96,7 @@ export class CohortBuilderComponent {
     refreshCohortData() {
         this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(first()).subscribe({
             next: (cohort: Cohort) => {
-                this.cohort = cohort
+                this.cohort = cohort;
                 if (!this.cohortControl){
                     this.cohortControl = this.formBuilder.group({
                         name: [cohort.name,Validators.required],
@@ -162,10 +162,10 @@ export class CohortBuilderComponent {
                 this.refreshCohortCases()
                 this.refreshCohortStatistics()
                 this.refreshCohortContributions()
-                this.loading = false;
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
             },
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.message })
+            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.message }),
+            complete: () => this.loading = false
         });
     }
 

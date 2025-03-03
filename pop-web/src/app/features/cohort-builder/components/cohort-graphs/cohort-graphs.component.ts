@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Card } from 'primeng/card';
 import { SelectButtonChangeEvent, SelectButtonModule } from 'primeng/selectbutton';
 
@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-graph.component';
 import { DistributionGraphComponent } from './components/distribution-graph/distribution-graph.component';
 import { BoxPlotComponent } from './components/box-plot/box-plot.component';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
     standalone: true,
@@ -24,6 +25,7 @@ import { BoxPlotComponent } from './components/box-plot/box-plot.component';
         PanelModule,
         KapplerMeierCurveComponent,
         DoughnutGraphComponent,
+        Skeleton,
         BoxPlotComponent,
         DistributionGraphComponent,
         Card, 
@@ -34,11 +36,12 @@ import { BoxPlotComponent } from './components/box-plot/box-plot.component';
     templateUrl: './cohort-graphs.component.html',
     styleUrls: ['./cohort-graphs.component.css']
 })
-export class CohortGraphsComponent {
+export class CohortGraphsComponent implements OnInit, OnChanges{
 
     private cohortService = inject(CohortsService);
 
     @Input() cohort!: Cohort;
+    @Input() loading: boolean = false;
 
     public overallSurvivalCurve$!: Observable<KapplerMeierCurve>;
     public overallSurvivalCurveData!: any;
@@ -55,8 +58,17 @@ export class CohortGraphsComponent {
     public therapyLineSurvivalCurve$!: Observable<KapplerMeierCurve>;    
     public selectedTherapyLine: string = 'CLoT1';
 
-
     ngOnInit() {
+        this.refreshData()
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['loading'] && !this.loading) {
+            this.refreshData()            
+        }
+    }
+
+    refreshData() {
         this.overallSurvivalCurve$ = this.cohortService.getCohortOverallSurvivalCurve({cohortId: this.cohort.id})
         this.therapyLinesCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'therapy_line'}).pipe(
             map((counter: any) => {

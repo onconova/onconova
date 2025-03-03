@@ -157,7 +157,7 @@
 </div>
 
 
-<p-tabs value="0"  class="mt-5">
+<p-tabs value="0"  class="mt-5" [lazy]="true">
     <p-tablist>
         <p-tab value="0">Composition</p-tab>
         <p-tab value="1">Analysis</p-tab>
@@ -191,7 +191,7 @@
 
         </p-tabpanel>
         <p-tabpanel value="1">
-            <pop-cohort-graphs [cohort]="cohort"/>
+            <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
         </p-tabpanel>
         <p-tabpanel value="2">
             <pop-dataset-composer [cohortId]="cohort.id"/>
