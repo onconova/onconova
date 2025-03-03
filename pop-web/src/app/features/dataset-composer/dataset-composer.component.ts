@@ -196,7 +196,6 @@ export class DatasetComposerComponent {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['loading'] && !this.loading) {
-            console.log('trigger change')
             this.refreshDatasetObservable()         
         }
     }
@@ -219,9 +218,6 @@ export class DatasetComposerComponent {
     }
 
     private createTreeNode(resource: string, label: string, field: string, type: string, description: string | null = null) {
-        if (field=='overallSurvival') {
-            console.log(field, type)
-        }
         let defaultTransform;
         switch (type) {
             case 'CodedConcept':
@@ -269,7 +265,6 @@ export class DatasetComposerComponent {
     }
 
     private refreshDatasetObservable() {
-        console.log('refresh observable dataset')
         this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.datasetRules, limit: this.pageSize, offset: this.currentOffset}).pipe(
             map(response => {
                 this.totalEntries = response.count;

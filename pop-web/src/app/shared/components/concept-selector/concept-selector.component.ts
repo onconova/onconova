@@ -125,7 +125,6 @@ registerOnChange(fn: any): void {
     this.formControl.valueChanges.subscribe((val) => {
         if (this.returnCode) {
             if (this.multiple) {
-                console.log('registerOnChange multiple', val, val ? val.map((c: CodedConcept) => c.code) : null)
                 fn(val ? val.map((c: CodedConcept) => c.code) : []);
             } else {
                 fn(val ? val.code : null);

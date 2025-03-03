@@ -18,7 +18,6 @@ export class NestedTableComponent {
 
   getColumns(data: any[]): string[] {
     const allKeys = new Set<string>();
-    console.log(data)
     data.forEach(item => Object.keys(item).forEach(key => allKeys.add(key)));
     return Array.from(allKeys);
   }
