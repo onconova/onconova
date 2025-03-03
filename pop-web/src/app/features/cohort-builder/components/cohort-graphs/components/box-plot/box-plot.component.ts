@@ -3,6 +3,7 @@ import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, Simp
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { BoxPlotChart, BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import { ChartModule } from 'primeng/chart';
+import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 
 // Register Chart.js modules and BoxPlot plugin
 Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers);
@@ -11,19 +12,21 @@ Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers)
     standalone: true,
     imports: [
         CommonModule,
+        CohortGraphsContextMenu,
         ChartModule,
     ],
     selector: 'pop-box-plot',
     template: `
     <div class="chart-container" style="height: 20rem; width: 80%">
         <canvas #boxPlotCanvas ></canvas>
+        <pop-cohort-graph-context-menu *ngIf="chart" [target]="boxPlotCanvas" [chart]="chart" [data]="boxData"/>
     </div>`,
 })
 export class BoxPlotComponent {
     @Input() boxData!: any;
 
     @ViewChild('boxPlotCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
-    private chart!: Chart;
+    public chart!: Chart;
 
     ngAfterViewInit() {
         if (this.chartRef) {
@@ -43,8 +46,6 @@ export class BoxPlotComponent {
         // Extract sorted categories and values
         const categories: string[] = Object.keys(this.boxData);
         const values: number[][] = Object.values(this.boxData);
-
-        console.log('this.boxData', this.boxData)
 
         this.chart = new Chart(this.chartRef.nativeElement, {
             type: 'boxplot',

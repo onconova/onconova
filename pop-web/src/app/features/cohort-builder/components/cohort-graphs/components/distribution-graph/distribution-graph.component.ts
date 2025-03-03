@@ -1,29 +1,36 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
 import { Cohort, CohortsService, KapplerMeierCurve } from 'src/app/shared/openapi';
+import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
+import { Chart } from 'chart.js';
 
 @Component({
     standalone: true,
     imports: [
         CommonModule,
+        CohortGraphsContextMenu,
         ChartModule,
     ],
     selector: 'pop-distribution-graph',
-    template: `<p-chart type="bar" [data]="data" [options]="options" height="15rem" width="35rem"/>`,
+    template: `
+    <div class="chart-container" style="height: 15rem; width: 35rem">
+        <canvas #histogramCanvas></canvas>
+        <pop-cohort-graph-context-menu *ngIf="chart" [target]="histogramCanvas" [chart]="chart" [data]="countData"/>
+    </div>`,
 })
 export class DistributionGraphComponent {
     @Input() countData!: any;
 
-    public data!: any;
-    public options!: any;
+    @ViewChild('histogramCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
+    public chart!: Chart;
 
-
-    ngOnInit() {
-        this.initChart()
+    ngAfterViewInit() {
+        if (this.chartRef) {
+            this.initChart();
+        }
     }
-
 
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -40,57 +47,56 @@ export class DistributionGraphComponent {
         const categories: string[] = entries.map(entry => String(entry[0])); // Convert back to string
         const values: number[] = entries.map((entry: any) => entry[1]);
 
-        this.data = {
-            labels: categories,
-            datasets: [
-                {
-                    data: values,
-                    fill: true,
-                    stepped: true,
-                    pointRadius: 0,
-                    backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
-                },
-            ]
-        };
-
-        this.options = {
-            plugins: {
-                legend: {
-                    display: false
-                }
+        this.chart = new Chart(this.chartRef.nativeElement, {
+            type: 'bar',
+            data: {
+                labels: categories,
+                datasets: [
+                    {
+                        data: values,
+                        backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
+                    },
+                ]
             },
-            scales: {
-                x: {
-                    title: {
-                      display: true,
-                      text: 'Age (years)',
-                      color: textColorSecondary,
-                    },
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder
-                    },
-                    min: 0, 
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 },
-                y: {
-                    title: {
-                      display: true,
-                      text: 'Cases',
-                      color: textColorSecondary
+                scales: {
+                    x: {
+                        title: {
+                        display: true,
+                        text: 'Age (years)',
+                        color: textColorSecondary,
+                        },
+                        ticks: {
+                            color: textColorSecondary
+                        },
+                        grid: {
+                            color: surfaceBorder
+                        },
+                        min: 0, 
                     },
-                    ticks: {
+                    y: {
+                        title: {
+                        display: true,
+                        text: 'Cases',
                         color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder
-                    },
-                    min: 0, 
-                    max: Math.max(...values) + 1   
+                        },
+                        ticks: {
+                            color: textColorSecondary
+                        },
+                        grid: {
+                            color: surfaceBorder
+                        },
+                        min: 0, 
+                        max: Math.max(...values) + 1   
+                    }
                 }
             }
-        };
+        });
     }
 
 }
