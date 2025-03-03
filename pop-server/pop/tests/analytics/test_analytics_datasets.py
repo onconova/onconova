@@ -21,66 +21,66 @@ class TestConstructDataset(TestCase):
         self.case = factories.PatientCaseFactory()
         self.cohort = Cohort.objects.create(name='test_cohort')
         self.case.updated_by.set([factories.UserFactory.create() for _ in range(3)])
-        self.cohort.cases.set([self.case])        
+        self.cohort.cases.set([self.case])     
 
     def test_basic_dataset(self):
         rule = DatasetRule(resource='PatientCase', field='id')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.id, dataset.get('Id'))
+        self.assertEqual(self.case.id, dataset[0].get('Id'))
 
     def test_query_multiple_fields(self):
         rules = [
             DatasetRule(resource='PatientCase', field='dateOfBirth'),
             DatasetRule(resource='PatientCase', field='id'),
         ]
-        dataset = construct_dataset(self.cohort, rules)[0]
+        dataset = construct_dataset(self.cohort, rules)
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.date_of_birth, dataset.get('DateOfBirth'))    
-        self.assertEqual(self.case.id, dataset.get('Id'))      
+        self.assertEqual(self.case.date_of_birth, dataset[0].get('DateOfBirth'))    
+        self.assertEqual(self.case.id, dataset[0].get('Id'))      
 
     def test_query_m2m_field(self):
         rule = DatasetRule(resource='PatientCase', field='updatedBy')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual([user.id for user in self.case.updated_by.all()], dataset.get('UpdatedBy'))
+        self.assertEqual(sorted([user.id for user in self.case.updated_by.all()]), sorted(dataset[0].get('UpdatedBy')))
 
     def test_query_date_field(self):
         rule = DatasetRule(resource='PatientCase', field='dateOfBirth')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.date_of_birth, dataset.get('DateOfBirth'))       
+        self.assertEqual(self.case.date_of_birth, dataset[0].get('DateOfBirth'))       
         
     def test_query_annotated_property(self):
         rule = DatasetRule(resource='PatientCase', field='age')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.age, dataset.get('Age'))     
+        self.assertEqual(self.case.age, dataset[0].get('Age'))     
 
     def test_query_coded_concept_text(self):
         rule = DatasetRule(resource='PatientCase', field='gender', transform='GetCodedConceptDisplay')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.gender.display, dataset.get('Gender.text'))     
+        self.assertEqual(self.case.gender.display, dataset[0].get('Gender.text'))     
 
     def test_query_coded_concept_code(self):
         rule = DatasetRule(resource='PatientCase', field='gender', transform='GetCodedConceptCode')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.gender.code, dataset.get('Gender.code'))     
+        self.assertEqual(self.case.gender.code, dataset[0].get('Gender.code'))     
 
     def test_query_coded_concept_system(self):
         rule = DatasetRule(resource='PatientCase', field='gender', transform='GetCodedConceptSystem')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertEqual(self.case.gender.system, dataset.get('Gender.system'))     
+        self.assertEqual(self.case.gender.system, dataset[0].get('Gender.system'))     
         
     def test_case_pseudoidentifier_always_contained(self):
         rule = DatasetRule(resource='PatientCase', field='id')
-        dataset = construct_dataset(self.cohort, [rule])[0]
+        dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        self.assertIn('pseudoidentifier', dataset)
-        self.assertEqual(self.case.pseudoidentifier, dataset.get('pseudoidentifier'))
+        self.assertIn('pseudoidentifier', dataset[0])
+        self.assertEqual(self.case.pseudoidentifier, dataset[0].get('pseudoidentifier'))
 
         
     def test_nested_resources(self):

@@ -40,10 +40,10 @@ class DatasetRuleProcessor:
             ))                                
         # Get other values
         self.model_field_name = self._get_model_field_name(schema)
+        self.model_field = self._get_model_field(self.resource_model, self.model_field_name)
         self.value_transformer = self._get_transformer(rule.transform)
     
-
-    
+        
     def _get_schema(self, resource_name: str):
         """Retrieves the corresponding schema for the resource."""
         from pop.oncology import schemas as oncology_schemas
@@ -51,6 +51,13 @@ class DatasetRuleProcessor:
         if not schema:
             raise DatasetRuleProcessingError(f'Could not resolve schema "{resource_name}" into an existing class object.')
         return schema
+    
+    def _get_model_field(self, orm_model, field_name: str):
+        """Retrieves the corresponding schema for the resource."""
+        try:
+            return orm_model._meta.get_field(field_name)
+        except:
+            return getattr(orm_model, field_name)
     
     def _get_orm_model(self, schema):
         """Retrieves the corresponding schema for the resource."""
@@ -102,7 +109,12 @@ class DatasetRuleProcessor:
     @property
     def field_annotation(self):
         """Returns the Django ORM annotation for this dataset field."""
-        return self.value_transformer.generate_annotation_expression(self.query_lookup_path) if self.value_transformer else F(self.query_lookup_path)
+        if self.value_transformer:
+            return self.value_transformer.generate_annotation_expression(self.query_lookup_path)
+        elif getattr(self.model_field, 'is_relation', None) and (self.model_field.one_to_many or self.model_field.many_to_many):
+            return ArrayAgg(self.query_lookup_path)
+        else:
+            return F(self.query_lookup_path)
 
 
 
