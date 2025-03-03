@@ -4,31 +4,35 @@
     <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
 </div>
 
-<form *ngIf="!initloading" [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
+<form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
 
 <div class="flex my-3 mt-5">
-    <div class="header" >
+    <div class="header">
         <div class="mb-1 text-muted">Cohort</div>
-        <div>
-            <div *ngIf="!editCohortName"  style="font-size: 2rem;">
-                {{ cohortControl.value.name }}
-                <i *ngIf="authService.user.canManageCohorts" class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>
+        <ng-container *ngIf="cohort">
+            <div>
+                <div *ngIf="!editCohortName"  style="font-size: 2rem;">
+                    {{ cohortControl.value.name }}
+                    <i *ngIf="authService.user.canManageCohorts" class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>
+                </div>
+                <ng-container *ngIf="editCohortName">
+                    <input type="text" pInputText formControlName="name" class="mr-2"/>
+                    <i class="pi pi-check" (click)="editCohortName = false"></i>
+                </ng-container>
             </div>
-            <ng-container *ngIf="editCohortName">
-                <input type="text" pInputText formControlName="name" class="mr-2"/>
-                <i class="pi pi-check" (click)="editCohortName = false"></i>
-            </ng-container>
-        </div>
-        <div class="flex mt-2">
-            <div class="text-md mr-2">
-                <p-chip *ngIf="cohort.isPublic" label="Public" icon="pi pi-lock-open" class="is-public-chip"/>
-                <p-chip *ngIf="!cohort.isPublic" label="Private" icon="pi pi-unlock" class="is-public-chip"/>
+            <div class="flex mt-2">
+                <div class="text-md mr-2">
+                    <p-chip *ngIf="cohort.isPublic" label="Public" icon="pi pi-lock-open" class="is-public-chip"/>
+                    <p-chip *ngIf="!cohort.isPublic" label="Private" icon="pi pi-unlock" class="is-public-chip"/>
+                </div>
+                <div class="my-auto text-muted">Author <pop-user-badge *ngIf="cohort.createdBy" [user]="cohort.createdBy"/></div>
+                <p-divider layout="vertical" class="mx-3"></p-divider>
+                <div class="my-auto text-muted"><i class="pi pi-history"></i> Last updated: {{cohort.updatedAt | date }}</div>            
             </div>
-            <div class="my-auto text-muted">Author <pop-user-badge *ngIf="cohort.createdBy" [user]="cohort.createdBy"/></div>
-            <p-divider layout="vertical" class="mx-3"></p-divider>
-            <div class="my-auto text-muted"><i class="pi pi-history"></i> Last updated: {{cohort.updatedAt | date }}</div>
-            
-        </div>
+        </ng-container>
+        <ng-container *ngIf="!cohort">
+            <p-skeleton width="40rem" height="5rem"/>
+        </ng-container>
     </div>
 </div>
 
@@ -47,8 +51,11 @@
                 <div class="flex flex-column">
                     <div class="text-muted mb-1">Population</div>
                     <div class="flex">
-                        <div *ngIf="cohort">
+                        <div *ngIf="!loading && cohort">
                             <span class="font-bold text-lg">{{ cohort.population }}</span> cases
+                        </div>
+                        <div *ngIf="loading || !cohort">
+                            <p-skeleton width="10rem" height="1.5rem" />
                         </div>
                     </div>
                 </div>
@@ -69,10 +76,13 @@
                 <div class="flex flex-column">
                     <div class="text-muted mb-1">Average age</div>
                     <div class="flex">
-                        <div *ngIf="cohortStatistics">
+                        <div *ngIf="!loading && cohortStatistics">
                             <span class="font-bold text-lg">{{ cohortStatistics.ageAverage || '-' }}</span> 
                             <span *ngIf="cohortStatistics.ageStdDev !== null" class=""> (±{{ cohortStatistics.ageStdDev}})</span>
                             years
+                        </div>
+                        <div *ngIf="loading || !cohortStatistics">
+                            <p-skeleton width="10rem" height="1.5rem" />
                         </div>
                     </div>
                 </div>
@@ -94,9 +104,12 @@
                 <div class="flex flex-column">
                     <div class="text-muted mb-1">Average data completion</div>
                     <div class="flex">
-                        <div *ngIf="cohortStatistics">
+                        <div *ngIf="!loading && cohortStatistics">
                             <span class="font-bold text-lg">{{ cohortStatistics.dataCompletionAverage ?? '-' }}%</span>
                             <span *ngIf="cohortStatistics.dataCompletionStdDev !== null" class=""> (±{{ cohortStatistics.dataCompletionStdDev}}%)</span> categories
+                        </div>
+                        <div *ngIf="loading || !cohortStatistics">
+                            <p-skeleton width="10rem" height="1.5rem" />
                         </div>
                     </div>
                 </div>
@@ -111,17 +124,17 @@
 
 <h4 class="text-muted">Definition</h4>
 
-<div class="flex flex-column gap-3">
+<div class="flex flex-column gap-3" *ngIf="cohortControl">
 
     <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.includeCriteria === null">    
         <ng-template #header>
             <div class="flex gap-2 align-items-center">
                 <i class="pi pi-thumbs-up"></i>
                 <div class="font-bold">Inclusion criteria</div>
-                <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="p-1"/>
+                <p-chip *ngIf="cohortControl" label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="p-1"/>
             </div>
         </ng-template>
-        <pop-cohort-query-builder formControlName="includeCriteria" [disabled]="!authService.user.canManageCohorts"/>
+        <pop-cohort-query-builder *ngIf="cohort" formControlName="includeCriteria" [disabled]="!authService.user.canManageCohorts"/>
     </p-panel>
 
     <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
@@ -129,10 +142,10 @@
             <div class="flex gap-2 align-items-center">
                 <i class="pi pi-thumbs-down"></i>
                 <div class="font-bold">Exclusion criteria</div>
-                <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="p-1"/>
+                <p-chip *ngIf="cohortControl" label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="p-1"/>
             </div>
         </ng-template>
-        <pop-cohort-query-builder formControlName="excludeCriteria"  [disabled]="!authService.user.canManageCohorts"/>
+        <pop-cohort-query-builder *ngIf="cohort" formControlName="excludeCriteria"  [disabled]="!authService.user.canManageCohorts"/>
     </p-panel>
 
 </div>
@@ -146,18 +159,18 @@
     styleClass="p-2"  
     severity="secondary"
     [loading]="loading"
-    [disabled]="!authService.user.canViewCohorts || cohortControl.invalid" />
+    [disabled]="!authService.user.canViewCohorts || !cohortControl || cohortControl.invalid" />
     <p-button 
     type="submit" 
     [icon]="authService.user.canManageCohorts ? 'pi pi-sync' : 'pi pi-lock'"
     label="Save & Update Cohort" 
     styleClass="p-2"  
     [loading]="loading"
-    [disabled]="!authService.user.canManageCohorts || cohortControl.invalid" />
+    [disabled]="!authService.user.canManageCohorts || !cohortControl || cohortControl.invalid" />
 </div>
 
 
-<p-tabs value="0"  class="mt-5" [lazy]="true">
+<p-tabs value="0"  class="mt-5" >
     <p-tablist>
         <p-tab value="0">Composition</p-tab>
         <p-tab value="1">Analysis</p-tab>
@@ -165,36 +178,60 @@
         <p-tab value="3">Contributors</p-tab>
         <p-tab value="4">History</p-tab>
     </p-tablist>
-    <p-tabpanels>
+    <p-tabpanels *ngIf="cohort">
         <p-tabpanel value="0">
+            <ng-container *ngIf="!loading && cohortCases"> 
+                <p-dataView 
+                [value]="cohortCases || undefined"
+                [paginator]="true" 
+                [rows]="pageSize" 
+                layout="grid"
+                sortField="createdAt"
+                lazy="true"
+                [totalRecords]="cohort.population"
+                (onLazyLoad)="setPaginationAndRefresh($event)"
+                class="no-background">
+                    <ng-template #grid let-cases>
+                        <div class="grid mt-3">
+                            <div class="col p-2"*ngFor="let case of cases; let first = first" >
+                                <pop-case-search-item 
+                                [case]="case"/>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </ng-container>
 
-            <p-dataView 
-            [value]="cohortCases || undefined"
-            [paginator]="true" 
-            [rows]="pageSize" 
-            layout="grid"
-            sortField="createdAt"
-            lazy="true"
-            [totalRecords]="cohort.population"
-            (onLazyLoad)="setPaginationAndRefresh($event)"
-            class="no-background">
-    
-            <ng-template #grid let-cases>
-                <div class="grid mt-3">
-                    <div class="col p-2"*ngFor="let case of cases; let first = first" >
-                        <pop-case-search-item 
-                        [case]="case"/>
-                    </div>
+            <!-- Skeleton loader -->
+            <ng-container *ngIf="loading || !cohortCases">
+                <div class="grid gap-5 mt-5">
+                    <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
+                        <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
+                            <div class="flex my-3">
+                                <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
+                                <div class="flex flex-column mx-3">
+                                    <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
+                                    <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-4">
+                                <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                            </div>
+                            <div class="my-3 mb-5">
+                                <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                            </div>
+                            <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
+                        </div>
+                    </ng-container>
                 </div>
-            </ng-template>
-        </p-dataView>
+            </ng-container>
 
         </p-tabpanel>
         <p-tabpanel value="1">
             <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
         </p-tabpanel>
         <p-tabpanel value="2">
-            <pop-dataset-composer [cohortId]="cohort.id"/>
+            <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
         </p-tabpanel>
         <p-tabpanel value="3">
             <pop-cohort-contributors *ngIf="cohortContributions" [cohortContributions]="cohortContributions"/>
@@ -204,3 +241,4 @@
         </p-tabpanel>
     </p-tabpanels>
 </p-tabs>
+<p-skeleton *ngIf="!cohort" width='100%' height='50rem'/>

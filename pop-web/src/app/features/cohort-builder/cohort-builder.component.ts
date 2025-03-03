@@ -28,6 +28,7 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
 import { DatasetComposerComponent } from 'src/app/features/dataset-composer/dataset-composer.component';
 import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.components';
 import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.component';
+import { Skeleton } from 'primeng/skeleton';
 
 
 @Component({
@@ -48,6 +49,7 @@ import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.
         DatasetComposerComponent,
         Panel,
         Card,
+        Skeleton,
         InputText,
         UserBadgeComponent,
         Divider,
@@ -69,11 +71,15 @@ export class CohortBuilderComponent {
     public readonly authService = inject(AuthService)
 
 
-    public cohortControl!: FormGroup;
+    public cohortControl: FormGroup = this.formBuilder.group({
+        name: [null,Validators.required],
+        isPublic: [null,Validators.required],
+        includeCriteria: [null],
+        excludeCriteria: [null],
+    });  
     public cohortCases: PatientCase[] = [];
     public cohort!: Cohort; 
     public loading: boolean = false;
-    public initloading: boolean = true;
     public editCohortName: boolean = false;
     public cohortContributions!: CohortContribution[];
     public cohortStatistics!: CohortStatisticsSchema;
@@ -85,7 +91,7 @@ export class CohortBuilderComponent {
     public readonly completionIcon = ClipboardCheck;
 
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.refreshCohortData()
         this.refreshCohortCases()
         this.refreshCohortStatistics()
@@ -97,14 +103,11 @@ export class CohortBuilderComponent {
         this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(first()).subscribe({
             next: (cohort: Cohort) => {
                 this.cohort = cohort;
-                if (!this.cohortControl){
-                    this.cohortControl = this.formBuilder.group({
-                        name: [cohort.name,Validators.required],
-                        isPublic: [cohort.isPublic,Validators.required],
-                        includeCriteria: [cohort.includeCriteria],
-                        excludeCriteria: [cohort.excludeCriteria],
-                    });    
-                    this.initloading = false    
+                if (!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
+                    this.cohortControl.controls['name'].setValue(cohort.name) ;
+                    this.cohortControl.controls['isPublic'].setValue(cohort.isPublic);
+                    this.cohortControl.controls['includeCriteria'].setValue(cohort.includeCriteria);
+                    this.cohortControl.controls['excludeCriteria'].setValue(cohort.excludeCriteria);    
                 }
             },
             error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.message })

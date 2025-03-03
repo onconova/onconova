@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, Input, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, Input, SimpleChange, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -29,6 +29,7 @@ import { DownloadService } from "src/app/shared/services/download.service";
 import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-case.pipe";
 
 import { Pipe, PipeTransform } from '@angular/core';
+import { Skeleton } from "primeng/skeleton";
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -51,6 +52,7 @@ export class IsStringPipe implements PipeTransform {
         Toolbar,
         Card,
         Menu,
+        Skeleton,
         ContextMenuModule,
         AutoComplete,
         TreeModule,
@@ -69,6 +71,7 @@ export class IsStringPipe implements PipeTransform {
       ])
     ],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatasetComposerComponent {
 
@@ -92,13 +95,14 @@ export class DatasetComposerComponent {
     private messageService = inject(MessageService);
     
     @Input({required: true}) cohortId!: string;
+    @Input() loading: boolean = false;
 
     // User datasets properties
     public userDatasets$: Observable<Dataset[]> = of([])
     public userDatasetOptions: Dataset[] = []
 
     // Dataset table properties
-    public dataset$: Observable<any[]> = of([]);
+    public dataset$!: Observable<any[]>;
     public datasetRules: any[] = []
     public pageSizeChoices: number[] = [10, 20, 50, 100];
     public pageSize: number = this.pageSizeChoices[0];
@@ -187,9 +191,16 @@ export class DatasetComposerComponent {
     ];
 
     ngOnInit() {
-        this.refreshUserDatasets();
+        this.refreshUserDatasets()
     }
-    
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['loading'] && !this.loading) {
+            console.log('trigger change')
+            this.refreshDatasetObservable()         
+        }
+    }
+
     public constructResourceTreeNode(resource: DataResource, label: string, options: {children?: any[], exclude?: string[], isRoot?: boolean} = {children: [], exclude: [], isRoot: true}){
         if (!this.apiSchemaKeys.hasOwnProperty(resource)) {
             console.error(`Schema "${resource}" does not exist.`)
@@ -258,6 +269,7 @@ export class DatasetComposerComponent {
     }
 
     private refreshDatasetObservable() {
+        console.log('refresh observable dataset')
         this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.datasetRules, limit: this.pageSize, offset: this.currentOffset}).pipe(
             map(response => {
                 this.totalEntries = response.count;
@@ -314,6 +326,7 @@ export class DatasetComposerComponent {
 
 
     public setPaginationAndRefresh(event: any) {
+        if (this.currentOffset === event.first && this.pageSize === event.rows) return
         this.currentOffset = event.first;
         this.pageSize = event.rows;
         this.refreshDatasetObservable()
