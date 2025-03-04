@@ -11,6 +11,7 @@ from queryable_properties.properties import AnnotationProperty
 class User(AbstractUser):
         
     class AccessRoles(models.TextChoices):
+        EXTERNAL = 'External'
         VIEWER = 'Viewer'
         DATA_CONTRIBUTOR = 'Data Contributor'
         DATA_ANALYST = 'Data Analyst'
@@ -53,7 +54,7 @@ class User(AbstractUser):
     access_level = models.IntegerField(
         verbose_name = _('Access level'),
         help_text = _('Level of access of the user in terms of permissions'),
-        validators = [MinValueValidator(1), MaxValueValidator(7)],        
+        validators = [MinValueValidator(0), MaxValueValidator(7)],        
         default=1,
     )
     role = MappingProperty(
@@ -61,6 +62,7 @@ class User(AbstractUser):
         attribute_path = 'access_level',
         output_field = models.CharField(choices=AccessRoles),
         mappings= (
+            (0, AccessRoles.EXTERNAL),
             (1, AccessRoles.VIEWER),
             (2, AccessRoles.DATA_CONTRIBUTOR),
             (3, AccessRoles.DATA_ANALYST),
@@ -89,7 +91,7 @@ class User(AbstractUser):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=Q(access_level__gte=1) & Q(access_level__lte=6),
+                condition=Q(access_level__gte=0) & Q(access_level__lte=6),
                 name="access_level_must_be_between_1_and_6",
             )
         ]
