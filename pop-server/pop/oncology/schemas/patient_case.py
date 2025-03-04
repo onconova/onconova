@@ -1,11 +1,10 @@
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional
 from pydantic import Field, AliasChoices
 from ninja import Schema
 from django.db.models import Q
 
 from pop.oncology import models as orm
-from pop.oncology.schemas.neoplastic_entity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig, create_filters_schema
 
 class PatientCaseSchema(ModelGetSchema):
@@ -63,17 +62,5 @@ class PatientCaseDataCompletionStatusSchema(Schema):
     timestamp: Optional[datetime] = Field(
         default=None, description='Username of the person who marked the category as completed'
     )
-
-
-class PatientCaseBundleSchema(ModelGetSchema):
-    age: int = Field(description='Approximate age of the patient in years') 
-    neoplasticEntities: List[NeoplasticEntitySchema] = Field(None,description='Neoplastic entities') 
-    config = SchemaConfig(model = orm.PatientCase, schema_name = 'PatientCaseBundle')
-
-
-class PatientCaseBundleCreateSchema(ModelCreateSchema):    
-    neoplasticEntities: List[NeoplasticEntityCreateSchema] = Field(description='Neoplastic entities') 
-    config = SchemaConfig(model = orm.PatientCase, schema_name = 'PatientCaseBundleCreate', exclude=('is_deceased',))
-
 
     

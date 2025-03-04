@@ -29,6 +29,7 @@ from pop.oncology.controllers import (
     TreatmentResponseController,
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
+    BundleController,
 )
 from pop.analytics.controllers import (
     CohortsController, 
@@ -50,6 +51,7 @@ api.register_controllers(
     AuthController,
     UsersController,
     PatientCaseController,
+    BundleController,
     NeoplasticEntityController,
     StagingController,
     RiskAssessmentController,

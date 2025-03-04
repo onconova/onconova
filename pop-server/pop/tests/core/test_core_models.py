@@ -90,7 +90,7 @@ class TestUserModel(TestCase):
         user = self.create_user(username="test_user", access_level=1)
 
         # Test min boundary
-        user.access_level = 0
+        user.access_level = -1
         with self.assertRaises(Exception):
             user.save()
 

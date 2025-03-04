@@ -3,7 +3,6 @@ from .patient_case import (
     PatientCaseFilters,
     PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 
-    PatientCaseBundleSchema, PatientCaseBundleCreateSchema
 )
 from .neoplastic_entity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
 from .staging import (
@@ -89,7 +88,6 @@ ONCOLOGY_SCHEMAS = (
     # PatientCase schemas
     PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 
-    PatientCaseBundleSchema, PatientCaseBundleCreateSchema,
     # Neoplastic entity schemas
     NeoplasticEntitySchema, NeoplasticEntityCreateSchema,
     # Staging schemas

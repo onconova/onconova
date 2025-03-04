@@ -14,7 +14,6 @@ from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,
     PatientCaseDataCompletionStatusSchema, 
-    PatientCaseBundleSchema, PatientCaseBundleCreateSchema
 )
 
 @api_controller(
@@ -142,32 +141,3 @@ class PatientCaseController(ControllerBase):
         instance = get_object_or_404(PatientCaseDataCompletion, case__id=caseId, category=category)
         instance.delete()
         return 204, None
-
-
-
-    @route.get(
-        path='/bundle/{caseId}', 
-        response={
-            200: PatientCaseBundleSchema,
-        },
-        permissions=[perms.CanViewCases],
-        operation_id='getPatientCaseBundleById',
-    )
-    def get_patient_case_bundle_by_id(self, caseId: str):
-        from pop.oncology.schemas import NeoplasticEntitySchema
-        case = get_object_or_404(PatientCase, id=caseId)
-        response = PatientCaseBundleSchema.model_validate(case)
-        response.neoplasticEntities = [NeoplasticEntitySchema.model_validate(entry) for entry in case.neoplastic_entities.all()],
-        return 200, response 
-
-    @route.post(
-        path='/bundle', 
-        response={
-            201: ModifiedResourceSchema,
-        },
-        permissions=[perms.CanManageCases],
-        operation_id='createPatientCaseBundleById',
-    )
-    def create_patient_case_bundle(self, payload: PatientCaseBundleCreateSchema):
-        return PatientCaseCreateSchema.model_validate(payload).model_dump_django(user=self.context.request.user)
- 

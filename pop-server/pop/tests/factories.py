@@ -45,7 +45,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
     first_name = factory.LazyFunction(lambda: faker.first_name())
     last_name = factory.LazyFunction(lambda: faker.last_name())
-    username = factory.LazyAttribute(lambda obj: f'{obj.last_name[:2].lower()}{obj.first_name[:2].lower()}')
+    username = factory.LazyAttribute(lambda obj: f'{obj.last_name[:2].lower()}{obj.first_name[:2].lower()}{random.randint(111,999)}')
     password = factory.LazyFunction(lambda: make_password(faker.password()))
     email = factory.LazyAttribute(lambda obj: '%s@outlook.com' % obj.username)
     access_level = factory.LazyFunction(lambda: random.randint(1,5))
@@ -159,7 +159,6 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     period = factory.LazyFunction(lambda: PostgresRange(faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
     cycles = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
-    adjunctive_role = make_terminology_factory(terminology.AdjunctiveTherapyRole)
     therapy_line = factory.SubFactory(TherapyLineFactory)
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):

@@ -17,6 +17,7 @@ from .treatment_response import TreatmentResponseController
 from .tumor_board import TumorBoardController, MolecularTherapeuticRecommendationController
 from .genomic_variant import GenomicVariantController
 from .genomic_signature import GenomicSignatureController
+from .bundle import BundleController
 
 __all__ = (
     PatientCaseController,
@@ -40,4 +41,5 @@ __all__ = (
     AdverseEventController,
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
+    BundleController,
 )
