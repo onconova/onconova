@@ -93,7 +93,6 @@ class TherapyLine(BaseModel):
     @staticmethod
     def assign_therapy_lines(case):
         # Codes required to query the database 
-        COMPLEMENTARY_THERAPIES = ['314122007','133897009','260364009','74964007']
         PD = 'LA28370-7'
         TREATMENT_NOT_TOLERATED = '407563006'
 
@@ -129,7 +128,7 @@ class TherapyLine(BaseModel):
         line_counter = {'curative': 0, 'palliative': 0}
         for systemic_therapies in overlaping_systemic_therapies:
             # Get the previous (non-complimentary) SACT if exists
-            previous_SACT = case.systemic_therapies.exclude(role__code__in=COMPLEMENTARY_THERAPIES).filter(period__startswith__lt=systemic_therapies[0].period.lower)
+            previous_SACT = case.systemic_therapies.exclude(is_adjunctive=True).filter(period__startswith__lt=systemic_therapies[0].period.lower)
             previous_SACT = previous_SACT.latest('period__startswith') if previous_SACT.exists() else None
             
             # Determine the intent of the therapy line (PLoT/CLoT)
@@ -159,7 +158,7 @@ class TherapyLine(BaseModel):
                 continue
             
             # Check if the SACT is complimentary to another SACT (e.g. maintenance, additive, adjuvant, etc.)
-            if systemic_therapies[0].role in terminology.TreatmentCategory.objects.filter(code__in=COMPLEMENTARY_THERAPIES):
+            if systemic_therapies[0].is_adjunctive:
                 assign_therapy_to_previous_line()
                 continue
             

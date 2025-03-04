@@ -807,8 +807,8 @@ class GeneticTherapeuticImplication(CodedConcept):
     description = 'Value Set for terms that describe a predicted ramification based on the presence of associated molecular finding(s).'
 
 
-class TreatmentCategory(CodedConcept):
-    valueset =  'https://simplifier.net/pop/ValueSets/pop-treatment-categories'
+class AdjunctiveTherapyRole(CodedConcept):
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-adjunctive-therapy-roles'
     description = 'Codes representing the order in which different therapies are given to people as their disease progresses.'
     # Additional codes
     extension_concepts = [

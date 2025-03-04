@@ -1,6 +1,6 @@
 
 from django.db import models
-from django.db.models import ExpressionWrapper, Value, Func, F
+from django.db.models import ExpressionWrapper, Value, Func, F, Q, When, Case
 from django.db.models.functions import Coalesce
 from django.contrib.postgres.aggregates import StringAgg
 import django.contrib.postgres.fields as postgres
@@ -67,10 +67,21 @@ class SystemicTherapy(BaseModel):
         choices = TreatmentIntent,
         max_length=30,
     )
-    role = termfields.CodedConceptField(
+    is_adjunctive = models.GeneratedField(
         verbose_name = _('Treatment Role'),
-        help_text = _("Indicates the role of this therapy in the overall treatment strategy."),
-        terminology = terminologies.TreatmentCategory,
+        help_text = _("Indicates whether it is adjunctive therapy instead of a primary therapy "),        
+        expression = Case(
+                When(Q(adjunctive_role__isnull = False), then = Value(True)),  
+            default = Value(False),
+            output_field = models.BooleanField(),
+        ),
+        output_field = models.BooleanField(),
+        db_persist = True,
+    )
+    adjunctive_role = termfields.CodedConceptField(
+        verbose_name = _('Treatment Role'),
+        help_text = _("Indicates the role of the adjunctive therapy (if applicable)."),
+        terminology = terminologies.AdjunctiveTherapyRole,
         null=True, blank=True,
     )
     termination_reason = termfields.CodedConceptField(

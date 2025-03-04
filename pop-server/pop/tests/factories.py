@@ -159,7 +159,7 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     period = factory.LazyFunction(lambda: PostgresRange(faker.date_between(start_date='-1y', end_date='today'), faker.date_between(start_date='today', end_date='+1y')))
     cycles = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
-    role = make_terminology_factory(terminology.TreatmentCategory)
+    adjunctive_role = make_terminology_factory(terminology.AdjunctiveTherapyRole)
     therapy_line = factory.SubFactory(TherapyLineFactory)
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):

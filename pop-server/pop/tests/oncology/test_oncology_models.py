@@ -128,7 +128,7 @@ class TherapyLineModelTest(TestCase):
     
     def setUp(self):
         self.TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.get_or_create(code='407563006', display='termination-reason', system='http://snomed.info/sct')[0]
-        self.COMPLEMENTARY_THERAPY = terminology.TreatmentCategory.objects.get_or_create(code='314122007', display='category-1', system='https://snomed.info/sct')[0]
+        self.COMPLEMENTARY_THERAPY = terminology.AdjunctiveTherapyRole.objects.get_or_create(code='314122007', display='category-1', system='https://snomed.info/sct')[0]
         self.PROGRESSIVE_DISEASE = terminology.CancerTreatmentResponse.objects.get_or_create(code='LA28370-7', display='PD', system='https://loinc.org')[0]
         self.case = factories.PatientCaseFactory.create()
         self.therapy_line = factories.TherapyLineFactory.create(case=self.case)
@@ -332,7 +332,7 @@ class TherapyLineModelTest(TestCase):
             case=self.case,
             intent='palliative',
             period=('2023-1-1', '2023-3-1'),
-            role=None,
+            adjunctive_role=None,
         )  
         factories.SystemicTherapyMedicationFactory.create(
             drug=terminology.AntineoplasticAgent.objects.create(
@@ -344,8 +344,10 @@ class TherapyLineModelTest(TestCase):
             case=self.case,
             intent='palliative',
             period=('2023-4-1', '2023-5-1'),
-            role=self.COMPLEMENTARY_THERAPY,
+            adjunctive_role=self.COMPLEMENTARY_THERAPY,
         )  
+        self.systemic_therapy2.save()
+        print(self.systemic_therapy2.is_adjunctive)
         factories.SystemicTherapyMedicationFactory.create(
             drug=terminology.AntineoplasticAgent.objects.create(
                 code='drug-2', display='chemo-2', therapyCategory='Chemotherapy'
