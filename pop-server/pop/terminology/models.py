@@ -165,11 +165,13 @@ class AntineoplasticAgent(CodedConcept):
         ANTIMETASTATIC_THERAPY = 'antimetastatic_therapy'
         METABOLIC_THERAPY = 'metabolic-therapy'
         RADIOPHARMACEUTICAL_THERAPY = 'radiopharmaceutical-therapy'
+        UNCLASSIFIED = 'unclassified'
     
     therapy_category = models.CharField(
         verbose_name=_('Therapy classification'),
         help_text=_('Therapy classification'),
         choices=TherapyCategory,
+        default=TherapyCategory.UNCLASSIFIED,
         max_length=50, null=True, blank=True,
     )
     def __str__(self):

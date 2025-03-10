@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q, Min, Max, Func, Case, When, Value, F, Subquery, OuterRef
-from django.db.models.functions import Concat, Left, Greatest, Least, Lower, Upper, Now, Cast
+from django.db.models.functions import Concat, Left, Greatest, Least, Lower, Upper, Concat, Coalesce
+from django.contrib.postgres.aggregates import StringAgg, ArrayAgg
 
 from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
@@ -86,6 +87,28 @@ class TherapyLine(BaseModel):
         )
     )
     
+    # Check if the different therapy modalities exist
+    has_systemic_therapy=Case(When(Q(systemic_therapies__isnull=False), then=True), default=False),
+    has_radiotherapy=Case(When(Q(radiotherapies__isnull=False), then=True), default=False),
+    has_surgery=Case(When(Q(surgeries__isnull=False), then=True), default=False),
+    # Final category annotation
+    therapy_classifications = AnnotationProperty(
+        verbose_name = _('Progression free survival in days'),
+        annotation = Coalesce(
+            Concat(
+                Case(When(has_systemic_therapy=True, then=StringAgg(
+                    Coalesce(
+                        F("systemic_therapies__medications__drug__therapy_category"),
+                        Value("unclassified"),
+                        output_field=models.CharField()
+                    ),  delimiter=',', distinct=True,output_field=models.CharField()
+                )), default=Value("")),
+                Case(When(has_radiotherapy=True, then=Value(",radiotherapy")), default=Value("")),
+                Case(When(has_surgery=True, then=Value(",surgery")), default=Value("")),
+            ),
+            Value(""),
+        ), 
+    )
     @property
     def description(self):
         return f'{self.label}'

@@ -66,6 +66,7 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
         concept = ncit_codesystem.get(ncit_code)
         if not concept: continue
         concepts[concept.code] = DrugCodedConcept(**concept.model_dump())
+        concepts[concept.code].therapy_category = therapy_categories.UNCLASSIFIED
         for category, category_codes in categories.items():
             if concept.code in category_codes:
                 concepts[concept.code].therapy_category = category
