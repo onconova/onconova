@@ -303,7 +303,7 @@ class TherapyLineModelTest(TestCase):
         )  
         factories.SystemicTherapyMedicationFactory.create(
             drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-1', display='chemo-1', therapyCategory='Chemotherapy'
+                code='drug-1', display='chemo-1', therapy_category='chemotherapy'
             ),
             systemic_therapy=self.systemic_therapy1
         )
@@ -314,7 +314,7 @@ class TherapyLineModelTest(TestCase):
         )  
         factories.SystemicTherapyMedicationFactory.create(
             drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-2', display='immuno 2', therapyCategory='Immunotherapy'
+                code='drug-2', display='immuno 2', therapy_category='immunotherapy'
             ),
             systemic_therapy=self.systemic_therapy2
         )
@@ -336,7 +336,7 @@ class TherapyLineModelTest(TestCase):
         )  
         factories.SystemicTherapyMedicationFactory.create(
             drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-1', display='chemo-1', therapyCategory='Chemotherapy'
+                code='drug-1', display='chemo-1', therapy_category='chemotherapy'
             ),
             systemic_therapy=self.systemic_therapy1
         )
@@ -350,7 +350,7 @@ class TherapyLineModelTest(TestCase):
         print(self.systemic_therapy2.is_adjunctive)
         factories.SystemicTherapyMedicationFactory.create(
             drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-2', display='chemo-2', therapyCategory='Chemotherapy'
+                code='drug-2', display='chemo-2', therapy_category='chemotherapy'
             ),
             systemic_therapy=self.systemic_therapy2
         )

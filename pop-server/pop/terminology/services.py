@@ -336,13 +336,12 @@ def collect_codedconcept_terminology(
 
     # Update relationships
     for concept in tqdm(concepts, total=len(concepts), desc='• Updating relationships'):
-        if concept and concept.parent:
+        if concept and concept.parent and write_db:
             child = CodedConceptModel.objects.get(code=concept.code, system=concept.system)
             parent = CodedConceptModel.objects.filter(code=concept.parent,system=concept.system).first()
             if parent:
                 child.parent = parent
-                if write_db:
-                    child.save()
+                child.save()
     print('✓ - All concepts written into the database')
     # Delete dangling concepts
     if concepts and dangling_concepts and prune_dangling:

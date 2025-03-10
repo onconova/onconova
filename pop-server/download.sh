@@ -86,23 +86,6 @@ download_oncotree() {
 }
 
 
-download_nctpot() {
-	# Local variables
-	DOWNLOAD_URL_1=https://raw.githubusercontent.com/TMO-HD/NCT-POT/refs/heads/main/drugs/tsv/drug_drugClass.tsv
-	DOWNLOAD_FILE_1=${DATA_DIR}/nctpot_drug_drugclass.tsv
-	DOWNLOAD_URL_2=https://raw.githubusercontent.com/TMO-HD/NCT-POT/refs/heads/main/drugs/tsv/drugClass.tsv
-	DOWNLOAD_FILE_2=${DATA_DIR}/nctpot_drugclass.tsv
-	DOWNLOAD_URL_3=https://raw.githubusercontent.com/TMO-HD/NCT-POT/refs/heads/main/drugs/tsv/drug.tsv
-	DOWNLOAD_FILE_3=${DATA_DIR}/nctpot_drug.tsv
-	echo ""
-	echo "Downloading NCT-POT files"
-	echo "-----------------------------------"
-	wget $WGET_PROXY_OPTIONS --no-cache -O $DOWNLOAD_FILE_1 $DOWNLOAD_URL_1
-	wget $WGET_PROXY_OPTIONS --no-cache -O $DOWNLOAD_FILE_2 $DOWNLOAD_URL_2
-	wget $WGET_PROXY_OPTIONS --no-cache -O $DOWNLOAD_FILE_3 $DOWNLOAD_URL_3
-  echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
-}
-
 download_icdo3topo() {
 	# Local variables
 	DOWNLOAD_URL=https://raw.githubusercontent.com/luisfabib/icd10_2019_data/refs/heads/main/icdo3/icdo3.2_topography.tsv
@@ -206,6 +189,27 @@ download_ncit() {
   cat Thesaurus.txt >> $PROCESSED_FILE
   rm $DOWNLOAD_FILE Thesaurus.txt
   echo -e "\n✓ Download complete. Saved data to $PROCESSED_FILE.\n"
+}
+
+download_ncit_antineoplastic() {
+	# Local variables
+	DOWNLOAD_URL=https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/Drug_or_Substance/Antineoplastic_Agent.txt
+	DOWNLOAD_FILE=$DATA_DIR/ncit_antineoplastic.tsv
+	echo ""
+	echo "Downloading NCI Thesaurus Antineoplastic subset files"
+	echo "-----------------------------------"
+  wget $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE $DOWNLOAD_URL
+  # Convert to UTF-8 (if needed)
+  ENCODING=$(file -bi "$DOWNLOAD_FILE" | awk -F "=" '{print $2}')
+  if [ "$ENCODING" != "utf-8" ]; then
+      iconv -f "$ENCODING" -t "UTF-8" "$DOWNLOAD_FILE" -o "${DOWNLOAD_FILE}.utf8"
+      mv "${DOWNLOAD_FILE}.utf8" $DOWNLOAD_FILE
+      echo "File converted to UTF-8."
+  else
+      echo "File is already UTF-8 encoded."
+  fi
+
+  echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
 }
 
 
@@ -375,11 +379,11 @@ case "$TERMINOLOGY" in
   icd10pcs) download_icd10pcs;;
   ctcae) download_ctcae;;
   ncit) download_ncit;;
+  ncit-antineoplastic) download_ncit_antineoplastic;;
   loinc) process_loinc;;
   rxnorm) download_rxnorm;;
   snomedct) process_snomedct;;
   ucum) download_ucum;;
-  nctpot) download_nctpot;;
   hta) download_hta;;
   atc) download_atc;;
   ch-term) download_ch-term;;

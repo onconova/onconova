@@ -99,7 +99,7 @@ class TherapyLine(BaseModel):
         def is_anti_hormonal(SACT):
             if not SACT:
                 return False 
-            return ['(Anti)hormonal'] == list(set([drug.drugDomain for drug in SACT.drugs if drug.drugDomain ]))
+            return [terminology.AntineoplasticAgent.TherapyCategory.HORMONE_THERAPY] == list(set([drug.therapy_category for drug in SACT.drugs if drug.therapy_category ]))
 
         def overlap(period1, period2):
             return period1.upper >= period2.lower and period2.upper >= period1.lower

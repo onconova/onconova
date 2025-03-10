@@ -157,40 +157,21 @@ class AntineoplasticAgent(CodedConcept):
     valueset =  None
     description = 'NCIT Antineoplastic agents'
 
-    drug_category = models.CharField(
-        verbose_name=_('Drug class'),
-        help_text=_('NCT-POT drug classification'),
-        max_length=50, null=True, blank=True,
-    )
-    drug_domain = models.CharField(
-        verbose_name=_('Drug domain'),
-        help_text=_('NCT-POT drug classification'),
-        max_length=50, null=True, blank=True,
-    )
+    class TherapyCategory(models.TextChoices):
+        CHEMOTHERAPY = 'chemotherapy'
+        IMMUNOTHERAPY = 'immunotherapy'
+        HORMONE_THERAPY = 'hormone-therapy'
+        TARGETED_THERAPY = 'targeted-therapy'
+        ANTIMETASTATIC_THERAPY = 'antimetastatic_therapy'
+        METABOLIC_THERAPY = 'metabolic-therapy'
+        RADIOPHARMACEUTICAL_THERAPY = 'radiopharmaceutical-therapy'
+    
     therapy_category = models.CharField(
-        verbose_name=_('Drug class'),
-        help_text=_('NCT-POT drug classification'),
+        verbose_name=_('Therapy classification'),
+        help_text=_('Therapy classification'),
+        choices=TherapyCategory,
         max_length=50, null=True, blank=True,
     )
-    atc = models.CharField(
-        verbose_name=_('ATC code'),
-        max_length=50, null=True, blank=True,
-    )
-    snomed = models.CharField(
-        verbose_name=_('SNOMED CT code'),
-        max_length=50, null=True, blank=True,
-    )
-    rxnorm = models.CharField(
-        verbose_name=_('RxNorm code'),
-        max_length=50, null=True, blank=True,
-    )
-    drugbank = models.CharField(
-        verbose_name=_('Drugbank code'),
-        max_length=50, null=True, blank=True,
-    )
-    extension_concepts = [
-        CodedConceptSchema(code='C128784', display='Bempegaldesleukin', system='http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl')
-    ]
     def __str__(self):
         return self.display.capitalize()
 
