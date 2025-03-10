@@ -157,17 +157,17 @@ class AntineoplasticAgent(CodedConcept):
     valueset =  None
     description = 'NCIT Antineoplastic agents'
 
-    drugCategory = models.CharField(
+    drug_category = models.CharField(
         verbose_name=_('Drug class'),
         help_text=_('NCT-POT drug classification'),
         max_length=50, null=True, blank=True,
     )
-    drugDomain = models.CharField(
+    drug_domain = models.CharField(
         verbose_name=_('Drug domain'),
         help_text=_('NCT-POT drug classification'),
         max_length=50, null=True, blank=True,
     )
-    therapyCategory = models.CharField(
+    therapy_category = models.CharField(
         verbose_name=_('Drug class'),
         help_text=_('NCT-POT drug classification'),
         max_length=50, null=True, blank=True,

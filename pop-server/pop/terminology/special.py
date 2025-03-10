@@ -1,7 +1,17 @@
 from pop.terminology.digestors import TerminologyDigestor, NCITDigestor
 from pop.terminology.utils import CodedConcept
 from pop.terminology.utils import parent_to_children, request_http_get, ensure_within_string_limits
-from typing import List
+from typing import List, Optional
+
+class DrugCodedConcept(CodedConcept):
+    drug_category: Optional[str] = None
+    drug_domain: Optional[str] = None
+    therapy_category: Optional[str] = None 
+    atc: Optional[str] = None
+    snomed: Optional[str] = None
+    rxnorm: Optional[str] = None
+    drugbank: Optional[str] = None
+
 
 class NCTPOTDrugToClassDigestor(TerminologyDigestor):
     """
@@ -21,7 +31,7 @@ class NCTPOTDrugToClassDigestor(TerminologyDigestor):
         Args:
             row (dict): A dictionary representing a single row with keys 'id_drugClass' and 'id_drug'.
         """
-        self.concepts[row['id_drugClass']] = row['id_drug']
+        self.concepts[row['id_drug']] = row['id_drugClass']
 
 
 class NCTPOTClassesDigestor(TerminologyDigestor):
@@ -52,7 +62,7 @@ class NCTPOTClassesDigestor(TerminologyDigestor):
         'targeted immune pathway activation': 'Targeted immunoactivation',
         'targeted apoptose': 'Targeted apoptosis modulators',
         'targeted chemo': 'Targeted chemotherapy',
-        'targeted radio-labelling': 'Targeted radioa-labeling',
+        'targeted radio-labelling': 'Targeted radio-labeling',
         'chemo': 'Chemotherapy',
     }
 
@@ -138,21 +148,21 @@ def get_drug_terminology_mappings(drug_name: str) -> tuple:
     return brand_names, rxnorm_code, atc_code, snomed_code, drugbank_code
 
 
-def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
+def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
     """
     Expands the AntineoplasticAgent concept with NCTPOT mappings.
 
     Returns:
-        dict[str, CodedConcept]: A dictionary of CodedConcept objects expanded with NCTPOT mappings.
+        dict[str, DrugCodedConcept]: A dictionary of DrugCodedConcept objects expanded with NCTPOT mappings.
     """
     ANTINEOPLASTIC_AGENTS_CODE = 'C274'
 
-    def _add_concept_with_NCTPOT_properties(concept: CodedConcept) -> None:
+    def _add_concept_with_NCTPOT_properties(concept: DrugCodedConcept) -> None:
         """
         Adds a concept with NCTPOT properties to the concepts dictionary.
 
         Args:
-            concept (CodedConcept): The concept to add.
+            concept (DrugCodedConcept): The concept to add.
         """
         # Get NCT-POT classification if available
         nctpot_drug = nctpot_drugs.get(concept.code, {})
@@ -161,33 +171,32 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
         # Get RxNorm, ATC and SNOMED CT codes
         brand_names, rxnorm_code, atc_code, snomed_code, drugbank_code = get_drug_terminology_mappings(concept.display)
         # Compose concept
-        concepts[concept.code] = CodedConcept(
+        concepts[concept.code] = DrugCodedConcept(
             code = concept.code,
             display = concept.display,
             system = concept.system,
             version = concept.version,
             parent = concept.parent,
             synonyms = concept.synonyms + nctpot_drug.get('synonyms', []) + brand_names,
-            drugCategory = nctpot_drug_class.get('name'),
-            drugDomain = nctpot_drug_class.get('domain'), 
-            therapyCategory = nctpot_drug_class.get('therapy'), 
+            drug_category = nctpot_drug_class.get('name'),
+            drug_domain = nctpot_drug_class.get('domain'), 
+            therapy_category = nctpot_drug_class.get('therapy'), 
             atc = atc_code, 
             snomed = snomed_code, 
             rxnorm = rxnorm_code, 
             drugbank = drugbank_code, 
         )
 
-    def get_children_recursively(parent: str) -> None:
+    def get_children_recursively(parent_code: str) -> None:
         """
         Recursively gets the children of a parent concept.
 
         Args:
             parent (str): The parent concept code.
         """
-
-        for child in ncit_children[parent]:
+        for child in ncit_children[parent_code]:
             _add_concept_with_NCTPOT_properties(child)
-            get_children_recursively(child)
+            get_children_recursively(child.code)
 
     from pop.terminology.services import download_codesystem
 
@@ -204,7 +213,7 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[CodedConcept]:
     get_children_recursively(ANTINEOPLASTIC_AGENTS_CODE)
 
     # Add other NCTPOT concepts not in the NCT Antineoplastic agents tree
-    for ncit_code in nctpot_drugs.keys():
+    for n,ncit_code in enumerate(nctpot_drugs.keys()):
         # If drug has already been included or there is not associated NCIT code, skip it
         if ncit_code not in concepts and ncit_code in ncit_codesystem:
             concept = ncit_codesystem.get(ncit_code)
