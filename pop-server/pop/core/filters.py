@@ -1,11 +1,12 @@
 
 
 from dataclasses import dataclass 
-from django.db.models import Q
+from django.db.models import Q, Model
 from django.db.models.expressions import RawSQL
 
 from enum import Enum
-from typing import List, Tuple
+from pydantic import BaseModel
+from typing import List, Tuple, Optional, Union
 from datetime import datetime, date
 from functools import partial 
 
@@ -30,8 +31,8 @@ class DjangoFilter:
         return partial(cls.query_expression, field=field, lookup=cls.lookup, negative=cls.negative)
 
     @classmethod
-    def get_query(cls, field: str, value):
-        return cls.query_expression(None, field=field, value=value, lookup=cls.lookup, negative=cls.negative)
+    def get_query(cls, field: str, value: any, model: Optional[Union[BaseModel, Model]] = None):
+        return cls.query_expression(model, field=field, value=value, lookup=cls.lookup, negative=cls.negative)
 
 
 
@@ -362,10 +363,15 @@ class DescendantsOfConceptFilter(DjangoFilter):
     value_type = str
 
     @staticmethod
-    def query_expression(schema, value, field, lookup, negative):
+    def query_expression(model, value, field, lookup, negative):
         if value is None:
             return Q()
-        terminology = schema._queryset_model._meta.get_field(field).related_model
+        if not model:
+            raise ValueError('The descendantsOf filter requires a model to be specified')
+        elif issubclass(model, BaseModel):
+            model = model._queryset_model
+        terminology = model._meta.get_field(field).related_model
+
         concept = terminology.objects.get(code=value)
 
         # Get the correct database table name

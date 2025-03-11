@@ -15,9 +15,9 @@ def convert_rule_into_query(rule: CohortFilterRule) -> Q:
         raise KeyError(f"The filter '{rule.operator}' specified by the rule does not exist.")
     field = rule.field.split('.')[1]
     if model is oncological_models.PatientCase:
-        return filter.get_query(field, rule.value)
+        return filter.get_query(field, rule.value, model)
     else:
-        subquery = filter.get_query(field, rule.value)
+        subquery = filter.get_query(field, rule.value, model)
         subqueryset = model.objects.filter(subquery)
         related_name = model._meta.get_field('case')._related_name
         return Q(**{f"{related_name}__in": subqueryset})
