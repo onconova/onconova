@@ -1,7 +1,7 @@
 import { Component, Input, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, FormsModule, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputNumber } from 'primeng/inputnumber';
@@ -40,6 +40,7 @@ export class MeasureInputComponent implements ControlValueAccessor {
 
     // The specific measure (unit type) to fetch options for
     @Input({required: true}) measure!: string; 
+    @Input() defaultUnit!: string; 
 
     // Public observables for unit data
     public defaultUnit$!: Observable<MeasureUnit>;
@@ -62,16 +63,24 @@ export class MeasureInputComponent implements ControlValueAccessor {
         );
     
         // Fetch the default unit for the given measure from the service
-        this.defaultUnit$ = this.measuresService.getMeasureDefaultUnits({ measureName: this.measure }).pipe(
-          map((unit): MeasureUnit => {
-            const defaultUnit = {
-              unit: unit,
-              display: unit.replace('__', '/').replace('_', ' '),
-            };
-            this.selectedUnit = defaultUnit; // Set default selected unit
-            return defaultUnit;
-          })
-        );
+        if (this.defaultUnit) {
+          this.selectedUnit = { 
+            unit: this.defaultUnit.replace('/', '__').replace(' ', '_'), 
+            display: this.defaultUnit.replace('__', '/').replace('_', ' ') 
+          };
+          this.defaultUnit$ = of(this.selectedUnit);
+        } else {
+          this.defaultUnit$ = this.measuresService.getMeasureDefaultUnits({ measureName: this.measure }).pipe(
+            map((unit): MeasureUnit => {
+              const defaultUnit = {
+                unit: unit,
+                display: unit.replace('__', '/').replace('_', ' '),
+              };
+              this.selectedUnit = defaultUnit; // Set default selected unit
+              return defaultUnit;
+            })
+          );  
+        }
       }
     
       // This method updates the form control's value when the user changes input or selects a unit

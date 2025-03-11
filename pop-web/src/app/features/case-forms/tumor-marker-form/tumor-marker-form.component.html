@@ -56,7 +56,8 @@
             <pop-measure-input 
                 *ngIf="form.value.valueType == analyteResultTypes.ArbitraryConcentration" 
                 formControlName="arbitraryConcentration" 
-                measure="ArbitraryConcentration"/>
+                measure="ArbitraryConcentration"
+                defaultUnit="kIU/l"/>
             <pop-measure-input 
                 *ngIf="form.value.valueType == analyteResultTypes.Fraction" 
                 formControlName="fraction" 
