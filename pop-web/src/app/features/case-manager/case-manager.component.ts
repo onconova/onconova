@@ -256,7 +256,7 @@ export class CaseManagerComponent implements OnInit {
     }
 
     downloadCaseBundle(caseId: string) {
-        this.caseService.getPatientCaseBundleById({caseId:caseId}).subscribe({
+        this.caseService.exportPatientCaseBundle({caseId:caseId}).subscribe({
             next: (response) => {
                 const blob = new Blob([JSON.stringify(response)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);

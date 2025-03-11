@@ -9,11 +9,10 @@
  */
 
 
-export type DataResource = 'PatientCase' | 'PatientCaseBundle' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'TumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
+export type DataResource = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'TumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
 
 export const DataResource = {
     PatientCase: 'PatientCase' as DataResource,
-    PatientCaseBundle: 'PatientCaseBundle' as DataResource,
     NeoplasticEntity: 'NeoplasticEntity' as DataResource,
     TnmStaging: 'TNMStaging' as DataResource,
     FigoStaging: 'FIGOStaging' as DataResource,

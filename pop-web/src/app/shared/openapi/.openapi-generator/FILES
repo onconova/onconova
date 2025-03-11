@@ -181,7 +181,9 @@ model/paginated-treatment-response.ts
 model/paginated-tumor-marker.ts
 model/paginated-user.ts
 model/paginated-vitals.ts
-model/patient-case-bundle-create.ts
+model/patient-case-bundle-genomic-signatures-inner.ts
+model/patient-case-bundle-stagings-inner.ts
+model/patient-case-bundle-tumor-boards-inner.ts
 model/patient-case-bundle.ts
 model/patient-case-consent-status-choices.ts
 model/patient-case-create.ts

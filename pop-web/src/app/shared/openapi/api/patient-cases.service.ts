@@ -25,8 +25,6 @@ import { PatientCase } from '../model/patient-case';
 // @ts-ignore
 import { PatientCaseBundle } from '../model/patient-case-bundle';
 // @ts-ignore
-import { PatientCaseBundleCreate } from '../model/patient-case-bundle-create';
-// @ts-ignore
 import { PatientCaseCreate } from '../model/patient-case-create';
 // @ts-ignore
 import { PatientCaseDataCompletionStatusSchema } from '../model/patient-case-data-completion-status-schema';
@@ -37,15 +35,15 @@ import { Configuration }                                     from '../configurat
 import {
     PatientCasesServiceInterface,
     CreatePatientCaseRequestParams,
-    CreatePatientCaseBundleByIdRequestParams,
     CreatePatientCaseDataCompletionRequestParams,
     DeletePatientCaseByIdRequestParams,
     DeletePatientCaseDataCompletionRequestParams,
-    GetPatientCaseBundleByIdRequestParams,
+    ExportPatientCaseBundleRequestParams,
     GetPatientCaseByIdRequestParams,
     GetPatientCaseByPseudoidentifierRequestParams,
     GetPatientCaseDataCompletionStatusRequestParams,
     GetPatientCasesRequestParams,
+    ImportPatientCaseBundleRequestParams,
     UpdatePatientCaseByIdRequestParams
 } from './patient-cases.serviceInterface';
 
@@ -188,88 +186,6 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             {
                 context: localVarHttpContext,
                 body: patientCaseCreate,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Create Patient Case Bundle
-     * @param requestParameters
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
-    public createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const patientCaseBundleCreate = requestParameters?.patientCaseBundleCreate;
-        if (patientCaseBundleCreate === null || patientCaseBundleCreate === undefined) {
-            throw new Error('Required parameter patientCaseBundleCreate was null or undefined when calling createPatientCaseBundleById.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/patient-cases/bundle`;
-        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: patientCaseBundleCreate,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -508,13 +424,13 @@ export class PatientCasesService implements PatientCasesServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPatientCaseBundleById(requestParameters: GetPatientCaseBundleByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PatientCaseBundle>;
-    public getPatientCaseBundleById(requestParameters: GetPatientCaseBundleByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PatientCaseBundle>>;
-    public getPatientCaseBundleById(requestParameters: GetPatientCaseBundleByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PatientCaseBundle>>;
-    public getPatientCaseBundleById(requestParameters: GetPatientCaseBundleByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PatientCaseBundle>;
+    public exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PatientCaseBundle>>;
+    public exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PatientCaseBundle>>;
+    public exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const caseId = requestParameters?.caseId;
         if (caseId === null || caseId === undefined) {
-            throw new Error('Required parameter caseId was null or undefined when calling getPatientCaseBundleById.');
+            throw new Error('Required parameter caseId was null or undefined when calling exportPatientCaseBundle.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -560,7 +476,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/patient-cases/bundle/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/patient-cases/bundles/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<PatientCaseBundle>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -1531,6 +1447,88 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Create Patient Case Bundle
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const patientCaseBundle = requestParameters?.patientCaseBundle;
+        if (patientCaseBundle === null || patientCaseBundle === undefined) {
+            throw new Error('Required parameter patientCaseBundle was null or undefined when calling importPatientCaseBundle.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/patient-cases/bundles`;
+        return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: patientCaseBundle,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

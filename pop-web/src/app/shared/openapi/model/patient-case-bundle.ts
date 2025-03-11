@@ -7,10 +7,28 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ComorbiditiesAssessment } from './comorbidities-assessment';
+import { RiskAssessment } from './risk-assessment';
+import { SystemicTherapy } from './systemic-therapy';
 import { User } from './user';
 import { CodedConcept } from './coded-concept';
+import { PatientCaseBundleGenomicSignaturesInner } from './patient-case-bundle-genomic-signatures-inner';
+import { PatientCaseBundleTumorBoardsInner } from './patient-case-bundle-tumor-boards-inner';
+import { PatientCaseDataCompletionStatusSchema } from './patient-case-data-completion-status-schema';
 import { NeoplasticEntity } from './neoplastic-entity';
+import { Radiotherapy } from './radiotherapy';
+import { GenomicVariant } from './genomic-variant';
+import { TumorMarker } from './tumor-marker';
+import { AdverseEvent } from './adverse-event';
+import { TreatmentResponse } from './treatment-response';
+import { TherapyLine } from './therapy-line';
+import { Surgery } from './surgery';
+import { FamilyHistory } from './family-history';
+import { Lifestyle } from './lifestyle';
+import { Vitals } from './vitals';
+import { PerformanceStatus } from './performance-status';
 import { PatientCaseConsentStatusChoices } from './patient-case-consent-status-choices';
+import { PatientCaseBundleStagingsInner } from './patient-case-bundle-stagings-inner';
 
 
 export interface PatientCaseBundle { 
@@ -18,10 +36,12 @@ export interface PatientCaseBundle {
      * Approximate age of the patient in years
      */
     age: number;
+    overall_survival?: number | null;
+    age_at_diagnosis?: number | null;
     /**
-     * Neoplastic entities
+     * Percentage indicating the completeness of a case in terms of its data.
      */
-    neoplasticEntities?: Array<NeoplasticEntity>;
+    dataCompletionRate: number;
     /**
      * 
      */
@@ -78,6 +98,25 @@ export interface PatientCaseBundle {
      * Human-readable description
      */
     description: string;
+    neoplastic_entities?: Array<NeoplasticEntity>;
+    stagings?: Array<PatientCaseBundleStagingsInner>;
+    tumor_markers?: Array<TumorMarker>;
+    risk_assessments?: Array<RiskAssessment>;
+    therapy_lines?: Array<TherapyLine>;
+    systemic_therapies?: Array<SystemicTherapy>;
+    surgeries?: Array<Surgery>;
+    radiotherapies?: Array<Radiotherapy>;
+    adverse_events?: Array<AdverseEvent>;
+    treatment_responses?: Array<TreatmentResponse>;
+    tumorBoards?: Array<PatientCaseBundleTumorBoardsInner>;
+    performance_status?: Array<PerformanceStatus>;
+    comorbidities?: Array<ComorbiditiesAssessment>;
+    genomic_variants?: Array<GenomicVariant>;
+    genomicSignatures?: Array<PatientCaseBundleGenomicSignaturesInner>;
+    vitals?: Array<Vitals>;
+    lifestyles?: Array<Lifestyle>;
+    family_histories?: Array<FamilyHistory>;
+    completedDataCategories: { [key: string]: PatientCaseDataCompletionStatusSchema; };
 }
 export namespace PatientCaseBundle {
 }

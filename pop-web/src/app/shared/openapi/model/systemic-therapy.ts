@@ -54,7 +54,11 @@ export interface SystemicTherapy {
      * Treatment intent of the system therapy
      */
     intent: SystemicTherapyIntentChoices;
-    role?: CodedConcept | null;
+    /**
+     * Indicates whether it is adjunctive therapy instead of a primary therapy 
+     */
+    isAdjunctive: boolean;
+    adjunctiveRole?: CodedConcept | null;
     terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**

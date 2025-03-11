@@ -35,6 +35,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 @Component({
   standalone: true,
@@ -47,6 +48,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     DatePickerComponent,
     Fluid,
     InputNumber,
+    ToggleSwitch,
     ButtonModule,
     Fieldset,
     MeasureInputComponent,
@@ -86,6 +88,10 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         {name: 'Palliative', value: SystemicTherapyIntentChoices.Palliative},
     ]
 
+    public readonly roleChoices: RadioChoice[] = [
+        {name: 'Primary', value: false},
+        {name: 'Adjunctive', value: true},
+    ]
     public readonly dosageTypeChoices: RadioChoice[] = [
         {name: 'Mass', value: 'Mass'},
         {name: 'Volume', value: 'Volume'},
@@ -121,6 +127,16 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
                 }
             })
         })
+
+        this.form.get('isAdjunctive')?.valueChanges.subscribe((isAdjunctive: boolean) => {
+            if (isAdjunctive) {
+                this.form.get('adjunctiveRole')?.addValidators(Validators.required);
+            } else {
+                this.form.get('adjunctiveRole')?.removeValidators(Validators.required);
+                this.form.get('adjunctiveRole')?.setValue(null)
+            }
+            this.form.get('adjunctiveRole')?.updateValueAndValidity();
+        })
     }
 
     constructForm(): void {
@@ -135,7 +151,8 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
             targetedEntities: [this.initialData?.targetedEntitiesIds, Validators.required],
             cycles: [this.initialData?.cycles,Validators.required],
             intent: [this.initialData?.intent,Validators.required],
-            role: [this.initialData?.role],
+            isAdjunctive: [this.initialData?.adjunctiveRole ? true : false, Validators.required],
+            adjunctiveRole: [this.initialData?.adjunctiveRole],
             terminationReason: [this.initialData?.terminationReason],
             drugs: [this.initialData?.medications?.map((med:any) => med.drug),Validators.required],
             medications: this.medicationFormArray,
@@ -188,6 +205,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
                 start: data.period.start? data.period.start: data.period.split(' - ')[0],
                 end: data.period.end? data.period.end: data.period.split(' - ')[1],
             },
+            adjunctiveRole: data.isAdjunctive ? data.adjunctiveRole : null,
             cycles: data.cycles,
             intent: data.intent,
             terminationReason: data.terminationReason,

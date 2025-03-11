@@ -462,8 +462,9 @@ export interface UserFilters {
     'accessLevel.not.between'?: Array<any>;
 }
 export namespace UserFilters {
-    export type RoleEnum = 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
+    export type RoleEnum = 'External' | 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
     export const RoleEnum = {
+        External: 'External' as RoleEnum,
         Viewer: 'Viewer' as RoleEnum,
         DataContributor: 'Data Contributor' as RoleEnum,
         DataAnalyst: 'Data Analyst' as RoleEnum,
@@ -471,8 +472,9 @@ export namespace UserFilters {
         PlatformManager: 'Platform Manager' as RoleEnum,
         SystemAdministrator: 'System Administrator' as RoleEnum
     };
-    export type RoleNotEnum = 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
+    export type RoleNotEnum = 'External' | 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
     export const RoleNotEnum = {
+        External: 'External' as RoleNotEnum,
         Viewer: 'Viewer' as RoleNotEnum,
         DataContributor: 'Data Contributor' as RoleNotEnum,
         DataAnalyst: 'Data Analyst' as RoleNotEnum,
@@ -480,8 +482,9 @@ export namespace UserFilters {
         PlatformManager: 'Platform Manager' as RoleNotEnum,
         SystemAdministrator: 'System Administrator' as RoleNotEnum
     };
-    export type RoleAnyOfEnum = 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
+    export type RoleAnyOfEnum = 'External' | 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
     export const RoleAnyOfEnum = {
+        External: 'External' as RoleAnyOfEnum,
         Viewer: 'Viewer' as RoleAnyOfEnum,
         DataContributor: 'Data Contributor' as RoleAnyOfEnum,
         DataAnalyst: 'Data Analyst' as RoleAnyOfEnum,

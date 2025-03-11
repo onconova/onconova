@@ -53,12 +53,21 @@
         </div>
 
         <div class="field">
-            <label class="form-label">Role</label>
+            <label class="form-label required">Therapeutic role</label>
+            <pop-radio-select  
+            formControlName="isAdjunctive"
+            [choices]="roleChoices"
+            class="flex flex-wrap gap-4"/>
+            <pop-form-control-error controlName="isAdjunctive"></pop-form-control-error>
+        </div>
+
+        <div class="field" *ngIf="form.value.isAdjunctive">
+            <label class="form-label required">Adjunctive role</label>
             <pop-concept-selector 
-                formControlName="role"
-                terminology="TreatmentCategory"
+                formControlName="adjunctiveRole"
+                terminology="AdjunctiveTherapyRole"
                 [showSynonyms]="false"/>
-            <pop-form-control-error controlName="role"></pop-form-control-error>
+            <pop-form-control-error controlName="adjunctiveRole"></pop-form-control-error>
         </div>
 
         <div class="field">

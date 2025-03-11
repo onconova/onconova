@@ -31,7 +31,7 @@ export interface SystemicTherapyCreate {
      * Treatment intent of the system therapy
      */
     intent: SystemicTherapyIntentChoices;
-    role?: CodedConcept | null;
+    adjunctiveRole?: CodedConcept | null;
     terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**

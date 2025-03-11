@@ -584,13 +584,14 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         const intent = requestParameters?.intent;
         const intentNot = requestParameters?.intentNot;
         const intentAnyOf = requestParameters?.intentAnyOf;
-        const roleNotExists = requestParameters?.roleNotExists;
-        const roleExists = requestParameters?.roleExists;
-        const role = requestParameters?.role;
-        const roleNot = requestParameters?.roleNot;
-        const roleAnyOf = requestParameters?.roleAnyOf;
-        const roleNotAnyOf = requestParameters?.roleNotAnyOf;
-        const roleDescendantsOf = requestParameters?.roleDescendantsOf;
+        const isAdjunctive = requestParameters?.isAdjunctive;
+        const adjunctiveRoleNotExists = requestParameters?.adjunctiveRoleNotExists;
+        const adjunctiveRoleExists = requestParameters?.adjunctiveRoleExists;
+        const adjunctiveRole = requestParameters?.adjunctiveRole;
+        const adjunctiveRoleNot = requestParameters?.adjunctiveRoleNot;
+        const adjunctiveRoleAnyOf = requestParameters?.adjunctiveRoleAnyOf;
+        const adjunctiveRoleNotAnyOf = requestParameters?.adjunctiveRoleNotAnyOf;
+        const adjunctiveRoleDescendantsOf = requestParameters?.adjunctiveRoleDescendantsOf;
         const terminationReasonNotExists = requestParameters?.terminationReasonNotExists;
         const terminationReasonExists = requestParameters?.terminationReasonExists;
         const terminationReason = requestParameters?.terminationReason;
@@ -1264,37 +1265,41 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'intent.anyOf');
             })
         }
-        if (roleNotExists !== undefined && roleNotExists !== null) {
+        if (isAdjunctive !== undefined && isAdjunctive !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>roleNotExists, 'role.not.exists');
+            <any>isAdjunctive, 'isAdjunctive');
         }
-        if (roleExists !== undefined && roleExists !== null) {
+        if (adjunctiveRoleNotExists !== undefined && adjunctiveRoleNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>roleExists, 'role.exists');
+            <any>adjunctiveRoleNotExists, 'adjunctiveRole.not.exists');
         }
-        if (role !== undefined && role !== null) {
+        if (adjunctiveRoleExists !== undefined && adjunctiveRoleExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>role, 'role');
+            <any>adjunctiveRoleExists, 'adjunctiveRole.exists');
         }
-        if (roleNot !== undefined && roleNot !== null) {
+        if (adjunctiveRole !== undefined && adjunctiveRole !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>roleNot, 'role.not');
+            <any>adjunctiveRole, 'adjunctiveRole');
         }
-        if (roleAnyOf) {
-            roleAnyOf.forEach((element) => {
+        if (adjunctiveRoleNot !== undefined && adjunctiveRoleNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>adjunctiveRoleNot, 'adjunctiveRole.not');
+        }
+        if (adjunctiveRoleAnyOf) {
+            adjunctiveRoleAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'role.anyOf');
+                  <any>element, 'adjunctiveRole.anyOf');
             })
         }
-        if (roleNotAnyOf) {
-            roleNotAnyOf.forEach((element) => {
+        if (adjunctiveRoleNotAnyOf) {
+            adjunctiveRoleNotAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'role.not.anyOf');
+                  <any>element, 'adjunctiveRole.not.anyOf');
             })
         }
-        if (roleDescendantsOf !== undefined && roleDescendantsOf !== null) {
+        if (adjunctiveRoleDescendantsOf !== undefined && adjunctiveRoleDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>roleDescendantsOf, 'role.descendantsOf');
+            <any>adjunctiveRoleDescendantsOf, 'adjunctiveRole.descendantsOf');
         }
         if (terminationReasonNotExists !== undefined && terminationReasonNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

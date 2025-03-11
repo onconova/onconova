@@ -40,7 +40,7 @@ export interface GetUserByIdRequestParams {
 export interface GetUsersRequestParams {
     role?: string;
     roleNot?: string;
-    roleAnyOf?: Array<'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator'>;
+    roleAnyOf?: Array<'External' | 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator'>;
     canViewCases?: boolean;
     canViewProjects?: boolean;
     canViewCohorts?: boolean;

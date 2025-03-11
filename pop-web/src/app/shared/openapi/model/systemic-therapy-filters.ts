@@ -593,33 +593,37 @@ export interface SystemicTherapyFilters {
      */
     'intent.anyOf'?: Array<SystemicTherapyFilters.IntentAnyOfEnum>;
     /**
+     * Treatment Role - (\'Filter for yes/no statement\',)
+     */
+    isAdjunctive?: boolean;
+    /**
      * Treatment Role - Filter for entries without a value
      */
-    'role.not.exists'?: boolean;
+    'adjunctiveRole.not.exists'?: boolean;
     /**
      * Treatment Role - Filter for entries with a value
      */
-    'role.exists'?: boolean;
+    'adjunctiveRole.exists'?: boolean;
     /**
      * Treatment Role - Filter for a matching concept code
      */
-    role?: string;
+    adjunctiveRole?: string;
     /**
      * Treatment Role - Filter for a mismatching concept code
      */
-    'role.not'?: string;
+    'adjunctiveRole.not'?: string;
     /**
      * Treatment Role - Filter for a matching set of concept codes
      */
-    'role.anyOf'?: Array<string>;
+    'adjunctiveRole.anyOf'?: Array<string>;
     /**
      * Treatment Role - Filter for a mismmatching set of concept codes
      */
-    'role.not.anyOf'?: Array<string>;
+    'adjunctiveRole.not.anyOf'?: Array<string>;
     /**
      * Treatment Role - Filter for all child concepts of a given concepts code
      */
-    'role.descendantsOf'?: string;
+    'adjunctiveRole.descendantsOf'?: string;
     /**
      * Termination reason - Filter for entries without a value
      */

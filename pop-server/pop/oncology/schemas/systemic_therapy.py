@@ -17,4 +17,4 @@ class SystemicTherapySchema(ModelGetSchema):
     config = SchemaConfig(model=orm.SystemicTherapy)
 
 class SystemicTherapyCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(model=orm.SystemicTherapy)
+    config = SchemaConfig(model=orm.SystemicTherapy, exclude=['is_adjunctive'])

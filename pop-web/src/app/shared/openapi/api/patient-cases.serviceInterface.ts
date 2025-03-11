@@ -15,7 +15,6 @@ import { ModifiedResource } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
 import { PatientCaseBundle } from '../model/models';
-import { PatientCaseBundleCreate } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
 import { PatientCaseDataCompletionStatusSchema } from '../model/models';
 
@@ -25,10 +24,6 @@ import { Configuration }                                     from '../configurat
 
 export interface CreatePatientCaseRequestParams {
     patientCaseCreate: PatientCaseCreate;
-}
-
-export interface CreatePatientCaseBundleByIdRequestParams {
-    patientCaseBundleCreate: PatientCaseBundleCreate;
 }
 
 export interface CreatePatientCaseDataCompletionRequestParams {
@@ -45,7 +40,7 @@ export interface DeletePatientCaseDataCompletionRequestParams {
     category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
 }
 
-export interface GetPatientCaseBundleByIdRequestParams {
+export interface ExportPatientCaseBundleRequestParams {
     caseId: string;
 }
 
@@ -191,6 +186,10 @@ export interface GetPatientCasesRequestParams {
     offset?: number;
 }
 
+export interface ImportPatientCaseBundleRequestParams {
+    patientCaseBundle: PatientCaseBundle;
+}
+
 export interface UpdatePatientCaseByIdRequestParams {
     caseId: string;
     patientCaseCreate: PatientCaseCreate;
@@ -207,13 +206,6 @@ export interface PatientCasesServiceInterface {
 * @param requestParameters
      */
     createPatientCase(requestParameters: CreatePatientCaseRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
-
-    /**
-     * Create Patient Case Bundle
-     * 
-* @param requestParameters
-     */
-    createPatientCaseBundleById(requestParameters: CreatePatientCaseBundleByIdRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Create Patient Case Data Completion
@@ -241,7 +233,7 @@ export interface PatientCasesServiceInterface {
      * 
 * @param requestParameters
      */
-    getPatientCaseBundleById(requestParameters: GetPatientCaseBundleByIdRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
+    exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
 
     /**
      * Get Patient Case By Id
@@ -270,6 +262,13 @@ export interface PatientCasesServiceInterface {
 * @param requestParameters
      */
     getPatientCases(requestParameters: GetPatientCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+
+    /**
+     * Create Patient Case Bundle
+     * 
+* @param requestParameters
+     */
+    importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Patient Case
