@@ -1,5 +1,5 @@
 import { Component, inject, OnInit} from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, formatDate } from '@angular/common';
 
@@ -24,6 +24,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+
 
 @Component({
   standalone: true,
@@ -71,6 +72,8 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
             bloodPressureDiastolic: [this.initialData?.bloodPressureDiastolic],
             bloodPressureSystolic: [this.initialData?.bloodPressureSystolic],
             temperature: [this.initialData?.temperature],
+        }, {
+            validators: this.atLeastOneValueValidator
         });
     }
 
@@ -85,5 +88,11 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
             temperature: data.temperature
         };
     }
+
+    private atLeastOneValueValidator(formGroup: FormGroup) {
+        const values = Object.values(formGroup.controls);
+        const hasNonNullValue = values.some((control: any) => control.value !== null && control !== formGroup.get('date'));
+        return hasNonNullValue ? null : { atLeastOneValue: true };
+    };
 
 }
