@@ -9,7 +9,7 @@
                 <div class="text-muted mb-2">
                     Basic statistics over the demographical composition of the cohort.
                 </div>
-                <div class="flex mx-auto my-3 gap-3">
+                <div class="flex mx-auto my-3 gap-3" style="width: 100%;">
                     <div>
                         @let genderCount = genderCount$ | async;
                         <pop-doughnut-graph
@@ -68,7 +68,7 @@
             [survivalData]="overallSurvivalCurve"/>    
         <p-skeleton height="30rem" width="60%" *ngIf="loading || !overallSurvivalCurve"/>
 
-        <div class="font-semibold">Oncoplot</div>
+        <div class="font-semibold">Genomic variants (Oncoplot)</div>
         <div class="text-muted mb-2">
             A summary of the genomics of the cohort
         </div>
@@ -103,7 +103,20 @@
             [survivalData]="therapyLineSurvivalCurve"/>    
         <p-skeleton height="30rem" width="60%" *ngIf="loading || !therapyLineSurvivalCurve"/>
 
-        <div class="font-semibold mt-4">Performance of Combination Therapies</div>
+
+
+        <div class="font-semibold mt-4">Performance of therapeutic approaches </div>
+        <div class="text-muted mb-2">
+            A comparison of the progression-free survival (PFS) under the most common therapy approaches for this cohort.
+        </div>    
+        @let therapyLineTherapyClassifications = therapyLineTherapyClassifications$ | async;
+        <pop-box-plot
+            *ngIf="therapyLineTherapyClassifications" 
+            [boxData]="therapyLineTherapyClassifications"/>    
+        <p-skeleton height="15rem" *ngIf="loading || !therapyLineTherapyClassifications"/>
+
+
+        <div class="font-semibold mt-4">Performance of combination therapies</div>
         <div class="text-muted mb-2">
             A comparison of the progression-free survival (PFS) under the most common drug combinations for this cohort.
         </div>    
@@ -111,7 +124,7 @@
         <pop-box-plot
             *ngIf="therapyLineDrugCombinations" 
             [boxData]="therapyLineDrugCombinations"/>    
-            <p-skeleton height="15rem" *ngIf="loading || !therapyLineDrugCombinations"/>
+        <p-skeleton height="15rem" *ngIf="loading || !therapyLineDrugCombinations"/>
     </p-panel>
 
 </p-card>

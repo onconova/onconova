@@ -113,10 +113,12 @@ export class KapplerMeierCurveComponent {
                         text: 'Survival (months)',
                         },
                         ticks: {
-                            color: textColorSecondary
+                            color: textColorSecondary,
+                            padding: 10.
                         },
                         grid: {
-                            color: surfaceBorder
+                            color: surfaceBorder,
+                            drawTicks: false,
                         }
                     },
                     y: {
@@ -126,10 +128,12 @@ export class KapplerMeierCurveComponent {
                         text: 'Estimated survival probability',
                         },
                         ticks: {
-                            color: textColorSecondary
+                            color: textColorSecondary,
+                            padding: 10.
                         },
                         grid: {
-                            color: surfaceBorder
+                            color: surfaceBorder,
+                            drawTicks: false,
                         },
                     }
                 }

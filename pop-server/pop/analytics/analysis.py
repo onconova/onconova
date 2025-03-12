@@ -108,3 +108,44 @@ def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str):
         exclude_filters=dict(systemic_therapies__drug_combination__in=list(survival_per_combination.keys()))
     )
     return survival_per_combination
+
+
+def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
+
+    def _parse_category_name(value):
+        def pop_from_list(list, value):
+            try: 
+                index = list.index(value)
+            except ValueError:
+                return None 
+            list.remove(value)
+            return value        
+        categories = value.split(',')
+        if 'chemotherapy' in categories and 'immunotherapy' in categories:
+            categories.remove('chemotherapy')
+            categories.remove('immunotherapy')
+            categories.insert('chemoimmunotherapy',0)
+        radiotherapy = pop_from_list(categories, 'radiotherapy')
+        if radiotherapy and len(categories)==1:
+            return f'Radio{categories[0]}'
+        else:
+            return ' & '.join(categories).title()
+
+
+        
+
+
+    therapy_classifications = TherapyLine.objects.filter(case__in=cohort.cases.all()).filter(label=therapyLine).annotate(therapy_classification=F('therapy_classification')).values_list('therapy_classification', flat=True)
+    
+    most_common = [category[0] for category in  Counter(therapy_classifications).most_common(4)]
+    survival_per_classification = {_parse_category_name(category): None for category in most_common}
+    for classification in most_common:
+        survival_per_classification[_parse_category_name(classification)] = get_progression_free_survival_for_therapy_line(cohort,
+            label=therapyLine,
+            therapy_classification=classification,
+        )
+    survival_per_classification['Others'] = get_progression_free_survival_for_therapy_line(cohort,
+        label=therapyLine,
+        exclude_filters=dict(therapy_classification=list(survival_per_classification.keys()))
+    )
+    return survival_per_classification

@@ -58,6 +58,7 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
 
     public therapyLineOptions: string[] = []
     public therapyLineDrugCombinations$!: Observable<any>;    
+    public therapyLineTherapyClassifications$!: Observable<any>;    
     public therapyLineSurvivalCurve$!: Observable<KapplerMeierCurve>;    
     public selectedTherapyLine: string = 'CLoT1';
 
@@ -85,12 +86,14 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
         this.vitalStatusCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'vital_status'})
         this.genderCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'gender'})
         this.therapyLineDrugCombinations$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
+        this.therapyLineTherapyClassifications$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
         this.therapyLineSurvivalCurve$ = this.cohortService.getCohortProgressionFreeSurvivalCurve({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
     }
 
     updateTherapyLineGraphs(event: SelectButtonChangeEvent) {
         this.therapyLineSurvivalCurve$ = this.cohortService.getCohortProgressionFreeSurvivalCurve({cohortId: this.cohort.id, therapyLine: event.value})
         this.therapyLineDrugCombinations$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations({cohortId: this.cohort.id, therapyLine: event.value})
+        this.therapyLineTherapyClassifications$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications({cohortId: this.cohort.id, therapyLine:  event.value})
     }
 
 }

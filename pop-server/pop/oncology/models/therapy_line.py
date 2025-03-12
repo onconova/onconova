@@ -88,11 +88,20 @@ class TherapyLine(BaseModel):
     )
     
     # Check if the different therapy modalities exist
-    has_systemic_therapy=Case(When(Q(systemic_therapies__isnull=False), then=True), default=False),
-    has_radiotherapy=Case(When(Q(radiotherapies__isnull=False), then=True), default=False),
-    has_surgery=Case(When(Q(surgeries__isnull=False), then=True), default=False),
+    has_systemic_therapy = AnnotationProperty(
+        verbose_name = _('Has systemic therapies?'),
+        annotation = Case(When(Q(systemic_therapies__isnull=False), then=True), default=False),
+    )
+    has_radiotherapy = AnnotationProperty(
+        verbose_name = _('Has radiotherapies?'),
+        annotation = Case(When(Q(radiotherapies__isnull=False), then=True), default=False),
+    )
+    has_surgery = AnnotationProperty(
+        verbose_name = _('Has surgeries?'),
+        annotation = Case(When(Q(surgeries__isnull=False), then=True), default=False),
+    )
     # Final category annotation
-    therapy_classifications = AnnotationProperty(
+    therapy_classification = AnnotationProperty(
         verbose_name = _('Progression free survival in days'),
         annotation = Coalesce(
             Concat(

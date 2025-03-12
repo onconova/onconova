@@ -58,7 +58,8 @@ export class OncoplotComponent {
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
         
         const reversedGenes = [...this.genomicsData['genes']].reverse()
-        
+        const genomicsData = this.genomicsData;
+
         const chartAreaBorder = {
             id: 'chartAreaBorder',
             beforeDraw(chart: any, args: any, options: any) {
@@ -77,14 +78,25 @@ export class OncoplotComponent {
                 datasets: [
                     {
                         data: this.genomicsData['variants'].map( (entry: any) => ({
-                            x: entry.pseudoidentifier, y: entry.gene, v: 1
+                            x: entry.pseudoidentifier, y: entry.gene, variant: entry.variant, isPathogenic: entry.is_pathogenic ? 1 : 0,
                         })),
-                        // backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
-                        backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
-                        borderColor:  documentStyle.getPropertyValue('--p-primary-color'),
-                        borderWidth: 1,
-                        height: ({chart}) =>(chart.chartArea || {}).height / this.genomicsData['genes'].length - 2,
-                        width: ({chart}) =>(chart.chartArea || {}).width / this.genomicsData['cases'].length - 2
+                        backgroundColor(context: any) {
+                          if (context.dataset.data[context.dataIndex].isPathogenic){
+                            return documentStyle.getPropertyValue('--p-primary-500-semitransparent')
+                          } else {
+                            return documentStyle.getPropertyValue('--p-primary-500-transparent')
+                          }
+                        },
+                        borderColor(context: any) {
+                          if (context.dataset.data[context.dataIndex].isPathogenic){
+                            return documentStyle.getPropertyValue('--p-primary-500-semitransparent')
+                          } else {
+                            return documentStyle.getPropertyValue('--p-primary-500-transparent')
+                          }
+                        },
+                        borderWidth: 0,
+                        height: ({chart}) =>(chart.chartArea || {}).height / this.genomicsData['genes'].length - 1,
+                        width: ({chart}) =>(chart.chartArea || {}).width / this.genomicsData['cases'].length - 1
                     },
                 ]
             },
@@ -99,6 +111,18 @@ export class OncoplotComponent {
                     chartAreaBorder: {
                         borderColor: surfaceBorder,
                         borderWidth: 1,
+                    },
+                    tooltip: {
+                      callbacks: {
+                        title() {
+                          return '';
+                        },
+                        label(context) {
+                          const data: any = context.dataset.data[context.dataIndex];
+                          const variants = genomicsData['variants'].filter((entry: any) => entry.gene == data.y && entry.pseudoidentifier == data.x).map((entry: any) => entry.variant + (entry.is_pathogenic ? ' (Pathogenic)' : ' (VUS)'))
+                          return [...variants, 'Gene: ' + data.y, 'Case: ' + data.x];
+                        }
+                      }
                     }
                 },
                 elements: {
@@ -166,8 +190,16 @@ export class OncoplotComponent {
                 labels: this.genomicsData['genes'],
                 datasets: [
                     {
-                        data: this.genomicsData['genes'].map((gene:string) => this.genomicsData['variants'].reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
+                        label: 'Pathogenic',
+                        data: this.genomicsData['genes'].map((gene:string) => this.genomicsData['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
+                        barPercentage: 1,
+                    },
+                    {
+                        label: 'VUS',
+                        data: this.genomicsData['genes'].map((gene:string) => this.genomicsData['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
+                        backgroundColor: documentStyle.getPropertyValue('--p-primary-500-transparent'),
+                        barPercentage: 1,
                     },
                 ]
             },
@@ -179,18 +211,34 @@ export class OncoplotComponent {
                     legend: {
                         display: false
                     },
+                    tooltip: {
+                      callbacks: {
+                        title() {
+                          return '';
+                        },
+                        label(context) {
+                          const count: any = context.dataset.data[context.dataIndex];
+                          return [context.dataset.label as string, `${count} cases`];
+                        }
+                      }
+                    }
                 },
                 scales: {
                     x: {
+                        stacked: true,
                         title: {
                             display: false,
                         },
                         ticks: {
                             display: false
                         },
+                        grid: {
+                            display: false,
+                        },
                     },
                     y: {
                         type: 'category',
+                        stacked: true,
                         labels: this.genomicsData['genes'],
                         title: {
                             display: false,
@@ -214,8 +262,16 @@ export class OncoplotComponent {
                 labels: this.genomicsData['cases'],
                 datasets: [
                     {
-                        data: this.genomicsData['cases'].map((pseudoidentifier:string) => this.genomicsData['variants'].reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
+                        label: 'Pathogenic',
+                        data: this.genomicsData['cases'].map((pseudoidentifier:string) => this.genomicsData['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
+                        barPercentage: 1,
+                    },
+                    {
+                        label: 'VUS',
+                        data: this.genomicsData['cases'].map((pseudoidentifier:string) => this.genomicsData['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
+                        backgroundColor: documentStyle.getPropertyValue('--p-primary-500-transparent'),
+                        barPercentage: 1,
                     },
                 ]
             },
@@ -226,18 +282,34 @@ export class OncoplotComponent {
                     legend: {
                         display: false
                     },
+                    tooltip: {
+                      callbacks: {
+                        title() {
+                          return '';
+                        },
+                        label(context) {
+                          const count: any = context.dataset.data[context.dataIndex];
+                          return [context.dataset.label as string, `${count} variants`];
+                        }
+                      }
+                    }
                 },
                 scales: {
                     y: {
+                        stacked: true,
                         title: {
                             display: false,
                         },
                         ticks: {
                             display: false
                         },
+                        grid: {
+                            display: false,
+                        },
                     },
                     x: {
                         type: 'category',
+                        stacked: true,
                         labels: this.genomicsData['cases'],
                         title: {
                             display: false,
@@ -247,7 +319,6 @@ export class OncoplotComponent {
                         },
                         grid: {
                             display: false,
-                            drawOnChartArea: true
                         },
                     }
                 }

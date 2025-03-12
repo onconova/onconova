@@ -15,7 +15,7 @@ import { Chart } from 'chart.js';
     ],
     selector: 'pop-distribution-graph',
     template: `
-    <div class="chart-container" style="height: 15rem; width: 35rem">
+    <div class="chart-container" style="height: 15rem; width: 100%">
         <canvas #histogramCanvas></canvas>
         <pop-cohort-graph-context-menu *ngIf="chart" [target]="histogramCanvas" [chart]="chart" [data]="countData"/>
     </div>`,
@@ -72,10 +72,12 @@ export class DistributionGraphComponent {
                         color: textColorSecondary,
                         },
                         ticks: {
-                            color: textColorSecondary
+                            color: textColorSecondary,
+                            padding: 10.
                         },
                         grid: {
-                            color: surfaceBorder
+                            color: surfaceBorder,
+                            drawTicks: false,
                         },
                         min: 0, 
                     },
@@ -86,10 +88,12 @@ export class DistributionGraphComponent {
                         color: textColorSecondary
                         },
                         ticks: {
-                            color: textColorSecondary
+                            color: textColorSecondary,
+                            padding: 10.
                         },
                         grid: {
-                            color: surfaceBorder
+                            color: surfaceBorder,
+                            drawTicks: false,
                         },
                         min: 0, 
                         max: Math.max(...values) + 1   
