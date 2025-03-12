@@ -1,16 +1,12 @@
 
 
-from dataclasses import dataclass 
 from django.db.models import Q, Model
 from django.db.models.expressions import RawSQL
 
-from enum import Enum
 from pydantic import BaseModel
 from typing import List, Tuple, Optional, Union
-from datetime import datetime, date
+from datetime import date
 from functools import partial 
-
-from pop.terminology.models import CodedConcept
 
 class DjangoFilter:
     name: str = ''
@@ -368,12 +364,10 @@ class DescendantsOfConceptFilter(DjangoFilter):
             return Q()
         if not model:
             raise ValueError('The descendantsOf filter requires a model to be specified')
-        elif issubclass(model, BaseModel):
+        elif hasattr(model, '_queryset_model'):
             model = model._queryset_model
         terminology = model._meta.get_field(field).related_model
-
         concept = terminology.objects.get(code=value)
-
         # Get the correct database table name
         db_table = terminology._meta.db_table  
         query =  Q(**{f'{field}__in': terminology.objects.filter(id__in=RawSQL(f"""
