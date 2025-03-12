@@ -70,6 +70,10 @@ export interface GetCohortFeatureCounterRequestParams {
     feature: 'gender' | 'age' | 'age_at_diagnosis' | 'vital_status' | 'therapy_line';
 }
 
+export interface GetCohortGenomicsRequestParams {
+    cohortId: string;
+}
+
 export interface GetCohortOverallSurvivalCurveRequestParams {
     cohortId: string;
 }
@@ -200,6 +204,13 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, extraHttpRequestParams?: any): Observable<object>;
+
+    /**
+     * Get Cohort Genomics
+     * 
+* @param requestParameters
+     */
+    getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, extraHttpRequestParams?: any): Observable<Array<object>>;
 
     /**
      * Get Cohort Overall Survival Curve

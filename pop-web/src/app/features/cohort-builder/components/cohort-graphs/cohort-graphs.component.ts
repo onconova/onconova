@@ -15,6 +15,7 @@ import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-gra
 import { DistributionGraphComponent } from './components/distribution-graph/distribution-graph.component';
 import { BoxPlotComponent } from './components/box-plot/box-plot.component';
 import { Skeleton } from 'primeng/skeleton';
+import { OncoplotComponent } from './components/oncoplot/oncoplot.component';
 
 @Component({
     standalone: true,
@@ -24,6 +25,7 @@ import { Skeleton } from 'primeng/skeleton';
         ChartModule,
         PanelModule,
         KapplerMeierCurveComponent,
+        OncoplotComponent,
         DoughnutGraphComponent,
         Skeleton,
         BoxPlotComponent,
@@ -46,6 +48,7 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
     public overallSurvivalCurve$!: Observable<KapplerMeierCurve>;
     public overallSurvivalCurveData!: any;
     public overallSurvivalCurveOptions!: any;
+    public genomicsData$!: Observable<any>;
 
     public ageCount$!: Observable<any>;
     public ageAtDiagnosisCount$!: Observable<any>;
@@ -76,6 +79,7 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
                 return counter
             }),
         )
+        this.genomicsData$ = this.cohortService.getCohortGenomics({cohortId: this.cohort.id})
         this.ageCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'age'})
         this.ageAtDiagnosisCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'age_at_diagnosis'})
         this.vitalStatusCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'vital_status'})

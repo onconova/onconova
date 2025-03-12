@@ -21,6 +21,7 @@
     "@primeng/themes": "^18.0.0",
     "@sgratzl/chartjs-chart-boxplot": "^4.4.4",
     "chart.js": "^4.4.8",
+    "chartjs-chart-matrix": "^2.0.1",
     "inputmask": "^5.0.9",
     "jdenticon": "^3.3.0",
     "jszip": "^3.10.1",

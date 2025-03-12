@@ -15,7 +15,7 @@ import { Chart } from 'chart.js';
     ],
     selector: 'pop-kappler-meier-curve',
     template: `
-    <div class="chart-container" style="height: 30rem; width: 60%">
+    <div class="chart-container" style="height: 30rem; width: 100%">
         <canvas #KapplerMeierCurve></canvas>
         <pop-cohort-graph-context-menu *ngIf="chart" [target]="KapplerMeierCurve" [chart]="chart" [data]="survivalData"/>
     </div>`,

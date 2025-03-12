@@ -73,6 +73,24 @@ class CohortAnalysisController(ControllerBase):
             upperConfidenceBand=confidence_bands['upper'],
         )
 
+    @route.get(
+        path='/{cohortId}/genomics', 
+        response={
+            200: dict
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='getCohortGenomics',
+    )
+    def get_cohort_genomics(self, cohortId: str):
+        from pop.oncology.models import GenomicVariant
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        variants = GenomicVariant.objects.filter(case__in=cohort.cases.all()).filter(is_pathogenic=True)
+        genes = [gene[0] for gene in Counter(variants.values_list('genes__display', flat=True)).most_common(25)]
+        variants = variants.filter(genes__display__in=genes).annotate(
+            pseudoidentifier=F('case__pseudoidentifier'),gene=F('genes__display'), variant=F('protein_hgvs')
+        ).values('pseudoidentifier','gene', 'variant')
+        return 200, {'genes': genes, 'cases': list(cohort.cases.values_list('pseudoidentifier',flat=True)),'variants': list(variants)}
+
 
     @route.get(
         path='/{cohortId}/progression-free-survival-curve/{therapyLine}', 

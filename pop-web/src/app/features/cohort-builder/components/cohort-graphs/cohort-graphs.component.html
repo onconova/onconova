@@ -56,7 +56,7 @@
     </p-panel>
     
 
-    <p-panel header="Outcomes" [toggleable]="true" styleClass="mt-4">
+    <p-panel header="Cohort Characteristics" [toggleable]="true" styleClass="mt-4">
         
         <div class="font-semibold">Overall survival (OS)</div>
         <div class="text-muted mb-2">
@@ -67,6 +67,16 @@
             *ngIf="overallSurvivalCurve" 
             [survivalData]="overallSurvivalCurve"/>    
         <p-skeleton height="30rem" width="60%" *ngIf="loading || !overallSurvivalCurve"/>
+
+        <div class="font-semibold">Oncoplot</div>
+        <div class="text-muted mb-2">
+            A summary of the genomics of the cohort
+        </div>
+        @let genomicsData = genomicsData$ | async;
+        <pop-oncoplot
+            *ngIf="genomicsData" 
+            [genomicsData]="genomicsData"/>    
+        <p-skeleton height="30rem" width="100%" *ngIf="loading || !genomicsData"/>
 
     </p-panel>
 
