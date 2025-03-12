@@ -40,6 +40,30 @@ def make_terminology_factory(terminology, code_iterator=None):
         concepts_count = terminology.objects.count()
         return factory.LazyFunction(lambda: terminology.objects.all()[random.randint(0,concepts_count-1)]) if concepts_count else None
 
+def make_m2m_terminology_factory(field, terminology_model, min=1, max=2):
+    def set_m2m_terminology(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, or nothing to add, do nothing.
+            return
+        if extracted is None:
+            terminology = make_terminology_factory(terminology_model)
+            extracted = [terminology.get_factory()() if isinstance(terminology, factory.SubFactory) else terminology.function() for _ in range(random.randint(min,max))]
+        # Add the iterable of groups using bulk addition
+        getattr(self, field).set(extracted)
+    return set_m2m_terminology
+
+
+def add_m2m_related(field, factory, min=1, max=2, get_related_case=lambda self: self.case):
+    def set_m2m_related(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, or nothing to add, do nothing.
+            return
+        if extracted is None:
+            extracted = [factory(case=get_related_case(self)) for _ in range(random.randint(min,max))]
+        # Add the iterable of groups using bulk addition
+        getattr(self, field).set(extracted)
+    return set_m2m_related
+
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
@@ -108,6 +132,7 @@ class TNMStagingFactory(factory.django.DjangoModelFactory):
     stage = make_terminology_factory(terminology.TNMStage, code_iterator=[f"tnm-stage-{n+1}-code" for n in range(5)])
     methodology = make_terminology_factory(terminology.TNMStagingMethod)
     created_by =  factory.SubFactory(UserFactory)
+    staged_entities = factory.post_generation(add_m2m_related('staged_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
 
 class FIGOStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -117,6 +142,7 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
     stage = make_terminology_factory(terminology.FIGOStage, code_iterator=[f"figo-stage-{n+1}-code" for n in range(5)])
     methodology = make_terminology_factory(terminology.FIGOStagingMethod)
     created_by =  factory.SubFactory(UserFactory)
+    staged_entities = factory.post_generation(add_m2m_related('staged_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
 
 
 
@@ -127,6 +153,7 @@ class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
     mass_concentration = factory.LazyFunction(lambda: measures.MassConcentration(g__l=random.random()))    
+    related_entities = factory.post_generation(add_m2m_related('related_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
     created_by =  factory.SubFactory(UserFactory)
 
 
@@ -138,6 +165,7 @@ class RiskAssessmentFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)    
     methodology = make_terminology_factory(terminology.CancerRiskAssessmentMethod)
     risk = make_terminology_factory(terminology.CancerRiskAssessmentClassification)
+    assessed_entities = factory.post_generation(add_m2m_related('assessed_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
     created_by =  factory.SubFactory(UserFactory)
 
 
@@ -160,6 +188,7 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     cycles = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
     therapy_line = factory.SubFactory(TherapyLineFactory)
+    targeted_entities = factory.post_generation(add_m2m_related('targeted_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -183,6 +212,7 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
     bodysite_laterality = make_terminology_factory(terminology.LateralityQualifier)
     outcome = make_terminology_factory(terminology.ProcedureOutcome)
     therapy_line = factory.SubFactory(TherapyLineFactory)
+    targeted_entities = factory.post_generation(add_m2m_related('targeted_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
 
 
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
@@ -195,6 +225,7 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
     sessions = factory.LazyFunction(lambda: random.randint(2,25))
     intent = FuzzyChoice(models.Radiotherapy.TreatmentIntent)
     therapy_line = factory.SubFactory(TherapyLineFactory)
+    targeted_entities = factory.post_generation(add_m2m_related('targeted_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
 
 class RadiotherapyDosageFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -249,35 +280,6 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
     management = make_terminology_factory(terminology.AdverseEventMitigationManagement)
 
 
-
-class TumorBoardFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.UnspecifiedTumorBoard
-    created_by =  factory.SubFactory(UserFactory)
-    case = factory.SubFactory(PatientCaseFactory)
-    date = factory.LazyFunction(faker.date)
-
-class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.MolecularTumorBoard
-    created_by =  factory.SubFactory(UserFactory)
-    case = factory.SubFactory(PatientCaseFactory)
-    date = factory.LazyFunction(faker.date)    
-    conducted_molecular_comparison = factory.LazyFunction(lambda: random.randint(0,2)>1)  
-    conducted_cup_characterization = factory.LazyFunction(lambda: random.randint(0,2)>1) 
-    characterized_cup = factory.LazyFunction(lambda: random.randint(0,2)>1) 
-
-class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.MolecularTherapeuticRecommendation
-    created_by =  factory.SubFactory(UserFactory)
-    molecular_tumor_board = factory.SubFactory(MolecularTumorBoardFactory)
-    expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
-    off_label_use = factory.LazyFunction(lambda: random.randint(0,2)>1) 
-    within_soc = factory.LazyFunction(lambda: random.randint(0,2)>1) 
-    clinical_trial = factory.LazyFunction(lambda: f'NCT{random.randint(11111111,99999999)}') 
-
-
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TreatmentResponse
@@ -287,11 +289,42 @@ class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     recist = make_terminology_factory(terminology.CancerTreatmentResponse)
     recist_interpreted = factory.LazyFunction(lambda: random.randint(0,100)>50)
     methodology = make_terminology_factory(terminology.CancerTreatmentResponseObservationMethod)
+    assessed_entities = factory.post_generation(add_m2m_related('assessed_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
+    assessed_bodysites = factory.post_generation(make_m2m_terminology_factory('assessed_bodysites', terminology.ObservationBodySite, min=1, max=1)) 
+
+
+
+def _generate_random_refseq(prefix='NG'):
+    return f'{prefix}000{random.randint(100,999)}.{random.randint(1,9)}' 
+
+def _random_nucbase():
+    return ['C','G','T','A'][random.randint(0,3)] 
+
+def _random_aminoacid():
+    return ['Ala','Cys','Gly','Thr','Tyr','His','Gln','Asn','Leu','Met'][random.randint(0,9)] 
+
+def _random_code_mutation():
+    return [
+        f'{_random_nucbase()}>{_random_nucbase()}',
+        'del',
+        f'ins{_random_nucbase()}{_random_nucbase()}',
+        'dup'
+    ][random.randint(0,3)] 
+
+def _random_aminoacid_mutation():
+    return [
+        f'{_random_aminoacid()}{random.randint(10,10000)}{_random_aminoacid()}',
+        f'{_random_aminoacid()}{random.randint(10,10000)}del',
+        f'{_random_aminoacid()}{random.randint(10,10000)}_{_random_aminoacid()}{random.randint(10,10000)}ins{_random_aminoacid()}{_random_aminoacid()}',
+        f'{_random_aminoacid()}{random.randint(10,10000)}dup',
+    ][random.randint(0,3)] 
+
 
 
 class GenomicVariantFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.GenomicVariant    
+
     created_by =  factory.SubFactory(UserFactory)
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
@@ -301,10 +334,10 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     clinical_relevance = FuzzyChoice(models.GenomicVariant.GenomicVariantClinicalRelevance)
     analysis_method = make_terminology_factory(terminology.StructuralVariantAnalysisMethod)
     cytogenetic_location = factory.LazyFunction(lambda: f'{random.randint(1,22)}p{random.randint(11,22)}')
-    genomic_refseq = factory.LazyFunction(lambda: f'NG000{random.randint(100,999)}.{random.randint(1,9)}')
-    transcript_refseq = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}')
-    coding_hgvs = factory.LazyFunction(lambda: f'NM000{random.randint(100,999)}.{random.randint(1,9)}:c.{random.randint(10,10000)}C>T')
-    protein_hgvs = factory.LazyFunction(lambda: f'NP000{random.randint(100,999)}.{random.randint(1,9)}:p.{random.randint(10,10000)}Lys>Val')
+    genomic_refseq = factory.LazyFunction(lambda: _generate_random_refseq(prefix='NG'))
+    transcript_refseq = factory.LazyFunction(lambda: _generate_random_refseq(prefix='NM'))
+    coding_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM")}:c.{random.randint(10,10000)}{_random_code_mutation()}')
+    protein_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NP")}:p.{_random_aminoacid_mutation()}')
     aminoacid_change_type = make_terminology_factory(terminology.AminoAcidChangeType)
     molecular_consequence = make_terminology_factory(terminology.MolecularConsequence)
     copy_number = factory.LazyFunction(lambda: random.randint(1,9))
@@ -312,6 +345,9 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     allele_depth = factory.LazyFunction(lambda: random.randint(0,99999))
     zygosity = make_terminology_factory(terminology.Zygosity)
     exact_genomic_coordinates = factory.LazyFunction(lambda: (random.randint(0,9999), random.randint(9999,99999999)))
+    genes = factory.post_generation(make_m2m_terminology_factory('genes', terminology.Gene, min=1, max=2)) 
+    chromosomes = factory.post_generation(make_m2m_terminology_factory('chromosomes', terminology.ChromosomeIdentifier, min=1, max=1)) 
+
 
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -334,6 +370,8 @@ class LifestyleFactory(factory.django.DjangoModelFactory):
     smoking_quited = factory.LazyFunction(lambda: measures.Time(year=random.random()))    
     alcohol_consumption = make_terminology_factory(terminology.AlcoholConsumptionFrequency)
     night_sleep = factory.LazyFunction(lambda: measures.Time(hour=random.random()))    
+    exposures = factory.post_generation(make_m2m_terminology_factory('exposures', terminology.ExposureAgent, min=0, max=3))
+    recreational_drugs = factory.post_generation(make_m2m_terminology_factory('recreational_drugs', terminology.RecreationalDrug, min=0, max=2)) 
 
 
 
@@ -402,6 +440,40 @@ class AneuploidScoreFactory(factory.django.DjangoModelFactory):
     value = factory.LazyFunction(lambda: random.randint(0,36))
 
 
+class TumorBoardFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.UnspecifiedTumorBoard
+    created_by =  factory.SubFactory(UserFactory)
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    related_entities = factory.post_generation(add_m2m_related('related_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
+
+class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.MolecularTumorBoard
+    created_by =  factory.SubFactory(UserFactory)
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)    
+    conducted_molecular_comparison = factory.LazyFunction(lambda: random.randint(0,2)>1)  
+    conducted_cup_characterization = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    characterized_cup = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    related_entities = factory.post_generation(add_m2m_related('related_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
+
+class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.MolecularTherapeuticRecommendation
+    created_by =  factory.SubFactory(UserFactory)
+    molecular_tumor_board = factory.SubFactory(MolecularTumorBoardFactory)
+    expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
+    off_label_use = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    within_soc = factory.LazyFunction(lambda: random.randint(0,2)>1) 
+    clinical_trial = factory.LazyFunction(lambda: f'NCT{random.randint(11111111,99999999)}') 
+    drugs = factory.post_generation(make_m2m_terminology_factory('drugs', terminology.AntineoplasticAgent, min=1, max=2)) 
+    supporting_genomic_variants = factory.post_generation(add_m2m_related('supporting_genomic_variants', GenomicVariantFactory, min=0, max=3, get_related_case=lambda self: self.molecular_tumor_board.case))
+    supporting_tumor_markers = factory.post_generation(add_m2m_related('supporting_tumor_markers', TumorMarkerTestFactory, min=0, max=2, get_related_case=lambda self: self.molecular_tumor_board.case))
+    supporting_genomic_signatures = factory.post_generation(add_m2m_related('supporting_genomic_signatures', TumorMutationalBurdenFactory, min=0, max=1, get_related_case=lambda self: self.molecular_tumor_board.case))
+
+
 class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ComorbiditiesAssessment
@@ -410,6 +482,8 @@ class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)    
     indexCondition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
     panel = FuzzyChoice(models.ComorbiditiesPanel)
+    absent_conditions = factory.post_generation(make_m2m_terminology_factory('absent_conditions', terminology.ICD10Condition, min=0, max=4))
+    present_conditions = factory.post_generation(make_m2m_terminology_factory('present_conditions', terminology.ICD10Condition, min=0, max=4))
 
 class VitalsFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -449,20 +523,21 @@ def fake_complete_case():
     case.created_at = faker.date_between(datetime(2020,1,1), datetime(2025,1,1))
     case.save()
     primary = PrimaryNeoplasticEntityFactory.create(case=case, created_by=user)
+    conditions = [primary]
     if random.randint(0,100) > 40:
-        MetastaticNeoplasticEntityFactory.create(case=case, related_primary=primary, created_by=user)
-    TNMStagingFactory.create(case=case, created_by=user)
+        conditions.append(MetastaticNeoplasticEntityFactory.create(case=case, related_primary=primary, created_by=user))
+    TNMStagingFactory.create(case=case, created_by=user, staged_entities=conditions)
     for _ in range(random.randint(1,4)):
-        systemic_therapy = SystemicTherapyFactory.create(case=case, created_by=user, therapy_line=None)
+        systemic_therapy = SystemicTherapyFactory.create(case=case, created_by=user, therapy_line=None, targeted_entities=conditions)
         for _ in range(random.randint(1,3)):
             SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy, created_by=user)
     for _ in range(random.randint(1,2)):
-        radiotherapy = RadiotherapyFactory.create(case=case, created_by=user, therapy_line=None)
+        radiotherapy = RadiotherapyFactory.create(case=case, created_by=user, therapy_line=None, targeted_entities=conditions)
         for _ in range(random.randint(1,3)):
             RadiotherapyDosageFactory.create(radiotherapy=radiotherapy, created_by=user)
-    SurgeryFactory.create(case=case, created_by=user, therapy_line=None)
+    SurgeryFactory.create(case=case, created_by=user, therapy_line=None, targeted_entities=conditions)
     for _ in range(random.randint(1,4)):
-        TumorMarkerTestFactory.create(case=case, created_by=user)
+        TumorMarkerTestFactory.create(case=case, created_by=user, related_entities=conditions)
     for _ in range(random.randint(1,12)):
         GenomicVariantFactory.create(case=case, created_by=user)
     for _ in range(random.randint(1,2)):
@@ -470,16 +545,16 @@ def fake_complete_case():
     for _ in range(random.randint(1,2)):
         LossOfHeterozygosityFactory.create(case=case, created_by=user)
     FamilyHistoryFactory.create(case=case, created_by=user)
-    RiskAssessmentFactory.create(case=case, created_by=user)
+    RiskAssessmentFactory.create(case=case, created_by=user, assessed_entities=conditions)
     LifestyleFactory.create(case=case, created_by=user)
     ComorbiditiesAssessmentFactory.create(case=case, created_by=user, indexCondition=primary)
     for _ in range(random.randint(1,4)):
         VitalsFactory.create(case=case, created_by=user)
-    MolecularTumorBoardFactory.create(case=case, created_by=user)
+    MolecularTumorBoardFactory.create(case=case, created_by=user, related_entities=conditions)
     for _ in range(random.randint(1,4)):
         AdverseEventFactory.create(case=case, created_by=user)
     for _ in range(random.randint(1,4)):
-        TreatmentResponseFactory.create(case=case, created_by=user)
+        TreatmentResponseFactory.create(case=case, created_by=user, assessed_entities=conditions)
     for _ in range(random.randint(2,5)):    
         PerformanceStatusFactory.create(case=case, created_by=user)
     models.TherapyLine.assign_therapy_lines(case)
