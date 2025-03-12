@@ -94,7 +94,7 @@ class PatientCaseDataCompletionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.PatientCaseDataCompletion
     case = factory.SubFactory(PatientCaseFactory)
-    category = factory.LazyFunction(lambda: [category for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories)[0:random.randint(1,6)]])
+    category = factory.LazyFunction(lambda: [category.value for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories)[0:random.randint(1,6)]])
     created_by =  factory.SubFactory(UserFactory)
 
 class PrimaryNeoplasticEntityFactory(factory.django.DjangoModelFactory):
@@ -558,10 +558,7 @@ def fake_complete_case():
     for _ in range(random.randint(2,5)):    
         PerformanceStatusFactory.create(case=case, created_by=user)
     models.TherapyLine.assign_therapy_lines(case)
-    
-    for _ in range(random.randint(2,8)):    
-        try:
-            PatientCaseDataCompletionFactory.create(case=case, created_by=user)
-        except:
-            pass
+    for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories):    
+        if random.randint(0,100) > 45:
+            PatientCaseDataCompletionFactory.create(case=case, created_by=user, category=category.value)     
     return case

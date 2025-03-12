@@ -111,6 +111,7 @@ class PatientCaseController(ControllerBase):
     )
     def get_patient_case_data_completion_status(self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories):
         category_completion = PatientCaseDataCompletion.objects.filter(case__id=caseId, category=category).first()
+        print('\n\n\n',category)
         return PatientCaseDataCompletionStatusSchema(
                 status=category_completion is not None,
                 username=category_completion.created_by.username if category_completion else None,
