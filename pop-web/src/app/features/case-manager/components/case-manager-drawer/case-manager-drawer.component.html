@@ -1,6 +1,6 @@
 <p-drawer [(visible)]="visible" position="right" (onHide)="visibleChange.emit(false)" >
     <ng-template #header>
-        <div class="flex items-center gap-2">
+        <div class="drawer-header flex items-center gap-2">
             <p-avatar 
                 size="large" 
                 shape="square" 
@@ -16,79 +16,11 @@
         <div class="monospace"><small>{{ data.id }}</small></div>
     </div>
 
-    <p-divider />
-    <div *ngFor="let property of data | getObjectProperties;">
-        <div *ngIf="property" class="property">
-            <small class="property-label {{ property.value ? '' : 'text-muted'}}">{{ property.label | titlecase }}</small>
-            <ng-container *ngIf="!property.value">
-                <div class="text-muted">-</div> 
-            </ng-container>
-            @if (property.value) {
-                <ng-container *ngIf="isCodeableConcept(property.value)">
-                    <p-tree 
-                        class="drawer-property-tree"
-                        [value]="property.value | getConceptTree">
-                        <ng-template let-node pTemplate="code">                        
-                            <small class="property-label">{{ node.label }}</small> <div style="font-family: monospace; font-size: .8rem">{{ node.code }}</div>
-                        </ng-template>
-                        <ng-template let-node pTemplate="system">                        
-                            <small class="property-label">{{ node.label }}</small> <div style="font-family: monospace; font-size: .8rem">{{ node.system }}</div>
-                        </ng-template>
-                        <ng-template let-node pTemplate="synonyms" > 
-                            <ng-container>
-                                <small class="property-label">{{ node.label }}</small> 
-                                <div *ngIf="node.synonyms.length === 0">-</div>
-                                <div>                            
-                                    <ul class="list-none pl-0">
-                                        <li *ngFor="let synonym of node.synonyms" style="font-size: .8rem">
-                                            {{ synonym }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </ng-container>                       
-                        </ng-template>
-                    </p-tree>
-                </ng-container>
+    <p-divider/>
 
-                <ng-container *ngIf="isPeriod(property.value)">                                      
-                    <div>{{ property.value.start }} - {{ property.value.end }}</div>
-                </ng-container>
+    <pop-drawer-properties [data]="data"/>
 
-                <ng-container *ngIf="isMeasure(property.value)">                                      
-                    <div>{{ property.value.value }} {{ property.value.unit | replace:'__':'/' }}</div>
-                </ng-container>
-
-                <ng-container *ngIf="isArray(property.value)">                                      
-                    <ul class="list-none my-0 pl-0">
-                        <li *ngFor="let value of property.value">{{ value }}</li>
-                    </ul>
-                </ng-container>
-
-                <ng-container *ngIf="isArray(property.value) && isObject(property.value[0])">
-
-                    <ng-container *ngFor="let propertyObject of property.value">
-                        <div class="ml-3" *ngFor="let subproperty of propertyObject | getObjectProperties;">  
-                            <small class="property-label">{{ subproperty?.label | titlecase }}</small>
-                            <ng-container *ngIf="!isCodeableConcept(subproperty?.value)">
-                                <div>{{ subproperty?.value  }}</div> 
-                            </ng-container>
-                            <ng-container *ngIf="isCodeableConcept(subproperty?.value)">
-                                <p-tree 
-                                class="drawer-property-tree"
-                                    [value]="subproperty?.value | getConceptTree"/>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-                </ng-container>
-
-                <ng-container *ngIf="!isMeasure(property.value) && !isPeriod(property.value) && !isCodeableConcept(property.value) && !isArray(property.value) && !isObject(property.value[0])">
-                    <div>{{ property.value }}</div> 
-                </ng-container>
-            }
-        </div>
-    </div>
-
-    <p-divider />
+    <p-divider/>
 
     <div class="mb-5">
         <div class="property" *ngIf="data.createdBy">

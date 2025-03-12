@@ -25,3 +25,12 @@
     order: 1;
     margin-left: -.25rem;
 }
+
+.drawer-header lucide-angular {
+    width: var(--p-avatar-lg-width); 
+    text-align: center;
+}
+.drawer-header lucide-angular > svg {
+    margin: auto;
+    display: flex;
+}
