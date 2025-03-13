@@ -121,6 +121,7 @@ class BaseSchema(Schema):
         from_attributes=True,
         populate_by_name = True,
     )
+    
     @model_validator(mode="wrap")
     @classmethod
     def _run_root_validator(cls, values, handler, info):
@@ -203,6 +204,10 @@ class BaseSchema(Schema):
             # Loop over all fields in the Django model's meta options
             for field in obj._meta.get_fields():
                 orm_field_name = field.name
+                # Check if a custmom resolver has been defined for the field
+                if hasattr(cls, f'resolve_{orm_field_name}'):
+                    data[orm_field_name] = getattr(cls, f'resolve_{orm_field_name}')(obj)
+                    continue
                 # Check if the field is a relation (foreign key, many-to-many, etc.)
                 if field.is_relation:
                     # Determine if the field needs expansion based on class model fields

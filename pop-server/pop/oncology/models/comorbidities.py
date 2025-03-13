@@ -500,7 +500,7 @@ class ComorbiditiesAssessment(BaseModel):
         verbose_name = _('Assessment date'),
         help_text=_("Clinically-relevant date at which the patient's comorbidities were assessed and recorded."),
     ) 
-    indexCondition = models.ForeignKey(
+    index_condition = models.ForeignKey(
         verbose_name = _('Index neoplastic entity'),
         help_text = _("The primary neoplastic entity against which comorbidities are assessed"),
         to = NeoplasticEntity,

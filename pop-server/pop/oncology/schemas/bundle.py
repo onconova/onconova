@@ -5,6 +5,7 @@ import pop.oncology.schemas as sc
 
 
 class PatientCaseBundle(sc.PatientCaseSchema):
+    """ The order of the properties matters for the import tool (based on references tree)"""
     neoplasticEntities: List[sc.NeoplasticEntitySchema] = Field(
         default=[], 
         alias='neoplastic_entities', 
@@ -53,9 +54,6 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         alias='treatment_responses', 
         validation_alias=AliasChoices('treatment_responses','treatmentResponses')
     )  
-    tumorBoards: List[Union[sc.UnspecifiedTumorBoardSchema, sc.MolecularTumorBoardSchema]] = Field(
-        default=[], 
-    )  
     performanceStatus: List[sc.PerformanceStatusSchema] = Field(
         default=[], 
         alias='performance_status', 
@@ -87,6 +85,9 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         validation_alias=AliasChoices('family_histories','familyHistory')
     )  
     vitals: List[sc.VitalsSchema] = Field(
+        default=[], 
+    )  
+    tumorBoards: List[Union[sc.UnspecifiedTumorBoardSchema, sc.MolecularTumorBoardSchema]] = Field(
         default=[], 
     )  
     completedDataCategories: Dict[PatientCaseDataCategories, sc.PatientCaseDataCompletionStatusSchema]

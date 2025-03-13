@@ -480,7 +480,7 @@ class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     created_by =  factory.SubFactory(UserFactory)
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)    
-    indexCondition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
+    index_condition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
     panel = FuzzyChoice(models.ComorbiditiesPanel)
     absent_conditions = factory.post_generation(make_m2m_terminology_factory('absent_conditions', terminology.ICD10Condition, min=0, max=4))
     present_conditions = factory.post_generation(make_m2m_terminology_factory('present_conditions', terminology.ICD10Condition, min=0, max=4))
@@ -522,43 +522,44 @@ def fake_complete_case():
     case = PatientCaseFactory.create(created_by=user)
     case.created_at = faker.date_between(datetime(2020,1,1), datetime(2025,1,1))
     case.save()
-    primary = PrimaryNeoplasticEntityFactory.create(case=case, created_by=user)
+    basic = dict(case=case, created_by=user)
+    primary = PrimaryNeoplasticEntityFactory.create(**basic)
     conditions = [primary]
     if random.randint(0,100) > 40:
         conditions.append(MetastaticNeoplasticEntityFactory.create(case=case, related_primary=primary, created_by=user))
-    TNMStagingFactory.create(case=case, created_by=user, staged_entities=conditions)
+    TNMStagingFactory.create(**basic, staged_entities=conditions)
     for _ in range(random.randint(1,4)):
-        systemic_therapy = SystemicTherapyFactory.create(case=case, created_by=user, therapy_line=None, targeted_entities=conditions)
+        systemic_therapy = SystemicTherapyFactory.create(**basic, therapy_line=None, targeted_entities=conditions)
         for _ in range(random.randint(1,3)):
             SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy, created_by=user)
     for _ in range(random.randint(1,2)):
-        radiotherapy = RadiotherapyFactory.create(case=case, created_by=user, therapy_line=None, targeted_entities=conditions)
+        radiotherapy = RadiotherapyFactory.create(**basic, therapy_line=None, targeted_entities=conditions)
         for _ in range(random.randint(1,3)):
             RadiotherapyDosageFactory.create(radiotherapy=radiotherapy, created_by=user)
-    SurgeryFactory.create(case=case, created_by=user, therapy_line=None, targeted_entities=conditions)
+    SurgeryFactory.create(**basic, therapy_line=None, targeted_entities=conditions)
     for _ in range(random.randint(1,4)):
-        TumorMarkerTestFactory.create(case=case, created_by=user, related_entities=conditions)
+        TumorMarkerTestFactory.create(**basic, related_entities=conditions)
     for _ in range(random.randint(1,12)):
-        GenomicVariantFactory.create(case=case, created_by=user)
+        GenomicVariantFactory.create(**basic)
     for _ in range(random.randint(1,2)):
-        TumorMutationalBurdenFactory.create(case=case, created_by=user)
+        TumorMutationalBurdenFactory.create(**basic)
     for _ in range(random.randint(1,2)):
-        LossOfHeterozygosityFactory.create(case=case, created_by=user)
-    FamilyHistoryFactory.create(case=case, created_by=user)
-    RiskAssessmentFactory.create(case=case, created_by=user, assessed_entities=conditions)
-    LifestyleFactory.create(case=case, created_by=user)
-    ComorbiditiesAssessmentFactory.create(case=case, created_by=user, indexCondition=primary)
+        LossOfHeterozygosityFactory.create(**basic)
+    FamilyHistoryFactory.create(**basic)
+    RiskAssessmentFactory.create(**basic, assessed_entities=conditions)
+    LifestyleFactory.create(**basic)
+    ComorbiditiesAssessmentFactory.create(**basic, indexCondition=primary)
     for _ in range(random.randint(1,4)):
-        VitalsFactory.create(case=case, created_by=user)
-    MolecularTumorBoardFactory.create(case=case, created_by=user, related_entities=conditions)
+        VitalsFactory.create(**basic)
+    MolecularTumorBoardFactory.create(**basic, related_entities=conditions)
     for _ in range(random.randint(1,4)):
-        AdverseEventFactory.create(case=case, created_by=user)
+        AdverseEventFactory.create(**basic)
     for _ in range(random.randint(1,4)):
-        TreatmentResponseFactory.create(case=case, created_by=user, assessed_entities=conditions)
+        TreatmentResponseFactory.create(**basic, assessed_entities=conditions)
     for _ in range(random.randint(2,5)):    
-        PerformanceStatusFactory.create(case=case, created_by=user)
+        PerformanceStatusFactory.create(**basic)
     models.TherapyLine.assign_therapy_lines(case)
     for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories):    
         if random.randint(0,100) > 45:
-            PatientCaseDataCompletionFactory.create(case=case, created_by=user, category=category.value)     
+            PatientCaseDataCompletionFactory.create(**basic, category=category.value)     
     return case
