@@ -46,6 +46,8 @@ class BundleParser:
     @staticmethod
     def get_or_create_user(user_schema: UserSchema) -> User:
         """Fetches or creates a user instance from the given schema."""
+        if not user_schema:
+            return None
         user,_ = User.objects.get_or_create(
             username = user_schema.username,
             defaults = dict(
