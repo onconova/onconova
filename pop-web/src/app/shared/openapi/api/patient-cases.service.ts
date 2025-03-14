@@ -419,7 +419,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Get Patient Case Bundle By Id
+     * Export Case Bundle
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -476,7 +476,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/patient-cases/bundles/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/patient-cases/bundles/export/${this.configuration.encodeParam({name: "caseId", value: caseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<PatientCaseBundle>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -1458,7 +1458,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
     }
 
     /**
-     * Create Patient Case Bundle
+     * Import Case Bundle
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -1524,7 +1524,7 @@ export class PatientCasesService implements PatientCasesServiceInterface {
             }
         }
 
-        let localVarPath = `/api/patient-cases/bundles`;
+        let localVarPath = `/api/patient-cases/bundles/import`;
         return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

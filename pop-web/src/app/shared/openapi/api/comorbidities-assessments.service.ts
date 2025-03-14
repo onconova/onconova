@@ -376,14 +376,14 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         const dateNotOn = requestParameters?.dateNotOn;
         const dateBetween = requestParameters?.dateBetween;
         const dateNotBetween = requestParameters?.dateNotBetween;
-        const indexconditionId = requestParameters?.indexconditionId;
-        const indexconditionIdNot = requestParameters?.indexconditionIdNot;
-        const indexconditionIdContains = requestParameters?.indexconditionIdContains;
-        const indexconditionIdNotContains = requestParameters?.indexconditionIdNotContains;
-        const indexconditionIdBeginsWith = requestParameters?.indexconditionIdBeginsWith;
-        const indexconditionIdNotBeginsWith = requestParameters?.indexconditionIdNotBeginsWith;
-        const indexconditionIdEndsWith = requestParameters?.indexconditionIdEndsWith;
-        const indexconditionIdNotEndsWith = requestParameters?.indexconditionIdNotEndsWith;
+        const indexConditionId = requestParameters?.indexConditionId;
+        const indexConditionIdNot = requestParameters?.indexConditionIdNot;
+        const indexConditionIdContains = requestParameters?.indexConditionIdContains;
+        const indexConditionIdNotContains = requestParameters?.indexConditionIdNotContains;
+        const indexConditionIdBeginsWith = requestParameters?.indexConditionIdBeginsWith;
+        const indexConditionIdNotBeginsWith = requestParameters?.indexConditionIdNotBeginsWith;
+        const indexConditionIdEndsWith = requestParameters?.indexConditionIdEndsWith;
+        const indexConditionIdNotEndsWith = requestParameters?.indexConditionIdNotEndsWith;
         const panelNotExists = requestParameters?.panelNotExists;
         const panelExists = requestParameters?.panelExists;
         const panel = requestParameters?.panel;
@@ -617,37 +617,37 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
                   <any>element, 'date.not.between');
             })
         }
-        if (indexconditionId !== undefined && indexconditionId !== null) {
+        if (indexConditionId !== undefined && indexConditionId !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionId, 'indexconditionId');
+            <any>indexConditionId, 'indexConditionId');
         }
-        if (indexconditionIdNot !== undefined && indexconditionIdNot !== null) {
+        if (indexConditionIdNot !== undefined && indexConditionIdNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdNot, 'indexconditionId.not');
+            <any>indexConditionIdNot, 'indexConditionId.not');
         }
-        if (indexconditionIdContains !== undefined && indexconditionIdContains !== null) {
+        if (indexConditionIdContains !== undefined && indexConditionIdContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdContains, 'indexconditionId.contains');
+            <any>indexConditionIdContains, 'indexConditionId.contains');
         }
-        if (indexconditionIdNotContains !== undefined && indexconditionIdNotContains !== null) {
+        if (indexConditionIdNotContains !== undefined && indexConditionIdNotContains !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdNotContains, 'indexconditionId.not.contains');
+            <any>indexConditionIdNotContains, 'indexConditionId.not.contains');
         }
-        if (indexconditionIdBeginsWith !== undefined && indexconditionIdBeginsWith !== null) {
+        if (indexConditionIdBeginsWith !== undefined && indexConditionIdBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdBeginsWith, 'indexconditionId.beginsWith');
+            <any>indexConditionIdBeginsWith, 'indexConditionId.beginsWith');
         }
-        if (indexconditionIdNotBeginsWith !== undefined && indexconditionIdNotBeginsWith !== null) {
+        if (indexConditionIdNotBeginsWith !== undefined && indexConditionIdNotBeginsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdNotBeginsWith, 'indexconditionId.not.beginsWith');
+            <any>indexConditionIdNotBeginsWith, 'indexConditionId.not.beginsWith');
         }
-        if (indexconditionIdEndsWith !== undefined && indexconditionIdEndsWith !== null) {
+        if (indexConditionIdEndsWith !== undefined && indexConditionIdEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdEndsWith, 'indexconditionId.endsWith');
+            <any>indexConditionIdEndsWith, 'indexConditionId.endsWith');
         }
-        if (indexconditionIdNotEndsWith !== undefined && indexconditionIdNotEndsWith !== null) {
+        if (indexConditionIdNotEndsWith !== undefined && indexConditionIdNotEndsWith !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>indexconditionIdNotEndsWith, 'indexconditionId.not.endsWith');
+            <any>indexConditionIdNotEndsWith, 'indexConditionId.not.endsWith');
         }
         if (panelNotExists !== undefined && panelNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

@@ -149,35 +149,35 @@ export interface ComorbiditiesAssessmentFilters {
     /**
      * Index neoplastic entity - Filter for reference matches
      */
-    indexconditionId?: string;
+    indexConditionId?: string;
     /**
      * Index neoplastic entity - Filter for reference mismatches
      */
-    'indexconditionId.not'?: string;
+    'indexConditionId.not'?: string;
     /**
      * Index neoplastic entity - Filter for partial text matches
      */
-    'indexconditionId.contains'?: string;
+    'indexConditionId.contains'?: string;
     /**
      * Index neoplastic entity - Filter for partial text mismatches
      */
-    'indexconditionId.not.contains'?: string;
+    'indexConditionId.not.contains'?: string;
     /**
      * Index neoplastic entity - Filter for entries starting with the text
      */
-    'indexconditionId.beginsWith'?: string;
+    'indexConditionId.beginsWith'?: string;
     /**
      * Index neoplastic entity - Filter for entries not starting with the text
      */
-    'indexconditionId.not.beginsWith'?: string;
+    'indexConditionId.not.beginsWith'?: string;
     /**
      * Index neoplastic entity - Filter for entries ending with the text
      */
-    'indexconditionId.endsWith'?: string;
+    'indexConditionId.endsWith'?: string;
     /**
      * Index neoplastic entity - Filter for entries not ending with the text
      */
-    'indexconditionId.not.endsWith'?: string;
+    'indexConditionId.not.endsWith'?: string;
     /**
      * Panel - Filter for entries without a value
      */

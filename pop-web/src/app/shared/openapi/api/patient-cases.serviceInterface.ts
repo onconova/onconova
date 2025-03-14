@@ -229,7 +229,7 @@ export interface PatientCasesServiceInterface {
     deletePatientCaseDataCompletion(requestParameters: DeletePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
-     * Get Patient Case Bundle By Id
+     * Export Case Bundle
      * 
 * @param requestParameters
      */
@@ -264,7 +264,7 @@ export interface PatientCasesServiceInterface {
     getPatientCases(requestParameters: GetPatientCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
 
     /**
-     * Create Patient Case Bundle
+     * Import Case Bundle
      * 
 * @param requestParameters
      */

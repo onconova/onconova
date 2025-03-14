@@ -66,6 +66,7 @@ import {
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
 import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { DownloadService } from 'src/app/shared/services/download.service';
 
 
 
@@ -111,7 +112,10 @@ export class CaseManagerComponent implements OnInit {
     private adverseEventsService: AdverseEventsService = inject(AdverseEventsService);
     private tumorBoardsService: TumorBoardsService = inject(TumorBoardsService);
     private treatmentResponsesService: TreatmentResponsesService = inject(TreatmentResponsesService);
+    private downloadService: DownloadService = inject(DownloadService);
     public location: Location = inject(Location);
+
+    public exportLoading: boolean = false;
 
     // Case properties
     @Input() public pseudoidentifier: string = '';
@@ -256,18 +260,14 @@ export class CaseManagerComponent implements OnInit {
     }
 
     downloadCaseBundle(caseId: string) {
+        this.exportLoading = true;
         this.caseService.exportPatientCaseBundle({caseId:caseId}).subscribe({
             next: (response) => {
-                const blob = new Blob([JSON.stringify(response)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `case-bundle-${caseId}.json`;
-                // a.click();
-                window.open(url, '_blank'); // Use window.open() instead of a.click()
-
-                URL.revokeObjectURL(url);
-              },
+                this.downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier}.json`)
+            },
+            complete: () => {
+                this.exportLoading = false;
+            }
         })
     }
 

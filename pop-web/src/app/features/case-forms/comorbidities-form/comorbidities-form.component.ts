@@ -148,7 +148,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase imple
     const panelData = this.comorbiditiesPanelToPayload()
     return {
       caseId: this.caseId,
-      indexconditionId: data.indexCondition,
+      indexConditionId: data.indexCondition,
       date: data.date,
       panel: data.panel,
       presentConditions: panelData ? panelData.present : data.presentConditions,

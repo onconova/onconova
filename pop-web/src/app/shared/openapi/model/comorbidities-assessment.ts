@@ -41,7 +41,7 @@ export interface ComorbiditiesAssessment {
     /**
      * The primary neoplastic entity against which comorbidities are assessed
      */
-    indexconditionId: string;
+    indexConditionId: string;
     panel?: ComorbiditiesAssessmentPanelChoices | null;
     /**
      * The user(s) who updated the data since its creation

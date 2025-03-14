@@ -31,6 +31,9 @@ import { PatientCaseConsentStatusChoices } from './patient-case-consent-status-c
 import { PatientCaseBundleStagingsInner } from './patient-case-bundle-stagings-inner';
 
 
+/**
+ * The order of the properties matters for the import tool (based on references tree)
+ */
 export interface PatientCaseBundle { 
     /**
      * Approximate age of the patient in years
@@ -108,7 +111,6 @@ export interface PatientCaseBundle {
     radiotherapies?: Array<Radiotherapy>;
     adverse_events?: Array<AdverseEvent>;
     treatment_responses?: Array<TreatmentResponse>;
-    tumorBoards?: Array<PatientCaseBundleTumorBoardsInner>;
     performance_status?: Array<PerformanceStatus>;
     comorbidities?: Array<ComorbiditiesAssessment>;
     genomic_variants?: Array<GenomicVariant>;
@@ -116,6 +118,7 @@ export interface PatientCaseBundle {
     vitals?: Array<Vitals>;
     lifestyles?: Array<Lifestyle>;
     family_histories?: Array<FamilyHistory>;
+    tumorBoards?: Array<PatientCaseBundleTumorBoardsInner>;
     completedDataCategories: { [key: string]: PatientCaseDataCompletionStatusSchema; };
 }
 export namespace PatientCaseBundle {

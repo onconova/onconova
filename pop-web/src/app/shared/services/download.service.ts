@@ -8,7 +8,7 @@ import JSZip from 'jszip';
 })
 export class DownloadService {
 
-    public downloadAsJson(data: any[], filename: string = 'data.json'): void {
+    public downloadAsJson(data: any[] | any, filename: string = 'data.json'): void {
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = window.URL.createObjectURL(blob);
         this.download(filename, url)
