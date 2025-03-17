@@ -52,7 +52,8 @@ class TestKapplerMeierCurves(TestCase):
 
 class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
     
-    def _simulate_case(self):
+    @staticmethod
+    def _simulate_case():
         user = factories.UserFactory.create()
         case = factories.PatientCaseFactory.create(created_by=user)
         therapy_line_1 = factories.TherapyLineFactory.create(case=case, intent='curative', ordinal=1, created_by=user)
@@ -65,14 +66,15 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
         factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_2, created_by=user)
         return case 
     
-    def setUp(self):
-        self.cohort = factories.CohortFactory()
-        self.case1 = self._simulate_case()
-        self.case2 = self._simulate_case()
-        self.case3 = self._simulate_case()
-        self.cohort.cases.set([self.case1, self.case2, self.case3])
-        self.exected = [
-            pfs for case in [self.case1, self.case2, self.case3] 
+    @classmethod  
+    def setUpTestData(cls):
+        cls.cohort = factories.CohortFactory()
+        cls.case1 = cls._simulate_case()
+        cls.case2 = cls._simulate_case()
+        cls.case3 = cls._simulate_case()
+        cls.cohort.cases.set([cls.case1, cls.case2, cls.case3])
+        cls.exected = [
+            pfs for case in [cls.case1, cls.case2, cls.case3] 
                 for pfs in list(case.therapy_lines.filter(intent='curative').annotate(pfs=F('progression_free_survival')).values_list('pfs', flat=True)) 
         ]
         

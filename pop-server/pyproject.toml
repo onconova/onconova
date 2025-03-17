@@ -55,7 +55,7 @@ python_files = [
     "pop/tests/**/test_*.py",
 ]
 testpaths = ['pop/tests']
-addopts = "--no-migrations"
+addopts = "--no-migrations --reuse-db"
 django_find_project = "True"
 django_debug_mode = "True"
 

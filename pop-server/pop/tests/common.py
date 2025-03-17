@@ -76,18 +76,22 @@ class ApiControllerTestMixin:
             cls.user = factories.UserFactory.create(username=username)
         cls.user.set_password(password)
         cls.user.save()
-        cls.credentials = {'username': username, 'password': password}
+        # Authenticate user and get authentication HTTP header
+        cls.auth_header = cls._authenticate_user(username, password)
+        cls.authenticated_client = Client(headers=cls.auth_header)
+        cls.unauthenticated_client = Client()
         
     def get_route_url(self, instance):
         return f''
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.id}'
-        
-    def _authenticate_user(self):
+    
+    @staticmethod
+    def _authenticate_user(username, password):
         # Login the user and retrieve the JWT token
         auth_client = TestClient(AuthController)
-        response = auth_client.post("/pair", json=self.credentials, secure=True)
+        response = auth_client.post("/pair", json={'username': username, 'password': password}, secure=True)
         token = response.json()["access"]
         return {"Authorization": f"Bearer {str(token)}"}
 
@@ -95,10 +99,8 @@ class ApiControllerTestMixin:
         # Set the user access level for this call
         self.user.access_level = access_level
         self.user.save()
-        # Login the fake user and retrieve the JWT token
-        auth_header = self._authenticate_user() if authenticated else {}
         # Prepare the controller
-        client = Client(headers=auth_header)
+        client = self.authenticated_client if authenticated else self.unauthenticated_client
         action = {
             'POST': client.post,
             'GET': client.get,

@@ -14,13 +14,15 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
 
     @classmethod
     def setUpTestData(cls):
+        super().setUpTestData()
         # Ensure class settings are iterable
         cls.FACTORY = [cls.FACTORY] if not isinstance(cls.FACTORY, list) else cls.FACTORY
         cls.SUBTESTS = len(cls.FACTORY)
         cls.MODEL = [cls.MODEL]*cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
         cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
-        cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA
-        super().setUpTestData()
+        cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA        
+        cls.INSTANCES = [factory(created_by=cls.user) for factory in cls.FACTORY]      
+        cls.PAYLOADS = [schema.model_validate(instance).model_dump(mode='json') for schema, instance in zip(cls.CREATE_SCHEMA, cls.INSTANCES)]
         
     def _remove_key_recursive(self, dictionary, keys_to_remove):
         """
@@ -51,7 +53,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_all(self, scenario, config):            
         for i in range(self.SUBTESTS):
-            instance = self.FACTORY[i](created_by=self.user)
+            instance = self.INSTANCES[i]
             # Call the API endpoint
             response = self.call_api_endpoint('GET', self.get_route_url(instance), **config)
             with self.subTest(i=i):
@@ -59,7 +61,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
                     if 'items' in response.json():
-                        entry = response.json()['items'][0]
+                        entry = next((item for item in response.json()['items'] if str(instance.id) == item['id']))
                     else:
                         entry = response.json()[0]
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
@@ -72,7 +74,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_by_id(self, scenario, config):              
         for i in range(self.SUBTESTS):
-            instance = self.FACTORY[i](created_by=self.user)
+            instance = self.INSTANCES[i]
             # Call the API endpoint
             response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):
@@ -89,7 +91,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_delete(self, scenario, config):            
         for i in range(self.SUBTESTS):
-            instance = self.FACTORY[i](created_by=self.user)
+            instance = self.INSTANCES[i]
             # Call the API endpoint
             response = self.call_api_endpoint('DELETE', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):       
@@ -102,11 +104,11 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_create(self, scenario, config):                  
         for i in range(self.SUBTESTS):
-            instance = self.FACTORY[i](created_by=self.user)
-            json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
+            instance = self.INSTANCES[i]
+            payload = self.PAYLOADS[i]
             instance.delete()
             # Call the API endpoint.
-            response = self.call_api_endpoint('POST', self.get_route_url(instance), data=json_data, **config)
+            response = self.call_api_endpoint('POST', self.get_route_url(instance), data=payload, **config)
             with self.subTest(i=i):       
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -121,22 +123,20 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update(self, scenario, config):              
         for i in range(self.SUBTESTS):
-            instance = self.FACTORY[i]()
-            with self.subTest(i=i):           
-                # Prepare the data
-                creator = instance.created_by
-                json_data = self.CREATE_SCHEMA[i].model_validate(instance).model_dump(mode='json')
+            instance = self.INSTANCES[i]
+            payload = self.PAYLOADS[i]
+            with self.subTest(i=i):      
                 # Call the API endpoint
-                response = self.call_api_endpoint('PUT', self.get_route_url_with_id(instance), data=json_data, **config)
+                response = self.call_api_endpoint('PUT', self.get_route_url_with_id(instance), data=payload, **config)
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     updated_id = response.json()['id']
                     self.assertEqual(response.status_code, 200) 
                     updated_instance =self.MODEL[i].objects.filter(id=updated_id).first() 
                     self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
-                    self.assertEqual(creator, updated_instance.created_by) 
+                    self.assertEqual(instance.created_by, updated_instance.created_by) 
                     self.assertIn(self.user, updated_instance.updated_by.all()) 
-                self.MODEL[i].objects.all().delete()
+                self.MODEL[i].objects.all().delete() 
                
                 
     

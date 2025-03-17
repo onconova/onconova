@@ -8,9 +8,6 @@ from django.test import TestCase
 class BaseModelTestCase(AbstractModelMixinTestCase):
     mixin = BaseModel
 
-    def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpassword', access_level=6)
-
     def test_init_with_id(self):
         instance = self.model(id='test123')
         self.assertEqual(instance.id, 'test123')
@@ -28,13 +25,14 @@ class BaseModelTestCase(AbstractModelMixinTestCase):
 
 class TestUserModel(TestCase):
 
-    def create_user(self, username, access_level):
-        """Helper function to create a user with a specific access level."""
-        return User.objects.create(username=username, access_level=access_level)
+    @classmethod
+    def setUpTestData(cls):
+        cls.viewer_user = User.objects.create(username="viewer_user", access_level=1)
+        cls.admin_user = User.objects.create(username="admin_user", access_level=6)
 
     def test_role_mapping(self):
         """Ensure the access_level correctly maps to the expected role."""
-        user = self.create_user(username="viewer_user", access_level=1)
+        user = self.viewer_user
         self.assertEqual(user.role, "Viewer")
 
         user.access_level = 3
@@ -47,7 +45,7 @@ class TestUserModel(TestCase):
 
     def test_generated_fields_permissions(self):
         """Verify permission fields are correctly assigned based on access_level."""
-        user = self.create_user(username="test_user", access_level=1)
+        user = self.viewer_user
 
         # Viewer should have only view permissions
         self.assertTrue(user.can_view_cases)
@@ -87,7 +85,7 @@ class TestUserModel(TestCase):
 
     def test_access_level_boundaries(self):
         """Ensure access_level constraints are respected."""
-        user = self.create_user(username="test_user", access_level=1)
+        user = self.viewer_user
 
         # Test min boundary
         user.access_level = -1
@@ -101,14 +99,14 @@ class TestUserModel(TestCase):
 
     def test_default_user_settings(self):
         """Ensure default user settings behave as expected."""
-        user = self.create_user(username="new_user", access_level=1)
+        user = self.viewer_user
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.is_staff)
         self.assertFalse(user.is_system_admin)
 
     def test_admin_permissions(self):
         """Ensure admin users have all permissions."""
-        admin_user = self.create_user(username="admin_user", access_level=6)
+        admin_user = self.admin_user
         
         self.assertTrue(admin_user.is_system_admin)
         self.assertTrue(admin_user.can_manage_users)

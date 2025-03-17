@@ -17,11 +17,12 @@ from pop.analytics.datasets import DatasetRuleProcessingError, DatasetRuleProces
    
 class TestConstructDataset(TestCase):
 
-    def setUp(self):
-        self.case = factories.PatientCaseFactory()
-        self.cohort = Cohort.objects.create(name='test_cohort')
-        self.case.updated_by.set([factories.UserFactory.create() for _ in range(3)])
-        self.cohort.cases.set([self.case])     
+    @classmethod
+    def setUpTestData(cls):
+        cls.case = factories.PatientCaseFactory()
+        cls.cohort = Cohort.objects.create(name='test_cohort')
+        cls.case.updated_by.set([factories.UserFactory.create() for _ in range(3)])
+        cls.cohort.cases.set([cls.case])     
 
     def test_basic_dataset(self):
         rule = DatasetRule(resource='PatientCase', field='id')

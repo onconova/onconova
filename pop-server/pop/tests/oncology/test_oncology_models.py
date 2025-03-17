@@ -10,9 +10,10 @@ import pop.terminology.models as terminology
 
 class PatientCaseModelTest(TestCase):
     
-    def setUp(self):
-        self.patient = factories.PatientCaseFactory()
-        self.patient.save()
+    @classmethod
+    def setUpTestData(cls):
+        cls.patient = factories.PatientCaseFactory()
+        cls.patient.save()
     
     def test_pseudoidentifier_created_on_save(self):
         self.assertIsNotNone(self.patient.pseudoidentifier) 
@@ -78,9 +79,10 @@ class PatientCaseModelTest(TestCase):
 
 class NeoplasticEntityModelTest(TestCase):
     
-    def setUp(self):
-        self.primary_neoplasm = factories.PrimaryNeoplasticEntityFactory()
-        self.metastatic_neoplasm = factories.MetastaticNeoplasticEntityFactory()
+    @classmethod
+    def setUpTestData(cls):
+        cls.primary_neoplasm = factories.PrimaryNeoplasticEntityFactory()
+        cls.metastatic_neoplasm = factories.MetastaticNeoplasticEntityFactory()
     
     def test_primary_neoplasm_cannot_have_related_primary(self):
         self.primary_neoplasm.related_primary = factories.PrimaryNeoplasticEntityFactory()
@@ -92,8 +94,9 @@ class NeoplasticEntityModelTest(TestCase):
         
 class VitalsModelTest(TestCase):
     
-    def setUp(self):
-        self.vitals = factories.VitalsFactory()
+    @classmethod
+    def setUpTestData(cls):
+        cls.vitals = factories.VitalsFactory()
     
     def test_body_mass_index_is_properly_generated(self):
         self.vitals.save()
@@ -102,8 +105,9 @@ class VitalsModelTest(TestCase):
 
 class SystemicTherapyModelTest(TestCase):
     
-    def setUp(self):
-        self.therapy = factories.SystemicTherapyFactory()
+    @classmethod
+    def setUpTestData(cls):
+        cls.therapy = factories.SystemicTherapyFactory()
     
     def test_therapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower 
@@ -117,8 +121,9 @@ class SystemicTherapyModelTest(TestCase):
 
 class RadiotherapyModelTest(TestCase):
     
-    def setUp(self):
-        self.therapy = factories.RadiotherapyFactory()
+    @classmethod
+    def setUpTestData(cls):
+        cls.therapy = factories.RadiotherapyFactory()
     
     def test_radiotherapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower 
@@ -126,12 +131,16 @@ class RadiotherapyModelTest(TestCase):
 
 class TherapyLineModelTest(TestCase):
     
-    def setUp(self):
-        self.TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.get_or_create(code='407563006', display='termination-reason', system='http://snomed.info/sct')[0]
-        self.COMPLEMENTARY_THERAPY = terminology.AdjunctiveTherapyRole.objects.get_or_create(code='314122007', display='category-1', system='https://snomed.info/sct')[0]
-        self.PROGRESSIVE_DISEASE = terminology.CancerTreatmentResponse.objects.get_or_create(code='LA28370-7', display='PD', system='https://loinc.org')[0]
-        self.case = factories.PatientCaseFactory.create()
-        self.therapy_line = factories.TherapyLineFactory.create(case=self.case)
+    @classmethod
+    def setUpTestData(cls):
+        cls.TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.get_or_create(code='407563006', display='termination-reason', system='http://snomed.info/sct')[0]
+        cls.COMPLEMENTARY_THERAPY = terminology.AdjunctiveTherapyRole.objects.get_or_create(code='314122007', display='category-1', system='https://snomed.info/sct')[0]
+        cls.PROGRESSIVE_DISEASE = terminology.CancerTreatmentResponse.objects.get_or_create(code='LA28370-7', display='PD', system='https://loinc.org')[0]
+        cls.chemotherapy1 = terminology.AntineoplasticAgent.objects.create(code='drug-1', display='chemo-1', therapy_category='chemotherapy')
+        cls.chemotherapy2 = terminology.AntineoplasticAgent.objects.create(code='drug-2', display='chemo-2', therapy_category='chemotherapy')
+        cls.immunotherapy1 = terminology.AntineoplasticAgent.objects.create(code='drug-3', display='imuno-1', therapy_category='chemotherapy')
+        cls.case = factories.PatientCaseFactory.create()
+        cls.therapy_line = factories.TherapyLineFactory.create(case=cls.case)
     
     def test_line_label_is_properly_generated(self):
         expected_label = f'{self.therapy_line.intent[0].upper()}LoT{self.therapy_line.ordinal}'
@@ -302,9 +311,7 @@ class TherapyLineModelTest(TestCase):
             period=('2023-1-1', '2023-3-1'),
         )  
         factories.SystemicTherapyMedicationFactory.create(
-            drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-1', display='chemo-1', therapy_category='chemotherapy'
-            ),
+            drug=self.chemotherapy1,
             systemic_therapy=self.systemic_therapy1
         )
         self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
@@ -313,9 +320,7 @@ class TherapyLineModelTest(TestCase):
             period=('2023-4-1', '2023-5-1'),
         )  
         factories.SystemicTherapyMedicationFactory.create(
-            drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-2', display='immuno 2', therapy_category='immunotherapy'
-            ),
+            drug=self.immunotherapy1,
             systemic_therapy=self.systemic_therapy2
         )
         TherapyLine.assign_therapy_lines(self.case)
@@ -335,9 +340,7 @@ class TherapyLineModelTest(TestCase):
             adjunctive_role=None,
         )  
         factories.SystemicTherapyMedicationFactory.create(
-            drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-1', display='chemo-1', therapy_category='chemotherapy'
-            ),
+            drug=self.chemotherapy1,
             systemic_therapy=self.systemic_therapy1
         )
         self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
@@ -347,11 +350,9 @@ class TherapyLineModelTest(TestCase):
             adjunctive_role=self.COMPLEMENTARY_THERAPY,
         )  
         self.systemic_therapy2.save()
-        print(self.systemic_therapy2.is_adjunctive)
+        
         factories.SystemicTherapyMedicationFactory.create(
-            drug=terminology.AntineoplasticAgent.objects.create(
-                code='drug-2', display='chemo-2', therapy_category='chemotherapy'
-            ),
+            drug=self.chemotherapy2,
             systemic_therapy=self.systemic_therapy2
         )
         TherapyLine.assign_therapy_lines(self.case)

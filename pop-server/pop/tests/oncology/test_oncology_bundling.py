@@ -10,15 +10,16 @@ from pop.core.measures.schemas import MeasureConversion
 class TestBundlesController(common.ApiControllerTestMixin, TestCase):
     controller_path = '/api/patient-cases/bundles'
     
-    def setUp(self):
-        super().setUp()
-        self.case = factories.PatientCaseFactory.create()
-        factories.PrimaryNeoplasticEntityFactory.create(case=self.case)
-        factories.PrimaryNeoplasticEntityFactory.create(case=self.case)
-        factories.SystemicTherapyFactory.create(case=self.case, therapy_line=None)
-        self.case.save() 
-        self.case.refresh_from_db() 
-        self.bundle = PatientCaseBundle.model_validate(self.case)
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.case = factories.PatientCaseFactory.create()
+        factories.PrimaryNeoplasticEntityFactory.create(case=cls.case)
+        factories.SystemicTherapyFactory.create(case=cls.case, therapy_line=None)
+        cls.case.save() 
+        cls.case.refresh_from_db() 
+        cls.bundle = PatientCaseBundle.model_validate(cls.case)
+        cls.payload = cls.bundle.model_dump(mode='json')
         
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_export_case(self, scenario, config):
@@ -40,7 +41,7 @@ class TestBundlesController(common.ApiControllerTestMixin, TestCase):
     def test_import_case(self, scenario, config):
         self.case.delete()
         # Call the API endpoint
-        response = self.call_api_endpoint('POST', '/import', data=self.bundle.model_dump(mode='json'), **config)
+        response = self.call_api_endpoint('POST', '/import', data=self.payload, **config)
         # Assert response content
         if scenario == 'HTTPS Authenticated':
             # Assert resonse

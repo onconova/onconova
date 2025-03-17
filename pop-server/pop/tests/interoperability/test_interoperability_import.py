@@ -197,13 +197,13 @@ class BundleParserTest(TestCase):
         self._import_bundle()
         # Ensure the vitals has been imported properly
         imported_vitals = models.Vitals.objects.get(case=self.imported_case)
-        # self._assert_metadata(imported_vitals, self.original_vitals)
+        self._assert_metadata(imported_vitals, self.original_vitals)
         
     def test_import_bundle__tumor_markers(self):
         self._import_bundle()
         # Ensure the tumor marker has been imported properly
         imported_tumor_marker = models.TumorMarker.objects.get(case=self.imported_case)
-        # self._assert_metadata(imported_tumor_marker, self.original_tumor_marker)
+        self._assert_metadata(imported_tumor_marker, self.original_tumor_marker)
 
     def test_import_bundle__treatment_response(self):
         self._import_bundle()
