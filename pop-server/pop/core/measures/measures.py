@@ -63,6 +63,12 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
             primary_unit, reference_unit = super()._get_unit_parts(measure_string)
         return primary_unit, reference_unit
     
+    def __getattr__(self, measure_string):
+        # Fixes bug when accessing class meta attributes (i.e. allows measure objects to be used in Django TestCase instances)
+        if measure_string.startswith("__"):
+            return super().__getattribute__(measure_string)
+        return super().__getattr__(measure_string)
+    
     def __str__(self):
         if isinstance( self.primary, (Measure, MeasureBase)):
             primary_unit = self.primary.get_aliases().get(self.primary.unit, self.primary.unit)
@@ -73,6 +79,9 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
         else:
             reference_unit = self.reference
         return f'{round(self.primary.value,2)} {primary_unit}/{reference_unit}'            
+
+
+
 
 def get_measurement(measure, value, unit=None, original_unit=None):
     """
