@@ -1,0 +1,81 @@
+<!-- Case summary -->
+<div class="mt-3 flex header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
+    <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', 'padding': '0', 'margin': 'auto 0'}" >
+        <svg class="jdenticon my-auto" [data-jdenticon-value]="bundle.pseudoidentifier"></svg>
+    </p-avatar>
+    <div class="ml-3 my-auto">
+        <span class="text-muted">Case</span>
+        <h2 class="text-monospace my-0">
+            {{ bundle.pseudoidentifier }}
+        </h2>
+        <div>
+            {{ bundle.gender.display }}, 
+            {{ bundle.age }} years<span *ngIf="bundle.isDeceased">, †</span>
+        </div>
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        <div class="text-left">
+            <small class="text-muted">Overall survival</small>
+            <div>
+                <span>{{ (bundle.overall_survival | number:'1.0-0') || '?'}} months</span>      
+            </div>
+        </div> 
+
+        <div class="text-left mt-1">
+            <small class="text-muted">Cause of death</small>
+            <div>
+                <span>{{ bundle.causeOfDeath ? bundle.causeOfDeath.display : '-' }}</span>
+            </div>
+        </div> 
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        <div class="text-left">
+            <small class="text-muted">Clinical center</small>
+            <div>
+                <span>{{ bundle.clinicalCenter }}</span>      
+            </div>
+        </div> 
+
+        <div class="text-left mt-1">
+            <small class="text-muted">Clinical Identifier</small>
+            <div>
+                <span *ngIf="!authService.user.canAccessSensitiveData" style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
+                <span *ngIf="authService.user.canAccessSensitiveData">{{ bundle.clinicalIdentifier}}</span>
+            </div>
+        </div> 
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        <div class="text-left">
+            <small class="text-muted">Created</small>
+            <div>
+                <span>{{ bundle.createdAt | date }}</span>      
+            </div>
+        </div> 
+
+        <div class="text-left mt-1">
+            <small class="text-muted">Last updated</small>
+            <div>
+                <span>{{ bundle.updatedAt | date }}</span>      
+            </div>
+        </div> 
+    </div>
+</div>
+
+<p-divider layout="horizontal"></p-divider>
+
+<small class="text-muted">Case resources</small>
+<p-tree [value]="bundleTreeNodes" styleClass="py-0 pl-0">
+    <ng-template let-node pTemplate="category">                        
+        <div class="flex gap-2">
+            <div>{{ node.label }}</div> <p-badge badgeSize="small" [value]="node.children.length" [severity]="node.children.length ? 'primary' : 'secondary'"/>
+        </div>
+    </ng-template>
+    <ng-template let-node pTemplate="resource">                        
+        <div class="flex gap-2">
+            <i class="pi pi-file"></i><div class="font-semibold"><small>{{ node.data.date | date }}</small></div><div>{{ node.label }}</div> 
+        </div>
+    </ng-template>
+</p-tree>

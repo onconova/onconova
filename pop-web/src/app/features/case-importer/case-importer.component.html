@@ -1,10 +1,10 @@
 
-<h1>Case Import Interface</h1>
+<h2 class="mb-0 font-semibold">Import Case Bundle</h2>
+<div class="text-muted w-50rem mb-4">
+    Import cases quickly and easily with our intuitive interface. Simply select the file you want to import,
+    choose your options, and let the system do the rest. Track the progress of your import and get notified when it's complete.
+</div>
 
-<p class="w-50">
-Import cases quickly and easily with our intuitive interface. Simply select the file you want to import,
-choose your options, and let the system do the rest. Track the progress of your import and get notified when it's complete.
-</p>
 
 <div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color)">
     <p-stepper [value]="1" [linear]="true">
@@ -37,7 +37,7 @@ choose your options, and let the system do the rest. Track the progress of your 
                         </div>
                     </div>
                     <div class="py-4">
-                        <p-button label="Next" [disabled]="!importFormat" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+                        <p-button label="Next" [disabled]="!importFormat" styleClass="w-15rem" (onClick)="activateCallback(2)" />
                     </div>
                 </ng-template>
             </p-step-panel>
@@ -49,20 +49,22 @@ choose your options, and let the system do the rest. Track the progress of your 
                 <ng-template #content let-activateCallback="activateCallback">
                     <div class="flex flex-column gap-2">
                         <label class="field-label required">Select the file to be imported</label>
-
-                        <p-button [label]="importFormat=='pop+json' ? 'Load POP JSON' : 'Load FHIR JSON'" icon="pi pi-upload" (click)="fileInput.click()"/>
-                        <input type="file"
-                            accept=".json"
-                            #fileInput
-                            style="display: none"
-                            (change)="onFileChange($event)"/>
-                        <div *ngIf="uploadedFile">
-                            <span class="font-semibold">Current file:</span> {{uploadedFile.name}}
+                        <div class="flex">
+                            <p-button [label]="importFormat=='pop+json' ? 'Load POP JSON' : 'Load FHIR JSON'" icon="pi pi-upload" [loading]="uploadedLoading" (click)="fileInput.click()"/>
+                            <input type="file"
+                                accept="application/json"
+                                #fileInput
+                                style="display: none"
+                                (change)="onFileChange($event)"/>
+                            <div class="ml-2 my-auto">
+                                <span *ngIf="!uploadedFile">No file chosen</span>
+                                <span *ngIf="uploadedFile" class="text-monospace"><i class="pi pi-file mr-2"></i>{{uploadedFile.name}}</span>
+                            </div>    
                         </div>
                     </div>
-                    <div class="flex pt-4 justify-between gap-2">
+                    <div class="flex pt-4 gap-2">
                         <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
-                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="!bundle" (onClick)="activateCallback(3)" />
+                        <p-button label="Next" styleClass="w-15rem" [disabled]="!bundle || uploadedLoading" (onClick)="activateCallback(3)" />
                     </div>
                 </ng-template>
             </p-step-panel>
@@ -72,115 +74,69 @@ choose your options, and let the system do the rest. Track the progress of your 
             <p-step><span class="text-lg font-semibold">Review the data</span></p-step>
             <p-step-panel>
                 <ng-template #content let-activateCallback="activateCallback">
+                    
+                    <p-message *ngIf="conflictingBundle" styleClass="my-3" severity="warn" icon="pi pi-exclamation-triangle">
+                        The uploaded case bundle conflicts with an existing case. Please review the differences and choose a resolution to proceed.
+                    </p-message>
+
+                    <h6 class="text-muted font-semibold my-1">
+                        Verify the Accuracy of the Case Bundle
+                    </h6> 
+                    <div>
+                        In this step, carefully review the data in your uploaded case bundle to ensure it is accurate and complete. 
+                        This is an important step to prevent errors and inconsistencies that may impact the outcome of your case.
+                    </div>
+
                     <div class="flex flex-col h-48">
-
-                        <div>
-                            <p-panel header="Import Content" *ngIf="bundle">
-                                <p-tabs value="0">
-                                    <p-tablist>
-                                        <p-tab value="0">Parsed</p-tab>
-                                        <p-tab value="1">JSON</p-tab>
-                                        <p-tab value="2">Raw</p-tab>
-                                    </p-tablist>
-                                    <p-tabpanels>
-                                        <p-tabpanel value="0">
-                                                                                        
-                                            <!-- Case summary -->
-                                            <div class="mt-3 flex header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
-                                                <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', 'padding': '0', 'margin': 'auto 0'}" >
-                                                    <svg class="jdenticon my-auto" [data-jdenticon-value]="bundle.pseudoidentifier"></svg>
-                                                </p-avatar>
-                                                <div class="ml-3 my-auto">
-                                                    <span class="text-muted">Case</span>
-                                                    <h2 class="text-monospace my-0">
-                                                        {{ bundle.pseudoidentifier }}
-                                                    </h2>
-                                                    <div>
-                                                        {{ bundle.gender.display }}, 
-                                                        {{ bundle.age }} years<span *ngIf="bundle.isDeceased">, †</span>
-                                                    </div>
-                                                </div>
-                                                <p-divider layout="vertical"></p-divider>
-                                                <div class="">
-                                                    <div class="text-left">
-                                                        <small class="text-muted">Overall survival</small>
-                                                        <div>
-                                                            <span>{{ (bundle.overall_survival | number:'1.0-0') || '?'}} months</span>      
-                                                        </div>
-                                                    </div> 
-
-                                                    <div class="text-left mt-1">
-                                                        <small class="text-muted">Cause of death</small>
-                                                        <div>
-                                                            <span>{{ bundle.causeOfDeath ? bundle.causeOfDeath.display : '-' }}</span>
-                                                        </div>
-                                                    </div> 
-                                                </div>
-                                                <p-divider layout="vertical"></p-divider>
-                                                <div class="">
-                                                    <div class="text-left">
-                                                        <small class="text-muted">Clinical center</small>
-                                                        <div>
-                                                            <span>{{ bundle.clinicalCenter }}</span>      
-                                                        </div>
-                                                    </div> 
-
-                                                    <div class="text-left mt-1">
-                                                        <small class="text-muted">Clinical Identifier</small>
-                                                        <div>
-                                                            <span *ngIf="!authService.user.canAccessSensitiveData" style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
-                                                            <span *ngIf="authService.user.canAccessSensitiveData">{{ bundle.clinicalIdentifier}}</span>
-                                                        </div>
-                                                    </div> 
-                                                </div>
-                                                <p-divider layout="vertical"></p-divider>
-                                                <div class="">
-                                                    <div class="text-left">
-                                                        <small class="text-muted">Created</small>
-                                                        <div>
-                                                            <span>{{ bundle.createdAt | date }}</span>      
-                                                        </div>
-                                                    </div> 
-
-                                                    <div class="text-left mt-1">
-                                                        <small class="text-muted">Last updated</small>
-                                                        <div>
-                                                            <span>{{ bundle.updatedAt | date }}</span>      
-                                                        </div>
-                                                    </div> 
-                                                </div>
-                                            </div>
-
-                                            <p-divider layout="horizontal"></p-divider>
-
-                                            <small class="text-muted">Case resources</small>
-                                            <p-tree [value]="bundleTree" styleClass="py-0 pl-0">
-                                                <ng-template let-node pTemplate="category">                        
-                                                    <div class="flex gap-2">
-                                                        <div>{{ node.label }}</div> <p-badge badgeSize="small" [value]="node.children.length" [severity]="node.children.length ? 'primary' : 'secondary'"/>
-                                                   </div>
-                                                </ng-template>
-                                                <ng-template let-node pTemplate="resource">                        
-                                                    <div class="flex gap-2">
-                                                        <i class="pi pi-file"></i><div class="font-semibold"><small>{{ node.data.date | date }}</small></div><div>{{ node.label }}</div> 
-                                                   </div>
-                                                </ng-template>
-                                            </p-tree>
-                                        </p-tabpanel>
-                                        <p-tabpanel value="1">
-                                            <ngx-json-viewer [json]="bundle" [expanded]="false"></ngx-json-viewer>
-                                        </p-tabpanel>
-                                        <p-tabpanel value="2">
-                                            <pre> {{ bundle | json }} </pre>
-                                        </p-tabpanel>
-                                    </p-tabpanels>
-                                </p-tabs>
-                            </p-panel>
+                        <div *ngIf="bundle">
+                            <p-tabs value="uploaded-bundle">
+                                <p-tablist>
+                                    <p-tab value="uploaded-bundle">Uploaded Case</p-tab>
+                                    <p-tab value="conflict-bundle" *ngIf="conflictingBundle"><i class="pi pi-exclamation-triangle"></i> Conflicting Case</p-tab>
+                                    <p-tab value="uploaded-json" >JSON Upload</p-tab>
+                                    <p-tab value="uploaded-raw" >Raw Upload</p-tab>
+                                </p-tablist>
+                                <p-tabpanels>
+                                    <p-tabpanel value="uploaded-bundle">
+                                        <pop-case-importer-bundle-viewer [bundle]="bundle"/>
+                                    </p-tabpanel>
+                                    <p-tabpanel value="conflict-bundle" *ngIf="conflictingBundle">
+                                        <pop-case-importer-bundle-viewer [bundle]="conflictingBundle"/>
+                                    </p-tabpanel>
+                                    <p-tabpanel value="uploaded-json">
+                                        <ngx-json-viewer [json]="bundle" [expanded]="false"></ngx-json-viewer>
+                                    </p-tabpanel>
+                                    <p-tabpanel value="uploaded-raw">
+                                        <pre> {{ bundle | json }} </pre>
+                                    </p-tabpanel>
+                                </p-tabpanels>
+                            </p-tabs>
                         </div>
                     </div>
+
+                    <div *ngIf="conflictingBundle">
+                        <div class="my-3">
+                            <label class="field-label required">Select a conflict resolution method</label>
+                            <div class="flex items-center gap-2 mt-3">
+                                <p-radiobutton [(ngModel)]="conflictResolution" value="overwrite"/>
+                                <label>Overwrite</label>
+                            </div>
+                            <div class="text-muted ml-4">
+                                Overwrite existing case with uploaded case bundle
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <p-radiobutton [(ngModel)]="conflictResolution" value="reassign"/>
+                                <label>Re-assign</label>
+                            </div>
+                            <div class="text-muted ml-4">
+                                Import uploaded bundle and assign a new case pseudoidentifier
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="flex pt-4 justify-start gap-2">
                         <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
-                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(4)" />
+                        <p-button label="Next" styleClass="w-15rem" [disabled]="conflictingBundle && !conflictResolution"  (onClick)="activateCallback(4)" />
                     </div>
                 </ng-template>
             </p-step-panel>
@@ -190,12 +146,25 @@ choose your options, and let the system do the rest. Track the progress of your 
             <p-step><span class="text-lg font-semibold">Import the case</span></p-step>
             <p-step-panel>
                 <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col h-48">
-
+                    <div class="flex flex-column" style="max-width:55rem">
+                        <div class="flex">
+                            <div [inlineSVG]="consentIllustration" class="illustration mr-3"></div>
+                            <div class="flex flex-column my-auto">
+                                <p>Have you checked for consent/permission?</p>
+                                <small class="text-muted">
+                                A patient's case may only be included in the Precision Oncology Platform if the patient has provided explicit informed consent 
+                                (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
+                                or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>
+                            </div>
+                        </div>
+                        <div class="field flex mt-3">
+                            <p-toggleswitch [(ngModel)]="consentValid" />
+                            <label class="form-label ml-2 my-auto required">I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
+                        </div>
                     </div>
                     <div class="flex pt-4 justify-start gap-2">
                         <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />
-                        <p-button label="Import case" icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>
+                        <p-button label="Import case" styleClass="w-15rem" [disabled]="!consentValid"  icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>
                     </div>
                 </ng-template>
             </p-step-panel>

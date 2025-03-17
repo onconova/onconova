@@ -5,80 +5,110 @@ import { FormsModule } from '@angular/forms';
 import { PatientCaseBundle, PatientCasesService } from 'src/app/shared/openapi';
 
 import { MessageService, TreeNode } from 'primeng/api';
-import { FileUpload } from 'primeng/fileupload';
-import { Panel } from 'primeng/panel';
 import { Button } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { StepperModule } from 'primeng/stepper';
+import { ImageCompareModule } from 'primeng/imagecompare';
+import { MessageModule } from 'primeng/message';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { TreeModule } from 'primeng/tree';
-import { Badge } from 'primeng/badge';
 import { NgxJdenticonModule } from 'ngx-jdenticon';
 import { AvatarModule } from 'primeng/avatar';
-import { Divider } from 'primeng/divider';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { InlineSVGModule } from 'ng-inline-svg-2';
+import { ToggleSwitch } from 'primeng/toggleswitch';
+import { CaseImporterBundleViewerComponent } from './components/case-importer-bundle-viewer/case-importer-bundle-viewer.component';
+import { first, flatMap, mergeMap } from 'rxjs';
 
 @Component({
     standalone: true,
     selector: 'pop-case-importer',
     templateUrl: 'case-importer.component.html',
+    styles: `
+        .illustration {
+        color: var(--p-primary-color);
+        display: flex;   
+        height: 15rem;
+        }
+    `,
     imports:  [
         CommonModule,
         FormsModule,
         NgxJsonViewerModule,
+        InlineSVGModule,
+        MessageModule,
         Button,
-        Badge,
-        Divider,
+        ToggleSwitch,
+        RadioButtonModule,
         NgxJdenticonModule,
+        ImageCompareModule,
         AvatarModule,
         SelectButtonModule,
         StepperModule,
         TabsModule,
-        Panel,
-        TreeModule,
+        CaseImporterBundleViewerComponent,
     ],
 })
 export class CaseImporterComponent {
     public bundle: PatientCaseBundle | null = null;
+    public conflictingBundle: PatientCaseBundle | null = null;
     public bundleTree: TreeNode[] = [];
     private readonly messageService: MessageService = inject(MessageService);
     private readonly casesService: PatientCasesService = inject(PatientCasesService);
     public readonly authService: AuthService = inject(AuthService);
 
 
+    public readonly consentIllustration = 'assets/images/accessioning/consent.svg';
+    public consentValid: boolean = false;
     public importFormat: string = 'pop+json' 
+    public uploadedLoading: boolean = false;
     public uploadedFile: File | null = null;
     public readonly importOptions: any[] = [
         { label: 'POP JSON', value: 'pop+json' },
         { label: 'FHIR JSON', value: 'fhir+json'  }
     ];
+    public conflictResolution!: string;
 
     
     onFileChange(event: any): void {
+        this.bundle = null;
         this.uploadedFile = event.target.files[0];
         const isValid = (value: PatientCaseBundle): value is PatientCaseBundle => !!value?.id;
-        const isPopBundle = (value: PatientCaseBundle): value is PatientCaseBundle => !!value?.pseudoidentifier;
 
-        if (this.uploadedFile) {
+        if (this.uploadedFile && this.uploadedFile.name.endsWith('.json')) {
             const reader = new FileReader();
             reader.onload = (e: any) => {
                 try {
-                    const jsonData = JSON.parse(e.target.result);
+                    const bundle = JSON.parse(e.target.result);
                     // Validate against schema
-                    if (isValid(jsonData) && isPopBundle(jsonData)) {
-                        this.bundle = jsonData;
-                        this.messageService.add({ severity: 'success', summary: 'Validation', detail: 'Succesfully uploaded the file' });
+                    if (isValid(bundle)) {
+                        this.uploadedLoading = true;
+                        this.casesService.getPatientCaseByPseudoidentifier({pseudoidentifier: bundle.pseudoidentifier}).pipe(
+                            mergeMap((response) => this.casesService.exportPatientCaseBundle({caseId: response.id}).pipe(first()))
+                        ).subscribe({
+                            next: (response) => {
+                                this.conflictingBundle = response
+                                this.messageService.add({ severity: 'warning', summary: 'Validation', detail: 'There is a conflict with your import' });                                
+                            },
+                            error: () => {
+                                this.conflictingBundle = null
+                            },
+                            complete: () => {
+                                this.bundle = bundle
+                                this.uploadedLoading = false;
+                                this.messageService.add({ severity: 'success', summary: 'Validation', detail: 'Succesfully uploaded the file' });
+                            }
+                        })
                     } else {
+                    this.bundle = null;
                         this.messageService.add({ severity: 'error', summary: 'Validation', detail: 'Uploaded file is invalid' });
                     }
                 } catch (error) {
-                    this.bundle = null;
                     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to parse JSON.' });
                 }
                 if (this.bundle) {
-                    console.log('AAAAA')
                     this.bundleTree = this.constructBundleTree(this.bundle)
                 }
             };
