@@ -14,10 +14,10 @@ import { TabsModule } from 'primeng/tabs';
 import { Divider } from 'primeng/divider';
 
 // Icons
-import { Users, CalendarClock, ClipboardCheck } from 'lucide-angular';
+import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
 import { catchError, first, map, Observable, of } from 'rxjs';
@@ -82,13 +82,16 @@ export class CohortBuilderComponent {
     public loading: boolean = false;
     public editCohortName: boolean = false;
     public cohortContributions!: CohortContribution[];
-    public cohortStatistics = null;
     public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
+    public cohortGenderStats$: Observable<CohortTraitCounts | null> = of(null)
+    public cohortOverallSurvivalStats$: Observable<CohortTraitMedian | null> = of(null)
     public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
     public currentOffset: number = 0
     public pageSize: number = 15
 
     public readonly populationIcon = Users;
+    public readonly genderIcon = VenusAndMars;
+    public readonly survivalIcon = Activity;
     public readonly ageIcon = CalendarClock;
     public readonly completionIcon = ClipboardCheck;
 
@@ -133,6 +136,13 @@ export class CohortBuilderComponent {
             return of(null)
         }
         this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
+        this.cohortGenderStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'gender.display'}).pipe(
+            map(
+            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+            ),
+            catchError(errorHandler),
+        )
+        this.cohortOverallSurvivalStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'overallSurvival'}).pipe(catchError(errorHandler))
         this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'dataCompletionRate'}).pipe(catchError(errorHandler))
     }
 
