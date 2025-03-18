@@ -1,15 +1,13 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable,map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { HeartPulse } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 
 import { 
     NeoplasticEntity, 
@@ -39,7 +37,6 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     FormsModule,
     DatePickerComponent,
     Fluid,
-    InputNumber,
     ButtonModule,
     ConceptSelectorComponent,
     MultiReferenceSelectComponent,

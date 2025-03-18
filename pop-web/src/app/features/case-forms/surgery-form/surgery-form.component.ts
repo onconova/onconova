@@ -8,7 +8,6 @@ import { Slice } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
 import { 
@@ -41,7 +40,6 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     SelectModule,
     DatePickerComponent,
     Fluid,
-    InputNumber,
     ButtonModule,
     MultiReferenceSelectComponent,
     ConceptSelectorComponent,

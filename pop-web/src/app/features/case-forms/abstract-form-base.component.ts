@@ -1,13 +1,10 @@
 import { Component, Output, EventEmitter, inject, DestroyRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { concatMap, forkJoin, map, Observable, of, tap } from 'rxjs';
-import { HttpResponse} from '@angular/common/http';
+import { forkJoin, map, of } from 'rxjs';
 import { MessageService } from 'primeng/api';
 
-import { Ribbon } from 'lucide-angular';
 import { EmptyObject } from 'chart.js/dist/types/basic';
-import { Call } from '@angular/compiler';
 import { ModifiedResource } from 'src/app/shared/openapi';
 
 interface Resource {

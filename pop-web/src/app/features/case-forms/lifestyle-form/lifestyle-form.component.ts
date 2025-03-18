@@ -36,11 +36,9 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     SelectModule,
     DatePickerComponent,
     Fluid,
-    InputNumber,
     ButtonModule,
     ConceptSelectorComponent,
     MeasureInputComponent,
-    RadioSelectComponent,
     FormControlErrorComponent,
   ],
 })

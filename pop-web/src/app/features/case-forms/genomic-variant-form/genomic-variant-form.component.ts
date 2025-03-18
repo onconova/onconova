@@ -2,7 +2,6 @@ import { Component, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Dna } from 'lucide-angular';
 
@@ -45,7 +44,6 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     InputNumber,
     InputTextModule,
     ButtonModule,
-    MultiReferenceSelectComponent,
     ConceptSelectorComponent,
     RadioSelectComponent,
     FormControlErrorComponent,

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, inject, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TestTubeDiagonal } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
-import { Select } from 'primeng/select';
 import { Fluid } from 'primeng/fluid';
 import { SelectButton } from 'primeng/selectbutton';
 import { Tooltip } from 'primeng/tooltip';
@@ -30,7 +29,6 @@ import {
 } from '../../../shared/openapi'
 
 import { 
-  ConceptSelectorComponent, 
   DatePickerComponent,
   FormControlErrorComponent ,
   MeasureInputComponent,
@@ -55,12 +53,10 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     Fluid,
     RadioButton,
     SelectButton,
-    Select,
     Tooltip,
     ButtonModule,
     RadioSelectComponent,
     MeasureInputComponent,
-    ConceptSelectorComponent,
     MultiReferenceSelectComponent,
     FormControlErrorComponent,
   ],

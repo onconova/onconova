@@ -1,15 +1,13 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { map, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { DiamondPlus } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
@@ -27,7 +25,6 @@ import {
   ConceptSelectorComponent, 
   DatePickerComponent,
   FormControlErrorComponent ,
-  MultiReferenceSelectComponent,
   RadioChoice,
 } from '../../../shared/components';
 
@@ -46,10 +43,8 @@ import { Observable } from 'rxjs';
     Fluid,
     Select,
     ToggleSwitchModule,
-    InputNumber,
     ButtonModule,
     ConceptSelectorComponent,
-    MultiReferenceSelectComponent,
     FormControlErrorComponent,
   ],
 })

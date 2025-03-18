@@ -2,15 +2,13 @@ import { Component, inject, OnInit, Pipe, PipeTransform} from '@angular/core';
 import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { flatMap, forkJoin, map, mergeMap, Observable } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { forkJoin, map, Observable } from 'rxjs';
 
 import { ShieldAlert } from 'lucide-angular';
 
 import { Fieldset } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -43,7 +41,6 @@ import {
   DatePickerComponent,
   FormControlErrorComponent,
   RadioChoice,
-  MultiReferenceSelectComponent,
   RadioSelectComponent
 } from '../../../shared/components';
 import { AbstractFormBase } from '../abstract-form-base.component';
@@ -85,8 +82,6 @@ export class getEventGradesPipe implements PipeTransform {
     DatePickerComponent,
     Fluid,
     Fieldset,
-    MultiReferenceSelectComponent,
-    InputNumber,
     InputMaskModule,
     ButtonModule,
     getEventGradesPipe,

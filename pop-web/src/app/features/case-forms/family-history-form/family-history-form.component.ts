@@ -1,8 +1,7 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable,map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { History } from 'lucide-angular';
@@ -22,7 +21,6 @@ import {
   ConceptSelectorComponent, 
   DatePickerComponent,
   FormControlErrorComponent ,
-  MultiReferenceSelectComponent,
   RadioChoice,
   RadioSelectComponent,
 } from '../../../shared/components';
@@ -44,7 +42,6 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     ToggleSwitchModule,
     ConceptSelectorComponent,
     RadioSelectComponent,
-    MultiReferenceSelectComponent,
     FormControlErrorComponent,
   ],
 })

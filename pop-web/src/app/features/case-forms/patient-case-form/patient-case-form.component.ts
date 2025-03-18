@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices } from '../../../shared/openapi'
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
@@ -16,7 +16,6 @@ import { AbstractFormBase } from '../abstract-form-base.component';
 import { 
   ConceptSelectorComponent, 
   DatePickerComponent,
-  FormControlErrorComponent
 } from '../../../shared/components';
 
 
@@ -42,7 +41,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ConceptSelectorComponent,
     DatePickerComponent,
     AutoCompleteModule,
-    FormControlErrorComponent,
     InputTextModule,
     StepperModule,
     ButtonModule,

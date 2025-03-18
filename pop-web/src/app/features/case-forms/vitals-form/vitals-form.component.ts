@@ -1,13 +1,12 @@
 import { Component, inject, OnInit} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import { Activity } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
 import { 
@@ -16,10 +15,8 @@ import {
 } from '../../../shared/openapi'
 
 import { 
-  ConceptSelectorComponent, 
   DatePickerComponent,
   FormControlErrorComponent,
-  RadioSelectComponent,
   MeasureInputComponent,
 } from '../../../shared/components';
 
@@ -37,11 +34,8 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     SelectModule,
     DatePickerComponent,
     Fluid,
-    InputNumber,
     ButtonModule,
-    ConceptSelectorComponent,
     MeasureInputComponent,
-    RadioSelectComponent,
     FormControlErrorComponent,
   ],
 })

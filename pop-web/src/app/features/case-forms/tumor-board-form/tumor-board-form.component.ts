@@ -1,5 +1,5 @@
 import { Component, inject, OnInit} from '@angular/core';
-import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { forkJoin, map, Observable } from 'rxjs';
@@ -10,7 +10,6 @@ import { Presentation } from 'lucide-angular';
 import { Fieldset } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -63,7 +62,6 @@ export type AnyTumorBoardCreate = UnspecifiedTumorBoardCreate | MolecularTherape
     Fluid,
     Fieldset,
     MultiReferenceSelectComponent,
-    InputNumber,
     InputMaskModule,
     ButtonModule,
     ConceptSelectorComponent,
