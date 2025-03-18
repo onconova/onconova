@@ -25,12 +25,14 @@
             </p-iconfield>
             <p-button 
                 icon="pi pi-sync"
+                title="Refresh cases"
                 severity="secondary"
-                class="mx-2"/>
-            <p-button 
+                (onClick)="refreshCases()"/>
+            <!-- <p-button 
                 label="Filters" 
                 icon="pi pi-filter"
-                severity="secondary"/>
+                title="Manage filters"
+                severity="secondary"/> -->
             <p-divider layout="vertical"></p-divider>
             <!-- Button to add new cases -->
             <p-button 
