@@ -25,7 +25,11 @@ import { CohortContribution } from '../model/cohort-contribution';
 // @ts-ignore
 import { CohortCreate } from '../model/cohort-create';
 // @ts-ignore
-import { CohortStatisticsSchema } from '../model/cohort-statistics-schema';
+import { CohortTraitAverage } from '../model/cohort-trait-average';
+// @ts-ignore
+import { CohortTraitCounts } from '../model/cohort-trait-counts';
+// @ts-ignore
+import { CohortTraitMedian } from '../model/cohort-trait-median';
 // @ts-ignore
 import { DatasetRule } from '../model/dataset-rule';
 // @ts-ignore
@@ -51,13 +55,14 @@ import {
     GetCohortContributorsRequestParams,
     GetCohortDatasetRequestParams,
     GetCohortDatasetDynamicallyRequestParams,
-    GetCohortFeatureCounterRequestParams,
     GetCohortGenomicsRequestParams,
     GetCohortOverallSurvivalCurveRequestParams,
     GetCohortProgressionFreeSurvivalCurveRequestParams,
     GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams,
     GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams,
-    GetCohortStatisticsRequestParams,
+    GetCohortTraitAverageRequestParams,
+    GetCohortTraitCountsRequestParams,
+    GetCohortTraitMedianRequestParams,
     GetCohortsRequestParams,
     UpdateCohortRequestParams
 } from './cohorts.serviceInterface';
@@ -780,82 +785,6 @@ export class CohortsService implements CohortsServiceInterface {
     }
 
     /**
-     * Get Cohort Feature Counter
-     * @param requestParameters
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<object>;
-    public getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<object>>;
-    public getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<object>>;
-    public getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const cohortId = requestParameters?.cohortId;
-        if (cohortId === null || cohortId === undefined) {
-            throw new Error('Required parameter cohortId was null or undefined when calling getCohortFeatureCounter.');
-        }
-        const feature = requestParameters?.feature;
-        if (feature === null || feature === undefined) {
-            throw new Error('Required parameter feature was null or undefined when calling getCohortFeatureCounter.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/counter/${this.configuration.encodeParam({name: "feature", value: feature, in: "path", style: "simple", explode: false, dataType: "'gender' | 'age' | 'age_at_diagnosis' | 'vital_status' | 'therapy_line'", dataFormat: undefined})}`;
-        return this.httpClient.request<object>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                transferCache: localVarTransferCache,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Get Cohort Genomics
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1228,18 +1157,22 @@ export class CohortsService implements CohortsServiceInterface {
     }
 
     /**
-     * Get Cohort Statistics
+     * Get Cohort Trait Average
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohortStatistics(requestParameters: GetCohortStatisticsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CohortStatisticsSchema>;
-    public getCohortStatistics(requestParameters: GetCohortStatisticsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CohortStatisticsSchema>>;
-    public getCohortStatistics(requestParameters: GetCohortStatisticsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CohortStatisticsSchema>>;
-    public getCohortStatistics(requestParameters: GetCohortStatisticsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getCohortTraitAverage(requestParameters: GetCohortTraitAverageRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CohortTraitAverage>;
+    public getCohortTraitAverage(requestParameters: GetCohortTraitAverageRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CohortTraitAverage>>;
+    public getCohortTraitAverage(requestParameters: GetCohortTraitAverageRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CohortTraitAverage>>;
+    public getCohortTraitAverage(requestParameters: GetCohortTraitAverageRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
-            throw new Error('Required parameter cohortId was null or undefined when calling getCohortStatistics.');
+            throw new Error('Required parameter cohortId was null or undefined when calling getCohortTraitAverage.');
+        }
+        const trait = requestParameters?.trait;
+        if (trait === null || trait === undefined) {
+            throw new Error('Required parameter trait was null or undefined when calling getCohortTraitAverage.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -1285,8 +1218,160 @@ export class CohortsService implements CohortsServiceInterface {
             }
         }
 
-        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/statistics`;
-        return this.httpClient.request<CohortStatisticsSchema>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/traits/${this.configuration.encodeParam({name: "trait", value: trait, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/average`;
+        return this.httpClient.request<CohortTraitAverage>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Cohort Trait Counts
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCohortTraitCounts(requestParameters: GetCohortTraitCountsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<CohortTraitCounts>>;
+    public getCohortTraitCounts(requestParameters: GetCohortTraitCountsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<CohortTraitCounts>>>;
+    public getCohortTraitCounts(requestParameters: GetCohortTraitCountsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<CohortTraitCounts>>>;
+    public getCohortTraitCounts(requestParameters: GetCohortTraitCountsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const cohortId = requestParameters?.cohortId;
+        if (cohortId === null || cohortId === undefined) {
+            throw new Error('Required parameter cohortId was null or undefined when calling getCohortTraitCounts.');
+        }
+        const trait = requestParameters?.trait;
+        if (trait === null || trait === undefined) {
+            throw new Error('Required parameter trait was null or undefined when calling getCohortTraitCounts.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/traits/${this.configuration.encodeParam({name: "trait", value: trait, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/counts`;
+        return this.httpClient.request<Array<CohortTraitCounts>>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Cohort Trait Median
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCohortTraitMedian(requestParameters: GetCohortTraitMedianRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CohortTraitMedian>;
+    public getCohortTraitMedian(requestParameters: GetCohortTraitMedianRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CohortTraitMedian>>;
+    public getCohortTraitMedian(requestParameters: GetCohortTraitMedianRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CohortTraitMedian>>;
+    public getCohortTraitMedian(requestParameters: GetCohortTraitMedianRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const cohortId = requestParameters?.cohortId;
+        if (cohortId === null || cohortId === undefined) {
+            throw new Error('Required parameter cohortId was null or undefined when calling getCohortTraitMedian.');
+        }
+        const trait = requestParameters?.trait;
+        if (trait === null || trait === undefined) {
+            throw new Error('Required parameter trait was null or undefined when calling getCohortTraitMedian.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/traits/${this.configuration.encodeParam({name: "trait", value: trait, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/median`;
+        return this.httpClient.request<CohortTraitMedian>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

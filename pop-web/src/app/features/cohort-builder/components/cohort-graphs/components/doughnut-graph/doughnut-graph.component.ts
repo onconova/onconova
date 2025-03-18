@@ -4,6 +4,7 @@ import { Chart } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
+import { CohortTraitCounts } from 'src/app/shared/openapi';
 
 @Component({
     standalone: true,
@@ -20,7 +21,7 @@ import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-men
     </div>`,
 })
 export class DoughnutGraphComponent {
-    @Input() countData!: any;
+    @Input() countData!: CohortTraitCounts[];
 
     @ViewChild('doughnutCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
     public chart!: Chart;
@@ -37,8 +38,8 @@ export class DoughnutGraphComponent {
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
-        const categories = Object.keys(this.countData)
-        const values = Object.values(this.countData)  
+        const categories = this.countData.map(entry => entry.category)
+        const values = this.countData.map(entry => entry.counts)
 
         // @ts-ignore
         this.chart = new Chart(this.chartRef.nativeElement, {

@@ -74,14 +74,16 @@
                 </div>
 
                 <div class="flex flex-column">
-                    <div class="text-muted mb-1">Average age</div>
+                    <div class="text-muted mb-1">Median age</div>
                     <div class="flex">
-                        <div *ngIf="!loading && cohortStatistics">
-                            <span class="font-bold text-lg">{{ cohortStatistics.ageAverage || '-' }}</span> 
-                            <span *ngIf="cohortStatistics.ageStdDev !== null" class=""> (±{{ cohortStatistics.ageStdDev}})</span>
-                            years
+                        @let cohortAgeStats = cohortAgeStats$ | async;
+                        <div *ngIf="!loading && cohortAgeStats">
+                            <span class="font-bold text-lg">{{ cohortAgeStats.median }}</span> 
+                            <span *ngIf="cohortAgeStats.interQuartalRange !== null" class="">
+                                ({{ cohortAgeStats.interQuartalRange[0] }}, {{ cohortAgeStats.interQuartalRange[1] }})
+                            </span> years
                         </div>
-                        <div *ngIf="loading || !cohortStatistics">
+                        <div *ngIf="loading || !cohortAgeStats">
                             <p-skeleton width="10rem" height="1.5rem" />
                         </div>
                     </div>
@@ -102,13 +104,16 @@
                 </div>
 
                 <div class="flex flex-column">
-                    <div class="text-muted mb-1">Average data completion</div>
+                    <div class="text-muted mb-1">Median data completion</div>
                     <div class="flex">
-                        <div *ngIf="!loading && cohortStatistics">
-                            <span class="font-bold text-lg">{{ cohortStatistics.dataCompletionAverage ?? '-' }}%</span>
-                            <span *ngIf="cohortStatistics.dataCompletionStdDev !== null" class=""> (±{{ cohortStatistics.dataCompletionStdDev}}%)</span> categories
+                        @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
+                        <div *ngIf="!loading && cohortDataCompletionStats">
+                            <span class="font-bold text-lg">{{ cohortDataCompletionStats.median}}%</span>
+                            <span *ngIf="cohortDataCompletionStats.interQuartalRange !== null" class="">                                
+                                ({{ cohortDataCompletionStats.interQuartalRange[0] }}, {{ cohortDataCompletionStats.interQuartalRange[1] }})
+                            </span> categories
                         </div>
-                        <div *ngIf="loading || !cohortStatistics">
+                        <div *ngIf="loading || !cohortDataCompletionStats">
                             <p-skeleton width="10rem" height="1.5rem" />
                         </div>
                     </div>

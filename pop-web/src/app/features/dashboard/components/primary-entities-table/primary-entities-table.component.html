@@ -17,7 +17,7 @@
             <tr>
                 <td class="flex"><pop-cancer-icon [topography]="entity.topographyCode"></pop-cancer-icon> <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div></td>
                 <td> <span class="font-semibold">{{ entity.population }}</span></td>
-                <td><p-rating title="{{entity.dataCompletionAverage}}% average completion" [ngModel]="entity.dataCompletionAverage/20" [readonly]="true" /></td>
+                <td><p-rating title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" /></td>
                 <td>
                     <p-avatar-group>
                         <ng-container *ngFor="let contributorUsername of entity.contributors; let i = index;">

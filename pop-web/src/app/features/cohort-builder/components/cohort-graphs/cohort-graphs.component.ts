@@ -74,17 +74,17 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
 
     refreshData() {
         this.overallSurvivalCurve$ = this.cohortService.getCohortOverallSurvivalCurve({cohortId: this.cohort.id})
-        this.therapyLinesCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'therapy_line'}).pipe(
+        this.therapyLinesCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'therapyLines.label'}).pipe(
             map((counter: any) => {
                 this.therapyLineOptions = Object.keys(counter).sort((a, b) => a.localeCompare(b));
                 return counter
             }),
         )
         this.genomicsData$ = this.cohortService.getCohortGenomics({cohortId: this.cohort.id})
-        this.ageCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'age'})
-        this.ageAtDiagnosisCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'age_at_diagnosis'})
-        this.vitalStatusCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'vital_status'})
-        this.genderCount$ = this.cohortService.getCohortFeatureCounter({cohortId: this.cohort.id, feature: 'gender'})
+        this.ageCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'age'})
+        this.ageAtDiagnosisCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'ageAtDiagnosis'})
+        this.vitalStatusCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'isDeceased'})
+        this.genderCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'gender.display'})
         this.therapyLineDrugCombinations$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
         this.therapyLineTherapyClassifications$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
         this.therapyLineSurvivalCurve$ = this.cohortService.getCohortProgressionFreeSurvivalCurve({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})

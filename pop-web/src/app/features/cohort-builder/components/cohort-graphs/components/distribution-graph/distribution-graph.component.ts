@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
-import { Cohort, CohortsService, KapplerMeierCurve } from 'src/app/shared/openapi';
+import { Cohort, CohortsService, CohortTraitCounts, KapplerMeierCurve } from 'src/app/shared/openapi';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
 
@@ -21,7 +21,7 @@ import { Chart } from 'chart.js';
     </div>`,
 })
 export class DistributionGraphComponent {
-    @Input() countData!: any;
+    @Input() countData!: CohortTraitCounts[];
 
     @ViewChild('histogramCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
     public chart!: Chart;
@@ -39,9 +39,9 @@ export class DistributionGraphComponent {
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
         // Convert keys to numbers for proper numeric sorting
-        const entries = Object.entries(this.countData)
-        .map(([key, value]) => [Number(key), value]) // Convert keys to numbers
-        .sort((a: any, b: any) => a[0] - b[0]); // Sort by numeric value of key
+        const entries = this.countData
+            .map((entry) => [Number(entry.category), entry.counts]) // Convert keys to numbers
+            .sort((a: any, b: any) => a[0] - b[0]); // Sort by numeric value of key
 
         // Extract sorted categories and values
         const categories: string[] = entries.map(entry => String(entry[0])); // Convert back to string

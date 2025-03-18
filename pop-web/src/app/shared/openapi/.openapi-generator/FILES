@@ -92,7 +92,9 @@ model/cohort-filters.ts
 model/cohort-query-entity.ts
 model/cohort-query-filter.ts
 model/cohort-rule-type.ts
-model/cohort-statistics-schema.ts
+model/cohort-trait-average.ts
+model/cohort-trait-counts.ts
+model/cohort-trait-median.ts
 model/cohort.ts
 model/comorbidities-assessment-create.ts
 model/comorbidities-assessment-filters.ts
@@ -111,7 +113,6 @@ model/entity-statistics-schema.ts
 model/family-history-create.ts
 model/family-history-filters.ts
 model/family-history.ts
-model/features-counters.ts
 model/figo-staging-create.ts
 model/figo-staging.ts
 model/genomic-signature-filters.ts

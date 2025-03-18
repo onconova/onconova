@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { CohortsService, CohortStatisticsSchema } from 'src/app/shared/openapi';
+import { CohortsService, CohortTraitMedian } from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Observable, map, of } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 import { DividerModule } from 'primeng/divider';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -58,11 +58,13 @@ export class CohortSearchItemComponent {
 
     @Input() cohort: any;
     @Output() delete = new EventEmitter<string>();
-    public statistics$: Observable<CohortStatisticsSchema> = of({})
+    public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
+    public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
     public readonly populationIcon = Users;
 
     ngOnInit() {
-        this.statistics$ = this.cohortsService.getCohortStatistics({cohortId: this.cohort.id})
+        this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'age'}).pipe(catchError(() => of(null)))
+        this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'dataCompletionRate'}).pipe(catchError(() => of(null)))
     }
 
 

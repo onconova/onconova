@@ -28,12 +28,12 @@
     </div>
     <div class="flex gap-3">
 
-        @let statistics = statistics$ | async;
+        @let cohortAgeStats = cohortAgeStats$ | async;
         <div class="flex flex-column">
-            <small class="text-muted mb-1">Average age</small>
+            <small class="text-muted mb-1">Median age</small>
             <div class="flex my-auto gap-1">
-                <div class="my-auto" *ngIf="statistics else ageSkeleton">
-                    <span style="font-size: 1.2rem;">{{ statistics.ageAverage || '-' }} <small>years</small></span>               
+                <div class="my-auto" *ngIf="cohortAgeStats else ageSkeleton">
+                    <span style="font-size: 1.2rem;">{{ cohortAgeStats.median || '-' }} <small>years</small></span>               
                 </div>
                 <ng-template #ageSkeleton>
                     <p-skeleton [style]="{ width: '4rem', height: '1rem' }"></p-skeleton>      
@@ -41,11 +41,12 @@
             </div>
         </div>
 
+        @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
         <div class="flex flex-column">
-            <small class="text-muted mb-1">Average completion</small>
+            <small class="text-muted mb-1">Median completion</small>
             <div class="flex my-auto gap-1">
-                <div class="my-auto" *ngIf="statistics else completionSkeleton">
-                    <span style="font-size: 1.2rem;">{{ statistics.dataCompletionAverage ?? '-' }}% <small>complete</small></span>               
+                <div class="my-auto" *ngIf="cohortDataCompletionStats else completionSkeleton">
+                    <span style="font-size: 1.2rem;">{{ cohortDataCompletionStats.median }}% <small>complete</small></span>               
                 </div>
                 <ng-template #completionSkeleton>
                     <p-skeleton [style]="{ width: '6rem', height: '1rem' }"></p-skeleton>      

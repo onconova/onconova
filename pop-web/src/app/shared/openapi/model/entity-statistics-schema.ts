@@ -11,7 +11,7 @@
 
 export interface EntityStatisticsSchema { 
     population?: number | null;
-    dataCompletionAverage?: number | null;
+    dataCompletionMedian?: number | null;
     topographyCode?: string | null;
     topographyGroup?: string | null;
     contributors?: Array<string> | null;

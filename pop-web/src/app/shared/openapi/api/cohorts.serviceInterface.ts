@@ -15,7 +15,9 @@ import { Cohort } from '../model/models';
 import { CohortBuilderConfig } from '../model/models';
 import { CohortContribution } from '../model/models';
 import { CohortCreate } from '../model/models';
-import { CohortStatisticsSchema } from '../model/models';
+import { CohortTraitAverage } from '../model/models';
+import { CohortTraitCounts } from '../model/models';
+import { CohortTraitMedian } from '../model/models';
 import { DatasetRule } from '../model/models';
 import { KapplerMeierCurve } from '../model/models';
 import { ModifiedResource } from '../model/models';
@@ -65,11 +67,6 @@ export interface GetCohortDatasetDynamicallyRequestParams {
     offset?: number;
 }
 
-export interface GetCohortFeatureCounterRequestParams {
-    cohortId: string;
-    feature: 'gender' | 'age' | 'age_at_diagnosis' | 'vital_status' | 'therapy_line';
-}
-
 export interface GetCohortGenomicsRequestParams {
     cohortId: string;
 }
@@ -93,8 +90,19 @@ export interface GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRe
     therapyLine: string;
 }
 
-export interface GetCohortStatisticsRequestParams {
+export interface GetCohortTraitAverageRequestParams {
     cohortId: string;
+    trait: string;
+}
+
+export interface GetCohortTraitCountsRequestParams {
+    cohortId: string;
+    trait: string;
+}
+
+export interface GetCohortTraitMedianRequestParams {
+    cohortId: string;
+    trait: string;
 }
 
 export interface GetCohortsRequestParams {
@@ -204,13 +212,6 @@ export interface CohortsServiceInterface {
     getCohortDatasetDynamically(requestParameters: GetCohortDatasetDynamicallyRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAny>;
 
     /**
-     * Get Cohort Feature Counter
-     * 
-* @param requestParameters
-     */
-    getCohortFeatureCounter(requestParameters: GetCohortFeatureCounterRequestParams, extraHttpRequestParams?: any): Observable<object>;
-
-    /**
      * Get Cohort Genomics
      * 
 * @param requestParameters
@@ -246,11 +247,25 @@ export interface CohortsServiceInterface {
     getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, extraHttpRequestParams?: any): Observable<object>;
 
     /**
-     * Get Cohort Statistics
+     * Get Cohort Trait Average
      * 
 * @param requestParameters
      */
-    getCohortStatistics(requestParameters: GetCohortStatisticsRequestParams, extraHttpRequestParams?: any): Observable<CohortStatisticsSchema>;
+    getCohortTraitAverage(requestParameters: GetCohortTraitAverageRequestParams, extraHttpRequestParams?: any): Observable<CohortTraitAverage>;
+
+    /**
+     * Get Cohort Trait Counts
+     * 
+* @param requestParameters
+     */
+    getCohortTraitCounts(requestParameters: GetCohortTraitCountsRequestParams, extraHttpRequestParams?: any): Observable<Array<CohortTraitCounts>>;
+
+    /**
+     * Get Cohort Trait Median
+     * 
+* @param requestParameters
+     */
+    getCohortTraitMedian(requestParameters: GetCohortTraitMedianRequestParams, extraHttpRequestParams?: any): Observable<CohortTraitMedian>;
 
     /**
      * Get All Cohorts Matching The Query

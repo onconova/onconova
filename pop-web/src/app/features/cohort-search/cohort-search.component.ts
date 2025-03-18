@@ -15,7 +15,6 @@ import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
 import { Cohort, CohortsService} from 'src/app/shared/openapi';
-import { PatientFormComponent } from 'src/app/features/case-forms';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 

@@ -17,10 +17,10 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, PatientCase, CohortCreate, CohortStatisticsSchema, ModifiedResource, CohortContribution } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
-import { first, map } from 'rxjs';
+import { catchError, first, map, Observable, of } from 'rxjs';
 
 import { CaseBrowserCardComponent } from '../case-search/components/case-card/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
@@ -82,7 +82,9 @@ export class CohortBuilderComponent {
     public loading: boolean = false;
     public editCohortName: boolean = false;
     public cohortContributions!: CohortContribution[];
-    public cohortStatistics!: CohortStatisticsSchema;
+    public cohortStatistics = null;
+    public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
+    public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
     public currentOffset: number = 0
     public pageSize: number = 15
 
@@ -126,14 +128,12 @@ export class CohortBuilderComponent {
     }
 
     refreshCohortStatistics() {
-        this.cohortsService.getCohortStatistics({cohortId: this.cohortId}).pipe(
-            map((stats: CohortStatisticsSchema)  => {
-                    this.cohortStatistics = stats;
-            }),
-            first()
-        ).subscribe({
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort statistics', detail: error.message })
-        })
+        const errorHandler = (error: any) => {
+            this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort statistics', detail: error.message })
+            return of(null)
+        }
+        this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
+        this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'dataCompletionRate'}).pipe(catchError(errorHandler))
     }
 
     refreshCohortCases() {
