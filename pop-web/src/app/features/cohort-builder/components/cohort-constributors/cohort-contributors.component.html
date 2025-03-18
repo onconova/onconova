@@ -5,7 +5,7 @@
       the data encompassed by this cohort.
     </p>
   </div>
-  <p-table [value]="cohortContributions">
+  <p-table *ngIf="!loading && cohortContributions; else placeholder" [value]="cohortContributions">
     <ng-template #header >
       <tr>
         <th style="text-align: center;">Rank</th>
@@ -25,4 +25,7 @@
     *Both the <b>author and contributors</b> of this cohort are 
     to be <b>credited</b> when using this cohort's data for any scienitific publications.   
   </div>
+  <ng-template #placeholder>
+    <p-skeleton height="40rem"/>
+  </ng-template>
 </p-card>

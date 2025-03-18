@@ -26,7 +26,7 @@ import { CaseBrowserCardComponent } from '../case-search/components/case-card/ca
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { DatasetComposerComponent } from 'src/app/features/dataset-composer/dataset-composer.component';
-import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.components';
+import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.component';
 import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.component';
 import { Skeleton } from 'primeng/skeleton';
 
@@ -81,7 +81,6 @@ export class CohortBuilderComponent {
     public cohort!: Cohort; 
     public loading: boolean = false;
     public editCohortName: boolean = false;
-    public cohortContributions!: CohortContribution[];
     public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
     public cohortGenderStats$: Observable<CohortTraitCounts | null> = of(null)
     public cohortOverallSurvivalStats$: Observable<CohortTraitMedian | null> = of(null)
@@ -100,7 +99,6 @@ export class CohortBuilderComponent {
         this.refreshCohortData()
         this.refreshCohortCases()
         this.refreshCohortStatistics()
-        this.refreshCohortContributions()
     }    
     
 
@@ -116,17 +114,6 @@ export class CohortBuilderComponent {
                 }
             },
             error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.message })
-        })
-    }
-
-    refreshCohortContributions() {
-        this.cohortsService.getCohortContributors({cohortId: this.cohortId}).pipe(
-            map((contributions: CohortContribution[])  => {
-                    this.cohortContributions = contributions;
-            }),
-            first()
-        ).subscribe({
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort contributors', detail: error.message })
         })
     }
 
@@ -174,7 +161,6 @@ export class CohortBuilderComponent {
                 this.refreshCohortData()
                 this.refreshCohortCases()
                 this.refreshCohortStatistics()
-                this.refreshCohortContributions()
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
             },
             error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.message }),

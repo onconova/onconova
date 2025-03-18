@@ -297,7 +297,7 @@
             <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
         </p-tabpanel>
         <p-tabpanel value="3">
-            <pop-cohort-contributors *ngIf="cohortContributions" [cohortContributions]="cohortContributions"/>
+            <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
         </p-tabpanel>
         <p-tabpanel value="4">
             
