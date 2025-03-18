@@ -29,29 +29,6 @@ class FeaturesCounters(str,Enum):
     tags=["Cohorts"]
 )
 class CohortAnalysisController(ControllerBase):
-
-
-    @route.get(
-        path='/{cohortId}/counter/{feature}', 
-        response={
-            200: dict
-        },
-        permissions=[perms.CanViewCohorts],
-        operation_id='getCohortFeatureCounter',
-    )
-    def get_cohort_feature_counter(self, cohortId: str, feature: FeaturesCounters):
-        cohort = get_object_or_404(Cohort, id=cohortId)
-        if feature == FeaturesCounters.age:
-            feature_values = cohort.cases.annotate(age=F('age')).values_list('age',flat=True)
-        elif feature == FeaturesCounters.age_at_diagnosis:
-            feature_values = cohort.cases.annotate(age_at_diagnosis=F('age_at_diagnosis')).values_list('age_at_diagnosis',flat=True)
-        elif feature == FeaturesCounters.gender:
-            feature_values = cohort.cases.values_list('gender__display',flat=True)
-        elif feature == FeaturesCounters.vital_status:
-            feature_values = cohort.cases.annotate(vital_status=Case(When(Q(is_deceased=True), then=Value('Deceased')), default=Value('Alive'))).values_list('vital_status',flat=True)
-        elif feature == FeaturesCounters.therapy_line:
-            feature_values = cohort.cases.values_list('therapy_lines__label',flat=True)
-        return 200, Counter(feature_values)
     
     @route.get(
         path='/{cohortId}/overall-survival-curve', 

@@ -4,6 +4,7 @@ from pop.analytics import schemas, models
 from pop.tests import factories, common
 from parameterized import parameterized    
 import numpy as np
+from collections import Counter
 
 class TestCohortController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/cohorts'
@@ -47,6 +48,22 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
             result = schemas.cohort.CohortTraitMedian.model_validate(response.json()).model_dump()
             self.assertDictEqual(result, expected)
 
+
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_cohort_trait_counts(self, scenario, config):        
+        self.trait = 'gender.display'
+        # Call the API endpoint        
+        response = self.call_api_endpoint('GET', f'/{self.cohort.id}/traits/{self.trait}/counts', **config)
+        # Assert response content
+        if scenario == 'HTTPS Authenticated':
+            self.assertEqual(response.status_code, 200)
+            counter = Counter([case.gender.display for case in self.cohort.cases.all()])
+            expected = [
+                schemas.cohort.CohortTraitCounts(category=category, counts=count, percentage=round(count/self.cohort.cases.count()*100, 4)).model_dump()
+                for category, count in counter.items()
+            ]
+            result = [schemas.cohort.CohortTraitCounts.model_validate(item).model_dump() for item in response.json()]
+            self.assertEqual(result, expected)
 
 
 class TestDatasetController(ApiControllerTextMixin, TestCase):

@@ -19,10 +19,17 @@ from pop.analytics.datasets import construct_dataset
 from pop.analytics.models import Cohort, Dataset
 from pop.analytics.schemas.cohort import (
     CohortSchema, CohortCreateSchema, 
-    CohortFilters, CohortTraitAverage, CohortTraitMedian,
+    CohortFilters, CohortTraitAverage, 
+    CohortTraitMedian, CohortTraitCounts,
     CohortContribution,
 )
 from pop.analytics.schemas.datasets import DatasetRule
+
+
+def convert_api_path_to_snake_case_path(path):
+    components = path.split('.')
+    components = [camel_to_snake(component) for component in components]
+    return '__'.join(components)
 
 
 @api_controller(
@@ -176,7 +183,7 @@ class CohortsController(ControllerBase):
     )
     def get_cohort_trait_average(self, cohortId: str, trait: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        average, standard_deviation = cohort.get_cohort_trait_average(camel_to_snake(trait))
+        average, standard_deviation = cohort.get_cohort_trait_average(convert_api_path_to_snake_case_path(trait))
         return 200, CohortTraitAverage(average=average, standardDeviation=standard_deviation)
 
     @route.get(
@@ -190,6 +197,19 @@ class CohortsController(ControllerBase):
     )
     def get_cohort_trait_median(self, cohortId: str, trait: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        median, iqr = cohort.get_cohort_trait_median(camel_to_snake(trait))
+        median, iqr = cohort.get_cohort_trait_median(convert_api_path_to_snake_case_path(trait))
         return 200, CohortTraitMedian(median=median, interQuartalRange=iqr)
 
+    @route.get(
+        path='/{cohortId}/traits/{trait}/counts', 
+        response={
+            200: List[CohortTraitCounts],
+            404: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='CohortTraitCounts',
+    )
+    def get_cohort_trait_counts(self, cohortId: str, trait: str):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        counter = cohort.get_cohort_trait_counts(convert_api_path_to_snake_case_path(trait))
+        return 200, [CohortTraitCounts(category=category, counts=count, percentage=percentage) for category, (count, percentage) in counter.items()]

@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from pop.analytics.aggregates import Median, Percentile25, Percentile75
 from pop.oncology.models import PatientCase
 from pop.core.models import BaseModel
-
+from collections import OrderedDict, Counter
 
 class CohortManager(models.Manager):
     def get_queryset(self):
@@ -87,6 +87,13 @@ class Cohort(BaseModel):
         median = queryset[f'{trait}__median']
         iqr = (queryset[f'{trait}__p25'], queryset[f'{trait}__p75'])
         return median, iqr
+
+    def get_cohort_trait_counts(self, trait: str) -> dict:
+        if not self.cases.exists():
+            return None
+        values = self.cases.values_list(trait, flat=True)
+        return OrderedDict([(key, (count, round(count/values.count()*100.0,4))) for key, count in Counter(values).items()])
+
 
 
     def update_cohort_cases(self) -> models.QuerySet:        

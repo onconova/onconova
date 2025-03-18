@@ -33,6 +33,11 @@ class CohortTraitMedian(Schema):
     median: float
     interQuartalRange: Tuple[float, float]
 
+class CohortTraitCounts(Schema):
+    category: str
+    counts: int
+    percentage: float
+
 class CohortContribution(Schema):
     contributor: UserSchema
     contributions: int
