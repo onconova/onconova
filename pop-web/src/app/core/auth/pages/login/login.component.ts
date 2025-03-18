@@ -1,14 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { LayoutService } from '../../../layout/service/app.layout.service'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
-import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
-import { Password } from 'primeng/password';
 import { InputText } from 'primeng/inputtext';
 import { Toast } from 'primeng/toast';
 import { InlineSVGModule } from 'ng-inline-svg-2';
@@ -36,39 +34,41 @@ import { InputIconModule } from 'primeng/inputicon';
         InputIconModule,
         IconFieldModule,
         Button,
-        Checkbox,
-        Password,
         InputText,
         Toast,
     ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-    valCheck: string[] = ['remember'];
-    username!: string;
-    password!: string;
-    loading: boolean = false;
+    // Inject services
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    public layoutService =  inject(LayoutService);
+    private messageService = inject(MessageService);
+    private authService = inject(AuthService);
 
-    constructor(
-        private router: Router,
-        public layoutService: LayoutService,
-        private messageService: MessageService,
-        private authService: AuthService) { }
+    // Properties
+    public valCheck: string[] = ['remember'];
+    public username!: string;
+    public password!: string;
+    public loading: boolean = false;
+    private nextUrl!: string;
 
     ngOnInit(): void {
+        // Get return URL from route parameters or default to '/'
+        this.nextUrl = this.route.snapshot.queryParams['next'] || '/dashboard';
     }
-  
 
     login(): void {
         this.loading = true
-        this.authService.login(this.username, this.password).subscribe(
-            (response) => {
+        this.authService.login(this.username, this.password).subscribe({
+            next: (response) => {
                 this.loading = false
-                this.router.navigate(['/dashboard']).then(() => 
-                    this.messageService.add({ severity: 'success', summary: 'Logout', detail: 'Succesful login' })
+                this.router.navigateByUrl(this.nextUrl).then(() => 
+                    this.messageService.add({ severity: 'success', summary: 'Login', detail: 'Succesful login' })
                 )
             },
-            (error) => {
+            error: (error) => {
                 this.loading = false
                 if (error.status == 401) {
                     this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
@@ -79,7 +79,7 @@ export class LoginComponent {
                     this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.message });
                 }
             }
-        )
+        })
     }
 }
 
