@@ -13,8 +13,8 @@
     <ng-template #start>
         <div class="mt-auto ml-3">
             <div class="text-muted"><small>Total cases</small></div>
-            <div class="text-center font-semibold" style="font-size: 2rem;" [ngxCountAnimation]="totalCases" duration="500"></div>
-
+            <div *ngIf="!loadingCases" class="text-center font-semibold" style="font-size: 2rem;" [ngxCountAnimation]="totalCases" duration="500"></div>
+            <p-skeleton *ngIf="loadingCases" [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
         </div>        
     </ng-template>
     <ng-template #end>

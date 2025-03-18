@@ -7,7 +7,8 @@
     <div class="flex">
  
         <div class="my-auto ml-3">
-            <span class="font-bold text-2xl">{{totalCohorts}}</span> <span class="ml-2 ">(Cohorts)</span>
+            <span *ngIf="!loadingCohorts" class="font-bold text-2xl">{{totalCohorts}}</span> <span class="ml-2 ">(Cohorts)</span>
+            <p-skeleton *ngIf="loadingCohorts" [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
         </div>        
         <div class="flex ml-auto">
     
