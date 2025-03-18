@@ -18,8 +18,8 @@ import { LucideIconData } from 'lucide-angular/icons/types';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DrawerDataPropertiesComponent } from './components/drawer-data-properties.component';
-
-
+import { DownloadService } from 'src/app/shared/services/download.service';
+import { OncologicalResource } from 'src/app/shared/models/resource.type';
 
 
 @Component({
@@ -49,17 +49,17 @@ export class CaseManagerDrawerComponent {
 
     public authService = inject(AuthService)
     private confirmationService = inject(ConfirmationService)
+    private downloadService = inject(DownloadService)
 
-    @Input() data!: any;
-    @Input() icon!: LucideIconData;
-    @Input() visible!: boolean;
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() delete = new EventEmitter<string>();
     @Output() update = new EventEmitter<any>();
 
+    @Input() data!: OncologicalResource;
+    @Input() icon!: LucideIconData;
+    @Input() visible!: boolean;
     public createdBy$!: Observable<string>
     public lastUpdatedBy$!: Observable<string>
-
     public actionItems: MenuItem[] =  [
         {
             label: 'Delete',
@@ -74,7 +74,7 @@ export class CaseManagerDrawerComponent {
             disabled: !this.authService.user.canExportData,
             icon: 'pi pi-file-export',
             command: () => {
-                console.log('export', this.data.id)
+                this.downloadService.downloadAsJson(this.data, 'pop-resource-' + this.data.id)
             }
         },
     ]

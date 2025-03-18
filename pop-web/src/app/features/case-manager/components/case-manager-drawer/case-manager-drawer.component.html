@@ -7,7 +7,7 @@
                 [style]="{ 'background': 'color-mix(in srgb, var(--p-primary-500), transparent 75%)', color: 'var(--p-primary-500)' }">
                 <lucide-angular [img]="icon"></lucide-angular>
             </p-avatar>
-            <div class="font-bold my-auto">{{data?.description || 'Unknown'}}</div>
+            <div class="font-bold my-auto">{{data.description || 'Unknown'}}</div>
         </div>
     </ng-template>
 
@@ -47,14 +47,6 @@
                 severity="secondary"
                 (click)="visibleChange.emit(false)"
                 outlined/>
-            <!-- <p-button
-                label="Delete"
-                icon="pi pi-trash"
-                class="w-full"
-                severity="danger"
-                (click)="visibleChange.emit(false); delete.emit(data.id)"
-                text
-            /> -->
             <p-confirmdialog />
             <p-splitbutton 
                 label="Edit" 
