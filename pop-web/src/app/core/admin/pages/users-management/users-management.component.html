@@ -1,0 +1,98 @@
+<h3 class="mb-1">User Administration</h3>
+<div class="text-muted">In this page you can manage the platform's users and add/authorize new users.</div>
+
+<p-card styleClass="mt-4">
+    <div class="flex mb-2">
+        <p-button label="Add new user" icon="pi pi-plus" (onClick)="openUserForm({})" secerity="primary"/>
+    </div>
+    <p-table             
+        [value]="paginatedUsers" 
+        [paginator]="true" 
+        [showCurrentPageReport]="true"
+        lazy="true"
+        [rows]="pageSize" 
+        [rowsPerPageOptions]="pageSizeChoices"
+        [totalRecords]="totalEntries"
+        (onLazyLoad)="setPaginationAndRefresh($event)"
+        (onFilter)="applyFilters($event)"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">>
+        <ng-template #header>
+            <tr>
+                <th style="width: 5rem"></th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Last login</th>
+                <th>Access level & Role</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>
+                    <p-columnFilter
+                        type="text"
+                        field="username"
+                        matchMode="contains"
+                        [showButtons]="true"
+                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
+                        placeholder="Search by username"
+                    ></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter
+                        type="text"
+                        field="name"
+                        matchMode="contains"
+                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
+                        placeholder="Search by name"
+                    ></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter
+                        type="text"
+                        field="email"
+                        matchMode="contains"
+                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
+                        placeholder="Search by email"
+                    ></p-columnFilter>
+                </th>
+                <th></th>
+                <th>
+                    <p-columnFilter
+                        type="text"
+                        field="role"
+                        matchMode="contains"
+                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
+                        placeholder="Search by role"
+                    ></p-columnFilter>
+                </th>
+        </ng-template>
+        <ng-template #body let-user>
+            <tr *ngIf="!loading; else loadingbody">
+                <td>
+                    <p-button icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
+                </td>
+                <td class="text-monospace">{{ user.username }}</td>
+                <td>{{ user.lastName }}, {{ user.firstName }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.lastLogin }}</td>
+                <td>{{ user.accessLevel }} - {{ user.role }}</td>
+            </tr>
+        </ng-template>
+        <ng-template #loadingbody let-columns="columns">
+            <tr>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+
+<pop-dynamic-modal-form/>

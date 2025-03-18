@@ -1,0 +1,56 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="onSave()">
+
+        <div class="field">
+            <label class="form-label required">Username</label>
+            <input type="text" pInputText formControlName="username" />
+            <pop-form-control-error controlName="username"/>
+        </div>
+        <div class="field">
+            <label class="form-label required">Password</label>
+            <p-password formControlName="password" [feedback]="false" />
+            <pop-form-control-error controlName="password"/>
+        </div>
+        <div class="field">
+            <label class="form-label required">First name</label>
+            <input type="text" pInputText formControlName="firstName" />
+            <pop-form-control-error controlName="firstName"/>
+        </div>
+        <div class="field">
+            <label class="form-label required">Last name</label>
+            <input type="text" pInputText formControlName="lastName" />
+            <pop-form-control-error controlName="lastName"/>
+        </div>
+        <div class="field">
+            <label class="form-label required">Email</label>
+            <input type="email" pInputText formControlName="email" />
+            <pop-form-control-error controlName="email"/>
+        </div>
+        <div class="field">
+            <label class="form-label">Organization</label>
+            <input type="text" pInputText formControlName="organization" />
+            <pop-form-control-error controlName="organization"/>
+        </div>
+        <div class="field">
+            <label class="form-label">Department</label>
+            <input type="text" pInputText formControlName="department" />
+            <pop-form-control-error controlName="department"/>
+        </div>
+        <div class="field">
+            <label class="form-label required">Role</label>
+            <div *ngFor="let role of roles" class="field-checkbox">
+                <p-radiobutton [inputId]="role.label" [value]="role.accessLevel" formControlName="accessLevel"/>
+                <label [for]="role.label" class="ml-2">{{ role.label }}</label>
+            </div>
+            <pop-form-control-error controlName="accessLevel"/>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="loading"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

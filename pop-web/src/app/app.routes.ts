@@ -30,6 +30,9 @@ export const routes: Routes = [
                     { path: 'search/:currentUser', loadComponent: () => import('./features/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
                 ]
             },
+            { path: 'admin', 
+                loadChildren: () => import('./core/admin/admin.routes').then(m => m.adminRoutes),
+            },
         ]
     },
     { 

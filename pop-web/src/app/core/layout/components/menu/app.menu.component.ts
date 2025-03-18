@@ -47,12 +47,23 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Others',
+                label: 'Documentation',
                 items: [
-                    { label: 'Terminology', icon: 'pi pi-fw pi-book', routerLink: ['/notfound'] },
-                    { label: 'API Docs', icon: 'pi pi-fw pi-code', url: `${this.basePath}/api/docs#/`},
+                    { label: 'User manual', icon: 'pi pi-fw pi-book', url: `/notfound`},
+                    { label: 'API Specification', icon: 'pi pi-fw pi-book', url: `${this.basePath}/api/docs#/`},
                 ]
             }
         ];
+        if (this.authService.user.accessLevel && this.authService.user.accessLevel>=5) {
+            this.model = [...this.model, 
+                {
+                    label: 'Administration',
+                    items: [
+                        { label: 'Users', icon: 'pi pi-fw pi-users', disabled:!this.authService.user.canManageUsers, routerLink: ['/admin/users'] },
+                    ]
+                }
+            ]
+        }
     }
+
 }

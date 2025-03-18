@@ -312,7 +312,7 @@ class BaseSchema(Schema):
         serialized_data = super().model_dump()
         for field_name, field in self.model_fields.items():
             # Skip unset fields
-            if field_name not in serialized_data:
+            if field_name not in serialized_data or field_name=='password':
                 continue
             # Get field data
             data = serialized_data[field_name]

@@ -89,7 +89,9 @@ class UsersController(ControllerBase):
         operation_id='createUser',
     )
     def create_user(self, payload: UserCreateSchema):
-        return payload.model_dump_django()
+        user = payload.model_dump_django()
+        user.set_password(payload.password)
+        return user
 
     @route.put(
         path='/users/{userId}', 
@@ -101,8 +103,12 @@ class UsersController(ControllerBase):
         operation_id='UpdateUser',
     )
     def update_user(self, userId: str, payload: UserCreateSchema):
-        return payload.model_dump_django(instance=get_object_or_404(User, id=userId))
-
+        user = get_object_or_404(User, id=userId)
+        password_hash = user.password
+        user = payload.model_dump_django(instance=user)
+        if password_hash != payload.password:
+            user.set_password(payload.password)
+        return user 
     
     @route.put(
         path='/users/{userId}/profile', 

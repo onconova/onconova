@@ -10,6 +10,7 @@
 
 
 export interface UserCreate { 
+    password?: string | null;
     lastLogin?: string | null;
     /**
      * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
