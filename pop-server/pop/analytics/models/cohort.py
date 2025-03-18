@@ -1,7 +1,8 @@
+from typing import Tuple
 from django.db import models
 from django.db.models import Avg, Count, StdDev
 from django.utils.translation import gettext_lazy as _
-
+from pop.analytics.aggregates import Median, Percentile25, Percentile75
 from pop.oncology.models import PatientCase
 from pop.core.models import BaseModel
 
@@ -73,45 +74,19 @@ class Cohort(BaseModel):
     def population(self):
         return self.__class__.objects.filter(pk=self.pk).values('db_population')[0]['db_population']
 
-    @property
-    def age_average(self):
-        return self.__class__.get_age_average(self.cases.all())
-    
-    @property
-    def age_stddev(self):
-        return self.__class__.get_age_stddev(self.cases.all())
-    
-    @property
-    def data_completion_average(self):
-        return self.__class__.get_data_completion_average(self.cases.all())
-    
-    @property
-    def data_completion_stddev(self):
-        return self.__class__.get_data_completion_stddev(self.cases.all())
+    def get_cohort_trait_average(self, trait: str) -> Tuple[float, float]:
+        if not self.cases.exists():
+            return None
+        queryset = self.cases.aggregate(Avg(trait), StdDev(trait))
+        return queryset[f'{trait}__avg'], queryset[f'{trait}__stddev']
 
-    @staticmethod
-    def get_age_average(cohort):
-        if not cohort.exists():
+    def get_cohort_trait_median(self, trait: str) -> Tuple[float, Tuple[float, float]]:
+        if not self.cases.exists():
             return None
-        return round(cohort.aggregate(Avg('age')).get('age__avg'),1)
-    
-    @staticmethod
-    def get_age_stddev(cohort):
-        if not cohort.count()>2:
-            return None
-        return round(cohort.aggregate(StdDev('age',sample=True)).get('age__stddev'),1)
-
-    @staticmethod
-    def get_data_completion_average(cohort):
-        if not cohort.exists():
-            return None
-        return round(cohort.aggregate(Avg('data_completion_rate')).get('data_completion_rate__avg'),1)
-    
-    @staticmethod
-    def get_data_completion_stddev(cohort):
-        if not cohort.count()>2:
-            return None
-        return round(cohort.aggregate(StdDev('data_completion_rate',sample=True)).get('data_completion_rate__stddev'),1)
+        queryset = self.cases.aggregate(Median(trait), Percentile25(trait), Percentile75(trait))
+        median = queryset[f'{trait}__median']
+        iqr = (queryset[f'{trait}__p25'], queryset[f'{trait}__p75'])
+        return median, iqr
 
 
     def update_cohort_cases(self) -> models.QuerySet:        

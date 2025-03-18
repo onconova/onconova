@@ -10,6 +10,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
+from pop.core.utils import camel_to_snake
 from pop.core.models import User
 from pop.core.schemas import Paginated, ModifiedResourceSchema, UserSchema
 from pop.oncology import schemas as oncological_schemas
@@ -18,7 +19,7 @@ from pop.analytics.datasets import construct_dataset
 from pop.analytics.models import Cohort, Dataset
 from pop.analytics.schemas.cohort import (
     CohortSchema, CohortCreateSchema, 
-    CohortFilters, CohortStatisticsSchema,
+    CohortFilters, CohortTraitAverage, CohortTraitMedian,
     CohortContribution,
 )
 from pop.analytics.schemas.datasets import DatasetRule
@@ -101,26 +102,6 @@ class CohortsController(ControllerBase):
         cohort.update_cohort_cases()
         return cohort
 
-
-    @route.get(
-        path='/{cohortId}/statistics', 
-        response={
-            200: CohortStatisticsSchema,
-            404: None,
-        },
-        permissions=[perms.CanViewCohorts],
-        operation_id='getCohortStatistics',
-    )
-    def get_cohort_statistics(self, cohortId: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
-        return CohortStatisticsSchema(
-            ageAverage = cohort.age_average,
-            ageStdDev = cohort.age_stddev,
-            dataCompletionAverage = cohort.data_completion_average,
-            dataCompletionStdDev = cohort.data_completion_stddev,
-        )
-
-
     @route.get(
         path='/{cohortId}/cases', 
         response={
@@ -181,3 +162,34 @@ class CohortsController(ControllerBase):
             cohort=get_object_or_404(Cohort, id=cohortId),
             rules=get_object_or_404(Dataset, id=datasetId).rules,
         )
+
+
+
+    @route.get(
+        path='/{cohortId}/traits/{trait}/average', 
+        response={
+            200: CohortTraitAverage,
+            404: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='getCohortTraitAverage',
+    )
+    def get_cohort_trait_average(self, cohortId: str, trait: str):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        average, standard_deviation = cohort.get_cohort_trait_average(camel_to_snake(trait))
+        return 200, CohortTraitAverage(average=average, standardDeviation=standard_deviation)
+
+    @route.get(
+        path='/{cohortId}/traits/{trait}/median', 
+        response={
+            200: CohortTraitMedian,
+            404: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id='getCohortTraitMedian',
+    )
+    def get_cohort_trait_median(self, cohortId: str, trait: str):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        median, iqr = cohort.get_cohort_trait_median(camel_to_snake(trait))
+        return 200, CohortTraitMedian(median=median, interQuartalRange=iqr)
+

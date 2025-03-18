@@ -1,10 +1,11 @@
 
 
 from ninja import Schema, Field
-from typing import Optional
+from typing import Optional, Tuple
 from django.db.models import Q
 from pydantic import ConfigDict, AliasChoices
 
+from django.db.models import Avg, Count, StdDev
 from pop.analytics import models as orm
 from pop.core.schemas import UserSchema
 from pop.core.schemas.factory import create_filters_schema
@@ -24,6 +25,13 @@ class CohortStatisticsSchema(Schema):
     dataCompletionStdDev: Optional[float] = None
     model_config = ConfigDict(title='CohortStatistics')
 
+class CohortTraitAverage(Schema):
+    average: float
+    standardDeviation: Optional[float]
+
+class CohortTraitMedian(Schema):
+    median: float
+    interQuartalRange: Tuple[float, float]
 
 class CohortContribution(Schema):
     contributor: UserSchema
