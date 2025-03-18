@@ -1,6 +1,7 @@
 from typing import Tuple
 from django.db import models
-from django.db.models import Avg, Count, StdDev
+from django.db.models import Avg, Count, StdDev, F
+from django.core.exceptions import FieldError
 from django.utils.translation import gettext_lazy as _
 from pop.analytics.aggregates import Median, Percentile25, Percentile75
 from pop.oncology.models import PatientCase
@@ -91,8 +92,8 @@ class Cohort(BaseModel):
     def get_cohort_trait_counts(self, trait: str) -> dict:
         if not self.cases.exists():
             return None
-        values = self.cases.values_list(trait, flat=True)
-        return OrderedDict([(key, (count, round(count/values.count()*100.0,4))) for key, count in Counter(values).items()])
+        values = self.cases.annotate(trait=F(trait)).values_list('trait', flat=True)
+        return OrderedDict([(str(key), (count, round(count/values.count()*100.0,4))) for key, count in Counter(values).items()])
 
 
 
