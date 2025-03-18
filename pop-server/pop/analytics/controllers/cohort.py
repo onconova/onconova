@@ -207,7 +207,7 @@ class CohortsController(ControllerBase):
             404: None,
         },
         permissions=[perms.CanViewCohorts],
-        operation_id='CohortTraitCounts',
+        operation_id='getCohortTraitCounts',
     )
     def get_cohort_trait_counts(self, cohortId: str, trait: str):
         cohort = get_object_or_404(Cohort, id=cohortId)

@@ -7,9 +7,9 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.oncology import models as oncological_models
-
 from pop.analytics.schemas.statistics import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
 from pop.analytics.models import Cohort
+from pop.analytics.aggregates import Median
 
 
 @api_controller(
@@ -66,7 +66,7 @@ class DashboardController(ControllerBase):
             entity_cohort = oncological_models.PatientCase.objects.filter(neoplastic_entities__topography__code__contains=entity_code).filter(neoplastic_entities__relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY)
             statistics.append(EntityStatisticsSchema(
                 population = entity_cohort.count(),                
-                dataCompletionAverage = Cohort.get_data_completion_average(entity_cohort),
+                dataCompletionMedian = entity_cohort.aggregate(Median('data_completion_rate')).get('data_completion_rate__median'),
                 topographyCode=entity_code,
                 topographyGroup=entity_display,
                 contributors=list(entity_cohort.values_list('created_by__username', flat=True)) 

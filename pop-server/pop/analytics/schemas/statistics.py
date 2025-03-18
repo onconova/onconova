@@ -20,7 +20,7 @@ class CasesPerMonthSchema(Schema):
 
 class EntityStatisticsSchema(Schema):
     population: Optional[int] = None
-    dataCompletionAverage: Optional[float] = None
+    dataCompletionMedian: Optional[float] = None
     topographyCode: Optional[str] = None
     topographyGroup: Optional[str] = None
     contributors: Optional[List[str]] = None
