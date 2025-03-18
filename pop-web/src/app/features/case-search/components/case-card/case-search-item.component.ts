@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine} from 'src/app/shared/openapi';
+import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService} from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -11,7 +11,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ChipModule } from 'primeng/chip';
 import { AvatarModule } from 'primeng/avatar';
 import { SplitButtonModule } from 'primeng/splitbutton';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Knob } from 'primeng/knob';
@@ -22,6 +22,7 @@ import { NgxJdenticonModule } from "ngx-jdenticon";
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { DownloadService } from 'src/app/shared/services/download.service';
 
 @Component({
     standalone: true,
@@ -62,6 +63,10 @@ export class CaseBrowserCardComponent {
     private stagingsService: StagingsService = inject(StagingsService);
     private confirmationService: ConfirmationService = inject(ConfirmationService)
     private router: Router = inject(Router);
+    private downloadService: DownloadService = inject(DownloadService)
+    private caseService: PatientCasesService = inject(PatientCasesService)
+    private messageService: MessageService = inject(MessageService)
+
 
     // Properties
     @Input() public case!: PatientCase;
@@ -83,7 +88,11 @@ export class CaseBrowserCardComponent {
             disabled: !this.authService.user.canExportData,
             icon: 'pi pi-file-export',
             command: (event: any) => {
-                console.log('export', this.case.id)
+                this.messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
+                this.caseService.exportPatientCaseBundle({caseId: this.case.id}).subscribe({
+                    next: response => this.downloadService.downloadAsJson(response, `POP-case-${this.case.pseudoidentifier}-bundle.json`),
+                    complete: () => this.messageService.clear()
+                })
             },
         },
         {
