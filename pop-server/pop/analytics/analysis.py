@@ -36,9 +36,13 @@ def calculate_Kappler_Maier_survival_curve(survival_months, confidence_level=0.9
     [1] https://en.wikipedia.org/wiki/Kapla-Meier_estimator 
     [2] Fisher, Ronald (1925), Statistical Methods for Research Workers, Table 1
     [3] Borgan, Liestøl (1990). Scandinavian Journal of Statistics 17, 35-41
-    """    
-
-    if survival_months is None or len(survival_months)==0:
+    """        
+    # Ensure array
+    survival_months = np.array(survival_months)
+    # Remove None values
+    survival_months = survival_months[survival_months != np.array(None)].astype(float)
+    # Check that there are values in the array left    
+    if len(survival_months)==0:
         raise ValueError('The input argument cannot be empty or None')
 
     # Round months to integers
