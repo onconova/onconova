@@ -29,6 +29,7 @@ from pop.oncology.controllers import (
     TreatmentResponseController,
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
+    OthersController,
 )
 from pop.interoperability.controllers import (    
     BundleController,
@@ -81,4 +82,5 @@ api.register_controllers(
     CohortBuilderController,
     DashboardController,
     DatasetsController,
+    OthersController,
 )

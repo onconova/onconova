@@ -26,6 +26,7 @@ ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']
 ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
 HOST = env('HOST')
 HOST_PORT = env('HTTPS_WEB_PORT')
+HOST_ORGANIZATION = env('HOST_ORGANIZATION') # Used by API
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']

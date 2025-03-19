@@ -7,6 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
@@ -142,3 +143,24 @@ class PatientCaseController(ControllerBase):
         instance = get_object_or_404(PatientCaseDataCompletion, case__id=caseId, category=category)
         instance.delete()
         return 204, None
+
+@api_controller(
+    'others', 
+    # auth=[JWTAuth()], 
+    tags=['Patient Cases'],  
+)
+class OthersController(ControllerBase):
+    @route.get(
+        path='/default-clinical-center', 
+        response={
+            200: str,
+            501: None,
+        },
+        operation_id='getDefaultClinicalCenter',
+    )
+    def get_default_clinical_center(self):  # type: ignore
+        clinical_center = getattr(settings, 'HOST_ORGANIZATION', None)
+        if clinical_center:
+            return 200, clinical_center
+        else: 
+            return 501, None

@@ -1,4 +1,4 @@
-from .patient_case import PatientCaseController
+from .patient_case import PatientCaseController, OthersController
 from .neoplastic_entity import NeoplasticEntityController
 from .staging import StagingController
 from .tumor_marker import TumorMarkerController
@@ -40,4 +40,5 @@ __all__ = (
     AdverseEventController,
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
+    OthersController,
 )
