@@ -170,8 +170,10 @@ class BaseSchema(Schema):
             elif isinstance(typ, type) and issubclass(typ, PydanticBaseModel):  # Base case: direct Pydantic model
                 return typ
             return None
-        field_info = cls.model_fields.get(to_camel_case(field.name))
-        return get_model_from_type(field_info.annotation)
+        field_info = next((info for field_name, info in cls.model_fields.items() if (info.alias or field_name) == field.name), None)
+        if not field_info:
+            return None
+        return get_model_from_type(field_info.annotation) 
 
     @classmethod
     def model_validate(cls, obj=None, *args, **kwargs):
@@ -211,16 +213,15 @@ class BaseSchema(Schema):
                 # Check if the field is a relation (foreign key, many-to-many, etc.)
                 if field.is_relation:
                     # Determine if the field needs expansion based on class model fields
-                    expanded = to_camel_case(orm_field_name) in cls.model_fields
-                    if expanded: 
-                        related_schema = cls.extract_related_model(field)
-
+                    related_schema = cls.extract_related_model(field)
+                    expanded = related_schema is not None 
+                    print('EXPANDED', orm_field_name, expanded)
                     # Handle one-to-many or many-to-many relationships
                     if field.one_to_many or field.many_to_many:
                         if expanded:
                             data[orm_field_name] = cls._resolve_expanded_many_to_many(obj, orm_field_name, related_schema)
                         else:
-                            data[orm_field_name + '_ids'] = cls._resolve_many_to_many(obj, orm_field_name)
+                            data[orm_field_name] = cls._resolve_many_to_many(obj, orm_field_name)
                     else:
                         # Handle one-to-one or foreign key relationships
                         related_object = getattr(obj, orm_field_name)
@@ -230,7 +231,7 @@ class BaseSchema(Schema):
                                 data[orm_field_name] = cls._resolve_expanded_foreign_key(obj, orm_field_name, related_schema)
                             else:
                                 # Otherwise, just get the ID of the related object
-                                data[orm_field_name + '_id'] = cls._resolve_foreign_key(obj, orm_field_name)
+                                data[orm_field_name] = cls._resolve_foreign_key(obj, orm_field_name)
                 else:
                     # For non-relation fields, simply get the attribute value
                     data[orm_field_name] = getattr(obj, orm_field_name)

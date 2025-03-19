@@ -5,7 +5,7 @@ from pop.terminology.fields import CodedConceptField
 from pop.terminology.models import CodedConcept
 from enum import Enum 
 
-class OptionsEnum(str, Enum):
+class OptionsEnum(models.TextChoices):
     OPTIONA = 'optionA'
     OPTIONB = 'optionB'
 
@@ -13,7 +13,7 @@ class MockCodedConcept(CodedConcept):
     pass
     
 class MockModel(models.Model):
-    id_field = models.CharField(primary_key=True)
+    id = models.CharField(primary_key=True)
     str_field = models.CharField(null=True)
     date_field = models.DateField(null=True)
     datetime_field = models.DateTimeField(null=True)

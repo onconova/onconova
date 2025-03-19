@@ -24,7 +24,7 @@ class TestDjangoFilters(TestCase):
         cls.conceptB2,_ = MockCodedConcept.objects.get_or_create(code='code-B-2', display='concept B2', parent=parentB)
         
         cls.instanceA = MockModel.objects.create(
-            id_field='instanceA',
+            id='instanceA',
             str_field='this_string_is_version_A', 
             date_field=datetime(2000,1,1),
             int_field=2,
@@ -37,7 +37,7 @@ class TestDjangoFilters(TestCase):
         cls.instanceA.multi_coded_concept_field.set([cls.conceptA1, cls.conceptA2])
         
         cls.instanceB = MockModel.objects.create(
-            id_field='instanceB',
+            id='instanceB',
             str_field='another_string_is_version_B', 
             date_field=datetime(2020,1,1),
             int_field=5,
@@ -182,7 +182,7 @@ class TestDjangoFilters(TestCase):
     )
     def test_multiple_coded_concept_filtering(self, FilterClass, value, expected):
         if FilterClass != f.NotAllOfConceptFilter:
-            self.instanceC = MockModel.objects.create(id_field='instanceC')
+            self.instanceC = MockModel.objects.create(id='instanceC')
             self.instanceC.multi_coded_concept_field.set([self.conceptA1])
         self.assert_filtering('multi_coded_concept_field', FilterClass, value, expected)
         
