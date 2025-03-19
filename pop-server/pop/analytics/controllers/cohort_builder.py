@@ -88,7 +88,6 @@ class CohortBuilderController(ControllerBase):
                         filters.append(filter)
                     options = [{'name': e.name, 'value': e.value} for e in annotation]
                     annotation = enum.Enum
-                    print('SET', options)
 
                 field_type = TYPES_MAP.get(annotation)
                 if not field_type:

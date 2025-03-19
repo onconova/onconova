@@ -177,7 +177,6 @@ class BundleParserTest(TestCase):
     def test_import_bundle__family_histories(self):
         self._import_bundle()
         # Ensure the family history has been imported properly
-        print(self.bundle.familyHistory)
         imported_family_history = models.FamilyHistory.objects.get(case=self.imported_case)
         self._assert_metadata(imported_family_history, self.original_family_history)
         
