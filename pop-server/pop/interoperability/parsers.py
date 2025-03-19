@@ -6,7 +6,7 @@ from collections import defaultdict
 from pop.oncology import models 
 from ninja import Schema
 from pop.core.schemas import UserSchema
-from pop.oncology.schemas.bundle import PatientCaseBundle
+from pop.interoperability.schemas import PatientCaseBundle
 from typing import get_origin, Optional
 from dataclasses import dataclass 
 

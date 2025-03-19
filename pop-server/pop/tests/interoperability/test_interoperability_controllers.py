@@ -1,14 +1,14 @@
 from django.test import TestCase
 from pop.tests import common, factories
 from pop.oncology.models import PatientCase 
-from pop.oncology.schemas.bundle import PatientCaseBundle
+from pop.interoperability.schemas import PatientCaseBundle
 from parameterized import parameterized
 
 from pop.core.measures import measures
 from pop.core.measures.schemas import MeasureConversion   
    
 class TestBundlesController(common.ApiControllerTestMixin, TestCase):
-    controller_path = '/api/patient-cases/bundles'
+    controller_path = '/api/interoperability/bundles'
     
     @classmethod
     def setUpTestData(cls):

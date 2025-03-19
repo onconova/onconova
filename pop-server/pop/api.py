@@ -29,6 +29,8 @@ from pop.oncology.controllers import (
     TreatmentResponseController,
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
+)
+from pop.interoperability.controllers import (    
     BundleController,
 )
 from pop.analytics.controllers import (

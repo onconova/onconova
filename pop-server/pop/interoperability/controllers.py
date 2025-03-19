@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated
 from pop.oncology.models import PatientCase
-from pop.oncology.schemas.bundle import PatientCaseBundle
+from pop.interoperability.schemas import PatientCaseBundle
 from pop.interoperability.parsers import BundleParser
 
 class ConflictingClinicalIdentifierException(APIException):
@@ -26,9 +26,9 @@ class ConflictResolution(str, Enum):
     REASSIGN = 'reassign'
     
 @api_controller(
-    'patient-cases/bundles', 
+    'interoperability/bundles', 
     auth=[JWTAuth()], 
-    tags=['Patient Cases'],  
+    tags=['Interoperability'],  
 )
 class BundleController(ControllerBase):
     @route.get(

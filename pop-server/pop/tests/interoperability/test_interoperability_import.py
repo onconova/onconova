@@ -1,6 +1,6 @@
 from uuid import UUID
 from pop.core.models import BaseModel, User
-from pop.oncology.schemas.bundle import PatientCaseBundle
+from pop.interoperability.schemas import PatientCaseBundle
 from pop.core.schemas import UserSchema
 from pop.oncology import models, schemas
 from pop.tests import factories
