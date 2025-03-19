@@ -1,9 +1,9 @@
 
-from ninja import Query
-from ninja.schema import Schema, Field
+from enum import Enum 
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
-from ninja_extra import api_controller, ControllerBase, route
+from ninja_extra import api_controller, ControllerBase, route, status
+from ninja_extra.exceptions import APIException
 
 from django.shortcuts import get_object_or_404
 
@@ -13,6 +13,18 @@ from pop.oncology.models import PatientCase
 from pop.oncology.schemas.bundle import PatientCaseBundle
 from pop.interoperability.parsers import BundleParser
 
+class ConflictingClinicalIdentifierException(APIException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    default_detail = 'Unprocessable. Clinical identifier conflicts with existing case'
+
+class ConflictingCaseException(APIException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    default_detail = 'Unprocessable. Unresolved import case conflict.'
+    
+class ConflictResolution(str, Enum):
+    OVERWRITE = 'overwrite'
+    REASSIGN = 'reassign'
+    
 @api_controller(
     'patient-cases/bundles', 
     auth=[JWTAuth()], 
@@ -35,9 +47,20 @@ class BundleController(ControllerBase):
         path='/import', 
         response={
             201: ModifiedResourceSchema,
+            422: None
         },
         permissions=[perms.CanManageCases, perms.CanExportData],
         operation_id='importPatientCaseBundle',
     )
-    def import_case_bundle(self, payload: PatientCaseBundle):
-        return BundleParser(payload).import_bundle()
+    def import_case_bundle(self, payload: PatientCaseBundle, conflict: ConflictResolution = None):
+        conflicting_case = PatientCase.objects.filter(pseudoidentifier=payload.pseudoidentifier).first()
+        if conflicting_case:    
+            if not conflict:
+                raise ConflictingCaseException()
+            if conflict==ConflictResolution.OVERWRITE:
+                conflicting_case.delete()
+            elif conflict==ConflictResolution.REASSIGN:
+                payload.pseudoidentifier = ''      
+        if PatientCase.objects.filter(clinical_identifier=payload.clinicalIdentifier, clinical_center=payload.clinicalCenter).exists():
+            raise ConflictingClinicalIdentifierException()
+        return 201, BundleParser(payload).import_bundle()
