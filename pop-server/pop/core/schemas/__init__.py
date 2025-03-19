@@ -10,6 +10,7 @@ from .user import (
     UserSchema, 
     UserCreateSchema, 
     UserProfileSchema,
+    UserPasswordReset as UserPasswordResetSchema,
 )
 from .auth import (
     RefreshedTokenPair,

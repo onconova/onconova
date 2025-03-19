@@ -2,7 +2,7 @@
 from django.test import TestCase
 from pop.tests import common, factories
 from pop.core.models import User 
-from pop.core.schemas import UserSchema, UserCreateSchema, UserProfileSchema
+from pop.core.schemas import UserSchema, UserCreateSchema, UserProfileSchema, UserPasswordResetSchema
 from parameterized import parameterized
 
 from pop.core.measures import measures
@@ -97,6 +97,22 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             self.user.refresh_from_db()
             self.assertEqual(self.user.first_name, new_first_name) 
             self.assertEqual(self.user.last_name, new_last_name) 
+        
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_update_own_password(self, scenario, config):
+        new_config = {**config, 'access_level': 1}
+        old_password = 'oldPassword123'
+        new_password = 'newPassword123'
+        self.user.set_password(old_password)
+        self.user.save()
+        payload = UserPasswordResetSchema(oldPassword=old_password, newPassword=new_password).model_dump(mode='json')
+        # Call the API endpoint.
+        self.call_api_endpoint('PUT', f'/{self.user.id}/password', data=payload, **new_config)
+        # Assert response content
+        if scenario == 'HTTPS Authenticated':
+            self.user.refresh_from_db()
+            self.assertFalse(self.user.check_password(old_password))
+            self.assertTrue(self.user.check_password(new_password))
         
         
 

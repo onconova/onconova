@@ -3,6 +3,11 @@ from ninja import Field, Schema
 from pydantic import AliasChoices
 from pop.core import models as orm
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig, BaseSchema
+from pydantic import SecretStr
+
+class UserPasswordReset(Schema):
+    oldPassword: str 
+    newPassword: str
 
 class UserSchema(ModelGetSchema):
     role: orm.User.AccessRoles = Field(description='User role based on its access level')

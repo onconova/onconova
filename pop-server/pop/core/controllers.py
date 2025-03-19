@@ -5,7 +5,6 @@ from ninja_jwt.authentication import JWTAuth
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from typing import List 
 
 
 from pop.core import permissions as perms
@@ -16,6 +15,7 @@ from pop.core.schemas import (
     UserSchema, 
     UserCreateSchema,
     UserProfileSchema,
+    UserPasswordResetSchema,
     ModifiedResourceSchema,
     TokenRefresh, 
     RefreshedTokenPair,
@@ -91,6 +91,7 @@ class UsersController(ControllerBase):
     def create_user(self, payload: UserCreateSchema):
         user = payload.model_dump_django()
         user.set_password(payload.password)
+        user.save()
         return user
 
     @route.put(
@@ -100,15 +101,35 @@ class UsersController(ControllerBase):
             404: None,
         },
         permissions=[perms.CanManageUsers],
-        operation_id='UpdateUser',
+        operation_id='updateUser',
     )
     def update_user(self, userId: str, payload: UserCreateSchema):
         user = get_object_or_404(User, id=userId)
         password_hash = user.password
         user = payload.model_dump_django(instance=user)
-        if password_hash != payload.password:
+        if not password_hash or password_hash != payload.password:
             user.set_password(payload.password)
+            user.save()
         return user 
+    
+    @route.put(
+        path='/users/{userId}/password', 
+       response={
+            200: None,
+            404: None,
+            403: None,
+        },
+        operation_id='resetUserPassword',
+    )
+    def reset_user_password(self, userId: str, payload: UserPasswordResetSchema):
+        user = get_object_or_404(User, id=userId)
+        requesting_user = self.context.request.user
+        authorized = user.id == requesting_user.id or requesting_user.can_manage_users
+        if not authorized or not user.check_password(payload.oldPassword):
+            return 403, None
+        user.set_password(payload.newPassword)
+        user.save()
+        return 200, None 
     
     @route.put(
         path='/users/{userId}/profile', 
