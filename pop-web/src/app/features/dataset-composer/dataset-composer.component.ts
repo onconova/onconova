@@ -288,7 +288,7 @@ export class DatasetComposerComponent {
                     this.selectedDataset = ''
                     this.messageService.add({ severity: 'success', summary: 'Dataset deleted', detail: `Succesfully deleted dataset "${datasetName}"` })
                 },
-                error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset could not be deleted', detail: error.message }),
+                error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset could not be deleted', detail: error.error.detail }),
             })
         }
     }
@@ -315,7 +315,7 @@ export class DatasetComposerComponent {
                 this.refreshUserDatasets()
                 this.messageService.add({ severity: 'success', summary: 'Dataset update', detail: `Succesfully updated dataset "${datasetName}"` })
             },
-            error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset could not be saved', detail: error.message }),
+            error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset could not be saved', detail: error.error.detail }),
         })
     }
 
@@ -369,7 +369,7 @@ export class DatasetComposerComponent {
                 }
             },
             complete: () => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' }),
-            error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.message }),
+            error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail }),
         });
     }
 

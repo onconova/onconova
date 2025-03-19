@@ -85,7 +85,7 @@ export class CohortSearchComponent implements OnInit {
       first(),
       catchError(error => {
         // Report any problems
-        this.messageService.add({ severity: 'error', summary: 'Error loading cohorts', detail: error.message });
+        this.messageService.add({ severity: 'error', summary: 'Error loading cohorts', detail: error.error.detail });
         return of(error)
       })
     )
@@ -108,7 +108,7 @@ export class CohortSearchComponent implements OnInit {
             this.refreshCohorts()
             this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
         },
-        error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting cohort', detail: error.message })
+        error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting cohort', detail: error.error.detail })
     })
 }
 

@@ -121,7 +121,7 @@ export class CaseImporterComponent {
             next: (response) => {
                 this.messageService.add({ severity: 'success', summary: 'Import', detail: 'Succesfully imported the file' });
             },
-            error: (error) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message }),
+            error: (error) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail }),
         })    
     }
 

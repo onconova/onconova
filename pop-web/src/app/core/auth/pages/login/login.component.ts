@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
                 if (error.status == 400 ){
                     this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Please provide a username and a password' });
                 } else {
-                    this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.message });
+                    this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.error.detail });
                 }
             }
         })
