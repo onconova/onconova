@@ -1,6 +1,6 @@
 
 
-from django.db.models import Q, Model
+from django.db.models import Q, Model, Count
 from django.db.models.expressions import RawSQL
 
 from pydantic import BaseModel
@@ -388,6 +388,39 @@ CODED_CONCEPT_FILTERS = (
 )
 
 
+class AllOfConceptFilter(DjangoFilter):
+    name = 'allOf'
+    description = 'Filter for entries matching all of the concepts'
+    value_type = List[str]
+
+    @staticmethod
+    def query_expression(model, values, field, lookup, negative):
+        if values is None:
+            return Q()
+        if not model:
+            raise ValueError('The allOf filter requires a model to be specified')
+        elif hasattr(model, '_queryset_model'):
+            model = model._queryset_model
+        # Annotate the queryset with the count of related objects in the Many-to-Many field
+        subquery = model.objects.annotate(m2m_entries_count=Count(field)).filter(m2m_entries_count=len(values))
+        # Filter the queryset further to include instances related to each value in the values list
+        for value in values:
+            subquery = subquery.filter(**{f'{field}__code': value})
+        # Get the correct database table name
+        query =  Q(pk__in=subquery.values_list('pk', flat=True))
+        return ~query if negative else query
+    
+class NotAllOfConceptFilter(AllOfConceptFilter):
+    name = 'not.allOf'
+    description = 'Filter for entries mismatching all of the concepts'
+    negative = True
+    
+    
+MULTI_CODED_CONCEPT_FILTERS = (
+    *CODED_CONCEPT_FILTERS,
+    AllOfConceptFilter,
+    NotAllOfConceptFilter,
+)
 
 class OverlapsPeriodFilter(DjangoFilter):
     name = 'overlaps'
@@ -447,6 +480,47 @@ REFERENCE_FILTERS = (
 )
 
 
+
+class AnyOfReferecesFilter(ExactRefereceFilter):
+    name = 'anyOf'
+    description = 'Filter for entries where at least one reference matches the query'
+
+class NotAnyOfReferecesFilter(NotExactRefereceFilter):
+    name = 'not.anyOf'
+    description = 'Filter for entries where at least one reference mismatches the query'
+
+class AllOfReferencesFilter(DjangoFilter):
+    name = 'allOf'
+    description = 'Filter for entries where all references match the query references'
+    value_type = List[str]
+
+    @staticmethod
+    def query_expression(model, values, field, lookup, negative):
+        if values is None:
+            return Q()
+        if not model:
+            raise ValueError('The allOf filter requires a model to be specified')
+        elif hasattr(model, '_queryset_model'):
+            model = model._queryset_model
+        # Annotate the queryset with the count of related objects in the Many-to-Many field
+        subquery = model.objects.annotate(m2m_entries_count=Count(field)).filter(m2m_entries_count=len(values))
+        # Filter the queryset further to include instances related to each value in the values list
+        for value in values:
+            subquery = subquery.filter(**{f'{field}': value})
+        # Get the correct database table name
+        query =  Q(pk__in=subquery.values_list('pk', flat=True))
+        return ~query if negative else query
+    
+class NotAllOfReferencesFilter(AllOfConceptFilter):
+    name = 'not.allOf'
+    description = 'Filter for entries where all references mismatch the query references'
+    negative = True
+
+MULTI_REFERENCE_FILTERS = (
+    AnyOfReferecesFilter, NotAnyOfReferecesFilter,
+    AllOfReferencesFilter, NotAllOfReferencesFilter,
+)
+
 __all__ = (
     *STRING_FILTERS,
     *DATE_FILTERS,
@@ -455,7 +529,9 @@ __all__ = (
     *FLOAT_FILTERS,
     *BOOLEAN_FILTERS,
     *CODED_CONCEPT_FILTERS,
+    *MULTI_CODED_CONCEPT_FILTERS,
     *REFERENCE_FILTERS,
+    *MULTI_REFERENCE_FILTERS,
     *ENUM_FILTERS,
     *NULL_FILTERS,
     

@@ -9,16 +9,16 @@ class CodedConceptField(object):
 	reference to one or more terminologies or ontologies but may also be defined by
 	the provision of text.
 	"""
-	def __new__(cls, terminology: CodedConcept, multiple: bool=False, null: bool=False, *args, **kwargs):
+	def __new__(cls, terminology: CodedConcept, multiple: bool=False, null: bool=False, _to=None, *args, **kwargs):
 		if multiple:
 			return models.ManyToManyField(
-				to = f'terminology.{terminology.__name__}',
+				to = _to or f'terminology.{terminology.__name__}',
 				related_name = '+',
    				*args, **kwargs,
 			)
 		else:
 			return models.ForeignKey(
-	   			to = f'terminology.{terminology.__name__}',
+	   			to = _to or f'terminology.{terminology.__name__}',
 				on_delete = models.PROTECT,
 				related_name = '+', 
 				null=null,

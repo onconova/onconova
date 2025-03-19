@@ -211,6 +211,7 @@ FILTERS_MAP = {
     Measure: schema_filters.FLOAT_FILTERS,
     bool: schema_filters.BOOLEAN_FILTERS,
     CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
+    List[CodedConceptSchema]: schema_filters.MULTI_CODED_CONCEPT_FILTERS,
 }
 
 def get_schema_field_filters(field_name: str, field: FieldInfo):
@@ -234,7 +235,7 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
         filters += schema_filters.REFERENCE_FILTERS
     if is_list(annotation):
         list_type = get_args(annotation)[0]
-        if issubclass(list_type, PydanticBaseModel):
+        if issubclass(list_type, PydanticBaseModel) and not issubclass(list_type, CodedConceptSchema):
             subfield_filters = []
             for subfield_name, subfield in list_type.model_fields.items():
                 if subfield_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource']:

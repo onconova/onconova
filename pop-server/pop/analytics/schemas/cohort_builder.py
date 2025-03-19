@@ -15,6 +15,7 @@ class CohortRuleType(str, Enum):
     BOOLEAN = 'boolean'
     CODED_CONCEPT = 'coded_concept'
     MEASURE = 'measure'
+    PERIOD = 'period'
     ENUM = 'enum'
 
 

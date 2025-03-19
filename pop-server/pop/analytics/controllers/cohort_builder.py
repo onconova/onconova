@@ -14,6 +14,7 @@ from pop.core.schemas import CodedConceptSchema
 from pop.core import filters as schema_filters
 from pop.core.schemas.factory.fields import FILTERS_MAP
 from pop.core.measures import Measure
+from pop.core.schemas import PeriodSchema
 from pop.oncology import models as oncological_models
 from pop.oncology import schemas as oncological_schemas
 
@@ -31,6 +32,8 @@ TYPES_MAP = {
     float: CohortRuleType.NUMBER,
     bool: CohortRuleType.BOOLEAN,
     CodedConceptSchema: CohortRuleType.CODED_CONCEPT,
+    List[CodedConceptSchema]: CohortRuleType.CODED_CONCEPT,
+    PeriodSchema: CohortRuleType.PERIOD,
     Measure: CohortRuleType.MEASURE,
     enum.Enum: CohortRuleType.ENUM,
 }
@@ -76,7 +79,7 @@ class CohortBuilderController(ControllerBase):
                     filters += schema_filters.NULL_FILTERS
                     annotation = get_args(annotation)[0]
 
-                # Add the filters for the corresponding type        
+                # Add the filters for the corresponding type     
                 filters += FILTERS_MAP.get(annotation, [])
                 if field_name.endswith('Id') or field_name.endswith('Ids'):
                     continue
