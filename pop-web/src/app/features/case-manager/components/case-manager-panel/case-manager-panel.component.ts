@@ -106,7 +106,7 @@ export class CaseManagerPanelComponent implements OnInit {
             next: (response: any) => {
                 this.entries = response.items;
             },
-            error: (error: Error) => {
+            error: (error: any) => {
                 console.log(error)
             },
             complete: () => {
@@ -168,7 +168,7 @@ export class CaseManagerPanelComponent implements OnInit {
                 this.refreshEntries()
                 this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
             },
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
+            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
         })
     }
 

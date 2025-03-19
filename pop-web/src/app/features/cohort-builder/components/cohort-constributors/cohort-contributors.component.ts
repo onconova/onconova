@@ -50,7 +50,7 @@ export class CohortContributorsComponent{
                 this.totalContributions = this.cohortContributions.map(c => c.contributions).reduce((a, b) => a + b, 0)
             }),
         ).subscribe({
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort contributors', detail: error.error.detail })
+            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort contributors', detail: error.error.detail })
         })
     }
 

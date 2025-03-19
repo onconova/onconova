@@ -87,7 +87,7 @@ export class CaseBrowserComponent implements OnInit {
         return page.items
       }),
       first(),
-      catchError(error => {
+      catchError((error: any) => {
         // Report any problems
         this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error.error.detail });
         return of(error)
@@ -112,7 +112,7 @@ export class CaseBrowserComponent implements OnInit {
             this.refreshCases()
             this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
         },
-        error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
+        error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
     })
 }
 

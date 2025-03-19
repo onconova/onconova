@@ -98,7 +98,7 @@ export abstract class AbstractFormBase {
               this.loading = false;  
               this.save.emit();
             },
-            error: (error: Error) => {
+            error: (error: any) => {
               // Report any problems
               this.loading = false;  
               this.messageService.add({ severity: 'error', summary: 'Error ocurred while updating', detail: error.error.detail });
@@ -137,7 +137,7 @@ export abstract class AbstractFormBase {
             this.loading = false;  
             this.save.emit();
           },
-          error: (error: Error) => {
+          error: (error: any) => {
             // Report any problems
             this.loading = false;  
             this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.error.detail });

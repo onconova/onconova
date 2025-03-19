@@ -113,7 +113,7 @@ export class CohortBuilderComponent {
                     this.cohortControl.controls['excludeCriteria'].setValue(cohort.excludeCriteria);    
                 }
             },
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
+            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
         })
     }
 
@@ -142,7 +142,7 @@ export class CohortBuilderComponent {
             ),
             first()
         ).subscribe({
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort cases', detail: error.error.detail })
+            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort cases', detail: error.error.detail })
         })
     }
 
@@ -163,7 +163,7 @@ export class CohortBuilderComponent {
                 this.refreshCohortStatistics()
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
             },
-            error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.error.detail }),
+            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.error.detail }),
             complete: () => this.loading = false
         });
     }

@@ -108,7 +108,7 @@ export class CohortSearchComponent implements OnInit {
             this.refreshCohorts()
             this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
         },
-        error: (error: Error) => this.messageService.add({ severity: 'error', summary: 'Error deleting cohort', detail: error.error.detail })
+        error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting cohort', detail: error.error.detail })
     })
 }
 
