@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.db.models import F 
 
 import numpy as np 
+import pytest 
 
 from pop.tests import factories
 from pop.analytics.analysis import calculate_pfs_by_combination_therapy, calculate_Kappler_Maier_survival_curve, get_progression_free_survival_for_therapy_line
@@ -17,6 +18,21 @@ class TestKapplerMeierCurves(TestCase):
             np.testing.assert_almost_equal(ci95['lower'], self.expected_ci['lower'], 2)
             np.testing.assert_almost_equal(ci95['upper'], self.expected_ci['upper'], 2)
 
+    def test_empty_dataset_raises_error(self):
+        self.survival_months = []
+        with pytest.raises(ValueError):
+            self._assert_correct_KM_Curve()
+
+    def test_ignores_none_values(self):
+        self.survival_months = [1, 2, 2, 3, None, 3, 3, None, 4, 5]
+        self.expected_survival_axis = [0, 1, 2, 3, 4, 5]
+        self.expected_survival_prob = [1.0, 0.875, 0.625, 0.25, 0.125, 0.0]
+        self.expected_ci = {
+            "lower": [1, 0.387, 0.229, 0.037, 0.006, 0], 
+            "upper": [1, 0.981, 0.861, 0.558, 0.423, 0]
+        }
+        self._assert_correct_KM_Curve()
+        
     def test_basic_small_dataset(self):
         self.survival_months = [1, 2, 2, 3, 3, 3, 4, 5]
         self.expected_survival_axis = [0, 1, 2, 3, 4, 5]
@@ -26,7 +42,6 @@ class TestKapplerMeierCurves(TestCase):
             "upper": [1, 0.981, 0.861, 0.558, 0.423, 0]
         }
         self._assert_correct_KM_Curve()
-
 
     def test_non_integer_survivals(self):
         self.survival_months = [1.1, 2.2, 2.3, 3.4, 3.2, 3.2, 4.1, 5.0]

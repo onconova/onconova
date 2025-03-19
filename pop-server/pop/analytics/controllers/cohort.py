@@ -7,7 +7,8 @@ from ninja import Query
 from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
-from ninja_extra import api_controller, ControllerBase, route
+from ninja_extra import route, api_controller, status, ControllerBase
+from ninja_extra.exceptions import APIException
 
 from pop.core import permissions as perms
 from pop.core.utils import camel_to_snake
@@ -30,6 +31,12 @@ def convert_api_path_to_snake_case_path(path):
     components = path.split('.')
     components = [camel_to_snake(component) for component in components]
     return '__'.join(components)
+
+
+
+class EmptyCohortException(APIException):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    default_detail = 'Unprocessable. Requested cohort is empty.'
 
 
 @api_controller(
@@ -177,12 +184,15 @@ class CohortsController(ControllerBase):
         response={
             200: CohortTraitAverage,
             404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortTraitAverage',
     )
     def get_cohort_trait_average(self, cohortId: str, trait: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         average, standard_deviation = cohort.get_cohort_trait_average(convert_api_path_to_snake_case_path(trait))
         return 200, CohortTraitAverage(average=average, standardDeviation=standard_deviation)
 
@@ -191,12 +201,15 @@ class CohortsController(ControllerBase):
         response={
             200: CohortTraitMedian,
             404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortTraitMedian',
     )
     def get_cohort_trait_median(self, cohortId: str, trait: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         median, iqr = cohort.get_cohort_trait_median(convert_api_path_to_snake_case_path(trait))
         return 200, CohortTraitMedian(median=median, interQuartalRange=iqr)
 
@@ -205,11 +218,14 @@ class CohortsController(ControllerBase):
         response={
             200: List[CohortTraitCounts],
             404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortTraitCounts',
     )
     def get_cohort_trait_counts(self, cohortId: str, trait: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         counter = cohort.get_cohort_trait_counts(convert_api_path_to_snake_case_path(trait))
         return 200, [CohortTraitCounts(category=category, counts=count, percentage=percentage) for category, (count, percentage) in counter.items()]

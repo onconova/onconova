@@ -3,9 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Subquery, F, OuterRef, Case, When, Value, Q
 from django.db.models.functions import Coalesce
 
-from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
-from ninja_extra import api_controller, ControllerBase, route
+from ninja_extra import route, api_controller, ControllerBase
 
 from pop.analytics.schemas.analysis import KapplerMeierCurve
 from pop.analytics.analysis import calculate_Kappler_Maier_survival_curve, calculate_pfs_by_combination_therapy, calculate_pfs_by_therapy_classification
@@ -15,6 +14,8 @@ from pop.core import permissions as perms
 
 from collections import Counter
 from enum import Enum
+from .cohort import EmptyCohortException
+
 
 class FeaturesCounters(str,Enum):
     gender = 'gender'
@@ -33,13 +34,17 @@ class CohortAnalysisController(ControllerBase):
     @route.get(
         path='/{cohortId}/overall-survival-curve', 
         response={
-            200: KapplerMeierCurve
+            200: KapplerMeierCurve,
+            404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortOverallSurvivalCurve',
     )
     def get_cohort_overall_survival_curve(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         # Get all the OS values for the cohort
         overall_survivals = list(cohort.cases.annotate(overall_survival=F('overall_survival')).values_list('overall_survival',flat=True))
         # Compute and return the OS KM-curve
@@ -54,7 +59,9 @@ class CohortAnalysisController(ControllerBase):
     @route.get(
         path='/{cohortId}/genomics', 
         response={
-            200: dict
+            200: dict,
+            404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortGenomics',
@@ -62,6 +69,8 @@ class CohortAnalysisController(ControllerBase):
     def get_cohort_genomics(self, cohortId: str):
         from pop.oncology.models import GenomicVariant
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         variants = GenomicVariant.objects.filter(case__in=cohort.cases.all())
         genes = [gene[0] for gene in Counter(variants.values_list('genes__display', flat=True)).most_common(25)]
         variants = variants.filter(genes__display__in=genes).annotate(
@@ -73,13 +82,17 @@ class CohortAnalysisController(ControllerBase):
     @route.get(
         path='/{cohortId}/progression-free-survival-curve/{therapyLine}', 
         response={
-            200: KapplerMeierCurve
+            200: KapplerMeierCurve,
+            404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortProgressionFreeSurvivalCurve',
     )
     def get_cohort_progression_free_survival_curve(self, cohortId: str, therapyLine: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         progression_free_survivals = cohort.cases.annotate(progression_free_survival=
             # Filter all therapy lines for current patient and by the queries line-label
             Subquery(
@@ -103,24 +116,32 @@ class CohortAnalysisController(ControllerBase):
     @route.get(
         path='/{cohortId}/progression-free-survival/{therapyLine}/drug-combinations', 
         response={
-            200: dict
+            200: dict,
+            404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortProgressionFreeSurvivalCurveByDrugCombinations',
     )
     def get_cohort_progression_free_survival_curve_by_drug_combinations(self, cohortId: str, therapyLine: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         return 200, calculate_pfs_by_combination_therapy(cohort, therapyLine)
     
 
     @route.get(
         path='/{cohortId}/progression-free-survival/{therapyLine}/therapy-classifications', 
         response={
-            200: dict
+            200: dict,
+            404: None,
+            422: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortProgressionFreeSurvivalCurveByTherapyClassifications',
     )
     def get_cohort_progression_free_survival_curve_by_therapy_classifications(self, cohortId: str, therapyLine: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
         return 200, calculate_pfs_by_therapy_classification(cohort, therapyLine)
