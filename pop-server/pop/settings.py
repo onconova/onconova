@@ -78,6 +78,7 @@ NINJA_JWT = {
     "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.AccessToken","ninja_jwt.tokens.RefreshToken"),
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
+    "UPDATE_LAST_LOGIN": True,
 }
 
 ROOT_URLCONF = 'pop.urls'
