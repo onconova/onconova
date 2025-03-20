@@ -38,149 +38,49 @@
 
 <div class="flex flex-wrap gap-4 mb-3">
 
-    <p-card class="flex" styleClass="border border-surface shadow-none">
-        <div class="flex justify-between gap-8">
-            <div class="flex flex gap-2">
+    <pop-cohort-trait-panel  title="Population" [icon]="populationIcon" [loading]="loading || !cohort">
+        <span *ngIf="cohort" class="font-bold text-lg">{{ cohort.population }}</span> cases
+    </pop-cohort-trait-panel>
 
-                <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="populationIcon"></lucide-angular>
-                    </p-avatar>
-                </div>
+    @let cohortAgeStats = cohortAgeStats$ | async;
+    <pop-cohort-trait-panel  title="Median age" [icon]="ageIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        <ng-container *ngIf="cohortAgeStats">
+            <span class="font-bold text-lg">{{ cohortAgeStats.median }}</span> 
+            <span *ngIf="cohortAgeStats.interQuartalRange !== null" class="">
+                ({{ cohortAgeStats.interQuartalRange[0] }}, {{ cohortAgeStats.interQuartalRange[1] }})
+            </span> years
+        </ng-container>
+    </pop-cohort-trait-panel>
 
-                <div class="flex flex-column">
-                    <div class="text-muted mb-1">Population</div>
-                    <div class="flex">
-                        <div *ngIf="!loading && cohort">
-                            <span class="font-bold text-lg">{{ cohort.population }}</span> cases
-                        </div>
-                        <div *ngIf="loading || !cohort">
-                            <p-skeleton width="10rem" height="1.5rem" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </p-card>
+    @let cohortGenderStats = cohortGenderStats$ | async;
+    <pop-cohort-trait-panel  title="Predominant gender" [icon]="genderIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        <ng-container *ngIf="cohortGenderStats">
+            <span class="font-bold text-lg">{{ cohortGenderStats.category }}</span> 
+            <span *ngIf="cohortGenderStats.percentage !== null" class="">
+                {{ cohortGenderStats.percentage | number:'1.0-1' }}%
+            </span>
+        </ng-container>
+    </pop-cohort-trait-panel>
 
-    <p-card class="flex" styleClass="border border-surface shadow-none">
-        <div class="flex justify-between gap-8">
-            <div class="flex flex gap-2">
-                
-                <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="ageIcon"></lucide-angular>
-                    </p-avatar>
-                </div>
+    @let cohortOverallSurvivalStats = cohortOverallSurvivalStats$ | async;
+    <pop-cohort-trait-panel  title="Median overall survival" [icon]="survivalIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        <ng-container *ngIf="cohortOverallSurvivalStats">
+            <span class="font-bold text-lg">{{ cohortOverallSurvivalStats.median | number:'1.0-0' }}</span> 
+            <span *ngIf="cohortOverallSurvivalStats.interQuartalRange !== null" class="">
+                ({{ cohortOverallSurvivalStats.interQuartalRange[0] | number:'1.0-0' }}, {{ cohortOverallSurvivalStats.interQuartalRange[1] | number:'1.0-0' }})
+            </span> months
+        </ng-container>
+    </pop-cohort-trait-panel>
 
-                <div class="flex flex-column">
-                    <div class="text-muted mb-1">Median age</div>
-                    <div class="flex">
-                        @let cohortAgeStats = cohortAgeStats$ | async;
-                        <div *ngIf="!loading && cohortAgeStats">
-                            <span class="font-bold text-lg">{{ cohortAgeStats.median }}</span> 
-                            <span *ngIf="cohortAgeStats.interQuartalRange !== null" class="">
-                                ({{ cohortAgeStats.interQuartalRange[0] }}, {{ cohortAgeStats.interQuartalRange[1] }})
-                            </span> years
-                        </div>
-                        <div *ngIf="loading || !cohortAgeStats">
-                            <p-skeleton width="10rem" height="1.5rem" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </p-card>
-
-    <p-card class="flex" styleClass="border border-surface shadow-none">
-        <div class="flex justify-between gap-8">
-            <div class="flex flex gap-2">
-                
-                <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="genderIcon"></lucide-angular>
-                    </p-avatar>
-                </div>
-
-                <div class="flex flex-column">
-                    <div class="text-muted mb-1">Predominant gender</div>
-                    <div class="flex">
-                        @let cohortGenderStats = cohortGenderStats$ | async;
-                        <div *ngIf="!loading && cohortGenderStats">
-                            <span class="font-bold text-lg">{{ cohortGenderStats.category }}</span> 
-                            <span *ngIf="cohortGenderStats.percentage !== null" class="">
-                                {{ cohortGenderStats.percentage | number:'1.0-1' }}%
-                            </span>
-                        </div>
-                        <div *ngIf="loading || !cohortGenderStats">
-                            <p-skeleton width="10rem" height="1.5rem" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </p-card>
-
-    <p-card class="flex" styleClass="border border-surface shadow-none">
-        <div class="flex justify-between gap-8">
-            <div class="flex flex gap-2">
-                
-                <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="survivalIcon"></lucide-angular>
-                    </p-avatar>
-                </div>
-
-                <div class="flex flex-column">
-                    <div class="text-muted mb-1">Median overall survival</div>
-                    <div class="flex">
-                        @let cohortOverallSurvivalStats = cohortOverallSurvivalStats$ | async;
-                        <div *ngIf="!loading && cohortOverallSurvivalStats">
-                            <span class="font-bold text-lg">{{ cohortOverallSurvivalStats.median | number:'1.0-0' }}</span> 
-                            <span *ngIf="cohortOverallSurvivalStats.interQuartalRange !== null" class="">
-                                ({{ cohortOverallSurvivalStats.interQuartalRange[0] | number:'1.0-0' }}, {{ cohortOverallSurvivalStats.interQuartalRange[1] | number:'1.0-0' }})
-                            </span> months
-                        </div>
-                        <div *ngIf="loading || !cohortOverallSurvivalStats">
-                            <p-skeleton width="10rem" height="1.5rem" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </p-card>
-
-
-    <p-card class="flex" styleClass="border border-surface shadow-none">
-        <div class="flex justify-between gap-8">
-            <div class="flex flex gap-2">
-
-                <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="completionIcon"></lucide-angular>
-                    </p-avatar>
-                </div>
-
-                <div class="flex flex-column">
-                    <div class="text-muted mb-1">Median data completion</div>
-                    <div class="flex">
-                        @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
-                        <div *ngIf="!loading && cohortDataCompletionStats">
-                            <span class="font-bold text-lg">{{ cohortDataCompletionStats.median}}%</span>
-                            <span *ngIf="cohortDataCompletionStats.interQuartalRange !== null" class="">                                
-                                ({{ cohortDataCompletionStats.interQuartalRange[0] }}, {{ cohortDataCompletionStats.interQuartalRange[1] }})
-                            </span> categories
-                        </div>
-                        <div *ngIf="loading || !cohortDataCompletionStats">
-                            <p-skeleton width="10rem" height="1.5rem" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </p-card>
-
-
+    @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
+    <pop-cohort-trait-panel  title="Median data completion" [icon]="completionIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        <ng-container *ngIf="cohortDataCompletionStats">
+            <span class="font-bold text-lg">{{ cohortDataCompletionStats.median}}%</span>
+            <span *ngIf="cohortDataCompletionStats.interQuartalRange !== null" class="">                                
+                ({{ cohortDataCompletionStats.interQuartalRange[0] }}, {{ cohortDataCompletionStats.interQuartalRange[1] }})
+            </span> categories
+        </ng-container>
+    </pop-cohort-trait-panel>
 </div>
 
 
@@ -242,65 +142,69 @@
         <p-tab value="4">History</p-tab>
     </p-tablist>
     <p-tabpanels *ngIf="cohort">
-        <p-tabpanel value="0">
-            <ng-container *ngIf="!loading && cohortCases"> 
-                <p-dataView 
-                [value]="cohortCases || undefined"
-                [paginator]="true" 
-                [rows]="pageSize" 
-                layout="grid"
-                sortField="createdAt"
-                lazy="true"
-                [totalRecords]="cohort.population"
-                (onLazyLoad)="setPaginationAndRefresh($event)"
-                class="no-background">
-                    <ng-template #grid let-cases>
-                        <div class="grid mt-3">
-                            <div class="col p-2"*ngFor="let case of cases; let first = first" >
-                                <pop-case-search-item 
-                                [case]="case"/>
-                            </div>
-                        </div>
-                    </ng-template>
-                </p-dataView>
-            </ng-container>
-
-            <!-- Skeleton loader -->
-            <ng-container *ngIf="loading || !cohortCases">
-                <div class="grid gap-5 mt-5">
-                    <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
-                        <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
-                            <div class="flex my-3">
-                                <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
-                                <div class="flex flex-column mx-3">
-                                    <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
-                                    <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
+        <ng-container *ngIf="cohort.population > 0">
+            <p-tabpanel value="0">
+                <ng-container *ngIf="!loading && cohortCases"> 
+                    <p-dataView 
+                    [value]="cohortCases || undefined"
+                    [paginator]="true" 
+                    [rows]="pageSize" 
+                    layout="grid"
+                    sortField="createdAt"
+                    lazy="true"
+                    [totalRecords]="cohort.population"
+                    (onLazyLoad)="setPaginationAndRefresh($event)"
+                    class="no-background">
+                        <ng-template #grid let-cases>
+                            <div class="grid mt-3">
+                                <div class="col p-2"*ngFor="let case of cases; let first = first" >
+                                    <pop-case-search-item 
+                                    [case]="case"/>
                                 </div>
                             </div>
-                            <div class="mb-3 mt-4">
-                                <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                            </div>
-                            <div class="my-3 mb-5">
-                                <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                            </div>
-                            <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
-                        </div>
-                    </ng-container>
-                </div>
-            </ng-container>
+                        </ng-template>
+                    </p-dataView>
+                </ng-container>
 
-        </p-tabpanel>
-        <p-tabpanel value="1">
-            <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
-        </p-tabpanel>
-        <p-tabpanel value="2">
-            <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
-        </p-tabpanel>
-        <p-tabpanel value="3">
-            <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
-        </p-tabpanel>
-        <p-tabpanel value="4">
-            
+                <!-- Skeleton loader -->
+                <ng-container *ngIf="loading || !cohortCases">
+                    <div class="grid gap-5 mt-5">
+                        <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
+                            <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
+                                <div class="flex my-3">
+                                    <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
+                                    <div class="flex flex-column mx-3">
+                                        <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
+                                        <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
+                                    </div>
+                                </div>
+                                <div class="mb-3 mt-4">
+                                    <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                                </div>
+                                <div class="my-3 mb-5">
+                                    <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                                </div>
+                                <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+
+            </p-tabpanel>
+            <p-tabpanel value="1">
+                <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
+            </p-tabpanel>
+            <p-tabpanel value="2">
+                <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
+            </p-tabpanel>
+            <p-tabpanel value="3">
+                <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
+            </p-tabpanel>
+        </ng-container>
+        
+        <p-message *ngIf="cohort.population==0" styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">No available results due to empty cohort. Adjust to definition to include and/or exclude cases.</p-message>
+
+        <p-tabpanel value="4">            
         </p-tabpanel>
     </p-tabpanels>
 </p-tabs>

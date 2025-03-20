@@ -29,6 +29,8 @@ import { DatasetComposerComponent } from 'src/app/features/dataset-composer/data
 import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.component';
 import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.component';
 import { Skeleton } from 'primeng/skeleton';
+import { Message } from 'primeng/message';
+import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-panel.component';
 
 
 @Component({
@@ -47,7 +49,9 @@ import { Skeleton } from 'primeng/skeleton';
         CohortQueryBuilderComponent,
         CaseBrowserCardComponent,
         DatasetComposerComponent,
+        CohortTraitPanel,
         Panel,
+        Message,
         Card,
         Skeleton,
         InputText,
@@ -119,8 +123,13 @@ export class CohortBuilderComponent {
 
     refreshCohortStatistics() {
         const errorHandler = (error: any) => {
-            this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort statistics', detail: error.error.detail })
-            return of(null)
+            if (error.status == 422) {
+                return of(null)
+            } else {
+                this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort statistics', detail: error.error.detail })
+                console.error(error)
+                return of(null)
+            }
         }
         this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
         this.cohortGenderStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'gender.display'}).pipe(
