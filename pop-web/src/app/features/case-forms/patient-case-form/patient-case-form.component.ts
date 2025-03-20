@@ -21,6 +21,7 @@ import {
 
 import { UserPlus } from 'lucide-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { first, map } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -65,10 +66,22 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
   public readonly subtitle: string = 'Register a new patient case'
   public readonly icon = UserPlus;
 
+  public defaultClinicalCenter$ = this.caseService.getDefaultClinicalCenter().pipe(
+    first(),
+    map(center => {
+      const ClinicalCenterControl = this.form.get('identification')?.get('clinicalCenter');
+      if (ClinicalCenterControl) {
+        ClinicalCenterControl.setValue(center);
+        ClinicalCenterControl.updateValueAndValidity();
+      }
+    })
+  );
+
   public centers: string[] = [];
 
   ngOnInit() {
     this.constructForm();
+    this.defaultClinicalCenter$.subscribe()
     this.onIsAliveChange();
   }
 
@@ -121,7 +134,7 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
     });
   }
 
-  searchCenter(event: {originalEvent: Event, query: string} ) {
+  searchCenter(event: {originalEvent: Event, query: string}) {
     this.caseService.getPatientCases({clinicalCenterContains: event.query}).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
