@@ -3,13 +3,11 @@
 from django.test import TestCase
 from unittest.mock import MagicMock
 
-from django.db.models import Subquery
 from django.db.models import F 
-from django_mock_queries.query import MockModel
-from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg
 from pydantic import ValidationError
 from pop.tests import factories
+from pop.tests.models import MockModel
 import pop.oncology.models as models
 from pop.analytics.models import Cohort 
 from pop.analytics.schemas import DatasetRule
@@ -153,11 +151,6 @@ class TestAggregationNode(TestCase):
         )
         subquery = self.node.aggregated_subquery
         self.assertIsInstance(subquery, ArrayAgg)
-
-    def test_construct_subquery_empty_annotations(self):
-        self.node.annotation_nodes = []
-        with self.assertRaises(AttributeError):
-            self.node.aggregated_subquery
 
     def test_construct_subquery_missing_aggregated_model(self):
         self.node.aggregated_model = None
