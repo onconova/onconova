@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { PatientCaseBundle, PatientCasesService } from 'src/app/shared/openapi';
+import { InteroperabilityService, PatientCaseBundle, PatientCasesService } from 'src/app/shared/openapi';
 
 import { MessageService, TreeNode } from 'primeng/api';
 import { Button } from 'primeng/button';
@@ -57,6 +57,7 @@ export class CaseImporterComponent {
     public bundleTree: TreeNode[] = [];
     private readonly messageService: MessageService = inject(MessageService);
     private readonly casesService: PatientCasesService = inject(PatientCasesService);
+    private readonly interoperabilityService: InteroperabilityService = inject(InteroperabilityService);
     public readonly authService: AuthService = inject(AuthService);
 
 
@@ -86,7 +87,7 @@ export class CaseImporterComponent {
                     if (isValid(bundle)) {
                         this.uploadedLoading = true;
                         this.casesService.getPatientCaseByPseudoidentifier({pseudoidentifier: bundle.pseudoidentifier}).pipe(
-                            mergeMap((response) => this.casesService.exportPatientCaseBundle({caseId: response.id}).pipe(first()))
+                            mergeMap((response) => this.interoperabilityService.exportPatientCaseBundle({caseId: response.id}).pipe(first()))
                         ).subscribe({
                             next: (response) => {
                                 this.conflictingBundle = response
@@ -117,8 +118,8 @@ export class CaseImporterComponent {
     }
 
     onImportBundle() {
-        this.casesService.importPatientCaseBundle({patientCaseBundle: this.bundle!}).subscribe({
-            next: (response) => {
+        this.interoperabilityService.importPatientCaseBundle({patientCaseBundle: this.bundle!}).subscribe({
+            next: () => {
                 this.messageService.add({ severity: 'success', summary: 'Import', detail: 'Succesfully imported the file' });
             },
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail }),

@@ -283,324 +283,76 @@ export interface LifestyleFilters {
      */
     'nightSleep.not.between'?: Array<any>;
     /**
-     * None - Filter for full text matches
+     * Recreational drugs - Filter for entries without a value
      */
-    'recreationalDrugs.code'?: string;
+    'recreationalDrugs.not.exists'?: boolean;
     /**
-     * None - Filter for full text mismatches
+     * Recreational drugs - Filter for entries with a value
      */
-    'recreationalDrugs.code.not'?: string;
+    'recreationalDrugs.exists'?: boolean;
     /**
-     * None - Filter for partial text matches
+     * Recreational drugs - Filter for a matching concept code
      */
-    'recreationalDrugs.code.contains'?: string;
+    recreationalDrugs?: string;
     /**
-     * None - Filter for partial text mismatches
+     * Recreational drugs - Filter for a mismatching concept code
      */
-    'recreationalDrugs.code.not.contains'?: string;
+    'recreationalDrugs.not'?: string;
     /**
-     * None - Filter for entries starting with the text
+     * Recreational drugs - Filter for a matching set of concept codes
      */
-    'recreationalDrugs.code.beginsWith'?: string;
+    'recreationalDrugs.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not starting with the text
+     * Recreational drugs - Filter for a mismmatching set of concept codes
      */
-    'recreationalDrugs.code.not.beginsWith'?: string;
+    'recreationalDrugs.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Recreational drugs - Filter for all child concepts of a given concepts code
      */
-    'recreationalDrugs.code.endsWith'?: string;
+    'recreationalDrugs.descendantsOf'?: string;
     /**
-     * None - Filter for entries not ending with the text
+     * Recreational drugs - Filter for entries matching all of the concepts
      */
-    'recreationalDrugs.code.not.endsWith'?: string;
+    'recreationalDrugs.allOf'?: Array<string>;
     /**
-     * None - Filter for full text matches
+     * Recreational drugs - Filter for entries mismatching all of the concepts
      */
-    'recreationalDrugs.system'?: string;
+    'recreationalDrugs.not.allOf'?: Array<string>;
     /**
-     * None - Filter for full text mismatches
+     * Exposures - Filter for entries without a value
      */
-    'recreationalDrugs.system.not'?: string;
+    'exposures.not.exists'?: boolean;
     /**
-     * None - Filter for partial text matches
+     * Exposures - Filter for entries with a value
      */
-    'recreationalDrugs.system.contains'?: string;
+    'exposures.exists'?: boolean;
     /**
-     * None - Filter for partial text mismatches
+     * Exposures - Filter for a matching concept code
      */
-    'recreationalDrugs.system.not.contains'?: string;
+    exposures?: string;
     /**
-     * None - Filter for entries starting with the text
+     * Exposures - Filter for a mismatching concept code
      */
-    'recreationalDrugs.system.beginsWith'?: string;
+    'exposures.not'?: string;
     /**
-     * None - Filter for entries not starting with the text
+     * Exposures - Filter for a matching set of concept codes
      */
-    'recreationalDrugs.system.not.beginsWith'?: string;
+    'exposures.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Exposures - Filter for a mismmatching set of concept codes
      */
-    'recreationalDrugs.system.endsWith'?: string;
+    'exposures.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not ending with the text
+     * Exposures - Filter for all child concepts of a given concepts code
      */
-    'recreationalDrugs.system.not.endsWith'?: string;
+    'exposures.descendantsOf'?: string;
     /**
-     * None - Filter for entries without a value
+     * Exposures - Filter for entries matching all of the concepts
      */
-    'recreationalDrugs.display.not.exists'?: boolean;
+    'exposures.allOf'?: Array<string>;
     /**
-     * None - Filter for entries with a value
+     * Exposures - Filter for entries mismatching all of the concepts
      */
-    'recreationalDrugs.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'recreationalDrugs.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'recreationalDrugs.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'recreationalDrugs.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'recreationalDrugs.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'recreationalDrugs.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'recreationalDrugs.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'recreationalDrugs.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'recreationalDrugs.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recreationalDrugs.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recreationalDrugs.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'recreationalDrugs.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'recreationalDrugs.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'recreationalDrugs.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'recreationalDrugs.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'recreationalDrugs.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'recreationalDrugs.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'recreationalDrugs.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'recreationalDrugs.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recreationalDrugs.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recreationalDrugs.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recreationalDrugs.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recreationalDrugs.properties.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'exposures.code'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'exposures.code.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'exposures.code.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'exposures.code.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'exposures.code.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'exposures.code.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'exposures.code.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'exposures.code.not.endsWith'?: string;
-    /**
-     * None - Filter for full text matches
-     */
-    'exposures.system'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'exposures.system.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'exposures.system.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'exposures.system.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'exposures.system.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'exposures.system.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'exposures.system.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'exposures.system.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'exposures.display.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'exposures.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'exposures.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'exposures.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'exposures.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'exposures.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'exposures.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'exposures.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'exposures.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'exposures.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'exposures.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'exposures.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'exposures.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'exposures.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'exposures.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'exposures.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'exposures.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'exposures.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'exposures.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'exposures.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'exposures.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'exposures.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'exposures.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'exposures.properties.exists'?: boolean;
+    'exposures.not.allOf'?: Array<string>;
 }
 

@@ -378,46 +378,15 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
         const methodologyDescendantsOf = requestParameters?.methodologyDescendantsOf;
         const assessedEntitiesIds = requestParameters?.assessedEntitiesIds;
         const assessedEntitiesIdsNot = requestParameters?.assessedEntitiesIdsNot;
-        const assessedBodysitesCode = requestParameters?.assessedBodysitesCode;
-        const assessedBodysitesCodeNot = requestParameters?.assessedBodysitesCodeNot;
-        const assessedBodysitesCodeContains = requestParameters?.assessedBodysitesCodeContains;
-        const assessedBodysitesCodeNotContains = requestParameters?.assessedBodysitesCodeNotContains;
-        const assessedBodysitesCodeBeginsWith = requestParameters?.assessedBodysitesCodeBeginsWith;
-        const assessedBodysitesCodeNotBeginsWith = requestParameters?.assessedBodysitesCodeNotBeginsWith;
-        const assessedBodysitesCodeEndsWith = requestParameters?.assessedBodysitesCodeEndsWith;
-        const assessedBodysitesCodeNotEndsWith = requestParameters?.assessedBodysitesCodeNotEndsWith;
-        const assessedBodysitesSystem = requestParameters?.assessedBodysitesSystem;
-        const assessedBodysitesSystemNot = requestParameters?.assessedBodysitesSystemNot;
-        const assessedBodysitesSystemContains = requestParameters?.assessedBodysitesSystemContains;
-        const assessedBodysitesSystemNotContains = requestParameters?.assessedBodysitesSystemNotContains;
-        const assessedBodysitesSystemBeginsWith = requestParameters?.assessedBodysitesSystemBeginsWith;
-        const assessedBodysitesSystemNotBeginsWith = requestParameters?.assessedBodysitesSystemNotBeginsWith;
-        const assessedBodysitesSystemEndsWith = requestParameters?.assessedBodysitesSystemEndsWith;
-        const assessedBodysitesSystemNotEndsWith = requestParameters?.assessedBodysitesSystemNotEndsWith;
-        const assessedBodysitesDisplayNotExists = requestParameters?.assessedBodysitesDisplayNotExists;
-        const assessedBodysitesDisplayExists = requestParameters?.assessedBodysitesDisplayExists;
-        const assessedBodysitesDisplay = requestParameters?.assessedBodysitesDisplay;
-        const assessedBodysitesDisplayNot = requestParameters?.assessedBodysitesDisplayNot;
-        const assessedBodysitesDisplayContains = requestParameters?.assessedBodysitesDisplayContains;
-        const assessedBodysitesDisplayNotContains = requestParameters?.assessedBodysitesDisplayNotContains;
-        const assessedBodysitesDisplayBeginsWith = requestParameters?.assessedBodysitesDisplayBeginsWith;
-        const assessedBodysitesDisplayNotBeginsWith = requestParameters?.assessedBodysitesDisplayNotBeginsWith;
-        const assessedBodysitesDisplayEndsWith = requestParameters?.assessedBodysitesDisplayEndsWith;
-        const assessedBodysitesDisplayNotEndsWith = requestParameters?.assessedBodysitesDisplayNotEndsWith;
-        const assessedBodysitesVersionNotExists = requestParameters?.assessedBodysitesVersionNotExists;
-        const assessedBodysitesVersionExists = requestParameters?.assessedBodysitesVersionExists;
-        const assessedBodysitesVersion = requestParameters?.assessedBodysitesVersion;
-        const assessedBodysitesVersionNot = requestParameters?.assessedBodysitesVersionNot;
-        const assessedBodysitesVersionContains = requestParameters?.assessedBodysitesVersionContains;
-        const assessedBodysitesVersionNotContains = requestParameters?.assessedBodysitesVersionNotContains;
-        const assessedBodysitesVersionBeginsWith = requestParameters?.assessedBodysitesVersionBeginsWith;
-        const assessedBodysitesVersionNotBeginsWith = requestParameters?.assessedBodysitesVersionNotBeginsWith;
-        const assessedBodysitesVersionEndsWith = requestParameters?.assessedBodysitesVersionEndsWith;
-        const assessedBodysitesVersionNotEndsWith = requestParameters?.assessedBodysitesVersionNotEndsWith;
-        const assessedBodysitesSynonymsNotExists = requestParameters?.assessedBodysitesSynonymsNotExists;
-        const assessedBodysitesSynonymsExists = requestParameters?.assessedBodysitesSynonymsExists;
-        const assessedBodysitesPropertiesNotExists = requestParameters?.assessedBodysitesPropertiesNotExists;
-        const assessedBodysitesPropertiesExists = requestParameters?.assessedBodysitesPropertiesExists;
+        const assessedBodysitesNotExists = requestParameters?.assessedBodysitesNotExists;
+        const assessedBodysitesExists = requestParameters?.assessedBodysitesExists;
+        const assessedBodysites = requestParameters?.assessedBodysites;
+        const assessedBodysitesNot = requestParameters?.assessedBodysitesNot;
+        const assessedBodysitesAnyOf = requestParameters?.assessedBodysitesAnyOf;
+        const assessedBodysitesNotAnyOf = requestParameters?.assessedBodysitesNotAnyOf;
+        const assessedBodysitesDescendantsOf = requestParameters?.assessedBodysitesDescendantsOf;
+        const assessedBodysitesAllOf = requestParameters?.assessedBodysitesAllOf;
+        const assessedBodysitesNotAllOf = requestParameters?.assessedBodysitesNotAllOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -590,165 +559,49 @@ export class TreatmentResponsesService implements TreatmentResponsesServiceInter
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>assessedEntitiesIdsNot, 'assessedEntitiesIds.not');
         }
-        if (assessedBodysitesCode !== undefined && assessedBodysitesCode !== null) {
+        if (assessedBodysitesNotExists !== undefined && assessedBodysitesNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCode, 'assessedBodysites.code');
+            <any>assessedBodysitesNotExists, 'assessedBodysites.not.exists');
         }
-        if (assessedBodysitesCodeNot !== undefined && assessedBodysitesCodeNot !== null) {
+        if (assessedBodysitesExists !== undefined && assessedBodysitesExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeNot, 'assessedBodysites.code.not');
+            <any>assessedBodysitesExists, 'assessedBodysites.exists');
         }
-        if (assessedBodysitesCodeContains !== undefined && assessedBodysitesCodeContains !== null) {
+        if (assessedBodysites !== undefined && assessedBodysites !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeContains, 'assessedBodysites.code.contains');
+            <any>assessedBodysites, 'assessedBodysites');
         }
-        if (assessedBodysitesCodeNotContains !== undefined && assessedBodysitesCodeNotContains !== null) {
+        if (assessedBodysitesNot !== undefined && assessedBodysitesNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeNotContains, 'assessedBodysites.code.not.contains');
+            <any>assessedBodysitesNot, 'assessedBodysites.not');
         }
-        if (assessedBodysitesCodeBeginsWith !== undefined && assessedBodysitesCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeBeginsWith, 'assessedBodysites.code.beginsWith');
+        if (assessedBodysitesAnyOf) {
+            assessedBodysitesAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'assessedBodysites.anyOf');
+            })
         }
-        if (assessedBodysitesCodeNotBeginsWith !== undefined && assessedBodysitesCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeNotBeginsWith, 'assessedBodysites.code.not.beginsWith');
+        if (assessedBodysitesNotAnyOf) {
+            assessedBodysitesNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'assessedBodysites.not.anyOf');
+            })
         }
-        if (assessedBodysitesCodeEndsWith !== undefined && assessedBodysitesCodeEndsWith !== null) {
+        if (assessedBodysitesDescendantsOf !== undefined && assessedBodysitesDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeEndsWith, 'assessedBodysites.code.endsWith');
+            <any>assessedBodysitesDescendantsOf, 'assessedBodysites.descendantsOf');
         }
-        if (assessedBodysitesCodeNotEndsWith !== undefined && assessedBodysitesCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesCodeNotEndsWith, 'assessedBodysites.code.not.endsWith');
+        if (assessedBodysitesAllOf) {
+            assessedBodysitesAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'assessedBodysites.allOf');
+            })
         }
-        if (assessedBodysitesSystem !== undefined && assessedBodysitesSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystem, 'assessedBodysites.system');
-        }
-        if (assessedBodysitesSystemNot !== undefined && assessedBodysitesSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemNot, 'assessedBodysites.system.not');
-        }
-        if (assessedBodysitesSystemContains !== undefined && assessedBodysitesSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemContains, 'assessedBodysites.system.contains');
-        }
-        if (assessedBodysitesSystemNotContains !== undefined && assessedBodysitesSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemNotContains, 'assessedBodysites.system.not.contains');
-        }
-        if (assessedBodysitesSystemBeginsWith !== undefined && assessedBodysitesSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemBeginsWith, 'assessedBodysites.system.beginsWith');
-        }
-        if (assessedBodysitesSystemNotBeginsWith !== undefined && assessedBodysitesSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemNotBeginsWith, 'assessedBodysites.system.not.beginsWith');
-        }
-        if (assessedBodysitesSystemEndsWith !== undefined && assessedBodysitesSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemEndsWith, 'assessedBodysites.system.endsWith');
-        }
-        if (assessedBodysitesSystemNotEndsWith !== undefined && assessedBodysitesSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSystemNotEndsWith, 'assessedBodysites.system.not.endsWith');
-        }
-        if (assessedBodysitesDisplayNotExists !== undefined && assessedBodysitesDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayNotExists, 'assessedBodysites.display.not.exists');
-        }
-        if (assessedBodysitesDisplayExists !== undefined && assessedBodysitesDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayExists, 'assessedBodysites.display.exists');
-        }
-        if (assessedBodysitesDisplay !== undefined && assessedBodysitesDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplay, 'assessedBodysites.display');
-        }
-        if (assessedBodysitesDisplayNot !== undefined && assessedBodysitesDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayNot, 'assessedBodysites.display.not');
-        }
-        if (assessedBodysitesDisplayContains !== undefined && assessedBodysitesDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayContains, 'assessedBodysites.display.contains');
-        }
-        if (assessedBodysitesDisplayNotContains !== undefined && assessedBodysitesDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayNotContains, 'assessedBodysites.display.not.contains');
-        }
-        if (assessedBodysitesDisplayBeginsWith !== undefined && assessedBodysitesDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayBeginsWith, 'assessedBodysites.display.beginsWith');
-        }
-        if (assessedBodysitesDisplayNotBeginsWith !== undefined && assessedBodysitesDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayNotBeginsWith, 'assessedBodysites.display.not.beginsWith');
-        }
-        if (assessedBodysitesDisplayEndsWith !== undefined && assessedBodysitesDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayEndsWith, 'assessedBodysites.display.endsWith');
-        }
-        if (assessedBodysitesDisplayNotEndsWith !== undefined && assessedBodysitesDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesDisplayNotEndsWith, 'assessedBodysites.display.not.endsWith');
-        }
-        if (assessedBodysitesVersionNotExists !== undefined && assessedBodysitesVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionNotExists, 'assessedBodysites.version.not.exists');
-        }
-        if (assessedBodysitesVersionExists !== undefined && assessedBodysitesVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionExists, 'assessedBodysites.version.exists');
-        }
-        if (assessedBodysitesVersion !== undefined && assessedBodysitesVersion !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersion, 'assessedBodysites.version');
-        }
-        if (assessedBodysitesVersionNot !== undefined && assessedBodysitesVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionNot, 'assessedBodysites.version.not');
-        }
-        if (assessedBodysitesVersionContains !== undefined && assessedBodysitesVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionContains, 'assessedBodysites.version.contains');
-        }
-        if (assessedBodysitesVersionNotContains !== undefined && assessedBodysitesVersionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionNotContains, 'assessedBodysites.version.not.contains');
-        }
-        if (assessedBodysitesVersionBeginsWith !== undefined && assessedBodysitesVersionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionBeginsWith, 'assessedBodysites.version.beginsWith');
-        }
-        if (assessedBodysitesVersionNotBeginsWith !== undefined && assessedBodysitesVersionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionNotBeginsWith, 'assessedBodysites.version.not.beginsWith');
-        }
-        if (assessedBodysitesVersionEndsWith !== undefined && assessedBodysitesVersionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionEndsWith, 'assessedBodysites.version.endsWith');
-        }
-        if (assessedBodysitesVersionNotEndsWith !== undefined && assessedBodysitesVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesVersionNotEndsWith, 'assessedBodysites.version.not.endsWith');
-        }
-        if (assessedBodysitesSynonymsNotExists !== undefined && assessedBodysitesSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSynonymsNotExists, 'assessedBodysites.synonyms.not.exists');
-        }
-        if (assessedBodysitesSynonymsExists !== undefined && assessedBodysitesSynonymsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesSynonymsExists, 'assessedBodysites.synonyms.exists');
-        }
-        if (assessedBodysitesPropertiesNotExists !== undefined && assessedBodysitesPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesPropertiesNotExists, 'assessedBodysites.properties.not.exists');
-        }
-        if (assessedBodysitesPropertiesExists !== undefined && assessedBodysitesPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessedBodysitesPropertiesExists, 'assessedBodysites.properties.exists');
+        if (assessedBodysitesNotAllOf) {
+            assessedBodysitesNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'assessedBodysites.not.allOf');
+            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

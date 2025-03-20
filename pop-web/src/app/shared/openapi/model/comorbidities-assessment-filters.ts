@@ -193,325 +193,77 @@ export interface ComorbiditiesAssessmentFilters {
      */
     'panel.anyOf'?: Array<ComorbiditiesAssessmentFilters.PanelAnyOfEnum>;
     /**
-     * None - Filter for full text matches
+     * Present comorbid conditions - Filter for entries without a value
      */
-    'presentConditions.code'?: string;
+    'presentConditions.not.exists'?: boolean;
     /**
-     * None - Filter for full text mismatches
+     * Present comorbid conditions - Filter for entries with a value
      */
-    'presentConditions.code.not'?: string;
+    'presentConditions.exists'?: boolean;
     /**
-     * None - Filter for partial text matches
+     * Present comorbid conditions - Filter for a matching concept code
      */
-    'presentConditions.code.contains'?: string;
+    presentConditions?: string;
     /**
-     * None - Filter for partial text mismatches
+     * Present comorbid conditions - Filter for a mismatching concept code
      */
-    'presentConditions.code.not.contains'?: string;
+    'presentConditions.not'?: string;
     /**
-     * None - Filter for entries starting with the text
+     * Present comorbid conditions - Filter for a matching set of concept codes
      */
-    'presentConditions.code.beginsWith'?: string;
+    'presentConditions.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not starting with the text
+     * Present comorbid conditions - Filter for a mismmatching set of concept codes
      */
-    'presentConditions.code.not.beginsWith'?: string;
+    'presentConditions.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Present comorbid conditions - Filter for all child concepts of a given concepts code
      */
-    'presentConditions.code.endsWith'?: string;
+    'presentConditions.descendantsOf'?: string;
     /**
-     * None - Filter for entries not ending with the text
+     * Present comorbid conditions - Filter for entries matching all of the concepts
      */
-    'presentConditions.code.not.endsWith'?: string;
+    'presentConditions.allOf'?: Array<string>;
     /**
-     * None - Filter for full text matches
+     * Present comorbid conditions - Filter for entries mismatching all of the concepts
      */
-    'presentConditions.system'?: string;
+    'presentConditions.not.allOf'?: Array<string>;
     /**
-     * None - Filter for full text mismatches
+     * Absent comorbid conditions - Filter for entries without a value
      */
-    'presentConditions.system.not'?: string;
+    'absentConditions.not.exists'?: boolean;
     /**
-     * None - Filter for partial text matches
+     * Absent comorbid conditions - Filter for entries with a value
      */
-    'presentConditions.system.contains'?: string;
+    'absentConditions.exists'?: boolean;
     /**
-     * None - Filter for partial text mismatches
+     * Absent comorbid conditions - Filter for a matching concept code
      */
-    'presentConditions.system.not.contains'?: string;
+    absentConditions?: string;
     /**
-     * None - Filter for entries starting with the text
+     * Absent comorbid conditions - Filter for a mismatching concept code
      */
-    'presentConditions.system.beginsWith'?: string;
+    'absentConditions.not'?: string;
     /**
-     * None - Filter for entries not starting with the text
+     * Absent comorbid conditions - Filter for a matching set of concept codes
      */
-    'presentConditions.system.not.beginsWith'?: string;
+    'absentConditions.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Absent comorbid conditions - Filter for a mismmatching set of concept codes
      */
-    'presentConditions.system.endsWith'?: string;
+    'absentConditions.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not ending with the text
+     * Absent comorbid conditions - Filter for all child concepts of a given concepts code
      */
-    'presentConditions.system.not.endsWith'?: string;
+    'absentConditions.descendantsOf'?: string;
     /**
-     * None - Filter for entries without a value
+     * Absent comorbid conditions - Filter for entries matching all of the concepts
      */
-    'presentConditions.display.not.exists'?: boolean;
+    'absentConditions.allOf'?: Array<string>;
     /**
-     * None - Filter for entries with a value
+     * Absent comorbid conditions - Filter for entries mismatching all of the concepts
      */
-    'presentConditions.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'presentConditions.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'presentConditions.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'presentConditions.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'presentConditions.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'presentConditions.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'presentConditions.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'presentConditions.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'presentConditions.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'presentConditions.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'presentConditions.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'presentConditions.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'presentConditions.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'presentConditions.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'presentConditions.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'presentConditions.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'presentConditions.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'presentConditions.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'presentConditions.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'presentConditions.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'presentConditions.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'presentConditions.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'presentConditions.properties.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'absentConditions.code'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'absentConditions.code.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'absentConditions.code.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'absentConditions.code.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'absentConditions.code.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'absentConditions.code.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'absentConditions.code.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'absentConditions.code.not.endsWith'?: string;
-    /**
-     * None - Filter for full text matches
-     */
-    'absentConditions.system'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'absentConditions.system.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'absentConditions.system.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'absentConditions.system.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'absentConditions.system.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'absentConditions.system.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'absentConditions.system.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'absentConditions.system.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'absentConditions.display.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'absentConditions.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'absentConditions.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'absentConditions.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'absentConditions.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'absentConditions.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'absentConditions.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'absentConditions.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'absentConditions.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'absentConditions.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'absentConditions.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'absentConditions.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'absentConditions.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'absentConditions.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'absentConditions.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'absentConditions.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'absentConditions.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'absentConditions.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'absentConditions.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'absentConditions.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'absentConditions.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'absentConditions.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'absentConditions.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'absentConditions.properties.exists'?: boolean;
+    'absentConditions.not.allOf'?: Array<string>;
 }
 export namespace ComorbiditiesAssessmentFilters {
     export type PanelEnum = 'Charlson' | 'Elixhauser' | 'NCI';

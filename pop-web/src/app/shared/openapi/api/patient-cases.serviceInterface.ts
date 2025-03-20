@@ -14,7 +14,6 @@ import { Observable }                                        from 'rxjs';
 import { ModifiedResource } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
-import { PatientCaseBundle } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
 import { PatientCaseDataCompletionStatusSchema } from '../model/models';
 
@@ -38,10 +37,6 @@ export interface DeletePatientCaseByIdRequestParams {
 export interface DeletePatientCaseDataCompletionRequestParams {
     caseId: string;
     category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
-}
-
-export interface ExportPatientCaseBundleRequestParams {
-    caseId: string;
 }
 
 export interface GetPatientCaseByIdRequestParams {
@@ -186,10 +181,6 @@ export interface GetPatientCasesRequestParams {
     offset?: number;
 }
 
-export interface ImportPatientCaseBundleRequestParams {
-    patientCaseBundle: PatientCaseBundle;
-}
-
 export interface UpdatePatientCaseByIdRequestParams {
     caseId: string;
     patientCaseCreate: PatientCaseCreate;
@@ -229,11 +220,10 @@ export interface PatientCasesServiceInterface {
     deletePatientCaseDataCompletion(requestParameters: DeletePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
-     * Export Case Bundle
+     * Get Default Clinical Center
      * 
-* @param requestParameters
-     */
-    exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
+*/
+    getDefaultClinicalCenter(extraHttpRequestParams?: any): Observable<string>;
 
     /**
      * Get Patient Case By Id
@@ -262,13 +252,6 @@ export interface PatientCasesServiceInterface {
 * @param requestParameters
      */
     getPatientCases(requestParameters: GetPatientCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
-
-    /**
-     * Import Case Bundle
-     * 
-* @param requestParameters
-     */
-    importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Patient Case

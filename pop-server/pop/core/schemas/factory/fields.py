@@ -70,14 +70,14 @@ def process_non_relation_field(field):
         python_type = RangeSchema
     elif isinstance(field, CharField) and field.choices is not None:
         python_type = enum.Enum(
-            f"{field.model.__name__ if hasattr(field, 'model') else ''}{to_camel_case(field.name)}Choices",
+            f"{field.model.__name__ if hasattr(field, 'model') else ''}{to_camel_case(field.name)[0].upper() + to_camel_case(field.name)[1:]}Choices",
             {value.upper(): value for value, _ in field.choices},
             type=str,
         )
     else:
         python_type = DJANGO_TO_PYDANTIC_TYPES.get(internal_type, str)
     
-    if field.has_default():
+    if field.has_default() and not field.primary_key:
         default = field.default() if callable(field.default) else field.default
         default_factory = field.default if callable(field.default) else None
     else:

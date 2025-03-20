@@ -9,7 +9,7 @@
  */
 
 
-export type CohortQueryFilter = 'ExactStringFilter' | 'NotExactStringFilter' | 'ContainsStringFilter' | 'NotContainsStringFilter' | 'BeginsWithStringFilter' | 'NotBeginsWithStringFilter' | 'EndsWithStringFilter' | 'NotEndsWithStringFilter' | 'BeforeDateFilter' | 'AfterDateFilter' | 'OnOrBeforeDateFilter' | 'OnOrAfterDateFilter' | 'OnDateFilter' | 'NotOnDateFilter' | 'BetweenDatesFilter' | 'NotBetweenDatesFilter' | 'OverlapsPeriodFilter' | 'NotOverlapsPeriodFilter' | 'ContainsPeriodFilter' | 'NotContainsPeriodFilter' | 'ContainedByPeriodFilter' | 'NotContainedByPeriodFilter' | 'LessThanIntegerFilter' | 'LessThanOrEqualIntegerFilter' | 'GreaterThanIntegerFilter' | 'GreaterThanOrEqualIntegerFilter' | 'EqualIntegerFilter' | 'NotEqualIntegerFilter' | 'BetweenIntegerFilter' | 'NotBetweenIntegerFilter' | 'LessThanFloatFilter' | 'LessThanOrEqualFloatFilter' | 'GreaterThanFloatFilter' | 'GreaterThanOrEqualFloatFilter' | 'EqualFloatFilter' | 'NotEqualFloatFilter' | 'BetweenFloatFilter' | 'NotBetweenFloatFilter' | 'EqualsBooleanFilter' | 'EqualsConceptFilter' | 'NotEqualsConceptFilter' | 'AnyOfConceptFilter' | 'NotAnyOfConceptFilter' | 'DescendantsOfConceptFilter' | 'ExactRefereceFilter' | 'NotExactRefereceFilter' | 'EqualsEnumFilter' | 'NotEqualsEnumFilter' | 'AnyOfEnumFilter' | 'NotAnyOfEnumFilter' | 'IsNullFilter' | 'NotIsNullFilter';
+export type CohortQueryFilter = 'ExactStringFilter' | 'NotExactStringFilter' | 'ContainsStringFilter' | 'NotContainsStringFilter' | 'BeginsWithStringFilter' | 'NotBeginsWithStringFilter' | 'EndsWithStringFilter' | 'NotEndsWithStringFilter' | 'BeforeDateFilter' | 'AfterDateFilter' | 'OnOrBeforeDateFilter' | 'OnOrAfterDateFilter' | 'OnDateFilter' | 'NotOnDateFilter' | 'BetweenDatesFilter' | 'NotBetweenDatesFilter' | 'OverlapsPeriodFilter' | 'NotOverlapsPeriodFilter' | 'ContainsPeriodFilter' | 'NotContainsPeriodFilter' | 'ContainedByPeriodFilter' | 'NotContainedByPeriodFilter' | 'LessThanIntegerFilter' | 'LessThanOrEqualIntegerFilter' | 'GreaterThanIntegerFilter' | 'GreaterThanOrEqualIntegerFilter' | 'EqualIntegerFilter' | 'NotEqualIntegerFilter' | 'BetweenIntegerFilter' | 'NotBetweenIntegerFilter' | 'LessThanFloatFilter' | 'LessThanOrEqualFloatFilter' | 'GreaterThanFloatFilter' | 'GreaterThanOrEqualFloatFilter' | 'EqualFloatFilter' | 'NotEqualFloatFilter' | 'BetweenFloatFilter' | 'NotBetweenFloatFilter' | 'EqualsBooleanFilter' | 'EqualsConceptFilter' | 'NotEqualsConceptFilter' | 'AnyOfConceptFilter' | 'NotAnyOfConceptFilter' | 'DescendantsOfConceptFilter' | 'AllOfConceptFilter' | 'NotAllOfConceptFilter' | 'ExactRefereceFilter' | 'NotExactRefereceFilter' | 'AnyOfReferecesFilter' | 'NotAnyOfReferecesFilter' | 'AllOfReferencesFilter' | 'NotAllOfReferencesFilter' | 'EqualsEnumFilter' | 'NotEqualsEnumFilter' | 'AnyOfEnumFilter' | 'NotAnyOfEnumFilter' | 'IsNullFilter' | 'NotIsNullFilter';
 
 export const CohortQueryFilter = {
     ExactStringFilter: 'ExactStringFilter' as CohortQueryFilter,
@@ -56,8 +56,14 @@ export const CohortQueryFilter = {
     AnyOfConceptFilter: 'AnyOfConceptFilter' as CohortQueryFilter,
     NotAnyOfConceptFilter: 'NotAnyOfConceptFilter' as CohortQueryFilter,
     DescendantsOfConceptFilter: 'DescendantsOfConceptFilter' as CohortQueryFilter,
+    AllOfConceptFilter: 'AllOfConceptFilter' as CohortQueryFilter,
+    NotAllOfConceptFilter: 'NotAllOfConceptFilter' as CohortQueryFilter,
     ExactRefereceFilter: 'ExactRefereceFilter' as CohortQueryFilter,
     NotExactRefereceFilter: 'NotExactRefereceFilter' as CohortQueryFilter,
+    AnyOfReferecesFilter: 'AnyOfReferecesFilter' as CohortQueryFilter,
+    NotAnyOfReferecesFilter: 'NotAnyOfReferecesFilter' as CohortQueryFilter,
+    AllOfReferencesFilter: 'AllOfReferencesFilter' as CohortQueryFilter,
+    NotAllOfReferencesFilter: 'NotAllOfReferencesFilter' as CohortQueryFilter,
     EqualsEnumFilter: 'EqualsEnumFilter' as CohortQueryFilter,
     NotEqualsEnumFilter: 'NotEqualsEnumFilter' as CohortQueryFilter,
     AnyOfEnumFilter: 'AnyOfEnumFilter' as CohortQueryFilter,

@@ -389,86 +389,24 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
         const panel = requestParameters?.panel;
         const panelNot = requestParameters?.panelNot;
         const panelAnyOf = requestParameters?.panelAnyOf;
-        const presentConditionsCode = requestParameters?.presentConditionsCode;
-        const presentConditionsCodeNot = requestParameters?.presentConditionsCodeNot;
-        const presentConditionsCodeContains = requestParameters?.presentConditionsCodeContains;
-        const presentConditionsCodeNotContains = requestParameters?.presentConditionsCodeNotContains;
-        const presentConditionsCodeBeginsWith = requestParameters?.presentConditionsCodeBeginsWith;
-        const presentConditionsCodeNotBeginsWith = requestParameters?.presentConditionsCodeNotBeginsWith;
-        const presentConditionsCodeEndsWith = requestParameters?.presentConditionsCodeEndsWith;
-        const presentConditionsCodeNotEndsWith = requestParameters?.presentConditionsCodeNotEndsWith;
-        const presentConditionsSystem = requestParameters?.presentConditionsSystem;
-        const presentConditionsSystemNot = requestParameters?.presentConditionsSystemNot;
-        const presentConditionsSystemContains = requestParameters?.presentConditionsSystemContains;
-        const presentConditionsSystemNotContains = requestParameters?.presentConditionsSystemNotContains;
-        const presentConditionsSystemBeginsWith = requestParameters?.presentConditionsSystemBeginsWith;
-        const presentConditionsSystemNotBeginsWith = requestParameters?.presentConditionsSystemNotBeginsWith;
-        const presentConditionsSystemEndsWith = requestParameters?.presentConditionsSystemEndsWith;
-        const presentConditionsSystemNotEndsWith = requestParameters?.presentConditionsSystemNotEndsWith;
-        const presentConditionsDisplayNotExists = requestParameters?.presentConditionsDisplayNotExists;
-        const presentConditionsDisplayExists = requestParameters?.presentConditionsDisplayExists;
-        const presentConditionsDisplay = requestParameters?.presentConditionsDisplay;
-        const presentConditionsDisplayNot = requestParameters?.presentConditionsDisplayNot;
-        const presentConditionsDisplayContains = requestParameters?.presentConditionsDisplayContains;
-        const presentConditionsDisplayNotContains = requestParameters?.presentConditionsDisplayNotContains;
-        const presentConditionsDisplayBeginsWith = requestParameters?.presentConditionsDisplayBeginsWith;
-        const presentConditionsDisplayNotBeginsWith = requestParameters?.presentConditionsDisplayNotBeginsWith;
-        const presentConditionsDisplayEndsWith = requestParameters?.presentConditionsDisplayEndsWith;
-        const presentConditionsDisplayNotEndsWith = requestParameters?.presentConditionsDisplayNotEndsWith;
-        const presentConditionsVersionNotExists = requestParameters?.presentConditionsVersionNotExists;
-        const presentConditionsVersionExists = requestParameters?.presentConditionsVersionExists;
-        const presentConditionsVersion = requestParameters?.presentConditionsVersion;
-        const presentConditionsVersionNot = requestParameters?.presentConditionsVersionNot;
-        const presentConditionsVersionContains = requestParameters?.presentConditionsVersionContains;
-        const presentConditionsVersionNotContains = requestParameters?.presentConditionsVersionNotContains;
-        const presentConditionsVersionBeginsWith = requestParameters?.presentConditionsVersionBeginsWith;
-        const presentConditionsVersionNotBeginsWith = requestParameters?.presentConditionsVersionNotBeginsWith;
-        const presentConditionsVersionEndsWith = requestParameters?.presentConditionsVersionEndsWith;
-        const presentConditionsVersionNotEndsWith = requestParameters?.presentConditionsVersionNotEndsWith;
-        const presentConditionsSynonymsNotExists = requestParameters?.presentConditionsSynonymsNotExists;
-        const presentConditionsSynonymsExists = requestParameters?.presentConditionsSynonymsExists;
-        const presentConditionsPropertiesNotExists = requestParameters?.presentConditionsPropertiesNotExists;
-        const presentConditionsPropertiesExists = requestParameters?.presentConditionsPropertiesExists;
-        const absentConditionsCode = requestParameters?.absentConditionsCode;
-        const absentConditionsCodeNot = requestParameters?.absentConditionsCodeNot;
-        const absentConditionsCodeContains = requestParameters?.absentConditionsCodeContains;
-        const absentConditionsCodeNotContains = requestParameters?.absentConditionsCodeNotContains;
-        const absentConditionsCodeBeginsWith = requestParameters?.absentConditionsCodeBeginsWith;
-        const absentConditionsCodeNotBeginsWith = requestParameters?.absentConditionsCodeNotBeginsWith;
-        const absentConditionsCodeEndsWith = requestParameters?.absentConditionsCodeEndsWith;
-        const absentConditionsCodeNotEndsWith = requestParameters?.absentConditionsCodeNotEndsWith;
-        const absentConditionsSystem = requestParameters?.absentConditionsSystem;
-        const absentConditionsSystemNot = requestParameters?.absentConditionsSystemNot;
-        const absentConditionsSystemContains = requestParameters?.absentConditionsSystemContains;
-        const absentConditionsSystemNotContains = requestParameters?.absentConditionsSystemNotContains;
-        const absentConditionsSystemBeginsWith = requestParameters?.absentConditionsSystemBeginsWith;
-        const absentConditionsSystemNotBeginsWith = requestParameters?.absentConditionsSystemNotBeginsWith;
-        const absentConditionsSystemEndsWith = requestParameters?.absentConditionsSystemEndsWith;
-        const absentConditionsSystemNotEndsWith = requestParameters?.absentConditionsSystemNotEndsWith;
-        const absentConditionsDisplayNotExists = requestParameters?.absentConditionsDisplayNotExists;
-        const absentConditionsDisplayExists = requestParameters?.absentConditionsDisplayExists;
-        const absentConditionsDisplay = requestParameters?.absentConditionsDisplay;
-        const absentConditionsDisplayNot = requestParameters?.absentConditionsDisplayNot;
-        const absentConditionsDisplayContains = requestParameters?.absentConditionsDisplayContains;
-        const absentConditionsDisplayNotContains = requestParameters?.absentConditionsDisplayNotContains;
-        const absentConditionsDisplayBeginsWith = requestParameters?.absentConditionsDisplayBeginsWith;
-        const absentConditionsDisplayNotBeginsWith = requestParameters?.absentConditionsDisplayNotBeginsWith;
-        const absentConditionsDisplayEndsWith = requestParameters?.absentConditionsDisplayEndsWith;
-        const absentConditionsDisplayNotEndsWith = requestParameters?.absentConditionsDisplayNotEndsWith;
-        const absentConditionsVersionNotExists = requestParameters?.absentConditionsVersionNotExists;
-        const absentConditionsVersionExists = requestParameters?.absentConditionsVersionExists;
-        const absentConditionsVersion = requestParameters?.absentConditionsVersion;
-        const absentConditionsVersionNot = requestParameters?.absentConditionsVersionNot;
-        const absentConditionsVersionContains = requestParameters?.absentConditionsVersionContains;
-        const absentConditionsVersionNotContains = requestParameters?.absentConditionsVersionNotContains;
-        const absentConditionsVersionBeginsWith = requestParameters?.absentConditionsVersionBeginsWith;
-        const absentConditionsVersionNotBeginsWith = requestParameters?.absentConditionsVersionNotBeginsWith;
-        const absentConditionsVersionEndsWith = requestParameters?.absentConditionsVersionEndsWith;
-        const absentConditionsVersionNotEndsWith = requestParameters?.absentConditionsVersionNotEndsWith;
-        const absentConditionsSynonymsNotExists = requestParameters?.absentConditionsSynonymsNotExists;
-        const absentConditionsSynonymsExists = requestParameters?.absentConditionsSynonymsExists;
-        const absentConditionsPropertiesNotExists = requestParameters?.absentConditionsPropertiesNotExists;
-        const absentConditionsPropertiesExists = requestParameters?.absentConditionsPropertiesExists;
+        const presentConditionsNotExists = requestParameters?.presentConditionsNotExists;
+        const presentConditionsExists = requestParameters?.presentConditionsExists;
+        const presentConditions = requestParameters?.presentConditions;
+        const presentConditionsNot = requestParameters?.presentConditionsNot;
+        const presentConditionsAnyOf = requestParameters?.presentConditionsAnyOf;
+        const presentConditionsNotAnyOf = requestParameters?.presentConditionsNotAnyOf;
+        const presentConditionsDescendantsOf = requestParameters?.presentConditionsDescendantsOf;
+        const presentConditionsAllOf = requestParameters?.presentConditionsAllOf;
+        const presentConditionsNotAllOf = requestParameters?.presentConditionsNotAllOf;
+        const absentConditionsNotExists = requestParameters?.absentConditionsNotExists;
+        const absentConditionsExists = requestParameters?.absentConditionsExists;
+        const absentConditions = requestParameters?.absentConditions;
+        const absentConditionsNot = requestParameters?.absentConditionsNot;
+        const absentConditionsAnyOf = requestParameters?.absentConditionsAnyOf;
+        const absentConditionsNotAnyOf = requestParameters?.absentConditionsNotAnyOf;
+        const absentConditionsDescendantsOf = requestParameters?.absentConditionsDescendantsOf;
+        const absentConditionsAllOf = requestParameters?.absentConditionsAllOf;
+        const absentConditionsNotAllOf = requestParameters?.absentConditionsNotAllOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -671,325 +609,93 @@ export class ComorbiditiesAssessmentsService implements ComorbiditiesAssessments
                   <any>element, 'panel.anyOf');
             })
         }
-        if (presentConditionsCode !== undefined && presentConditionsCode !== null) {
+        if (presentConditionsNotExists !== undefined && presentConditionsNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCode, 'presentConditions.code');
+            <any>presentConditionsNotExists, 'presentConditions.not.exists');
         }
-        if (presentConditionsCodeNot !== undefined && presentConditionsCodeNot !== null) {
+        if (presentConditionsExists !== undefined && presentConditionsExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeNot, 'presentConditions.code.not');
+            <any>presentConditionsExists, 'presentConditions.exists');
         }
-        if (presentConditionsCodeContains !== undefined && presentConditionsCodeContains !== null) {
+        if (presentConditions !== undefined && presentConditions !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeContains, 'presentConditions.code.contains');
+            <any>presentConditions, 'presentConditions');
         }
-        if (presentConditionsCodeNotContains !== undefined && presentConditionsCodeNotContains !== null) {
+        if (presentConditionsNot !== undefined && presentConditionsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeNotContains, 'presentConditions.code.not.contains');
+            <any>presentConditionsNot, 'presentConditions.not');
         }
-        if (presentConditionsCodeBeginsWith !== undefined && presentConditionsCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeBeginsWith, 'presentConditions.code.beginsWith');
-        }
-        if (presentConditionsCodeNotBeginsWith !== undefined && presentConditionsCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeNotBeginsWith, 'presentConditions.code.not.beginsWith');
-        }
-        if (presentConditionsCodeEndsWith !== undefined && presentConditionsCodeEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeEndsWith, 'presentConditions.code.endsWith');
-        }
-        if (presentConditionsCodeNotEndsWith !== undefined && presentConditionsCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsCodeNotEndsWith, 'presentConditions.code.not.endsWith');
-        }
-        if (presentConditionsSystem !== undefined && presentConditionsSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystem, 'presentConditions.system');
-        }
-        if (presentConditionsSystemNot !== undefined && presentConditionsSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemNot, 'presentConditions.system.not');
-        }
-        if (presentConditionsSystemContains !== undefined && presentConditionsSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemContains, 'presentConditions.system.contains');
-        }
-        if (presentConditionsSystemNotContains !== undefined && presentConditionsSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemNotContains, 'presentConditions.system.not.contains');
-        }
-        if (presentConditionsSystemBeginsWith !== undefined && presentConditionsSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemBeginsWith, 'presentConditions.system.beginsWith');
-        }
-        if (presentConditionsSystemNotBeginsWith !== undefined && presentConditionsSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemNotBeginsWith, 'presentConditions.system.not.beginsWith');
-        }
-        if (presentConditionsSystemEndsWith !== undefined && presentConditionsSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemEndsWith, 'presentConditions.system.endsWith');
-        }
-        if (presentConditionsSystemNotEndsWith !== undefined && presentConditionsSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSystemNotEndsWith, 'presentConditions.system.not.endsWith');
-        }
-        if (presentConditionsDisplayNotExists !== undefined && presentConditionsDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayNotExists, 'presentConditions.display.not.exists');
-        }
-        if (presentConditionsDisplayExists !== undefined && presentConditionsDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayExists, 'presentConditions.display.exists');
-        }
-        if (presentConditionsDisplay !== undefined && presentConditionsDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplay, 'presentConditions.display');
-        }
-        if (presentConditionsDisplayNot !== undefined && presentConditionsDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayNot, 'presentConditions.display.not');
-        }
-        if (presentConditionsDisplayContains !== undefined && presentConditionsDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayContains, 'presentConditions.display.contains');
-        }
-        if (presentConditionsDisplayNotContains !== undefined && presentConditionsDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayNotContains, 'presentConditions.display.not.contains');
-        }
-        if (presentConditionsDisplayBeginsWith !== undefined && presentConditionsDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayBeginsWith, 'presentConditions.display.beginsWith');
-        }
-        if (presentConditionsDisplayNotBeginsWith !== undefined && presentConditionsDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayNotBeginsWith, 'presentConditions.display.not.beginsWith');
-        }
-        if (presentConditionsDisplayEndsWith !== undefined && presentConditionsDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayEndsWith, 'presentConditions.display.endsWith');
-        }
-        if (presentConditionsDisplayNotEndsWith !== undefined && presentConditionsDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsDisplayNotEndsWith, 'presentConditions.display.not.endsWith');
-        }
-        if (presentConditionsVersionNotExists !== undefined && presentConditionsVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionNotExists, 'presentConditions.version.not.exists');
-        }
-        if (presentConditionsVersionExists !== undefined && presentConditionsVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionExists, 'presentConditions.version.exists');
-        }
-        if (presentConditionsVersion !== undefined && presentConditionsVersion !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersion, 'presentConditions.version');
-        }
-        if (presentConditionsVersionNot !== undefined && presentConditionsVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionNot, 'presentConditions.version.not');
-        }
-        if (presentConditionsVersionContains !== undefined && presentConditionsVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionContains, 'presentConditions.version.contains');
-        }
-        if (presentConditionsVersionNotContains !== undefined && presentConditionsVersionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionNotContains, 'presentConditions.version.not.contains');
-        }
-        if (presentConditionsVersionBeginsWith !== undefined && presentConditionsVersionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionBeginsWith, 'presentConditions.version.beginsWith');
-        }
-        if (presentConditionsVersionNotBeginsWith !== undefined && presentConditionsVersionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionNotBeginsWith, 'presentConditions.version.not.beginsWith');
-        }
-        if (presentConditionsVersionEndsWith !== undefined && presentConditionsVersionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionEndsWith, 'presentConditions.version.endsWith');
-        }
-        if (presentConditionsVersionNotEndsWith !== undefined && presentConditionsVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsVersionNotEndsWith, 'presentConditions.version.not.endsWith');
-        }
-        if (presentConditionsSynonymsNotExists !== undefined && presentConditionsSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSynonymsNotExists, 'presentConditions.synonyms.not.exists');
-        }
-        if (presentConditionsSynonymsExists !== undefined && presentConditionsSynonymsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsSynonymsExists, 'presentConditions.synonyms.exists');
-        }
-        if (presentConditionsPropertiesNotExists !== undefined && presentConditionsPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsPropertiesNotExists, 'presentConditions.properties.not.exists');
-        }
-        if (presentConditionsPropertiesExists !== undefined && presentConditionsPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>presentConditionsPropertiesExists, 'presentConditions.properties.exists');
-        }
-        if (absentConditionsCode !== undefined && absentConditionsCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCode, 'absentConditions.code');
-        }
-        if (absentConditionsCodeNot !== undefined && absentConditionsCodeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeNot, 'absentConditions.code.not');
-        }
-        if (absentConditionsCodeContains !== undefined && absentConditionsCodeContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeContains, 'absentConditions.code.contains');
-        }
-        if (absentConditionsCodeNotContains !== undefined && absentConditionsCodeNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeNotContains, 'absentConditions.code.not.contains');
-        }
-        if (absentConditionsCodeBeginsWith !== undefined && absentConditionsCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeBeginsWith, 'absentConditions.code.beginsWith');
-        }
-        if (absentConditionsCodeNotBeginsWith !== undefined && absentConditionsCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeNotBeginsWith, 'absentConditions.code.not.beginsWith');
-        }
-        if (absentConditionsCodeEndsWith !== undefined && absentConditionsCodeEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeEndsWith, 'absentConditions.code.endsWith');
-        }
-        if (absentConditionsCodeNotEndsWith !== undefined && absentConditionsCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsCodeNotEndsWith, 'absentConditions.code.not.endsWith');
-        }
-        if (absentConditionsSystem !== undefined && absentConditionsSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystem, 'absentConditions.system');
-        }
-        if (absentConditionsSystemNot !== undefined && absentConditionsSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemNot, 'absentConditions.system.not');
-        }
-        if (absentConditionsSystemContains !== undefined && absentConditionsSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemContains, 'absentConditions.system.contains');
-        }
-        if (absentConditionsSystemNotContains !== undefined && absentConditionsSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemNotContains, 'absentConditions.system.not.contains');
-        }
-        if (absentConditionsSystemBeginsWith !== undefined && absentConditionsSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemBeginsWith, 'absentConditions.system.beginsWith');
-        }
-        if (absentConditionsSystemNotBeginsWith !== undefined && absentConditionsSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemNotBeginsWith, 'absentConditions.system.not.beginsWith');
+        if (presentConditionsAnyOf) {
+            presentConditionsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'presentConditions.anyOf');
+            })
         }
-        if (absentConditionsSystemEndsWith !== undefined && absentConditionsSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemEndsWith, 'absentConditions.system.endsWith');
-        }
-        if (absentConditionsSystemNotEndsWith !== undefined && absentConditionsSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSystemNotEndsWith, 'absentConditions.system.not.endsWith');
-        }
-        if (absentConditionsDisplayNotExists !== undefined && absentConditionsDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayNotExists, 'absentConditions.display.not.exists');
-        }
-        if (absentConditionsDisplayExists !== undefined && absentConditionsDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayExists, 'absentConditions.display.exists');
-        }
-        if (absentConditionsDisplay !== undefined && absentConditionsDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplay, 'absentConditions.display');
-        }
-        if (absentConditionsDisplayNot !== undefined && absentConditionsDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayNot, 'absentConditions.display.not');
-        }
-        if (absentConditionsDisplayContains !== undefined && absentConditionsDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayContains, 'absentConditions.display.contains');
-        }
-        if (absentConditionsDisplayNotContains !== undefined && absentConditionsDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayNotContains, 'absentConditions.display.not.contains');
-        }
-        if (absentConditionsDisplayBeginsWith !== undefined && absentConditionsDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayBeginsWith, 'absentConditions.display.beginsWith');
-        }
-        if (absentConditionsDisplayNotBeginsWith !== undefined && absentConditionsDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayNotBeginsWith, 'absentConditions.display.not.beginsWith');
-        }
-        if (absentConditionsDisplayEndsWith !== undefined && absentConditionsDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayEndsWith, 'absentConditions.display.endsWith');
-        }
-        if (absentConditionsDisplayNotEndsWith !== undefined && absentConditionsDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsDisplayNotEndsWith, 'absentConditions.display.not.endsWith');
-        }
-        if (absentConditionsVersionNotExists !== undefined && absentConditionsVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionNotExists, 'absentConditions.version.not.exists');
-        }
-        if (absentConditionsVersionExists !== undefined && absentConditionsVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionExists, 'absentConditions.version.exists');
+        if (presentConditionsNotAnyOf) {
+            presentConditionsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'presentConditions.not.anyOf');
+            })
         }
-        if (absentConditionsVersion !== undefined && absentConditionsVersion !== null) {
+        if (presentConditionsDescendantsOf !== undefined && presentConditionsDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersion, 'absentConditions.version');
+            <any>presentConditionsDescendantsOf, 'presentConditions.descendantsOf');
         }
-        if (absentConditionsVersionNot !== undefined && absentConditionsVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionNot, 'absentConditions.version.not');
+        if (presentConditionsAllOf) {
+            presentConditionsAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'presentConditions.allOf');
+            })
         }
-        if (absentConditionsVersionContains !== undefined && absentConditionsVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionContains, 'absentConditions.version.contains');
+        if (presentConditionsNotAllOf) {
+            presentConditionsNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'presentConditions.not.allOf');
+            })
         }
-        if (absentConditionsVersionNotContains !== undefined && absentConditionsVersionNotContains !== null) {
+        if (absentConditionsNotExists !== undefined && absentConditionsNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionNotContains, 'absentConditions.version.not.contains');
+            <any>absentConditionsNotExists, 'absentConditions.not.exists');
         }
-        if (absentConditionsVersionBeginsWith !== undefined && absentConditionsVersionBeginsWith !== null) {
+        if (absentConditionsExists !== undefined && absentConditionsExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionBeginsWith, 'absentConditions.version.beginsWith');
+            <any>absentConditionsExists, 'absentConditions.exists');
         }
-        if (absentConditionsVersionNotBeginsWith !== undefined && absentConditionsVersionNotBeginsWith !== null) {
+        if (absentConditions !== undefined && absentConditions !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionNotBeginsWith, 'absentConditions.version.not.beginsWith');
+            <any>absentConditions, 'absentConditions');
         }
-        if (absentConditionsVersionEndsWith !== undefined && absentConditionsVersionEndsWith !== null) {
+        if (absentConditionsNot !== undefined && absentConditionsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionEndsWith, 'absentConditions.version.endsWith');
+            <any>absentConditionsNot, 'absentConditions.not');
         }
-        if (absentConditionsVersionNotEndsWith !== undefined && absentConditionsVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsVersionNotEndsWith, 'absentConditions.version.not.endsWith');
+        if (absentConditionsAnyOf) {
+            absentConditionsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'absentConditions.anyOf');
+            })
         }
-        if (absentConditionsSynonymsNotExists !== undefined && absentConditionsSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSynonymsNotExists, 'absentConditions.synonyms.not.exists');
+        if (absentConditionsNotAnyOf) {
+            absentConditionsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'absentConditions.not.anyOf');
+            })
         }
-        if (absentConditionsSynonymsExists !== undefined && absentConditionsSynonymsExists !== null) {
+        if (absentConditionsDescendantsOf !== undefined && absentConditionsDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsSynonymsExists, 'absentConditions.synonyms.exists');
+            <any>absentConditionsDescendantsOf, 'absentConditions.descendantsOf');
         }
-        if (absentConditionsPropertiesNotExists !== undefined && absentConditionsPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsPropertiesNotExists, 'absentConditions.properties.not.exists');
+        if (absentConditionsAllOf) {
+            absentConditionsAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'absentConditions.allOf');
+            })
         }
-        if (absentConditionsPropertiesExists !== undefined && absentConditionsPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>absentConditionsPropertiesExists, 'absentConditions.properties.exists');
+        if (absentConditionsNotAllOf) {
+            absentConditionsNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'absentConditions.not.allOf');
+            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

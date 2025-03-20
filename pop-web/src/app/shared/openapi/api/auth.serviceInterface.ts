@@ -19,6 +19,7 @@ import { TokenRefresh } from '../model/models';
 import { User } from '../model/models';
 import { UserCreate } from '../model/models';
 import { UserCredentials } from '../model/models';
+import { UserPasswordReset } from '../model/models';
 import { UserProfileSchema } from '../model/models';
 
 
@@ -57,6 +58,14 @@ export interface GetUsersRequestParams {
     canAuditLogs?: boolean;
     canManageUsers?: boolean;
     isSystemAdmin?: boolean;
+    password?: string;
+    passwordNot?: string;
+    passwordContains?: string;
+    passwordNotContains?: string;
+    passwordBeginsWith?: string;
+    passwordNotBeginsWith?: string;
+    passwordEndsWith?: string;
+    passwordNotEndsWith?: string;
     lastLoginNotExists?: boolean;
     lastLoginExists?: boolean;
     lastLoginBefore?: string;
@@ -160,6 +169,11 @@ export interface RefreshTokenPairRequestParams {
     tokenRefresh: TokenRefresh;
 }
 
+export interface ResetUserPasswordRequestParams {
+    userId: string;
+    userPasswordReset: UserPasswordReset;
+}
+
 export interface UpdateUserRequestParams {
     userId: string;
     userCreate: UserCreate;
@@ -209,6 +223,13 @@ export interface AuthServiceInterface {
 * @param requestParameters
      */
     refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, extraHttpRequestParams?: any): Observable<RefreshedTokenPair>;
+
+    /**
+     * Reset User Password
+     * 
+* @param requestParameters
+     */
+    resetUserPassword(requestParameters: ResetUserPasswordRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Update User

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
 
-import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService} from 'src/app/shared/openapi';
+import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService, InteroperabilityService} from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, map, of } from 'rxjs';
@@ -66,6 +66,7 @@ export class CaseBrowserCardComponent {
     private downloadService: DownloadService = inject(DownloadService)
     private caseService: PatientCasesService = inject(PatientCasesService)
     private messageService: MessageService = inject(MessageService)
+    private interoperabilityService: InteroperabilityService = inject(InteroperabilityService);
 
 
     // Properties
@@ -89,7 +90,7 @@ export class CaseBrowserCardComponent {
             icon: 'pi pi-file-export',
             command: (event: any) => {
                 this.messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
-                this.caseService.exportPatientCaseBundle({caseId: this.case.id}).subscribe({
+                this.interoperabilityService.exportPatientCaseBundle({caseId: this.case.id}).subscribe({
                     next: response => this.downloadService.downloadAsJson(response, `POP-case-${this.case.pseudoidentifier}-bundle.json`),
                     complete: () => this.messageService.clear()
                 })

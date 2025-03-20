@@ -115,164 +115,40 @@ export interface TumorBoardFilters2 {
      */
     'relatedEntitiesIds.not'?: string;
     /**
-     * None - Filter for full text matches
+     * Recommendations - Filter for entries without a value
      */
-    'recommendations.code'?: string;
+    'recommendations.not.exists'?: boolean;
     /**
-     * None - Filter for full text mismatches
+     * Recommendations - Filter for entries with a value
      */
-    'recommendations.code.not'?: string;
+    'recommendations.exists'?: boolean;
     /**
-     * None - Filter for partial text matches
+     * Recommendations - Filter for a matching concept code
      */
-    'recommendations.code.contains'?: string;
+    recommendations?: string;
     /**
-     * None - Filter for partial text mismatches
+     * Recommendations - Filter for a mismatching concept code
      */
-    'recommendations.code.not.contains'?: string;
+    'recommendations.not'?: string;
     /**
-     * None - Filter for entries starting with the text
+     * Recommendations - Filter for a matching set of concept codes
      */
-    'recommendations.code.beginsWith'?: string;
+    'recommendations.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not starting with the text
+     * Recommendations - Filter for a mismmatching set of concept codes
      */
-    'recommendations.code.not.beginsWith'?: string;
+    'recommendations.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Recommendations - Filter for all child concepts of a given concepts code
      */
-    'recommendations.code.endsWith'?: string;
+    'recommendations.descendantsOf'?: string;
     /**
-     * None - Filter for entries not ending with the text
+     * Recommendations - Filter for entries matching all of the concepts
      */
-    'recommendations.code.not.endsWith'?: string;
+    'recommendations.allOf'?: Array<string>;
     /**
-     * None - Filter for full text matches
+     * Recommendations - Filter for entries mismatching all of the concepts
      */
-    'recommendations.system'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'recommendations.system.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'recommendations.system.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'recommendations.system.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'recommendations.system.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'recommendations.system.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'recommendations.system.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'recommendations.system.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recommendations.display.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recommendations.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'recommendations.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'recommendations.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'recommendations.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'recommendations.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'recommendations.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'recommendations.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'recommendations.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'recommendations.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recommendations.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recommendations.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'recommendations.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'recommendations.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'recommendations.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'recommendations.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'recommendations.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'recommendations.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'recommendations.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'recommendations.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recommendations.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recommendations.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'recommendations.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'recommendations.properties.exists'?: boolean;
+    'recommendations.not.allOf'?: Array<string>;
 }
 

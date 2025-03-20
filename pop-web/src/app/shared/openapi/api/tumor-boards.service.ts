@@ -683,46 +683,15 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
         const dateNotBetween = requestParameters?.dateNotBetween;
         const relatedEntitiesIds = requestParameters?.relatedEntitiesIds;
         const relatedEntitiesIdsNot = requestParameters?.relatedEntitiesIdsNot;
-        const recommendationsCode = requestParameters?.recommendationsCode;
-        const recommendationsCodeNot = requestParameters?.recommendationsCodeNot;
-        const recommendationsCodeContains = requestParameters?.recommendationsCodeContains;
-        const recommendationsCodeNotContains = requestParameters?.recommendationsCodeNotContains;
-        const recommendationsCodeBeginsWith = requestParameters?.recommendationsCodeBeginsWith;
-        const recommendationsCodeNotBeginsWith = requestParameters?.recommendationsCodeNotBeginsWith;
-        const recommendationsCodeEndsWith = requestParameters?.recommendationsCodeEndsWith;
-        const recommendationsCodeNotEndsWith = requestParameters?.recommendationsCodeNotEndsWith;
-        const recommendationsSystem = requestParameters?.recommendationsSystem;
-        const recommendationsSystemNot = requestParameters?.recommendationsSystemNot;
-        const recommendationsSystemContains = requestParameters?.recommendationsSystemContains;
-        const recommendationsSystemNotContains = requestParameters?.recommendationsSystemNotContains;
-        const recommendationsSystemBeginsWith = requestParameters?.recommendationsSystemBeginsWith;
-        const recommendationsSystemNotBeginsWith = requestParameters?.recommendationsSystemNotBeginsWith;
-        const recommendationsSystemEndsWith = requestParameters?.recommendationsSystemEndsWith;
-        const recommendationsSystemNotEndsWith = requestParameters?.recommendationsSystemNotEndsWith;
-        const recommendationsDisplayNotExists = requestParameters?.recommendationsDisplayNotExists;
-        const recommendationsDisplayExists = requestParameters?.recommendationsDisplayExists;
-        const recommendationsDisplay = requestParameters?.recommendationsDisplay;
-        const recommendationsDisplayNot = requestParameters?.recommendationsDisplayNot;
-        const recommendationsDisplayContains = requestParameters?.recommendationsDisplayContains;
-        const recommendationsDisplayNotContains = requestParameters?.recommendationsDisplayNotContains;
-        const recommendationsDisplayBeginsWith = requestParameters?.recommendationsDisplayBeginsWith;
-        const recommendationsDisplayNotBeginsWith = requestParameters?.recommendationsDisplayNotBeginsWith;
-        const recommendationsDisplayEndsWith = requestParameters?.recommendationsDisplayEndsWith;
-        const recommendationsDisplayNotEndsWith = requestParameters?.recommendationsDisplayNotEndsWith;
-        const recommendationsVersionNotExists = requestParameters?.recommendationsVersionNotExists;
-        const recommendationsVersionExists = requestParameters?.recommendationsVersionExists;
-        const recommendationsVersion = requestParameters?.recommendationsVersion;
-        const recommendationsVersionNot = requestParameters?.recommendationsVersionNot;
-        const recommendationsVersionContains = requestParameters?.recommendationsVersionContains;
-        const recommendationsVersionNotContains = requestParameters?.recommendationsVersionNotContains;
-        const recommendationsVersionBeginsWith = requestParameters?.recommendationsVersionBeginsWith;
-        const recommendationsVersionNotBeginsWith = requestParameters?.recommendationsVersionNotBeginsWith;
-        const recommendationsVersionEndsWith = requestParameters?.recommendationsVersionEndsWith;
-        const recommendationsVersionNotEndsWith = requestParameters?.recommendationsVersionNotEndsWith;
-        const recommendationsSynonymsNotExists = requestParameters?.recommendationsSynonymsNotExists;
-        const recommendationsSynonymsExists = requestParameters?.recommendationsSynonymsExists;
-        const recommendationsPropertiesNotExists = requestParameters?.recommendationsPropertiesNotExists;
-        const recommendationsPropertiesExists = requestParameters?.recommendationsPropertiesExists;
+        const recommendationsNotExists = requestParameters?.recommendationsNotExists;
+        const recommendationsExists = requestParameters?.recommendationsExists;
+        const recommendations = requestParameters?.recommendations;
+        const recommendationsNot = requestParameters?.recommendationsNot;
+        const recommendationsAnyOf = requestParameters?.recommendationsAnyOf;
+        const recommendationsNotAnyOf = requestParameters?.recommendationsNotAnyOf;
+        const recommendationsDescendantsOf = requestParameters?.recommendationsDescendantsOf;
+        const recommendationsAllOf = requestParameters?.recommendationsAllOf;
+        const recommendationsNotAllOf = requestParameters?.recommendationsNotAllOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -835,165 +804,49 @@ export class TumorBoardsService implements TumorBoardsServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>relatedEntitiesIdsNot, 'relatedEntitiesIds.not');
         }
-        if (recommendationsCode !== undefined && recommendationsCode !== null) {
+        if (recommendationsNotExists !== undefined && recommendationsNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCode, 'recommendations.code');
+            <any>recommendationsNotExists, 'recommendations.not.exists');
         }
-        if (recommendationsCodeNot !== undefined && recommendationsCodeNot !== null) {
+        if (recommendationsExists !== undefined && recommendationsExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeNot, 'recommendations.code.not');
+            <any>recommendationsExists, 'recommendations.exists');
         }
-        if (recommendationsCodeContains !== undefined && recommendationsCodeContains !== null) {
+        if (recommendations !== undefined && recommendations !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeContains, 'recommendations.code.contains');
+            <any>recommendations, 'recommendations');
         }
-        if (recommendationsCodeNotContains !== undefined && recommendationsCodeNotContains !== null) {
+        if (recommendationsNot !== undefined && recommendationsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeNotContains, 'recommendations.code.not.contains');
+            <any>recommendationsNot, 'recommendations.not');
         }
-        if (recommendationsCodeBeginsWith !== undefined && recommendationsCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeBeginsWith, 'recommendations.code.beginsWith');
+        if (recommendationsAnyOf) {
+            recommendationsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recommendations.anyOf');
+            })
         }
-        if (recommendationsCodeNotBeginsWith !== undefined && recommendationsCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeNotBeginsWith, 'recommendations.code.not.beginsWith');
+        if (recommendationsNotAnyOf) {
+            recommendationsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recommendations.not.anyOf');
+            })
         }
-        if (recommendationsCodeEndsWith !== undefined && recommendationsCodeEndsWith !== null) {
+        if (recommendationsDescendantsOf !== undefined && recommendationsDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeEndsWith, 'recommendations.code.endsWith');
+            <any>recommendationsDescendantsOf, 'recommendations.descendantsOf');
         }
-        if (recommendationsCodeNotEndsWith !== undefined && recommendationsCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsCodeNotEndsWith, 'recommendations.code.not.endsWith');
+        if (recommendationsAllOf) {
+            recommendationsAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recommendations.allOf');
+            })
         }
-        if (recommendationsSystem !== undefined && recommendationsSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystem, 'recommendations.system');
-        }
-        if (recommendationsSystemNot !== undefined && recommendationsSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemNot, 'recommendations.system.not');
-        }
-        if (recommendationsSystemContains !== undefined && recommendationsSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemContains, 'recommendations.system.contains');
-        }
-        if (recommendationsSystemNotContains !== undefined && recommendationsSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemNotContains, 'recommendations.system.not.contains');
-        }
-        if (recommendationsSystemBeginsWith !== undefined && recommendationsSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemBeginsWith, 'recommendations.system.beginsWith');
-        }
-        if (recommendationsSystemNotBeginsWith !== undefined && recommendationsSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemNotBeginsWith, 'recommendations.system.not.beginsWith');
-        }
-        if (recommendationsSystemEndsWith !== undefined && recommendationsSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemEndsWith, 'recommendations.system.endsWith');
-        }
-        if (recommendationsSystemNotEndsWith !== undefined && recommendationsSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSystemNotEndsWith, 'recommendations.system.not.endsWith');
-        }
-        if (recommendationsDisplayNotExists !== undefined && recommendationsDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayNotExists, 'recommendations.display.not.exists');
-        }
-        if (recommendationsDisplayExists !== undefined && recommendationsDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayExists, 'recommendations.display.exists');
-        }
-        if (recommendationsDisplay !== undefined && recommendationsDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplay, 'recommendations.display');
-        }
-        if (recommendationsDisplayNot !== undefined && recommendationsDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayNot, 'recommendations.display.not');
-        }
-        if (recommendationsDisplayContains !== undefined && recommendationsDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayContains, 'recommendations.display.contains');
-        }
-        if (recommendationsDisplayNotContains !== undefined && recommendationsDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayNotContains, 'recommendations.display.not.contains');
-        }
-        if (recommendationsDisplayBeginsWith !== undefined && recommendationsDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayBeginsWith, 'recommendations.display.beginsWith');
-        }
-        if (recommendationsDisplayNotBeginsWith !== undefined && recommendationsDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayNotBeginsWith, 'recommendations.display.not.beginsWith');
-        }
-        if (recommendationsDisplayEndsWith !== undefined && recommendationsDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayEndsWith, 'recommendations.display.endsWith');
-        }
-        if (recommendationsDisplayNotEndsWith !== undefined && recommendationsDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsDisplayNotEndsWith, 'recommendations.display.not.endsWith');
-        }
-        if (recommendationsVersionNotExists !== undefined && recommendationsVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionNotExists, 'recommendations.version.not.exists');
-        }
-        if (recommendationsVersionExists !== undefined && recommendationsVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionExists, 'recommendations.version.exists');
-        }
-        if (recommendationsVersion !== undefined && recommendationsVersion !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersion, 'recommendations.version');
-        }
-        if (recommendationsVersionNot !== undefined && recommendationsVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionNot, 'recommendations.version.not');
-        }
-        if (recommendationsVersionContains !== undefined && recommendationsVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionContains, 'recommendations.version.contains');
-        }
-        if (recommendationsVersionNotContains !== undefined && recommendationsVersionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionNotContains, 'recommendations.version.not.contains');
-        }
-        if (recommendationsVersionBeginsWith !== undefined && recommendationsVersionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionBeginsWith, 'recommendations.version.beginsWith');
-        }
-        if (recommendationsVersionNotBeginsWith !== undefined && recommendationsVersionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionNotBeginsWith, 'recommendations.version.not.beginsWith');
-        }
-        if (recommendationsVersionEndsWith !== undefined && recommendationsVersionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionEndsWith, 'recommendations.version.endsWith');
-        }
-        if (recommendationsVersionNotEndsWith !== undefined && recommendationsVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsVersionNotEndsWith, 'recommendations.version.not.endsWith');
-        }
-        if (recommendationsSynonymsNotExists !== undefined && recommendationsSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSynonymsNotExists, 'recommendations.synonyms.not.exists');
-        }
-        if (recommendationsSynonymsExists !== undefined && recommendationsSynonymsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsSynonymsExists, 'recommendations.synonyms.exists');
-        }
-        if (recommendationsPropertiesNotExists !== undefined && recommendationsPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsPropertiesNotExists, 'recommendations.properties.not.exists');
-        }
-        if (recommendationsPropertiesExists !== undefined && recommendationsPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recommendationsPropertiesExists, 'recommendations.properties.exists');
+        if (recommendationsNotAllOf) {
+            recommendationsNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recommendations.not.allOf');
+            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

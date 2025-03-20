@@ -837,325 +837,69 @@ export interface GenomicVariantFilters {
      */
     'clinvar.not.endsWith'?: string;
     /**
-     * None - Filter for full text matches
+     * Gene(s) - Filter for a matching concept code
      */
-    'genes.code'?: string;
+    genes?: string;
     /**
-     * None - Filter for full text mismatches
+     * Gene(s) - Filter for a mismatching concept code
      */
-    'genes.code.not'?: string;
+    'genes.not'?: string;
     /**
-     * None - Filter for partial text matches
+     * Gene(s) - Filter for a matching set of concept codes
      */
-    'genes.code.contains'?: string;
+    'genes.anyOf'?: Array<string>;
     /**
-     * None - Filter for partial text mismatches
+     * Gene(s) - Filter for a mismmatching set of concept codes
      */
-    'genes.code.not.contains'?: string;
+    'genes.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries starting with the text
+     * Gene(s) - Filter for all child concepts of a given concepts code
      */
-    'genes.code.beginsWith'?: string;
+    'genes.descendantsOf'?: string;
     /**
-     * None - Filter for entries not starting with the text
+     * Gene(s) - Filter for entries matching all of the concepts
      */
-    'genes.code.not.beginsWith'?: string;
+    'genes.allOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Gene(s) - Filter for entries mismatching all of the concepts
      */
-    'genes.code.endsWith'?: string;
+    'genes.not.allOf'?: Array<string>;
     /**
-     * None - Filter for entries not ending with the text
+     * Chromosome(s) - Filter for entries without a value
      */
-    'genes.code.not.endsWith'?: string;
+    'chromosomes.not.exists'?: boolean;
     /**
-     * None - Filter for full text matches
+     * Chromosome(s) - Filter for entries with a value
      */
-    'genes.system'?: string;
+    'chromosomes.exists'?: boolean;
     /**
-     * None - Filter for full text mismatches
+     * Chromosome(s) - Filter for a matching concept code
      */
-    'genes.system.not'?: string;
+    chromosomes?: string;
     /**
-     * None - Filter for partial text matches
+     * Chromosome(s) - Filter for a mismatching concept code
      */
-    'genes.system.contains'?: string;
+    'chromosomes.not'?: string;
     /**
-     * None - Filter for partial text mismatches
+     * Chromosome(s) - Filter for a matching set of concept codes
      */
-    'genes.system.not.contains'?: string;
+    'chromosomes.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries starting with the text
+     * Chromosome(s) - Filter for a mismmatching set of concept codes
      */
-    'genes.system.beginsWith'?: string;
+    'chromosomes.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not starting with the text
+     * Chromosome(s) - Filter for all child concepts of a given concepts code
      */
-    'genes.system.not.beginsWith'?: string;
+    'chromosomes.descendantsOf'?: string;
     /**
-     * None - Filter for entries ending with the text
+     * Chromosome(s) - Filter for entries matching all of the concepts
      */
-    'genes.system.endsWith'?: string;
+    'chromosomes.allOf'?: Array<string>;
     /**
-     * None - Filter for entries not ending with the text
+     * Chromosome(s) - Filter for entries mismatching all of the concepts
      */
-    'genes.system.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'genes.display.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'genes.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'genes.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'genes.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'genes.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'genes.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'genes.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'genes.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'genes.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'genes.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'genes.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'genes.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'genes.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'genes.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'genes.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'genes.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'genes.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'genes.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'genes.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'genes.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'genes.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'genes.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'genes.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'genes.properties.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'chromosomes.code'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'chromosomes.code.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'chromosomes.code.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'chromosomes.code.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'chromosomes.code.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'chromosomes.code.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'chromosomes.code.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'chromosomes.code.not.endsWith'?: string;
-    /**
-     * None - Filter for full text matches
-     */
-    'chromosomes.system'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'chromosomes.system.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'chromosomes.system.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'chromosomes.system.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'chromosomes.system.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'chromosomes.system.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'chromosomes.system.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'chromosomes.system.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'chromosomes.display.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'chromosomes.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'chromosomes.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'chromosomes.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'chromosomes.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'chromosomes.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'chromosomes.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'chromosomes.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'chromosomes.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'chromosomes.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'chromosomes.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'chromosomes.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'chromosomes.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'chromosomes.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'chromosomes.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'chromosomes.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'chromosomes.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'chromosomes.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'chromosomes.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'chromosomes.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'chromosomes.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'chromosomes.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'chromosomes.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'chromosomes.properties.exists'?: boolean;
+    'chromosomes.not.allOf'?: Array<string>;
 }
 export namespace GenomicVariantFilters {
     export type AssessmentEnum = 'present' | 'absent' | 'no-call' | 'indeterminate';

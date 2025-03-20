@@ -550,86 +550,22 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         const clinvarNotBeginsWith = requestParameters?.clinvarNotBeginsWith;
         const clinvarEndsWith = requestParameters?.clinvarEndsWith;
         const clinvarNotEndsWith = requestParameters?.clinvarNotEndsWith;
-        const genesCode = requestParameters?.genesCode;
-        const genesCodeNot = requestParameters?.genesCodeNot;
-        const genesCodeContains = requestParameters?.genesCodeContains;
-        const genesCodeNotContains = requestParameters?.genesCodeNotContains;
-        const genesCodeBeginsWith = requestParameters?.genesCodeBeginsWith;
-        const genesCodeNotBeginsWith = requestParameters?.genesCodeNotBeginsWith;
-        const genesCodeEndsWith = requestParameters?.genesCodeEndsWith;
-        const genesCodeNotEndsWith = requestParameters?.genesCodeNotEndsWith;
-        const genesSystem = requestParameters?.genesSystem;
-        const genesSystemNot = requestParameters?.genesSystemNot;
-        const genesSystemContains = requestParameters?.genesSystemContains;
-        const genesSystemNotContains = requestParameters?.genesSystemNotContains;
-        const genesSystemBeginsWith = requestParameters?.genesSystemBeginsWith;
-        const genesSystemNotBeginsWith = requestParameters?.genesSystemNotBeginsWith;
-        const genesSystemEndsWith = requestParameters?.genesSystemEndsWith;
-        const genesSystemNotEndsWith = requestParameters?.genesSystemNotEndsWith;
-        const genesDisplayNotExists = requestParameters?.genesDisplayNotExists;
-        const genesDisplayExists = requestParameters?.genesDisplayExists;
-        const genesDisplay = requestParameters?.genesDisplay;
-        const genesDisplayNot = requestParameters?.genesDisplayNot;
-        const genesDisplayContains = requestParameters?.genesDisplayContains;
-        const genesDisplayNotContains = requestParameters?.genesDisplayNotContains;
-        const genesDisplayBeginsWith = requestParameters?.genesDisplayBeginsWith;
-        const genesDisplayNotBeginsWith = requestParameters?.genesDisplayNotBeginsWith;
-        const genesDisplayEndsWith = requestParameters?.genesDisplayEndsWith;
-        const genesDisplayNotEndsWith = requestParameters?.genesDisplayNotEndsWith;
-        const genesVersionNotExists = requestParameters?.genesVersionNotExists;
-        const genesVersionExists = requestParameters?.genesVersionExists;
-        const genesVersion = requestParameters?.genesVersion;
-        const genesVersionNot = requestParameters?.genesVersionNot;
-        const genesVersionContains = requestParameters?.genesVersionContains;
-        const genesVersionNotContains = requestParameters?.genesVersionNotContains;
-        const genesVersionBeginsWith = requestParameters?.genesVersionBeginsWith;
-        const genesVersionNotBeginsWith = requestParameters?.genesVersionNotBeginsWith;
-        const genesVersionEndsWith = requestParameters?.genesVersionEndsWith;
-        const genesVersionNotEndsWith = requestParameters?.genesVersionNotEndsWith;
-        const genesSynonymsNotExists = requestParameters?.genesSynonymsNotExists;
-        const genesSynonymsExists = requestParameters?.genesSynonymsExists;
-        const genesPropertiesNotExists = requestParameters?.genesPropertiesNotExists;
-        const genesPropertiesExists = requestParameters?.genesPropertiesExists;
-        const chromosomesCode = requestParameters?.chromosomesCode;
-        const chromosomesCodeNot = requestParameters?.chromosomesCodeNot;
-        const chromosomesCodeContains = requestParameters?.chromosomesCodeContains;
-        const chromosomesCodeNotContains = requestParameters?.chromosomesCodeNotContains;
-        const chromosomesCodeBeginsWith = requestParameters?.chromosomesCodeBeginsWith;
-        const chromosomesCodeNotBeginsWith = requestParameters?.chromosomesCodeNotBeginsWith;
-        const chromosomesCodeEndsWith = requestParameters?.chromosomesCodeEndsWith;
-        const chromosomesCodeNotEndsWith = requestParameters?.chromosomesCodeNotEndsWith;
-        const chromosomesSystem = requestParameters?.chromosomesSystem;
-        const chromosomesSystemNot = requestParameters?.chromosomesSystemNot;
-        const chromosomesSystemContains = requestParameters?.chromosomesSystemContains;
-        const chromosomesSystemNotContains = requestParameters?.chromosomesSystemNotContains;
-        const chromosomesSystemBeginsWith = requestParameters?.chromosomesSystemBeginsWith;
-        const chromosomesSystemNotBeginsWith = requestParameters?.chromosomesSystemNotBeginsWith;
-        const chromosomesSystemEndsWith = requestParameters?.chromosomesSystemEndsWith;
-        const chromosomesSystemNotEndsWith = requestParameters?.chromosomesSystemNotEndsWith;
-        const chromosomesDisplayNotExists = requestParameters?.chromosomesDisplayNotExists;
-        const chromosomesDisplayExists = requestParameters?.chromosomesDisplayExists;
-        const chromosomesDisplay = requestParameters?.chromosomesDisplay;
-        const chromosomesDisplayNot = requestParameters?.chromosomesDisplayNot;
-        const chromosomesDisplayContains = requestParameters?.chromosomesDisplayContains;
-        const chromosomesDisplayNotContains = requestParameters?.chromosomesDisplayNotContains;
-        const chromosomesDisplayBeginsWith = requestParameters?.chromosomesDisplayBeginsWith;
-        const chromosomesDisplayNotBeginsWith = requestParameters?.chromosomesDisplayNotBeginsWith;
-        const chromosomesDisplayEndsWith = requestParameters?.chromosomesDisplayEndsWith;
-        const chromosomesDisplayNotEndsWith = requestParameters?.chromosomesDisplayNotEndsWith;
-        const chromosomesVersionNotExists = requestParameters?.chromosomesVersionNotExists;
-        const chromosomesVersionExists = requestParameters?.chromosomesVersionExists;
-        const chromosomesVersion = requestParameters?.chromosomesVersion;
-        const chromosomesVersionNot = requestParameters?.chromosomesVersionNot;
-        const chromosomesVersionContains = requestParameters?.chromosomesVersionContains;
-        const chromosomesVersionNotContains = requestParameters?.chromosomesVersionNotContains;
-        const chromosomesVersionBeginsWith = requestParameters?.chromosomesVersionBeginsWith;
-        const chromosomesVersionNotBeginsWith = requestParameters?.chromosomesVersionNotBeginsWith;
-        const chromosomesVersionEndsWith = requestParameters?.chromosomesVersionEndsWith;
-        const chromosomesVersionNotEndsWith = requestParameters?.chromosomesVersionNotEndsWith;
-        const chromosomesSynonymsNotExists = requestParameters?.chromosomesSynonymsNotExists;
-        const chromosomesSynonymsExists = requestParameters?.chromosomesSynonymsExists;
-        const chromosomesPropertiesNotExists = requestParameters?.chromosomesPropertiesNotExists;
-        const chromosomesPropertiesExists = requestParameters?.chromosomesPropertiesExists;
+        const genes = requestParameters?.genes;
+        const genesNot = requestParameters?.genesNot;
+        const genesAnyOf = requestParameters?.genesAnyOf;
+        const genesNotAnyOf = requestParameters?.genesNotAnyOf;
+        const genesDescendantsOf = requestParameters?.genesDescendantsOf;
+        const genesAllOf = requestParameters?.genesAllOf;
+        const genesNotAllOf = requestParameters?.genesNotAllOf;
+        const chromosomesNotExists = requestParameters?.chromosomesNotExists;
+        const chromosomesExists = requestParameters?.chromosomesExists;
+        const chromosomes = requestParameters?.chromosomes;
+        const chromosomesNot = requestParameters?.chromosomesNot;
+        const chromosomesAnyOf = requestParameters?.chromosomesAnyOf;
+        const chromosomesNotAnyOf = requestParameters?.chromosomesNotAnyOf;
+        const chromosomesDescendantsOf = requestParameters?.chromosomesDescendantsOf;
+        const chromosomesAllOf = requestParameters?.chromosomesAllOf;
+        const chromosomesNotAllOf = requestParameters?.chromosomesNotAllOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1532,325 +1468,85 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>clinvarNotEndsWith, 'clinvar.not.endsWith');
         }
-        if (genesCode !== undefined && genesCode !== null) {
+        if (genes !== undefined && genes !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCode, 'genes.code');
+            <any>genes, 'genes');
         }
-        if (genesCodeNot !== undefined && genesCodeNot !== null) {
+        if (genesNot !== undefined && genesNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeNot, 'genes.code.not');
+            <any>genesNot, 'genes.not');
         }
-        if (genesCodeContains !== undefined && genesCodeContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeContains, 'genes.code.contains');
-        }
-        if (genesCodeNotContains !== undefined && genesCodeNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeNotContains, 'genes.code.not.contains');
-        }
-        if (genesCodeBeginsWith !== undefined && genesCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeBeginsWith, 'genes.code.beginsWith');
-        }
-        if (genesCodeNotBeginsWith !== undefined && genesCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeNotBeginsWith, 'genes.code.not.beginsWith');
-        }
-        if (genesCodeEndsWith !== undefined && genesCodeEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeEndsWith, 'genes.code.endsWith');
-        }
-        if (genesCodeNotEndsWith !== undefined && genesCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesCodeNotEndsWith, 'genes.code.not.endsWith');
-        }
-        if (genesSystem !== undefined && genesSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystem, 'genes.system');
-        }
-        if (genesSystemNot !== undefined && genesSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemNot, 'genes.system.not');
-        }
-        if (genesSystemContains !== undefined && genesSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemContains, 'genes.system.contains');
-        }
-        if (genesSystemNotContains !== undefined && genesSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemNotContains, 'genes.system.not.contains');
-        }
-        if (genesSystemBeginsWith !== undefined && genesSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemBeginsWith, 'genes.system.beginsWith');
-        }
-        if (genesSystemNotBeginsWith !== undefined && genesSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemNotBeginsWith, 'genes.system.not.beginsWith');
-        }
-        if (genesSystemEndsWith !== undefined && genesSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemEndsWith, 'genes.system.endsWith');
-        }
-        if (genesSystemNotEndsWith !== undefined && genesSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSystemNotEndsWith, 'genes.system.not.endsWith');
-        }
-        if (genesDisplayNotExists !== undefined && genesDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayNotExists, 'genes.display.not.exists');
-        }
-        if (genesDisplayExists !== undefined && genesDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayExists, 'genes.display.exists');
-        }
-        if (genesDisplay !== undefined && genesDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplay, 'genes.display');
-        }
-        if (genesDisplayNot !== undefined && genesDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayNot, 'genes.display.not');
-        }
-        if (genesDisplayContains !== undefined && genesDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayContains, 'genes.display.contains');
-        }
-        if (genesDisplayNotContains !== undefined && genesDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayNotContains, 'genes.display.not.contains');
-        }
-        if (genesDisplayBeginsWith !== undefined && genesDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayBeginsWith, 'genes.display.beginsWith');
-        }
-        if (genesDisplayNotBeginsWith !== undefined && genesDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayNotBeginsWith, 'genes.display.not.beginsWith');
-        }
-        if (genesDisplayEndsWith !== undefined && genesDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayEndsWith, 'genes.display.endsWith');
-        }
-        if (genesDisplayNotEndsWith !== undefined && genesDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDisplayNotEndsWith, 'genes.display.not.endsWith');
-        }
-        if (genesVersionNotExists !== undefined && genesVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionNotExists, 'genes.version.not.exists');
-        }
-        if (genesVersionExists !== undefined && genesVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionExists, 'genes.version.exists');
-        }
-        if (genesVersion !== undefined && genesVersion !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersion, 'genes.version');
-        }
-        if (genesVersionNot !== undefined && genesVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionNot, 'genes.version.not');
-        }
-        if (genesVersionContains !== undefined && genesVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionContains, 'genes.version.contains');
-        }
-        if (genesVersionNotContains !== undefined && genesVersionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionNotContains, 'genes.version.not.contains');
-        }
-        if (genesVersionBeginsWith !== undefined && genesVersionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionBeginsWith, 'genes.version.beginsWith');
-        }
-        if (genesVersionNotBeginsWith !== undefined && genesVersionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionNotBeginsWith, 'genes.version.not.beginsWith');
-        }
-        if (genesVersionEndsWith !== undefined && genesVersionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionEndsWith, 'genes.version.endsWith');
-        }
-        if (genesVersionNotEndsWith !== undefined && genesVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesVersionNotEndsWith, 'genes.version.not.endsWith');
-        }
-        if (genesSynonymsNotExists !== undefined && genesSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSynonymsNotExists, 'genes.synonyms.not.exists');
-        }
-        if (genesSynonymsExists !== undefined && genesSynonymsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesSynonymsExists, 'genes.synonyms.exists');
-        }
-        if (genesPropertiesNotExists !== undefined && genesPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesPropertiesNotExists, 'genes.properties.not.exists');
-        }
-        if (genesPropertiesExists !== undefined && genesPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesPropertiesExists, 'genes.properties.exists');
-        }
-        if (chromosomesCode !== undefined && chromosomesCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCode, 'chromosomes.code');
-        }
-        if (chromosomesCodeNot !== undefined && chromosomesCodeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeNot, 'chromosomes.code.not');
-        }
-        if (chromosomesCodeContains !== undefined && chromosomesCodeContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeContains, 'chromosomes.code.contains');
-        }
-        if (chromosomesCodeNotContains !== undefined && chromosomesCodeNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeNotContains, 'chromosomes.code.not.contains');
-        }
-        if (chromosomesCodeBeginsWith !== undefined && chromosomesCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeBeginsWith, 'chromosomes.code.beginsWith');
-        }
-        if (chromosomesCodeNotBeginsWith !== undefined && chromosomesCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeNotBeginsWith, 'chromosomes.code.not.beginsWith');
-        }
-        if (chromosomesCodeEndsWith !== undefined && chromosomesCodeEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeEndsWith, 'chromosomes.code.endsWith');
-        }
-        if (chromosomesCodeNotEndsWith !== undefined && chromosomesCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesCodeNotEndsWith, 'chromosomes.code.not.endsWith');
-        }
-        if (chromosomesSystem !== undefined && chromosomesSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystem, 'chromosomes.system');
-        }
-        if (chromosomesSystemNot !== undefined && chromosomesSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemNot, 'chromosomes.system.not');
-        }
-        if (chromosomesSystemContains !== undefined && chromosomesSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemContains, 'chromosomes.system.contains');
-        }
-        if (chromosomesSystemNotContains !== undefined && chromosomesSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemNotContains, 'chromosomes.system.not.contains');
-        }
-        if (chromosomesSystemBeginsWith !== undefined && chromosomesSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemBeginsWith, 'chromosomes.system.beginsWith');
-        }
-        if (chromosomesSystemNotBeginsWith !== undefined && chromosomesSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemNotBeginsWith, 'chromosomes.system.not.beginsWith');
-        }
-        if (chromosomesSystemEndsWith !== undefined && chromosomesSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemEndsWith, 'chromosomes.system.endsWith');
-        }
-        if (chromosomesSystemNotEndsWith !== undefined && chromosomesSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSystemNotEndsWith, 'chromosomes.system.not.endsWith');
-        }
-        if (chromosomesDisplayNotExists !== undefined && chromosomesDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayNotExists, 'chromosomes.display.not.exists');
-        }
-        if (chromosomesDisplayExists !== undefined && chromosomesDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayExists, 'chromosomes.display.exists');
-        }
-        if (chromosomesDisplay !== undefined && chromosomesDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplay, 'chromosomes.display');
-        }
-        if (chromosomesDisplayNot !== undefined && chromosomesDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayNot, 'chromosomes.display.not');
-        }
-        if (chromosomesDisplayContains !== undefined && chromosomesDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayContains, 'chromosomes.display.contains');
-        }
-        if (chromosomesDisplayNotContains !== undefined && chromosomesDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayNotContains, 'chromosomes.display.not.contains');
+        if (genesAnyOf) {
+            genesAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'genes.anyOf');
+            })
         }
-        if (chromosomesDisplayBeginsWith !== undefined && chromosomesDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayBeginsWith, 'chromosomes.display.beginsWith');
-        }
-        if (chromosomesDisplayNotBeginsWith !== undefined && chromosomesDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayNotBeginsWith, 'chromosomes.display.not.beginsWith');
-        }
-        if (chromosomesDisplayEndsWith !== undefined && chromosomesDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayEndsWith, 'chromosomes.display.endsWith');
-        }
-        if (chromosomesDisplayNotEndsWith !== undefined && chromosomesDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDisplayNotEndsWith, 'chromosomes.display.not.endsWith');
-        }
-        if (chromosomesVersionNotExists !== undefined && chromosomesVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionNotExists, 'chromosomes.version.not.exists');
-        }
-        if (chromosomesVersionExists !== undefined && chromosomesVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionExists, 'chromosomes.version.exists');
+        if (genesNotAnyOf) {
+            genesNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'genes.not.anyOf');
+            })
         }
-        if (chromosomesVersion !== undefined && chromosomesVersion !== null) {
+        if (genesDescendantsOf !== undefined && genesDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersion, 'chromosomes.version');
+            <any>genesDescendantsOf, 'genes.descendantsOf');
         }
-        if (chromosomesVersionNot !== undefined && chromosomesVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionNot, 'chromosomes.version.not');
+        if (genesAllOf) {
+            genesAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'genes.allOf');
+            })
         }
-        if (chromosomesVersionContains !== undefined && chromosomesVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionContains, 'chromosomes.version.contains');
+        if (genesNotAllOf) {
+            genesNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'genes.not.allOf');
+            })
         }
-        if (chromosomesVersionNotContains !== undefined && chromosomesVersionNotContains !== null) {
+        if (chromosomesNotExists !== undefined && chromosomesNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionNotContains, 'chromosomes.version.not.contains');
+            <any>chromosomesNotExists, 'chromosomes.not.exists');
         }
-        if (chromosomesVersionBeginsWith !== undefined && chromosomesVersionBeginsWith !== null) {
+        if (chromosomesExists !== undefined && chromosomesExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionBeginsWith, 'chromosomes.version.beginsWith');
+            <any>chromosomesExists, 'chromosomes.exists');
         }
-        if (chromosomesVersionNotBeginsWith !== undefined && chromosomesVersionNotBeginsWith !== null) {
+        if (chromosomes !== undefined && chromosomes !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionNotBeginsWith, 'chromosomes.version.not.beginsWith');
+            <any>chromosomes, 'chromosomes');
         }
-        if (chromosomesVersionEndsWith !== undefined && chromosomesVersionEndsWith !== null) {
+        if (chromosomesNot !== undefined && chromosomesNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionEndsWith, 'chromosomes.version.endsWith');
+            <any>chromosomesNot, 'chromosomes.not');
         }
-        if (chromosomesVersionNotEndsWith !== undefined && chromosomesVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesVersionNotEndsWith, 'chromosomes.version.not.endsWith');
+        if (chromosomesAnyOf) {
+            chromosomesAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'chromosomes.anyOf');
+            })
         }
-        if (chromosomesSynonymsNotExists !== undefined && chromosomesSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSynonymsNotExists, 'chromosomes.synonyms.not.exists');
+        if (chromosomesNotAnyOf) {
+            chromosomesNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'chromosomes.not.anyOf');
+            })
         }
-        if (chromosomesSynonymsExists !== undefined && chromosomesSynonymsExists !== null) {
+        if (chromosomesDescendantsOf !== undefined && chromosomesDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesSynonymsExists, 'chromosomes.synonyms.exists');
+            <any>chromosomesDescendantsOf, 'chromosomes.descendantsOf');
         }
-        if (chromosomesPropertiesNotExists !== undefined && chromosomesPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesPropertiesNotExists, 'chromosomes.properties.not.exists');
+        if (chromosomesAllOf) {
+            chromosomesAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'chromosomes.allOf');
+            })
         }
-        if (chromosomesPropertiesExists !== undefined && chromosomesPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesPropertiesExists, 'chromosomes.properties.exists');
+        if (chromosomesNotAllOf) {
+            chromosomesNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'chromosomes.not.allOf');
+            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

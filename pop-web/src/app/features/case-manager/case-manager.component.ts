@@ -40,7 +40,8 @@ import {
     GenomicSignaturesService,
     AdverseEventsService,
     TumorBoardsService,
-    TreatmentResponsesService
+    TreatmentResponsesService,
+    InteroperabilityService
 } from 'src/app/shared/openapi'
 
 import { 
@@ -94,6 +95,7 @@ export class CaseManagerComponent implements OnInit {
 
     // Injected dependencies
     public authService: AuthService = inject(AuthService);
+    private interoperabilityService: InteroperabilityService = inject(InteroperabilityService);
     private caseService: PatientCasesService = inject(PatientCasesService);
     private neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
     private stagingsService: StagingsService = inject(StagingsService);
@@ -261,7 +263,7 @@ export class CaseManagerComponent implements OnInit {
 
     downloadCaseBundle(caseId: string) {
         this.exportLoading = true;
-        this.caseService.exportPatientCaseBundle({caseId:caseId}).subscribe({
+        this.interoperabilityService.exportPatientCaseBundle({caseId:caseId}).subscribe({
             next: (response) => {
                 this.downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier}.json`)
             },

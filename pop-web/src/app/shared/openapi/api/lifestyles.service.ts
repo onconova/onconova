@@ -407,86 +407,24 @@ export class LifestylesService implements LifestylesServiceInterface {
         const nightSleepNotEqual = requestParameters?.nightSleepNotEqual;
         const nightSleepBetween = requestParameters?.nightSleepBetween;
         const nightSleepNotBetween = requestParameters?.nightSleepNotBetween;
-        const recreationalDrugsCode = requestParameters?.recreationalDrugsCode;
-        const recreationalDrugsCodeNot = requestParameters?.recreationalDrugsCodeNot;
-        const recreationalDrugsCodeContains = requestParameters?.recreationalDrugsCodeContains;
-        const recreationalDrugsCodeNotContains = requestParameters?.recreationalDrugsCodeNotContains;
-        const recreationalDrugsCodeBeginsWith = requestParameters?.recreationalDrugsCodeBeginsWith;
-        const recreationalDrugsCodeNotBeginsWith = requestParameters?.recreationalDrugsCodeNotBeginsWith;
-        const recreationalDrugsCodeEndsWith = requestParameters?.recreationalDrugsCodeEndsWith;
-        const recreationalDrugsCodeNotEndsWith = requestParameters?.recreationalDrugsCodeNotEndsWith;
-        const recreationalDrugsSystem = requestParameters?.recreationalDrugsSystem;
-        const recreationalDrugsSystemNot = requestParameters?.recreationalDrugsSystemNot;
-        const recreationalDrugsSystemContains = requestParameters?.recreationalDrugsSystemContains;
-        const recreationalDrugsSystemNotContains = requestParameters?.recreationalDrugsSystemNotContains;
-        const recreationalDrugsSystemBeginsWith = requestParameters?.recreationalDrugsSystemBeginsWith;
-        const recreationalDrugsSystemNotBeginsWith = requestParameters?.recreationalDrugsSystemNotBeginsWith;
-        const recreationalDrugsSystemEndsWith = requestParameters?.recreationalDrugsSystemEndsWith;
-        const recreationalDrugsSystemNotEndsWith = requestParameters?.recreationalDrugsSystemNotEndsWith;
-        const recreationalDrugsDisplayNotExists = requestParameters?.recreationalDrugsDisplayNotExists;
-        const recreationalDrugsDisplayExists = requestParameters?.recreationalDrugsDisplayExists;
-        const recreationalDrugsDisplay = requestParameters?.recreationalDrugsDisplay;
-        const recreationalDrugsDisplayNot = requestParameters?.recreationalDrugsDisplayNot;
-        const recreationalDrugsDisplayContains = requestParameters?.recreationalDrugsDisplayContains;
-        const recreationalDrugsDisplayNotContains = requestParameters?.recreationalDrugsDisplayNotContains;
-        const recreationalDrugsDisplayBeginsWith = requestParameters?.recreationalDrugsDisplayBeginsWith;
-        const recreationalDrugsDisplayNotBeginsWith = requestParameters?.recreationalDrugsDisplayNotBeginsWith;
-        const recreationalDrugsDisplayEndsWith = requestParameters?.recreationalDrugsDisplayEndsWith;
-        const recreationalDrugsDisplayNotEndsWith = requestParameters?.recreationalDrugsDisplayNotEndsWith;
-        const recreationalDrugsVersionNotExists = requestParameters?.recreationalDrugsVersionNotExists;
-        const recreationalDrugsVersionExists = requestParameters?.recreationalDrugsVersionExists;
-        const recreationalDrugsVersion = requestParameters?.recreationalDrugsVersion;
-        const recreationalDrugsVersionNot = requestParameters?.recreationalDrugsVersionNot;
-        const recreationalDrugsVersionContains = requestParameters?.recreationalDrugsVersionContains;
-        const recreationalDrugsVersionNotContains = requestParameters?.recreationalDrugsVersionNotContains;
-        const recreationalDrugsVersionBeginsWith = requestParameters?.recreationalDrugsVersionBeginsWith;
-        const recreationalDrugsVersionNotBeginsWith = requestParameters?.recreationalDrugsVersionNotBeginsWith;
-        const recreationalDrugsVersionEndsWith = requestParameters?.recreationalDrugsVersionEndsWith;
-        const recreationalDrugsVersionNotEndsWith = requestParameters?.recreationalDrugsVersionNotEndsWith;
-        const recreationalDrugsSynonymsNotExists = requestParameters?.recreationalDrugsSynonymsNotExists;
-        const recreationalDrugsSynonymsExists = requestParameters?.recreationalDrugsSynonymsExists;
-        const recreationalDrugsPropertiesNotExists = requestParameters?.recreationalDrugsPropertiesNotExists;
-        const recreationalDrugsPropertiesExists = requestParameters?.recreationalDrugsPropertiesExists;
-        const exposuresCode = requestParameters?.exposuresCode;
-        const exposuresCodeNot = requestParameters?.exposuresCodeNot;
-        const exposuresCodeContains = requestParameters?.exposuresCodeContains;
-        const exposuresCodeNotContains = requestParameters?.exposuresCodeNotContains;
-        const exposuresCodeBeginsWith = requestParameters?.exposuresCodeBeginsWith;
-        const exposuresCodeNotBeginsWith = requestParameters?.exposuresCodeNotBeginsWith;
-        const exposuresCodeEndsWith = requestParameters?.exposuresCodeEndsWith;
-        const exposuresCodeNotEndsWith = requestParameters?.exposuresCodeNotEndsWith;
-        const exposuresSystem = requestParameters?.exposuresSystem;
-        const exposuresSystemNot = requestParameters?.exposuresSystemNot;
-        const exposuresSystemContains = requestParameters?.exposuresSystemContains;
-        const exposuresSystemNotContains = requestParameters?.exposuresSystemNotContains;
-        const exposuresSystemBeginsWith = requestParameters?.exposuresSystemBeginsWith;
-        const exposuresSystemNotBeginsWith = requestParameters?.exposuresSystemNotBeginsWith;
-        const exposuresSystemEndsWith = requestParameters?.exposuresSystemEndsWith;
-        const exposuresSystemNotEndsWith = requestParameters?.exposuresSystemNotEndsWith;
-        const exposuresDisplayNotExists = requestParameters?.exposuresDisplayNotExists;
-        const exposuresDisplayExists = requestParameters?.exposuresDisplayExists;
-        const exposuresDisplay = requestParameters?.exposuresDisplay;
-        const exposuresDisplayNot = requestParameters?.exposuresDisplayNot;
-        const exposuresDisplayContains = requestParameters?.exposuresDisplayContains;
-        const exposuresDisplayNotContains = requestParameters?.exposuresDisplayNotContains;
-        const exposuresDisplayBeginsWith = requestParameters?.exposuresDisplayBeginsWith;
-        const exposuresDisplayNotBeginsWith = requestParameters?.exposuresDisplayNotBeginsWith;
-        const exposuresDisplayEndsWith = requestParameters?.exposuresDisplayEndsWith;
-        const exposuresDisplayNotEndsWith = requestParameters?.exposuresDisplayNotEndsWith;
-        const exposuresVersionNotExists = requestParameters?.exposuresVersionNotExists;
-        const exposuresVersionExists = requestParameters?.exposuresVersionExists;
-        const exposuresVersion = requestParameters?.exposuresVersion;
-        const exposuresVersionNot = requestParameters?.exposuresVersionNot;
-        const exposuresVersionContains = requestParameters?.exposuresVersionContains;
-        const exposuresVersionNotContains = requestParameters?.exposuresVersionNotContains;
-        const exposuresVersionBeginsWith = requestParameters?.exposuresVersionBeginsWith;
-        const exposuresVersionNotBeginsWith = requestParameters?.exposuresVersionNotBeginsWith;
-        const exposuresVersionEndsWith = requestParameters?.exposuresVersionEndsWith;
-        const exposuresVersionNotEndsWith = requestParameters?.exposuresVersionNotEndsWith;
-        const exposuresSynonymsNotExists = requestParameters?.exposuresSynonymsNotExists;
-        const exposuresSynonymsExists = requestParameters?.exposuresSynonymsExists;
-        const exposuresPropertiesNotExists = requestParameters?.exposuresPropertiesNotExists;
-        const exposuresPropertiesExists = requestParameters?.exposuresPropertiesExists;
+        const recreationalDrugsNotExists = requestParameters?.recreationalDrugsNotExists;
+        const recreationalDrugsExists = requestParameters?.recreationalDrugsExists;
+        const recreationalDrugs = requestParameters?.recreationalDrugs;
+        const recreationalDrugsNot = requestParameters?.recreationalDrugsNot;
+        const recreationalDrugsAnyOf = requestParameters?.recreationalDrugsAnyOf;
+        const recreationalDrugsNotAnyOf = requestParameters?.recreationalDrugsNotAnyOf;
+        const recreationalDrugsDescendantsOf = requestParameters?.recreationalDrugsDescendantsOf;
+        const recreationalDrugsAllOf = requestParameters?.recreationalDrugsAllOf;
+        const recreationalDrugsNotAllOf = requestParameters?.recreationalDrugsNotAllOf;
+        const exposuresNotExists = requestParameters?.exposuresNotExists;
+        const exposuresExists = requestParameters?.exposuresExists;
+        const exposures = requestParameters?.exposures;
+        const exposuresNot = requestParameters?.exposuresNot;
+        const exposuresAnyOf = requestParameters?.exposuresAnyOf;
+        const exposuresNotAnyOf = requestParameters?.exposuresNotAnyOf;
+        const exposuresDescendantsOf = requestParameters?.exposuresDescendantsOf;
+        const exposuresAllOf = requestParameters?.exposuresAllOf;
+        const exposuresNotAllOf = requestParameters?.exposuresNotAllOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -787,325 +725,93 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'nightSleep.not.between');
             })
         }
-        if (recreationalDrugsCode !== undefined && recreationalDrugsCode !== null) {
+        if (recreationalDrugsNotExists !== undefined && recreationalDrugsNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCode, 'recreationalDrugs.code');
+            <any>recreationalDrugsNotExists, 'recreationalDrugs.not.exists');
         }
-        if (recreationalDrugsCodeNot !== undefined && recreationalDrugsCodeNot !== null) {
+        if (recreationalDrugsExists !== undefined && recreationalDrugsExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeNot, 'recreationalDrugs.code.not');
+            <any>recreationalDrugsExists, 'recreationalDrugs.exists');
         }
-        if (recreationalDrugsCodeContains !== undefined && recreationalDrugsCodeContains !== null) {
+        if (recreationalDrugs !== undefined && recreationalDrugs !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeContains, 'recreationalDrugs.code.contains');
+            <any>recreationalDrugs, 'recreationalDrugs');
         }
-        if (recreationalDrugsCodeNotContains !== undefined && recreationalDrugsCodeNotContains !== null) {
+        if (recreationalDrugsNot !== undefined && recreationalDrugsNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeNotContains, 'recreationalDrugs.code.not.contains');
+            <any>recreationalDrugsNot, 'recreationalDrugs.not');
         }
-        if (recreationalDrugsCodeBeginsWith !== undefined && recreationalDrugsCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeBeginsWith, 'recreationalDrugs.code.beginsWith');
-        }
-        if (recreationalDrugsCodeNotBeginsWith !== undefined && recreationalDrugsCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeNotBeginsWith, 'recreationalDrugs.code.not.beginsWith');
-        }
-        if (recreationalDrugsCodeEndsWith !== undefined && recreationalDrugsCodeEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeEndsWith, 'recreationalDrugs.code.endsWith');
-        }
-        if (recreationalDrugsCodeNotEndsWith !== undefined && recreationalDrugsCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsCodeNotEndsWith, 'recreationalDrugs.code.not.endsWith');
-        }
-        if (recreationalDrugsSystem !== undefined && recreationalDrugsSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystem, 'recreationalDrugs.system');
-        }
-        if (recreationalDrugsSystemNot !== undefined && recreationalDrugsSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemNot, 'recreationalDrugs.system.not');
-        }
-        if (recreationalDrugsSystemContains !== undefined && recreationalDrugsSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemContains, 'recreationalDrugs.system.contains');
-        }
-        if (recreationalDrugsSystemNotContains !== undefined && recreationalDrugsSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemNotContains, 'recreationalDrugs.system.not.contains');
-        }
-        if (recreationalDrugsSystemBeginsWith !== undefined && recreationalDrugsSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemBeginsWith, 'recreationalDrugs.system.beginsWith');
-        }
-        if (recreationalDrugsSystemNotBeginsWith !== undefined && recreationalDrugsSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemNotBeginsWith, 'recreationalDrugs.system.not.beginsWith');
-        }
-        if (recreationalDrugsSystemEndsWith !== undefined && recreationalDrugsSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemEndsWith, 'recreationalDrugs.system.endsWith');
-        }
-        if (recreationalDrugsSystemNotEndsWith !== undefined && recreationalDrugsSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSystemNotEndsWith, 'recreationalDrugs.system.not.endsWith');
-        }
-        if (recreationalDrugsDisplayNotExists !== undefined && recreationalDrugsDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayNotExists, 'recreationalDrugs.display.not.exists');
-        }
-        if (recreationalDrugsDisplayExists !== undefined && recreationalDrugsDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayExists, 'recreationalDrugs.display.exists');
-        }
-        if (recreationalDrugsDisplay !== undefined && recreationalDrugsDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplay, 'recreationalDrugs.display');
-        }
-        if (recreationalDrugsDisplayNot !== undefined && recreationalDrugsDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayNot, 'recreationalDrugs.display.not');
-        }
-        if (recreationalDrugsDisplayContains !== undefined && recreationalDrugsDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayContains, 'recreationalDrugs.display.contains');
-        }
-        if (recreationalDrugsDisplayNotContains !== undefined && recreationalDrugsDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayNotContains, 'recreationalDrugs.display.not.contains');
-        }
-        if (recreationalDrugsDisplayBeginsWith !== undefined && recreationalDrugsDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayBeginsWith, 'recreationalDrugs.display.beginsWith');
-        }
-        if (recreationalDrugsDisplayNotBeginsWith !== undefined && recreationalDrugsDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayNotBeginsWith, 'recreationalDrugs.display.not.beginsWith');
-        }
-        if (recreationalDrugsDisplayEndsWith !== undefined && recreationalDrugsDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayEndsWith, 'recreationalDrugs.display.endsWith');
-        }
-        if (recreationalDrugsDisplayNotEndsWith !== undefined && recreationalDrugsDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDisplayNotEndsWith, 'recreationalDrugs.display.not.endsWith');
-        }
-        if (recreationalDrugsVersionNotExists !== undefined && recreationalDrugsVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionNotExists, 'recreationalDrugs.version.not.exists');
-        }
-        if (recreationalDrugsVersionExists !== undefined && recreationalDrugsVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionExists, 'recreationalDrugs.version.exists');
-        }
-        if (recreationalDrugsVersion !== undefined && recreationalDrugsVersion !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersion, 'recreationalDrugs.version');
-        }
-        if (recreationalDrugsVersionNot !== undefined && recreationalDrugsVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionNot, 'recreationalDrugs.version.not');
-        }
-        if (recreationalDrugsVersionContains !== undefined && recreationalDrugsVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionContains, 'recreationalDrugs.version.contains');
-        }
-        if (recreationalDrugsVersionNotContains !== undefined && recreationalDrugsVersionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionNotContains, 'recreationalDrugs.version.not.contains');
-        }
-        if (recreationalDrugsVersionBeginsWith !== undefined && recreationalDrugsVersionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionBeginsWith, 'recreationalDrugs.version.beginsWith');
-        }
-        if (recreationalDrugsVersionNotBeginsWith !== undefined && recreationalDrugsVersionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionNotBeginsWith, 'recreationalDrugs.version.not.beginsWith');
-        }
-        if (recreationalDrugsVersionEndsWith !== undefined && recreationalDrugsVersionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionEndsWith, 'recreationalDrugs.version.endsWith');
-        }
-        if (recreationalDrugsVersionNotEndsWith !== undefined && recreationalDrugsVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsVersionNotEndsWith, 'recreationalDrugs.version.not.endsWith');
-        }
-        if (recreationalDrugsSynonymsNotExists !== undefined && recreationalDrugsSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSynonymsNotExists, 'recreationalDrugs.synonyms.not.exists');
-        }
-        if (recreationalDrugsSynonymsExists !== undefined && recreationalDrugsSynonymsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsSynonymsExists, 'recreationalDrugs.synonyms.exists');
-        }
-        if (recreationalDrugsPropertiesNotExists !== undefined && recreationalDrugsPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsPropertiesNotExists, 'recreationalDrugs.properties.not.exists');
-        }
-        if (recreationalDrugsPropertiesExists !== undefined && recreationalDrugsPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsPropertiesExists, 'recreationalDrugs.properties.exists');
-        }
-        if (exposuresCode !== undefined && exposuresCode !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCode, 'exposures.code');
-        }
-        if (exposuresCodeNot !== undefined && exposuresCodeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeNot, 'exposures.code.not');
-        }
-        if (exposuresCodeContains !== undefined && exposuresCodeContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeContains, 'exposures.code.contains');
-        }
-        if (exposuresCodeNotContains !== undefined && exposuresCodeNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeNotContains, 'exposures.code.not.contains');
-        }
-        if (exposuresCodeBeginsWith !== undefined && exposuresCodeBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeBeginsWith, 'exposures.code.beginsWith');
-        }
-        if (exposuresCodeNotBeginsWith !== undefined && exposuresCodeNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeNotBeginsWith, 'exposures.code.not.beginsWith');
-        }
-        if (exposuresCodeEndsWith !== undefined && exposuresCodeEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeEndsWith, 'exposures.code.endsWith');
-        }
-        if (exposuresCodeNotEndsWith !== undefined && exposuresCodeNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresCodeNotEndsWith, 'exposures.code.not.endsWith');
-        }
-        if (exposuresSystem !== undefined && exposuresSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystem, 'exposures.system');
-        }
-        if (exposuresSystemNot !== undefined && exposuresSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemNot, 'exposures.system.not');
-        }
-        if (exposuresSystemContains !== undefined && exposuresSystemContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemContains, 'exposures.system.contains');
-        }
-        if (exposuresSystemNotContains !== undefined && exposuresSystemNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemNotContains, 'exposures.system.not.contains');
-        }
-        if (exposuresSystemBeginsWith !== undefined && exposuresSystemBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemBeginsWith, 'exposures.system.beginsWith');
-        }
-        if (exposuresSystemNotBeginsWith !== undefined && exposuresSystemNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemNotBeginsWith, 'exposures.system.not.beginsWith');
+        if (recreationalDrugsAnyOf) {
+            recreationalDrugsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recreationalDrugs.anyOf');
+            })
         }
-        if (exposuresSystemEndsWith !== undefined && exposuresSystemEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemEndsWith, 'exposures.system.endsWith');
-        }
-        if (exposuresSystemNotEndsWith !== undefined && exposuresSystemNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSystemNotEndsWith, 'exposures.system.not.endsWith');
-        }
-        if (exposuresDisplayNotExists !== undefined && exposuresDisplayNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayNotExists, 'exposures.display.not.exists');
-        }
-        if (exposuresDisplayExists !== undefined && exposuresDisplayExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayExists, 'exposures.display.exists');
-        }
-        if (exposuresDisplay !== undefined && exposuresDisplay !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplay, 'exposures.display');
-        }
-        if (exposuresDisplayNot !== undefined && exposuresDisplayNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayNot, 'exposures.display.not');
-        }
-        if (exposuresDisplayContains !== undefined && exposuresDisplayContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayContains, 'exposures.display.contains');
-        }
-        if (exposuresDisplayNotContains !== undefined && exposuresDisplayNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayNotContains, 'exposures.display.not.contains');
-        }
-        if (exposuresDisplayBeginsWith !== undefined && exposuresDisplayBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayBeginsWith, 'exposures.display.beginsWith');
-        }
-        if (exposuresDisplayNotBeginsWith !== undefined && exposuresDisplayNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayNotBeginsWith, 'exposures.display.not.beginsWith');
-        }
-        if (exposuresDisplayEndsWith !== undefined && exposuresDisplayEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayEndsWith, 'exposures.display.endsWith');
-        }
-        if (exposuresDisplayNotEndsWith !== undefined && exposuresDisplayNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDisplayNotEndsWith, 'exposures.display.not.endsWith');
-        }
-        if (exposuresVersionNotExists !== undefined && exposuresVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionNotExists, 'exposures.version.not.exists');
-        }
-        if (exposuresVersionExists !== undefined && exposuresVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionExists, 'exposures.version.exists');
+        if (recreationalDrugsNotAnyOf) {
+            recreationalDrugsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recreationalDrugs.not.anyOf');
+            })
         }
-        if (exposuresVersion !== undefined && exposuresVersion !== null) {
+        if (recreationalDrugsDescendantsOf !== undefined && recreationalDrugsDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersion, 'exposures.version');
+            <any>recreationalDrugsDescendantsOf, 'recreationalDrugs.descendantsOf');
         }
-        if (exposuresVersionNot !== undefined && exposuresVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionNot, 'exposures.version.not');
+        if (recreationalDrugsAllOf) {
+            recreationalDrugsAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recreationalDrugs.allOf');
+            })
         }
-        if (exposuresVersionContains !== undefined && exposuresVersionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionContains, 'exposures.version.contains');
+        if (recreationalDrugsNotAllOf) {
+            recreationalDrugsNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'recreationalDrugs.not.allOf');
+            })
         }
-        if (exposuresVersionNotContains !== undefined && exposuresVersionNotContains !== null) {
+        if (exposuresNotExists !== undefined && exposuresNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionNotContains, 'exposures.version.not.contains');
+            <any>exposuresNotExists, 'exposures.not.exists');
         }
-        if (exposuresVersionBeginsWith !== undefined && exposuresVersionBeginsWith !== null) {
+        if (exposuresExists !== undefined && exposuresExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionBeginsWith, 'exposures.version.beginsWith');
+            <any>exposuresExists, 'exposures.exists');
         }
-        if (exposuresVersionNotBeginsWith !== undefined && exposuresVersionNotBeginsWith !== null) {
+        if (exposures !== undefined && exposures !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionNotBeginsWith, 'exposures.version.not.beginsWith');
+            <any>exposures, 'exposures');
         }
-        if (exposuresVersionEndsWith !== undefined && exposuresVersionEndsWith !== null) {
+        if (exposuresNot !== undefined && exposuresNot !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionEndsWith, 'exposures.version.endsWith');
+            <any>exposuresNot, 'exposures.not');
         }
-        if (exposuresVersionNotEndsWith !== undefined && exposuresVersionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresVersionNotEndsWith, 'exposures.version.not.endsWith');
+        if (exposuresAnyOf) {
+            exposuresAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'exposures.anyOf');
+            })
         }
-        if (exposuresSynonymsNotExists !== undefined && exposuresSynonymsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSynonymsNotExists, 'exposures.synonyms.not.exists');
+        if (exposuresNotAnyOf) {
+            exposuresNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'exposures.not.anyOf');
+            })
         }
-        if (exposuresSynonymsExists !== undefined && exposuresSynonymsExists !== null) {
+        if (exposuresDescendantsOf !== undefined && exposuresDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresSynonymsExists, 'exposures.synonyms.exists');
+            <any>exposuresDescendantsOf, 'exposures.descendantsOf');
         }
-        if (exposuresPropertiesNotExists !== undefined && exposuresPropertiesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresPropertiesNotExists, 'exposures.properties.not.exists');
+        if (exposuresAllOf) {
+            exposuresAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'exposures.allOf');
+            })
         }
-        if (exposuresPropertiesExists !== undefined && exposuresPropertiesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresPropertiesExists, 'exposures.properties.exists');
+        if (exposuresNotAllOf) {
+            exposuresNotAllOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'exposures.not.allOf');
+            })
         }
         if (limit !== undefined && limit !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

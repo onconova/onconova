@@ -167,164 +167,40 @@ export interface TreatmentResponseFilters {
      */
     'assessedEntitiesIds.not'?: string;
     /**
-     * None - Filter for full text matches
+     * Assessed anatomical location - Filter for entries without a value
      */
-    'assessedBodysites.code'?: string;
+    'assessedBodysites.not.exists'?: boolean;
     /**
-     * None - Filter for full text mismatches
+     * Assessed anatomical location - Filter for entries with a value
      */
-    'assessedBodysites.code.not'?: string;
+    'assessedBodysites.exists'?: boolean;
     /**
-     * None - Filter for partial text matches
+     * Assessed anatomical location - Filter for a matching concept code
      */
-    'assessedBodysites.code.contains'?: string;
+    assessedBodysites?: string;
     /**
-     * None - Filter for partial text mismatches
+     * Assessed anatomical location - Filter for a mismatching concept code
      */
-    'assessedBodysites.code.not.contains'?: string;
+    'assessedBodysites.not'?: string;
     /**
-     * None - Filter for entries starting with the text
+     * Assessed anatomical location - Filter for a matching set of concept codes
      */
-    'assessedBodysites.code.beginsWith'?: string;
+    'assessedBodysites.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries not starting with the text
+     * Assessed anatomical location - Filter for a mismmatching set of concept codes
      */
-    'assessedBodysites.code.not.beginsWith'?: string;
+    'assessedBodysites.not.anyOf'?: Array<string>;
     /**
-     * None - Filter for entries ending with the text
+     * Assessed anatomical location - Filter for all child concepts of a given concepts code
      */
-    'assessedBodysites.code.endsWith'?: string;
+    'assessedBodysites.descendantsOf'?: string;
     /**
-     * None - Filter for entries not ending with the text
+     * Assessed anatomical location - Filter for entries matching all of the concepts
      */
-    'assessedBodysites.code.not.endsWith'?: string;
+    'assessedBodysites.allOf'?: Array<string>;
     /**
-     * None - Filter for full text matches
+     * Assessed anatomical location - Filter for entries mismatching all of the concepts
      */
-    'assessedBodysites.system'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'assessedBodysites.system.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'assessedBodysites.system.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'assessedBodysites.system.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'assessedBodysites.system.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'assessedBodysites.system.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'assessedBodysites.system.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'assessedBodysites.system.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'assessedBodysites.display.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'assessedBodysites.display.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'assessedBodysites.display'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'assessedBodysites.display.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'assessedBodysites.display.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'assessedBodysites.display.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'assessedBodysites.display.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'assessedBodysites.display.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'assessedBodysites.display.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'assessedBodysites.display.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'assessedBodysites.version.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'assessedBodysites.version.exists'?: boolean;
-    /**
-     * None - Filter for full text matches
-     */
-    'assessedBodysites.version'?: string;
-    /**
-     * None - Filter for full text mismatches
-     */
-    'assessedBodysites.version.not'?: string;
-    /**
-     * None - Filter for partial text matches
-     */
-    'assessedBodysites.version.contains'?: string;
-    /**
-     * None - Filter for partial text mismatches
-     */
-    'assessedBodysites.version.not.contains'?: string;
-    /**
-     * None - Filter for entries starting with the text
-     */
-    'assessedBodysites.version.beginsWith'?: string;
-    /**
-     * None - Filter for entries not starting with the text
-     */
-    'assessedBodysites.version.not.beginsWith'?: string;
-    /**
-     * None - Filter for entries ending with the text
-     */
-    'assessedBodysites.version.endsWith'?: string;
-    /**
-     * None - Filter for entries not ending with the text
-     */
-    'assessedBodysites.version.not.endsWith'?: string;
-    /**
-     * None - Filter for entries without a value
-     */
-    'assessedBodysites.synonyms.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'assessedBodysites.synonyms.exists'?: boolean;
-    /**
-     * None - Filter for entries without a value
-     */
-    'assessedBodysites.properties.not.exists'?: boolean;
-    /**
-     * None - Filter for entries with a value
-     */
-    'assessedBodysites.properties.exists'?: boolean;
+    'assessedBodysites.not.allOf'?: Array<string>;
 }
 
