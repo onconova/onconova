@@ -10,8 +10,8 @@ fi
 
 # Set proxy options if PROXY_URL_HTTPS is defined
 WGET_PROXY_OPTIONS=""
-if [ -n "$PROXY_HTTPS" ]; then
-  WGET_PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$PROXY_HTTPS  -e http_proxy=$PROXY_HTTP --ca-certificate=$CA_BUNDLE_CERT"
+if [ -n "$HTTPS_PROXY_URL" ]; then
+  WGET_PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$HTTPS_PROXY_URL  -e http_proxy=$HTTP_PROXY_URL --ca-certificate=$CA_BUNDLE_CERT"
 fi
 
 TERMINOLOGY=$1

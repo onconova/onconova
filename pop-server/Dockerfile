@@ -7,9 +7,9 @@ FROM python:3.11.0rc2-bullseye
 ###############################
 
 # Get arguments from .yml file
-ARG PROXY_HTTP
-ARG PROXY_HTTPS
-ARG CA_SSL_CERT_BUNDLE
+ARG HTTP_PROXY_URL
+ARG HTTPS_PROXY_URL
+ARG PROXY_SSL_CERT_BUNDLE
 ARG ENV
 
 # Set environment variables
@@ -18,17 +18,17 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV environment=${ENV}
-ENV https_proxy=${PROXY_HTTPS}
-ENV http_proxy=${PROXY_HTTP}
+ENV https_proxy=${HTTPS_PROXY_URL}
+ENV http_proxy=${HTTP_PROXY_URL}
 ENV POETRY_VERSION=1.0.0
-ENV CA_BUNDLE_CERT=${CA_SSL_CERT_BUNDLE:+/etc/ssl/certs/ca-cert-bundle.crt}
+ENV CA_BUNDLE_CERT=${PROXY_SSL_CERT_BUNDLE:+/etc/ssl/certs/ca-cert-bundle.crt}
 
 # Install SSL certificates
-COPY --from=project-root ${CA_SSL_CERT_BUNDLE:+$CA_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
+COPY --from=project-root ${PROXY_SSL_CERT_BUNDLE:+$PROXY_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
 RUN update-ca-certificates
 
 # Conditionally set REQUESTS_CA_BUNDLE (setting for Poetry install)
-ENV REQUESTS_CA_BUNDLE=${CA_SSL_CERT_BUNDLE:+$CA_BUNDLE_CERT}
+ENV REQUESTS_CA_BUNDLE=${PROXY_SSL_CERT_BUNDLE:+$CA_BUNDLE_CERT}
 
 
 # Set work directory

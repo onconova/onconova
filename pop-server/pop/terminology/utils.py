@@ -266,8 +266,8 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
 
     # Set up the proxy with authentication
     proxies = {
-        'http': env('PROXY_HTTP'),
-        'https': env('PROXY_HTTPS'),
+        'http': env('HTTP_PROXY_URL'),
+        'https': env('HTTPS_PROXY_URL'),
     }
     session.proxies = proxies
     # Set up the basic authentication for the API

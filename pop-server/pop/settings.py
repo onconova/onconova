@@ -24,9 +24,9 @@ with open("pyproject.toml", "rb") as f:
 SECRET_KEY = env("DJANGO_SECRET_KEY")  
 ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']
 ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
-HOST = env('HOST')
-HOST_PORT = env('HTTPS_WEB_PORT')
-HOST_ORGANIZATION = env('HOST_ORGANIZATION') # Used by API
+WEBAPP_HOST = env('WEBAPP_HOST')
+HOST_PORT = env('WEBAPP_HTTPS_PORT')
+HOST_ORGANIZATION = env('ORGANIZATION_NAME') # Used by API
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'pop.core',
     'pop.terminology',
     'pop.oncology',
+    'pop.interoperability',
     'pop.analytics',
     'ninja_extra',
     'corsheaders',
@@ -77,8 +78,8 @@ MIDDLEWARE = [
 
 NINJA_JWT = {
     "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.AccessToken","ninja_jwt.tokens.RefreshToken"),
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=env("ACCESS_TOKEN_LIFETIME", default=30)),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=env("REFRESH_TOKEN_LIFETIME", default=1)),
     "UPDATE_LAST_LOGIN": True,
 }
 
@@ -105,11 +106,11 @@ WSGI_APPLICATION = 'pop.wsgi.application'
 # Database(s)
 DATABASES = {
     "default": {
-        "ENGINE": env("POSTGRES_ENGINE"),
+        "ENGINE": 'django.db.backends.postgresql',
         "NAME": env("POSTGRES_DATABASE"),
         "USER": env("POSTGRES_USER"),
         "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
+        "WEBAPP_HOST": env("POSTGRES_HOST"),
         "PORT": env("POSTGRES_PORT"),
     },
 }

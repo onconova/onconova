@@ -215,7 +215,6 @@ class BaseSchema(Schema):
                     # Determine if the field needs expansion based on class model fields
                     related_schema = cls.extract_related_model(field)
                     expanded = related_schema is not None 
-                    print('EXPANDED', orm_field_name, expanded)
                     # Handle one-to-many or many-to-many relationships
                     if field.one_to_many or field.many_to_many:
                         if expanded:

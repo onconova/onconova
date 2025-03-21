@@ -1,11 +1,11 @@
 FROM node:22-alpine
 
-ARG PROXY_HTTPS
-ARG PROXY_HTTP
-ARG CA_SSL_CERT_BUNDLE
+ARG HTTPS_PROXY_URL
+ARG HTTP_PROXY_URL
+ARG PROXY_SSL_CERT_BUNDLE
 
 # Install SSL certificates
-COPY --from=project-root ${CA_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
+COPY --from=project-root ${PROXY_SSL_CERT_BUNDLE} $CA_BUNDLE_CERT
 ENV CA_BUNDLE_CERT=/etc/ssl/certs/ca-cert-bundle.crt
 
 # Setup workspace
@@ -15,8 +15,8 @@ WORKDIR usr/src/app
 COPY . .
 
 # Setup NPM proxy configuration
-RUN npm config set proxy ${PROXY_HTTPS} \
-    && npm config set https-proxy ${PROXY_HTTP}
+RUN npm config set proxy ${HTTPS_PROXY_URL} \
+    && npm config set https-proxy ${HTTP_PROXY_URL}
 # Install the Angular CLI
 RUN npm install -g @angular/cli
 RUN npm install --force
