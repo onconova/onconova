@@ -49,6 +49,7 @@ import {
     RefreshTokenPairRequestParams,
     ResetUserPasswordRequestParams,
     UpdateUserRequestParams,
+    UpdateUserPasswordRequestParams,
     UpdateUserProfileRequestParams
 } from './auth.serviceInterface';
 
@@ -377,14 +378,6 @@ export class AuthService implements AuthServiceInterface {
         const canAuditLogs = requestParameters?.canAuditLogs;
         const canManageUsers = requestParameters?.canManageUsers;
         const isSystemAdmin = requestParameters?.isSystemAdmin;
-        const password = requestParameters?.password;
-        const passwordNot = requestParameters?.passwordNot;
-        const passwordContains = requestParameters?.passwordContains;
-        const passwordNotContains = requestParameters?.passwordNotContains;
-        const passwordBeginsWith = requestParameters?.passwordBeginsWith;
-        const passwordNotBeginsWith = requestParameters?.passwordNotBeginsWith;
-        const passwordEndsWith = requestParameters?.passwordEndsWith;
-        const passwordNotEndsWith = requestParameters?.passwordNotEndsWith;
         const lastLoginNotExists = requestParameters?.lastLoginNotExists;
         const lastLoginExists = requestParameters?.lastLoginExists;
         const lastLoginBefore = requestParameters?.lastLoginBefore;
@@ -561,38 +554,6 @@ export class AuthService implements AuthServiceInterface {
         if (isSystemAdmin !== undefined && isSystemAdmin !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>isSystemAdmin, 'isSystemAdmin');
-        }
-        if (password !== undefined && password !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>password, 'password');
-        }
-        if (passwordNot !== undefined && passwordNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordNot, 'password.not');
-        }
-        if (passwordContains !== undefined && passwordContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordContains, 'password.contains');
-        }
-        if (passwordNotContains !== undefined && passwordNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordNotContains, 'password.not.contains');
-        }
-        if (passwordBeginsWith !== undefined && passwordBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordBeginsWith, 'password.beginsWith');
-        }
-        if (passwordNotBeginsWith !== undefined && passwordNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordNotBeginsWith, 'password.not.beginsWith');
-        }
-        if (passwordEndsWith !== undefined && passwordEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordEndsWith, 'password.endsWith');
-        }
-        if (passwordNotEndsWith !== undefined && passwordNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>passwordNotEndsWith, 'password.not.endsWith');
         }
         if (lastLoginNotExists !== undefined && lastLoginNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1138,9 +1099,15 @@ export class AuthService implements AuthServiceInterface {
         if (userId === null || userId === undefined) {
             throw new Error('Required parameter userId was null or undefined when calling resetUserPassword.');
         }
-        const userPasswordReset = requestParameters?.userPasswordReset;
-        if (userPasswordReset === null || userPasswordReset === undefined) {
-            throw new Error('Required parameter userPasswordReset was null or undefined when calling resetUserPassword.');
+        const password = requestParameters?.password;
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling resetUserPassword.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (password !== undefined && password !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>password, 'password');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -1174,15 +1141,6 @@ export class AuthService implements AuthServiceInterface {
         }
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -1194,11 +1152,11 @@ export class AuthService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password`;
-        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password/reset`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: userPasswordReset,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -1285,6 +1243,91 @@ export class AuthService implements AuthServiceInterface {
             {
                 context: localVarHttpContext,
                 body: userCreate,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Update User Password
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const userId = requestParameters?.userId;
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling updateUserPassword.');
+        }
+        const userPasswordReset = requestParameters?.userPasswordReset;
+        if (userPasswordReset === null || userPasswordReset === undefined) {
+            throw new Error('Required parameter userPasswordReset was null or undefined when calling updateUserPassword.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarCredential: string | undefined;
+        // authentication (JWTAuth) required
+        localVarCredential = this.configuration.lookupCredential('JWTAuth');
+        if (localVarCredential) {
+            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
+        }
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+        let localVarTransferCache: boolean | undefined = options && options.transferCache;
+        if (localVarTransferCache === undefined) {
+            localVarTransferCache = true;
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/auth/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password`;
+        return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: userPasswordReset,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

@@ -15,7 +15,6 @@ import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
 import { Cohort, CohortsService} from 'src/app/shared/openapi';
-import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
@@ -31,7 +30,6 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
   }`,
   encapsulation: ViewEncapsulation.None,
   imports: [
-    ModalFormComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -98,7 +96,7 @@ export class CohortSearchComponent implements OnInit {
    }
    
   openNewCohortForm() {    
-    this.modalFormService.open(CohortFormComponent, { /* optional data */ });
+    this.modalFormService.open(CohortFormComponent, {}, this.refreshCohorts.bind(this));
   }
 
 

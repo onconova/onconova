@@ -7,10 +7,6 @@ import { Card } from 'primeng/card';
 import { Skeleton } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 
-import { CohortTraitAverage, CohortTraitCounts, CohortTraitMedian } from 'src/app/shared/openapi';
-import { DashboardComponent } from "../../../dashboard/dashboard.component";
-import { Observable } from 'rxjs';
-
 @Component({
     standalone: true,
     imports: [
@@ -20,7 +16,6 @@ import { Observable } from 'rxjs';
     LucideAngularModule,
     Skeleton,
     TableModule,
-    DashboardComponent
 ],
     selector: 'pop-cohort-trait-panel',
     template:`

@@ -71,6 +71,7 @@
             <tr *ngIf="!loading; else loadingbody">
                 <td>
                     <p-button icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
+                    <p-button icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
                 </td>
                 <td class="text-monospace">{{ user.username }}</td>
                 <td>{{ user.lastName }}, {{ user.firstName }}</td>
@@ -93,6 +94,3 @@
         </ng-template>
     </p-table>
 </p-card>
-
-
-<pop-dynamic-modal-form/>

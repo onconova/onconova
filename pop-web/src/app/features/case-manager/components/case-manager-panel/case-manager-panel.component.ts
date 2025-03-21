@@ -97,7 +97,7 @@ export class CaseManagerPanelComponent implements OnInit {
     }
 
     addNewEntry() {    
-        this.modalFormService.open(this.formComponent, {}, this.refreshEntries.bind(this));
+        this.modalFormService.open(this.formComponent, {}, this.refreshEntries.bind(this), this.caseId);
       }
 
     refreshEntries() {
@@ -159,7 +159,7 @@ export class CaseManagerPanelComponent implements OnInit {
     }
 
     updateEntry(data: any) {
-        this.modalFormService.open(this.formComponent, data, this.refreshEntries.bind(this));
+        this.modalFormService.open(this.formComponent, data, this.refreshEntries.bind(this), this.caseId);
     }
 
     deleteEntry(id: string) {

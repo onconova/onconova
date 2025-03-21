@@ -12,6 +12,7 @@ import { Skeleton } from 'primeng/skeleton';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { UserFormComponent } from '../../forms/user-form/user-form.component';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
+import { PasswordResetFormComponent } from '../../forms/passwrd-reset-form/password-reset-form.component';
 
 @Component({
     standalone: true,
@@ -25,6 +26,7 @@ import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-f
         Skeleton,
         CardModule,
         ModalFormComponent,
+        PasswordResetFormComponent,
     ]
 })
 export class UsersManagementCompnent implements OnInit {
@@ -49,6 +51,9 @@ export class UsersManagementCompnent implements OnInit {
 
     public openUserForm(initialData: UserCreate | {}) {    
         this.modalFormService.open(UserFormComponent, initialData, this.refreshUsers.bind(this));
+    }
+    public openPasswordResetForm(isAdmin: boolean, user: User) {
+        this.modalFormService.open(PasswordResetFormComponent, {isAdmin: isAdmin, user: user}, this.refreshUsers.bind(this));
     }
 
     applyFilters(event: any) {

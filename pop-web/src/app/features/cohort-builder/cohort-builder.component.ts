@@ -4,10 +4,8 @@ import { FormBuilder, ReactiveFormsModule, FormGroup, FormsModule, Validators } 
 
 import { Panel } from 'primeng/panel';
 import { Button } from 'primeng/button';
-import { Card } from 'primeng/card';
 import { MessageService } from 'primeng/api';
 import { InputText } from 'primeng/inputtext';
-import { Avatar } from 'primeng/avatar';
 import { DataView } from 'primeng/dataview';
 import { Chip } from 'primeng/chip';
 import { TabsModule } from 'primeng/tabs';
@@ -52,13 +50,11 @@ import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-p
         CohortTraitPanel,
         Panel,
         Message,
-        Card,
         Skeleton,
         InputText,
         UserBadgeComponent,
         Divider,
         TabsModule,
-        Avatar,
         DataView,
         Button,
         Chip,

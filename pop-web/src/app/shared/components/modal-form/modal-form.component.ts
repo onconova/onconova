@@ -31,20 +31,18 @@ export class ModalFormComponent {
   @ViewChild("formContent", { read: ViewContainerRef, static: true}) content!: ViewContainerRef;
   @Output() saveEvent = new EventEmitter<any>();
 
+  caseId: string | null = null
   loading: boolean = false
   visible: boolean = false
   title!: string;
   subtitle!: string;
   formComponent: any;
-
-  @Input() caseId!: string | null; 
-
   private modalService = inject(ModalFormService)
 
   ngAfterViewInit() {
       this.modalService.modal$.subscribe((modalData) => {
         if (modalData) {
-          this.loadComponent(modalData.component, modalData.data, modalData.onSave);
+          this.loadComponent(modalData.component, modalData.data, modalData.onSave, modalData.caseId);
         } else {
           this.closeModal();
         }
@@ -52,11 +50,11 @@ export class ModalFormComponent {
   }
 
 
-  private loadComponent(component: any, data: any, onSave: any) {
+  private loadComponent(component: any, data: any, onSave: any, caseId?: string | null) {
     this.content.clear();
     const componentRef = this.content.createComponent(component);
     this.formComponent = componentRef.instance;
-    this.formComponent.caseId = this.caseId;
+    this.formComponent.caseId = caseId;
 
     // subscribe to the save event emitted by the PatientFormComponent
     this.formComponent.save.subscribe((event: any) => {

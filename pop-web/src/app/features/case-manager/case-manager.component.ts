@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Observable, delay } from 'rxjs'; 
 
-import { MessageService } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Button } from 'primeng/button';
@@ -64,7 +63,6 @@ import {
     TreatmentResponseFormComponent,
 } from 'src/app/features/case-forms';
 
-import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component'
 import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
@@ -81,7 +79,6 @@ import { DownloadService } from 'src/app/shared/services/download.service';
         FormsModule,
         RouterModule,
         CaseManagerPanelComponent,
-        ModalFormComponent,
         NgxJdenticonModule,
         AvatarModule,
         Button,

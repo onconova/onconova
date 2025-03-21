@@ -25,7 +25,7 @@ export abstract class AbstractFormBase {
   @Output() public save = new EventEmitter<void>();
 
   public form!: FormGroup;
-  abstract initialData: Resource | EmptyObject;  
+  abstract initialData: Resource | EmptyObject | any;  
   public loading: boolean = false;
 
   abstract readonly title: string;
@@ -101,7 +101,7 @@ export abstract class AbstractFormBase {
             error: (error: any) => {
               // Report any problems
               this.loading = false;  
-              this.messageService.add({ severity: 'error', summary: 'Error ocurred while updating', detail: error.error.detail });
+              this.messageService.add({ severity: 'error', summary: 'Error ocurred while updating', detail: error.error ? error.error.detail : error.message });
               console.error(error)
             }
           })
@@ -140,7 +140,7 @@ export abstract class AbstractFormBase {
           error: (error: any) => {
             // Report any problems
             this.loading = false;  
-            this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.error.detail });
+            this.messageService.add({ severity: 'error', summary: 'Error ocurred while saving', detail: error.error ? error.error.detail : error.message });
             console.error(error)
           }
         })  

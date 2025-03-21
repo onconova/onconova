@@ -15,6 +15,9 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { Avatar } from 'primeng/avatar';
 import { Menu } from 'primeng/menu';
 import { Button } from 'primeng/button';
+import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
+import { PasswordResetFormComponent } from 'src/app/core/admin/forms/passwrd-reset-form/password-reset-form.component';
+import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 
 @Component({
     standalone: true,
@@ -31,7 +34,8 @@ import { Button } from 'primeng/button';
         InlineSVGModule,
         SettingsDialogComponent,
         GetFullNamePipe,
-        GetNameAcronymPipe
+        GetNameAcronymPipe,
+        ModalFormComponent,
     ]
 })
 export class AppTopBarComponent {
@@ -53,8 +57,9 @@ export class AppTopBarComponent {
         public layoutService: LayoutService,
         private router: Router,
         private messageService: MessageService,
-        public authService: AuthService) { 
-
+        public authService: AuthService,
+        private modalFormService: ModalFormService){
+         
         this.profile_items = [
             {
                 separator: true
@@ -67,6 +72,13 @@ export class AppTopBarComponent {
                         icon: 'pi pi-cog',
                         command: () => {
                             this.showSettingsDialog();
+                        }
+                    },
+                    {
+                        label: 'Change password',
+                        icon: 'pi pi-key',
+                        command: () => {
+                            this.modalFormService.open(PasswordResetFormComponent, {isAdmin: false, user: this.authService.user}, this.logout);
                         }
                     },
                     {
@@ -83,16 +95,6 @@ export class AppTopBarComponent {
 
 
     ngOnInit(): void {
-        // const darkModePreference = localStorage.getItem('darkMode');
-        // if (darkModePreference === 'true') {
-        //     this.themeModeIcon = 'pi pi-moon';
-        //     const element = document.querySelector('html');
-        //     if (element) {
-        //         element.classList.add('dark-mode');
-        //     }
-        // } else {
-        //     this.themeModeIcon = 'pi pi-sun';
-        // }
     }
 
     showSettingsDialog() {

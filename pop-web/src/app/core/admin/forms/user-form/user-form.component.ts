@@ -59,7 +59,6 @@ export class UserFormComponent extends AbstractFormBase implements OnInit {
     constructForm(): void {
         this.form = this.formBuilder.group({
             username: [this.initialData?.username, Validators.required],
-            password: [this.initialData?.password, Validators.required],
             firstName: [this.initialData?.firstName, Validators.required],
             lastName: [this.initialData?.lastName, Validators.required],
             email: [this.initialData?.email, Validators.required],
@@ -75,7 +74,6 @@ export class UserFormComponent extends AbstractFormBase implements OnInit {
             username: data.username,
             firstName: data.firstName,
             lastName: data.lastName,
-            password: data.password,
             email: data.email,
             organization: data.organization,
             department: data.department,

@@ -58,14 +58,6 @@ export interface GetUsersRequestParams {
     canAuditLogs?: boolean;
     canManageUsers?: boolean;
     isSystemAdmin?: boolean;
-    password?: string;
-    passwordNot?: string;
-    passwordContains?: string;
-    passwordNotContains?: string;
-    passwordBeginsWith?: string;
-    passwordNotBeginsWith?: string;
-    passwordEndsWith?: string;
-    passwordNotEndsWith?: string;
     lastLoginNotExists?: boolean;
     lastLoginExists?: boolean;
     lastLoginBefore?: string;
@@ -171,12 +163,17 @@ export interface RefreshTokenPairRequestParams {
 
 export interface ResetUserPasswordRequestParams {
     userId: string;
-    userPasswordReset: UserPasswordReset;
+    password: string;
 }
 
 export interface UpdateUserRequestParams {
     userId: string;
     userCreate: UserCreate;
+}
+
+export interface UpdateUserPasswordRequestParams {
+    userId: string;
+    userPasswordReset: UserPasswordReset;
 }
 
 export interface UpdateUserProfileRequestParams {
@@ -237,6 +234,13 @@ export interface AuthServiceInterface {
 * @param requestParameters
      */
     updateUser(requestParameters: UpdateUserRequestParams, extraHttpRequestParams?: any): Observable<User>;
+
+    /**
+     * Update User Password
+     * 
+* @param requestParameters
+     */
+    updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
      * Update User Profile

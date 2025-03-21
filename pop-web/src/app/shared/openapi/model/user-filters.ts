@@ -81,38 +81,6 @@ export interface UserFilters {
      */
     isSystemAdmin?: boolean;
     /**
-     * Password - Filter for full text matches
-     */
-    password?: string;
-    /**
-     * Password - Filter for full text mismatches
-     */
-    'password.not'?: string;
-    /**
-     * Password - Filter for partial text matches
-     */
-    'password.contains'?: string;
-    /**
-     * Password - Filter for partial text mismatches
-     */
-    'password.not.contains'?: string;
-    /**
-     * Password - Filter for entries starting with the text
-     */
-    'password.beginsWith'?: string;
-    /**
-     * Password - Filter for entries not starting with the text
-     */
-    'password.not.beginsWith'?: string;
-    /**
-     * Password - Filter for entries ending with the text
-     */
-    'password.endsWith'?: string;
-    /**
-     * Password - Filter for entries not ending with the text
-     */
-    'password.not.endsWith'?: string;
-    /**
      * Last Login - Filter for entries without a value
      */
     'lastLogin.not.exists'?: boolean;

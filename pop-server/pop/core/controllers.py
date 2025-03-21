@@ -89,10 +89,7 @@ class UsersController(ControllerBase):
         operation_id='createUser',
     )
     def create_user(self, payload: UserCreateSchema):
-        user = payload.model_dump_django()
-        user.set_password(payload.password)
-        user.save()
-        return user
+        return payload.model_dump_django()
 
     @route.put(
         path='/users/{userId}', 
@@ -105,13 +102,8 @@ class UsersController(ControllerBase):
     )
     def update_user(self, userId: str, payload: UserCreateSchema):
         user = get_object_or_404(User, id=userId)
-        password_hash = user.password
-        user = payload.model_dump_django(instance=user)
-        if not password_hash or password_hash != payload.password:
-            user.set_password(payload.password)
-            user.save()
-        return user 
-    
+        return payload.model_dump_django(instance=user)
+        
     @route.put(
         path='/users/{userId}/password', 
        response={
@@ -119,9 +111,9 @@ class UsersController(ControllerBase):
             404: None,
             403: None,
         },
-        operation_id='resetUserPassword',
+        operation_id='updateUserPassword',
     )
-    def reset_user_password(self, userId: str, payload: UserPasswordResetSchema):
+    def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
         user = get_object_or_404(User, id=userId)
         requesting_user = self.context.request.user
         authorized = user.id == requesting_user.id or requesting_user.can_manage_users
@@ -131,6 +123,21 @@ class UsersController(ControllerBase):
         user.save()
         return 200, None 
     
+
+    @route.post(
+        path='/users/{userId}/password/reset', 
+        response={
+            200: None,
+        },
+        permissions=[perms.CanManageUsers],
+        operation_id='resetUserPassword',
+    )
+    def reset_user_password(self, userId: str, password: str):
+        user = get_object_or_404(User, id=userId)
+        user.set_password(password)
+        user.save()
+        return 200, None 
+
     @route.put(
         path='/users/{userId}/profile', 
        response={

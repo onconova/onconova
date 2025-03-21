@@ -21,7 +21,6 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
 import { CaseBrowserCardComponent } from './components/case-card/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/case-forms';
-import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
@@ -34,7 +33,6 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
   imports: [
     CaseBrowserCardComponent,
     NgxCountAnimationDirective,
-    ModalFormComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -102,7 +100,7 @@ export class CaseBrowserComponent implements OnInit {
    }
    
   openNewCaseForm() {    
-    this.modalFormService.open(PatientFormComponent, { /* optional data */ });
+    this.modalFormService.open(PatientFormComponent, {}, this.refreshCases.bind(this));
   }
 
 
