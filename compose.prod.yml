@@ -15,11 +15,11 @@ services:
         depends_on:
             - pop-postgres
 
-    pop-web:
-        container_name: pop-web
+    pop-client:
+        container_name: pop-client
         restart: unless-stopped
         build:
-            context: pop-web
+            context: pop-client
             dockerfile: Dockerfile
             target: production
         develop:
@@ -48,7 +48,7 @@ services:
         depends_on:
             - pop-postgres
             - pop-server
-            - pop-web
+            - pop-client
 
     pop-postgres:
         image: postgres:13-alpine

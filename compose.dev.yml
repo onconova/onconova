@@ -13,11 +13,11 @@ services:
               path: .
               target: /app/src
 
-    pop-web:
+    pop-client:
         container_name: pop-dev-web
         extends:
           file: compose.prod.yml
-          service: pop-web
+          service: pop-client
         build:
             target: development
         develop:

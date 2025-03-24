@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pop-web": {
+    "pop-client": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pop-web",
+            "outputPath": "dist/pop-client",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -70,13 +70,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "pop-web:build"
+            "buildTarget": "pop-client:build"
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "pop-web:build"
+            "buildTarget": "pop-client:build"
           }
         },
         "test": {
