@@ -1,1 +1,45 @@
-/node_modules/**
+# Node
+node_modules/
+npm-debug.log
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+
+# CI
+.codeclimate.yml
+.travis.yml
+.taskcluster.yml
+
+# Docker
+docker-compose.yml
+Dockerfile
+.docker
+.dockerignore
+
+
+# Distribution / packaging
+.Python
+env/
+build/
+dist/
+downloads/
+lib/
+lib64/
+parts/
+sdist/
+var/
+
+
+# Unit test / coverage reports
+coverage/
+
+# Others
+.angular/
+README.md
+LICENSE
+
+# VS Code
+.vscode/

@@ -1,0 +1,63 @@
+name: pop-dev
+services:
+    pop-server:
+        container_name: pop-dev-server
+        extends:
+          file: compose.prod.yml
+          service: pop-server
+        build:
+          target: development     
+        develop:
+            watch:
+            - action: sync
+              path: .
+              target: /app/src
+
+    pop-web:
+        container_name: pop-dev-web
+        extends:
+          file: compose.prod.yml
+          service: pop-web
+        build:
+            target: development
+        develop:
+            watch:
+            - action: sync
+              path: .
+              target: /app
+
+    pop-nginx:
+        image: nginx:1.23        
+        container_name: pop-dev-nginx
+        extends:
+          file: compose.prod.yml
+          service: pop-nginx
+        volumes:
+          - ${SSL_CERT_DIR}/${HOST_SSL_CERT_BUNDLE}:/etc/nginx/ssl/cert_host.pem
+          - ${SSL_CERT_DIR}/${HOST_SSL_CERT_KEY}:/etc/nginx/ssl/cert_host.key      
+          - pop_dev_static_volume:/app/static
+          - pop_dev_media_volume:/app/media
+          - pop_dev_logs_volume:/app/logs
+        ports:
+            - "${WEBAPP_HTTPS_PORT}:443"
+            - "${WEBAPP_HTTP_PORT}:80"
+        develop:
+            watch:
+            - action: rebuild
+              path: ./nginx.conf
+
+    pop-postgres:
+        image: postgres:13-alpine
+        container_name: pop-dev-postgres
+        extends:
+          file: compose.prod.yml
+          service: pop-postgres   
+        volumes:
+            - pop_dev_postgres_volume:/var/lib/postgresql/data/
+
+
+volumes:
+    pop_dev_postgres_volume:
+    pop_dev_media_volume:
+    pop_dev_static_volume:
+    pop_dev_logs_volume:

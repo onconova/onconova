@@ -32,7 +32,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 # Django debugging mode
-DEBUG = env("DEBUG")                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
+DEBUG = env("ENVIRONMENT") == 'development'                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
 
 # HTTPS Settings
 SESSION_COOKIE_SECURE = True                # Cookie will only be sent over an HTTPS connection
@@ -110,7 +110,7 @@ DATABASES = {
         "NAME": env("POSTGRES_DATABASE"),
         "USER": env("POSTGRES_USER"),
         "PASSWORD": env("POSTGRES_PASSWORD"),
-        "WEBAPP_HOST": env("POSTGRES_HOST"),
+        "HOST": env("POSTGRES_HOST"),
         "PORT": env("POSTGRES_PORT"),
     },
 }
@@ -167,7 +167,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'filters': [],
-            'filename': '../logs/logfile.log',
+            'filename': '/app/logs/logfile.log',
             'when': 'midnight',
             'backupCount': 31,
             'formatter': 'simple',

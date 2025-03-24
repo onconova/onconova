@@ -26,7 +26,10 @@ pip-proxy.sh
 */migrations/*.pyc
 
 # Media uploads
-/media/
+pop-server/media/
+pop-server/static/
+pop-server/logs/
+.venv
 
 # Static files
 /staticfiles/
