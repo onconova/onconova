@@ -33,8 +33,8 @@ services:
           file: compose.prod.yml
           service: pop-nginx
         volumes:
-          - ${SSL_CERT_DIR}/${HOST_SSL_CERT_BUNDLE}:/etc/nginx/ssl/cert_host.pem
-          - ${SSL_CERT_DIR}/${HOST_SSL_CERT_KEY}:/etc/nginx/ssl/cert_host.key      
+          - ${HOST_SSL_CERTIFICATE_BUNDLE}:/etc/nginx/ssl/cert_host.pem
+          - ${HOST_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key      
           - pop_dev_static_volume:/app/static
           - pop_dev_media_volume:/app/media
           - pop_dev_logs_volume:/app/logs
