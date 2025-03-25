@@ -194,7 +194,7 @@ download_icd10pcs() {
 
 download_ncit() {
 	# Local variables
-	DOWNLOAD_URL=https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/Thesaurus_24.09e.FLAT.zip
+	DOWNLOAD_URL=https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/archive/24.09e_Release/Thesaurus_24.09e.FLAT.zip
 	DOWNLOAD_FILE=$DATA_DIR/ncit.zip
 	PROCESSED_FILE=$DATA_DIR/ncit.tsv
 	echo ""
