@@ -1,0 +1,33 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/pop/ValueSets/pop-tnm-regional-nodes-category",
+    "id": "pop-tnm-regional-nodes-category",
+    "title": "TNM Regional Nodes Category Value Set",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-regional-nodes-category-vs"
+                ]
+            },
+            {
+                "filter": [
+                    {
+                        "op": "descendent-of",
+                        "value": "1279799007",
+                        "property": "concept"
+                    },
+                    {
+                        "op": "descendent-of",
+                        "property": "concept",
+                        "value": "1279850004"
+                    }
+                ],
+                "system": "http://snomed.info/sct",
+                "version": "http://snomed.info/sct/900000000000207008/version/20240301"
+            }
+        ]
+    },
+    "name": "TNM Regional Nodes Category Value Set"
+}

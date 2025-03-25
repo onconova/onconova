@@ -331,7 +331,7 @@ class TNMGradeCategory(CodedConcept):
         label = concept.display
         label = label.replace('(American Joint Committee on Cancer)','')
         label = label.replace('American Joint Committee on Cancer','')
-        label = label.replace('stage','')
+        label = label.replace('grade','')
         label = label.replace('AJCC','')
         label = label.replace(' ','')
         concept.display = label
@@ -389,11 +389,8 @@ class TNMPerineuralInvasionCategory(CodedConcept):
     @classmethod
     def transform(cls, concept):
         label = concept.display
-        label = label.replace('(American Joint Committee on Cancer)','')
-        label = label.replace('American Joint Committee on Cancer','')
-        label = label.replace('stage','')
-        label = label.replace('AJCC','')
-        label = label.replace(' ','')
+        label = label.replace('No perineural invasion by tumor','Pn0')
+        label = label.replace('Perineural invasion by tumor','Pn1')
         concept.display = label
         return concept
 
@@ -404,11 +401,8 @@ class TNMSerumTumorMarkerLevelCategory(CodedConcept):
     @classmethod
     def transform(cls, concept):
         label = concept.display
-        label = label.replace('(American Joint Committee on Cancer)','')
-        label = label.replace('American Joint Committee on Cancer','')
-        label = label.replace('stage','')
-        label = label.replace('AJCC','')
-        label = label.replace(' ','')
+        label = label.replace('Serum tumor marker stage','')
+        label = label.replace('Serum tumour marker stage','')
         concept.display = label
         return concept
 
@@ -493,6 +487,12 @@ class NeuroblastomaINSSStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-neuroblastoma-inss-value-vs'
     description = 'Codes in INSS staging system representing neuroblastoma stage.'
 
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display 
+        label = label.replace('International neuroblastoma staging system', 'IN')
+        concept.display = label
+        return concept
 
 class NeuroblastomaINRGSSStage(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-neuroblastoma-INRGSS-value-vs'
@@ -513,6 +513,15 @@ class RhabdomyosarcomaClinicalGroup(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-rhabdomyosarcoma-clinical-group-value-vs'
     description = 'Intergroup code indicating whether the rhabdomyosarcoma is confined to its primary location or has extended beyond the site of origin.'
 
+    @classmethod
+    def transform(cls, concept):
+        label = concept.display 
+        if 'clinical group' in label:
+            group = label.split('clinical group ')[1].split(':')[0]
+        else:
+            group = label.split('Group ')[1]
+        concept.display = f'Group {group}'
+        return concept
     
 class TumorMarkerAnalyte(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-analytes'
@@ -534,12 +543,12 @@ class Race(CodedConcept):
 
 
 class BirthSex(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/core/ValueSet/birthsex'
+    valueset =  'http://hl7.org/fhir/ValueSet/administrative-gender'
     description = 'Codes for assigning sex at birth as specified by the Office of the National Coordinator for Health IT (ONC).'
 
 
 class SmokingStatus(CodedConcept):
-    valueset =  'https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.11.20.9.38/expansion'
+    valueset =  'https://simplifier.net/pop/ValueSets/pop-smoking-status'
     description = 'Current Smoking Status - IPS'
     @classmethod
     def transform(cls, concept):

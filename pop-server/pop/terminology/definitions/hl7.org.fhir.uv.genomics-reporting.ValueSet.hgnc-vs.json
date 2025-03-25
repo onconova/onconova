@@ -1,0 +1,52 @@
+{
+    "resourceType": "ValueSet",
+    "id": "hgnc-vs",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include all codes defined in <code>http://www.genenames.org/geneId</code></li><li>Include all codes defined in <code>http://www.genenames.org/genegroup</code></li></ul></div>"
+    },
+    "url": "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/hgnc-vs",
+    "version": "2.0.0",
+    "name": "HGNCVS",
+    "title": "HUGO Gene Nomenclature Committee Gene Names (HGNC)",
+    "status": "active",
+    "date": "2022-05-09T16:53:07+00:00",
+    "publisher": "HL7 Clinical Genomics Working Group",
+    "contact": [
+        {
+            "name": "HL7 Clinical Genomics Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/clingenomics"
+                },
+                {
+                    "system": "email",
+                    "value": "cg@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes all HGNC Codes, which includes multiple code systems. In this guide, Gene IDs from HGNC are used as CodeableConcepts, which must be sent with the HGNC gene ID including the prefix 'HGNC:' as the code and the HGNC 'gene symbol' as display. CAUTION: HGNC also indexes gene groups by numeric ID (without a prefix), and older systems may send HGNC gene IDs without the prefix, so care must be taken to confirm alignment. We have separately included the genegroup code system to draw attention to this ambiguity and potential error.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "http://unstats.un.org/unsd/methods/m49/m49.htm",
+                    "code": "001",
+                    "display": "World"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://www.genenames.org/geneId"
+            },
+            {
+                "system": "http://www.genenames.org/genegroup"
+            }
+        ]
+    }
+}

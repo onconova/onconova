@@ -1,0 +1,69 @@
+{
+    "resourceType": "ValueSet",
+    "id": "LL5323-2",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hapifhir.io/fhir/StructureDefinition/valueset-expansion-message",
+                "valueString": "ValueSet was expanded using an expansion that was pre-calculated at 2025-02-27T10:58:14.905+00:00 (26 days ago)"
+            }
+        ],
+        "versionId": "14"
+    },
+    "url": "http://loinc.org/vs/LL5323-2",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "LA30100-4",
+                        "display": "0-based interval counting"
+                    },
+                    {
+                        "code": "LA30101-2",
+                        "display": "0-based character counting"
+                    },
+                    {
+                        "code": "LA30102-0",
+                        "display": "1-based character counting"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "4fd08c7b-fdae-46e0-b9f4-2efdd0ce95d0",
+        "timestamp": "2025-03-25T13:48:26+00:00",
+        "total": 3,
+        "offset": 0,
+        "parameter": [
+            {
+                "name": "offset",
+                "valueInteger": 0
+            },
+            {
+                "name": "count",
+                "valueInteger": 1000
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://loinc.org",
+                "code": "LA30100-4",
+                "display": "0-based interval counting"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA30101-2",
+                "display": "0-based character counting"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA30102-0",
+                "display": "1-based character counting"
+            }
+        ]
+    }
+}

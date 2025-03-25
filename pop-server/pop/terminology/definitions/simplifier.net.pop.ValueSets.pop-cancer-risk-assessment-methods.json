@@ -1,0 +1,65 @@
+{
+    "resourceType": "ValueSet",
+    "id": "pop-cancer-risk-assessment-methods",
+    "url": "https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-methods",
+    "version": "0.0.1",
+    "title": "Cacner Risk Assessment Methods",
+    "status": "draft",
+    "copyright": "This value set includes content from SNOMED CT, which is copyright \u00a9 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "concept": [
+                    {
+                        "code": "C155843",
+                        "display": "IMDC / HENG Score"
+                    },
+                    {
+                        "display": "IPI Score",
+                        "code": "C161645"
+                    },
+                    {
+                        "display": "Sokal Score",
+                        "code": "C127875"
+                    },
+                    {
+                        "display": "Hasford Score",
+                        "code": "C127873"
+                    },
+                    {
+                        "display": "EUTOS",
+                        "code": "C127872"
+                    },
+                    {
+                        "display": "D'Amico Risk Classification",
+                        "code": "C181086"
+                    },
+                    {
+                        "display": "ELN Risk Classification",
+                        "code": "C177562"
+                    },
+                    {
+                        "code": "C71469",
+                        "display": "Child-Pugh Score"
+                    },
+                    {
+                        "display": "CAPRA Score",
+                        "code": "C181085"
+                    }
+                ],
+                "version": "24.06d"
+            },
+            {
+                "concept": [
+                    {
+                        "code": "414879002",
+                        "display": "Nottingham prognostic index"
+                    }
+                ],
+                "system": "http://snomed.info/sct"
+            }
+        ]
+    },
+    "name": "RiskAssessmentMethods"
+}

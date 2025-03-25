@@ -1,0 +1,87 @@
+{
+    "resourceType": "ValueSet",
+    "id": "LL2179-1",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hapifhir.io/fhir/StructureDefinition/valueset-expansion-message",
+                "valueString": "ValueSet was expanded using an expansion that was pre-calculated at 2025-02-27T10:56:41.992+00:00 (26 days ago)"
+            }
+        ],
+        "versionId": "16"
+    },
+    "url": "http://loinc.org/vs/LL2179-1",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "LA6270-8",
+                        "display": "Never"
+                    },
+                    {
+                        "code": "LA18926-8",
+                        "display": "Monthly or less"
+                    },
+                    {
+                        "code": "LA18927-6",
+                        "display": "2-4 times a month"
+                    },
+                    {
+                        "code": "LA18928-4",
+                        "display": "2-3 times a week"
+                    },
+                    {
+                        "code": "LA18929-2",
+                        "display": "4 or more times a week"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "7a98f86e-b5eb-4bc5-b0b0-49f0b98cd5d8",
+        "timestamp": "2025-03-25T13:46:50+00:00",
+        "total": 5,
+        "offset": 0,
+        "parameter": [
+            {
+                "name": "offset",
+                "valueInteger": 0
+            },
+            {
+                "name": "count",
+                "valueInteger": 1000
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://loinc.org",
+                "code": "LA6270-8",
+                "display": "Never"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA18926-8",
+                "display": "Monthly or less"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA18927-6",
+                "display": "2-4 times a month"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA18928-4",
+                "display": "2-3 times a week"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA18929-2",
+                "display": "4 or more times a week"
+            }
+        ]
+    }
+}

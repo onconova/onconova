@@ -1,6 +1,7 @@
 import cachetools
 import environ
 import requests 
+import json
 import os 
 import cachetools.func
 from collections import defaultdict
@@ -50,13 +51,25 @@ def download_canonical_url(canonical_url: str) -> str:
     Returns:
         str: The downloaded content as a string.
     """
+    DEFINITIONS_FOLDER = 'pop/terminology/definitions/'
+    # Generate unique filename from canonical URL 
+    filename = canonical_url.replace('https://','').replace('http://','').replace('/','.').replace('..','.')
+    # Check if file exists locally
+    if os.path.exists(f'{DEFINITIONS_FOLDER}{filename}.json'):
+        with open(f'{DEFINITIONS_FOLDER}{filename}.json', 'r') as definition:
+            return json.load(definition)
+    # Otherwise resolve the API endpoint and download it
     if not canonical_url.endswith('.json'):
         # Parse the API endpoint based on the canonical URL
         download_url =  resolve_canonical_url(canonical_url)
     else:
         download_url = canonical_url
     # Download the structure definition
-    return request_http_get(download_url) 
+    content = request_http_get(download_url)
+    # Create file and write content to file
+    with open(f'{DEFINITIONS_FOLDER}{filename}.json', 'w') as f:
+        json.dump(content, f, indent=4)
+    return content
    
 
 @cachetools.func.lru_cache(maxsize=128)
@@ -84,7 +97,10 @@ def download_codesystem(canonical_url: str) -> List[CodedConcept]:
     else:
         # If no digestor matches, download the code system as a JSON object 
         print(f'• Downloading code system: {canonical_url}')
-        codesystem_json = download_canonical_url(canonical_url)
+        try:
+            codesystem_json = download_canonical_url(canonical_url)
+        except requests.exceptions.HTTPError:
+            return None 
         # Parse the code system FHIR structure 
         codesystem = CodeSystemSchema.parse_obj(codesystem_json)
         # Add concepts in the code system

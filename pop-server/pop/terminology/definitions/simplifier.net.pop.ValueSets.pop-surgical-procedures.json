@@ -1,0 +1,32 @@
+{
+    "resourceType": "ValueSet",
+    "id": "pop-surgical-procedures",
+    "text": {
+        "status": "generated",
+        "div": ""
+    },
+    "url": "https://simplifier.net/pop/ValueSet/pop-surgical-procedures",
+    "version": "0.1.0",
+    "name": "SurgicalProcedures",
+    "title": "Surgical Procedures",
+    "status": "draft",
+    "experimental": false,
+    "date": "2024-11-19",
+    "publisher": "Precision Oncology Project",
+    "description": "Includes surgical procedure codes from SNOMED CT. The value set may be a superset of cancer surgery codes, but narrowing the set further risks eliminating potentially useful and relevant codes.",
+    "copyright": "This value set includes content from SNOMED CT, which is copyright \u00a9 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "descendent-of",
+                        "value": "387713003"
+                    }
+                ]
+            }
+        ]
+    }
+}

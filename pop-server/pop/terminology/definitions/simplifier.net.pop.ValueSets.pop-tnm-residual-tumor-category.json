@@ -1,0 +1,23 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/pop/ValueSets/pop-tnm-residual-tumor-category",
+    "id": "pop-tnm-residual-tumor-category",
+    "title": "TNM Residual Tumor Category Value Set",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "filter": [
+                    {
+                        "op": "descendent-of",
+                        "value": "1222601005",
+                        "property": "concept"
+                    }
+                ],
+                "system": "http://snomed.info/sct",
+                "version": "http://snomed.info/sct/900000000000207008/version/20240301"
+            }
+        ]
+    },
+    "name": "TNM Residual Tumor Category Value Set"
+}

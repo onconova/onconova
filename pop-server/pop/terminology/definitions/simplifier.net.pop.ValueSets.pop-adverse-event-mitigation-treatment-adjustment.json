@@ -1,0 +1,36 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-treatment-adjustment",
+    "id": "pop-adverse-event-mitigation-treatment-adjustment",
+    "version": "0.01",
+    "title": "Adverse Event Mitigation - Treatment Adjustment",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "89925002",
+                        "display": "Cancelled"
+                    },
+                    {
+                        "code": "385655000",
+                        "display": "Suspended"
+                    },
+                    {
+                        "code": "182822000",
+                        "display": "Reducing dose prescribed"
+                    }
+                ],
+                "version": "http://snomed.info/sct/900000000000207008/version/20230731"
+            }
+        ]
+    },
+    "description": "Adjustments made to a patient's treatment plan in response to an adverse event.",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Adverse Event Mitigation - Treatment Adjustment</h2><tt>https://simplifier.net/pop/ValueSets/pop-adverse-event-mitigation-treatment-adjustment</tt><p>Adjustments made to a patient's treatment plan in response to an adverse event.</p></div>"
+    },
+    "name": "AdverseEventMitigationTreatmentAdjustment"
+}

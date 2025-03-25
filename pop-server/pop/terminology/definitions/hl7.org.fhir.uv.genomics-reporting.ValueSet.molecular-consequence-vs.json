@@ -1,0 +1,56 @@
+{
+    "resourceType": "ValueSet",
+    "id": "molecular-consequence-vs",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include codes from <a href=\"http://sequenceontology.org\"><code>http://sequenceontology.org</code></a> where concept  is-a  SO:0001537</li></ul></div>"
+    },
+    "url": "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/molecular-consequence-vs",
+    "version": "2.0.0",
+    "name": "MolecularConsequenceVS",
+    "title": "Molecular Consequence",
+    "status": "active",
+    "date": "2022-05-09T16:53:07+00:00",
+    "publisher": "HL7 Clinical Genomics Working Group",
+    "contact": [
+        {
+            "name": "HL7 Clinical Genomics Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/clingenomics"
+                },
+                {
+                    "system": "email",
+                    "value": "cg@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "http://unstats.un.org/unsd/methods/m49/m49.htm",
+                    "code": "001",
+                    "display": "World"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://sequenceontology.org",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "SO:0001537"
+                    }
+                ]
+            }
+        ]
+    }
+}

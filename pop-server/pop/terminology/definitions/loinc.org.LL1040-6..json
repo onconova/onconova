@@ -1,0 +1,87 @@
+{
+    "resourceType": "ValueSet",
+    "id": "LL1040-6",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hapifhir.io/fhir/StructureDefinition/valueset-expansion-message",
+                "valueString": "ValueSet was expanded using an expansion that was pre-calculated at 2025-02-27T10:08:27.088+00:00 (26 days ago)"
+            }
+        ],
+        "versionId": "16"
+    },
+    "url": "http://loinc.org/vs/LL1040-6",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "LA14032-9",
+                        "display": "NCBI Build 34"
+                    },
+                    {
+                        "code": "LA14029-5",
+                        "display": "GRCh37"
+                    },
+                    {
+                        "code": "LA14030-3",
+                        "display": "NCBI Build 36.1"
+                    },
+                    {
+                        "code": "LA14031-1",
+                        "display": "NCBI Build 35"
+                    },
+                    {
+                        "code": "LA26806-2",
+                        "display": "GRCh38"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "8d8abfc2-1403-468a-a188-e72c5eaf5378",
+        "timestamp": "2025-03-25T13:48:18+00:00",
+        "total": 5,
+        "offset": 0,
+        "parameter": [
+            {
+                "name": "offset",
+                "valueInteger": 0
+            },
+            {
+                "name": "count",
+                "valueInteger": 1000
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://loinc.org",
+                "code": "LA14032-9",
+                "display": "NCBI Build 34"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA14029-5",
+                "display": "GRCh37"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA14030-3",
+                "display": "NCBI Build 36.1"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA14031-1",
+                "display": "NCBI Build 35"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "LA26806-2",
+                "display": "GRCh38"
+            }
+        ]
+    }
+}

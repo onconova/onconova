@@ -1,0 +1,39 @@
+{
+    "resourceType": "ValueSet",
+    "id": "pop-cancer-risk-assessment-values",
+    "url": "https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-values",
+    "version": "0.0.1",
+    "name": "RiskAssessmentValues",
+    "title": "Risk Assessment Values",
+    "status": "draft",
+    "description": "A non-exhaustive value set containing codes that result from risk assessments, i.e., the risk level of the cancer.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "concept": [
+                    {
+                        "code": "C139268",
+                        "display": "Minimal Risk"
+                    },
+                    {
+                        "code": "C102403",
+                        "display": "Low Risk"
+                    },
+                    {
+                        "code": "C102402",
+                        "display": "Intermediate Risk"
+                    },
+                    {
+                        "code": "C102401",
+                        "display": "High Risk"
+                    },
+                    {
+                        "code": "C180978",
+                        "display": "Very High Risk"
+                    }
+                ]
+            }
+        ]
+    }
+}

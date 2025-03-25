@@ -1,0 +1,27 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/pop/ValueSets/pop-tnm-perineural-invasion-category",
+    "id": "pop-tnm-perineural-invasion-category",
+    "title": "TNM Perineural Invasion Category Value Set",
+    "status": "draft",
+    "copyright": "This value set includes content from SNOMED CT, which is copyright \u00a9 2002+ International Health Terminology Standards Development Organisation (IHTSDO). Implementer use of SNOMED CT is not covered by this agreement",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "version": "http://snomed.info/sct/900000000000207008/version/20240301",
+                "concept": [
+                    {
+                        "code": "370051000",
+                        "display": "Stage Pn0"
+                    },
+                    {
+                        "code": "369731000",
+                        "display": "Stage Pn1"
+                    }
+                ]
+            }
+        ]
+    },
+    "name": "TNM Perineural Invasion Category Value Set"
+}
