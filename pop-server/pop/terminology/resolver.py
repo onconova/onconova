@@ -23,6 +23,8 @@ class CanonicalUrlResolver:
         for domain in RELEASE_VERSIONS:
             if canonical_url.startswith(domain):
                 version = RELEASE_VERSIONS[domain]
+                if 'http://terminology.hl7.org/' in canonical_url:
+                    canonical_url = canonical_url.replace('http://terminology.hl7.org/CodeSystem/', 'https://hl7.org/fhir/codesystem-')
                 if 'ValueSet' in canonical_url:
                     return canonical_url.replace('/ValueSet/',f'/{version}/ValueSet-') + '.json'
                 elif 'CodeSystem' in canonical_url :
