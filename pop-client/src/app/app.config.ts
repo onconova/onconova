@@ -38,7 +38,7 @@ export const appConfig: ApplicationConfig = {
                 httpCacheInterceptor
             ]),
         ),
-        { provide: BASE_PATH, useValue: environment.basePath},
+        { provide: BASE_PATH, useValue: `${window.location.protocol}//${window.location.host}`},
         { provide: JDENTICON_CONFIG, useValue: {
             hues: [0, 0],
             lightness: {

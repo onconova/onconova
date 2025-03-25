@@ -20,7 +20,7 @@ RUN npm install --force
 ########################################
 FROM angular-base as development
 # Serve angular application
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check", "--configuration", "development"]
 
 ########################################
 # BUILDER
@@ -28,7 +28,7 @@ CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check"]
 ########################################
 FROM angular-base as builder
 # Creating angular build
-RUN ng build --output-path dist/client
+RUN ng build --output-path dist/client --configuration production
 
 ########################################
 # PRODUCTION
