@@ -251,23 +251,23 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
     """
     # Define the API endpoint basic authentication credentials
     if 'loinc.org' in api_url:
-        api_username = env('LOINC_USER')
-        api_password = env('LOINC_PASSWORD')
+        api_username = env('LOINC_USER', default=None)
+        api_password = env('LOINC_PASSWORD', default=None)
     elif 'nlm.nih.gov' in api_url:
-        api_username = env('UMLS_API_USER')
-        api_password = env('UMLS_API_KEY')
+        api_username = env('UMLS_API_USER', default=None)
+        api_password = env('UMLS_API_KEY', default=None)
     else: 
         api_username, api_password = None, None
 
     # Define the path to the certificate bundle file
-    certificate_bundle_path = env('CA_BUNDLE_CERT') if env('CA_BUNDLE_CERT') else None 
+    certificate_bundle_path = env('CA_BUNDLE_CERT', default=None) or None 
     # Create a session for making the request
     session = requests.Session()
 
     # Set up the proxy with authentication
     proxies = {
-        'http': env('HTTP_PROXY_URL'),
-        'https': env('HTTPS_PROXY_URL'),
+        'http': env('HTTP_PROXY_URL', default=None),
+        'https': env('HTTPS_PROXY_URL', default=None),
     }
     session.proxies = proxies
     # Set up the basic authentication for the API
