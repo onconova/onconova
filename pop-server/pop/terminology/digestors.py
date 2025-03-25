@@ -60,6 +60,7 @@ class TerminologyDigestor:
         try:
             self.file_location = get_file_location(self.PATH, self.FILENAME)
         except FileNotFoundError:
+            print(f'\nFile {self.PATH}/{self.FILENAME} not found. Attempting download...')
             cmd = f'chmod +x download.sh && ./download.sh {self.LABEL}'
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             process.wait()
