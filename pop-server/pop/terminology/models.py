@@ -134,14 +134,6 @@ class KarnofskyPerformanceStatusInterpretation(CodedConcept):
     valueset =  'https://loinc.org/LL4986-7/'
     description = 'Karnofsky performance status interpretation.'
 
-class ProcedureIntent(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-procedure-intent-vs'
-    description = 'The purpose of a procedure.'
-    
-    def __str__(self):
-        return f"{self.display.split(' ')[0]}"
-
-
 class TreatmentTerminationReason(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-termination-reason-vs'
     description = 'Values used to describe the reasons for stopping a treatment or episode of care.'
@@ -177,19 +169,10 @@ class AntineoplasticAgent(CodedConcept):
     def __str__(self):
         return self.display.capitalize()
 
-class AdditionalDosageInstruction(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/additional-instruction-codes'
-    description = 'Supplemental instruction or warnings to the patient for medication'
-
 
 class DosageRoute(CodedConcept):
     valueset =  'http://hl7.org/fhir/ValueSet/route-codes'
     description = 'A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.'
-
-
-class AdministrationMethod(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/administration-method-codes'
-    description = 'A coded concept describing the technique by which the medicine is administered.'
 
 
 class SurgicalProcedure(CodedConcept):
@@ -235,26 +218,6 @@ class RadiotherapyTreatmentLocationQualifier(CodedConcept):
     def __str__(self):
         return f"{self.display.replace(' (qualifier value)','')}"
     
-class TNMStageGroupStagingType(CodedConcept):
-    valueset =  'https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-stage-group-staging-type-vs.json'
-    description = 'Identifying codes for the type of cancer staging performed, i.e., clinical, pathological, or other, for the stage group observation.'
-
-
-class CancerStagingType(CodedConcept):
-    valueset = 'http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-stage-type-vs'
-    description = 'Identifying codes for the type of cancer staging performed. In terms of the SNOMED CT hierarchy, these codes represent observables.'
-
-
-class CancerStagingMethod(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-staging-method-vs'
-    description = 'System or method used for staging cancers. The terms in this value set describe staging systems, not specific stages or descriptors used within those systems.'
-    
-    def __str__(self):
-        label = self.display
-        label = label.replace('American Joint Commission on Cancer','AJCC')
-        return f'{label}'
-    
-
 
 class TNMStage(CodedConcept):
     valueset =  'https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-stage-group-vs.json'
@@ -276,7 +239,6 @@ class TNMStage(CodedConcept):
         concept.display = f'AJCC Stage {label}'
         return concept
     
-
 
 class TNMStagingMethod(CodedConcept):
     valueset =  'https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-staging-method-vs.json'
@@ -563,42 +525,8 @@ class TumorMarkerAnalyte(CodedConcept):
         concept.properties = analyte_data.model_dump(mode='json') if analyte_data else None
         return concept
     
-class TumorMarkerTest(CodedConcept):
-    valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-codes'
-    description = 'Codes representing tests for tumor markers. Extends the base valueset for tumor marker tests required for mCODE based on LOINC codes.'
-    analyte = models.CharField(
-     verbose_name=_('Analyte'),
-     help_text=_('Analyte Name'),
-     max_length=100,
-     null=True, blank=True,
-    )
-    sample = models.CharField(
-     verbose_name=_('Sample type'),
-     help_text=_('System (Sample) Type'),
-     max_length=100,
-     null=True, blank=True,
-    )
-    method = models.CharField(
-     verbose_name=_('Method type'),
-     help_text=_('Type of Method'),
-     max_length=100,
-     null=True, blank=True,
-    )
-    type = models.CharField(
-     verbose_name=_('Result type'),
-     help_text=_('Type of unit'),
-     max_length=100,
-     null=True, blank=True,
-    )  
-    scale = models.CharField(
-     verbose_name=_('Result scale'),
-     help_text=_('Type of Scale'),
-     max_length=20,
-     null=True, blank=True,
-    )  
 
-
-class RaceCategory(CodedConcept):
+class Race(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/core/ValueSet/omb-race-category'
     description = 'Concepts classifying the person into a named category of humans sharing common history, traits, geographical origin or nationality.'
     def __str__(self):
@@ -608,16 +536,6 @@ class RaceCategory(CodedConcept):
 class BirthSex(CodedConcept):
     valueset =  'http://hl7.org/fhir/us/core/ValueSet/birthsex'
     description = 'Codes for assigning sex at birth as specified by the Office of the National Coordinator for Health IT (ONC).'
-
-
-class BodyLocationAndLateralityQualifier(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-body-location-and-laterality-qualifier-vs'
-    description = 'Qualifiers to refine a body structure or location including qualifiers for relative location, directionality, number, plane, and laterality.'
-
-
-class HumanSpecimenCollectionSite(CodedConcept):
-    valueset =  None
-    description = 'Anatomical or acquired body sites (body structure)'
 
 
 class SmokingStatus(CodedConcept):
@@ -633,61 +551,8 @@ class CauseOfDeath(CodedConcept):
     valueset =  'https://simplifier.net/pop/ValueSets/pop-causes-of-death'
     description = 'Cause of death for oncology patients'
 
-
-class TumorMorphology(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-morphology-code-vs'
-    description = 'Contains the preferred preferred (active) code for tumor morphology.'
-
- 
-
-class TumorSizeMethod(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-size-method-vs'
-    description = 'Code for methods of measuring tumor size, including physical examination, pathology, and imaging.'
-    def __str__(self):
-        return self.display.replace(' (procedure)','')
- 
-
-class MeasurementSetting(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/vitals/ValueSet/MeasSettingVS'
-    description = 'SELECT SNOMED CT code system values that contains terms that indicate the surroundings the individual was in during the measurement (i.e. home, clinic, hospital, etc.).'
-
-
-class AdverseEventExpectation(CodedConcept):
-    valueset =  'https://build.fhir.org/ig/standardhealth/fsh-ae/ValueSet-adverse-event-expectation-value-set.json'
-    description = 'An expected adverse event is one whose nature and severity have been previously observed, identified in nature, severity, or frequency, and documented in the investigator brochure, investigational plan, protocol, current consent form, scientific publication, or in other relevant and reliable document. '
-
-
-class AdverseEventSeriousnessOutcome(CodedConcept):
-    valueset =  'https://build.fhir.org/ig/standardhealth/fsh-ae/ValueSet-adverse-event-seriousness-outcome-value-set.json'
-    description = 'The outcome of a serious adverse event'
-
-
-class AdverseEventSeriousness(CodedConcept):
-    valueset =  'https://build.fhir.org/ig/standardhealth/fsh-ae/ValueSet-adverse-event-seriousness-value-set.json'
-    description = 'An adverse event is classified as serious or non-serious.'
-
-
 class AdverseEventTerm(CodedConcept):
     description = 'The NCI Common Terminology Criteria for Adverse Events (CTCAE) is utilized for Adverse Event (AE) reporting.'
-
-class AdverseEventRelatedness(CodedConcept):
-    valueset =  'https://build.fhir.org/ig/standardhealth/fsh-ae/ValueSet-adverse-event-relatedness-value-set.json'
-    description = 'Codes qualifying the adverse event’s relationship to the medical intervention, according to WHO causality assessment criteria'
-    def __str__(self):
-        label = self.display
-        label = label.replace('Adverse Event ','')
-        label = label.replace(' to Intervention','')
-        return f'{label}'
-
-
-class HighLowInterpretation(CodedConcept):
-    valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/high-low-codes-vs'
-    description = 'This value set includes high/low codes for Observation Interpretations'
-
-
-class GeneticVariantAssessment(CodedConcept):
-    valueset =  'https://loinc.org/LL1971-2/'
-    description = 'Genetic variant assessment codes'
 
 
 class StructuralVariantAnalysisMethod(CodedConcept):
@@ -737,11 +602,6 @@ class AminoAcidChangeType(CodedConcept):
     description = 'Amino acid change types'
 
 
-class VariantConfidenceStatus(CodedConcept):
-    valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/variant-confidence-status-vs'
-    description = 'A code that classifies the confidence for calling this variant.'
-
-
 class MolecularConsequence(CodedConcept):
     valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/molecular-consequence-vs'
     description = 'The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.'
@@ -757,37 +617,6 @@ class GenomicCoordinateSystem(CodedConcept):
 class MicrosatelliteInstabilityState(CodedConcept):
     valueset =  'https://loinc.org/LL3994-2/'
     description = 'Microsatellite instability in Cancer specimen Qualitative'
-
-
-class GeneticFollowupRecommendation(CodedConcept):
-    valueset =  'https://loinc.org/LL1037-2/'
-    description = 'Genetic follow up recommendations'
-
-
-class MedicationUsageSuggestion(CodedConcept):
-    valueset =  'https://loinc.org/LL4049-4/'
-    description = 'Medication usage suggestion'
-
-
-class VariantClinicalSignificance(CodedConcept):
-    valueset =  'https://loinc.org/LL4034-6/'
-    description = 'ACMG_Clinical significance of genetic variation '
-    # Additional codes for an extensible valuset
-    extension_concepts = [
-        CodedConceptSchema(code='LA20926-4', system='http://loinc.org/', display='Ambiguous')
-    ]
-
-
-class FunctionalEffect(CodedConcept):
-    valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/functional-effect-vs'
-    description = 'The effect of a variant on downstream biological products or pathways.'
-    def __str__(self):
-        return self.display.replace('_',' ').capitalize()
-
-
-class GeneticTherapeuticImplication(CodedConcept):
-    valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/genetic-therapeutic-implications-vs'
-    description = 'Value Set for terms that describe a predicted ramification based on the presence of associated molecular finding(s).'
 
 
 class AdjunctiveTherapyRole(CodedConcept):
@@ -806,12 +635,6 @@ class CancerTreatmentResponseObservationMethod(CodedConcept):
     extension_concepts = [
         CodedConceptSchema(code='1287211007',system='http://snomed.info/sct', display='No information available', version='http://snomed.info/sct/900000000000207008')
     ]
-
-
-class TreatmentResponseInterpretation(CodedConcept):
-    valueset =  'https://simplifier.net/pop/ValueSets/pop-treatment-response-interpretations'
-    description = 'Codes representing whether the RECIST results where interpreted or directly reported.'
-
 
 class CancerTreatmentResponse(CodedConcept):
     valueset =  'https://loinc.org/LL4721-8/'
@@ -843,102 +666,9 @@ class ICD10Condition(CodedConcept):
     valueset =  'http://hl7.org/fhir/ValueSet/icd-10'
     description = 'Codes representing comorbid conditions in the ICD-10 system'
 
-class PDL1TumorCellScore(CodedConcept):
-    valueset =  'https://simplifier.net/pop/ValueSets/pop-pdl1-tumor-cell-scores'
-    description = 'Score values for classification of the expression evidence for PD-L1 immunihistochemistry analyses measuring tumor cells'
-
-
-class PDL1ImmuneCellScore(CodedConcept):
-    valueset =  'https://simplifier.net/pop/ValueSets/pop-pdl1-immune-cell-scores'
-    description = 'Score values for classification of the expression evidence for PD-L1 immunihistochemistry analyses'
-
-
-class HistoryOfMetastaticMalignantNeoplasm(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-history-of-metastatic-malignant-neoplasm-vs'
-    description = 'Codes representing different scores to quantify the expression of PD-L1 obtained from immunohistochemistry tests'
-
-
-class MedicationRequestIntent(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/medicationrequest-intent'
-    description = 'Intent for a given medication request.'
-
-
-class MedicationRequestCategory(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/medicationrequest-category'
-    description = 'Category of a given medication request.'
-
-
-class DoseAndRateType(CodedConcept):
-    valueset =  'http://terminology.hl7.org/CodeSystem/dose-rate-type'
-    description = 'The kind of dose or rate specified.'
-
-
-class HumanSpecimenType(CodedConcept):
-    valueset =  'http://hl7.org/fhir/us/mcode/ValueSet/mcode-human-specimen-type-vs'
-    description = 'Concepts that describe the precise nature of an entity that may be used as the source material for an observation.'
-    PathoProCode = models.CharField(
-        help_text=_('Deprecated SNOMED (pre1998) codes used by PathoPro'),
-        max_length=100,
-        null=True,
-    )
-    extension_concepts = [
-        CodedConceptSchema(code='1285453009', system='http://snomed.info/sct', display='Liquid biopsy'),
-    ] 
-
-
-class AdverseEventActuality(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/adverse-event-actuality'
-    description = 'Overall nature of the adverse event, e.g. real or potential.'
-
-
-class CTCAEGrade(CodedConcept):
-    valueset =  'https://build.fhir.org/ig/standardhealth/fsh-ae/CodeSystem-ctcae-grade-code-system.json'
-    description = 'CTCAE Grades 0 through 5. The grade of the adverse event, determined by CTCAE criteria, where 0 represents confirmation that the given adverse event did NOT occur, and 5 represents death. Note that grade 0 events are generally not reportable, but may be created to give positive confirmation that the clinician assessed or considered a particular AE.'
-
-
-class AdverseEventSeverity(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/adverse-event-severity'
-    description = 'The severity of the adverse event itself, in direct relation to the subject.'
-
-
-class AdverseEventOutcome(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/adverse-event-outcome'
-    description = 'N/A'
-
-
-class ResearchStudyPhase(CodedConcept):
-    valueset = 'http://hl7.org/fhir/ValueSet/research-study-phase'
-    description = 'Codes for the stage in the progression of a therapy from initial experimental use in humans in clinical trials to post-market evaluation.'
-
-
-class ResearchStudyStatus(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/research-study-status'
-    description = 'Codes that convey the current status of the research study.'
-
-
-class ResearchStudyPrimaryPurposeType(CodedConcept):
-    valueset =  'http://hl7.org/fhir/ValueSet/research-study-prim-purp-type'
-    description = 'Codes for the main intent of the study'
-
-
-class ConsentState(CodedConcept):
-    valueset = 'http://hl7.org/fhir/ValueSet/consent-state-codes'
-    description = 'Indicates the state of the consent.'
-
-
-class ConsentScope(CodedConcept):
-    valueset = 'http://hl7.org/fhir/ValueSet/consent-scope'
-    description = 'This value set includes the four Consent scope codes.'
-
-
 class ExpectedDrugAction(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-expected-drug-action'
     description = 'Expected action of a drug'
-
-
-class TumorMarkerTestResult(CodedConcept):
-    valueset = 'https://simplifier.net/pop/ValueSets/pop-tumor-marker-test-results'
-    description = 'Collection of LOINC codes that represent results of tumor marker tests'
 
 
 class RecreationalDrug(CodedConcept):
@@ -980,9 +710,6 @@ class CancerRiskAssessmentClassification(CodedConcept):
     valueset = 'https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-values'
     description = "Classification of cancer risk assessment"
 
-class NCITCancerClassification(CodedConcept):
-    valueset = None
-    description = "Cancer classification by the NCIT"
 
 class OncoTreeCancerClassification(CodedConcept):
     codesystem = 'http://oncotree.mskcc.org/fhir/CodeSystem/snapshot'

@@ -78,7 +78,7 @@ class PatientCase(BaseModel):
     race = termfields.CodedConceptField(
         verbose_name = _('Race'),
         help_text = _("Race of the patient"),
-        terminology = terminologies.RaceCategory,    
+        terminology = terminologies.Race,    
         null = True, 
         blank = True,    
     )

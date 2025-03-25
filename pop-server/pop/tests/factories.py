@@ -82,7 +82,7 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     created_by =  factory.SubFactory(UserFactory)
     date_of_birth = factory.LazyFunction(lambda: faker.date_of_birth(minimum_age=25, maximum_age=100))
     gender = make_terminology_factory(terminology.AdministrativeGender)
-    race = make_terminology_factory(terminology.RaceCategory)
+    race = make_terminology_factory(terminology.Race)
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
     date_of_death = factory.LazyFunction(lambda: faker.date_this_decade() if random.random() > 0.5 else None)
     cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
