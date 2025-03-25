@@ -1,6 +1,6 @@
 services:
     pop-server:
-        container_name: pop-server
+        container_name: "${COMPOSE_PROJECT_NAME}-server"
         restart: unless-stopped
         build:
             context: pop-server
@@ -16,7 +16,7 @@ services:
             - pop-postgres
 
     pop-client:
-        container_name: pop-client
+        container_name: "${COMPOSE_PROJECT_NAME}-client"
         restart: unless-stopped
         build:
             context: pop-client
@@ -29,7 +29,7 @@ services:
 
     pop-nginx:
         image: nginx:1.23        
-        container_name: pop-nginx
+        container_name: "${COMPOSE_PROJECT_NAME}-nginx"
         restart: unless-stopped
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
@@ -52,7 +52,7 @@ services:
 
     pop-postgres:
         image: postgres:13-alpine
-        container_name: pop-postgres
+        container_name: "${COMPOSE_PROJECT_NAME}-postgres"
         restart: unless-stopped
         volumes:
             - pop_postgres_volume:/var/lib/postgresql/data/
