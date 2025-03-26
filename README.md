@@ -93,6 +93,20 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
         -e LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
         pop-server python manage.py termsynch
     ```
+
+    *Note:* If your machine is behind a corporate proxy and/or with root CA certificates add the following arguments to the command:
+    ```bash
+    # Copy certificates
+    cp <local/path/to/root_ca_certificates.pem> ./pop-server/etc/certs/root_ca_certificates.pem
+    # Create store with proxy settings setup
+    docker compose run \
+        ...
+        -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
+        -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
+        -e ROOT_CA_CERTIFICATES='/etc/certs/root_ca_certificates.pem' \
+        pop-server python manage.py termsynch
+    ```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Building images behind a corporate proxy and with root CA certificates
