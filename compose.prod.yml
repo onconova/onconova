@@ -22,10 +22,6 @@ services:
             context: pop-client
             dockerfile: Dockerfile
             target: production
-        develop:
-            watch:
-            - action: rebuild   
-              path: .
 
     pop-nginx:
         image: nginx:1.23        
