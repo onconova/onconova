@@ -5,30 +5,35 @@
 ################################
 FROM python:3.11-slim as python-base
 
-# Python
+# Python layer environment variables
 ENV PYTHONUNBUFFERED=1 \
     # pip
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
     \
     # Poetry
-    # https://python-poetry.org/docs/configuration/#using-environment-variables
     POETRY_VERSION=1.0.0 \
-    # make poetry install to this location
-    POETRY_HOME="/opt/poetry" \
-    # do not ask any interactive question
+    # Do not ask any interactive question
     POETRY_NO_INTERACTION=1 \
-    # never create virtual environment automaticly, only use env prepared by us
+    # Never create virtual environment automaticly, only use env prepared by this file
     POETRY_VIRTUALENVS_CREATE=false \
+    # Root CA certificates bundle for Poetry (if needed)
+    REQUESTS_CA_BUNDLE=/usr/local/share/ca-certificates/root-ca-cert.crt; \
     \
-    # this is where our requirements + virtual environment will live
+    # Path to the Python virtual environment 
     VIRTUAL_ENV="/venv"
+    
+# Optional: Install a root CA TLS certificate
+ARG ROOT_CA_CERTIFICATES=""
+COPY ${ROOT_CA_CERTIFICATES} $REQUESTS_CA_BUNDLE
+RUN if [ -n "$ROOT_CA_CERTIFICATES" ]; then \
+        update-ca-certificates; \
+    fi
 
+# Add venv to path
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# prepend poetry and venv to path
-ENV PATH="$POETRY_HOME/bin:$VIRTUAL_ENV/bin:$PATH"
-
-# prepare virtual env
+# Prepare virtual environment
 RUN python -m venv $VIRTUAL_ENV
 
 # Install pstcopg2 Linux dependencies
@@ -46,7 +51,7 @@ ENV PYTHONPATH="/app/src:$PYTHONPATH"
 ################################
 FROM python-base as builder-base
 
-# Install essential Linux packages
+# Install essential Linux dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	gcc \
 	python3-dev \
@@ -54,16 +59,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install python dependencies 
-RUN --mount=type=cache,target=/root/.cache \
-	curl -sSL https://install.python-poetry.org | python -
+# Install Poetry
+RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
+# Install Python dependencies
 WORKDIR /app/src		
-
-# Copy dependencies
 COPY ./pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache \
-	poetry install --no-root --no-interaction --no-ansi
+    $VIRTUAL_ENV/bin/poetry install --no-root --no-interaction --no-ansi
 
 
 ################################
@@ -72,39 +75,44 @@ RUN --mount=type=cache,target=/root/.cache \
 ################################
 FROM builder-base as development
 
+# Set environment flag
 ENV ENVIRONMENT=development
-# quicker install as runtime deps are already installed
+
+# Quicker install as runtime dependencies are already installed
 RUN --mount=type=cache,target=/root/.cache \
     poetry install --no-root --no-interaction --no-ansi
-
-# copy in our built venv
-COPY --from=builder-base $VIRTUAL_ENV $VIRTUAL_ENV
 
 WORKDIR /app/src
 
 # Copy only necessary source files
 COPY . .
 
+# Start the devlopment live-server
 EXPOSE 8000
 CMD ["python", "manage.py",  "runserver_plus", "0.0.0.0:8000"]
 
-
 ################################
 # PRODUCTION
-# Final image used for runtime
+# Final image used for production
 ################################
 FROM python-base as production
 
+# Set environment flag
 ENV ENVIRONMENT=production
+
+# Install production Linux dependencies
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y --no-install-recommends \
     ca-certificates && \
     apt-get clean
 
-# copy in our built venv
+# Copy the pre-built virtual environment without its runtime dependencies 
 COPY --from=builder-base $VIRTUAL_ENV $VIRTUAL_ENV
 
-WORKDIR /app/src
 # Copy only necessary source files
+WORKDIR /app/src
 COPY . .
+
+# Start the production-ready Gunicon webserver
+EXPOSE 8000
 CMD ["python", "-m", "gunicorn", "pop.wsgi", "--bind", "0.0.0.0:8000", "--workers=5", "--threads=3"]
