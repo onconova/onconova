@@ -7,6 +7,7 @@ FROM python:3.11-slim as python-base
 
 # Python layer environment variables
 ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
     # pip
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
@@ -66,7 +67,7 @@ RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org
 WORKDIR /app/src		
 COPY ./pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache \
-    $VIRTUAL_ENV/bin/poetry install --no-root --no-interaction --no-ansi --no-cache --compile
+    $VIRTUAL_ENV/bin/poetry install --no-root --no-interaction --no-ansi --no-cache
 
 
 ################################
