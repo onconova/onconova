@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DEFAULT_TIMEOUT=100 \
     \
     # Poetry
-    POETRY_VERSION=1.0.0 \
+    POETRY_VERSION=2.1.0 \
     # Do not ask any interactive question
     POETRY_NO_INTERACTION=1 \
     # Never create virtual environment automaticly, only use env prepared by this file
@@ -66,7 +66,7 @@ RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org
 WORKDIR /app/src		
 COPY ./pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache \
-    $VIRTUAL_ENV/bin/poetry install --no-root --no-interaction --no-ansi
+    $VIRTUAL_ENV/bin/poetry install --no-root --no-interaction --no-ansi --no-cache --compile
 
 
 ################################
@@ -80,7 +80,7 @@ ENV ENVIRONMENT=development
 
 # Quicker install as runtime dependencies are already installed
 RUN --mount=type=cache,target=/root/.cache \
-    poetry install --no-root --no-interaction --no-ansi
+    poetry install --no-root --no-interaction --no-ansi --no-cache
 
 WORKDIR /app/src
 
@@ -99,12 +99,6 @@ FROM python-base as production
 
 # Set environment flag
 ENV ENVIRONMENT=production
-
-# Install production Linux dependencies
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ca-certificates && \
-    apt-get clean
 
 # Copy the pre-built virtual environment without its runtime dependencies 
 COPY --from=builder-base $VIRTUAL_ENV $VIRTUAL_ENV
