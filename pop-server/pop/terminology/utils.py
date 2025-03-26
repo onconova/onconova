@@ -260,14 +260,14 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
         api_username, api_password = None, None
 
     # Define the path to the certificate bundle file
-    certificate_bundle_path = env('CA_BUNDLE_CERT', default=None) or None 
+    certificate_bundle_path = env('ROOT_CA_CERTIFICATES', default=None) or None 
     # Create a session for making the request
     session = requests.Session()
 
     # Set up the proxy with authentication
     proxies = {
-        'http': env('HTTP_PROXY_URL', default=None),
-        'https': env('HTTPS_PROXY_URL', default=None),
+        'http': env('http_proxy', default=None),
+        'https': env('https_proxy', default=None),
     }
     session.proxies = proxies
     # Set up the basic authentication for the API

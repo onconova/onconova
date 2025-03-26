@@ -27,8 +27,8 @@ fi
 
 # Set proxy options if PROXY_URL_HTTPS is defined
 WGET_PROXY_OPTIONS=""
-if [ -n "$HTTPS_PROXY_URL" ]; then
-  WGET_PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$HTTPS_PROXY_URL  -e http_proxy=$HTTP_PROXY_URL --ca-certificate=$CA_BUNDLE_CERT"
+if [ -n "$https_proxy" ]; then
+  WGET_PROXY_OPTIONS="-e use_proxy=yes -e https_proxy=$https_proxy  -e http_proxy=$http_proxy --ca-certificate=$ROOT_CA_CERTIFICATES"
 fi
 
 TERMINOLOGY=$1
@@ -215,16 +215,12 @@ download_ncit_antineoplastic() {
 	echo ""
 	echo "Downloading NCI Thesaurus Antineoplastic subset files"
 	echo "-----------------------------------"
-  wget $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE $DOWNLOAD_URL
-  # Convert to UTF-8 (if needed)
+  wget --timeout=300 --tries=5 $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE $DOWNLOAD_URL
+  # Convert to UTF-8
   ENCODING=$(file -bi "$DOWNLOAD_FILE" | awk -F "=" '{print $2}')
-  if [ "$ENCODING" != "utf-8" ]; then
-      iconv -f "$ENCODING" -t "UTF-8" "$DOWNLOAD_FILE" -o "${DOWNLOAD_FILE}.utf8"
-      mv "${DOWNLOAD_FILE}.utf8" $DOWNLOAD_FILE
-      echo "File converted to UTF-8."
-  else
-      echo "File is already UTF-8 encoded."
-  fi
+  iconv -f "latin1" -t "UTF-8" "$DOWNLOAD_FILE" -o "${DOWNLOAD_FILE}.utf8"
+  mv "${DOWNLOAD_FILE}.utf8" $DOWNLOAD_FILE
+  echo "File converted to UTF-8."
 
   echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
 }
