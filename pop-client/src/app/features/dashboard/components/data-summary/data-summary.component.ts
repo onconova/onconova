@@ -5,7 +5,7 @@ import { NgxCountAnimationDirective } from "ngx-count-animation";
 
 import { DataPlatformStatisticsSchema, DashboardService, CasesPerMonthSchema } from 'src/app/shared/openapi';
 import { ChartModule } from 'primeng/chart';
-import { LayoutService } from 'src/app/core/layout/service/app.layout.service';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { style } from '@angular/animations';

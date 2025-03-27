@@ -14,12 +14,12 @@
         <span class="font-semibold block mb-1">Color theme</span>
         <small class="text-muted">Choose your preferred color theme to personalize the look and feel of the interface. This will affect highlights, buttons, and other UI elements.</small>
         <div class="field-themes mt-2">
-            <ng-container *ngFor="let theme of themes">
-                    <p-button 
-                        styleClass="color-button"
-                        (onClick)="layoutService.config.theme.set(theme.color)"
-                        [style]="{background: 'var(--p-' + theme.color + '-500)'}" />
-            </ng-container>
+            @for (theme of themes; track theme.color;) {
+                <p-button 
+                styleClass="color-button"
+                (onClick)="layoutService.config.theme.set(theme.color)"
+                [style]="{background: 'var(--p-' + theme.color + '-500)'}" />
+            }
     </div>
 </div>
 </p-dialog>

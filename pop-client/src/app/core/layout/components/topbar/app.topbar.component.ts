@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
-import { LayoutService } from "../../service/app.layout.service";
+import { MenuItem, MessageService } from 'primeng/api';
+import { LayoutService } from "../../app.layout.service";
 import packageInfo from '../../../../../../package.json';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { Button } from 'primeng/button';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { PasswordResetFormComponent } from 'src/app/core/admin/forms/passwrd-reset-form/password-reset-form.component';
 import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
     standalone: true,
@@ -39,18 +40,15 @@ import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-f
     ]
 })
 export class AppTopBarComponent {
-    version = packageInfo.version;
-    items!: any[];
-    profile_items!: any[];
-    themeModeIcon: 'pi pi-sun' | 'pi pi-moon' = 'pi pi-sun';
 
+    public isProduction: boolean = environment.production;
+    public version = packageInfo.version;
+    public profileItems!: MenuItem[];
+    public themeModeIcon: 'pi pi-sun' | 'pi pi-moon' = 'pi pi-sun';
 
     @ViewChild('menubutton') menuButton!: ElementRef;
-
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
-
     @ViewChild('topbarmenu') menu!: ElementRef;
-    
     @ViewChild(SettingsDialogComponent) settingsDialog!: SettingsDialogComponent;
 
     constructor(
@@ -60,7 +58,7 @@ export class AppTopBarComponent {
         public authService: AuthService,
         private modalFormService: ModalFormService){
          
-        this.profile_items = [
+        this.profileItems = [
             {
                 separator: true
             },

@@ -15,6 +15,7 @@ interface ResourceCreate {
     [key: string]: any;
   }
 @Component({
+    standalone: true,
     template: ''
 })
 export abstract class AbstractFormBase {

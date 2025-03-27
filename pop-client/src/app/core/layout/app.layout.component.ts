@@ -3,14 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { LayoutService } from "./service/app.layout.service";
-
-import { Avatar } from 'primeng/avatar';
-
+import { LayoutService } from "./app.layout.service";
 
 import { Toast } from 'primeng/toast';
-import { AppMenuComponent } from './components/menu/app.menu.component';
-import { AppMenuitemComponent } from './components/menu/components/menuitem/app.menuitem.component';
 import { AppTopBarComponent } from './components/topbar/app.topbar.component';
 import { AppFooterComponent } from './components/footer/app.footer.component';
 import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
@@ -22,10 +17,7 @@ import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component"
     imports: [
         CommonModule,
         RouterModule,
-        Avatar,
         Toast,
-        AppMenuComponent,
-        AppMenuitemComponent,
         AppTopBarComponent,
         AppFooterComponent,
         AppSidebarComponent,
