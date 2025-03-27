@@ -1,6 +1,6 @@
 
 @let entityStatistics = entityStatistics$ | async;
-<ng-container *ngIf="entityStatistics">
+@if (entityStatistics) {
     <p-table 
         [value]="entityStatistics"                                                    
         [paginator]="true"
@@ -15,33 +15,38 @@
         </ng-template>
         <ng-template #body let-entity>
             <tr>
-                <td class="flex"><pop-cancer-icon [topography]="entity.topographyCode"></pop-cancer-icon> <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div></td>
-                <td> <span class="font-semibold">{{ entity.population }}</span></td>
-                <td><p-rating title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" /></td>
+                <td class="flex">
+                    <pop-cancer-icon [topography]="entity.topographyCode"/>
+                    <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div>
+                </td>
+                <td> 
+                    <span class="font-semibold">{{ entity.population }}</span>
+                </td>
+                <td>
+                    <p-rating title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" />
+                </td>
                 <td>
                     <p-avatar-group>
-                        <ng-container *ngFor="let contributorUsername of entity.contributors; let i = index;">
-                            <ng-container *ngIf="i<3">
+                        @for (contributorUsername of entity.contributors; track contributorUsername; let index = $index;) {
+                            @if (index<3) {
                                 @let contributor = contributorUsername | getUser | async;
-                                <ng-container *ngIf="contributor"> 
-                                  <pop-user-badge [user]="contributor"/>
-                                </ng-container>
-                                <ng-container *ngIf="!contributor">
+                                @if (contributor) {
+                                    <pop-user-badge [user]="contributor"/>
+                                } @else {
                                     <p-skeleton shape="circle" size="2rem"/>
-                                </ng-container>
-                            </ng-container>
-                    </ng-container>
-                        <ng-container  *ngIf="entity.contributors.length>3">
+                                }
+                            }
+                        }
+                        @if (entity.contributors.length>3) {
                             <p-avatar [label]="'+' + (entity.contributors.length-3).toString()" shape="circle" size="normal" />
-                        </ng-container>
+                        }
                     </p-avatar-group>
                 </td>
             </tr>
         </ng-template>
     </p-table>
-</ng-container>
-<ng-container *ngIf="!entityStatistics">
-        <p-table 
+} @else {
+    <p-table 
         [value]="[1,2,3,4,5,6,7,8]"                                                    
         [paginator]="true"
         [rows]="8">
@@ -62,4 +67,4 @@
             </tr>
         </ng-template>
     </p-table>
-</ng-container>
+}

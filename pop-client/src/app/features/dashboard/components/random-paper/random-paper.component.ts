@@ -5,8 +5,6 @@ import { catchError, map, of} from 'rxjs';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
 import { Skeleton } from 'primeng/skeleton';
-import { Card } from 'primeng/card';
-import { Divider } from 'primeng/divider';
 import { Button } from 'primeng/button';
 
 @Component({
@@ -14,7 +12,7 @@ import { Button } from 'primeng/button';
   selector: 'pop-random-paper',
   templateUrl: './random-paper.component.html',
   styleUrls: ['./random-paper.component.css'],
-  imports: [CommonModule, Divider, Button, Skeleton, Card, InlineSVGModule],
+  imports: [CommonModule, Button, Skeleton, InlineSVGModule],
 })
 export class RandomPaperComponent {
   paper: any = null;

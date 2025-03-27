@@ -1,27 +1,25 @@
 import { Component, effect, inject, ViewEncapsulation } from '@angular/core';
 
 import { SkeletonModule } from 'primeng/skeleton';
-import { NgxCountAnimationDirective } from "ngx-count-animation";
 
 import { DataPlatformStatisticsSchema, DashboardService, CasesPerMonthSchema } from 'src/app/shared/openapi';
 import { ChartModule } from 'primeng/chart';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
 import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { style } from '@angular/animations';
+import { DataSummaryCounterComponent } from "./components/statistic-counter/statistic-counter.component";
 
 @Component({
     standalone: true,
     selector: 'pop-data-summary',
     templateUrl: './data-summary.component.html',
-    styleUrl: './data-summary.component.css',
     encapsulation: ViewEncapsulation.None,
     imports: [
-        CommonModule,
-        SkeletonModule,
-        NgxCountAnimationDirective,
-        ChartModule,
-    ],
+    CommonModule,
+    SkeletonModule,
+    ChartModule,
+    DataSummaryCounterComponent
+],
 })
 export class DataSummaryComponent {
     public readonly dashboardService = inject(DashboardService);

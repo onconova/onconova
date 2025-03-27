@@ -8,14 +8,12 @@ import { CardModule } from 'primeng/card';
 import { RandomPaperComponent } from './components/random-paper/random-paper.component';
 import { ChartModule } from 'primeng/chart';
 
-
 import { PrimaryEntitiesTableComponent } from './components/primary-entities-table/primary-entities-table.component';
 import { DataSummaryComponent } from './components/data-summary/data-summary.component';
 import { PatientCasesService } from 'src/app/shared/openapi';
 import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 
 import { CommonModule } from '@angular/common';
-import { map } from 'rxjs';
 
 @Component({
     standalone: true,
