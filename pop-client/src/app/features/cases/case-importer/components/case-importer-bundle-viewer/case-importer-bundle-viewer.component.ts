@@ -11,12 +11,12 @@ import { StepperModule } from 'primeng/stepper';
 
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { TreeModule } from 'primeng/tree';
-import { NgxJdenticonModule } from 'ngx-jdenticon';
 import { AvatarModule } from 'primeng/avatar';
 import { Divider } from 'primeng/divider';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { Badge } from 'primeng/badge';
+import { ModalFormComponent } from "../../../../../shared/components/identicon/identicon.component";
 
 @Component({
     standalone: true,
@@ -29,20 +29,20 @@ import { Badge } from 'primeng/badge';
         height: 15rem;
         }
     `,
-    imports:  [
-        CommonModule,
-        FormsModule,
-        NgxJsonViewerModule,
-        InlineSVGModule,
-        NgxJdenticonModule,
-        AvatarModule,
-        Badge,
-        Divider,
-        SelectButtonModule,
-        StepperModule,
-        TabsModule,
-        TreeModule,
-    ],
+    imports: [
+    CommonModule,
+    FormsModule,
+    NgxJsonViewerModule,
+    InlineSVGModule,
+    AvatarModule,
+    Badge,
+    Divider,
+    SelectButtonModule,
+    StepperModule,
+    TabsModule,
+    TreeModule,
+    ModalFormComponent
+],
 })
 export class CaseImporterBundleViewerComponent {
     @Input({required: true}) bundle!: PatientCaseBundle;

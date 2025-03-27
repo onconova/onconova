@@ -3,14 +3,12 @@
     
     <div class="flex gap-3">
         <!-- Identicon -->
-        <p-avatar size="xlarge" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
-            <svg class="jdenticon" width="4rem" height="4rem" [data-jdenticon-value]="[case.pseudoidentifier]"></svg>
-        </p-avatar>
+         <pop-identicon [value]="case.pseudoidentifier"  width="4rem" height="4rem"/>
 
         <div class="flex flex-column my-auto monospace" style="width: 75%">
             <div class="text-xl font-bold" style="font-family: monospace;">{{case.pseudoidentifier}}</div>
             <div class="text-muted font-medium">
-                {{ case.gender.display }}, {{case.age}} years<span *ngIf="case.isDeceased">, †</span>
+                {{ case.gender.display }}, {{case.age}} years@if(case.isDeceased){, †}
             </div>
         </div>
 
@@ -26,64 +24,61 @@
     <div class="flex flex-column mb-3 diagnosis-text">
         @let primaryEntity = primaryEntity$ | async;
         <small class="text-muted mb-1">Diagnosis</small>
-        <ng-container *ngIf="!loadingDiagnosis else diagnosisSkeleton">
-            <div *ngIf="primaryEntity" class="flex gap-2">
-                <pop-cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></pop-cancer-icon>
-                <div class="diagnosis-text my-auto">{{ primaryEntity.description }}</div>
+        @if (loadingDiagnosis) {
+            <p-skeleton width="20rem" height="2rem"></p-skeleton>      
+        } @else {
+            <div class="flex gap-2">
+                @if (primaryEntity) {
+                    <pop-cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></pop-cancer-icon>
+                    <div class="diagnosis-text my-auto">{{ primaryEntity.description }}</div>
+                } @else {
+                    <div class="diagnosis-text">-</div>
+                }
             </div>
-            <div *ngIf="!primaryEntity"> 
-                <div class="diagnosis-text">-</div>
-            </div>
-        </ng-container>
-        <ng-template #diagnosisSkeleton>
-            <p-skeleton [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
-        </ng-template>
+        }
     </div>
 
     <div class="flex gap-4">
         <div class="flex flex-column mb-3 diagnosis-text">
             @let latestStaging = latestStaging$ | async;
             <small class="text-muted mb-1">Staging</small>
-            <ng-container *ngIf="!loadingStaging else stagingSkeleton">
-                <div *ngIf="latestStaging">
-                    <div class="diagnosis-text my-auto">{{ latestStaging.description }}</div>
+            @if (loadingStaging) {
+                <p-skeleton width="10rem" height="1rem"></p-skeleton>    
+            } @else {
+                <div class="diagnosis-text my-auto">
+                    @if (latestStaging) {
+                        {{ latestStaging.description }}
+                    } @else {
+                        -
+                    }
                 </div>
-                <div *ngIf="!latestStaging"> 
-                    <div class="diagnosis-text">-</div>
-                </div>
-            </ng-container>
-            <ng-template #stagingSkeleton>
-                <p-skeleton [style]="{ width: '10rem', height: '1rem' }"></p-skeleton>      
-            </ng-template>
+            }
         </div>
 
         <div class="flex flex-column mb-3 diagnosis-text">
             @let latestTherapyLine = latestTherapyLine$ | async;
             <small class="text-muted mb-1">Therapy Line</small>
-            <ng-container *ngIf="!loadingTherapyLine else therapyLineSkeleton">
-                <div *ngIf="latestTherapyLine">
-                    <div class="diagnosis-text my-auto">{{ latestTherapyLine.label }}</div>
+            @if (loadingTherapyLine) {
+                <p-skeleton width="10rem" height="1rem"></p-skeleton>    
+            } @else {
+                <div class="diagnosis-text my-auto">
+                    @if (latestTherapyLine) {
+                        {{ latestTherapyLine.label }}
+                    } @else {
+                        -
+                    }
                 </div>
-                <div *ngIf="!latestTherapyLine"> 
-                    <div class="diagnosis-text">-</div>
-                </div>
-            </ng-container>
-            <ng-template #therapyLineSkeleton>
-                <p-skeleton [style]="{ width: '10rem', height: '1rem' }"></p-skeleton>      
-            </ng-template>
+            }
         </div>
-
     </div>
 
-
-
-    <div class="flex gap-5">
-
-        <div class="flex flex-column align-items-center	gap-1" *ngIf="this.case.createdBy" >
-            <small class="text-muted">Manager</small>
-                <pop-user-badge [user]="case.createdBy"/>
-        </div>
-
+    <div class="flex gap-5">        
+        @if (this.case.createdBy) {
+            <div class="flex flex-column align-items-center	gap-1">
+                <small class="text-muted">Manager</small>
+                    <pop-user-badge [user]="case.createdBy"/>
+            </div>    
+        }
         <div class="flex-column align-items-center  my-auto">
             <div class="text-muted">
                 <small>Created</small>
@@ -98,21 +93,18 @@
 
         <div class="flex-column align-items-center  mb-auto">
             <small class="text-muted mb-1">Consent</small>
-                <div *ngIf="case.consentStatus">
-                    <div class="diagnosis-text my-auto">
-                        <ng-container *ngIf="case.consentStatus == 'valid'">
+                <div class="diagnosis-text">
+                    @switch (case.consentStatus) {
+                        @case ('valid') {
                             Valid
-                        </ng-container>
-                        <ng-container *ngIf="case.consentStatus == 'unknown'">
-                            -
-                        </ng-container>
-                        <ng-container *ngIf="case.consentStatus == 'revoked'">
+                        }
+                        @case ('revoked') {
                             Revoked
-                        </ng-container>
-                    </div>
-                </div>
-                <div *ngIf="!case.consentStatus"> 
-                    <div class="diagnosis-text">-</div>
+                        }
+                        @default {
+                            -
+                        }
+                    }
                 </div>
         </div>
 

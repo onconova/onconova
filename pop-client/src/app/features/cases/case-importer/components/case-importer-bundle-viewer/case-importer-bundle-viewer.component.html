@@ -1,8 +1,6 @@
 <!-- Case summary -->
 <div class="mt-3 flex header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
-    <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', 'padding': '0', 'margin': 'auto 0'}" >
-        <svg class="jdenticon my-auto" [data-jdenticon-value]="bundle.pseudoidentifier"></svg>
-    </p-avatar>
+    <pop-identicon [value]="bundle.pseudoidentifier"/>
     <div class="ml-3 my-auto">
         <span class="text-muted">Case</span>
         <h2 class="text-monospace my-0">
@@ -10,7 +8,7 @@
         </h2>
         <div>
             {{ bundle.gender.display }}, 
-            {{ bundle.age }} years<span *ngIf="bundle.isDeceased">, †</span>
+            {{ bundle.age }} years@if (bundle.isDeceased){, †}
         </div>
     </div>
     <p-divider layout="vertical"></p-divider>
@@ -41,8 +39,11 @@
         <div class="text-left mt-1">
             <small class="text-muted">Clinical Identifier</small>
             <div>
-                <span *ngIf="!authService.user.canAccessSensitiveData" style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
-                <span *ngIf="authService.user.canAccessSensitiveData">{{ bundle.clinicalIdentifier}}</span>
+                @if (!authService.user.canAccessSensitiveData){
+                    <span style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>                    
+                } @else {
+                    {{ bundle.clinicalIdentifier}}
+                }
             </div>
         </div> 
     </div>

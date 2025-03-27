@@ -19,14 +19,16 @@
             <p-badge 
                 [value]="loadingData ? '-' : entries.length" 
                 [severity]="entries.length ? 'primary' : 'secondary'" />
-            <i *ngIf="completed" class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>
+            @if (completed) {
+                <i class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>                
+            }
         </div>
         @let menuItems = menuItems$ | async;
-        <span 
-            *ngIf="authService.user.canManageCases"
-            class="pi pi-cog cursor-pointer ml-auto my-auto" 
-            style="color: var(--p-button-text-secondary-color)" 
-            (click)="menu.toggle($event)"></span>
+        @if (authService.user.canManageCases) {
+            <i class="pi pi-cog cursor-pointer ml-auto my-auto" 
+               style="color: var(--p-button-text-secondary-color)" 
+               (click)="menu.toggle($event)"></i>
+        }
         <p-confirmdialog />
         <p-menu #menu 
         [model]="menuItems || getMenuItems()" 
@@ -35,34 +37,18 @@
     
 
     <div>
-        <div *ngIf="loadingData" class="no-entries-text">
-            <p-skeleton width="100%" styleClass="mb-2" />
-            <p-skeleton width="100%" styleClass="mb-2" />
-        </div>
-        <div *ngIf="!loadingData && entries.length == 0" class="no-entries-text">
-            No entries associated with this case
-        </div>
-        <p-timeline 
-            *ngIf="!loadingData &&  entries.length > 0" 
-            [value]="entries" 
-            class="case-manager-panel-timeline">
-            <ng-template pTemplate="content" let-entry>
-                <div>
-                    <div class="case-manager-panel-timeline-date mb-1">
-                        <small class="">
-                            {{ entry.date || entry.assertionDate | date }}
-                        </small>
-                        <small *ngIf="entry.period?.start" class="">
-                            {{ entry.period?.start | date }} - {{ entry.period?.end | date }}
-                        </small>
-                    </div>
-                    <div (click)="showDrawer(entry)" class="cursor-pointer">
-                        <i class="pi pi-file"></i> {{ entry.description }}
-                    </div>
-                </div>
-                
-            </ng-template>
-        </p-timeline>
+        @if (loadingData) {
+            <div>
+                <p-skeleton width="100%" styleClass="mb-2" />
+                <p-skeleton width="100%" styleClass="mb-2" />
+            </div>
+        } @else if (entries.length == 0) {
+            <div class="no-entries-text">
+                No entries associated with this case
+            </div>
+        } @else {
+            <pop-resource-timeline [entries]="entries" [onEventClick]="showDrawer.bind(this)"></pop-resource-timeline>
+        }
     </div>
 </p-panel>
 

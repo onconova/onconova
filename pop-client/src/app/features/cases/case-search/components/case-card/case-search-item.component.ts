@@ -16,13 +16,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Knob } from 'primeng/knob';
 
-
-import { NgxJdenticonModule } from "ngx-jdenticon";
-
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
+import { ModalFormComponent } from "../../../../../shared/components/identicon/identicon.component";
 
 @Component({
     standalone: true,
@@ -37,21 +35,21 @@ import { DownloadService } from 'src/app/shared/services/download.service';
         ConfirmationService,
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        NgxJdenticonModule,
-        AvatarModule,
-        AvatarGroupModule,
-        DividerModule,
-        SplitButtonModule,
-        ConfirmDialogModule,
-        ChipModule,
-        Knob,
-        SkeletonModule,
-        CancerIconComponent,
-        UserBadgeComponent,
-    ],
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    AvatarModule,
+    AvatarGroupModule,
+    DividerModule,
+    SplitButtonModule,
+    ConfirmDialogModule,
+    ChipModule,
+    Knob,
+    SkeletonModule,
+    CancerIconComponent,
+    UserBadgeComponent,
+    ModalFormComponent
+],
     encapsulation: ViewEncapsulation.None,
 })
 export class CaseBrowserCardComponent {

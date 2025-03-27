@@ -9,7 +9,6 @@ import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { Menu } from 'primeng/menu';
 import { MessageService } from 'primeng/api';
-import { Timeline } from 'primeng/timeline';
 import { MenuItem } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -23,6 +22,7 @@ import { PatientCasesService, PatientCaseDataCategories, PatientCaseDataCompleti
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
+import { ResourceTimelineComponent } from "../../../../../shared/components/resource-timeline/resource-timeline.component";
 
 
 export interface DataService {
@@ -37,17 +37,17 @@ export interface DataService {
     styleUrl: './case-manager-panel.component.css',
     encapsulation: ViewEncapsulation.None,
     imports: [
-        CaseManagerDrawerComponent,
-        CommonModule,
-        LucideAngularModule,
-        Panel,
-        AvatarModule,
-        Menu,
-        BadgeModule,
-        Skeleton,
-        Timeline,
-        ConfirmDialog,
-    ],
+    CaseManagerDrawerComponent,
+    CommonModule,
+    LucideAngularModule,
+    Panel,
+    AvatarModule,
+    Menu,
+    BadgeModule,
+    Skeleton,
+    ConfirmDialog,
+    ResourceTimelineComponent
+],
     providers: [ConfirmationService],
 })
 export class CaseManagerPanelComponent implements OnInit {
