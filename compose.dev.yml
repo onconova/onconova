@@ -14,7 +14,7 @@ services:
               target: /app/src
 
     pop-client:
-        container_name: "${COMPOSE_PROJECT_NAME}-dev-web"
+        container_name: "${COMPOSE_PROJECT_NAME}-dev-client"
         extends:
           file: compose.prod.yml
           service: pop-client
@@ -23,8 +23,8 @@ services:
         develop:
             watch:
             - action: sync
-              path: .
-              target: /app
+              path: ./src
+              target: /app/src
 
     pop-nginx:
         image: nginx:1.23        

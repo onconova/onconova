@@ -14,14 +14,12 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
-import { Knob } from 'primeng/knob';
 
 import { Users } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
-import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
@@ -44,9 +42,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
         SplitButtonModule,
         ConfirmDialogModule,
         ChipModule,
-        Knob,
         SkeletonModule,
-        CancerIconComponent,
     ],
     encapsulation: ViewEncapsulation.None,
 })
