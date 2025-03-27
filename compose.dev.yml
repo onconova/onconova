@@ -1,4 +1,3 @@
-name: pop-dev
 services:
     pop-server:
         container_name: "${COMPOSE_PROJECT_NAME}-dev-server"
@@ -19,12 +18,9 @@ services:
           file: compose.prod.yml
           service: pop-client
         build:
-            target: development
-        develop:
-            watch:
-            - action: sync
-              path: ./src
-              target: /app/src
+          target: development
+        volumes:
+          - ./pop-client:/app
 
     pop-nginx:
         image: nginx:1.23        
