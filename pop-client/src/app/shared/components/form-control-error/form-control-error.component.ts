@@ -1,4 +1,4 @@
-import { inject, Input, Component, OnInit, OnDestroy, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { inject, Input, Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import { NgIf } from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
@@ -28,10 +28,12 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
 @Component({
     standalone: true,
     selector: 'pop-form-control-error',
-    imports: [AsyncPipe, NgIf],
+    imports: [AsyncPipe],
     template: `
       @let message = message$ | async;
-      <div *ngIf="message" class="text-danger mt-2" style="color:#e24c4c">{{ message }}</div>
+      @if (message) {
+        <div class="text-danger mt-2" style="color:#e24c4c">{{ message }}</div>
+      }
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
   })

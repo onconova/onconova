@@ -67,24 +67,26 @@
                                     <p-toggleswitch formControlName="isAlive" />
                                     <label class="form-label ml-2 my-auto required">Patient is alive</label>
                                 </div>
-                        
-                                <div class="field" *ngIf="!form.value.general.isAlive">
-                                    <label class="form-label required">Date of Death</label>
-                                    <pop-datepicker 
-                                        formControlName="dateOfDeath"
-                                        view="month" 
-                                        dateFormat="mm/yy" 
-                                        placeholder="MM/YYYY" 
-                                        />
-                                </div>
-                        
-                                <div class="field" *ngIf="!form.value.general.isAlive">
-                                    <label class="form-label">Cause of death</label>
-                                    <pop-concept-selector 
-                                        terminology="CauseOfDeath"
-                                        [showSynonyms]="false"
-                                        formControlName="causeOfDeath"/>
-                                </div>
+                                
+                                @if (!form.value.general.isAlive) {
+                                    <div class="field">
+                                        <label class="form-label required">Date of Death</label>
+                                        <pop-datepicker 
+                                            formControlName="dateOfDeath"
+                                            view="month" 
+                                            dateFormat="mm/yy" 
+                                            placeholder="MM/YYYY" 
+                                            />
+                                    </div>
+                            
+                                    <div class="field">
+                                        <label class="form-label">Cause of death</label>
+                                        <pop-concept-selector 
+                                            terminology="CauseOfDeath"
+                                            [showSynonyms]="false"
+                                            formControlName="causeOfDeath"/>
+                                    </div>
+                                }
                             </div>
                             <div class="flex py-3 gap-3">
                                 <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
@@ -136,10 +138,10 @@
                                     <div><b>Gender</b>: {{form.value.general.gender?.display}}</div>
                                     <div><b>Date of birth</b>: {{form.value.general.dateOfBirth | date:'MMM, y'}}</div>
                                     <div><b>Alive</b>: {{form.value.general.isAlive ? 'Yes' : 'No'}}</div>
-                                    <ng-container *ngIf="!form.value.general.isAlive">
+                                    @if (!form.value.general.isAlive) {
                                         <div><b>Date of death</b>: {{form.value.general.dateOfDeath | date:'MMM, y'}}</div>
                                         <div><b>Cause of death</b>: {{form.value.general.causeOfDeath?.display ?? 'N/S'}}</div>
-                                    </ng-container>
+                                    }
                                     <div><b>Consent</b>: {{form.value.consent.consentValid ? 'Yes' : 'No'}}</div>
                                 </div>
                             </div>

@@ -61,14 +61,16 @@
             <pop-form-control-error controlName="isAdjunctive"></pop-form-control-error>
         </div>
 
-        <div class="field" *ngIf="form.value.isAdjunctive">
-            <label class="form-label required">Adjunctive role</label>
-            <pop-concept-selector 
-                formControlName="adjunctiveRole"
-                terminology="AdjunctiveTherapyRole"
-                [showSynonyms]="false"/>
-            <pop-form-control-error controlName="adjunctiveRole"></pop-form-control-error>
-        </div>
+        @if (form.value.isAdjunctive) {
+            <div class="field">
+                <label class="form-label required">Adjunctive role</label>
+                <pop-concept-selector 
+                    formControlName="adjunctiveRole"
+                    terminology="AdjunctiveTherapyRole"
+                    [showSynonyms]="false"/>
+                <pop-form-control-error controlName="adjunctiveRole"></pop-form-control-error>
+            </div>    
+        }
 
         <div class="field">
             <label class="form-label">Termination reason</label>
@@ -80,7 +82,7 @@
         </div>
 
         <div formArrayName="medications">
-            <ng-container *ngFor="let control of medicationFormArray.controls; let i = index" >
+            @for (control of medicationFormArray.controls; track $index; let i = $index) {
                 <p-fieldset  [toggleable]="true" [formGroupName]="i" [collapsed]="true">
                     <ng-template #header>
                         {{control.value.drug.display}} - Administration details
@@ -102,47 +104,47 @@
                         </div>
                         <div class="field">
                             <label class="form-label">Dosage</label>
-                            <div class="no-entries-text" *ngIf="!control.value.dosageType">Select a dosage type first</div>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'Mass'" 
-                                formControlName="dosageMass"
-                                measure="Mass"/>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'MassConcentration'" 
-                                formControlName="dosageMassConcentration"
-                                measure="MassConcentration"/>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'Volume'" 
-                                formControlName="dosageVolume"
-                                measure="Volume"/>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'MassPerSurface'" 
-                                formControlName="dosageMassSurface"
-                                measure="MassPerArea"/>
+                            @switch (control.value.dosageType) {
+                                @case ('Mass') {
+                                    <pop-measure-input formControlName="dosageMass" measure="Mass"/>
+                                }
+                                @case ('MassConcentration') {
+                                    <pop-measure-input formControlName="dosageMassConcentration" measure="MassConcentration"/>
+                                }
+                                @case ('Volume') {
+                                    <pop-measure-input formControlName="dosageVolume" measure="Volume"/>
+                                }
+                                @case ('MassPerSurface') {
+                                    <pop-measure-input formControlName="dosageMassSurface" measure="MassPerArea"/>
+                                }
+                                @default {
+                                    <div class="text-muted">Select a dosage type first</div>
+                                }
+                            }
                         </div>
                         <div class="field">
                             <label class="form-label">Dosage rate</label>
-                            <div class="no-entries-text" *ngIf="!control.value.dosageType">Select a dosage type first</div>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'Mass'" 
-                                formControlName="dosageRateMass"
-                                measure="MassPerTime"/>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'MassConcentration'" 
-                                formControlName="dosageRateMassConcentration"
-                                measure="MassConcentrationPerTime"/>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'Volume'" 
-                                formControlName="dosageVolume"
-                                measure="VolumePerTime"/>
-                            <pop-measure-input 
-                                *ngIf="control.value.dosageType == 'MassPerSurface'" 
-                                formControlName="dosageRateMassSurface"
-                                measure="MassPerAreaPerTime"/>
+                            @switch (control.value.dosageType) {
+                                @case ('Mass') {
+                                    <pop-measure-input formControlName="dosageRateMass" measure="MassPerTime"/>
+                                }
+                                @case ('MassConcentration') {
+                                    <pop-measure-input formControlName="dosageRateMassConcentration" measure="MassConcentrationPerTime"/>
+                                }
+                                @case ('Volume') {
+                                    <pop-measure-input formControlName="dosageRateVolume" measure="VolumePerTime"/>
+                                }
+                                @case ('MassPerSurface') {
+                                    <pop-measure-input formControlName="dosageRateMassSurface" measure="MassPerAreaPerTime"/>
+                                }
+                                @default {
+                                    <div class="text-muted">Select a dosage type first</div>
+                                }
+                            }
                         </div>
                     </div>
                 </p-fieldset>
-            </ng-container>
+            }
         </div>
         
         <p-button 

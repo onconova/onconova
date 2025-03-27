@@ -19,23 +19,26 @@
             <pop-form-control-error controlName="smokingStatus"></pop-form-control-error>
         </div>
 
-        <div class="field" *ngIf="form.value.smokingStatus?.code && !smokingStatusCodeClassification.neverSmoker !== form.value.smokingStatus?.code">
-            <label class="form-label">Smoking pack-years</label>
-            <pop-measure-input 
-                formControlName="smokingPackyears"
-                measure="Time"
-                defaultUnit="year"/>
-            <pop-form-control-error controlName="smokingPackyears"></pop-form-control-error>
-        </div>
-
-        <div class="field" *ngIf="form.value.smokingStatus?.code && smokingStatusCodeClassification.exSmoker === form.value.smokingStatus?.code">
-            <label class="form-label">Time since quitting smoking</label>
-            <pop-measure-input 
-                formControlName="smokingQuited"
-                measure="Time"
-                defaultUnit="year"/>
-            <pop-form-control-error controlName="smokingQuited"></pop-form-control-error>
-        </div>
+        @if (form.value.smokingStatus?.code && form.value.smokingStatus?.code !== smokingStatusCodeClassification.neverSmoker) {
+            <div class="field">
+                <label class="form-label">Smoking pack-years</label>
+                <pop-measure-input 
+                    formControlName="smokingPackyears"
+                    measure="Time"
+                    defaultUnit="year"/>
+                <pop-form-control-error controlName="smokingPackyears"></pop-form-control-error>
+            </div>    
+        } 
+        @if (form.value.smokingStatus?.code && smokingStatusCodeClassification.exSmoker === form.value.smokingStatus?.code) {
+            <div class="field">
+                <label class="form-label">Time since quitting smoking</label>
+                <pop-measure-input 
+                    formControlName="smokingQuited"
+                    measure="Time"
+                    defaultUnit="year"/>
+                <pop-form-control-error controlName="smokingQuited"></pop-form-control-error>
+            </div>
+        }
 
         <div class="field">
             <label class="form-label">Alcohol consumption</label>

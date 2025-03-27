@@ -24,8 +24,7 @@
             <pop-form-control-error controlName="hadCancer"></pop-form-control-error>
         </div>
 
-        <ng-container *ngIf="form.value.hadCancer"> 
-
+        @if (form.value.hadCancer) {
             <div class="field">
                 <label class="form-label">Topography</label>
                 <pop-concept-selector 
@@ -61,8 +60,7 @@
                     class="flex flex-wrap gap-4"/>
                 <pop-form-control-error controlName="contributedToDeath"></pop-form-control-error>
             </div>
-
-    </ng-container> 
+        }
 
         <p-button 
             type="submit" 

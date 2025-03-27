@@ -1,7 +1,6 @@
 @let $concepts = concepts$ | async;
 @if (widget === 'autocomplete') {
   <p-autoComplete
-    *ngIf="widget === 'autocomplete'"
     [formControl]="formControl"
     [dropdown]="true"
     [showClear]="true"

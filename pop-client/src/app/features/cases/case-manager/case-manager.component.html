@@ -299,7 +299,7 @@
     </div>
 } @else {
     <div class="grid">
-        @for (n of [].constructor(6); track n) {
+        @for (n of [].constructor(6); track $index) {
             <div class="col-12 md:col-6 lg:col-4">
                 <p-skeleton width="10rem" height="2rem" styleClass="mt-4" />
                 <p-skeleton height="5rem" styleClass="mt-3"/>

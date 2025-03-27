@@ -52,7 +52,7 @@
         </div>
 
         <div formArrayName="dosages">
-            <ng-container *ngFor="let control of dosageFormArray.controls; let i = index" >
+            @for (control of dosageFormArray.controls; track $index; let i = $index) {
                 <p-fieldset legend="Dosage" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
                     <p-button icon="pi pi-times" (click)="removeDosage(i)" class="subform-remove-button"/>
                     <div class="mt-3">
@@ -79,13 +79,13 @@
                             measure="RadiationDose"/>
                     </div>
                 </p-fieldset>
-            </ng-container>
+            }
             <p-button icon="pi pi-plus" label="Add dosage" (click)="addDosage()" class="subform-add-button"/>
         </div>
         
 
         <div formArrayName="settings">
-            <ng-container *ngFor="let control of settingsFormArray.controls; let i = index" >
+            @for (control of settingsFormArray.controls; track $index; let i = $index) {
                 <p-fieldset  legend="Modality & Technique" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
                     <p-button icon="pi pi-times" (click)="removeSetting(i)" class="subform-remove-button"/>
                     <div class="mt-3">
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                 </p-fieldset>
-            </ng-container>
+            }
             <p-button icon="pi pi-plus" label="Add modality & technique" (click)="addSetting()" class="subform-add-button"/>
         </div>
 

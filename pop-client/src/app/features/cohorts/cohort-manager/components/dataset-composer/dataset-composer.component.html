@@ -122,11 +122,12 @@
                                                     [outlined]="true"
                                                     (onClick)="rowData[col].expanded = !rowData[col].expanded"
                                                     class="expand-nested-table-button"/>
-                                                <div *ngIf="rowData[col].expanded">
-                                                    <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
-                                                </div>
-                                                <div *ngIf="!rowData[col].expanded">
-                                                    {{ rowData[col].length }} entries
+                                                <div>
+                                                    @if (rowData[col].expanded) {
+                                                        <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                                                    } @else {
+                                                        {{ rowData[col].length }} entries
+                                                    }
                                                 </div>
                                             </div>
                                         } @else {

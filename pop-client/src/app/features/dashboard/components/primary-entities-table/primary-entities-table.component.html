@@ -27,7 +27,7 @@
                 </td>
                 <td>
                     <p-avatar-group>
-                        @for (contributorUsername of entity.contributors; track contributorUsername; let index = $index;) {
+                        @for (contributorUsername of entity.contributors; track $index; let index = $index;) {
                             @if (index<3) {
                                 @let contributor = contributorUsername | getUser | async;
                                 @if (contributor) {

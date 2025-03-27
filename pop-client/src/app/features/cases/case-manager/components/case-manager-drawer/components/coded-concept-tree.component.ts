@@ -21,9 +21,11 @@ import { CommonModule } from '@angular/common';
             <div>  
                 @if (node.synonyms.length) {                    
                     <ul class="list-none pl-0">
-                        <li *ngFor="let synonym of node.synonyms" style="font-size: .8rem">
-                            {{ synonym }}
-                        </li>
+                        @for (synonym of node.synonyms; track $index) {
+                            <li style="font-size: .8rem">
+                                {{ synonym }}
+                            </li>
+                        }
                     </ul>
                 } @else {
                     -

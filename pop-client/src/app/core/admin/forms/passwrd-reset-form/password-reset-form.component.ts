@@ -20,11 +20,13 @@ import { Fluid } from 'primeng/fluid';
     <p-fluid>
         <form  [formGroup]="form" (ngSubmit)="onSave()">
             
-            <div class="field" *ngIf="!initialData.isAdmin">
-                <label class="form-label required">Old Password</label>
-                <input type="password" pInputText formControlName="oldPassword" />
-                <pop-form-control-error controlName="oldPassword"/>
-            </div>
+            @if (!initialData.isAdmin) {
+                <div class="field">
+                    <label class="form-label required">Old Password</label>
+                    <input type="password" pInputText formControlName="oldPassword" />
+                    <pop-form-control-error controlName="oldPassword"/>
+                </div>
+            }
             <div class="field">
                 <label class="form-label required">New Password</label>
                 <input type="password" pInputText formControlName="newPassword" />
