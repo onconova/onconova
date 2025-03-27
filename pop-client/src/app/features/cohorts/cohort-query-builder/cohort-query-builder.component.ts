@@ -1,4 +1,4 @@
-import { NgModule, Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef,ChangeDetectionStrategy, EventEmitter, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -7,7 +7,6 @@ import { forwardRef } from '@angular/core';
 
 import { 
     CohortsService,
-    CohortBuilderEntity,
     CohortQueryFilter,
     CohortRuleType,
  } from 'src/app/shared/openapi';
@@ -178,7 +177,6 @@ export class filterByEntityPipe implements PipeTransform {
         NgxAngularQueryBuilderModule,
         Button,
         ButtonGroup,
-        RadioButton,
         SelectButton,
         InputNumber,
         InputText,

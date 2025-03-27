@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 
@@ -9,7 +8,6 @@ import { CohortTraitCounts } from 'src/app/shared/openapi';
 @Component({
     standalone: true,
     imports: [
-        CommonModule,
         CohortGraphsContextMenu,
         ChartModule,
     ],
@@ -17,10 +15,15 @@ import { CohortTraitCounts } from 'src/app/shared/openapi';
     template: `
     <div class="chart-container" style="height: 12rem; width: 15rem">
         <canvas #doughnutCanvas ></canvas>
-        <pop-cohort-graph-context-menu *ngIf="chart" [target]="doughnutCanvas" [chart]="chart" [data]="countData"/>
+        @if (chart) {
+            <pop-cohort-graph-context-menu [target]="doughnutCanvas" [chart]="chart" [data]="countData"/>
+        }
     </div>`,
 })
 export class DoughnutGraphComponent {
+
+    constructor(private cdr: ChangeDetectorRef) { }
+
     @Input() countData!: CohortTraitCounts[];
 
     @ViewChild('doughnutCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
@@ -29,6 +32,7 @@ export class DoughnutGraphComponent {
     ngAfterViewInit() {
         if (this.chartRef) {
             this.initChart();
+            this.cdr.detectChanges();
         }
     }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject, Input, SimpleChange, SimpleChanges, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, Input, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -7,8 +7,7 @@ import { catchError, forkJoin, map, Observable, of, take } from "rxjs";
 
 
 import { Menu } from "primeng/menu";
-import { MegaMenu } from 'primeng/megamenu';
-import { MegaMenuItem, MenuItem } from "primeng/api";
+import { MenuItem } from "primeng/api";
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { Card } from "primeng/card";
 import { TableModule } from 'primeng/table';
@@ -20,7 +19,7 @@ import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
 
-import openApiSchema from "../../../../../openapi.json"; // Import OpenAPI JSON (if possible)
+import openApiSchema from "../../../../../openapi.json";
 import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource } from "src/app/shared/openapi";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
@@ -56,7 +55,6 @@ export class IsStringPipe implements PipeTransform {
         ContextMenuModule,
         AutoComplete,
         TreeModule,
-        MegaMenu,
         TableModule,
         NgxJdenticonModule,
         NestedTableComponent,

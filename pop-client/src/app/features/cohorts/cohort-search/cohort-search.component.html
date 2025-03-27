@@ -2,77 +2,75 @@
     <h1 class="mb-0">{{ currentUser ? 'My Cohorts' : 'Cohorts Search'}}</h1>
 </div>
 
+<div class="flex">
+    <div class="my-auto ml-3">
+        @if (loadingCohorts) {
+            <p-skeleton width="4rem" height="2rem"/>
+        } @else {
+            <span class="font-bold text-2xl">{{totalCohorts}}</span> <span class="ml-2 ">(Cohorts)</span>
+        }
+    </div>        
+    <div class="flex ml-auto">
 
-<!-- use ngTemplateOutlet to conditionally render templates -->
-    <div class="flex">
- 
-        <div class="my-auto ml-3">
-            <span *ngIf="!loadingCohorts" class="font-bold text-2xl">{{totalCohorts}}</span> <span class="ml-2 ">(Cohorts)</span>
-            <p-skeleton *ngIf="loadingCohorts" [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
-        </div>        
-        <div class="flex ml-auto">
-    
-            <p-iconfield>
-                <p-inputicon styleClass="pi pi-search" />
-                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery" (ngModelChange)="refreshCohorts()" />
-            </p-iconfield>
-            <!-- Button to add new cohorts -->
-            <p-button 
-                (onClick)="openNewCohortForm()" 
-                [disabled]="!authService.user.canManageCohorts"
-                label="New cohort" 
-                class="ml-3"
-                [icon]="authService.user.canManageCohorts ? 'pi pi-plus' : 'pi pi-lock'"/>
-        </div>
+        <p-iconfield>
+            <p-inputicon styleClass="pi pi-search" />
+            <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery" (ngModelChange)="refreshCohorts()" />
+        </p-iconfield>
+        <!-- Button to add new cohorts -->
+        <p-button 
+            (onClick)="openNewCohortForm()" 
+            [disabled]="!authService.user.canManageCohorts"
+            label="New cohort" 
+            class="ml-3"
+            [icon]="authService.user.canManageCohorts ? 'pi pi-plus' : 'pi pi-lock'"/>
     </div>
+</div>
     
-    <p-divider></p-divider>
-    
+<p-divider></p-divider>
 
-    <!-- Skeleton loader -->
-    <ng-container *ngIf="loadingCohorts">
-        <div class="grid mt-3 gap-3">
-            <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col col-6 p-2" >
-                <div class="flex-column p-3 gap-3 mb-3 mx-2" style="display: block !important; background: var(--p-dataview-content-background);">
-                    <div class="flex my-3 gap-3">
-                        <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
-                        <p-skeleton [style]="{ width: '40rem', height: '2rem'}"></p-skeleton>    
-                        <p-skeleton [style]="{ width: '5rem', height: '2rem'}"></p-skeleton>    
-                    </div>
-                    <div class="flex my-3 gap-3">
-                        <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
-                        <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
-                        <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
-                        <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
-                        <p-skeleton class="ml-auto" [style]="{ width: '9rem', height: '2rem'}"></p-skeleton>    
-                    </div>
+@if (loadingCohorts) {
+    <div class="grid mt-3 gap-3">
+        @for (_ of [].constructor(15); track $index; let first = $first;) {
+            <div class="flex-column p-3 gap-3 mb-3 mx-2" style="display: block !important; background: var(--p-dataview-content-background);">
+                <div class="flex my-3 gap-3">
+                    <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
+                    <p-skeleton [style]="{ width: '40rem', height: '2rem'}"></p-skeleton>    
+                    <p-skeleton [style]="{ width: '5rem', height: '2rem'}"></p-skeleton>    
                 </div>
-            </ng-container>
+                <div class="flex my-3 gap-3">
+                    <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
+                    <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
+                    <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
+                    <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
+                    <p-skeleton class="ml-auto" [style]="{ width: '9rem', height: '2rem'}"></p-skeleton>    
+                </div>
+            </div>        
+        }
+    </div>
+}
+
+@let cohorts = cohorts$ | async;
+<p-dataView 
+    [value]="cohorts || undefined"
+    [paginator]="true" 
+    [rows]="pageSize" 
+    layout="grid"
+    sortField="createdAt"
+    lazy="true"
+    [rowsPerPageOptions]="pageSizeChoices"
+    [totalRecords]="totalCohorts"
+    (onLazyLoad)="setPaginationAndRefresh($event)"
+    class="no-background">
+
+    <ng-template #grid let-cohorts>
+        <div class="grid mt-3">
+            @for (cohort of cohorts; track cohort.id; let first = $first;) {
+                <div class="col col-6 p-2">
+                    <pop-cohort-search-item [cohort]="cohort" (delete)="deleteCohort($event)"/>
+                </div>
+            }
         </div>
-    </ng-container>
-
-    @let cohorts = cohorts$ | async;
-    <p-dataView 
-        [value]="cohorts || undefined"
-        [paginator]="true" 
-        [rows]="pageSize" 
-        layout="grid"
-        sortField="createdAt"
-        lazy="true"
-        [rowsPerPageOptions]="pageSizeChoices"
-        [totalRecords]="totalCohorts"
-        (onLazyLoad)="setPaginationAndRefresh($event)"
-        class="no-background">
-
-        <ng-template #grid let-cohorts>
-            <div class="grid mt-3">
-                <div class="col col-6 p-2"*ngFor="let cohort of cohorts; let first = first" >
-                    <pop-cohort-search-item 
-                    [cohort]="cohort"
-                    (delete)="deleteCohort($event)"/>
-                </div>
-            </div>
-        </ng-template>
-    </p-dataView>
+    </ng-template>
+</p-dataView>
 
 

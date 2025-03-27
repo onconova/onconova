@@ -1,15 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { ChartModule, UIChart } from 'primeng/chart';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChartModule } from 'primeng/chart';
 
-import { Cohort, CohortsService, KapplerMeierCurve } from 'src/app/shared/openapi';
+import { KapplerMeierCurve } from 'src/app/shared/openapi';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
 
 @Component({
     standalone: true,
     imports: [
-        CommonModule,
         ChartModule,
         CohortGraphsContextMenu,
     ],
@@ -17,10 +15,15 @@ import { Chart } from 'chart.js';
     template: `
     <div class="chart-container" style="height: 30rem; width: 100%">
         <canvas #KapplerMeierCurve></canvas>
-        <pop-cohort-graph-context-menu *ngIf="chart" [target]="KapplerMeierCurve" [chart]="chart" [data]="survivalData"/>
+        @if (chart) {
+            <pop-cohort-graph-context-menu [target]="KapplerMeierCurve" [chart]="chart" [data]="survivalData"/>
+        }
     </div>`,
 })
 export class KapplerMeierCurveComponent {
+
+    constructor(private cdr: ChangeDetectorRef) { }
+
     @Input() survivalData!: KapplerMeierCurve;
 
     @ViewChild('KapplerMeierCurve') private chartRef!: ElementRef<HTMLCanvasElement>;
@@ -29,6 +32,7 @@ export class KapplerMeierCurveComponent {
     ngAfterViewInit() {
         if (this.chartRef) {
             this.initChart();
+            this.cdr.detectChanges();
         }
     }
 

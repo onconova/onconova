@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, ElementRef} from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { Chart } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { ChartModule } from 'primeng/chart';
@@ -11,7 +10,6 @@ Chart.register(MatrixController, MatrixElement);
 @Component({
     standalone: true,
     imports: [
-        CommonModule,
         CohortGraphsContextMenu,
         ChartModule,
     ],
@@ -29,10 +27,15 @@ Chart.register(MatrixController, MatrixElement);
                 <canvas #oncoplotSideCanvas></canvas>
             </div>
         </div>    
-        <pop-cohort-graph-context-menu *ngIf="chart" [target]="oncoplot" [chart]="chart" [data]="genomicsData"/>
+        @if (chart) {
+            <pop-cohort-graph-context-menu [target]="oncoplot" [chart]="chart" [data]="genomicsData"/>
+        }
     </div>`,
 })
 export class OncoplotComponent {
+
+    constructor(private cdr: ChangeDetectorRef) { }
+
     @Input() genomicsData!: any;
 
     @ViewChild('oncoplotCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
@@ -45,6 +48,7 @@ export class OncoplotComponent {
     ngAfterViewInit() {
         if (this.chartRef && this.sideChartRef && this.topChartRef) {
             this.initChart();
+            this.cdr.detectChanges();
         }
     }
 
@@ -147,6 +151,7 @@ export class OncoplotComponent {
                             display: false,
                         },
                         grid: {
+                            display: this.genomicsData['cases'].length > 100 ? false : true,
                             offset: true,
                             color: surfaceBorder,
                             drawTicks: false,
@@ -172,6 +177,7 @@ export class OncoplotComponent {
                             }
                         },
                         grid: {
+                            display: this.genomicsData['cases'].length > 100 ? false : true,
                             offset: true,
                             color: surfaceBorder,
                             drawOnChartArea: true,

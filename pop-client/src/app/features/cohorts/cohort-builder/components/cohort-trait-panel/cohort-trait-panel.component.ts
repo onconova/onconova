@@ -32,17 +32,15 @@ import { TableModule } from 'primeng/table';
                 <div class="flex flex-column">
                     <div class="text-muted mb-1">{{ title }}</div>
                     <div class="flex">
-                        <div *ngIf="!loading">
-                            <ng-container *ngIf="valid; else invalid">
+                        <div>
+                            @if (loading) {
+                                <p-skeleton width="10rem" height="1.5rem"/>
+                            } @else if (valid) { 
                                 <ng-content></ng-content>
-                            </ng-container>
-                            <ng-template #invalid>
-                                - 
-                            </ng-template>                        
-                        </div>
-                        <div *ngIf="loading">
-                            <p-skeleton width="10rem" height="1.5rem" />
-                        </div>
+                            } @else {
+                                -
+                            }                     
+                        </div>                 
                     </div>
                 </div>
             </div>

@@ -1,15 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
-import { Cohort, CohortsService, CohortTraitCounts, KapplerMeierCurve } from 'src/app/shared/openapi';
+import { CohortTraitCounts } from 'src/app/shared/openapi';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
 
 @Component({
     standalone: true,
     imports: [
-        CommonModule,
         CohortGraphsContextMenu,
         ChartModule,
     ],
@@ -17,10 +15,15 @@ import { Chart } from 'chart.js';
     template: `
     <div class="chart-container" style="height: 15rem; width: 100%">
         <canvas #histogramCanvas></canvas>
-        <pop-cohort-graph-context-menu *ngIf="chart" [target]="histogramCanvas" [chart]="chart" [data]="countData"/>
+        @if (chart) {
+            <pop-cohort-graph-context-menu [target]="histogramCanvas" [chart]="chart" [data]="countData"/>
+        }
     </div>`,
 })
 export class DistributionGraphComponent {
+    
+    constructor(private cdr: ChangeDetectorRef) { }
+    
     @Input() countData!: CohortTraitCounts[];
 
     @ViewChild('histogramCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
@@ -29,6 +32,7 @@ export class DistributionGraphComponent {
     ngAfterViewInit() {
         if (this.chartRef) {
             this.initChart();
+            this.cdr.detectChanges()
         }
     }
 

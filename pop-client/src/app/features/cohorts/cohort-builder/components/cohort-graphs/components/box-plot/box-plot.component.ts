@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
+import { Chart, registerables } from 'chart.js';
 import { BoxPlotChart, BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import { ChartModule } from 'primeng/chart';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
@@ -11,7 +10,6 @@ Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers)
 @Component({
     standalone: true,
     imports: [
-        CommonModule,
         CohortGraphsContextMenu,
         ChartModule,
     ],
@@ -19,10 +17,15 @@ Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers)
     template: `
     <div class="chart-container" style="height: 20rem; width: 80%">
         <canvas #boxPlotCanvas ></canvas>
-        <pop-cohort-graph-context-menu *ngIf="chart" [target]="boxPlotCanvas" [chart]="chart" [data]="boxData"/>
+        @if (chart) {
+            <pop-cohort-graph-context-menu [target]="boxPlotCanvas" [chart]="chart" [data]="boxData"/>
+        }
     </div>`,
 })
 export class BoxPlotComponent {
+
+    constructor(private cdr: ChangeDetectorRef) { }
+
     @Input() boxData!: any;
 
     @ViewChild('boxPlotCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
@@ -31,6 +34,7 @@ export class BoxPlotComponent {
     ngAfterViewInit() {
         if (this.chartRef) {
             this.initChart();
+            this.cdr.detectChanges();
         }
     }
 

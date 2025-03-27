@@ -1,190 +1,192 @@
 @let config = config$ | async;
-<ng-container *ngIf="config">
-<query-builder 
-    [(ngModel)]="query" 
-    (ngModelChange)="onQueryChange($event)"  
-    [config]="config" 
-    [allowCollapse]="true" 
-    [classNames]="{row: 'row flex gap-3 p-1 m-3'}">
+@if (config) {
+
+    <query-builder 
+        [(ngModel)]="query" 
+        (ngModelChange)="onQueryChange($event)"  
+        [config]="config" 
+        [allowCollapse]="true" 
+        [classNames]="{row: 'row flex gap-3 p-1 m-3'}">
 
 
-    <ng-container *querySwitchGroup="let ruleset">
-        <p-selectbutton 
-            *ngIf="ruleset" 
-            [options]="rulesetConditions" 
-            [disabled]="disabled"
-            [(ngModel)]="ruleset.condition"  
-            optionLabel="label" 
-            optionValue="value" />
-    </ng-container>
-
-    <ng-container *queryArrowIcon>
-        <i class="pi pi-angle-right" style="line-height: 1.5rem; color: var(--p-button-text-secondary-color);"></i>
-    </ng-container>
-
-    <ng-container *queryButtonGroup="let ruleset; let addRule=addRule; let addRuleSet=addRuleSet; let removeRuleSet=removeRuleSet">
-        <div class="flex">
-            <p-buttongroup >
-                <p-button label="Rule" icon="pi pi-plus" severity="secondary" (click)="addRule()" [disabled]="disabled"/>
-                <p-button label="Ruleset" icon="pi pi-folder-plus" severity="secondary" (click)="addRuleSet()" [disabled]="disabled"/>
-                <p-button label="Ruleset" icon="pi pi-trash" severity="secondary" (click)="removeRuleSet()" [disabled]="disabled"/>
-            </p-buttongroup>
-        </div>
-    </ng-container>
-
-    <ng-container *queryRemoveButton="let rule; let removeRule=removeRule">
-        <p-button 
-            icon="pi pi-trash" 
-            class="remove-rule-button" 
-            [rounded]="true" 
-            [text]="true" 
-            [disabled]="disabled"
-            severity="secondary" 
-            (click)="removeRule(rule)"/>
-    </ng-container>
-
-    <!-- Override input component for entities -->
-    <ng-container *queryEntity="let rule; let entities=entities; let onChange=onChange">
-        <p-select 
-            [options]="entities" 
-            [(ngModel)]="rule.entity" 
-            (ngModelChange)="onChange($event, rule)" 
-            [filter]="true" 
-            filterBy="name" 
-            [disabled]="disabled"
-            placeholder="Select an entity" 
-            optionValue="value" 
-            optionLabel="name" 
-            appendTo="body"/>
-    </ng-container>
-
-    <!-- Override input component for fields -->
-    <ng-container *queryField="let rule; let fields=fields; let onChange=onChange">
-        <p-select 
-            [options]="fields | filterByEntity:rule.entity" 
-            [(ngModel)]="rule.field" 
-            [filter]="true" 
-            filterBy="name" 
-            [disabled]="disabled"
-            (ngModelChange)="onChange($event, rule)" 
-            placeholder="Select a field" 
-            optionValue="value" 
-            optionLabel="name" 
-            appendTo="body"/>
-    </ng-container>
-
-    <!-- Override input component for operators -->
-    <ng-container *queryOperator="let rule; let operators=operators">
-        <p-select 
-            [options]="operators | mapOperators" 
-            [(ngModel)]="rule.operator" 
-            [filter]="true" 
-            filterBy="name" 
-            (onChange)="rule.value = null;"
-            [disabled]="disabled"
-            placeholder="Select a filter" 
-            optionValue="value" 
-            optionLabel="name"  
-            appendTo="body"/>
-    </ng-container>
-
-    <!-- Override input component for 'date' type -->
-    <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Date">
-        <pop-datepicker 
-            [disabled]="disabled"
-            [(ngModel)]="rule.value"/>
-    </ng-container>
-
-    <!-- Override input component for 'string' type -->
-    <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.String">
-        <input 
-            type="text" 
-            pInputText 
-            [(ngModel)]="rule.value" 
-            [disabled]="disabled"
-            placeholder="Enter a query"/>
-    </ng-container>
-
-    <!-- Override input component for 'enum' type -->
-    <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Enum">
-        <p-select 
-            *ngIf="!['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator)"
-            [options]="options" 
-            [(ngModel)]="rule.value"
-            [disabled]="disabled" 
-            optionLabel="value"
-            optionValue="value"
-            placeholder="Select an option" 
-            appendTo="body"/>
-        <p-multiselect 
-            *ngIf="['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator)"
-            [options]="options" 
-            [(ngModel)]="rule.value" 
-            optionLabel="value" 
-            optionValue="value"
-            placeholder="Select one or more options" 
-            display="chip"
-            appendTo="body"/>
-
-    </ng-container>
-
-    <!-- Override input component for 'number' type -->
-    <ng-container *queryInput="let rule; type: CohortRuleType.Measure">
-        <p-inputnumber 
-            [(ngModel)]="rule.value" 
-            [disabled]="disabled"
-            placeholder="Enter a value" 
-            useGrouping="false" 
-            mode="decimal" 
-            [minFractionDigits]="1" 
-            [maxFractionDigits]="3" 
-            locale="en-US"/>
-    </ng-container>
-
-    <!-- Override input component for 'number' type -->
-    <ng-container *queryInput="let rule; type: CohortRuleType.Number">
-        @let requiresRange = ['NotBetweenIntegerFilter','BetweenIntegerFilter', 'NotBetweenFloatFilter','BetweenFloatFilter'].includes(rule.operator);
-        <ng-container *ngIf="requiresRange">
-            <pop-range-input
-                [(range)]="rule.value"
-                [disabled]="disabled"/>
+        <ng-container *querySwitchGroup="let ruleset">
+            @if (ruleset) {
+                <p-selectbutton 
+                [options]="rulesetConditions" 
+                [disabled]="disabled"
+                [(ngModel)]="ruleset.condition"  
+                optionLabel="label" 
+                optionValue="value" />
+            }
         </ng-container>
-        <ng-container *ngIf="!requiresRange">
+
+        <ng-container *queryArrowIcon>
+            <i class="pi pi-angle-right" style="line-height: 1.5rem; color: var(--p-button-text-secondary-color);"></i>
+        </ng-container>
+
+        <ng-container *queryButtonGroup="let ruleset; let addRule=addRule; let addRuleSet=addRuleSet; let removeRuleSet=removeRuleSet">
+            <div class="flex">
+                <p-buttongroup >
+                    <p-button label="Rule" icon="pi pi-plus" severity="secondary" (click)="addRule()" [disabled]="disabled"/>
+                    <p-button label="Ruleset" icon="pi pi-folder-plus" severity="secondary" (click)="addRuleSet()" [disabled]="disabled"/>
+                    <p-button label="Ruleset" icon="pi pi-trash" severity="secondary" (click)="removeRuleSet()" [disabled]="disabled"/>
+                </p-buttongroup>
+            </div>
+        </ng-container>
+
+        <ng-container *queryRemoveButton="let rule; let removeRule=removeRule">
+            <p-button 
+                icon="pi pi-trash" 
+                class="remove-rule-button" 
+                [rounded]="true" 
+                [text]="true" 
+                [disabled]="disabled"
+                severity="secondary" 
+                (click)="removeRule(rule)"/>
+        </ng-container>
+
+        <!-- Override input component for entities -->
+        <ng-container *queryEntity="let rule; let entities=entities; let onChange=onChange">
+            <p-select 
+                [options]="entities" 
+                [(ngModel)]="rule.entity" 
+                (ngModelChange)="onChange($event, rule)" 
+                [filter]="true" 
+                filterBy="name" 
+                [disabled]="disabled"
+                placeholder="Select an entity" 
+                optionValue="value" 
+                optionLabel="name" 
+                appendTo="body"/>
+        </ng-container>
+
+        <!-- Override input component for fields -->
+        <ng-container *queryField="let rule; let fields=fields; let onChange=onChange">
+            <p-select 
+                [options]="fields | filterByEntity:rule.entity" 
+                [(ngModel)]="rule.field" 
+                [filter]="true" 
+                filterBy="name" 
+                [disabled]="disabled"
+                (ngModelChange)="onChange($event, rule)" 
+                placeholder="Select a field" 
+                optionValue="value" 
+                optionLabel="name" 
+                appendTo="body"/>
+        </ng-container>
+
+        <!-- Override input component for operators -->
+        <ng-container *queryOperator="let rule; let operators=operators">
+            <p-select 
+                [options]="operators | mapOperators" 
+                [(ngModel)]="rule.operator" 
+                [filter]="true" 
+                filterBy="name" 
+                (onChange)="rule.value = null;"
+                [disabled]="disabled"
+                placeholder="Select a filter" 
+                optionValue="value" 
+                optionLabel="name"  
+                appendTo="body"/>
+        </ng-container>
+
+        <!-- Override input component for 'date' type -->
+        <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Date">
+            <pop-datepicker 
+                [disabled]="disabled"
+                [(ngModel)]="rule.value"/>
+        </ng-container>
+
+        <!-- Override input component for 'string' type -->
+        <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.String">
+            <input 
+                type="text" 
+                pInputText 
+                [(ngModel)]="rule.value" 
+                [disabled]="disabled"
+                placeholder="Enter a query"/>
+        </ng-container>
+
+        <!-- Override input component for 'enum' type -->
+        <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Enum">
+            @let isMultipleChoice = ['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator);
+            @if (isMultipleChoice) {
+                <p-multiselect 
+                    [options]="options" 
+                    [(ngModel)]="rule.value" 
+                    optionLabel="value" 
+                    optionValue="value"
+                    placeholder="Select one or more options" 
+                    display="chip"
+                    appendTo="body"/>
+            } @else {
+                <p-select 
+                    [options]="options" 
+                    [(ngModel)]="rule.value"
+                    [disabled]="disabled" 
+                    optionLabel="value"
+                    optionValue="value"
+                    placeholder="Select an option" 
+                    appendTo="body"/>
+            }
+
+
+        </ng-container>
+
+        <!-- Override input component for 'number' type -->
+        <ng-container *queryInput="let rule; type: CohortRuleType.Measure">
             <p-inputnumber 
-            [(ngModel)]="rule.value" 
-            [disabled]="disabled"
-            placeholder="Enter a value" 
-            useGrouping="false" 
-            mode="decimal" 
-            [minFractionDigits]="1" 
-            [maxFractionDigits]="3" 
-            locale="en-US"/>
+                [(ngModel)]="rule.value" 
+                [disabled]="disabled"
+                placeholder="Enter a value" 
+                useGrouping="false" 
+                mode="decimal" 
+                [minFractionDigits]="1" 
+                [maxFractionDigits]="3" 
+                locale="en-US"/>
         </ng-container>
-    
-    </ng-container>
 
-    <!-- Override input component for 'boolean' type -->
-    <ng-container *queryInput="let rule; type: CohortRuleType.Boolean">
-        <p-selectbutton 
-            [options]="booleanOptions" 
-            [(ngModel)]="rule.value" 
-            optionLabel="label" 
-            optionValue="value"
-            [disabled]="disabled" 
-            aria-labelledby="basic" />
-    </ng-container>
+        <!-- Override input component for 'number' type -->
+        <ng-container *queryInput="let rule; type: CohortRuleType.Number">
+            @let requiresRange = ['NotBetweenIntegerFilter','BetweenIntegerFilter', 'NotBetweenFloatFilter','BetweenFloatFilter'].includes(rule.operator);
+            @if (requiresRange) {
+                <pop-range-input
+                    [(range)]="rule.value"
+                    [disabled]="disabled"/>
+            } @else {
+                <p-inputnumber 
+                    [(ngModel)]="rule.value" 
+                    [disabled]="disabled"
+                    placeholder="Enter a value" 
+                    useGrouping="false" 
+                    mode="decimal" 
+                    [minFractionDigits]="1" 
+                    [maxFractionDigits]="3" 
+                    locale="en-US"/>
+            }        
+        </ng-container>
 
-    <!-- Override input component for 'coded_concept' type -->
-    <ng-container *queryInput="let rule; let field=field; let options=options; type: CohortRuleType.CodedConcept">
-        <pop-concept-selector 
-            [(ngModel)]="rule.value" 
-            [terminology]="options[0].value"
-            [returnCode]="true"
-            [disabled]="disabled"
-            [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(rule.operator)"
-            [showSynonyms]="false"/>
-    </ng-container>
+        <!-- Override input component for 'boolean' type -->
+        <ng-container *queryInput="let rule; type: CohortRuleType.Boolean">
+            <p-selectbutton 
+                [options]="booleanOptions" 
+                [(ngModel)]="rule.value" 
+                optionLabel="label" 
+                optionValue="value"
+                [disabled]="disabled" 
+                aria-labelledby="basic" />
+        </ng-container>
 
+        <!-- Override input component for 'coded_concept' type -->
+        <ng-container *queryInput="let rule; let field=field; let options=options; type: CohortRuleType.CodedConcept">
+            <pop-concept-selector 
+                [(ngModel)]="rule.value" 
+                [terminology]="options[0].value"
+                [returnCode]="true"
+                [disabled]="disabled"
+                [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(rule.operator)"
+                [showSynonyms]="false"/>
+        </ng-container>
+    </query-builder>
+}
 
-</query-builder>
-</ng-container>

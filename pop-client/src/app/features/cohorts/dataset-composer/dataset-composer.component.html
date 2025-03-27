@@ -1,161 +1,158 @@
 <p-card styleClass="h-[65rem]">
-<p-toolbar styleClass="mb-3">
-    <ng-template #start>
-        @let userDatasets = userDatasets$ | async;
-        <p-autocomplete 
-            [(ngModel)]="selectedDataset" 
-            [dropdown]="true" 
-            [suggestions]="userDatasetOptions" 
-            placeholder="Enter new or existing dataset name"
-            class="mr-2" 
-            optionLabel="name"
-            (completeMethod)="searchUserDatasets($event)"/>
-        <ng-container *ngIf="userDatasets"></ng-container>
-        <p-button 
-            icon="pi pi-eraser" 
-            label='Clear' 
-            class="mr-2" 
-            severity="secondary" 
-            (onClick)="clearDatasetRules()"/>
-        <p-button 
-            icon="pi pi-sync" 
-            class="mr-2" 
-            label="Load" 
-            (onClick)="loadUserDataset()"
-            [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-            severity="secondary" />
-        <p-button 
-            icon="pi pi-trash" 
-            label='Delete' 
-            class="mr-2" 
-            severity="secondary" 
-            [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-            (onClick)="deleteUserDataset()"/>
-        <p-button 
-            icon="pi pi-cloud-upload" 
-            class="mr-2" 
-            [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' " 
-            (onClick)="createUserDataset()"
-            [disabled]="!selectedDataset || !datasetRules"
-            severity="primary"/>
-    </ng-template>
-    <ng-template #end>
-        <p-menu #downloadMenu [model]="items" [popup]="true" />
-        <p-button 
-            [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
-            label="Download Dataset" 
-            (onClick)="downloadMenu.toggle($event)"
-            [disabled]="!authService.user.canExportData"/>
-    </ng-template>
-</p-toolbar>
-
-<div class="flex gap-4">
-
-    <div>
-        <div class="flex-auto md:flex md:justify-start md:items-center flex-col">
-            <p-tree 
-                [value]="resourceItems" 
-                selectionMode="checkbox" 
-                [(selection)]="selectedNodes"
-                (selectionChange)="updateDataset($event)"
-                styleClass="w-full md:w-[30rem]"
-                [filter]="true" 
-                filterPlaceholder="Search and select">
-
-                <ng-template let-node pTemplate="CodedConcept">
-                    <span title="{{node.description}}">{{ node.label }}</span>
-                </ng-template>
-                <ng-template let-node pTemplate="date">
-                    <span title="{{node.description}}">{{ node.label }}</span>
-                </ng-template>
-                <ng-template let-node pTemplate="string">
-                    <span title="{{node.description}}">{{ node.label }}</span>
-                </ng-template>
-                <ng-template let-node pTemplate="integer">
-                    <span title="{{node.description}}">{{ node.label }}</span>
-                </ng-template>
-                <ng-template let-node pTemplate="number">
-                    <span title="{{node.description}}">{{ node.label }}</span>
-                </ng-template>
-                <ng-template let-node pTemplate="default">
-                    <span title="{{node.description}}">{{ node.label }}</span>
-                </ng-template>
-            </p-tree>
-        </div>
-    </div>
-<ng-container *ngIf="dataset$">
-    <div class="dataset-table-container">            
-        <p-table 
-            *ngIf="(dataset$ | async) as dataset; else tableLoading" 
-            [value]="dataset" 
-            [scrollable]="true"
-            [paginator]="true" 
-            [showCurrentPageReport]="true"
-            lazy="true"
-            [rows]="pageSize" 
-            [rowsPerPageOptions]="pageSizeChoices"
-            [totalRecords]="totalEntries"
-            (onLazyLoad)="setPaginationAndRefresh($event)"
-            [rowsPerPageOptions]="[10, 25, 50]"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-            <ng-template pTemplate="header">
-            <tr>
-                <th *ngFor="let col of getColumns(dataset); let first = first" pFrozenColumn [frozen]="first">{{ col | camelCaseToTitleCase }}</th>
-            </tr>
-            </ng-template>
-        
-            <ng-template pTemplate="body" let-rowData>
-            <tr @fadeAnimation> 
-                <td *ngFor="let col of getColumns(dataset); let first = first" pFrozenColumn [frozen]="first">
-                    <!-- Check if the value is an object/array (nested structure) -->
-                    <div *ngIf="isNested(rowData[col]); else simpleValue" class="flex">
-                        <p-button 
-                            [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
-                            [rounded]="true" 
-                            [outlined]="true"
-                            (onClick)="rowData[col].expanded = !rowData[col].expanded"
-                            class="expand-nested-table-button"/>
-                        <div *ngIf="rowData[col].expanded">
-                            <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
-                        </div>
-                        <div *ngIf="!rowData[col].expanded">
-                            {{ rowData[col].length }} entries
-                        </div>
-                    </div>
-        
-                <!-- If it's a simple value, display normally -->
-                <ng-template #simpleValue>
-                    <ng-container *ngIf="first">
-                        <div class="flex gap-3">
-                            <p-avatar size="normal" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
-                                <svg class="jdenticon" width="2rem" height="2rem" [data-jdenticon-value]="[rowData[col]]"></svg>
-                            </p-avatar>
-                            <div class="my-auto">
-                                {{ rowData[col] }}
-                            </div>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="!first">
-                        {{ rowData[col] || '-' }}
-                    </ng-container>
-                </ng-template>
-                </td>
-            </tr>
-        
-            <ng-template #loadingbody let-columns="columns">
-                <tr style="height:46px">
-                    <p-skeleton height="2rem" />
-                </tr>
-            </ng-template>
-            </ng-template>
-        </p-table>
-        <ng-template #tableLoading >
-            <p-skeleton height="40rem"/>
+    <p-toolbar styleClass="mb-3">
+        <ng-template #start>
+            @let userDatasets = userDatasets$ | async;
+            @if (userDatasets) {
+                <p-autocomplete 
+                    [(ngModel)]="selectedDataset" 
+                    [dropdown]="true" 
+                    [suggestions]="userDatasetOptions" 
+                    placeholder="Enter new or existing dataset name"
+                    class="mr-2" 
+                    optionLabel="name"
+                    (completeMethod)="searchUserDatasets($event)"/>
+            }
+            <p-button 
+                icon="pi pi-eraser" 
+                label='Clear' 
+                class="mr-2" 
+                severity="secondary" 
+                (onClick)="clearDatasetRules()"/>
+            <p-button 
+                icon="pi pi-sync" 
+                class="mr-2" 
+                label="Load" 
+                (onClick)="loadUserDataset()"
+                [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
+                severity="secondary" />
+            <p-button 
+                icon="pi pi-trash" 
+                label='Delete' 
+                class="mr-2" 
+                severity="secondary" 
+                [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
+                (onClick)="deleteUserDataset()"/>
+            <p-button 
+                icon="pi pi-cloud-upload" 
+                class="mr-2" 
+                [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' " 
+                (onClick)="createUserDataset()"
+                [disabled]="!selectedDataset || !datasetRules"
+                severity="primary"/>
         </ng-template>
+        <ng-template #end>
+            <p-menu #downloadMenu [model]="items" [popup]="true" />
+            <p-button 
+                [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
+                label="Download Dataset" 
+                (onClick)="downloadMenu.toggle($event)"
+                [disabled]="!authService.user.canExportData"/>
+        </ng-template>
+    </p-toolbar>
+
+    <div class="flex gap-4">
+
+        <div>
+            <div class="flex-auto md:flex md:justify-start md:items-center flex-col">
+                <p-tree 
+                    [value]="resourceItems" 
+                    selectionMode="checkbox" 
+                    [(selection)]="selectedNodes"
+                    (selectionChange)="updateDataset($event)"
+                    styleClass="w-full md:w-[30rem]"
+                    [filter]="true" 
+                    filterPlaceholder="Search and select">
+
+                    <ng-template let-node pTemplate="CodedConcept">
+                        <span title="{{node.description}}">{{ node.label }}</span>
+                    </ng-template>
+                    <ng-template let-node pTemplate="date">
+                        <span title="{{node.description}}">{{ node.label }}</span>
+                    </ng-template>
+                    <ng-template let-node pTemplate="string">
+                        <span title="{{node.description}}">{{ node.label }}</span>
+                    </ng-template>
+                    <ng-template let-node pTemplate="integer">
+                        <span title="{{node.description}}">{{ node.label }}</span>
+                    </ng-template>
+                    <ng-template let-node pTemplate="number">
+                        <span title="{{node.description}}">{{ node.label }}</span>
+                    </ng-template>
+                    <ng-template let-node pTemplate="default">
+                        <span title="{{node.description}}">{{ node.label }}</span>
+                    </ng-template>
+                </p-tree>
+            </div>
+        </div>
+        @if (dataset$) {
+            @let dataset = dataset$ | async;
+            <div class="dataset-table-container">            
+                @if (dataset) {
+                    <p-table 
+                        [value]="dataset || []" 
+                        [scrollable]="true"
+                        [paginator]="true" 
+                        [showCurrentPageReport]="true"
+                        lazy="true"
+                        [rows]="pageSize" 
+                        [rowsPerPageOptions]="pageSizeChoices"
+                        [totalRecords]="totalEntries"
+                        (onLazyLoad)="setPaginationAndRefresh($event)"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                @for (col of getColumns(dataset); track $index; let first = $first) {
+                                    <th pFrozenColumn [frozen]="first">{{ col | camelCaseToTitleCase }}</th>
+                                }
+                            </tr>
+                        </ng-template>
+                    
+                        <ng-template pTemplate="body" let-rowData>
+                            <tr @fadeAnimation> 
+                                @for (col of getColumns(dataset); track $index; let first = $first) {
+                                    <td pFrozenColumn [frozen]="first">
+                                        @if (isNested(rowData[col])) {
+                                            <!-- Check if the value is an object/array (nested structure) -->
+                                            <div class="flex">
+                                                <p-button 
+                                                    [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
+                                                    [rounded]="true" 
+                                                    [outlined]="true"
+                                                    (onClick)="rowData[col].expanded = !rowData[col].expanded"
+                                                    class="expand-nested-table-button"/>
+                                                <div *ngIf="rowData[col].expanded">
+                                                    <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                                                </div>
+                                                <div *ngIf="!rowData[col].expanded">
+                                                    {{ rowData[col].length }} entries
+                                                </div>
+                                            </div>
+                                        } @else {
+                                            <!-- If it's a simple value, display normally -->
+                                             @if (first) {
+                                                <div class="flex gap-3">
+                                                    <p-avatar size="normal" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
+                                                        <svg class="jdenticon" width="2rem" height="2rem" [data-jdenticon-value]="[rowData[col]]"></svg>
+                                                    </p-avatar>
+                                                    <div class="my-auto">
+                                                        {{ rowData[col] }}
+                                                    </div>
+                                                </div>
+                                             } @else {
+                                                {{ rowData[col] || '-' }}
+                                             }
+                                        }                            
+                                    </td>
+                                }
+                            </tr>                        
+                        </ng-template>
+                    </p-table>
+                } @else {
+                    <p-skeleton height="40rem"/>
+                }
+            </div>
+        }
     </div>
-</ng-container>
-
-
-</div>
-
 </p-card>

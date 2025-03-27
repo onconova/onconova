@@ -9,108 +9,119 @@
 <div class="flex my-3 mt-5">
     <div class="header">
         <div class="mb-1 text-muted">Cohort</div>
-        <ng-container *ngIf="cohort">
+        @if (!loading && cohort) {
             <div>
-                <div *ngIf="!editCohortName"  style="font-size: 2rem;">
-                    {{ cohortControl.value.name }}
-                    <i *ngIf="authService.user.canManageCohorts" class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>
+                <div style="font-size: 2rem;">
+                    @if (editCohortName) { 
+                        <input type="text" pInputText formControlName="name" class="mr-2"/>
+                        <i class="pi pi-check" (click)="editCohortName = false"></i>
+                    } @else {
+                        {{ cohortControl.value.name }}
+                        @if (authService.user.canManageCohorts) {
+                            <i class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>   
+                        }
+                    }
                 </div>
-                <ng-container *ngIf="editCohortName">
-                    <input type="text" pInputText formControlName="name" class="mr-2"/>
-                    <i class="pi pi-check" (click)="editCohortName = false"></i>
-                </ng-container>
             </div>
             <div class="flex mt-2">
                 <div class="text-md mr-2">
-                    <p-chip *ngIf="cohort.isPublic" label="Public" icon="pi pi-lock-open" class="is-public-chip"/>
-                    <p-chip *ngIf="!cohort.isPublic" label="Private" icon="pi pi-unlock" class="is-public-chip"/>
+                    <p-chip 
+                        [label]="cohort.isPublic ? 'Public' : 'Private'" 
+                        [icon]="cohort.isPublic ? 'pi pi-lock-open' : 'pi pi-unlock'" 
+                        class="is-public-chip"/>
                 </div>
-                <div class="my-auto text-muted">Author <pop-user-badge *ngIf="cohort.createdBy" [user]="cohort.createdBy"/></div>
+                @if (cohort.createdBy) {
+                    <div class="my-auto text-muted">
+                        Author <pop-user-badge [user]="cohort.createdBy"/>
+                    </div>
+                }
                 <p-divider layout="vertical" class="mx-3"></p-divider>
-                <div class="my-auto text-muted"><i class="pi pi-history"></i> Last updated: {{cohort.updatedAt | date }}</div>            
+                <div class="my-auto text-muted">
+                    <i class="pi pi-history"></i> Last updated: {{cohort.updatedAt | date }}
+                </div>            
             </div>
-        </ng-container>
-        <ng-container *ngIf="!cohort">
+        } @else {
             <p-skeleton width="40rem" height="5rem"/>
-        </ng-container>
+        }
     </div>
 </div>
 
 <div class="flex flex-wrap gap-4 mb-3">
 
     <pop-cohort-trait-panel  title="Population" [icon]="populationIcon" [loading]="loading || !cohort">
-        <span *ngIf="cohort" class="font-bold text-lg">{{ cohort.population }}</span> cases
+        @if (cohort) {
+            <span class="font-bold text-lg">{{ cohort.population }}</span> cases
+        }
     </pop-cohort-trait-panel>
 
     @let cohortAgeStats = cohortAgeStats$ | async;
     <pop-cohort-trait-panel  title="Median age" [icon]="ageIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
-        <ng-container *ngIf="cohortAgeStats">
-            <span class="font-bold text-lg">{{ cohortAgeStats.median }}</span> 
-            <span *ngIf="cohortAgeStats.interQuartalRange !== null" class="">
+        @if (cohortAgeStats) {
+            <span class="font-bold text-lg">{{ cohortAgeStats.median }} </span> 
+            @if (cohortAgeStats.interQuartalRange !== null) {
                 ({{ cohortAgeStats.interQuartalRange[0] }}, {{ cohortAgeStats.interQuartalRange[1] }})
-            </span> years
-        </ng-container>
+            } years
+        }
     </pop-cohort-trait-panel>
 
     @let cohortGenderStats = cohortGenderStats$ | async;
     <pop-cohort-trait-panel  title="Predominant gender" [icon]="genderIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
-        <ng-container *ngIf="cohortGenderStats">
+        @if (cohortGenderStats) {
             <span class="font-bold text-lg">{{ cohortGenderStats.category }}</span> 
-            <span *ngIf="cohortGenderStats.percentage !== null" class="">
-                {{ cohortGenderStats.percentage | number:'1.0-1' }}%
-            </span>
-        </ng-container>
+            @if (cohortGenderStats.percentage !== null) {
+                {{ cohortGenderStats.percentage | number:'1.0-1' }}
+            }%
+        }
     </pop-cohort-trait-panel>
 
     @let cohortOverallSurvivalStats = cohortOverallSurvivalStats$ | async;
     <pop-cohort-trait-panel  title="Median overall survival" [icon]="survivalIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
-        <ng-container *ngIf="cohortOverallSurvivalStats">
+        @if (cohortOverallSurvivalStats) {
             <span class="font-bold text-lg">{{ cohortOverallSurvivalStats.median | number:'1.0-0' }}</span> 
-            <span *ngIf="cohortOverallSurvivalStats.interQuartalRange !== null" class="">
-                ({{ cohortOverallSurvivalStats.interQuartalRange[0] | number:'1.0-0' }}, {{ cohortOverallSurvivalStats.interQuartalRange[1] | number:'1.0-0' }})
-            </span> months
-        </ng-container>
+            @if (cohortOverallSurvivalStats.interQuartalRange !== null) {
+                    ({{ cohortOverallSurvivalStats.interQuartalRange[0] | number:'1.0-0' }}, {{ cohortOverallSurvivalStats.interQuartalRange[1] | number:'1.0-0' }})
+            } months
+        }
     </pop-cohort-trait-panel>
 
     @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
     <pop-cohort-trait-panel  title="Median data completion" [icon]="completionIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
-        <ng-container *ngIf="cohortDataCompletionStats">
+        @if (cohortDataCompletionStats) {
             <span class="font-bold text-lg">{{ cohortDataCompletionStats.median}}%</span>
-            <span *ngIf="cohortDataCompletionStats.interQuartalRange !== null" class="">                                
+            @if (cohortDataCompletionStats.interQuartalRange !== null) {
                 ({{ cohortDataCompletionStats.interQuartalRange[0] }}, {{ cohortDataCompletionStats.interQuartalRange[1] }})
-            </span> categories
-        </ng-container>
+             } categories
+        }
     </pop-cohort-trait-panel>
 </div>
 
 
 
 <h4 class="text-muted">Definition</h4>
-
-<div class="flex flex-column gap-3" *ngIf="cohortControl">
-
-    <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.includeCriteria === null">    
-        <ng-template #header>
-            <div class="flex gap-2 align-items-center">
-                <i class="pi pi-thumbs-up"></i>
-                <div class="font-bold">Inclusion criteria</div>
-                <p-chip *ngIf="cohortControl" label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="p-1"/>
-            </div>
-        </ng-template>
-        <pop-cohort-query-builder *ngIf="cohort" formControlName="includeCriteria" [disabled]="!authService.user.canManageCohorts"/>
-    </p-panel>
-
-    <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
-        <ng-template #header>
-            <div class="flex gap-2 align-items-center">
-                <i class="pi pi-thumbs-down"></i>
-                <div class="font-bold">Exclusion criteria</div>
-                <p-chip *ngIf="cohortControl" label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="p-1"/>
-            </div>
-        </ng-template>
-        <pop-cohort-query-builder *ngIf="cohort" formControlName="excludeCriteria"  [disabled]="!authService.user.canManageCohorts"/>
-    </p-panel>
-
+<div class="flex flex-column gap-3">
+    @if (cohortControl && cohort) {
+        <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.includeCriteria === null">    
+            <ng-template #header>
+                <div class="flex gap-2 align-items-center">
+                    <i class="pi pi-thumbs-up"></i>
+                    <div class="font-bold">Inclusion criteria</div>
+                    <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="p-1"/>
+                </div>
+            </ng-template>
+            <pop-cohort-query-builder formControlName="includeCriteria"/>
+        </p-panel>
+    
+        <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
+            <ng-template #header>
+                <div class="flex gap-2 align-items-center">
+                    <i class="pi pi-thumbs-down"></i>
+                    <div class="font-bold">Exclusion criteria</div>
+                    <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="p-1"/>
+                </div>
+            </ng-template>
+            <pop-cohort-query-builder formControlName="excludeCriteria"/>
+        </p-panel>  
+    }
 </div>
 
 
@@ -141,71 +152,73 @@
         <p-tab value="3">Contributors</p-tab>
         <p-tab value="4">History</p-tab>
     </p-tablist>
-    <p-tabpanels *ngIf="cohort">
-        <ng-container *ngIf="cohort.population > 0">
-            <p-tabpanel value="0">
-                <ng-container *ngIf="!loading && cohortCases"> 
-                    <p-dataView 
-                    [value]="cohortCases || undefined"
-                    [paginator]="true" 
-                    [rows]="pageSize" 
-                    layout="grid"
-                    sortField="createdAt"
-                    lazy="true"
-                    [totalRecords]="cohort.population"
-                    (onLazyLoad)="setPaginationAndRefresh($event)"
-                    class="no-background">
-                        <ng-template #grid let-cases>
-                            <div class="grid mt-3">
-                                <div class="col p-2"*ngFor="let case of cases; let first = first" >
-                                    <pop-case-search-item 
-                                    [case]="case"/>
+    @if (cohort) {
+        <p-tabpanels>
+            @if (cohort.population) {
+                <p-tabpanel value="0">
+                    @if (!loading && cohortCases) {
+                        <p-dataView 
+                        [value]="cohortCases || undefined"
+                        [paginator]="true" 
+                        [rows]="pageSize" 
+                        layout="grid"
+                        sortField="createdAt"
+                        lazy="true"
+                        [totalRecords]="cohort.population"
+                        (onLazyLoad)="setPaginationAndRefresh($event)"
+                        class="no-background">
+                            <ng-template #grid let-cases>
+                                <div class="grid mt-3">
+                                    @for (case of cases; track case.id; let first = $first;) { 
+                                        <div class="col p-2">
+                                            <pop-case-search-item [case]="case"/>
+                                        </div>    
+                                    }
                                 </div>
-                            </div>
-                        </ng-template>
-                    </p-dataView>
-                </ng-container>
-
-                <!-- Skeleton loader -->
-                <ng-container *ngIf="loading || !cohortCases">
-                    <div class="grid gap-5 mt-5">
-                        <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
-                            <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
-                                <div class="flex my-3">
-                                    <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
-                                    <div class="flex flex-column mx-3">
-                                        <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
-                                        <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
+                            </ng-template>
+                        </p-dataView>
+                    } @else { 
+                        <!-- Skeleton loader -->
+                        <div class="grid gap-5 mt-5">
+                            @for (_ of [].constructor(15); track $index; let first = $first;) { 
+                                <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
+                                    <div class="flex my-3">
+                                        <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
+                                        <div class="flex flex-column mx-3">
+                                            <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
+                                            <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
+                                        </div>
                                     </div>
+                                    <div class="mb-3 mt-4">
+                                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                                    </div>
+                                    <div class="my-3 mb-5">
+                                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
+                                    </div>
+                                    <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
                                 </div>
-                                <div class="mb-3 mt-4">
-                                    <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                                </div>
-                                <div class="my-3 mb-5">
-                                    <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                                </div>
-                                <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
-                            </div>
-                        </ng-container>
-                    </div>
-                </ng-container>
-
-            </p-tabpanel>
-            <p-tabpanel value="1">
-                <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
-            </p-tabpanel>
-            <p-tabpanel value="2">
-                <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
-            </p-tabpanel>
-            <p-tabpanel value="3">
-                <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
-            </p-tabpanel>
-        </ng-container>
-        
-        <p-message *ngIf="cohort.population==0" styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">No available results due to empty cohort. Adjust to definition to include and/or exclude cases.</p-message>
-
-        <p-tabpanel value="4">            
-        </p-tabpanel>
-    </p-tabpanels>
+                            }
+                        </div>
+                    }    
+                </p-tabpanel>
+                <p-tabpanel value="1">
+                    <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
+                </p-tabpanel>
+                <p-tabpanel value="2">
+                    <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
+                </p-tabpanel>
+                <p-tabpanel value="3">
+                    <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
+                </p-tabpanel>
+                <p-tabpanel value="4">            
+                </p-tabpanel>
+            } @else { 
+                <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
+                    No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
+                </p-message>
+            }            
+        </p-tabpanels>
+    } @else {
+        <p-skeleton width='100%' height='50rem'/>
+    }
 </p-tabs>
-<p-skeleton *ngIf="!cohort" width='100%' height='50rem'/>

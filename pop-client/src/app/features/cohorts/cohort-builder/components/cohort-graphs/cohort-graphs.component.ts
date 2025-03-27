@@ -36,7 +36,6 @@ import { OncoplotComponent } from './components/oncoplot/oncoplot.component';
     ],
     selector: 'pop-cohort-graphs',
     templateUrl: './cohort-graphs.component.html',
-    styleUrls: ['./cohort-graphs.component.css']
 })
 export class CohortGraphsComponent implements OnInit, OnChanges{
 
