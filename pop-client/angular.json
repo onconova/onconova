@@ -75,9 +75,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "pop-client:build"
-          }
+          "configurations": {
+            "production": {
+              "buildTarget": "pop-client:build:production"
+            },
+            "development": {
+              "buildTarget": "pop-client:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
