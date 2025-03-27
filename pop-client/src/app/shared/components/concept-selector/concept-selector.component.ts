@@ -4,7 +4,6 @@ import { Observable, catchError, first, map, of } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { Button } from 'primeng/button';
 import { RadioButton } from 'primeng/radiobutton';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -30,7 +29,6 @@ import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
         ReactiveFormsModule,
         AutoCompleteModule,
         RadioButton,
-        Button,
     ]
 })
 export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, OnChanges {
@@ -138,8 +136,4 @@ registerOnChange(fn: any): void {
     registerOnTouched(fn: any): void {
         this.formControl.valueChanges.subscribe(val => fn(val));
     }
-
-    conceptTrackBy(index: number, concept: CodedConcept) {
-        return concept.code;
-       }
 }

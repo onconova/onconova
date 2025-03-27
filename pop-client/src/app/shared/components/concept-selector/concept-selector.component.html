@@ -1,57 +1,65 @@
 @let $concepts = concepts$ | async;
-<p-autoComplete
-  *ngIf="widget === 'autocomplete'"
-  [formControl]="formControl"
-  [dropdown]="true"
-  [showClear]="true"
-  [forceSelection]="true"
-  [suggestions]="concepts || []"
-  (completeMethod)="updateConcepts($event)"
-  [multiple]="multiple"
-  [unique]="true"
-  [completeOnFocus]="true"
-  [placeholder]="placeholder"
-  optionLabel="display"
-  appendTo="body"
->
-  <!-- Custom item template -->
-  <ng-template let-concept #item>
-    <div class="flex flex-column">
-      <div>
-        {{ concept.display }}
-        <small *ngIf="showCodes">
-          (<code>{{ concept.code }}</code>)
-        </small>
-      </div>
-      <div class="ml-3 mt-1 text-xs gap2">
-        <div *ngIf="showSynonyms" [ngClass]="concept.synonyms.length > 5 ? 'coded-concept-synonyms-faded' : ''">
-          <ng-container *ngFor="let synonym of concept.synonyms; let i = index; trackBy:conceptTrackBy">
-            <div>
-                <b>syn.</b>
-                <span class="ml-1">
-                  {{ (synonym.length>100)? (synonym  | slice:0:15)+'...':(synonym ) }}
-                </span>
-            </div> 
-          </ng-container>
+@if (widget === 'autocomplete') {
+  <p-autoComplete
+    *ngIf="widget === 'autocomplete'"
+    [formControl]="formControl"
+    [dropdown]="true"
+    [showClear]="true"
+    [forceSelection]="true"
+    [suggestions]="concepts || []"
+    (completeMethod)="updateConcepts($event)"
+    [multiple]="multiple"
+    [unique]="true"
+    [completeOnFocus]="true"
+    [placeholder]="placeholder"
+    optionLabel="display"
+    appendTo="body"
+  >
+    <!-- Custom item template -->
+    <ng-template let-concept #item>
+      <div class="flex flex-column">
+        <div>
+          {{ concept.display }}
+          @if (showCodes) {
+            <small>(<code>{{ concept.code }}</code>)</small>
+          }
         </div>
-      </div>
-  </div>
-  </ng-template>
-  <ng-template #footer *ngIf="terminologySize >= conceptsLimit && conceptsLimit == subsetSize">
-      <div class="footer-message px-3 py-3 text-xs muted-text">
-          Showing {{ conceptsLimit }} out of {{ terminologySize }} entries. Please refine your search.
-      </div>
-  </ng-template>
+        <div class="ml-3 mt-1 text-xs gap2">
+          @if (showSynonyms) {
+            <div [ngClass]="concept.synonyms.length > 5 ? 'coded-concept-synonyms-faded' : ''">
+                @for (synonym of concept.synonyms; track $index;) {
+                  <div>
+                    <b>syn.</b>
+                    <span class="ml-1">
+                      {{ (synonym.length>100)? (synonym  | slice:0:15)+'...':(synonym ) }}
+                    </span>
+                  </div> 
+                }
+            </div>
+          }
+        </div>
+    </div>
+    </ng-template>
 
-</p-autoComplete>
-  
-<ng-container *ngIf="widget === 'radio' && $concepts">
-  <div *ngFor="let concept of concepts" class="field-checkbox">
-    <p-radiobutton 
-        [inputId]="concept.code" 
-        [value]="concept" 
-        [formControl]="formControl"/>
-    <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
-  </div>
-</ng-container>
+    @if (terminologySize >= conceptsLimit && conceptsLimit == subsetSize) {
+      <ng-template #footer>
+        <div class="footer-message px-3 py-3 text-xs muted-text">
+            Showing {{ conceptsLimit }} out of {{ terminologySize }} entries. Please refine your search.
+        </div>
+      </ng-template>
+    }
+
+  </p-autoComplete>
+}
+@else if (widget === 'radio' && $concepts) {
+  @for (concept of concepts; track concept.code;) {
+    <div class="field-checkbox">
+      <p-radiobutton 
+          [inputId]="concept.code" 
+          [value]="concept" 
+          [formControl]="formControl"/>
+      <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
+    </div>    
+  }
+}
 
