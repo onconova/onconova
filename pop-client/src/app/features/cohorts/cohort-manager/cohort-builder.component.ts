@@ -23,7 +23,7 @@ import { catchError, first, map, Observable, of } from 'rxjs';
 import { CaseBrowserCardComponent } from '../../cases/case-search/components/case-card/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
-import { DatasetComposerComponent } from 'src/app/features/cohorts/cohort-builder/components/dataset-composer/dataset-composer.component';
+import { DatasetComposerComponent } from 'src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component';
 import { CohortContributorsComponent } from './components/cohort-constributors/cohort-contributors.component';
 import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.component';
 import { Skeleton } from 'primeng/skeleton';
