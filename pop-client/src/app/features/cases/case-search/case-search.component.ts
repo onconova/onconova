@@ -20,7 +20,7 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 // Project dependencies
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
 import { CaseBrowserCardComponent } from './components/case-card/case-search-item.component';
-import { PatientFormComponent } from 'src/app/features/case-forms';
+import { PatientFormComponent } from 'src/app/features/forms';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 

@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AbstractFormBase } from 'src/app/features/case-forms/abstract-form-base.component';
+import { AbstractFormBase } from 'src/app/features/forms/abstract-form-base.component';
 import { AccessRoles, AuthService, User, UserCreate, UserPasswordReset } from 'src/app/shared/openapi';
 import { Key as KeyIcon } from 'lucide-angular';
 import { Button } from 'primeng/button';

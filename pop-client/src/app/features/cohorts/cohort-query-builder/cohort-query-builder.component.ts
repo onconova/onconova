@@ -2,7 +2,7 @@ import { NgModule, Component, Input, ViewEncapsulation, OnInit, inject, DestroyR
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { ConceptSelectorComponent, DatePickerComponent, RangeInputComponent } from '../../shared/components';
+import { ConceptSelectorComponent, DatePickerComponent, RangeInputComponent } from '../../../shared/components';
 import { forwardRef } from '@angular/core';
 
 import { 

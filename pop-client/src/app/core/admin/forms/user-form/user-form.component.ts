@@ -2,7 +2,7 @@ import { Component, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AbstractFormBase } from 'src/app/features/case-forms/abstract-form-base.component';
+import { AbstractFormBase } from 'src/app/features/forms/abstract-form-base.component';
 import { AccessRoles, AuthService, UserCreate } from 'src/app/shared/openapi';
 import { User } from 'lucide-angular';
 import { Fluid } from 'primeng/fluid';

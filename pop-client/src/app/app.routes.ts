@@ -17,17 +17,17 @@ export const routes: Routes = [
             { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'cases', 
                 children: [
-                    { path: 'search', loadComponent: () => import('./features/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
-                    { path: 'search/:manager', loadComponent: () => import('./features/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
-                    { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/case-manager/case-manager.component').then(m => m.CaseManagerComponent) },
-                    { path: 'import', loadComponent: () => import('./features/case-importer/case-importer.component').then(m => m.CaseImporterComponent) },
+                    { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
+                    { path: 'search/:manager', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
+                    { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/cases/case-manager/case-manager.component').then(m => m.CaseManagerComponent) },
+                    { path: 'import', loadComponent: () => import('./features/cases/case-importer/case-importer.component').then(m => m.CaseImporterComponent) },
                 ]
             },
             { path: 'cohorts', 
                 children: [
-                    { path: ':cohortId/management', loadComponent: () => import('./features/cohort-builder/cohort-builder.component').then(m => m.CohortBuilderComponent) },
-                    { path: 'search', loadComponent: () => import('./features/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
-                    { path: 'search/:currentUser', loadComponent: () => import('./features/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
+                    { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-builder/cohort-builder.component').then(m => m.CohortBuilderComponent) },
+                    { path: 'search', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
+                    { path: 'search/:currentUser', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
                 ]
             },
             { path: 'admin', 
