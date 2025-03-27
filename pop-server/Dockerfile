@@ -5,6 +5,8 @@
 ################################
 FROM python:3.11-slim as python-base
 
+ARG ROOT_CA_CERTIFICATES=
+
 # Python layer environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -19,13 +21,12 @@ ENV PYTHONUNBUFFERED=1 \
     # Never create virtual environment automaticly, only use env prepared by this file
     POETRY_VIRTUALENVS_CREATE=false \
     # Root CA certificates bundle for Poetry (if needed)
-    REQUESTS_CA_BUNDLE=/usr/local/share/ca-certificates/root-ca-cert.crt; \
+    REQUESTS_CA_BUNDLE=${ROOT_CA_CERTIFICATES:+/usr/local/share/ca-certificates/root-ca-cert.crt} \
     \
     # Path to the Python virtual environment 
     VIRTUAL_ENV="/venv"
     
 # Optional: Install a root CA TLS certificate
-ARG ROOT_CA_CERTIFICATES=""
 COPY ${ROOT_CA_CERTIFICATES} $REQUESTS_CA_BUNDLE
 RUN if [ -n "$ROOT_CA_CERTIFICATES" ]; then \
         update-ca-certificates; \
@@ -67,7 +68,7 @@ RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org
 WORKDIR /app/src		
 COPY ./pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache \
-    $VIRTUAL_ENV/bin/poetry install --no-root --no-interaction --no-ansi --no-cache
+    $VIRTUAL_ENV/bin/poetry install -v --no-root --no-interaction --no-ansi --no-cache
 
 
 ################################
