@@ -1,22 +1,27 @@
-<div class="flex flex-column" *ngIf="manager">
-    <h2 class="mb-0 font-semibold">My Cases</h2>
-    <div class="text-muted">Welcome to your personal case search page. You can find all patient cases managed by you.</div>
-</div>
-<div class="flex flex-column" *ngIf="!manager">
-    <h2 class="mb-0 font-semibold">Cases</h2>
-    <div class="text-muted">Welcome to the case search page. You can find all existing patient cases here.</div>
+
+<div class="flex flex-column">
+    @if (manager) {
+        <h2 class="mb-0 font-semibold">My Cases</h2>
+        <div class="text-muted">Welcome to your personal case search page. You can find all patient cases managed by you.</div>
+    } @else {
+        <h2 class="mb-0 font-semibold">Cases</h2>
+        <div class="text-muted">Welcome to the case search page. You can find all existing patient cases here.</div>
+    }
 </div>
 
-
-<!-- use ngTemplateOutlet to conditionally render templates -->
 <p-toolbar styleClass="my-3 border-transparent">
+
     <ng-template #start>
         <div class="mt-auto ml-3">
             <div class="text-muted"><small>Total cases</small></div>
-            <div *ngIf="!loadingCases" class="text-center font-semibold" style="font-size: 2rem;" [ngxCountAnimation]="totalCases" duration="500"></div>
-            <p-skeleton *ngIf="loadingCases" [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
+            @if (loadingCases) {
+                <p-skeleton width="4rem" height="2rem"/>
+            } @else {
+                <div class="text-center font-semibold" style="font-size: 2rem;" [ngxCountAnimation]="totalCases" duration="500"></div>
+            }
         </div>        
     </ng-template>
+
     <ng-template #end>
         <div class="flex">
             <p-iconfield>
@@ -42,53 +47,56 @@
                 [icon]="authService.user.canManageCases ? 'pi pi-plus' : 'pi pi-lock'"/>
         </div>
     </ng-template>
+
 </p-toolbar>
     
 
-    <!-- Skeleton loader -->
-    <ng-container *ngIf="loadingCases">
-        <div class="grid gap-5 mt-5">
-            <ng-container *ngFor="let _ of [].constructor(15); let first=first" class="col p-2" >
-                <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
-                    <div class="flex my-3">
-                        <p-skeleton [style]="{ width: '5rem', height: '5rem'}"></p-skeleton>
-                        <div class="flex flex-column mx-3">
-                            <p-skeleton class="mb-2 mt-3" [style]="{ width: '10rem', height: '1.5rem'}"></p-skeleton>    
-                            <p-skeleton [style]="{ width: '20rem', height: '1.5rem' }"></p-skeleton>      
-                        </div>
+<!-- Skeleton loader -->
+@if (loadingCases) {
+    <div class="grid gap-5 mt-5">
+        @for (_ of [].constructor(15); track $index; let first = $first;) { 
+            <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
+                <div class="flex my-3">
+                    <p-skeleton width="5rem" height="5rem"/>
+                    <div class="flex flex-column mx-3">
+                        <p-skeleton class="mb-2 mt-3" width="10rem" height="1.5rem"/>    
+                        <p-skeleton width="20rem" height="1.5rem"/>      
                     </div>
-                    <div class="mb-3 mt-4">
-                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                    </div>
-                    <div class="my-3 mb-5">
-                        <p-skeleton [style]="{ width: '100%', height: '2rem'}"></p-skeleton>
-                    </div>
-                    <p-skeleton class="my-3 ml-auto"  [style]="{ width: '20rem', height: '2rem' }"></p-skeleton>      
                 </div>
-            </ng-container>
-        </div>
-    </ng-container>
+                <div class="mb-3 mt-4">
+                    <p-skeleton width="100%" height="2rem"/>
+                </div>
+                <div class="my-3 mb-5">
+                    <p-skeleton width="100%" height="2rem"/>
+                </div>
+                <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
+            </div>
+        }
+    </div>
+}
 
-    @let cases = cases$ | async;
-    <p-dataView 
-        [value]="cases || undefined"
-        [paginator]="true" 
-        [rows]="pageSize" 
-        layout="grid"
-        sortField="createdAt"
-        lazy="true"
-        [rowsPerPageOptions]="pageSizeChoices"
-        [totalRecords]="totalCases"
-        (onLazyLoad)="setPaginationAndRefresh($event)"
-        class="no-background">
+@let cases = cases$ | async;
+<p-dataView 
+    [value]="cases || undefined"
+    [paginator]="true" 
+    [rows]="pageSize" 
+    layout="grid"
+    sortField="createdAt"
+    lazy="true"
+    [rowsPerPageOptions]="pageSizeChoices"
+    [totalRecords]="totalCases"
+    (onLazyLoad)="setPaginationAndRefresh($event)"
+    class="no-background">
 
-        <ng-template #grid let-cases>
-            <div class="grid mt-3">
-                <div class="col p-2"*ngFor="let case of cases; let first = first" >
+    <ng-template #grid let-cases>
+        <div class="grid mt-3">
+            @for (case of cases; track case.id; let first = $first) {
+                <div class="col p-2">
                     <pop-case-search-item 
                     [case]="case"
                     (delete)="deleteCase($event)"/>
                 </div>
-            </div>
-        </ng-template>
-    </p-dataView>
+            }
+        </div>
+    </ng-template>
+</p-dataView>

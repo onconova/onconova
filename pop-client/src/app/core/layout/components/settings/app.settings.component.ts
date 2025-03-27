@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { LayoutService } from '../../service/app.layout.service';
-import { RadioButton  } from 'primeng/radiobutton';
+import { LayoutService } from '../../app.layout.service';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 
@@ -12,13 +11,23 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     standalone: true,
     selector: 'pop-settings-dialog',
     templateUrl: './app.settings.component.html',
-    styleUrl: './app.settings.component.css',
+    styles: `
+    .p-button.color-button {
+        border-radius: 50% !important;
+        border: none !important;
+        margin-right: .25rem !important;
+        margin-bottom: .25rem !important;
+        aspect-ratio: 1;
+        opacity: .9;
+    }
+    `,
     encapsulation: ViewEncapsulation.None,
-    imports: [CommonModule, FormsModule, ToggleSwitchModule, Dialog, ButtonModule, RadioButton ]
+    imports: [CommonModule, FormsModule, ToggleSwitchModule, Dialog, ButtonModule ]
 })
 export class SettingsDialogComponent {
+
     public readonly layoutService = inject(LayoutService);
-    visible: boolean = false;
+    public visible: boolean = false;
 
     public themes = [
         {name: 'emerald', color: 'emerald'},

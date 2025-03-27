@@ -25,7 +25,7 @@ export const routes: Routes = [
             },
             { path: 'cohorts', 
                 children: [
-                    { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-builder/cohort-builder.component').then(m => m.CohortBuilderComponent) },
+                    { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-manager/cohort-builder.component').then(m => m.CohortBuilderComponent) },
                     { path: 'search', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
                     { path: 'search/:currentUser', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
                 ]
@@ -38,7 +38,7 @@ export const routes: Routes = [
     { 
         path: 'notfound', 
         canActivate: [AuthGuard],
-        loadComponent: () => import('./core/notfound/notfound.component').then(m => m.NotfoundComponent) 
+        loadComponent: () => import('./core/auth/pages/error/error.component').then(m => m.ErrorComponent) 
     },
     { path: '**', redirectTo: '/notfound' },
 ];

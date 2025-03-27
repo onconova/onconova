@@ -13,37 +13,42 @@
 
 <!-- Case summary -->
 <div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
-    <p-avatar size="xlarge" [style]="{'background': 'none', 'width': '5rem', 'height': '5rem', padding: '0', 'margin': 'auto 0'}" >
-        <svg class="jdenticon my-auto" [data-jdenticon-value]="pseudoidentifier"></svg>
-    </p-avatar>
+    <pop-identicon [value]="pseudoidentifier"/>
     <div class="ml-3 my-auto">
         <span class="text-muted">Case</span>
         <h2 class="text-monospace my-0">
             {{ pseudoidentifier }}
         </h2>
-        <div *ngIf="case">
-            {{ case.gender.display }}, 
-            {{ case.age }} years<span *ngIf="case.isDeceased">, †</span>
-        </div>
-        <div *ngIf="!case"> 
-            <p-skeleton width="7rem" height="1.2rem" />
-        </div>       
+        <div>
+            @if (case) {
+                {{ case.gender.display }}, 
+                {{ case.age }} years@if(case.isDeceased){, †}
+            } @else {
+                <p-skeleton width="7rem" height="1.2rem" />
+            }
+        </div>    
     </div>
     <p-divider layout="vertical"></p-divider>
     <div class="">
         <div class="text-left">
             <small class="text-muted">Overall survival</small>
             <div>
-                <span *ngIf="case">{{ case.overallSurvival | number:'1.0-0' }} months</span>      
-                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+                @if (case) {
+                    {{ case.overallSurvival | number:'1.0-0' }} months
+                } @else {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }      
             </div>
         </div> 
 
         <div class="text-left mt-1">
             <small class="text-muted">Cause of death</small>
             <div>
-                <span *ngIf="case">{{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}</span>
-                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+                @if (case) {
+                    {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
+                } @else {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }      
             </div>
         </div> 
     </div>
@@ -52,17 +57,26 @@
         <div class="text-left">
             <small class="text-muted">Clinical center</small>
             <div>
-                <span *ngIf="case">{{ case.clinicalCenter }}</span>      
-                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+                @if (case) {
+                    {{ case.clinicalCenter }}      
+                } @else {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }
             </div>
         </div> 
 
         <div class="text-left mt-1">
             <small class="text-muted">Clinical Identifier</small>
             <div>
-                <span *ngIf="case && !authService.user.canAccessSensitiveData" style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
-                <span *ngIf="case && authService.user.canAccessSensitiveData">{{ case.clinicalIdentifier}}</span>
-                <p-skeleton *ngIf="!case" width="12rem" height="1.5rem" />
+                @if (case) {
+                    @if (authService.user.canAccessSensitiveData) {
+                        {{ case.clinicalIdentifier}}
+                    } @else {
+                        <span style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
+                    }
+                } @else {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }
             </div>
         </div> 
     </div>
@@ -71,23 +85,29 @@
         <div class="text-left">
             <small class="text-muted">Created</small>
             <div>
-                <span *ngIf="case">{{ case.createdAt | date }}</span>      
-                <p-skeleton *ngIf="!case" width="7rem" height="1.5rem" />
+                @if (case) {
+                    {{ case.createdAt | date }}
+                } @else {
+                    <p-skeleton width="7rem" height="1.5rem" />                    
+                }
             </div>
         </div> 
 
         <div class="text-left mt-1">
             <small class="text-muted">Last updated</small>
             <div>
-                <span *ngIf="case">{{ case.updatedAt | date }}</span>      
-                <p-skeleton *ngIf="!case" width="7rem" height="1.5rem"/>
+                @if (case) {
+                    {{ case.updatedAt | date }}
+                } @else {
+                    <p-skeleton width="7rem" height="1.5rem"/>
+                }      
             </div>
         </div> 
     </div>
 </div>
 
 <!-- Case content -->
- <ng-container *ngIf="case">
+@if (case) {
     <div class="grid"> 
         <div class="col-12 md:col-6 lg:col-4">
 
@@ -277,18 +297,16 @@
             </p-fieldset>
         </div>
     </div>
-</ng-container>
-
-<ng-container *ngIf="!case">
+} @else {
     <div class="grid">
-        <ng-container *ngFor="let n of [].constructor(6);">
+        @for (n of [].constructor(6); track $index) {
             <div class="col-12 md:col-6 lg:col-4">
                 <p-skeleton width="10rem" height="2rem" styleClass="mt-4" />
                 <p-skeleton height="5rem" styleClass="mt-3"/>
                 <p-skeleton height="5rem" styleClass="mt-3"/>
                 <p-skeleton height="5rem" styleClass="mt-3"/>
                 <p-skeleton height="5rem" styleClass="mt-3"/>
-            </div>
-        </ng-container>
+            </div>            
+        }
     </div>
-</ng-container>
+}

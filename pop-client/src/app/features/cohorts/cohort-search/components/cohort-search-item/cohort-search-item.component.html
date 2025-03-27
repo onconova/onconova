@@ -21,8 +21,10 @@
 
         <div class="flex flex-column ml-auto">
             <div class="cohort-search-item-chip text-md mt-2">
-                <p-chip *ngIf="cohort.isPublic" label="Public" icon="pi pi-lock-open" class="is-public-chip"/>
-                <p-chip *ngIf="!cohort.isPublic" label="Private" icon="pi pi-unlock" class="is-public-chip"/>
+                <p-chip 
+                    [label]="cohort.isPublic ? 'Public' : 'Private'" 
+                    [icon]="cohort.isPublic ? 'pi pi-lock-open' : 'pi pi-unlock'" 
+                    class="is-public-chip"/>
             </div>
         </div>
     </div>
@@ -32,12 +34,15 @@
         <div class="flex flex-column">
             <small class="text-muted mb-1">Median age</small>
             <div class="flex my-auto gap-1">
-                <div class="my-auto" *ngIf="cohortAgeStats else ageSkeleton">
-                    <span style="font-size: 1.2rem;">{{ cohortAgeStats.median || '-' }} <small>years</small></span>               
-                </div>
-                <ng-template #ageSkeleton>
-                    <p-skeleton [style]="{ width: '4rem', height: '1rem' }"></p-skeleton>      
-                </ng-template>
+                @if (cohortAgeStats !== null) {
+                    <div class="my-auto">
+                        <span style="font-size: 1.2rem;">{{ cohortAgeStats.median || '-' }} <small>years</small></span>               
+                    </div>    
+                } @else if (cohortAgeStats === null) {
+                    -
+                } @else {
+                    <p-skeleton width="4rem" height="1rem"/>      
+                }
             </div>
         </div>
 
@@ -45,12 +50,15 @@
         <div class="flex flex-column">
             <small class="text-muted mb-1">Median completion</small>
             <div class="flex my-auto gap-1">
-                <div class="my-auto" *ngIf="cohortDataCompletionStats else completionSkeleton">
-                    <span style="font-size: 1.2rem;">{{ cohortDataCompletionStats.median }}% <small>complete</small></span>               
-                </div>
-                <ng-template #completionSkeleton>
-                    <p-skeleton [style]="{ width: '6rem', height: '1rem' }"></p-skeleton>      
-                </ng-template>
+                @if (cohortDataCompletionStats !== null) {
+                    <div class="my-auto">
+                        <span style="font-size: 1.2rem;">{{ cohortDataCompletionStats.median }}% <small>complete</small></span>               
+                    </div>
+                } @else if (cohortDataCompletionStats === null) {
+                    -
+                } @else {
+                    <p-skeleton width="6rem" height="1rem"/>         
+                }
             </div>
         </div>
     

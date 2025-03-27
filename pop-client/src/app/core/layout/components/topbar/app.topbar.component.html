@@ -6,7 +6,7 @@
                 Precision Oncology Platform
             </div>
             <div class="layout-topbar-version">
-                Release {{version}}
+                Release {{version}}{{ isProduction ? '' : '-development' }}
             </div>
         </div>
     </a>
@@ -23,7 +23,7 @@
         <p-button [icon]="layoutService.config.darkMode() ? 'pi pi-moon' : 'pi pi-sun'" [rounded]="true" [outlined]="true" (onClick)="layoutService.toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
 
         <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
-        <p-menu #profile [model]="profile_items" [popup]="true">
+        <p-menu #profile [model]="profileItems" [popup]="true">
             <ng-template #start>
                 <div class="flex flex-column m-3 text-center">
                     @let user = authService.user;

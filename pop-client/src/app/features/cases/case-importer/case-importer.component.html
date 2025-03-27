@@ -57,8 +57,13 @@
                                 style="display: none"
                                 (change)="onFileChange($event)"/>
                             <div class="ml-2 my-auto">
-                                <span *ngIf="!uploadedFile">No file chosen</span>
-                                <span *ngIf="uploadedFile" class="text-monospace"><i class="pi pi-file mr-2"></i>{{uploadedFile.name}}</span>
+                                @if (uploadedFile) {
+                                    <span class="text-monospace">
+                                        <i class="pi pi-file mr-2"></i>{{uploadedFile.name}}
+                                    </span>
+                                } @else {
+                                    <span>No file chosen</span>
+                                }                                
                             </div>    
                         </div>
                     </div>
@@ -75,9 +80,11 @@
             <p-step-panel>
                 <ng-template #content let-activateCallback="activateCallback">
                     
-                    <p-message *ngIf="conflictingBundle" styleClass="my-3" severity="warn" icon="pi pi-exclamation-triangle">
-                        The uploaded case bundle conflicts with an existing case. Please review the differences and choose a resolution to proceed.
-                    </p-message>
+                    @if (conflictingBundle) {
+                        <p-message styleClass="my-3" severity="warn" icon="pi pi-exclamation-triangle">
+                            The uploaded case bundle conflicts with an existing case. Please review the differences and choose a resolution to proceed.
+                        </p-message>
+                    }
 
                     <h6 class="text-muted font-semibold my-1">
                         Verify the Accuracy of the Case Bundle
@@ -88,51 +95,59 @@
                     </div>
 
                     <div class="flex flex-col h-48">
-                        <div *ngIf="bundle">
-                            <p-tabs value="uploaded-bundle">
-                                <p-tablist>
-                                    <p-tab value="uploaded-bundle">Uploaded Case</p-tab>
-                                    <p-tab value="conflict-bundle" *ngIf="conflictingBundle"><i class="pi pi-exclamation-triangle"></i> Conflicting Case</p-tab>
-                                    <p-tab value="uploaded-json" >JSON Upload</p-tab>
-                                    <p-tab value="uploaded-raw" >Raw Upload</p-tab>
-                                </p-tablist>
-                                <p-tabpanels>
-                                    <p-tabpanel value="uploaded-bundle">
-                                        <pop-case-importer-bundle-viewer [bundle]="bundle"/>
-                                    </p-tabpanel>
-                                    <p-tabpanel value="conflict-bundle" *ngIf="conflictingBundle">
-                                        <pop-case-importer-bundle-viewer [bundle]="conflictingBundle"/>
-                                    </p-tabpanel>
-                                    <p-tabpanel value="uploaded-json">
-                                        <ngx-json-viewer [json]="bundle" [expanded]="false"></ngx-json-viewer>
-                                    </p-tabpanel>
-                                    <p-tabpanel value="uploaded-raw">
-                                        <pre> {{ bundle | json }} </pre>
-                                    </p-tabpanel>
-                                </p-tabpanels>
-                            </p-tabs>
-                        </div>
+                        @if (bundle) {
+                            <div>
+                                <p-tabs value="uploaded-bundle">
+                                    <p-tablist>
+                                        <p-tab value="uploaded-bundle">Uploaded Case</p-tab>
+                                        @if (conflictingBundle) {
+                                            <p-tab value="conflict-bundle"><i class="pi pi-exclamation-triangle"></i> Conflicting Case</p-tab>
+                                        }
+                                        <p-tab value="uploaded-json" >JSON Upload</p-tab>
+                                        <p-tab value="uploaded-raw" >Raw Upload</p-tab>
+                                    </p-tablist>
+                                    <p-tabpanels>
+                                        <p-tabpanel value="uploaded-bundle">
+                                            <pop-case-importer-bundle-viewer [bundle]="bundle"/>
+                                        </p-tabpanel>
+                                        @if (conflictingBundle) {
+                                            <p-tabpanel value="conflict-bundle">
+                                                <pop-case-importer-bundle-viewer [bundle]="conflictingBundle"/>
+                                            </p-tabpanel>
+                                        }
+                                        <p-tabpanel value="uploaded-json">
+                                            <ngx-json-viewer [json]="bundle" [expanded]="false"></ngx-json-viewer>
+                                        </p-tabpanel>
+                                        <p-tabpanel value="uploaded-raw">
+                                            <pre> {{ bundle | json }} </pre>
+                                        </p-tabpanel>
+                                    </p-tabpanels>
+                                </p-tabs>
+                            </div>
+                        }
                     </div>
 
-                    <div *ngIf="conflictingBundle">
-                        <div class="my-3">
-                            <label class="field-label required">Select a conflict resolution method</label>
-                            <div class="flex items-center gap-2 mt-3">
-                                <p-radiobutton [(ngModel)]="conflictResolution" value="overwrite"/>
-                                <label>Overwrite</label>
-                            </div>
-                            <div class="text-muted ml-4">
-                                Overwrite existing case with uploaded case bundle
-                            </div>
-                            <div class="flex items-center gap-2 mt-3">
-                                <p-radiobutton [(ngModel)]="conflictResolution" value="reassign"/>
-                                <label>Re-assign</label>
-                            </div>
-                            <div class="text-muted ml-4">
-                                Import uploaded bundle and assign a new case pseudoidentifier
+                    @if (conflictingBundle) {
+                        <div>
+                            <div class="my-3">
+                                <label class="field-label required">Select a conflict resolution method</label>
+                                <div class="flex items-center gap-2 mt-3">
+                                    <p-radiobutton [(ngModel)]="conflictResolution" value="overwrite"/>
+                                    <label>Overwrite</label>
+                                </div>
+                                <div class="text-muted ml-4">
+                                    Overwrite existing case with uploaded case bundle
+                                </div>
+                                <div class="flex items-center gap-2 mt-3">
+                                    <p-radiobutton [(ngModel)]="conflictResolution" value="reassign"/>
+                                    <label>Re-assign</label>
+                                </div>
+                                <div class="text-muted ml-4">
+                                    Import uploaded bundle and assign a new case pseudoidentifier
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
 
                     <div class="flex pt-4 justify-start gap-2">
                         <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />

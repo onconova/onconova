@@ -18,31 +18,36 @@
             <pop-form-control-error controlName="scoreType"></pop-form-control-error>
         </div>
 
-        <div class="field" *ngIf="form.value.scoreType == 'ecog'">
-            <label class="form-label required">ECOG Score</label>
-            <p-select 
-                [options]="ecogScores" 
-                formControlName="ecogScore" 
-                optionLabel="label" 
-                optionValue="value" 
-                placeholder="Select a choice"
-                appendTo="body" 
-                class="w-full md:w-56" />
-            <pop-form-control-error controlName="ecogScore"></pop-form-control-error>
-        </div>
-
-        <div class="field" *ngIf="form.value.scoreType == 'karnofsky'">
-            <label class="form-label required">Karnofsky score</label>
-            <p-select                 
-                [options]="karnofskyScores" 
-                formControlName="karnofskyScore" 
-                optionLabel="label" 
-                optionValue="value" 
-                placeholder="Select a choice"
-                appendTo="body" 
-                class="w-full md:w-56" />
-            <pop-form-control-error controlName="karnofskyScore"></pop-form-control-error>
-        </div>
+        @switch (form.value.scoreType) {
+            @case ('ecog') {
+                <div class="field">
+                    <label class="form-label required">ECOG Score</label>
+                    <p-select 
+                        [options]="ecogScores" 
+                        formControlName="ecogScore" 
+                        optionLabel="label" 
+                        optionValue="value" 
+                        placeholder="Select a choice"
+                        appendTo="body" 
+                        class="w-full md:w-56" />
+                    <pop-form-control-error controlName="ecogScore"></pop-form-control-error>
+                </div>                        
+            }
+            @case ('karnofsky') {
+                <div class="field">
+                    <label class="form-label required">Karnofsky score</label>
+                    <p-select                 
+                        [options]="karnofskyScores" 
+                        formControlName="karnofskyScore" 
+                        optionLabel="label" 
+                        optionValue="value" 
+                        placeholder="Select a choice"
+                        appendTo="body" 
+                        class="w-full md:w-56" />
+                    <pop-form-control-error controlName="karnofskyScore"></pop-form-control-error>
+                </div>        
+            }
+        }
 
         <p-button 
             type="submit" 

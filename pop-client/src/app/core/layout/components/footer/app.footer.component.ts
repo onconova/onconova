@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LayoutService } from "../../service/app.layout.service";
+import { LayoutService } from "../../app.layout.service";
 
 import { InlineSVGModule } from 'ng-inline-svg-2';
 

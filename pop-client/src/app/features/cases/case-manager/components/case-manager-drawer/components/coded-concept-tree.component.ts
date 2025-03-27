@@ -17,17 +17,20 @@ import { CommonModule } from '@angular/common';
             <small class="property-label">{{ node.label }}</small> <div style="font-family: monospace; font-size: .8rem">{{ node.system }}</div>
         </ng-template>
         <ng-template let-node pTemplate="synonyms" > 
-            <ng-container>
-                <small class="property-label">{{ node.label }}</small> 
-                <div *ngIf="node.synonyms.length === 0">-</div>
-                <div>                            
+            <small class="property-label">{{ node.label }}</small> 
+            <div>  
+                @if (node.synonyms.length) {                    
                     <ul class="list-none pl-0">
-                        <li *ngFor="let synonym of node.synonyms" style="font-size: .8rem">
-                            {{ synonym }}
-                        </li>
+                        @for (synonym of node.synonyms; track $index) {
+                            <li style="font-size: .8rem">
+                                {{ synonym }}
+                            </li>
+                        }
                     </ul>
-                </div>
-            </ng-container>                       
+                } @else {
+                    -
+                }     
+            </div>                
         </ng-template>
     </p-tree>
     `,

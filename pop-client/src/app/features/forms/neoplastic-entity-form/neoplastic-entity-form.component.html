@@ -20,16 +20,18 @@
             <pop-form-control-error controlName="assertionDate"></pop-form-control-error>
         </div>
 
-        <div class="field" *ngIf="requiresPrimary">
-            <label for="relatedPrimary" class="form-label required">Related primary neoplasm</label>
-            <p-select 
-            [options]="relatedPrimaries" 
-            formControlName="relatedPrimary"
-            optionLabel="description" 
-            optionValue="id"
-            placeholder="Select an option" />
-            <pop-form-control-error controlName="relatedPrimary"></pop-form-control-error>
-        </div>
+        @if (requiresPrimary) {
+            <div class="field">
+                <label for="relatedPrimary" class="form-label required">Related primary neoplasm</label>
+                <p-select 
+                [options]="relatedPrimaries" 
+                formControlName="relatedPrimary"
+                optionLabel="description" 
+                optionValue="id"
+                placeholder="Select an option" />
+                <pop-form-control-error controlName="relatedPrimary"></pop-form-control-error>
+            </div>    
+        }
 
         <div class="field">
             <label for="topography" class="form-label required">Topography</label>

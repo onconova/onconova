@@ -1,17 +1,20 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
-import { Observable, from, filter, mergeMap, first } from 'rxjs';
+import { inject } from '@angular/core';
+import { HttpRequest, HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
+import { from, mergeMap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { BASE_PATH } from 'src/app/shared/openapi';
 import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, next: HttpHandlerFn) => {
+    
     const auth = inject(AuthService);
     const basePath: string = inject(BASE_PATH);
     const router = inject(Router);
+
     if (request.url.includes('/auth/token')) {
         return next(request);
-    } 
+    }
+
     return from(auth.checkAuthentication()).pipe(
         mergeMap(
             (isAuthenticated) => {

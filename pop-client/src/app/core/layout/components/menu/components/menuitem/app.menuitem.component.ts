@@ -5,7 +5,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuService } from '../../app.menu.service';
-import { LayoutService } from '../../../../service/app.layout.service';
+import { LayoutService } from '../../../../app.layout.service';
 
 @Component({
     standalone: true,
@@ -17,28 +17,43 @@ import { LayoutService } from '../../../../service/app.layout.service';
     ],
     template: `
 		<ng-container>
-            <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{item.label}}</div>
-			<a *ngIf="(!item.routerLink || item.items) && item.visible !== false" [attr.href]="item.url" (click)="itemClick($event)"
-			   [ngClass]="item.class" [attr.target]="item.target" tabindex="0" pRipple>
-				<i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-				<span class="layout-menuitem-text">{{item.label}}</span>
-				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
-			</a>
-			<a *ngIf="(item.routerLink && !item.items) && item.visible !== false" (click)="itemClick($event)" [ngClass]="item.class" 
-			   [routerLink]="item.routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="item.routerLinkActiveOptions||{ paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
-               [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling" [preserveFragment]="item.preserveFragment" 
-               [skipLocationChange]="item.skipLocationChange" [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
-               [attr.target]="item.target" tabindex="0" pRipple>
-				<i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-				<span class="layout-menuitem-text">{{item.label}}</span>
-				<i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
-			</a>
-
-			<ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
-				<ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
-					<li pop-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
-				</ng-template>
-			</ul>
+            @if ( item.visible !== false ) {
+                @if (root) {
+                    <div class="layout-menuitem-root-text">
+                        {{item.label}}
+                    </div>
+                } 
+                @if (!item.routerLink || item.items) {
+                    <a [attr.href]="item.url" (click)="itemClick($event)"
+                    [ngClass]="item.class" [attr.target]="item.target" tabindex="0" pRipple>
+                        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+                        <span class="layout-menuitem-text">{{item.label}}</span>
+                        @if (item.items) {
+                            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+                        }
+                    </a>
+                }
+                @if (item.routerLink && !item.items) {
+                    <a (click)="itemClick($event)" [ngClass]="item.class" 
+                        [routerLink]="item.routerLink" routerLinkActive="active-route" [routerLinkActiveOptions]="item.routerLinkActiveOptions||{ paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' }"
+                        [fragment]="item.fragment" [queryParamsHandling]="item.queryParamsHandling" [preserveFragment]="item.preserveFragment" 
+                        [skipLocationChange]="item.skipLocationChange" [replaceUrl]="item.replaceUrl" [state]="item.state" [queryParams]="item.queryParams"
+                        [attr.target]="item.target" tabindex="0" pRipple>
+                        <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
+                        <span class="layout-menuitem-text">{{item.label}}</span>
+                        @if (item.items) {
+                            <i class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+                        }
+                    </a>
+                }
+                @if (item.items) {
+                    <ul [@children]="submenuAnimation">
+                        <ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
+                            <li pop-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
+                        </ng-template>
+                    </ul>
+                }
+            }
 		</ng-container>
     `,
     animations: [
@@ -56,19 +71,12 @@ import { LayoutService } from '../../../../service/app.layout.service';
 export class AppMenuitemComponent implements OnInit, OnDestroy {
 
     @Input() item: any;
-
     @Input() index!: number;
-
     @Input() @HostBinding('class.layout-root-menuitem') root!: boolean;
-
     @Input() parentKey!: string;
-
     active = false;
-
     menuSourceSubscription: Subscription;
-
     menuResetSubscription: Subscription;
-
     key: string = "";
 
     constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef, public router: Router, private menuService: MenuService) {

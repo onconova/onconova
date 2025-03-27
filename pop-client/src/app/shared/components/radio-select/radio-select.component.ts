@@ -13,16 +13,16 @@ export interface RadioChoice {
     standalone: true,
     selector: 'pop-radio-select',
     template: `
-        <div class="{{class}}">
-            <ng-container *ngFor="let choice of choices">
+        <div [ngClass]="class">
+            @for (choice of choices; track choice.value;) {
                 <div class="flex items-center">
                     <p-radiobutton 
                         [inputId]="choice.value" 
                         [value]="choice.value" 
                         [formControl]="formControl"/>
                     <label [for]="choice.value" class="ml-2">{{ choice.name }}</label>
-                </div>
-            </ng-container>
+                </div>               
+            }
         </div>
     `,
     providers: [

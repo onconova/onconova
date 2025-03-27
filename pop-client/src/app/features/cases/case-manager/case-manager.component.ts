@@ -11,8 +11,6 @@ import { KnobModule } from 'primeng/knob';
 import { Divider } from 'primeng/divider';
 import { Fieldset } from 'primeng/fieldset';
 
-import { NgxJdenticonModule } from "ngx-jdenticon";
-
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
     Fingerprint, Tablets, Slice, Radiation, Cigarette, 
@@ -66,6 +64,7 @@ import {
 import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
+import { ModalFormComponent } from "../../../shared/components/identicon/identicon.component";
 
 
 
@@ -75,18 +74,18 @@ import { DownloadService } from 'src/app/shared/services/download.service';
     styleUrl: './case-manager.component.css',
     encapsulation: ViewEncapsulation.None,
     imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        CaseManagerPanelComponent,
-        NgxJdenticonModule,
-        AvatarModule,
-        Button,
-        Fieldset,
-        KnobModule,
-        Divider,
-        SkeletonModule,
-    ],
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    CaseManagerPanelComponent,
+    AvatarModule,
+    Button,
+    Fieldset,
+    KnobModule,
+    Divider,
+    SkeletonModule,
+    ModalFormComponent
+],
 })
 export class CaseManagerComponent implements OnInit {
 

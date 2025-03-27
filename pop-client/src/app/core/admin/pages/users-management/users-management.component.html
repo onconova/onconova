@@ -68,28 +68,27 @@
                 </th>
         </ng-template>
         <ng-template #body let-user>
-            <tr *ngIf="!loading; else loadingbody">
-                <td>
-                    <p-button icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
-                    <p-button icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
-                </td>
-                <td class="text-monospace">{{ user.username }}</td>
-                <td>{{ user.lastName }}, {{ user.firstName }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.lastLogin }}</td>
-                <td>{{ user.accessLevel }} - {{ user.role }}</td>
-            </tr>
-        </ng-template>
-        <ng-template #loadingbody let-columns="columns">
             <tr>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
+                @if (loading) {
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                } @else {
+                    <td>
+                        <p-button icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
+                        <p-button icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
+                    </td>
+                    <td class="text-monospace">{{ user.username }}</td>
+                    <td>{{ user.lastName }}, {{ user.firstName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.lastLogin }}</td>
+                    <td>{{ user.accessLevel }} - {{ user.role }}</td>
+                }
             </tr>
         </ng-template>
     </p-table>

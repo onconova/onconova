@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
-import { LayoutService } from 'src/app/core/layout/service/app.layout.service';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 @Component({
     standalone: true,

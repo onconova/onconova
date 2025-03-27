@@ -1,11 +1,11 @@
 import { OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Location, LocationStrategy } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 import { BASE_PATH } from 'src/app/shared/openapi';
 import { AppMenuitemComponent } from './components/menuitem/app.menuitem.component';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     standalone: true,
@@ -18,10 +18,9 @@ import { AppMenuitemComponent } from './components/menuitem/app.menuitem.compone
 })
 export class AppMenuComponent implements OnInit {
 
-    model: any[] = [];
+    model: MenuItem[] = [];
     private readonly authService: AuthService = inject(AuthService);
     private readonly basePath: string = inject(BASE_PATH);
-    private readonly location: Location = inject(Location);
 
     ngOnInit() {
         this.model = [

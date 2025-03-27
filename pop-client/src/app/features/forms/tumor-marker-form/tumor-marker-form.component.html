@@ -31,67 +31,60 @@
         
         <div class="field">
             <label class="form-label required">Result type</label>
-            <div class="no-entries-text" *ngIf="resultsType.length == 0">Select an analyte to show choices</div>
-            <div  class="flex flex-wrap gap-4">
-                <ng-container *ngFor="let analyteResultType of analyteResultTypeChoices">
-                    <div class="flex items-center" *ngIf="resultsType.includes(analyteResultType.value)">
-                        <p-radiobutton [inputId]="analyteResultType.value" [value]="analyteResultType.value" formControlName="valueType" />
-                        <label [for]="analyteResultType.value" class="ml-2">{{ analyteResultType.name }}</label>
-                    </div>
-                </ng-container>
-            </div>
+            @if (resultsType.length > 0) {
+                <div class="flex flex-wrap gap-4">
+                    @for (analyteResultType of analyteResultTypeChoices; track analyteResultType.value) {
+                        @if (resultsType.includes(analyteResultType.value)) {
+                            <div class="flex items-center">
+                                <p-radiobutton [inputId]="analyteResultType.value" [value]="analyteResultType.value" formControlName="valueType" />
+                                <label [for]="analyteResultType.value" class="ml-2">{{ analyteResultType.name }}</label>
+                            </div>    
+                        }
+                    }
+
+                </div>
+            } @else {
+                <div class="text-muted">Select an analyte to show choices</div>
+            }
         </div>
         
         <div class="field">
             <label class="form-label required">Tumor marker result</label>
-            <div class="no-entries-text" *ngIf="!form.value.valueType">Select an result type first</div>
-            <pop-measure-input 
-                *ngIf="form.value.valueType == analyteResultTypes.MassConcentration" 
-                formControlName="massConcentration" 
-                measure="MassConcentration"/>
-            <pop-measure-input 
-                *ngIf="form.value.valueType == analyteResultTypes.SubstanceConcentration" 
-                formControlName="substanceConcentration" 
-                measure="SubstanceConcentration"/>
-            <pop-measure-input 
-                *ngIf="form.value.valueType == analyteResultTypes.ArbitraryConcentration" 
-                formControlName="arbitraryConcentration" 
-                measure="ArbitraryConcentration"
-                defaultUnit="kIU/l"/>
-            <pop-measure-input 
-                *ngIf="form.value.valueType == analyteResultTypes.Fraction" 
-                formControlName="fraction" 
-                measure="Fraction"/>
-            <pop-radio-select  
-                *ngIf="form.value.valueType == analyteResultTypes.Presence" 
-                formControlName="presence"
-                [choices]="tumorMarkerPresenceChoices"
-                class="flex flex-wrap gap-4"/>
-            <pop-radio-select  
-                *ngIf="form.value.valueType == analyteResultTypes.ImmunoHistoChemicalScore" 
-                formControlName="immunoHistoChemicalScore"
-                [choices]="tumorMarkerImmunohistochemicalScoreChoices"
-                class="flex flex-wrap gap-4"/>
-            <pop-radio-select  
-                *ngIf="form.value.valueType == analyteResultTypes.NuclearExpressionStatus" 
-                formControlName="nuclearExpressionStatus"
-                [choices]="tumorMarkerNuclearExpressionStatusChoices"
-                class="flex flex-wrap gap-4"/>
-            <pop-radio-select  
-                *ngIf="form.value.valueType == analyteResultTypes.TumorProportionScore" 
-                formControlName="tumorProportionScore"
-                [choices]="tumorMarkerTumorProportionScoreChoices"
-                class="flex flex-wrap gap-4"/>
-            <pop-radio-select  
-                *ngIf="form.value.valueType == analyteResultTypes.ImmuneCellsScore" 
-                formControlName="immuneCellScore"
-                [choices]="tumorMarkerImmuneCellScoreChoices"
-                class="flex flex-wrap gap-4"/>
-            <pop-measure-input 
-                *ngIf="form.value.valueType == analyteResultTypes.CombinedPositiveScore" 
-                formControlName="combinedPositiveScore" 
-                measure="Fraction"/>
-
+            @switch (form.value.valueType) {
+                @case (analyteResultTypes.MassConcentration) {
+                    <pop-measure-input formControlName="massConcentration" measure="MassConcentration"/>
+                }
+                @case (analyteResultTypes.SubstanceConcentration) {
+                    <pop-measure-input formControlName="substanceConcentration" measure="SubstanceConcentration"/>
+                }
+                @case (analyteResultTypes.ArbitraryConcentration) {
+                    <pop-measure-input formControlName="arbitraryConcentration" measure="ArbitraryConcentration" defaultUnit="kIU/l"/>
+                }
+                @case (analyteResultTypes.Fraction) {
+                    <pop-measure-input formControlName="fraction" measure="Fraction"/>
+                }
+                @case (analyteResultTypes.Presence) {
+                    <pop-radio-select formControlName="presence" [choices]="tumorMarkerPresenceChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.ImmunoHistoChemicalScore) {
+                    <pop-radio-select formControlName="immunoHistoChemicalScore" [choices]="tumorMarkerImmunohistochemicalScoreChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.NuclearExpressionStatus) {
+                    <pop-radio-select formControlName="nuclearExpressionStatus" [choices]="tumorMarkerNuclearExpressionStatusChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.TumorProportionScore) {
+                    <pop-radio-select formControlName="tumorProportionScore" [choices]="tumorMarkerTumorProportionScoreChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.ImmuneCellsScore) {
+                    <pop-radio-select formControlName="immuneCellScore" [choices]="tumorMarkerImmuneCellScoreChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.CombinedPositiveScore) {
+                    <pop-measure-input formControlName="combinedPositiveScore" measure="Fraction"/>
+                }
+                @default {
+                    <div class="text-muted">Select an result type first</div>
+                }
+            }
         </div>
         
         <p-button 

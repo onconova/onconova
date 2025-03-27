@@ -1,41 +1,12 @@
 @let statistics = statistics$ | async;
 
 <div class="flex flex-wrap gap-5 mx-4">
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.cases" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Patient cases</small></div>
-    </div>    
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.entries" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Data entries</small></div>
-    </div>    
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.primarySites" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Primary Sites</small></div>
-    </div>    
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.mutations" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Mutations</small></div>
-    </div>    
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.contributors" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Contributors</small></div>
-    </div>    
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.clinicalCenters" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Clinical Centers</small></div>
-    </div>    
-    <div class="data-statistic">
-        <p-skeleton *ngIf="!statistics"></p-skeleton>
-        <div *ngIf="statistics" class="data-statistic-number" [ngxCountAnimation]="statistics.projects" duration="1000"></div>
-        <div class="data-statistic-label text-muted"><small>Projects</small></div>
-    </div>    
+    <pop-data-summay-counter [count]="statistics?.cases" title="Patient cases"/>
+    <pop-data-summay-counter [count]="statistics?.entries" title="Data entries"/>
+    <pop-data-summay-counter [count]="statistics?.primarySites" title="Primary Sites"/>
+    <pop-data-summay-counter [count]="statistics?.mutations" title="Mutations"/>
+    <pop-data-summay-counter [count]="statistics?.contributors" title="Contributors"/>
+    <pop-data-summay-counter [count]="statistics?.clinicalCenters" title="Clinical Centers"/>
 </div>
 
 
@@ -44,10 +15,9 @@
 </div>
 <div class="w-100" >
     @let casesOverTimeData = casesOverTimeData$ | async;
-    <ng-container *ngIf="casesOverTimeData">
+    @if (casesOverTimeData && chartData) {
         <p-chart type="line" [data]="chartData" [options]="chartOptions" class="w-100" style="height: 10rem;"/>
-    </ng-container>
-    <ng-container *ngIf="!chartData">
-        <p-skeleton *ngIf="!statistics" height="15rem" class="w-100"></p-skeleton>
-    </ng-container>
+    } @else {
+        <p-skeleton height="15rem" class="w-100"/>
+    }
 </div>

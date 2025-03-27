@@ -59,8 +59,10 @@ export class CohortSearchItemComponent {
     public readonly populationIcon = Users;
 
     ngOnInit() {
-        this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'age'}).pipe(catchError(() => of(null)))
-        this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'dataCompletionRate'}).pipe(catchError(() => of(null)))
+        if (this.cohort.population) {
+            this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'age'}).pipe(catchError(() => of(null)))
+            this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'dataCompletionRate'}).pipe(catchError(() => of(null)))    
+        }
     }
 
 

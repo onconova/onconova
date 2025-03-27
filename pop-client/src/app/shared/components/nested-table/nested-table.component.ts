@@ -14,7 +14,12 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
   ]
 })
 export class NestedTableComponent {
-  @Input() nestedData: any;
+  @Input() nestedData!: any[];
+  public nestedDataColumn!: any[];
+
+  ngOnInit() {
+    this.nestedDataColumn = this.getColumns(this.nestedData);
+  }
 
   getColumns(data: any[]): string[] {
     const allKeys = new Set<string>();
