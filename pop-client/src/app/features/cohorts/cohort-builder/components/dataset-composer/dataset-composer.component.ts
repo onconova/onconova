@@ -19,7 +19,7 @@ import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
 
-import openApiSchema from "../../../../../openapi.json";
+import openApiSchema from "../../../../../../../openapi.json";
 import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource } from "src/app/shared/openapi";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
