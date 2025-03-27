@@ -548,7 +548,7 @@ def fake_complete_case():
     FamilyHistoryFactory.create(**basic)
     RiskAssessmentFactory.create(**basic, assessed_entities=conditions)
     LifestyleFactory.create(**basic)
-    ComorbiditiesAssessmentFactory.create(**basic, indexCondition=primary)
+    ComorbiditiesAssessmentFactory.create(**basic, index_condition=primary)
     for _ in range(random.randint(1,4)):
         VitalsFactory.create(**basic)
     MolecularTumorBoardFactory.create(**basic, related_entities=conditions)
