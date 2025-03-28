@@ -3,14 +3,72 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import django.contrib.postgres.fields as postgres
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
+import enum 
+from django.contrib.postgres.aggregates import StringAgg
+from django.db.models import F, Func, ExpressionWrapper
+from django.db.models.functions import Cast
+from django.db.models.fields.json import KeyTextTransform
+
+from queryable_properties.properties import AnnotationProperty, MappingProperty
+from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
+
+
+
+HGVS_DNA_CHANGE_MAP = (
+    ('=', 'unchanged'),
+    ('>', 'substitution'),
+    ('delins', 'deletion-insertion'),
+    ('dup', 'duplication'),
+    ('ins', 'insertion'),
+    ('del', 'deletion'),
+    ('inv', 'inversion'),
+    ('rpt', 'repetition'),
+)
+
+class HgvsMatchingGroup(str, enum.Enum): 
+    VARIANT_TYPE = 'variant-type'
+    SEQUENCE_IDENTIFIER = 'sequence-identifier'
+    POINT_POSITION = 'point-position'
+    COORDINATE = 'coordinate'
+    
+def construct_hgsv_regex(matching_group: HgvsMatchingGroup = None):
+            
+    groups = {
+        HgvsMatchingGroup.VARIANT_TYPE: r'=|>|delins|ins|del|dup|inv|rpt',
+        HgvsMatchingGroup.SEQUENCE_IDENTIFIER: r'(?:NP|NM|NG|ENST|LRG|NG|NC|LRG).*',
+        HgvsMatchingGroup.POINT_POSITION: r'[0-9]*',
+    }        
+    
+    groups = {group: rf'({regex})' if group == matching_group else rf'(?:{regex})' for group,regex in groups.items()}
+    
+    SEQUENCE_IDENTIFIER = groups[HgvsMatchingGroup.SEQUENCE_IDENTIFIER]
+    VARIANT_TYPE = groups[HgvsMatchingGroup.VARIANT_TYPE]
+    POINT_POSITION = groups[HgvsMatchingGroup.POINT_POSITION]
+    COORDINATE_TYPE = r"(?:g|c|p|r)\."
+    SEQUENCE = r"(?:[A-Z]{0,})"
+    RANGE_POSITION = r"(?:.*)_(?:.*)"        
+    POSITION = rf"(?:{POINT_POSITION}|{RANGE_POSITION})"
+    
+    return rf'{SEQUENCE_IDENTIFIER}:{COORDINATE_TYPE}{POSITION}{SEQUENCE}{VARIANT_TYPE}{SEQUENCE}'
+
+def MatchHgvsProperty(expression: any, matching_group: str):
+    return Func(
+        expression, 
+        hgvs=construct_hgsv_regex(matching_group),
+        function = 'SUBSTRING',
+        template = "(%(function)s(%(expressions)s, '%(hgvs)s'))",
+    )
+
     
 class GenomicVariant(BaseModel):
 
+    objects = QueryablePropertiesManager()
+    
     class GenomicVariantAssessment(models.TextChoices):
         PRESENT = 'present'
         ABSENT = 'absent'
@@ -107,22 +165,18 @@ class GenomicVariant(BaseModel):
         terminology = terminologies.Gene,
         multiple = True,
     )
-    chromosomes = termfields.CodedConceptField(
-        verbose_name = _('Chromosome(s)'),
-        help_text = _("Chromosome(s) affected by this variant"),
-        terminology = terminologies.ChromosomeIdentifier,
-        null = True, blank = True,
-        multiple = True,        
+    cytogenetic_location = AnnotationProperty(
+        verbose_name=_('Cytogenetic location'),
+        annotation = StringAgg(Cast(KeyTextTransform('location', 'genes__properties'), output_field=models.CharField()),delimiter='::', distinct=True)
     )
-    cytogenetic_location = models.CharField(
-        verbose_name = _('Cytogenetic location'),
-        help_text=_('The genetic address of the variant specifying the relevant chromosomal region.'),
-        max_length = 60,
-        null = True, blank = True,
-        validators = [RegexValidator(
-            r"^(?:[1-9]|1[0-9]|2[0-2]|X|Y)([pq])(\d+)(\d+)(?:\.(\d+))?$", 
-            "The string should be a valid cytogenetic location (chromosomal locus).")
-        ],
+    chromosomes = AnnotationProperty(
+        verbose_name=_('Chromosomes'),
+        annotation = Func(
+            F('cytogenetic_location'),
+            function = "REGEXP_MATCHES",
+            template = "ARRAY(SELECT unnest(REGEXP_MATCHES(unnest(REGEXP_SPLIT_TO_ARRAY(%(expressions)s, '::')), '^([0-9XY]+)')))::TEXT[]",
+            output_field = models.CharField(choices=[(chr, chr) for chr in ['X', 'Y', *list(range(1,23))]]), 
+       )
     )
     genome_assembly_version = termfields.CodedConceptField(
         verbose_name = _('Genome assembly version'),
@@ -156,16 +210,28 @@ class GenomicVariant(BaseModel):
         ],
         null = True, blank = True,
     )
+    
     coding_hgvs = models.CharField(
-        verbose_name=_('Coding DNA change expression (cHGVS)'),
+        verbose_name=_('HGVS DNA-level expression'),
         help_text=_("Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C>T"),
         max_length=500,
         null=True, blank=True,
-        validators=[RegexValidator(
-            r"^(.*):c\.(.*)$", 
-            "The string should be a valid coding DNA HGVS expression.")
-        ],
+        validators=[RegexValidator(construct_hgsv_regex(), "The string should be a valid DNA HGVS expression.")],
     )
+    dna_reference_sequence = AnnotationProperty(
+        verbose_name = _('Coding HGVS RefSeq'),
+        annotation = MatchHgvsProperty(F("coding_hgvs"), HgvsMatchingGroup.SEQUENCE_IDENTIFIER),
+    )
+    _coding_hgvs_change_type = AnnotationProperty(
+        annotation = MatchHgvsProperty(F("coding_hgvs"), HgvsMatchingGroup.VARIANT_TYPE),
+    )
+    dna_change_type = MappingProperty(
+        verbose_name = _('DNA change type'),
+        attribute_path = '_coding_hgvs_change_type',
+        mappings=HGVS_DNA_CHANGE_MAP,
+        default=None,
+        output_field=models.CharField(choices=HGVS_DNA_CHANGE_MAP)
+    )    
     protein_hgvs = models.CharField(
         verbose_name=_('Protein/aminoacid change expression (pHGVS)'),
         help_text=_("Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression, e.g. NP_000050.2:p.(Asn1836Lys)"),
@@ -185,12 +251,6 @@ class GenomicVariant(BaseModel):
             r"^(.*):g\.(.*)$", 
             "The string should be a valid genomic HGVS expression.")
         ],
-    )
-    dna_change_type = termfields.CodedConceptField(
-        verbose_name = _('Coding DNA change type'),
-        help_text = _('Classification of the DNA change type of the variant.'),
-        terminology = terminologies.DnaChangeType,
-        null = True, blank = True,
     )
     aminoacid_change_type = termfields.CodedConceptField(
         verbose_name = _('Aminoacid change type'),
@@ -259,6 +319,7 @@ class GenomicVariant(BaseModel):
         null = True, blank = True,
     )
     
+    
     @property
     def mutation_label(self):    
         if self.molecular_consequence:    
@@ -270,13 +331,13 @@ class GenomicVariant(BaseModel):
                 return 'fusion'
             else:
                 return self.molecular_consequence.display.lower().replace('_',' ')
-        elif self.dna_change_type:
-            if self.dna_change_type.code == 'SO:0001742': # copy_number_gain
+        elif self.copy_number:
+            if self.copy_number > 2:
                 return 'amplification'
-            elif self.dna_change_type.code == 'SO:0001743': # copy_number_loss 
+            if self.copy_number < 2:
                 return 'loss'
             else:
-                return self.dna_change_type.display.lower()
+                return self.dna_change_type
         elif self.aminoacid_change_type:
             return self.aminoacid_change_type.display.lower()
         else:

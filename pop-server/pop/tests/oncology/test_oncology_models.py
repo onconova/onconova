@@ -7,6 +7,7 @@ from pop.oncology.models.patient_case import PatientCaseDataCompletion
 from pop.oncology.models.therapy_line import TherapyLine
 import pop.tests.factories as factories
 import pop.terminology.models as terminology
+from parameterized import parameterized
 
 class PatientCaseModelTest(TestCase):
     
@@ -364,3 +365,68 @@ class TherapyLineModelTest(TestCase):
         self.assertEqual(self.systemic_therapy2.therapy_line.label, 'PLoT1')
         self.assertEqual(self.systemic_therapy1.therapy_line, self.systemic_therapy2.therapy_line)
 
+
+
+class GenomicVariantModelTest(TestCase):
+    
+    @classmethod
+    def setUpTestData(cls):
+        cls.variant = factories.GenomicVariantFactory()
+    
+    def test_cytogenetic_location_annotated_from_single_gene(self):
+        self.variant.genes.set([terminology.Gene.objects.create(properties={'location': '12p34.5'}, code='gene-1', display='gene-1', system='system')])
+        self.assertEqual(self.variant.cytogenetic_location, '12p34.5')
+        
+    def test_cytogenetic_location_annotated_from_multiple_genes(self):
+        self.variant.genes.set([
+            terminology.Gene.objects.create(properties={'location': '12p34.5'}, code='gene-1', display='gene-1', system='system'),
+            terminology.Gene.objects.create(properties={'location': '12p56.7'}, code='gene-2', display='gene-2', system='system'),
+        ])
+        self.assertEqual(self.variant.cytogenetic_location, '12p34.5::12p56.7')
+
+    def test_chromosomes_annotated_from_single_gene(self):
+        self.variant.genes.set([terminology.Gene.objects.create(properties={'location': '12p34.5'}, code='gene-1', display='gene-1', system='system')])
+        self.assertEqual(self.variant.chromosomes, ['12'])
+        
+    def test_chromosomes_annotated_from_multiple_genes(self):
+        self.variant.genes.set([
+            terminology.Gene.objects.create(properties={'location': '12p34.5'}, code='gene-1', display='gene-1', system='system'),
+            terminology.Gene.objects.create(properties={'location': '13p56.7'}, code='gene-2', display='gene-2', system='system'),
+        ])
+        self.assertEqual(self.variant.chromosomes, ['12','13'])
+
+    @parameterized.expand(
+        [
+           ('NM12345.0:c.123C>A', 'NM12345.0'),
+           ('NP12345:g.1234_2345del', 'NP12345'),
+           ('ENST12345.0:g.1234_1235insACGT', 'ENST12345.0'),
+           ('LRG12345.0:g.123delinsAC', 'LRG12345.0'),
+        ],
+        name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
+    )
+    def test_dna_reference_sequence(self, hgvs, expected):
+        self.variant.coding_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.dna_reference_sequence, expected)
+        
+    def test_dna_reference_sequence_unset(self):
+        self.variant.coding_hgvs = None
+        self.variant.save()
+        self.assertEqual(self.variant.dna_reference_sequence, None)
+    
+    @parameterized.expand(
+        [
+           ('NM12345.0:c.123C>A', 'substitution'),
+           ('NM12345.0:g.1234_2345del', 'deletion'),
+           ('NM12345.0:g.1234_1235insACGT', 'insertion'),
+           ('NM12345.0:g.123delinsAC', 'deletion-insertion'),
+           ('NM12345.0:g.1234_2345dup', 'duplication'),
+           ('NM12345.0:g.(?_1234)_2345inv', 'inversion'),
+        ],
+        name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
+    )
+    def test_dna_change_type(self, hgvs, expected):
+        self.variant.coding_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.dna_change_type, expected)
+        
