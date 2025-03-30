@@ -334,7 +334,7 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     analysis_method = make_terminology_factory(terminology.StructuralVariantAnalysisMethod)
     genomic_refseq = factory.LazyFunction(lambda: _generate_random_refseq(prefix='NG'))
     transcript_refseq = factory.LazyFunction(lambda: _generate_random_refseq(prefix='NM'))
-    coding_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM")}:c.{random.randint(10,10000)}{_random_code_mutation()}')
+    dna_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM")}:c.{random.randint(10,10000)}{_random_code_mutation()}')
     protein_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NP")}:p.{_random_aminoacid_mutation()}')
     aminoacid_change_type = make_terminology_factory(terminology.AminoAcidChangeType)
     molecular_consequence = make_terminology_factory(terminology.MolecularConsequence)

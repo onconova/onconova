@@ -397,36 +397,67 @@ class GenomicVariantModelTest(TestCase):
 
     @parameterized.expand(
         [
-           ('NM12345.0:c.123C>A', 'NM12345.0'),
-           ('NP12345:g.1234_2345del', 'NP12345'),
-           ('ENST12345.0:g.1234_1235insACGT', 'ENST12345.0'),
-           ('LRG12345.0:g.123delinsAC', 'LRG12345.0'),
+            # NCIB Sequences
+           ('NM_12345:c.1C>A', 'NM_12345'),
+           ('NP_12345.0:c.1C>A', 'NP_12345.0'),
+           ('NT_12345.0:c.1C>A', 'NT_12345.0'),
+           ('NG_12345.0:c.1C>A', 'NG_12345.0'),
+           ('NR_12345.0:c.1C>A', 'NR_12345.0'),
+           ('NW_12345.0:c.1C>A', 'NW_12345.0'),
+           # ENSEMBL Sequences
+           ('ENS12345:c.1C>A', 'ENS12345'),
+           ('ENS12345.0:c.1C>A', 'ENS12345.0'),
+           ('ENST12345.0:c.1C>A', 'ENST12345.0'),
+           ('ENSG12345.0:c.1C>A', 'ENSG12345.0'),
+           ('ENSP12345.0:c.1C>A', 'ENSP12345.0'),
+           # LRG Sequences
+           ('LRG_123:c.1C>A', 'LRG_123'),
+           ('LRG_123t4:c.1C>A', 'LRG_123t4'),
+           ('LRG_123p4:c.1C>A', 'LRG_123p4'),
         ],
         name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
     )
     def test_dna_reference_sequence(self, hgvs, expected):
-        self.variant.coding_hgvs = hgvs
+        self.variant.dna_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.dna_reference_sequence, expected)
         
     def test_dna_reference_sequence_unset(self):
-        self.variant.coding_hgvs = None
+        self.variant.dna_hgvs = None
         self.variant.save()
         self.assertEqual(self.variant.dna_reference_sequence, None)
     
     @parameterized.expand(
         [
-           ('NM12345.0:c.123C>A', 'substitution'),
-           ('NM12345.0:g.1234_2345del', 'deletion'),
-           ('NM12345.0:g.1234_1235insACGT', 'insertion'),
-           ('NM12345.0:g.123delinsAC', 'deletion-insertion'),
-           ('NM12345.0:g.1234_2345dup', 'duplication'),
-           ('NM12345.0:g.(?_1234)_2345inv', 'inversion'),
+           ('NM_12345.0:c.123C>A', 'substitution'),
+           ('NM_12345.0:g.1234_2345del', 'deletion'),
+           ('NM_12345.0:g.1234_1235insACGT', 'insertion'),
+           ('NM_12345.0:g.123delinsAC', 'deletion-insertion'),
+           ('NM_12345.0:g.1234_2345dup', 'duplication'),
+           ('NM_12345.0:g.(?_1234)_2345inv', 'inversion'),
         ],
         name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
     )
     def test_dna_change_type(self, hgvs, expected):
-        self.variant.coding_hgvs = hgvs
+        self.variant.dna_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.dna_change_type, expected)
+        
+    @parameterized.expand(
+        [
+           ('NM_12345.0:c.123C>A', '123'),
+           ('NM_12345.0:g.(123_456)C>A', '(123_456)'),
+           ('NM_12345.0:g.(?_1234)C>A', '(?_1234)'),
+           ('NM_12345.0:g.(1234_?)C>A', '(1234_?)'),
+           ('NM_12345.0:g.123_456del', '123_456'),
+           ('NM_12345.0:g.(1234_?)_456del', '(1234_?)_456'),
+           ('NM_12345.0:g.123_(4567_?)del', '123_(4567_?)'),
+           ('NM_12345.0:g.(1234_?)_(1234_?)del', '(1234_?)_(1234_?)'),
+        ],
+        name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
+    )
+    def test_dna_change_position(self, hgvs, expected):
+        self.variant.dna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.dna_change_position, expected)
         

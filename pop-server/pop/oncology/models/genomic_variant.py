@@ -16,7 +16,7 @@ from pop.core.models import BaseModel
 from pop.oncology.models import PatientCase 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
-
+import re
 
 
 HGVS_DNA_CHANGE_MAP = (
@@ -33,33 +33,66 @@ HGVS_DNA_CHANGE_MAP = (
 class HgvsMatchingGroup(str, enum.Enum): 
     VARIANT_TYPE = 'variant-type'
     SEQUENCE_IDENTIFIER = 'sequence-identifier'
-    POINT_POSITION = 'point-position'
+    POSITION_RANGE = 'position-range'
     COORDINATE = 'coordinate'
+    SEQUENCE = 'sequence'
     
-def construct_hgsv_regex(matching_group: HgvsMatchingGroup = None):
-            
-    groups = {
-        HgvsMatchingGroup.VARIANT_TYPE: r'=|>|delins|ins|del|dup|inv|rpt',
-        HgvsMatchingGroup.SEQUENCE_IDENTIFIER: r'(?:NP|NM|NG|ENST|LRG|NG|NC|LRG).*',
-        HgvsMatchingGroup.POINT_POSITION: r'[0-9]*',
-    }        
+class HGVSRegex:
+
+    # Reference sequence identifiers
+    NCIB_REFSEQ = r"(?:NC|NT|NW|NG|NP|NM|NR|NP)_\d+(?:\.\d{1,3})?"
+    ENSEMBL_REFSEQ = r"(?:ENS|ENST|ENSG|ENSP)\d+(?:\.\d{1,3})?"
+    LRG_REFSEQ = r"LRG_\d+(?:[t|p]\d+)?"
+    REFSEQ = fr"(?:{NCIB_REFSEQ})|(?:{ENSEMBL_REFSEQ})|(?:{LRG_REFSEQ})"
+
+    # Genomic coordinates
+    COORDINATE = r"g|c|p|r"
+    UNCERTAIN_POSITION= r"(?:(?:\(\?_\d+\))|(?:\(\d+_\?\))|(?:\(\d+_\d+\)))"
+    POSITION = fr"(?:\d+|{UNCERTAIN_POSITION})"
+    RANGE = fr"(?:{POSITION}_{POSITION})"
+
+    POSITION_RANGE = fr"(?:{POSITION}|{RANGE})"
+
     
-    groups = {group: rf'({regex})' if group == matching_group else rf'(?:{regex})' for group,regex in groups.items()}
-    
-    SEQUENCE_IDENTIFIER = groups[HgvsMatchingGroup.SEQUENCE_IDENTIFIER]
-    VARIANT_TYPE = groups[HgvsMatchingGroup.VARIANT_TYPE]
-    POINT_POSITION = groups[HgvsMatchingGroup.POINT_POSITION]
-    COORDINATE_TYPE = r"(?:g|c|p|r)\."
-    SEQUENCE = r"(?:[A-Z]{0,})"
-    RANGE_POSITION = r"(?:.*)_(?:.*)"        
-    POSITION = rf"(?:{POINT_POSITION}|{RANGE_POSITION})"
-    
-    return rf'{SEQUENCE_IDENTIFIER}:{COORDINATE_TYPE}{POSITION}{SEQUENCE}{VARIANT_TYPE}{SEQUENCE}'
+    # Types of variants
+    VARIANT_TYPE = r'=|>|delins|ins|del|dup|inv|rpt'
+
+
+    # Genomic sequences 
+    DNA_SEQUENCE = r"(?:A|C|G|T|B|D|H|K|M|N|R|S|V|W|Y|X†|-†){1,}"
+    RNA_SEQUENCE = r"(?:a|c|g|t|b|d|h|k|m|n|r|s|v|w|y){1,}"
+    SEQUENCE = fr"{DNA_SEQUENCE}|{RNA_SEQUENCE}"
+
+    @classmethod
+    def construct_hgsv_regex(cls, matching_group: HgvsMatchingGroup = None):
+
+        groups = {
+            HgvsMatchingGroup.VARIANT_TYPE: cls.VARIANT_TYPE,
+            HgvsMatchingGroup.SEQUENCE_IDENTIFIER: cls.REFSEQ,
+            HgvsMatchingGroup.POSITION_RANGE: cls.POSITION_RANGE,
+            HgvsMatchingGroup.COORDINATE: cls.COORDINATE,
+            HgvsMatchingGroup.SEQUENCE: cls.SEQUENCE,
+        }        
+        
+        groups = {group: rf'({regex})' if group == matching_group else rf'(?:{regex})' for group,regex in groups.items()}
+        
+        
+        SEQUENCE_IDENTIFIER = groups[HgvsMatchingGroup.SEQUENCE_IDENTIFIER]
+
+        VARIANT_TYPE = groups[HgvsMatchingGroup.VARIANT_TYPE]
+        POSITION_RANGE = groups[HgvsMatchingGroup.POSITION_RANGE]
+        COORDINATE = groups[HgvsMatchingGroup.COORDINATE]
+        SEQUENCE = groups[HgvsMatchingGroup.SEQUENCE]
+        
+        return rf'{SEQUENCE_IDENTIFIER}:{COORDINATE}\.{POSITION_RANGE}{SEQUENCE}?{VARIANT_TYPE}{SEQUENCE}?'
+
+
+
 
 def MatchHgvsProperty(expression: any, matching_group: str):
     return Func(
         expression, 
-        hgvs=construct_hgsv_regex(matching_group),
+        hgvs=HGVSRegex.construct_hgsv_regex(matching_group),
         function = 'SUBSTRING',
         template = "(%(function)s(%(expressions)s, '%(hgvs)s'))",
     )
@@ -210,28 +243,34 @@ class GenomicVariant(BaseModel):
         ],
         null = True, blank = True,
     )
-    
-    coding_hgvs = models.CharField(
+    dna_hgvs = models.CharField(
         verbose_name=_('HGVS DNA-level expression'),
         help_text=_("Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C>T"),
         max_length=500,
         null=True, blank=True,
-        validators=[RegexValidator(construct_hgsv_regex(), "The string should be a valid DNA HGVS expression.")],
+        validators=[RegexValidator(HGVSRegex.construct_hgsv_regex(), "The string should be a valid DNA HGVS expression.")],
     )
     dna_reference_sequence = AnnotationProperty(
         verbose_name = _('Coding HGVS RefSeq'),
-        annotation = MatchHgvsProperty(F("coding_hgvs"), HgvsMatchingGroup.SEQUENCE_IDENTIFIER),
+        annotation = MatchHgvsProperty(F("dna_hgvs"), HgvsMatchingGroup.SEQUENCE_IDENTIFIER),
     )
-    _coding_hgvs_change_type = AnnotationProperty(
-        annotation = MatchHgvsProperty(F("coding_hgvs"), HgvsMatchingGroup.VARIANT_TYPE),
+    dna_change_position = AnnotationProperty(
+        verbose_name = _('DNA change position'),
+        annotation = MatchHgvsProperty(F("dna_hgvs"), HgvsMatchingGroup.POSITION_RANGE),
+    )    
+    _dna_hgvs_change_type = AnnotationProperty(
+        annotation = MatchHgvsProperty(F("dna_hgvs"), HgvsMatchingGroup.VARIANT_TYPE),
     )
     dna_change_type = MappingProperty(
         verbose_name = _('DNA change type'),
-        attribute_path = '_coding_hgvs_change_type',
+        attribute_path = '_dna_hgvs_change_type',
         mappings=HGVS_DNA_CHANGE_MAP,
         default=None,
         output_field=models.CharField(choices=HGVS_DNA_CHANGE_MAP)
     )    
+
+
+
     protein_hgvs = models.CharField(
         verbose_name=_('Protein/aminoacid change expression (pHGVS)'),
         help_text=_("Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression, e.g. NP_000050.2:p.(Asn1836Lys)"),

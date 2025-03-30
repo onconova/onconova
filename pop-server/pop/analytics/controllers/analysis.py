@@ -74,7 +74,7 @@ class CohortAnalysisController(ControllerBase):
         variants = GenomicVariant.objects.filter(case__in=cohort.cases.all())
         genes = [gene[0] for gene in Counter(variants.values_list('genes__display', flat=True)).most_common(25)]
         variants = variants.filter(genes__display__in=genes).annotate(
-            pseudoidentifier=F('case__pseudoidentifier'),gene=F('genes__display'), variant=Coalesce(F('protein_hgvs'), F('coding_hgvs'), Value('?')),
+            pseudoidentifier=F('case__pseudoidentifier'),gene=F('genes__display'), variant=Coalesce(F('protein_hgvs'), F('dna_hgvs'), Value('?')),
         ).values('pseudoidentifier','gene', 'variant', 'is_pathogenic')
         return 200, {'genes': genes, 'cases': list(cohort.cases.values_list('pseudoidentifier',flat=True)),'variants': list(variants)}
 
