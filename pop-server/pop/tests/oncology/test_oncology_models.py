@@ -8,6 +8,7 @@ from pop.oncology.models.therapy_line import TherapyLine
 import pop.tests.factories as factories
 import pop.terminology.models as terminology
 from parameterized import parameterized
+import re 
 
 class PatientCaseModelTest(TestCase):
     
@@ -368,6 +369,7 @@ class TherapyLineModelTest(TestCase):
 
 
 class GenomicVariantModelTest(TestCase):
+    dynamic_test_name = lambda fcn,idx,param: f'{fcn.__name__}_#{idx}_' + re.split(r":[gcpr]\.", list(param)[0][0])[1]
     
     @classmethod
     def setUpTestData(cls):
@@ -398,45 +400,92 @@ class GenomicVariantModelTest(TestCase):
     @parameterized.expand(
         [
             # NCIB Sequences
-           ('NM_12345:c.1C>A', 'NM_12345'),
-           ('NP_12345.0:c.1C>A', 'NP_12345.0'),
-           ('NT_12345.0:c.1C>A', 'NT_12345.0'),
-           ('NG_12345.0:c.1C>A', 'NG_12345.0'),
-           ('NR_12345.0:c.1C>A', 'NR_12345.0'),
-           ('NW_12345.0:c.1C>A', 'NW_12345.0'),
+           ('NC_12345:g.123456C>A', 'NC_12345'),
+           ('AC_12345.1:g.123456C>A', 'AC_12345.1'),
+           ('NG_12345.2:g.123456C>A', 'NG_12345.2'),
+           ('NT_12345.3:g.123456C>A', 'NT_12345.3'),
+           ('NW_12345.4:g.123456C>A', 'NW_12345.4'),
+           ('NZ_12345.5:g.123456C>A', 'NZ_12345.5'),
            # ENSEMBL Sequences
-           ('ENS12345:c.1C>A', 'ENS12345'),
-           ('ENS12345.0:c.1C>A', 'ENS12345.0'),
-           ('ENST12345.0:c.1C>A', 'ENST12345.0'),
-           ('ENSG12345.0:c.1C>A', 'ENSG12345.0'),
-           ('ENSP12345.0:c.1C>A', 'ENSP12345.0'),
+           ('ENSG12345:g.123456C>A', 'ENSG12345'),
            # LRG Sequences
-           ('LRG_123:c.1C>A', 'LRG_123'),
-           ('LRG_123t4:c.1C>A', 'LRG_123t4'),
-           ('LRG_123p4:c.1C>A', 'LRG_123p4'),
+           ('LRG_123:g.123456C>A', 'LRG_123'),
         ],
-        name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
+        name_func = dynamic_test_name
+    )
+    def test_genomic_reference_sequence(self, hgvs, expected):
+        self.variant.genomic_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.genomic_reference_sequence, expected)
+        
+    @parameterized.expand(
+        [
+           ('NC_12345:g.12345C>A', '12345'),
+           ('NC_12345:g.(12345_45678)C>A', '(12345_45678)'),
+           ('NC_12345:g.(?_12345)C>A', '(?_12345)'),
+           ('NC_12345:g.(12345_?)C>A', '(12345_?)'),
+           ('NC_12345:g.12345_45678del', '12345_45678'),
+           ('NC_12345:g.(12345_?)_45678del', '(12345_?)_45678'),
+           ('NC_12345:g.12345_(45678_?)del', '12345_(45678_?)'),
+           ('NC_12345:g.(12345_?)_(45678_?)del', '(12345_?)_(45678_?)'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_genomic_change_position(self, hgvs, expected):
+        self.variant.genomic_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.genomic_change_position, expected)
+        
+    @parameterized.expand(
+        [
+           ('NC_12345.0:g.12356C>A', 'substitution'),
+           ('NC_12345.0:g.12356_23457del', 'deletion'),
+           ('NC_12345.0:g.12356_23456insCGT', 'insertion'),
+           ('NC_12345.0:g.12356delinsAC', 'deletion-insertion'),
+           ('NC_12345.0:g.12356_234565dup', 'duplication'),
+           ('NC_12345.0:g.(?_12356)_23456inv', 'inversion'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_genomic_change_type(self, hgvs, expected):
+        self.variant.genomic_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.genomic_change_type, expected)
+        
+    @parameterized.expand(
+        [
+            # NCIB Sequences
+           ('NM_12345:c.123C>A', 'NM_12345'),
+           ('NR_12345.1:c.123C>A', 'NR_12345.1'),
+           ('XM_12345.2:c.123C>A', 'XM_12345.2'),
+           ('XR_12345.3:c.123C>A', 'XR_12345.3'),
+           ('NG_00001(NM_12345.0):c.123C>A', 'NM_12345.0'),
+           ('NC_00001(NR_12345.0):c.123C>A', 'NR_12345.0'),
+           ('NW_00001(XM_12345.0):c.123C>A', 'XM_12345.0'),
+           ('AC_00001(XR_12345.0):c.123C>A', 'XR_12345.0'),
+           # ENSEMBL Sequences
+           ('ENST12345:c.123C>A', 'ENST12345'),
+           ('ENST12345.0:c.123C>A', 'ENST12345.0'),
+           # LRG Sequences
+           ('LRG_123t4:c.123C>A', 'LRG_123t4'),
+        ],
+        name_func = dynamic_test_name
     )
     def test_dna_reference_sequence(self, hgvs, expected):
         self.variant.dna_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.dna_reference_sequence, expected)
         
-    def test_dna_reference_sequence_unset(self):
-        self.variant.dna_hgvs = None
-        self.variant.save()
-        self.assertEqual(self.variant.dna_reference_sequence, None)
-    
     @parameterized.expand(
         [
            ('NM_12345.0:c.123C>A', 'substitution'),
-           ('NM_12345.0:g.1234_2345del', 'deletion'),
-           ('NM_12345.0:g.1234_1235insACGT', 'insertion'),
-           ('NM_12345.0:g.123delinsAC', 'deletion-insertion'),
-           ('NM_12345.0:g.1234_2345dup', 'duplication'),
-           ('NM_12345.0:g.(?_1234)_2345inv', 'inversion'),
+           ('NM_12345.0:c.123_2345del', 'deletion'),
+           ('NM_12345.0:c.123_234insCGT', 'insertion'),
+           ('NM_12345.0:c.123delinsAC', 'deletion-insertion'),
+           ('NM_12345.0:c.123_2345dup', 'duplication'),
+           ('NM_12345.0:c.(?_123)_234inv', 'inversion'),
         ],
-        name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
+        name_func = dynamic_test_name
     )
     def test_dna_change_type(self, hgvs, expected):
         self.variant.dna_hgvs = hgvs
@@ -446,18 +495,115 @@ class GenomicVariantModelTest(TestCase):
     @parameterized.expand(
         [
            ('NM_12345.0:c.123C>A', '123'),
-           ('NM_12345.0:g.(123_456)C>A', '(123_456)'),
-           ('NM_12345.0:g.(?_1234)C>A', '(?_1234)'),
-           ('NM_12345.0:g.(1234_?)C>A', '(1234_?)'),
-           ('NM_12345.0:g.123_456del', '123_456'),
-           ('NM_12345.0:g.(1234_?)_456del', '(1234_?)_456'),
-           ('NM_12345.0:g.123_(4567_?)del', '123_(4567_?)'),
-           ('NM_12345.0:g.(1234_?)_(1234_?)del', '(1234_?)_(1234_?)'),
+           ('NM_12345.0:c.(123_456)C>A', '(123_456)'),
+           ('NM_12345.0:c.(?_1234)C>A', '(?_1234)'),
+           ('NM_12345.0:c.(1234_?)C>A', '(1234_?)'),
+           ('NM_12345.0:c.123_456del', '123_456'),
+           ('NM_12345.0:c.(1234_?)_456del', '(1234_?)_456'),
+           ('NM_12345.0:c.123_(4567_?)del', '123_(4567_?)'),
+           ('NM_12345.0:c.(1234_?)_(1234_?)del', '(1234_?)_(1234_?)'),
         ],
-        name_func = lambda fcn,idx,param: f'{fcn.__name__}_{idx}_{list(param)[0][-1]}'
+        name_func = dynamic_test_name
     )
     def test_dna_change_position(self, hgvs, expected):
         self.variant.dna_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.dna_change_position, expected)
+        
+    @parameterized.expand(
+        [
+            # NCIB Sequences
+           ('NM_12345:r.123c>a', 'NM_12345'),
+           ('NR_12345.1:r.123c>a', 'NR_12345.1'),
+           ('XM_12345.2:r.123c>a', 'XM_12345.2'),
+           ('XR_12345.3:r.123c>a', 'XR_12345.3'),
+           # ENSEMBL Sequences
+           ('ENST12345:r.123c>a', 'ENST12345'),
+           ('ENST12345.0:r.123c>a', 'ENST12345.0'),
+           # LRG Sequences
+           ('LRG_123t4:r.123c>a', 'LRG_123t4'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_rna_reference_sequence(self, hgvs, expected):
+        self.variant.rna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.rna_reference_sequence, expected)
+        
+    @parameterized.expand(
+        [
+           ('NM_12345.0:r.123c>a', 'substitution'),
+           ('NM_12345.0:r.123_2345del', 'deletion'),
+           ('NM_12345.0:r.123_234inscgt', 'insertion'),
+           ('NM_12345.0:r.123delinsac', 'deletion-insertion'),
+           ('NM_12345.0:r.123_2345dup', 'duplication'),
+           ('NM_12345.0:r.(?_123)_234inv', 'inversion'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_rna_change_type(self, hgvs, expected):
+        self.variant.rna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.rna_change_type, expected)
+        
+    @parameterized.expand(
+        [
+           ('NM_12345.0:r.123c>a', '123'),
+           ('NM_12345.0:r.(123_456)c>a', '(123_456)'),
+           ('NM_12345.0:r.(?_1234)c>a', '(?_1234)'),
+           ('NM_12345.0:r.(1234_?)c>a', '(1234_?)'),
+           ('NM_12345.0:r.123_456del', '123_456'),
+           ('NM_12345.0:r.(1234_?)_456del', '(1234_?)_456'),
+           ('NM_12345.0:r.123_(4567_?)del', '123_(4567_?)'),
+           ('NM_12345.0:r.(1234_?)_(1234_?)del', '(1234_?)_(1234_?)'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_rna_change_position(self, hgvs, expected):
+        self.variant.rna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.rna_change_position, expected)
+        
+    @parameterized.expand(
+        [
+            # NCIB Sequences
+           ('NP_12345:p.Trp24del', 'NP_12345'),
+           ('NP_12345.1:p.Trp24del', 'NP_12345.1'),
+           ('AP_12345.2:p.Trp24del', 'AP_12345.2'),
+           ('YP_12345.3:p.Trp24del', 'YP_12345.3'),
+           ('XP_12345.4:p.Trp24del', 'XP_12345.4'),
+           ('WP_12345.5:p.Trp24del', 'WP_12345.5'),
+           # ENSEMBL Sequences
+           ('ENSP12345:p.Trp24del', 'ENSP12345'),
+           ('ENSP12345.0:p.Trp24del', 'ENSP12345.0'),
+           # LRG Sequences
+           ('LRG_123p4:p.Trp24del', 'LRG_123p4'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_protein_reference_sequence(self, hgvs, expected):
+        self.variant.protein_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.protein_reference_sequence, expected)
+        
+    @parameterized.expand(
+        [
+           ('NP_12345.0:p.(Trp24Cys)', 'missense'),
+           ('NP_12345.0:p.Trp24Cys', 'missense'),
+           ('NP_12345.0:p.His4Ter', 'nonsense'),
+           ('NP_12345.0:p.His4*', 'nonsense'),
+           ('NP_12345.0:p.Trp24del', 'deletion'),
+           ('NP_12345.0:p.His4_Gln5insAla', 'insertion'),
+           ('NP_12345.0:p.Cys28delinsTrpVal', 'deletion-insertion'),
+           ('NP_12345.0:p.Val7dup', 'duplication'),
+           ('NP_12345.0:p.Arg97fs', 'frameshift'),
+           ('NP_12345.0:p.Arg97LeufsTer23', 'frameshift'),
+           ('NP_003997.2:p.Met1ext-5', 'extension'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_protein_change_type(self, hgvs, expected):
+        self.variant.protein_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.protein_change_type, expected)
         
