@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator, MinValueValidator, MaxValueVa
 import enum 
 from typing import Union
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Q, F, Func, CheckConstraint
+from django.db.models import Q, F, Func, CheckConstraint, When, Case, Value
 from django.db.models.functions import Cast
 from django.db.models.fields.json import KeyTextTransform
 
@@ -55,7 +55,7 @@ class HgvsMatchingGroup(str, enum.Enum):
 class HGVSRegex:
     """ BASED ON v21.1.2 of HGVS"""
 
-    AMINOACID = r"(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His)"
+    AMINOACID = r"(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))"
 
     # Reference sequence identifiers
     VERSIONED_NUMBER = r"\d+(?:\.\d{1,3})?"
@@ -85,8 +85,9 @@ class HGVSRegex:
 
     # Genomic coordinates
     COORDINATE = r"g|c|p|r"
-    NUCLEOTIDE_UNCERTAIN_POSITION= r"(?:(?:\(\?_\d+\))|(?:\(\d+_\?\))|(?:\(\d+_\d+\)))"
-    NUCLEOTIDE_POSITION = fr"(?:\d+|{NUCLEOTIDE_UNCERTAIN_POSITION})"
+    POSITION = r'(?:\?|\*|\d+(?:(?:\+|-)?\d+)+?)'
+    NUCLEOTIDE_UNCERTAIN_POSITION= rf"\({POSITION}_{POSITION}\)"
+    NUCLEOTIDE_POSITION = fr"(?:{POSITION}|{NUCLEOTIDE_UNCERTAIN_POSITION})"
     NUCLEOTIDE_RANGE = fr"(?:{NUCLEOTIDE_POSITION}_{NUCLEOTIDE_POSITION})"
     NUCLEOTIDE_POSITION_OR_RANGE = fr"(?:{NUCLEOTIDE_POSITION}|{NUCLEOTIDE_RANGE})"
     AMINOACID_UNCERTAIN_POSITION= rf"(?:(?:\(\?_{AMINOACID}\d+\))|(?:\({AMINOACID}\d+_\?\))|(?:\({AMINOACID}\d+_{AMINOACID}\d+\)))"
@@ -102,9 +103,26 @@ class HGVSRegex:
     # Genomic sequences 
     DNA_SEQUENCE = r"(?:A|C|G|T|B|D|H|K|M|N|R|S|V|W|Y|X|-)+"
     RNA_SEQUENCE = r"(?:a|c|g|t|b|d|h|k|m|n|r|s|v|w|y)+"
-    PROTEIN_SEQUENCE = rf"{AMINOACID}+"
+    PROTEIN_SEQUENCE = rf"(?:{AMINOACID}+)"
     
+    # Protein HGVS scenarios
+    PROTEIN_NOTHING = rf'0$'
+    PROTEIN_SILENT = rf'{AMINOACID_POSITION}='
+    PROTEIN_MISSENSE = rf'{AMINOACID_POSITION}{PROTEIN_SEQUENCE}'
+    PROTEIN_DELETION_INSERTION = rf'{AMINOACID_POSITION_OR_RANGE}delins{PROTEIN_SEQUENCE}'
+    PROTEIN_INSERTION = rf'{AMINOACID_POSITION_OR_RANGE}ins{PROTEIN_SEQUENCE}'
+    PROTEIN_DELETION = rf'{AMINOACID_POSITION_OR_RANGE}del'
+    PROTEIN_DUPLICATION = rf'{AMINOACID_POSITION_OR_RANGE}dup'
+    PROTEIN_NONSENSE = rf'{AMINOACID_POSITION_OR_RANGE}(?:Ter|\*)'
+    PROTEIN_REPETITION = rf'\(?{AMINOACID_POSITION_OR_RANGE}\)?\[(?:\d+|(?:\(\d+_\d+\)))\]'
+    PROTEIN_FRAMESHIFT = rf'{AMINOACID_POSITION_OR_RANGE}{PROTEIN_SEQUENCE}?fs(?:Ter)?(?:{POSITION})*'
+    PROTEIN_EXTENSION = rf'(?:(?:Met1ext-\d+)|(?:Ter\d+{PROTEIN_SEQUENCE}extTer\d+))'
+    PROTEIN_CHANGE_DESCRIPTION = f'{PROTEIN_NOTHING}|{PROTEIN_DELETION_INSERTION}|{PROTEIN_DELETION}|{PROTEIN_INSERTION}|{PROTEIN_DUPLICATION}|{PROTEIN_NONSENSE}|{PROTEIN_FRAMESHIFT}|{PROTEIN_EXTENSION}|{PROTEIN_REPETITION}|{PROTEIN_MISSENSE}|{PROTEIN_SILENT}'
 
+    # Complete protein HGVS regex
+    PROTEIN_HGVS = rf'({PROTEIN_REFSEQ}):p\.\(?({PROTEIN_CHANGE_DESCRIPTION})\)?'
+    
+    
     class DNAMatchGroup(enum.Enum):
         REFSEQ = 1
         POSITION_OR_RANGE = 2
@@ -130,10 +148,6 @@ class HGVSRegex:
     def construct_dna_hgvs_regex(cls):
         return rf'(?:{cls.GENOMIC_REFSEQ})?\(?({cls.RNA_REFSEQ})\)?:c\.({cls.NUCLEOTIDE_POSITION_OR_RANGE})({cls.DNA_SEQUENCE})?({cls.DNA_VARIANT_TYPE})({cls.DNA_SEQUENCE})?'
 
-    @classmethod
-    def construct_protein_hgvs_regex(cls):
-        print( rf'({cls.PROTEIN_REFSEQ}):p\.\(?({cls.AMINOACID_POSITION_OR_RANGE})?(?:{cls.PROTEIN_SEQUENCE})?({cls.PROTEIN_VARIANT_TYPE})({cls.PROTEIN_SEQUENCE})?\)?(?:\d+)?')
-        return rf'({cls.PROTEIN_REFSEQ}):p\.\(?({cls.AMINOACID_POSITION_OR_RANGE})(?:{cls.PROTEIN_SEQUENCE})?({cls.PROTEIN_VARIANT_TYPE})({cls.PROTEIN_SEQUENCE})?\)?(?:\d+)?'
 
 
 class MatchHgvsProperty(Func):
@@ -161,7 +175,7 @@ class MatchHgvsProperty(Func):
             hgvs_regex = HGVSRegex.construct_rna_hgvs_regex() 
         elif molecule_type == 'protein':
             expression = F('protein_hgvs')
-            hgvs_regex = HGVSRegex.construct_protein_hgvs_regex() 
+            hgvs_regex = HGVSRegex.PROTEIN_HGVS
         else:
             raise KeyError(f'Unsupported HGVS molecule type: "{molecule_type}"')
         
@@ -170,6 +184,27 @@ class MatchHgvsProperty(Func):
             regex=hgvs_regex,
             template=template,
             group=group.value,  # 1-based index in PostgreSQL arrays
+            **extra
+        )
+
+
+class RegexpMatchSubstring(Func):
+    """
+    Extracts the nth matching group from an HGVS expression using PostgreSQL's `regexp_match()`.
+    
+    :param expression: The database column containing the HGVS string.
+    :param group: The group to capture.
+    :param group_index: The index of the capturing group to extract (1-based).
+    """
+    function = 'substring'
+
+    def __init__(self, expression, regex, **extra):
+        # PostgreSQL regexp_match() returns an array, so we extract the nth element
+        template = "(%(function)s(%(expressions)s, '(%(regex)s)'))"
+        super().__init__(
+            expression,
+            regex=regex,
+            template=template,
             **extra
         )
 
@@ -377,27 +412,29 @@ class GenomicVariant(BaseModel):
         help_text=_("Description of the amino-acid sequence change using a valid HGVS-formatted expression, e.g. NP_000016.9:p.Leu24Tyr"),
         max_length=500,
         null=True, blank=True,
-        validators=[RegexValidator(HGVSRegex.construct_protein_hgvs_regex(), "The string should be a valid protein HGVS expression.")],
     )
     protein_reference_sequence = AnnotationProperty(
         verbose_name = _('Protein HGVS RefSeq'),
-        annotation = MatchHgvsProperty('protein', HGVSRegex.ProteinMatchGroup.REFSEQ),
+        annotation = RegexpMatchSubstring(F('protein_hgvs'), HGVSRegex.PROTEIN_REFSEQ),
     )
-    protein_change_position = AnnotationProperty(
-        verbose_name = _('Protein change position'),
-        annotation = MatchHgvsProperty('protein', HGVSRegex.ProteinMatchGroup.POSITION_OR_RANGE),
-    )    
-    _protein_hgvs_change_type = AnnotationProperty(
-        annotation = MatchHgvsProperty('protein', HGVSRegex.ProteinMatchGroup.VARIANT_TYPE),
-    )
-    protein_change_type = MappingProperty(
+    protein_change_type = AnnotationProperty(
         verbose_name = _('Protein change type'),
-        attribute_path = '_protein_hgvs_change_type',
-        mappings=HGVS_PROTEIN_CHANGE_TYPE,
-        default=None,
-        output_field=models.CharField(choices=HGVS_PROTEIN_CHANGE_TYPE)
+        annotation = Case(
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DELETION_INSERTION, then=Value('deletion-insertion')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_INSERTION, then=Value('insertion')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DELETION, then=Value('deletion')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DUPLICATION, then=Value('duplication')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NONSENSE, then=Value('nonsense')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_FRAMESHIFT, then=Value('frameshift')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_EXTENSION, then=Value('extension')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_REPETITION, then=Value('repetition')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_SILENT, then=Value('silent')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NOTHING, then=Value('no-protein')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_MISSENSE, then=Value('missense')),
+            default=None,
+            output_field=models.CharField()
+        ),
     )    
-    
     molecular_consequence = termfields.CodedConceptField(
         verbose_name = _('Molecular consequence'),
         help_text = _('The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.'),
@@ -462,7 +499,7 @@ class GenomicVariant(BaseModel):
                 violation_error_message="RNA HGVS must be a valid 'r.'-HGVS expression.",
             ),
             CheckConstraint(
-                condition=Q(protein_hgvs__isnull=True) | Q(protein_hgvs__regex=HGVSRegex.construct_protein_hgvs_regex()),
+                condition=Q(protein_hgvs__isnull=True) | Q(protein_hgvs__regex=HGVSRegex.PROTEIN_HGVS),
                 name="valid_protein_hgvs",
                 violation_error_message="Protein HGVS must be a valid 'p.'-HGVS expression.",
             )

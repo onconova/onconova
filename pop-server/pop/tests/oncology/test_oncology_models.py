@@ -588,17 +588,26 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
-           ('NP_12345.0:p.(Trp24Cys)', 'missense'),
-           ('NP_12345.0:p.Trp24Cys', 'missense'),
-           ('NP_12345.0:p.His4Ter', 'nonsense'),
-           ('NP_12345.0:p.His4*', 'nonsense'),
-           ('NP_12345.0:p.Trp24del', 'deletion'),
-           ('NP_12345.0:p.His4_Gln5insAla', 'insertion'),
-           ('NP_12345.0:p.Cys28delinsTrpVal', 'deletion-insertion'),
-           ('NP_12345.0:p.Val7dup', 'duplication'),
-           ('NP_12345.0:p.Arg97fs', 'frameshift'),
-           ('NP_12345.0:p.Arg97LeufsTer23', 'frameshift'),
+            # Examples from HGVS documentation 
+            # (https://hgvs-nomenclature.org/stable/recommendations/summary/)
+           ('NP_003997.1:p.Cys188=', 'silent'),
+           ('LRG_199p1:p.0', 'no-protein'),
+           ('NP_003997.1:p.Trp24Cys', 'missense'),
+           ('NP_003997.1:p.Trp24Ter', 'nonsense'),
+           ('NP_003997.1:p.Tyr24*', 'nonsense'),
+           ('NP_003997.1:p.(Trp24Cys)', 'missense'),
+           ('NP_003997.2:p.Val7del', 'deletion'),
+           ('NP_003997.2:p.Lys23_Val25del', 'deletion'),
+           ('NP_004371.2:p.(Pro46_Asn47insSerSerTer)', 'insertion'),
+           ('NP_004371.2:p.Asn47delinsSerSerTer', 'deletion-insertion'),
+           ('NP_004371.2:p.(Asn47delinsSerSerTer)', 'deletion-insertion'),
+           ('NP_004371.2:p.Glu125_Ala132delinsGlyLeuHisArgPheIleValLeu', 'deletion-insertion'),
            ('NP_003997.2:p.Met1ext-5', 'extension'),
+           ('NP_003997.2:p.Ter110GlnextTer17', 'extension'),
+           ('NP_0123456.1:p.Arg97ProfsTer23', 'frameshift'),
+           ('NP_0123456.1:p.Arg97fs', 'frameshift'),
+           ('NP_0123456.1:p.Ala2[10]', 'repetition'),
+           ('NP_0123456.1:p.(Gln18)[(70_80)]', 'repetition'),
         ],
         name_func = dynamic_test_name
     )
