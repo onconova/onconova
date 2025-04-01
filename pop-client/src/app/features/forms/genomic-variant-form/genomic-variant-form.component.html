@@ -64,240 +64,156 @@
             <pop-form-control-error controlName="clinicalRelevance"></pop-form-control-error>
         </div>
 
-        <div class="field">
-            <label class="form-label">Gene(s)</label>
-            <pop-concept-selector 
-                formControlName="genes"
-                terminology="Gene"
-                [showSynonyms]="true"
-                [multiple]="true"/>
-            <small class="help-text">Gene(s) affected by this variant.</small>
-            <pop-form-control-error controlName="genes"></pop-form-control-error>
-        </div>
 
-        <div class="field">
-            <label class="form-label">Chromosome(s)</label>
-            <pop-concept-selector 
-                formControlName="chromosomes"
-                terminology="ChromosomeIdentifier"
-                [showSynonyms]="true"
-                [multiple]="true"/>            
-            <small class="help-text">Chromosome(s) affected by this variant.</small>
-            <pop-form-control-error controlName="chromosomes"></pop-form-control-error>
-        </div>
+        <p-fieldset legend="Variant description">
 
-        <div class="field">
-            <label class="form-label">Cytogenetic location</label>
-            <input type="text" 
-                pInputText 
-                formControlName="cytogeneticLocation" 
-                placeholder="Enter a value, e.g. 3p22.1"
-                />                      
-            <small class="help-text">The genetic address of the variant specifying the relevant chromosomal region.</small>
-            <pop-form-control-error controlName="cytogeneticLocation"></pop-form-control-error>
-        </div>
-        
-        <div class="field">
-            <label class="form-label">Genomic assembly version</label>
-            <pop-concept-selector 
-                formControlName="genomeAssemblyVersion"
-                terminology="ReferenceGenomeBuild"
-                [showSynonyms]="false"/>
-            <small class="help-text">The reference genome assembly versionused in this analysis.</small>
-            <pop-form-control-error controlName="genomeAssemblyVersion"></pop-form-control-error>
-        </div>
+            <div class="field">
+                <label class="form-label">Gene(s) affected</label>
+                <pop-concept-selector 
+                    formControlName="genes"
+                    terminology="Gene"
+                    [showSynonyms]="true"
+                    [multiple]="true"/>
+                <small class="help-text">Gene(s) affected by this variant.</small>
+                <pop-form-control-error controlName="genes"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Genomic RefSeq</label>
-            <input type="text" 
-                pInputText 
-                formControlName="genomicRefseq" 
-                placeholder="Enter a value, e.g. NG00094.3"
-                />                      
-            <small class="help-text">Can be an NCBI's RefSeq ('NC_...' or 'NG...'), or LRG ('LRG...')</small>
-            <pop-form-control-error controlName="genomicRefseq"></pop-form-control-error>
-        </div>
+            <p-divider></p-divider>
 
-        <div class="field">
-            <label class="form-label">Transcript RefSeq</label>
-            <input type="text" 
-                pInputText 
-                formControlName="transcriptRefseq" 
-                placeholder="Enter a value, e.g. NM00232.5"
-                />                      
-            <small class="help-text">Can be an NCBI's RefSeq ('NM_...' or 'NG...'), Ensembl ('ENST...'), or LRG ('LRG...' plus 't1' to indicate transcript)</small>
-            <pop-form-control-error controlName="transcriptRefseq"></pop-form-control-error>
-        </div>
+            <label class="form-label">HGVS Annotation</label>
 
-        <div class="field">
-            <label class="form-label">Coding DNA change HGSV expression</label>
-            <input type="text" 
-                pInputText 
-                formControlName="codingHgsv" 
-                placeholder="Enter a value, e.g. NM_005228.5:c.2369C>T"
-                />                      
-            <small class="help-text">Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression</small>
-            <pop-form-control-error controlName="codingHgsv"></pop-form-control-error>
-        </div>
+            <div class="field text-muted mt-2">
+                <p>
+                    <small>
+                        The variant must be at-least described at DNA-level using a HGVS expression. Description at RNA- and protein-level is optional and will 
+                        provide additional information about the upstream consequences of the variant.
+                        For the HGVS nomenclature, please refer to the <a href="https://hgvs-nomenclature.org/stable/" target="_blank">HGVS nomenclature specification</a>
+                    </small>
+                </p>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Protein change HGSV expression</label>
-            <input type="text" 
-                pInputText 
-                formControlName="proteinHgvs" 
-                placeholder="Enter a value, e.g. NP_000050.2:p.(Asn1836Lys)"
-                />                      
-            <small class="help-text">Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression</small>
-            <pop-form-control-error controlName="proteinHgvs"></pop-form-control-error>
-        </div>
+            <div class="field">
+                <label class="form-label">Genomic DNA-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="genomicHgvs" 
+                    placeholder="Enter a value, e.g. NC_005228.5:c.1239283C>T"
+                    />                      
+                <small class="help-text">Description of the genomic DNA sequence change using a valid HGVS-formatted expression</small>
+                <pop-form-control-error controlName="genomicHgvs"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Genomic change HGSV expression</label>
-            <input type="text" 
-                pInputText 
-                formControlName="genomicHgvs" 
-                placeholder="Enter a value, e.g. NC_000016.9:g.2124200_2138612dup"
-                />                      
-            <small class="help-text">Description of the genomic (gDNA) sequence change using a valid HGVS-formatted expression</small>
-            <pop-form-control-error controlName="genomicHgvs"></pop-form-control-error>
-        </div>
-        
-        <div class="field">
-            <label class="form-label">Coding DNA change type</label>
-            <pop-concept-selector 
-                formControlName="dnaChangeType"
-                terminology="DnaChangeType"
-                [showSynonyms]="true"/>
-            <small class="help-text">Classification of the DNA change type of the variant.</small>
-            <pop-form-control-error controlName="dnaChangeType"></pop-form-control-error>
-        </div>
-        
-        <div class="field">
-            <label class="form-label">Molecular Consequence</label>
-            <pop-concept-selector 
-                formControlName="molecularConsequence"
-                terminology="MolecularConsequence"
-                [showSynonyms]="true"/>
-            <small class="help-text">The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.</small>
-            <pop-form-control-error controlName="molecularConsequence"></pop-form-control-error>
-        </div>
+            <div class="field">
+                <label class="form-label">Coding DNA-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="dnaHgvs" 
+                    placeholder="Enter a value, e.g. NM_005228.5:c.2369C>T"
+                    />                      
+                <small class="help-text">Description of the coding DNA sequence change using a valid HGVS-formatted expression</small>
+                <pop-form-control-error controlName="dnaHgvs"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Copy number</label>
-            <p-inputnumber 
-                formControlName="copyNumber" 
-                placeholder="Enter a value, e.g. 2"
-                [min]="0"/>
-            <small class="help-text">Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.</small>
-            <pop-form-control-error controlName="copyNumber"></pop-form-control-error>
-        </div>
+            <div class="field">
+                <label class="form-label">RNA-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="rnaHgvs" 
+                    placeholder="Enter a value, e.g. NM_000050.2:r.2369c>t"
+                    />                      
+                <small class="help-text">Description of the RNA sequence change using a valid HGVS-formatted expression</small>
+                <pop-form-control-error controlName="rnaHgvs"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Allele frequency</label>
-            <p-inputnumber 
-                formControlName="alleleFrequency" 
-                mode="decimal" 
-                placeholder="Enter a value, e.g. 0.75"
-                [min]="0" 
-                [max]="1"/>
-            <small class="help-text">The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.</small>
-            <pop-form-control-error controlName="alleleFrequency"></pop-form-control-error>
-        </div>
+            <div class="field">
+                <label class="form-label">Protein-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="proteinHgvs" 
+                    placeholder="Enter a value, e.g. NP_000050.2:p.(Asn1836Lys)"
+                    />                      
+                <small class="help-text">Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression</small>
+                <pop-form-control-error controlName="proteinHgvs"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Allele read depth</label>
-            <p-inputnumber 
-                formControlName="alleleDepth" 
-                placeholder="Enter a value, e.g. 275"
-                [min]="0"/>
-            <small class="help-text">Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.</small>
-            <pop-form-control-error controlName="alleleDepth"></pop-form-control-error>
-        </div>
-        
-        <div class="field">
-            <label class="form-label">Zygosity</label>
-            <pop-concept-selector 
-                formControlName="zygosity"
-                terminology="Zygosity"
-                [showSynonyms]="true"/>
-            <small class="help-text">The observed level of occurrence of the variant in the set of chromosomes.</small>
-            <pop-form-control-error controlName="zygosity"></pop-form-control-error>
-        </div>
-        
-        <div class="field">
-            <label class="form-label">Inheritance</label>
-            <pop-concept-selector 
-                formControlName="inheritance"
-                terminology="VariantInheritance"
-                [showSynonyms]="true"/>
-            <small class="help-text">Variant inheritance origin (if known).</small>
-            <pop-form-control-error controlName="inheritance"></pop-form-control-error>
-        </div>
-
-        <div class="field">
-            <label class="form-label">Exact genomic coordinates</label>
-            <div class="flex">
+            <p-divider></p-divider>
+    
+            <div class="field">
+                <label class="form-label">Copy number</label>
                 <p-inputnumber 
-                    formControlName="exactGenomicCoordinatesStart" 
-                    placeholder="Enter a value"
+                    formControlName="copyNumber" 
+                    placeholder="Enter a value, e.g. 2"
                     [min]="0"/>
-                <div class="my-auto mx-3">-</div>
-                <p-inputnumber 
-                    formControlName="exactGenomicCoordinatesEnd" 
-                    placeholder="Enter a value"
-                    [min]="0"/>  
-            </div>              
-            <small class="help-text">The exact integer-based genomic coordinates of the start and end of the variant region. "High" can be omitted for single nucleotide variants.</small>
-            <pop-form-control-error controlName="exactGenomicCoordinatesStart"></pop-form-control-error>
-            <pop-form-control-error controlName="exactGenomicCoordinatesEnd"></pop-form-control-error>
-        </div>
+                <small class="help-text">Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.</small>
+                <pop-form-control-error controlName="copyNumber"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Inner genomic coordinates</label>
-            <div class="flex">
+            <div class="field">
+                <label class="form-label">Molecular Consequence</label>
+                <pop-concept-selector 
+                    formControlName="molecularConsequence"
+                    terminology="MolecularConsequence"
+                    [showSynonyms]="true"/>
+                <small class="help-text">The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.</small>
+                <pop-form-control-error controlName="molecularConsequence"></pop-form-control-error>
+            </div>
+        </p-fieldset>
+        
+
+        <p-fieldset legend="Context">
+            <div class="field">
+                <label class="form-label">Allele frequency</label>
                 <p-inputnumber 
-                    formControlName="innerGenomicCoordinatesStart" 
-                    placeholder="Enter a value"
+                    formControlName="alleleFrequency" 
+                    mode="decimal" 
+                    placeholder="Enter a value, e.g. 0.75"
+                    [min]="0" 
+                    [max]="1"/>
+                <small class="help-text">The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.</small>
+                <pop-form-control-error controlName="alleleFrequency"></pop-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Allele read depth</label>
+                <p-inputnumber 
+                    formControlName="alleleDepth" 
+                    placeholder="Enter a value, e.g. 275"
                     [min]="0"/>
-                <div class="my-auto mx-3">-</div>
-                <p-inputnumber 
-                    formControlName="innerGenomicCoordinatesEnd" 
-                    placeholder="Enter a value"
-                    [min]="0"/>  
-            </div>              
-            <small class="help-text">Genomic coordinates of the narrowest genomic range in which the variant might reside. Used when the exact boundaries of the variant are not clear.</small>
-            <pop-form-control-error controlName="innerGenomicCoordinatesStart"></pop-form-control-error>
-            <pop-form-control-error controlName="innerGenomicCoordinatesEnd"></pop-form-control-error>
-        </div>
+                <small class="help-text">Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.</small>
+                <pop-form-control-error controlName="alleleDepth"></pop-form-control-error>
+            </div>
+            
+            <div class="field">
+                <label class="form-label">Zygosity</label>
+                <pop-concept-selector 
+                    formControlName="zygosity"
+                    terminology="Zygosity"
+                    [showSynonyms]="true"/>
+                <small class="help-text">The observed level of occurrence of the variant in the set of chromosomes.</small>
+                <pop-form-control-error controlName="zygosity"></pop-form-control-error>
+            </div>
+            
+            <div class="field">
+                <label class="form-label">Inheritance</label>
+                <pop-concept-selector 
+                    formControlName="inheritance"
+                    terminology="VariantInheritance"
+                    [showSynonyms]="true"/>
+                <small class="help-text">Variant inheritance origin (if known).</small>
+                <pop-form-control-error controlName="inheritance"></pop-form-control-error>
+            </div>
 
-        <div class="field">
-            <label class="form-label">Outer genomic coordinates</label>
-            <div class="flex">
-                <p-inputnumber 
-                    formControlName="outerGenomicCoordinatesStart" 
-                    placeholder="Enter a value"
-                    [min]="0"/>
-                <div class="my-auto mx-3">-</div>
-                <p-inputnumber 
-                    formControlName="outerGenomicCoordinatesEnd" 
-                    placeholder="Enter a value"
-                    [min]="0"/>  
-            </div>              
-            <small class="help-text">Genomic coordinates of the widest genomic range in which the variant might reside. Used when the exact boundaries of the variant are not clear.</small>
-            <pop-form-control-error controlName="outerGenomicCoordinatesStart"></pop-form-control-error>
-            <pop-form-control-error controlName="outerGenomicCoordinatesEnd"></pop-form-control-error>
-        </div>
-
-        <div class="field">
-            <label class="form-label">ClinVar Identifier</label>
-            <input type="text" 
-                pInputText 
-                formControlName="clinvar" 
-                placeholder="Enter a value, e.g. VCV000016613.35"
-                />     
-            <small class="help-text">Accession number in the ClinVar variant database, for cross-reference.</small>
-            <pop-form-control-error controlName="clinvar"></pop-form-control-error>
-        </div>
+            <div class="field">
+                <label class="form-label">ClinVar Identifier</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="clinvar" 
+                    placeholder="Enter a value, e.g. VCV000016613.35"
+                    />     
+                <small class="help-text">Accession number in the ClinVar variant database, for cross-reference.</small>
+                <pop-form-control-error controlName="clinvar"></pop-form-control-error>
+            </div>
+        </p-fieldset>
 
 
         <p-button 

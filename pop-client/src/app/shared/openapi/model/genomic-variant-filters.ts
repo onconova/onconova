@@ -11,6 +11,582 @@
 
 export interface GenomicVariantFilters { 
     /**
+     * Genomic HGVS - Filter for entries without a value
+     */
+    'genomicHgvs.not.exists'?: boolean;
+    /**
+     * Genomic HGVS - Filter for entries with a value
+     */
+    'genomicHgvs.exists'?: boolean;
+    /**
+     * Genomic HGVS - Filter for full text matches
+     */
+    genomicHgvs?: string;
+    /**
+     * Genomic HGVS - Filter for full text mismatches
+     */
+    'genomicHgvs.not'?: string;
+    /**
+     * Genomic HGVS - Filter for partial text matches
+     */
+    'genomicHgvs.contains'?: string;
+    /**
+     * Genomic HGVS - Filter for partial text mismatches
+     */
+    'genomicHgvs.not.contains'?: string;
+    /**
+     * Genomic HGVS - Filter for entries starting with the text
+     */
+    'genomicHgvs.beginsWith'?: string;
+    /**
+     * Genomic HGVS - Filter for entries not starting with the text
+     */
+    'genomicHgvs.not.beginsWith'?: string;
+    /**
+     * Genomic HGVS - Filter for entries ending with the text
+     */
+    'genomicHgvs.endsWith'?: string;
+    /**
+     * Genomic HGVS - Filter for entries not ending with the text
+     */
+    'genomicHgvs.not.endsWith'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for entries without a value
+     */
+    'genomicReferenceSequence.not.exists'?: boolean;
+    /**
+     * Genomic HGVS RefSeq - Filter for entries with a value
+     */
+    'genomicReferenceSequence.exists'?: boolean;
+    /**
+     * Genomic HGVS RefSeq - Filter for full text matches
+     */
+    genomicReferenceSequence?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for full text mismatches
+     */
+    'genomicReferenceSequence.not'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for partial text matches
+     */
+    'genomicReferenceSequence.contains'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for partial text mismatches
+     */
+    'genomicReferenceSequence.not.contains'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for entries starting with the text
+     */
+    'genomicReferenceSequence.beginsWith'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for entries not starting with the text
+     */
+    'genomicReferenceSequence.not.beginsWith'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for entries ending with the text
+     */
+    'genomicReferenceSequence.endsWith'?: string;
+    /**
+     * Genomic HGVS RefSeq - Filter for entries not ending with the text
+     */
+    'genomicReferenceSequence.not.endsWith'?: string;
+    /**
+     * Genomic change position - Filter for entries without a value
+     */
+    'genomicChangePosition.not.exists'?: boolean;
+    /**
+     * Genomic change position - Filter for entries with a value
+     */
+    'genomicChangePosition.exists'?: boolean;
+    /**
+     * Genomic change position - Filter for full text matches
+     */
+    genomicChangePosition?: string;
+    /**
+     * Genomic change position - Filter for full text mismatches
+     */
+    'genomicChangePosition.not'?: string;
+    /**
+     * Genomic change position - Filter for partial text matches
+     */
+    'genomicChangePosition.contains'?: string;
+    /**
+     * Genomic change position - Filter for partial text mismatches
+     */
+    'genomicChangePosition.not.contains'?: string;
+    /**
+     * Genomic change position - Filter for entries starting with the text
+     */
+    'genomicChangePosition.beginsWith'?: string;
+    /**
+     * Genomic change position - Filter for entries not starting with the text
+     */
+    'genomicChangePosition.not.beginsWith'?: string;
+    /**
+     * Genomic change position - Filter for entries ending with the text
+     */
+    'genomicChangePosition.endsWith'?: string;
+    /**
+     * Genomic change position - Filter for entries not ending with the text
+     */
+    'genomicChangePosition.not.endsWith'?: string;
+    /**
+     * Genomic change type - Filter for entries without a value
+     */
+    'genomicChangeType.not.exists'?: boolean;
+    /**
+     * Genomic change type - Filter for entries with a value
+     */
+    'genomicChangeType.exists'?: boolean;
+    genomicChangeType?: GenomicVariantFilters.GenomicChangeTypeEnum;
+    'genomicChangeType.not'?: GenomicVariantFilters.GenomicChangeTypeNotEnum;
+    /**
+     * Genomic change type - (\'Filter for excluding a subset of value choices\',)
+     */
+    'genomicChangeType.anyOf'?: Array<GenomicVariantFilters.GenomicChangeTypeAnyOfEnum>;
+    /**
+     * DNA HGVS - Filter for entries without a value
+     */
+    'dnaHgvs.not.exists'?: boolean;
+    /**
+     * DNA HGVS - Filter for entries with a value
+     */
+    'dnaHgvs.exists'?: boolean;
+    /**
+     * DNA HGVS - Filter for full text matches
+     */
+    dnaHgvs?: string;
+    /**
+     * DNA HGVS - Filter for full text mismatches
+     */
+    'dnaHgvs.not'?: string;
+    /**
+     * DNA HGVS - Filter for partial text matches
+     */
+    'dnaHgvs.contains'?: string;
+    /**
+     * DNA HGVS - Filter for partial text mismatches
+     */
+    'dnaHgvs.not.contains'?: string;
+    /**
+     * DNA HGVS - Filter for entries starting with the text
+     */
+    'dnaHgvs.beginsWith'?: string;
+    /**
+     * DNA HGVS - Filter for entries not starting with the text
+     */
+    'dnaHgvs.not.beginsWith'?: string;
+    /**
+     * DNA HGVS - Filter for entries ending with the text
+     */
+    'dnaHgvs.endsWith'?: string;
+    /**
+     * DNA HGVS - Filter for entries not ending with the text
+     */
+    'dnaHgvs.not.endsWith'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for entries without a value
+     */
+    'dnaReferenceSequence.not.exists'?: boolean;
+    /**
+     * DNA HGVS RefSeq - Filter for entries with a value
+     */
+    'dnaReferenceSequence.exists'?: boolean;
+    /**
+     * DNA HGVS RefSeq - Filter for full text matches
+     */
+    dnaReferenceSequence?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for full text mismatches
+     */
+    'dnaReferenceSequence.not'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for partial text matches
+     */
+    'dnaReferenceSequence.contains'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for partial text mismatches
+     */
+    'dnaReferenceSequence.not.contains'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for entries starting with the text
+     */
+    'dnaReferenceSequence.beginsWith'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for entries not starting with the text
+     */
+    'dnaReferenceSequence.not.beginsWith'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for entries ending with the text
+     */
+    'dnaReferenceSequence.endsWith'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for entries not ending with the text
+     */
+    'dnaReferenceSequence.not.endsWith'?: string;
+    /**
+     * DNA change position - Filter for entries without a value
+     */
+    'dnaChangePosition.not.exists'?: boolean;
+    /**
+     * DNA change position - Filter for entries with a value
+     */
+    'dnaChangePosition.exists'?: boolean;
+    /**
+     * DNA change position - Filter for full text matches
+     */
+    dnaChangePosition?: string;
+    /**
+     * DNA change position - Filter for full text mismatches
+     */
+    'dnaChangePosition.not'?: string;
+    /**
+     * DNA change position - Filter for partial text matches
+     */
+    'dnaChangePosition.contains'?: string;
+    /**
+     * DNA change position - Filter for partial text mismatches
+     */
+    'dnaChangePosition.not.contains'?: string;
+    /**
+     * DNA change position - Filter for entries starting with the text
+     */
+    'dnaChangePosition.beginsWith'?: string;
+    /**
+     * DNA change position - Filter for entries not starting with the text
+     */
+    'dnaChangePosition.not.beginsWith'?: string;
+    /**
+     * DNA change position - Filter for entries ending with the text
+     */
+    'dnaChangePosition.endsWith'?: string;
+    /**
+     * DNA change position - Filter for entries not ending with the text
+     */
+    'dnaChangePosition.not.endsWith'?: string;
+    /**
+     * DNA change type - Filter for entries without a value
+     */
+    'dnaChangeType.not.exists'?: boolean;
+    /**
+     * DNA change type - Filter for entries with a value
+     */
+    'dnaChangeType.exists'?: boolean;
+    dnaChangeType?: GenomicVariantFilters.DnaChangeTypeEnum;
+    'dnaChangeType.not'?: GenomicVariantFilters.DnaChangeTypeNotEnum;
+    /**
+     * DNA change type - (\'Filter for excluding a subset of value choices\',)
+     */
+    'dnaChangeType.anyOf'?: Array<GenomicVariantFilters.DnaChangeTypeAnyOfEnum>;
+    /**
+     * RNA HGVS - Filter for entries without a value
+     */
+    'rnaHgvs.not.exists'?: boolean;
+    /**
+     * RNA HGVS - Filter for entries with a value
+     */
+    'rnaHgvs.exists'?: boolean;
+    /**
+     * RNA HGVS - Filter for full text matches
+     */
+    rnaHgvs?: string;
+    /**
+     * RNA HGVS - Filter for full text mismatches
+     */
+    'rnaHgvs.not'?: string;
+    /**
+     * RNA HGVS - Filter for partial text matches
+     */
+    'rnaHgvs.contains'?: string;
+    /**
+     * RNA HGVS - Filter for partial text mismatches
+     */
+    'rnaHgvs.not.contains'?: string;
+    /**
+     * RNA HGVS - Filter for entries starting with the text
+     */
+    'rnaHgvs.beginsWith'?: string;
+    /**
+     * RNA HGVS - Filter for entries not starting with the text
+     */
+    'rnaHgvs.not.beginsWith'?: string;
+    /**
+     * RNA HGVS - Filter for entries ending with the text
+     */
+    'rnaHgvs.endsWith'?: string;
+    /**
+     * RNA HGVS - Filter for entries not ending with the text
+     */
+    'rnaHgvs.not.endsWith'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for entries without a value
+     */
+    'rnaReferenceSequence.not.exists'?: boolean;
+    /**
+     * RNA HGVS RefSeq - Filter for entries with a value
+     */
+    'rnaReferenceSequence.exists'?: boolean;
+    /**
+     * RNA HGVS RefSeq - Filter for full text matches
+     */
+    rnaReferenceSequence?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for full text mismatches
+     */
+    'rnaReferenceSequence.not'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for partial text matches
+     */
+    'rnaReferenceSequence.contains'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for partial text mismatches
+     */
+    'rnaReferenceSequence.not.contains'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for entries starting with the text
+     */
+    'rnaReferenceSequence.beginsWith'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for entries not starting with the text
+     */
+    'rnaReferenceSequence.not.beginsWith'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for entries ending with the text
+     */
+    'rnaReferenceSequence.endsWith'?: string;
+    /**
+     * RNA HGVS RefSeq - Filter for entries not ending with the text
+     */
+    'rnaReferenceSequence.not.endsWith'?: string;
+    /**
+     * RNA change position - Filter for entries without a value
+     */
+    'rnaChangePosition.not.exists'?: boolean;
+    /**
+     * RNA change position - Filter for entries with a value
+     */
+    'rnaChangePosition.exists'?: boolean;
+    /**
+     * RNA change position - Filter for full text matches
+     */
+    rnaChangePosition?: string;
+    /**
+     * RNA change position - Filter for full text mismatches
+     */
+    'rnaChangePosition.not'?: string;
+    /**
+     * RNA change position - Filter for partial text matches
+     */
+    'rnaChangePosition.contains'?: string;
+    /**
+     * RNA change position - Filter for partial text mismatches
+     */
+    'rnaChangePosition.not.contains'?: string;
+    /**
+     * RNA change position - Filter for entries starting with the text
+     */
+    'rnaChangePosition.beginsWith'?: string;
+    /**
+     * RNA change position - Filter for entries not starting with the text
+     */
+    'rnaChangePosition.not.beginsWith'?: string;
+    /**
+     * RNA change position - Filter for entries ending with the text
+     */
+    'rnaChangePosition.endsWith'?: string;
+    /**
+     * RNA change position - Filter for entries not ending with the text
+     */
+    'rnaChangePosition.not.endsWith'?: string;
+    /**
+     * RNA change type - Filter for entries without a value
+     */
+    'rnaChangeType.not.exists'?: boolean;
+    /**
+     * RNA change type - Filter for entries with a value
+     */
+    'rnaChangeType.exists'?: boolean;
+    rnaChangeType?: GenomicVariantFilters.RnaChangeTypeEnum;
+    'rnaChangeType.not'?: GenomicVariantFilters.RnaChangeTypeNotEnum;
+    /**
+     * RNA change type - (\'Filter for excluding a subset of value choices\',)
+     */
+    'rnaChangeType.anyOf'?: Array<GenomicVariantFilters.RnaChangeTypeAnyOfEnum>;
+    /**
+     * Protein HGVS - Filter for entries without a value
+     */
+    'proteinHgvs.not.exists'?: boolean;
+    /**
+     * Protein HGVS - Filter for entries with a value
+     */
+    'proteinHgvs.exists'?: boolean;
+    /**
+     * Protein HGVS - Filter for full text matches
+     */
+    proteinHgvs?: string;
+    /**
+     * Protein HGVS - Filter for full text mismatches
+     */
+    'proteinHgvs.not'?: string;
+    /**
+     * Protein HGVS - Filter for partial text matches
+     */
+    'proteinHgvs.contains'?: string;
+    /**
+     * Protein HGVS - Filter for partial text mismatches
+     */
+    'proteinHgvs.not.contains'?: string;
+    /**
+     * Protein HGVS - Filter for entries starting with the text
+     */
+    'proteinHgvs.beginsWith'?: string;
+    /**
+     * Protein HGVS - Filter for entries not starting with the text
+     */
+    'proteinHgvs.not.beginsWith'?: string;
+    /**
+     * Protein HGVS - Filter for entries ending with the text
+     */
+    'proteinHgvs.endsWith'?: string;
+    /**
+     * Protein HGVS - Filter for entries not ending with the text
+     */
+    'proteinHgvs.not.endsWith'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for entries without a value
+     */
+    'proteinReferenceSequence.not.exists'?: boolean;
+    /**
+     * Protein HGVS RefSeq - Filter for entries with a value
+     */
+    'proteinReferenceSequence.exists'?: boolean;
+    /**
+     * Protein HGVS RefSeq - Filter for full text matches
+     */
+    proteinReferenceSequence?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for full text mismatches
+     */
+    'proteinReferenceSequence.not'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for partial text matches
+     */
+    'proteinReferenceSequence.contains'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for partial text mismatches
+     */
+    'proteinReferenceSequence.not.contains'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for entries starting with the text
+     */
+    'proteinReferenceSequence.beginsWith'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for entries not starting with the text
+     */
+    'proteinReferenceSequence.not.beginsWith'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for entries ending with the text
+     */
+    'proteinReferenceSequence.endsWith'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for entries not ending with the text
+     */
+    'proteinReferenceSequence.not.endsWith'?: string;
+    /**
+     * Protein change position - Filter for entries without a value
+     */
+    'proteinChangePosition.not.exists'?: boolean;
+    /**
+     * Protein change position - Filter for entries with a value
+     */
+    'proteinChangePosition.exists'?: boolean;
+    /**
+     * Protein change position - Filter for full text matches
+     */
+    proteinChangePosition?: string;
+    /**
+     * Protein change position - Filter for full text mismatches
+     */
+    'proteinChangePosition.not'?: string;
+    /**
+     * Protein change position - Filter for partial text matches
+     */
+    'proteinChangePosition.contains'?: string;
+    /**
+     * Protein change position - Filter for partial text mismatches
+     */
+    'proteinChangePosition.not.contains'?: string;
+    /**
+     * Protein change position - Filter for entries starting with the text
+     */
+    'proteinChangePosition.beginsWith'?: string;
+    /**
+     * Protein change position - Filter for entries not starting with the text
+     */
+    'proteinChangePosition.not.beginsWith'?: string;
+    /**
+     * Protein change position - Filter for entries ending with the text
+     */
+    'proteinChangePosition.endsWith'?: string;
+    /**
+     * Protein change position - Filter for entries not ending with the text
+     */
+    'proteinChangePosition.not.endsWith'?: string;
+    /**
+     * Protein change type - Filter for entries without a value
+     */
+    'proteinChangeType.not.exists'?: boolean;
+    /**
+     * Protein change type - Filter for entries with a value
+     */
+    'proteinChangeType.exists'?: boolean;
+    proteinChangeType?: GenomicVariantFilters.ProteinChangeTypeEnum;
+    'proteinChangeType.not'?: GenomicVariantFilters.ProteinChangeTypeNotEnum;
+    /**
+     * Protein change type - (\'Filter for excluding a subset of value choices\',)
+     */
+    'proteinChangeType.anyOf'?: Array<GenomicVariantFilters.ProteinChangeTypeAnyOfEnum>;
+    /**
+     * Variant length - Filter for entries without a value
+     */
+    'nucleotidesLength.not.exists'?: boolean;
+    /**
+     * Variant length - Filter for entries with a value
+     */
+    'nucleotidesLength.exists'?: boolean;
+    /**
+     * Variant length - Filter for entries with values less than the specified value
+     */
+    'nucleotidesLength.lessThan'?: number;
+    /**
+     * Variant length - Filter for entries with values less than or equal to the specified value
+     */
+    'nucleotidesLength.lessThanOrEqual'?: number;
+    /**
+     * Variant length - Filter for entries with values greater than the specified value
+     */
+    'nucleotidesLength.greaterThan'?: number;
+    /**
+     * Variant length - Filter for entries with values greater than or equal to the specified value
+     */
+    'nucleotidesLength.greaterThanOrEqual'?: number;
+    /**
+     * Variant length - Filter for entries with values exactly equal to the specified value
+     */
+    'nucleotidesLength.equal'?: number;
+    /**
+     * Variant length - Filter for entries with values not equal to the specified value
+     */
+    'nucleotidesLength.not.equal'?: number;
+    /**
+     * Variant length - Filter for entries with values between two specified values (inclusive)
+     */
+    'nucleotidesLength.between'?: Array<any>;
+    /**
+     * Variant length - Filter for entries with values between two specified values (inclusive)
+     */
+    'nucleotidesLength.not.between'?: Array<any>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -217,45 +793,21 @@ export interface GenomicVariantFilters {
      */
     'clinicalRelevance.anyOf'?: Array<GenomicVariantFilters.ClinicalRelevanceAnyOfEnum>;
     /**
-     * Cytogenetic location - Filter for entries without a value
+     * Is pathogenic - Filter for entries without a value
      */
-    'cytogeneticLocation.not.exists'?: boolean;
+    'isVus.not.exists'?: boolean;
     /**
-     * Cytogenetic location - Filter for entries with a value
+     * Is pathogenic - Filter for entries with a value
      */
-    'cytogeneticLocation.exists'?: boolean;
+    'isVus.exists'?: boolean;
     /**
-     * Cytogenetic location - Filter for full text matches
+     * Is pathogenic - (\'Filter for yes/no statement\',)
      */
-    cytogeneticLocation?: string;
+    isVus?: boolean;
     /**
-     * Cytogenetic location - Filter for full text mismatches
+     * Is pathogenic - (\'Filter for yes/no statement\',)
      */
-    'cytogeneticLocation.not'?: string;
-    /**
-     * Cytogenetic location - Filter for partial text matches
-     */
-    'cytogeneticLocation.contains'?: string;
-    /**
-     * Cytogenetic location - Filter for partial text mismatches
-     */
-    'cytogeneticLocation.not.contains'?: string;
-    /**
-     * Cytogenetic location - Filter for entries starting with the text
-     */
-    'cytogeneticLocation.beginsWith'?: string;
-    /**
-     * Cytogenetic location - Filter for entries not starting with the text
-     */
-    'cytogeneticLocation.not.beginsWith'?: string;
-    /**
-     * Cytogenetic location - Filter for entries ending with the text
-     */
-    'cytogeneticLocation.endsWith'?: string;
-    /**
-     * Cytogenetic location - Filter for entries not ending with the text
-     */
-    'cytogeneticLocation.not.endsWith'?: string;
+    isPathogenic?: boolean;
     /**
      * Genome assembly version - Filter for entries without a value
      */
@@ -284,262 +836,6 @@ export interface GenomicVariantFilters {
      * Genome assembly version - Filter for all child concepts of a given concepts code
      */
     'genomeAssemblyVersion.descendantsOf'?: string;
-    /**
-     * Genomic RefSeq - Filter for entries without a value
-     */
-    'genomicRefseq.not.exists'?: boolean;
-    /**
-     * Genomic RefSeq - Filter for entries with a value
-     */
-    'genomicRefseq.exists'?: boolean;
-    /**
-     * Genomic RefSeq - Filter for full text matches
-     */
-    genomicRefseq?: string;
-    /**
-     * Genomic RefSeq - Filter for full text mismatches
-     */
-    'genomicRefseq.not'?: string;
-    /**
-     * Genomic RefSeq - Filter for partial text matches
-     */
-    'genomicRefseq.contains'?: string;
-    /**
-     * Genomic RefSeq - Filter for partial text mismatches
-     */
-    'genomicRefseq.not.contains'?: string;
-    /**
-     * Genomic RefSeq - Filter for entries starting with the text
-     */
-    'genomicRefseq.beginsWith'?: string;
-    /**
-     * Genomic RefSeq - Filter for entries not starting with the text
-     */
-    'genomicRefseq.not.beginsWith'?: string;
-    /**
-     * Genomic RefSeq - Filter for entries ending with the text
-     */
-    'genomicRefseq.endsWith'?: string;
-    /**
-     * Genomic RefSeq - Filter for entries not ending with the text
-     */
-    'genomicRefseq.not.endsWith'?: string;
-    /**
-     * Transcript RefSeq - Filter for entries without a value
-     */
-    'transcriptRefseq.not.exists'?: boolean;
-    /**
-     * Transcript RefSeq - Filter for entries with a value
-     */
-    'transcriptRefseq.exists'?: boolean;
-    /**
-     * Transcript RefSeq - Filter for full text matches
-     */
-    transcriptRefseq?: string;
-    /**
-     * Transcript RefSeq - Filter for full text mismatches
-     */
-    'transcriptRefseq.not'?: string;
-    /**
-     * Transcript RefSeq - Filter for partial text matches
-     */
-    'transcriptRefseq.contains'?: string;
-    /**
-     * Transcript RefSeq - Filter for partial text mismatches
-     */
-    'transcriptRefseq.not.contains'?: string;
-    /**
-     * Transcript RefSeq - Filter for entries starting with the text
-     */
-    'transcriptRefseq.beginsWith'?: string;
-    /**
-     * Transcript RefSeq - Filter for entries not starting with the text
-     */
-    'transcriptRefseq.not.beginsWith'?: string;
-    /**
-     * Transcript RefSeq - Filter for entries ending with the text
-     */
-    'transcriptRefseq.endsWith'?: string;
-    /**
-     * Transcript RefSeq - Filter for entries not ending with the text
-     */
-    'transcriptRefseq.not.endsWith'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for entries without a value
-     */
-    'codingHgvs.not.exists'?: boolean;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for entries with a value
-     */
-    'codingHgvs.exists'?: boolean;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for full text matches
-     */
-    codingHgvs?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for full text mismatches
-     */
-    'codingHgvs.not'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for partial text matches
-     */
-    'codingHgvs.contains'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for partial text mismatches
-     */
-    'codingHgvs.not.contains'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for entries starting with the text
-     */
-    'codingHgvs.beginsWith'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for entries not starting with the text
-     */
-    'codingHgvs.not.beginsWith'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for entries ending with the text
-     */
-    'codingHgvs.endsWith'?: string;
-    /**
-     * Coding DNA change expression (cHGVS) - Filter for entries not ending with the text
-     */
-    'codingHgvs.not.endsWith'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for entries without a value
-     */
-    'proteinHgvs.not.exists'?: boolean;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for entries with a value
-     */
-    'proteinHgvs.exists'?: boolean;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for full text matches
-     */
-    proteinHgvs?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for full text mismatches
-     */
-    'proteinHgvs.not'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for partial text matches
-     */
-    'proteinHgvs.contains'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for partial text mismatches
-     */
-    'proteinHgvs.not.contains'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for entries starting with the text
-     */
-    'proteinHgvs.beginsWith'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for entries not starting with the text
-     */
-    'proteinHgvs.not.beginsWith'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for entries ending with the text
-     */
-    'proteinHgvs.endsWith'?: string;
-    /**
-     * Protein/aminoacid change expression (pHGVS) - Filter for entries not ending with the text
-     */
-    'proteinHgvs.not.endsWith'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for entries without a value
-     */
-    'genomicHgvs.not.exists'?: boolean;
-    /**
-     * Genomic change expression (gHGVS) - Filter for entries with a value
-     */
-    'genomicHgvs.exists'?: boolean;
-    /**
-     * Genomic change expression (gHGVS) - Filter for full text matches
-     */
-    genomicHgvs?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for full text mismatches
-     */
-    'genomicHgvs.not'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for partial text matches
-     */
-    'genomicHgvs.contains'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for partial text mismatches
-     */
-    'genomicHgvs.not.contains'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for entries starting with the text
-     */
-    'genomicHgvs.beginsWith'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for entries not starting with the text
-     */
-    'genomicHgvs.not.beginsWith'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for entries ending with the text
-     */
-    'genomicHgvs.endsWith'?: string;
-    /**
-     * Genomic change expression (gHGVS) - Filter for entries not ending with the text
-     */
-    'genomicHgvs.not.endsWith'?: string;
-    /**
-     * Coding DNA change type - Filter for entries without a value
-     */
-    'dnaChangeType.not.exists'?: boolean;
-    /**
-     * Coding DNA change type - Filter for entries with a value
-     */
-    'dnaChangeType.exists'?: boolean;
-    /**
-     * Coding DNA change type - Filter for a matching concept code
-     */
-    dnaChangeType?: string;
-    /**
-     * Coding DNA change type - Filter for a mismatching concept code
-     */
-    'dnaChangeType.not'?: string;
-    /**
-     * Coding DNA change type - Filter for a matching set of concept codes
-     */
-    'dnaChangeType.anyOf'?: Array<string>;
-    /**
-     * Coding DNA change type - Filter for a mismmatching set of concept codes
-     */
-    'dnaChangeType.not.anyOf'?: Array<string>;
-    /**
-     * Coding DNA change type - Filter for all child concepts of a given concepts code
-     */
-    'dnaChangeType.descendantsOf'?: string;
-    /**
-     * Aminoacid change type - Filter for entries without a value
-     */
-    'aminoacidChangeType.not.exists'?: boolean;
-    /**
-     * Aminoacid change type - Filter for entries with a value
-     */
-    'aminoacidChangeType.exists'?: boolean;
-    /**
-     * Aminoacid change type - Filter for a matching concept code
-     */
-    aminoacidChangeType?: string;
-    /**
-     * Aminoacid change type - Filter for a mismatching concept code
-     */
-    'aminoacidChangeType.not'?: string;
-    /**
-     * Aminoacid change type - Filter for a matching set of concept codes
-     */
-    'aminoacidChangeType.anyOf'?: Array<string>;
-    /**
-     * Aminoacid change type - Filter for a mismmatching set of concept codes
-     */
-    'aminoacidChangeType.not.anyOf'?: Array<string>;
-    /**
-     * Aminoacid change type - Filter for all child concepts of a given concepts code
-     */
-    'aminoacidChangeType.descendantsOf'?: string;
     /**
      * Molecular consequence - Filter for entries without a value
      */
@@ -773,30 +1069,6 @@ export interface GenomicVariantFilters {
      */
     'coordinateSystem.descendantsOf'?: string;
     /**
-     * Exact genomic coordinates - Filter for entries without a value
-     */
-    'exactGenomicCoordinates.not.exists'?: boolean;
-    /**
-     * Exact genomic coordinates - Filter for entries with a value
-     */
-    'exactGenomicCoordinates.exists'?: boolean;
-    /**
-     * Inner genomic coordinates - Filter for entries without a value
-     */
-    'innerGenomicCoordinates.not.exists'?: boolean;
-    /**
-     * Inner genomic coordinates - Filter for entries with a value
-     */
-    'innerGenomicCoordinates.exists'?: boolean;
-    /**
-     * Outer genomic coordinates - Filter for entries without a value
-     */
-    'outerGenomicCoordinates.not.exists'?: boolean;
-    /**
-     * Outer genomic coordinates - Filter for entries with a value
-     */
-    'outerGenomicCoordinates.exists'?: boolean;
-    /**
      * ClinVar accession number - Filter for entries without a value
      */
     'clinvar.not.exists'?: boolean;
@@ -864,44 +1136,179 @@ export interface GenomicVariantFilters {
      * Gene(s) - Filter for entries mismatching all of the concepts
      */
     'genes.not.allOf'?: Array<string>;
-    /**
-     * Chromosome(s) - Filter for entries without a value
-     */
-    'chromosomes.not.exists'?: boolean;
-    /**
-     * Chromosome(s) - Filter for entries with a value
-     */
-    'chromosomes.exists'?: boolean;
-    /**
-     * Chromosome(s) - Filter for a matching concept code
-     */
-    chromosomes?: string;
-    /**
-     * Chromosome(s) - Filter for a mismatching concept code
-     */
-    'chromosomes.not'?: string;
-    /**
-     * Chromosome(s) - Filter for a matching set of concept codes
-     */
-    'chromosomes.anyOf'?: Array<string>;
-    /**
-     * Chromosome(s) - Filter for a mismmatching set of concept codes
-     */
-    'chromosomes.not.anyOf'?: Array<string>;
-    /**
-     * Chromosome(s) - Filter for all child concepts of a given concepts code
-     */
-    'chromosomes.descendantsOf'?: string;
-    /**
-     * Chromosome(s) - Filter for entries matching all of the concepts
-     */
-    'chromosomes.allOf'?: Array<string>;
-    /**
-     * Chromosome(s) - Filter for entries mismatching all of the concepts
-     */
-    'chromosomes.not.allOf'?: Array<string>;
 }
 export namespace GenomicVariantFilters {
+    export type GenomicChangeTypeEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
+    export const GenomicChangeTypeEnum = {
+        Substitution: 'substitution' as GenomicChangeTypeEnum,
+        DeletionInsertion: 'deletion-insertion' as GenomicChangeTypeEnum,
+        Insertion: 'insertion' as GenomicChangeTypeEnum,
+        Deletion: 'deletion' as GenomicChangeTypeEnum,
+        Duplication: 'duplication' as GenomicChangeTypeEnum,
+        Inversion: 'inversion' as GenomicChangeTypeEnum,
+        Unchanged: 'unchanged' as GenomicChangeTypeEnum,
+        Repetition: 'repetition' as GenomicChangeTypeEnum,
+        Translocation: 'translocation' as GenomicChangeTypeEnum,
+        Transposition: 'transposition' as GenomicChangeTypeEnum,
+        MethylationGain: 'methylation-gain' as GenomicChangeTypeEnum,
+        MethylationLoss: 'methylation-loss' as GenomicChangeTypeEnum,
+        MethylationUnchanged: 'methylation-unchanged' as GenomicChangeTypeEnum
+    };
+    export type GenomicChangeTypeNotEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
+    export const GenomicChangeTypeNotEnum = {
+        Substitution: 'substitution' as GenomicChangeTypeNotEnum,
+        DeletionInsertion: 'deletion-insertion' as GenomicChangeTypeNotEnum,
+        Insertion: 'insertion' as GenomicChangeTypeNotEnum,
+        Deletion: 'deletion' as GenomicChangeTypeNotEnum,
+        Duplication: 'duplication' as GenomicChangeTypeNotEnum,
+        Inversion: 'inversion' as GenomicChangeTypeNotEnum,
+        Unchanged: 'unchanged' as GenomicChangeTypeNotEnum,
+        Repetition: 'repetition' as GenomicChangeTypeNotEnum,
+        Translocation: 'translocation' as GenomicChangeTypeNotEnum,
+        Transposition: 'transposition' as GenomicChangeTypeNotEnum,
+        MethylationGain: 'methylation-gain' as GenomicChangeTypeNotEnum,
+        MethylationLoss: 'methylation-loss' as GenomicChangeTypeNotEnum,
+        MethylationUnchanged: 'methylation-unchanged' as GenomicChangeTypeNotEnum
+    };
+    export type GenomicChangeTypeAnyOfEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
+    export const GenomicChangeTypeAnyOfEnum = {
+        Substitution: 'substitution' as GenomicChangeTypeAnyOfEnum,
+        DeletionInsertion: 'deletion-insertion' as GenomicChangeTypeAnyOfEnum,
+        Insertion: 'insertion' as GenomicChangeTypeAnyOfEnum,
+        Deletion: 'deletion' as GenomicChangeTypeAnyOfEnum,
+        Duplication: 'duplication' as GenomicChangeTypeAnyOfEnum,
+        Inversion: 'inversion' as GenomicChangeTypeAnyOfEnum,
+        Unchanged: 'unchanged' as GenomicChangeTypeAnyOfEnum,
+        Repetition: 'repetition' as GenomicChangeTypeAnyOfEnum,
+        Translocation: 'translocation' as GenomicChangeTypeAnyOfEnum,
+        Transposition: 'transposition' as GenomicChangeTypeAnyOfEnum,
+        MethylationGain: 'methylation-gain' as GenomicChangeTypeAnyOfEnum,
+        MethylationLoss: 'methylation-loss' as GenomicChangeTypeAnyOfEnum,
+        MethylationUnchanged: 'methylation-unchanged' as GenomicChangeTypeAnyOfEnum
+    };
+    export type DnaChangeTypeEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
+    export const DnaChangeTypeEnum = {
+        Substitution: 'substitution' as DnaChangeTypeEnum,
+        DeletionInsertion: 'deletion-insertion' as DnaChangeTypeEnum,
+        Insertion: 'insertion' as DnaChangeTypeEnum,
+        Deletion: 'deletion' as DnaChangeTypeEnum,
+        Duplication: 'duplication' as DnaChangeTypeEnum,
+        Inversion: 'inversion' as DnaChangeTypeEnum,
+        Unchanged: 'unchanged' as DnaChangeTypeEnum,
+        Repetition: 'repetition' as DnaChangeTypeEnum,
+        Translocation: 'translocation' as DnaChangeTypeEnum,
+        Transposition: 'transposition' as DnaChangeTypeEnum,
+        MethylationGain: 'methylation-gain' as DnaChangeTypeEnum,
+        MethylationLoss: 'methylation-loss' as DnaChangeTypeEnum,
+        MethylationUnchanged: 'methylation-unchanged' as DnaChangeTypeEnum
+    };
+    export type DnaChangeTypeNotEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
+    export const DnaChangeTypeNotEnum = {
+        Substitution: 'substitution' as DnaChangeTypeNotEnum,
+        DeletionInsertion: 'deletion-insertion' as DnaChangeTypeNotEnum,
+        Insertion: 'insertion' as DnaChangeTypeNotEnum,
+        Deletion: 'deletion' as DnaChangeTypeNotEnum,
+        Duplication: 'duplication' as DnaChangeTypeNotEnum,
+        Inversion: 'inversion' as DnaChangeTypeNotEnum,
+        Unchanged: 'unchanged' as DnaChangeTypeNotEnum,
+        Repetition: 'repetition' as DnaChangeTypeNotEnum,
+        Translocation: 'translocation' as DnaChangeTypeNotEnum,
+        Transposition: 'transposition' as DnaChangeTypeNotEnum,
+        MethylationGain: 'methylation-gain' as DnaChangeTypeNotEnum,
+        MethylationLoss: 'methylation-loss' as DnaChangeTypeNotEnum,
+        MethylationUnchanged: 'methylation-unchanged' as DnaChangeTypeNotEnum
+    };
+    export type DnaChangeTypeAnyOfEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
+    export const DnaChangeTypeAnyOfEnum = {
+        Substitution: 'substitution' as DnaChangeTypeAnyOfEnum,
+        DeletionInsertion: 'deletion-insertion' as DnaChangeTypeAnyOfEnum,
+        Insertion: 'insertion' as DnaChangeTypeAnyOfEnum,
+        Deletion: 'deletion' as DnaChangeTypeAnyOfEnum,
+        Duplication: 'duplication' as DnaChangeTypeAnyOfEnum,
+        Inversion: 'inversion' as DnaChangeTypeAnyOfEnum,
+        Unchanged: 'unchanged' as DnaChangeTypeAnyOfEnum,
+        Repetition: 'repetition' as DnaChangeTypeAnyOfEnum,
+        Translocation: 'translocation' as DnaChangeTypeAnyOfEnum,
+        Transposition: 'transposition' as DnaChangeTypeAnyOfEnum,
+        MethylationGain: 'methylation-gain' as DnaChangeTypeAnyOfEnum,
+        MethylationLoss: 'methylation-loss' as DnaChangeTypeAnyOfEnum,
+        MethylationUnchanged: 'methylation-unchanged' as DnaChangeTypeAnyOfEnum
+    };
+    export type RnaChangeTypeEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition';
+    export const RnaChangeTypeEnum = {
+        Substitution: 'substitution' as RnaChangeTypeEnum,
+        DeletionInsertion: 'deletion-insertion' as RnaChangeTypeEnum,
+        Insertion: 'insertion' as RnaChangeTypeEnum,
+        Deletion: 'deletion' as RnaChangeTypeEnum,
+        Duplication: 'duplication' as RnaChangeTypeEnum,
+        Inversion: 'inversion' as RnaChangeTypeEnum,
+        Unchanged: 'unchanged' as RnaChangeTypeEnum,
+        Repetition: 'repetition' as RnaChangeTypeEnum
+    };
+    export type RnaChangeTypeNotEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition';
+    export const RnaChangeTypeNotEnum = {
+        Substitution: 'substitution' as RnaChangeTypeNotEnum,
+        DeletionInsertion: 'deletion-insertion' as RnaChangeTypeNotEnum,
+        Insertion: 'insertion' as RnaChangeTypeNotEnum,
+        Deletion: 'deletion' as RnaChangeTypeNotEnum,
+        Duplication: 'duplication' as RnaChangeTypeNotEnum,
+        Inversion: 'inversion' as RnaChangeTypeNotEnum,
+        Unchanged: 'unchanged' as RnaChangeTypeNotEnum,
+        Repetition: 'repetition' as RnaChangeTypeNotEnum
+    };
+    export type RnaChangeTypeAnyOfEnum = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition';
+    export const RnaChangeTypeAnyOfEnum = {
+        Substitution: 'substitution' as RnaChangeTypeAnyOfEnum,
+        DeletionInsertion: 'deletion-insertion' as RnaChangeTypeAnyOfEnum,
+        Insertion: 'insertion' as RnaChangeTypeAnyOfEnum,
+        Deletion: 'deletion' as RnaChangeTypeAnyOfEnum,
+        Duplication: 'duplication' as RnaChangeTypeAnyOfEnum,
+        Inversion: 'inversion' as RnaChangeTypeAnyOfEnum,
+        Unchanged: 'unchanged' as RnaChangeTypeAnyOfEnum,
+        Repetition: 'repetition' as RnaChangeTypeAnyOfEnum
+    };
+    export type ProteinChangeTypeEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+    export const ProteinChangeTypeEnum = {
+        Missense: 'missense' as ProteinChangeTypeEnum,
+        Nonsense: 'nonsense' as ProteinChangeTypeEnum,
+        DeletionInsertion: 'deletion-insertion' as ProteinChangeTypeEnum,
+        Insertion: 'insertion' as ProteinChangeTypeEnum,
+        Deletion: 'deletion' as ProteinChangeTypeEnum,
+        Duplication: 'duplication' as ProteinChangeTypeEnum,
+        Frameshift: 'frameshift' as ProteinChangeTypeEnum,
+        Extension: 'extension' as ProteinChangeTypeEnum,
+        Silent: 'silent' as ProteinChangeTypeEnum,
+        NoProtein: 'no-protein' as ProteinChangeTypeEnum,
+        Repetition: 'repetition' as ProteinChangeTypeEnum
+    };
+    export type ProteinChangeTypeNotEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+    export const ProteinChangeTypeNotEnum = {
+        Missense: 'missense' as ProteinChangeTypeNotEnum,
+        Nonsense: 'nonsense' as ProteinChangeTypeNotEnum,
+        DeletionInsertion: 'deletion-insertion' as ProteinChangeTypeNotEnum,
+        Insertion: 'insertion' as ProteinChangeTypeNotEnum,
+        Deletion: 'deletion' as ProteinChangeTypeNotEnum,
+        Duplication: 'duplication' as ProteinChangeTypeNotEnum,
+        Frameshift: 'frameshift' as ProteinChangeTypeNotEnum,
+        Extension: 'extension' as ProteinChangeTypeNotEnum,
+        Silent: 'silent' as ProteinChangeTypeNotEnum,
+        NoProtein: 'no-protein' as ProteinChangeTypeNotEnum,
+        Repetition: 'repetition' as ProteinChangeTypeNotEnum
+    };
+    export type ProteinChangeTypeAnyOfEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+    export const ProteinChangeTypeAnyOfEnum = {
+        Missense: 'missense' as ProteinChangeTypeAnyOfEnum,
+        Nonsense: 'nonsense' as ProteinChangeTypeAnyOfEnum,
+        DeletionInsertion: 'deletion-insertion' as ProteinChangeTypeAnyOfEnum,
+        Insertion: 'insertion' as ProteinChangeTypeAnyOfEnum,
+        Deletion: 'deletion' as ProteinChangeTypeAnyOfEnum,
+        Duplication: 'duplication' as ProteinChangeTypeAnyOfEnum,
+        Frameshift: 'frameshift' as ProteinChangeTypeAnyOfEnum,
+        Extension: 'extension' as ProteinChangeTypeAnyOfEnum,
+        Silent: 'silent' as ProteinChangeTypeAnyOfEnum,
+        NoProtein: 'no-protein' as ProteinChangeTypeAnyOfEnum,
+        Repetition: 'repetition' as ProteinChangeTypeAnyOfEnum
+    };
     export type AssessmentEnum = 'present' | 'absent' | 'no-call' | 'indeterminate';
     export const AssessmentEnum = {
         Present: 'present' as AssessmentEnum,

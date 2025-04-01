@@ -540,8 +540,8 @@ class GenomicVariant(BaseModel):
                 return self.molecular_consequence.display.lower().replace('_',' ')
         elif self.copy_number:
             return 'amplification' if self.copy_number > 2 else 'loss'
-        elif self.aminoacid_change_type:
-            return self.aminoacid_change_type.display.lower()
+        elif self.protein_change_type:
+            return self.protein_change_type
         else:
             return self.dna_change_type
     
