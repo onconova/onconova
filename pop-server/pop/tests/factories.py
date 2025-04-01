@@ -304,10 +304,10 @@ def _random_aminoacid():
 
 def _random_code_mutation():
     return [
-        f'{_random_nucbase()}>{_random_nucbase()}',
-        'del',
-        f'ins{_random_nucbase()}{_random_nucbase()}',
-        'dup'
+        f'{random.randint(10,1000)}{_random_nucbase()}>{_random_nucbase()}',
+        f'{random.randint(10,10000)}del',
+        f'{random.randint(10,10000)}_{random.randint(10,10000)}ins{_random_nucbase()}{_random_nucbase()}',
+        f'{random.randint(10,10000)}dup'
     ][random.randint(0,3)] 
 
 def _random_aminoacid_mutation():
@@ -332,7 +332,7 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     confidence = FuzzyChoice(models.GenomicVariant.GenomicVariantConfidence)
     clinical_relevance = FuzzyChoice(models.GenomicVariant.GenomicVariantClinicalRelevance)
     analysis_method = make_terminology_factory(terminology.StructuralVariantAnalysisMethod)
-    dna_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM_")}:c.{random.randint(10,10000)}{_random_code_mutation()}')
+    dna_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM_")}:c.{_random_code_mutation()}')
     protein_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NP_")}:p.{_random_aminoacid_mutation()}')
     molecular_consequence = make_terminology_factory(terminology.MolecularConsequence)
     copy_number = factory.LazyFunction(lambda: random.randint(1,9))

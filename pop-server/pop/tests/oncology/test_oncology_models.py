@@ -438,12 +438,21 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
-           ('NC_12345.0:g.12356C>A', 'substitution'),
-           ('NC_12345.0:g.12356_23457del', 'deletion'),
-           ('NC_12345.0:g.12356_23456insCGT', 'insertion'),
-           ('NC_12345.0:g.12356delinsAC', 'deletion-insertion'),
-           ('NC_12345.0:g.12356_234565dup', 'duplication'),
-           ('NC_12345.0:g.(?_12356)_23456inv', 'inversion'),
+            # Examples from HGVS documentation 
+            ('NC_000001.11:g.1234=', 'unchanged'),
+            ('NC_000001.11:g.1234_2345=', 'unchanged'),
+            ('NC_000023.10:g.33038255C>A', 'substitution'),
+            ('NC_000001.11:g.1234del', 'deletion'),
+            ('NC_000001.11:g.1234_2345del', 'deletion'),
+            ('NC_000001.11:g.1234dup', 'duplication'),
+            ('NC_000001.11:g.1234_2345dup', 'duplication'),
+            ('NC_000001.11:g.1234_1235insACGT', 'insertion'),
+            ('NC_000001.11:g.1234_2345inv', 'inversion'),
+            ('NC_000001.11:g.123delinsAC', 'deletion-insertion'),
+            ('NC_000014.8:g.123CAG[23]', 'repetition'),
+            ('NC_000011.10:g.1999904_1999946|gom', 'methylation-gain'),
+            ('NC_000011.10:g.1999904_1999946|lom', 'methylation-loss'),
+            ('NC_000011.10:g.1999904_1999946|met=', 'methylation-unchanged'),
         ],
         name_func = dynamic_test_name
     )
@@ -478,12 +487,22 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
-           ('NM_12345.0:c.123C>A', 'substitution'),
-           ('NM_12345.0:c.123_2345del', 'deletion'),
-           ('NM_12345.0:c.123_234insCGT', 'insertion'),
-           ('NM_12345.0:c.123delinsAC', 'deletion-insertion'),
-           ('NM_12345.0:c.123_2345dup', 'duplication'),
-           ('NM_12345.0:c.(?_123)_234inv', 'inversion'),
+            # Examples from HGVS documentation 
+            ('NM_004006.2:c.123=', 'unchanged'),
+            ('NM_004006.2:c.56A>C', 'substitution'),
+            ('NM_004006.2:c.5697del', 'deletion'),
+            ('NC_000023.11(NM_004006.2):c.183_186+48del', 'deletion'),
+            ('NM_004006.2:c.5697dup', 'duplication'),
+            ('NM_004006.2:c.20_23dup ', 'duplication'),
+            ('NM_004006.2:c.849_850ins858_895', 'insertion'),
+            ('LRG_199t1:c.240_241insAGG', 'insertion'),
+            ('NM_004006.2:c.5657_5660inv', 'inversion'),
+            ('NM_004006.2:c.6775_6777delinsC', 'deletion-insertion'),
+            ('LRG_199t1:c.850_901delinsTTCCTCGATGCCTG', 'deletion-insertion'),
+            ('NM_000014.8:c.1342_1345[14]', 'repetition'),
+            ('LRG_199t1:c.123_145|gom', 'methylation-gain'),
+            ('LRG_199t1:c.123_145|lom', 'methylation-loss'),
+            ('LRG_199t1:c.123_145|met=', 'methylation-unchanged'),
         ],
         name_func = dynamic_test_name
     )
@@ -532,12 +551,15 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
-           ('NM_12345.0:r.123c>a', 'substitution'),
-           ('NM_12345.0:r.123_2345del', 'deletion'),
-           ('NM_12345.0:r.123_234inscgt', 'insertion'),
-           ('NM_12345.0:r.123delinsac', 'deletion-insertion'),
-           ('NM_12345.0:r.123_2345dup', 'duplication'),
-           ('NM_12345.0:r.(?_123)_234inv', 'inversion'),
+            # Examples from HGVS documentation 
+            ('NM_004006.3:r.123=', 'unchanged'),
+            ('NM_004006.3:r.123c>g', 'substitution'),
+            ('NM_004006.3:r.123_127del', 'deletion'),
+            ('NM_004006.3:r.123_124insauc', 'insertion'),
+            ('NM_004006.3:r.123_127delinsag', 'deletion-insertion'),
+            ('NM_004006.3:r.123_345dup', 'duplication'),
+            ('NM_004006.3:r.123_345inv', 'inversion'),
+            ('NM_004006.3:r.-110_-108[6]', 'repetition'),
         ],
         name_func = dynamic_test_name
     )

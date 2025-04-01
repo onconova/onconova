@@ -16,46 +16,13 @@ from pop.core.models import BaseModel
 from pop.oncology.models import PatientCase 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
-import re
 
-
-HGVS_VARIANT_CHANGE_TYPE = (
-    ('=', 'unchanged'),
-    ('>', 'substitution'),
-    ('delins', 'deletion-insertion'),
-    ('dup', 'duplication'),
-    ('ins', 'insertion'),
-    ('del', 'deletion'),
-    ('inv', 'inversion'),
-    ('rpt', 'repetition'),
-)
-
-HGVS_PROTEIN_CHANGE_TYPE = (
-    ('=', 'silent'),
-    ('', 'missense'),
-    ('delins', 'deletion-insertion'),
-    ('dup', 'duplication'),
-    ('ins', 'insertion'),
-    ('del', 'deletion'),
-    ('Ter', 'nonsense'),
-    ('*', 'nonsense'),
-    ('fs', 'frameshift'),
-    ('fsTer', 'frameshift'),
-    ('ext', 'extension'),
-    ('extTer', 'extension'),
-)
-
-class HgvsMatchingGroup(str, enum.Enum): 
-    VARIANT_TYPE = 'variant-type'
-    SEQUENCE_IDENTIFIER = 'sequence-identifier'
-    POSITION_RANGE = 'position-range'
-    COORDINATE = 'coordinate'
-    SEQUENCE = 'sequence'
     
 class HGVSRegex:
     """ BASED ON v21.1.2 of HGVS"""
 
     AMINOACID = r"(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))"
+    REPETITION_COPIES = r"\[(?:\d+|(?:\(\d+_\d+\)))\]"
 
     # Reference sequence identifiers
     VERSIONED_NUMBER = r"\d+(?:\.\d{1,3})?"
@@ -85,11 +52,11 @@ class HGVSRegex:
 
     # Genomic coordinates
     COORDINATE = r"g|c|p|r"
-    POSITION = r'(?:\?|\*|\d+(?:(?:\+|-)?\d+)+?)'
+    POSITION = r'(?:\?|\*|(?:\+|-)?\d+(?:(?:\+|-)?\d+)?)'
     NUCLEOTIDE_UNCERTAIN_POSITION= rf"\({POSITION}_{POSITION}\)"
     NUCLEOTIDE_POSITION = fr"(?:{POSITION}|{NUCLEOTIDE_UNCERTAIN_POSITION})"
     NUCLEOTIDE_RANGE = fr"(?:{NUCLEOTIDE_POSITION}_{NUCLEOTIDE_POSITION})"
-    NUCLEOTIDE_POSITION_OR_RANGE = fr"(?:{NUCLEOTIDE_POSITION}|{NUCLEOTIDE_RANGE})"
+    NUCLEOTIDE_POSITION_OR_RANGE = fr"(?:{NUCLEOTIDE_RANGE}|{NUCLEOTIDE_POSITION})"
     AMINOACID_UNCERTAIN_POSITION= rf"(?:(?:\(\?_{AMINOACID}\d+\))|(?:\({AMINOACID}\d+_\?\))|(?:\({AMINOACID}\d+_{AMINOACID}\d+\)))"
     AMINOACID_POSITION = fr"(?:{AMINOACID}\d+|{AMINOACID_UNCERTAIN_POSITION})"
     AMINOACID_RANGE = fr"(?:{AMINOACID_POSITION}_{AMINOACID_POSITION})"
@@ -104,89 +71,54 @@ class HGVSRegex:
     DNA_SEQUENCE = r"(?:A|C|G|T|B|D|H|K|M|N|R|S|V|W|Y|X|-)+"
     RNA_SEQUENCE = r"(?:a|c|g|t|b|d|h|k|m|n|r|s|v|w|y)+"
     PROTEIN_SEQUENCE = rf"(?:{AMINOACID}+)"
-    
+
+    # DNA HGVS scenarios
+    DNA_UNCHANGED = rf'{NUCLEOTIDE_POSITION_OR_RANGE}='
+    DNA_SUBSTITUTION = rf'{NUCLEOTIDE_POSITION}{DNA_SEQUENCE}>{DNA_SEQUENCE}'
+    DNA_DELETION_INSERTION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}delins{DNA_SEQUENCE}'
+    DNA_INSERTION = rf'{NUCLEOTIDE_RANGE}ins(?:{DNA_SEQUENCE}|{NUCLEOTIDE_RANGE})'
+    DNA_DELETION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}del'
+    DNA_DUPLICATION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}dup'
+    DNA_INVERSION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}inv'
+    DNA_REPETITION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}(?:{DNA_SEQUENCE})?{REPETITION_COPIES}'
+    DNA_METHYLATION_GAIN = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|gom'
+    DNA_METHYLATION_LOSS = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|lom'
+    DNA_METHYLATION_EQUAL = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|met='
+    DNA_CHANGE_DESCRIPTION = rf'{DNA_UNCHANGED}|{DNA_SUBSTITUTION}|{DNA_DELETION_INSERTION}|{DNA_INSERTION}|{DNA_DELETION}|{DNA_DUPLICATION}|{DNA_INVERSION}|{DNA_REPETITION}|{DNA_METHYLATION_GAIN}|{DNA_METHYLATION_LOSS}|{DNA_METHYLATION_EQUAL}'
+
+    # RNA HGVS scenarios
+    RNA_UNCHANGED = rf'{NUCLEOTIDE_POSITION_OR_RANGE}='
+    RNA_SUBSTITUTION = rf'{NUCLEOTIDE_POSITION}{RNA_SEQUENCE}>{RNA_SEQUENCE}'
+    RNA_DELETION_INSERTION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}delins{RNA_SEQUENCE}'
+    RNA_INSERTION = rf'{NUCLEOTIDE_RANGE}ins(?:{RNA_SEQUENCE}|{NUCLEOTIDE_RANGE})'
+    RNA_DELETION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}del'
+    RNA_DUPLICATION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}dup'
+    RNA_INVERSION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}inv'
+    RNA_REPETITION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}(?:{RNA_SEQUENCE})?{REPETITION_COPIES}'
+    RNA_METHYLATION_GAIN = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|gom'
+    RNA_METHYLATION_LOSS = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|lom'
+    RNA_METHYLATION_EQUAL = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|met='
+    RNA_CHANGE_DESCRIPTION = rf'{RNA_UNCHANGED}|{RNA_SUBSTITUTION}|{RNA_DELETION_INSERTION}|{RNA_INSERTION}|{RNA_DELETION}|{RNA_DUPLICATION}|{RNA_INVERSION}|{RNA_REPETITION}'
+
     # Protein HGVS scenarios
     PROTEIN_NOTHING = rf'0$'
     PROTEIN_SILENT = rf'{AMINOACID_POSITION}='
     PROTEIN_MISSENSE = rf'{AMINOACID_POSITION}{PROTEIN_SEQUENCE}'
     PROTEIN_DELETION_INSERTION = rf'{AMINOACID_POSITION_OR_RANGE}delins{PROTEIN_SEQUENCE}'
-    PROTEIN_INSERTION = rf'{AMINOACID_POSITION_OR_RANGE}ins{PROTEIN_SEQUENCE}'
+    PROTEIN_INSERTION = rf'{AMINOACID_RANGE}ins{PROTEIN_SEQUENCE}'
     PROTEIN_DELETION = rf'{AMINOACID_POSITION_OR_RANGE}del'
     PROTEIN_DUPLICATION = rf'{AMINOACID_POSITION_OR_RANGE}dup'
     PROTEIN_NONSENSE = rf'{AMINOACID_POSITION_OR_RANGE}(?:Ter|\*)'
-    PROTEIN_REPETITION = rf'\(?{AMINOACID_POSITION_OR_RANGE}\)?\[(?:\d+|(?:\(\d+_\d+\)))\]'
+    PROTEIN_REPETITION = rf'\(?{AMINOACID_POSITION_OR_RANGE}\)?{REPETITION_COPIES}'
     PROTEIN_FRAMESHIFT = rf'{AMINOACID_POSITION_OR_RANGE}{PROTEIN_SEQUENCE}?fs(?:Ter)?(?:{POSITION})*'
     PROTEIN_EXTENSION = rf'(?:(?:Met1ext-\d+)|(?:Ter\d+{PROTEIN_SEQUENCE}extTer\d+))'
-    PROTEIN_CHANGE_DESCRIPTION = f'{PROTEIN_NOTHING}|{PROTEIN_DELETION_INSERTION}|{PROTEIN_DELETION}|{PROTEIN_INSERTION}|{PROTEIN_DUPLICATION}|{PROTEIN_NONSENSE}|{PROTEIN_FRAMESHIFT}|{PROTEIN_EXTENSION}|{PROTEIN_REPETITION}|{PROTEIN_MISSENSE}|{PROTEIN_SILENT}'
+    PROTEIN_CHANGE_DESCRIPTION = rf'{PROTEIN_NOTHING}|{PROTEIN_DELETION_INSERTION}|{PROTEIN_DELETION}|{PROTEIN_INSERTION}|{PROTEIN_DUPLICATION}|{PROTEIN_NONSENSE}|{PROTEIN_FRAMESHIFT}|{PROTEIN_EXTENSION}|{PROTEIN_REPETITION}|{PROTEIN_MISSENSE}|{PROTEIN_SILENT}'
 
-    # Complete protein HGVS regex
+    # Complete HGVS regexes for each scenario
+    GENOMIC_HGVS = rf'({GENOMIC_REFSEQ}):g\.({DNA_CHANGE_DESCRIPTION})'
+    DNA_HGVS = rf'(?:{GENOMIC_REFSEQ})?\(?({RNA_REFSEQ})\)?:c\.({DNA_CHANGE_DESCRIPTION})'
+    RNA_HGVS = rf'({RNA_REFSEQ}):r\.\(?({RNA_CHANGE_DESCRIPTION})\)?'
     PROTEIN_HGVS = rf'({PROTEIN_REFSEQ}):p\.\(?({PROTEIN_CHANGE_DESCRIPTION})\)?'
-    
-    
-    class DNAMatchGroup(enum.Enum):
-        REFSEQ = 1
-        POSITION_OR_RANGE = 2
-        REFERENCE_SEQUENCE = 3
-        VARIANT_TYPE = 4
-        ALTERNATE_SEQUENCE = 5
-
-    class ProteinMatchGroup(enum.Enum):
-        REFSEQ = 1
-        POSITION_OR_RANGE = 2
-        VARIANT_TYPE = 3
-        ALTERNATE_SEQUENCE = 4
-        
-    @classmethod
-    def construct_genomic_hgvs_regex(cls):
-        return rf'({cls.GENOMIC_REFSEQ}):g\.({cls.NUCLEOTIDE_POSITION_OR_RANGE})({cls.DNA_SEQUENCE})?({cls.DNA_VARIANT_TYPE})({cls.DNA_SEQUENCE})?'
-
-    @classmethod
-    def construct_rna_hgvs_regex(cls):
-        return rf'({cls.RNA_REFSEQ}):r\.({cls.NUCLEOTIDE_POSITION_OR_RANGE})({cls.RNA_SEQUENCE})?({cls.RNA_VARIANT_TYPE})({cls.RNA_SEQUENCE})?'
-
-    @classmethod
-    def construct_dna_hgvs_regex(cls):
-        return rf'(?:{cls.GENOMIC_REFSEQ})?\(?({cls.RNA_REFSEQ})\)?:c\.({cls.NUCLEOTIDE_POSITION_OR_RANGE})({cls.DNA_SEQUENCE})?({cls.DNA_VARIANT_TYPE})({cls.DNA_SEQUENCE})?'
-
-
-
-class MatchHgvsProperty(Func):
-    """
-    Extracts the nth matching group from an HGVS expression using PostgreSQL's `regexp_match()`.
-    
-    :param expression: The database column containing the HGVS string.
-    :param group: The group to capture.
-    :param group_index: The index of the capturing group to extract (1-based).
-    """
-    function = 'regexp_match'
-
-    def __init__(self, molecule_type, group=Union[HGVSRegex.DNAMatchGroup, HGVSRegex.ProteinMatchGroup], **extra):
-        # PostgreSQL regexp_match() returns an array, so we extract the nth element
-        template = "(%(function)s(%(expressions)s, '%(regex)s'))[%(group)s]"
-
-        if molecule_type == 'genomic':
-            expression = F('genomic_hgvs')
-            hgvs_regex = HGVSRegex.construct_genomic_hgvs_regex() 
-        elif molecule_type == 'dna':
-            expression = F('dna_hgvs')
-            hgvs_regex = HGVSRegex.construct_dna_hgvs_regex() 
-        elif molecule_type == 'rna':
-            expression = F('rna_hgvs')
-            hgvs_regex = HGVSRegex.construct_rna_hgvs_regex() 
-        elif molecule_type == 'protein':
-            expression = F('protein_hgvs')
-            hgvs_regex = HGVSRegex.PROTEIN_HGVS
-        else:
-            raise KeyError(f'Unsupported HGVS molecule type: "{molecule_type}"')
-        
-        super().__init__(
-            expression,
-            regex=hgvs_regex,
-            template=template,
-            group=group.value,  # 1-based index in PostgreSQL arrays
-            **extra
-        )
-
 
 class RegexpMatchSubstring(Func):
     """
@@ -200,7 +132,7 @@ class RegexpMatchSubstring(Func):
 
     def __init__(self, expression, regex, **extra):
         # PostgreSQL regexp_match() returns an array, so we extract the nth element
-        template = "(%(function)s(%(expressions)s, '(%(regex)s)'))"
+        template = "(%(function)s(%(expressions)s, '%(regex)s'))"
         super().__init__(
             expression,
             regex=regex,
@@ -231,7 +163,43 @@ class GenomicVariant(BaseModel):
         AMBIGUOUS = 'ambiguous'
         LIKELY_BENIGN = 'likely_benign'
         BENIGN = 'benign'
-        
+
+    class DNAChangeType(models.TextChoices):
+        SUBSTITUTION = 'substitution'
+        DELETION_INSERTION = 'deletion-insertion'
+        INSERTION = 'insertion'
+        DELETION = 'deletion'
+        DUPLICATION = 'duplication'
+        INVERSION = 'inversion'
+        UNCHANGED = 'unchanged'
+        REPETITION = 'repetition'
+        METHYLATION_GAIN = 'methylation-gain'
+        METHYLATION_LOSS = 'methylation-loss'
+        METHYLATION_UNCHANGED = 'methylation-unchanged'
+
+    class RNAChangeType(models.TextChoices):
+        SUBSTITUTION = 'substitution'
+        DELETION_INSERTION = 'deletion-insertion'
+        INSERTION = 'insertion'
+        DELETION = 'deletion'
+        DUPLICATION = 'duplication'
+        INVERSION = 'inversion'
+        UNCHANGED = 'unchanged'
+        REPETITION = 'repetition'
+
+    class ProteinChangeType(models.TextChoices):
+        MISSENSE = 'missense'
+        NONSENSE = 'nonsense'
+        DELETION_INSERTION = 'deletion-insertion'
+        INSERTION = 'insertion'
+        DELETION = 'deletion'
+        DUPLICATION = 'duplication'
+        FRAMESHIFT = 'frameshift'
+        EXTENSION = 'extension'
+        SILENT = 'silent'
+        NO_PROTEIN = 'no-protein'
+        REPETITION = 'repetition'
+
     case = models.ForeignKey(
         verbose_name = _('Patient case'),
         help_text = _("Indicates the case of the patient who' genomic variant is described"),
@@ -333,80 +301,95 @@ class GenomicVariant(BaseModel):
         help_text=_("Description of the genomic sequence change using a valid HGVS-formatted expression, e.g. NC_000016.9:g.2124200_2138612dup"),
         max_length=500,
         null=True, blank=True,
-        validators=[RegexValidator(HGVSRegex.construct_genomic_hgvs_regex(), "The string should be a valid genomic HGVS expression.")],
     )
     genomic_reference_sequence = AnnotationProperty(
         verbose_name = _('Genomic HGVS RefSeq'),
-        annotation = MatchHgvsProperty('genomic', HGVSRegex.DNAMatchGroup.REFSEQ),
+        annotation = RegexpMatchSubstring(F('genomic_hgvs'), fr'({HGVSRegex.GENOMIC_REFSEQ})'),
     )
     genomic_change_position = AnnotationProperty(
         verbose_name = _('Genomic change position'),
-        annotation = MatchHgvsProperty('genomic', HGVSRegex.DNAMatchGroup.POSITION_OR_RANGE),
+        annotation = RegexpMatchSubstring(F('genomic_hgvs'), fr":g\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
     )    
-    _genomic_hgvs_change_type = AnnotationProperty(
-        annotation = MatchHgvsProperty('genomic', HGVSRegex.DNAMatchGroup.VARIANT_TYPE),
-    )
-    genomic_change_type = MappingProperty(
+    genomic_change_type = AnnotationProperty(
         verbose_name = _('Genomic change type'),
-        attribute_path = '_genomic_hgvs_change_type',
-        mappings=HGVS_VARIANT_CHANGE_TYPE,
-        default=None,
-        output_field=models.CharField(choices=HGVS_VARIANT_CHANGE_TYPE)
-    )    
-
-    
+        annotation = Case(
+            When(genomic_hgvs__regex=HGVSRegex.DNA_DELETION_INSERTION, then=Value(DNAChangeType.DELETION_INSERTION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_INSERTION, then=Value(DNAChangeType.INSERTION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_DELETION, then=Value(DNAChangeType.DELETION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_DUPLICATION, then=Value(DNAChangeType.DUPLICATION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_UNCHANGED, then=Value(DNAChangeType.UNCHANGED)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_INVERSION, then=Value(DNAChangeType.INVERSION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_SUBSTITUTION, then=Value(DNAChangeType.SUBSTITUTION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_REPETITION, then=Value(DNAChangeType.REPETITION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_METHYLATION_GAIN, then=Value(DNAChangeType.METHYLATION_GAIN)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_METHYLATION_LOSS, then=Value(DNAChangeType.METHYLATION_LOSS)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_METHYLATION_EQUAL, then=Value(DNAChangeType.METHYLATION_UNCHANGED)),
+            default=None,
+            output_field=models.CharField(choices=DNAChangeType)
+        ),
+    )
     dna_hgvs = models.CharField(
         verbose_name=_('HGVS DNA-level expression'),
         help_text=_("Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C>T"),
         max_length=500,
         null=True, blank=True,
-        validators=[RegexValidator(HGVSRegex.construct_dna_hgvs_regex(), "The string should be a valid DNA HGVS expression.")],
     )
     dna_reference_sequence = AnnotationProperty(
-        verbose_name = _('Coding HGVS RefSeq'),
-        annotation = MatchHgvsProperty('dna', HGVSRegex.DNAMatchGroup.REFSEQ),
+        verbose_name = _('DNA HGVS RefSeq'),
+        annotation = RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.RNA_REFSEQ})'),
     )
     dna_change_position = AnnotationProperty(
         verbose_name = _('DNA change position'),
-        annotation = MatchHgvsProperty('dna', HGVSRegex.DNAMatchGroup.POSITION_OR_RANGE),
+        annotation = RegexpMatchSubstring(F('dna_hgvs'), fr":c\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
     )    
-    _dna_hgvs_change_type = AnnotationProperty(
-        annotation = MatchHgvsProperty('dna', HGVSRegex.DNAMatchGroup.VARIANT_TYPE),
-    )
-    dna_change_type = MappingProperty(
+    dna_change_type = AnnotationProperty(
         verbose_name = _('DNA change type'),
-        attribute_path = '_dna_hgvs_change_type',
-        mappings=HGVS_VARIANT_CHANGE_TYPE,
-        default=None,
-        output_field=models.CharField(choices=HGVS_VARIANT_CHANGE_TYPE)
-    )    
+        annotation = Case(
+            When(dna_hgvs__regex=HGVSRegex.DNA_DELETION_INSERTION, then=Value(DNAChangeType.DELETION_INSERTION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_INSERTION, then=Value(DNAChangeType.INSERTION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_DELETION, then=Value(DNAChangeType.DELETION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_DUPLICATION, then=Value(DNAChangeType.DUPLICATION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_UNCHANGED, then=Value(DNAChangeType.UNCHANGED)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_INVERSION, then=Value(DNAChangeType.INVERSION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_SUBSTITUTION, then=Value(DNAChangeType.SUBSTITUTION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_REPETITION, then=Value(DNAChangeType.REPETITION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_METHYLATION_GAIN, then=Value(DNAChangeType.METHYLATION_GAIN)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_METHYLATION_LOSS, then=Value(DNAChangeType.METHYLATION_LOSS)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_METHYLATION_EQUAL, then=Value(DNAChangeType.METHYLATION_UNCHANGED)),
+            default=None,
+            output_field=models.CharField(choices=DNAChangeType)
+        ),
+    )
 
     rna_hgvs = models.CharField(
         verbose_name=_('HGVS RNA-level expression'),
         help_text=_("Description of the RNA sequence change using a valid HGVS-formatted expression, e.g. NM_000016.9:r.1212a>c"),
         max_length=500,
         null=True, blank=True,
-        validators=[RegexValidator(HGVSRegex.construct_rna_hgvs_regex(), "The string should be a valid RNA HGVS expression.")],
     )
     rna_reference_sequence = AnnotationProperty(
         verbose_name = _('RNA HGVS RefSeq'),
-        annotation = MatchHgvsProperty('rna', HGVSRegex.DNAMatchGroup.REFSEQ),
+        annotation = RegexpMatchSubstring(F('rna_hgvs'), fr'({HGVSRegex.RNA_REFSEQ})'),
     )
     rna_change_position = AnnotationProperty(
         verbose_name = _('RNA change position'),
-        annotation = MatchHgvsProperty('rna', HGVSRegex.DNAMatchGroup.POSITION_OR_RANGE),
+        annotation = RegexpMatchSubstring(F('rna_hgvs'), fr":r\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
     )    
-    _rna_hgvs_change_type = AnnotationProperty(
-        annotation = MatchHgvsProperty('rna', HGVSRegex.DNAMatchGroup.VARIANT_TYPE),
-    )
-    rna_change_type = MappingProperty(
+    rna_change_type = AnnotationProperty(
         verbose_name = _('RNA change type'),
-        attribute_path = '_rna_hgvs_change_type',
-        mappings=HGVS_VARIANT_CHANGE_TYPE,
-        default=None,
-        output_field=models.CharField(choices=HGVS_VARIANT_CHANGE_TYPE)
-    )    
-
+        annotation = Case(
+            When(rna_hgvs__regex=HGVSRegex.RNA_DELETION_INSERTION, then=Value(RNAChangeType.DELETION_INSERTION)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_INSERTION, then=Value(RNAChangeType.INSERTION)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_DELETION, then=Value(RNAChangeType.DELETION)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_DUPLICATION, then=Value(RNAChangeType.DUPLICATION)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_UNCHANGED, then=Value(RNAChangeType.UNCHANGED)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_INVERSION, then=Value(RNAChangeType.INVERSION)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_SUBSTITUTION, then=Value(RNAChangeType.SUBSTITUTION)),
+            When(rna_hgvs__regex=HGVSRegex.RNA_REPETITION, then=Value(RNAChangeType.REPETITION)),
+            default=None,
+            output_field=models.CharField(choices=RNAChangeType)
+        ),
+    ) 
     protein_hgvs = models.CharField(
         verbose_name=_('HGVS protein-level expression'),
         help_text=_("Description of the amino-acid sequence change using a valid HGVS-formatted expression, e.g. NP_000016.9:p.Leu24Tyr"),
@@ -415,24 +398,24 @@ class GenomicVariant(BaseModel):
     )
     protein_reference_sequence = AnnotationProperty(
         verbose_name = _('Protein HGVS RefSeq'),
-        annotation = RegexpMatchSubstring(F('protein_hgvs'), HGVSRegex.PROTEIN_REFSEQ),
+        annotation = RegexpMatchSubstring(F('protein_hgvs'), fr'({HGVSRegex.PROTEIN_REFSEQ})'),
     )
     protein_change_type = AnnotationProperty(
         verbose_name = _('Protein change type'),
         annotation = Case(
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DELETION_INSERTION, then=Value('deletion-insertion')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_INSERTION, then=Value('insertion')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DELETION, then=Value('deletion')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DUPLICATION, then=Value('duplication')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NONSENSE, then=Value('nonsense')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_FRAMESHIFT, then=Value('frameshift')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_EXTENSION, then=Value('extension')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_REPETITION, then=Value('repetition')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_SILENT, then=Value('silent')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NOTHING, then=Value('no-protein')),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_MISSENSE, then=Value('missense')),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DELETION_INSERTION, then=Value(ProteinChangeType.DELETION_INSERTION)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_INSERTION, then=Value(ProteinChangeType.INSERTION)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DELETION, then=Value(ProteinChangeType.DELETION)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_DUPLICATION, then=Value(ProteinChangeType.DUPLICATION)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NONSENSE, then=Value(ProteinChangeType.NONSENSE)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_FRAMESHIFT, then=Value(ProteinChangeType.FRAMESHIFT)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_EXTENSION, then=Value(ProteinChangeType.EXTENSION)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_REPETITION, then=Value(ProteinChangeType.REPETITION)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_SILENT, then=Value(ProteinChangeType.SILENT)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NOTHING, then=Value(ProteinChangeType.NO_PROTEIN)),
+            When(protein_hgvs__regex=HGVSRegex.PROTEIN_MISSENSE, then=Value(ProteinChangeType.MISSENSE)),
             default=None,
-            output_field=models.CharField()
+            output_field=models.CharField(choices=ProteinChangeType)
         ),
     )    
     molecular_consequence = termfields.CodedConceptField(
@@ -484,17 +467,17 @@ class GenomicVariant(BaseModel):
     class Meta:
         constraints = [
             CheckConstraint(
-                condition=Q(genomic_hgvs__isnull=True) | Q(genomic_hgvs__regex=HGVSRegex.construct_genomic_hgvs_regex()),
+                condition=Q(genomic_hgvs__isnull=True) | Q(genomic_hgvs__regex=HGVSRegex.GENOMIC_HGVS),
                 name="valid_genomic_hgvs",
                 violation_error_message="Genomic HGVS must be a valid 'g.'-HGVS expression.",
             ),
             CheckConstraint(
-                condition=Q(dna_hgvs__isnull=True) | Q(dna_hgvs__regex=HGVSRegex.construct_dna_hgvs_regex()),
+                condition=Q(dna_hgvs__isnull=True) | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
                 name="valid_dna_hgvs",
                 violation_error_message="DNA HGVS must be a valid 'c.'-HGVS expression.",
             ),
             CheckConstraint(
-                condition=Q(rna_hgvs__isnull=True) | Q(rna_hgvs__regex=HGVSRegex.construct_rna_hgvs_regex()),
+                condition=Q(rna_hgvs__isnull=True) | Q(rna_hgvs__regex=HGVSRegex.RNA_HGVS),
                 name="valid_rna_hgvs",
                 violation_error_message="RNA HGVS must be a valid 'r.'-HGVS expression.",
             ),
