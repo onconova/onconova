@@ -533,16 +533,11 @@ class GenomicVariant(BaseModel):
             else:
                 return self.molecular_consequence.display.lower().replace('_',' ')
         elif self.copy_number:
-            if self.copy_number > 2:
-                return 'amplification'
-            if self.copy_number < 2:
-                return 'loss'
-            else:
-                return self.dna_change_type
+            return 'amplification' if self.copy_number > 2 else 'loss'
         elif self.aminoacid_change_type:
             return self.aminoacid_change_type.display.lower()
         else:
-            return None
+            return self.dna_change_type
     
     @property
     def genes_label(self):
@@ -564,10 +559,5 @@ class GenomicVariant(BaseModel):
         
     @property
     def description(self):
-        if self.is_pathogenic:
-            significance_label = '(Pathogenic)'
-        elif self.is_vus:
-            significance_label = '(VUS)'
-        else:
-            significance_label = None   
-        return ' '.join([piece for piece in [self.genes_label, self.aminoacid_change, self.mutation_label, significance_label] if piece])
+        significance = '(Pathogenic)' if self.is_pathogenic else '(VUS)' if self.is_vus else None
+        return ' '.join([piece for piece in [self.genes_label, self.aminoacid_change, self.mutation_label, significance] if piece])
