@@ -6,7 +6,7 @@ import enum
 from typing import Union
 from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Q, F, Func, CheckConstraint, When, Case, Value
-from django.db.models.functions import Cast
+from django.db.models.functions import Cast, Coalesce
 from django.db.models.fields.json import KeyTextTransform
 
 from queryable_properties.properties import AnnotationProperty, MappingProperty
@@ -360,7 +360,6 @@ class GenomicVariant(BaseModel):
             output_field=models.CharField(choices=DNAChangeType)
         ),
     )
-
     rna_hgvs = models.CharField(
         verbose_name=_('HGVS RNA-level expression'),
         help_text=_("Description of the RNA sequence change using a valid HGVS-formatted expression, e.g. NM_000016.9:r.1212a>c"),
@@ -416,6 +415,40 @@ class GenomicVariant(BaseModel):
             When(protein_hgvs__regex=HGVSRegex.PROTEIN_MISSENSE, then=Value(ProteinChangeType.MISSENSE)),
             default=None,
             output_field=models.CharField(choices=ProteinChangeType)
+        ),
+    )    
+    nucleotides_length = AnnotationProperty(
+        verbose_name = _('Total affected nucleotides (estimated if uncertain)'),
+        annotation = Case(
+            When(
+                Q(genomic_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$') | 
+                Q(dna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$') |
+                Q(rna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$'), 
+                then=
+                    Cast(
+                        RegexpMatchSubstring(
+                            Coalesce('genomic_change_position', 'dna_change_position', 'rna_change_position'), 
+                            rf'^{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(\d+)'
+                        ), 
+                        output_field=models.IntegerField()
+                    )
+                    -
+                    Cast(
+                        RegexpMatchSubstring(
+                            Coalesce('genomic_change_position', 'dna_change_position', 'rna_change_position'), 
+                            rf'(\d+)\D*_{HGVSRegex.NUCLEOTIDE_POSITION}$'
+                        ), 
+                        output_field=models.IntegerField()
+                    )
+            ),
+            When(
+                  Q(genomic_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$') |
+                  Q(dna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$') |
+                  Q(rna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$'), 
+                then=Value(1),
+            ),
+            default=None,
+            output_field=models.IntegerField(),
         ),
     )    
     molecular_consequence = termfields.CodedConceptField(

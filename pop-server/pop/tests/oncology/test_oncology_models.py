@@ -373,7 +373,7 @@ class GenomicVariantModelTest(TestCase):
     
     @classmethod
     def setUpTestData(cls):
-        cls.variant = factories.GenomicVariantFactory()
+        cls.variant = factories.GenomicVariantFactory.create(dna_hgvs=None, rna_hgvs=None, genomic_hgvs=None, protein_hgvs=None)
     
     def test_cytogenetic_location_annotated_from_single_gene(self):
         self.variant.genes.set([terminology.Gene.objects.create(properties={'location': '12p34.5'}, code='gene-1', display='gene-1', system='system')])
@@ -435,7 +435,27 @@ class GenomicVariantModelTest(TestCase):
         self.variant.genomic_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.genomic_change_position, expected)
-        
+
+
+    @parameterized.expand(
+        [
+           ('NC_12345:g.12345C>A', 1),
+           ('NC_12345:g.(12345_45678)C>A', 1),
+           ('NC_12345:g.(?_12345)C>A', 1),
+           ('NC_12345:g.(12345_?)C>A', 1),
+           ('NC_12345:g.12345_45678del', 33333),
+           ('NC_12345:g.(12345_?)_45678del', 33333),
+           ('NC_12345:g.12345_(45678_?)del', 33333),
+           ('NC_12345:g.(12345_?)_(45678_?)del', 33333),
+           ('NC_12345:g.(12345_12350)_(45670_45678)del', 33320),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_nucleotides_length_from_genomic_hgvs(self, hgvs, expected):
+        self.variant.genomic_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.nucleotides_length, expected)
+
     @parameterized.expand(
         [
             # Examples from HGVS documentation 
@@ -531,6 +551,25 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
+           ('NM_12345:c.12C>A', 1),
+           ('NM_12345:c.(12_45)C>A', 1),
+           ('NM_12345:c.(?_12)C>A', 1),
+           ('NM_12345:c.(12_?)C>A', 1),
+           ('NM_12345:c.12_45del', 33),
+           ('NM_12345:c.(12_?)_45del', 33),
+           ('NM_12345:c.12_(45_?)del', 33),
+           ('NM_12345:c.(12_?)_(45_?)del', 33),
+           ('NM_12345:c.(12_14)_(45_47)del', 31),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_nucleotides_length_from_dna_hgvs(self, hgvs, expected):
+        self.variant.dna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.nucleotides_length, expected)
+
+    @parameterized.expand(
+        [
             # NCIB Sequences
            ('NM_12345:r.123c>a', 'NM_12345'),
            ('NR_12345.1:r.123c>a', 'NR_12345.1'),
@@ -586,6 +625,26 @@ class GenomicVariantModelTest(TestCase):
         self.variant.save()
         self.assertEqual(self.variant.rna_change_position, expected)
         
+        
+    @parameterized.expand(
+        [
+           ('NM_12345:r.12c>a', 1),
+           ('NM_12345:r.(12_45)c>a', 1),
+           ('NM_12345:r.(?_12)c>a', 1),
+           ('NM_12345:r.(12_?)c>a', 1),
+           ('NM_12345:r.12_45del', 33),
+           ('NM_12345:r.(12_?)_45del', 33),
+           ('NM_12345:r.12_(45_?)del', 33),
+           ('NM_12345:r.(12_?)_(45_?)del', 33),
+           ('NM_12345:r.(12_14)_(45_47)del', 31),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_nucleotides_length_from_rna_hgvs(self, hgvs, expected):
+        self.variant.rna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.nucleotides_length, expected)
+
     @parameterized.expand(
         [
             # NCIB Sequences
