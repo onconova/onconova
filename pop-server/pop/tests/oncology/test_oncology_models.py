@@ -473,6 +473,8 @@ class GenomicVariantModelTest(TestCase):
             ('NC_000011.10:g.1999904_1999946|gom', 'methylation-gain'),
             ('NC_000011.10:g.1999904_1999946|lom', 'methylation-loss'),
             ('NC_000011.10:g.1999904_1999946|met=', 'methylation-unchanged'),
+            ('NC_000002.12:g.?_8247756delins[NC_000011.10:g.15825272_?]', 'translocation'),
+            ('NC_000004.12:g.134850793_134850794ins[NC_000023.11:g.89555676_100352080] and NC_000023.11:g.89555676_100352080del', 'transposition'),
         ],
         name_func = dynamic_test_name
     )

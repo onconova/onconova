@@ -84,7 +84,9 @@ class HGVSRegex:
     DNA_METHYLATION_GAIN = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|gom'
     DNA_METHYLATION_LOSS = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|lom'
     DNA_METHYLATION_EQUAL = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|met='
-    DNA_CHANGE_DESCRIPTION = rf'{DNA_UNCHANGED}|{DNA_SUBSTITUTION}|{DNA_DELETION_INSERTION}|{DNA_INSERTION}|{DNA_DELETION}|{DNA_DUPLICATION}|{DNA_INVERSION}|{DNA_REPETITION}|{DNA_METHYLATION_GAIN}|{DNA_METHYLATION_LOSS}|{DNA_METHYLATION_EQUAL}'
+    DNA_TRANSLOCATION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}delins\[{GENOMIC_REFSEQ}:g\.{NUCLEOTIDE_POSITION_OR_RANGE}\]'
+    DNA_TRANSPOSITION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}ins\[{GENOMIC_REFSEQ}:g\.{NUCLEOTIDE_POSITION_OR_RANGE}\]\sand\s{GENOMIC_REFSEQ}:g\.{NUCLEOTIDE_POSITION_OR_RANGE}del'
+    DNA_CHANGE_DESCRIPTION = rf'{DNA_UNCHANGED}|{DNA_SUBSTITUTION}|{DNA_TRANSLOCATION}|{DNA_TRANSPOSITION}|{DNA_DELETION_INSERTION}|{DNA_INSERTION}|{DNA_DELETION}|{DNA_DUPLICATION}|{DNA_INVERSION}|{DNA_REPETITION}|{DNA_METHYLATION_GAIN}|{DNA_METHYLATION_LOSS}|{DNA_METHYLATION_EQUAL}'
 
     # RNA HGVS scenarios
     RNA_UNCHANGED = rf'{NUCLEOTIDE_POSITION_OR_RANGE}='
@@ -173,6 +175,8 @@ class GenomicVariant(BaseModel):
         INVERSION = 'inversion'
         UNCHANGED = 'unchanged'
         REPETITION = 'repetition'
+        TRANSLOCATION = 'translocation'
+        TRANSPOSITION = 'transposition'
         METHYLATION_GAIN = 'methylation-gain'
         METHYLATION_LOSS = 'methylation-loss'
         METHYLATION_UNCHANGED = 'methylation-unchanged'
@@ -313,6 +317,8 @@ class GenomicVariant(BaseModel):
     genomic_change_type = AnnotationProperty(
         verbose_name = _('Genomic change type'),
         annotation = Case(
+            When(genomic_hgvs__regex=HGVSRegex.DNA_TRANSLOCATION, then=Value(DNAChangeType.TRANSLOCATION)),
+            When(genomic_hgvs__regex=HGVSRegex.DNA_TRANSPOSITION, then=Value(DNAChangeType.TRANSPOSITION)),
             When(genomic_hgvs__regex=HGVSRegex.DNA_DELETION_INSERTION, then=Value(DNAChangeType.DELETION_INSERTION)),
             When(genomic_hgvs__regex=HGVSRegex.DNA_INSERTION, then=Value(DNAChangeType.INSERTION)),
             When(genomic_hgvs__regex=HGVSRegex.DNA_DELETION, then=Value(DNAChangeType.DELETION)),
