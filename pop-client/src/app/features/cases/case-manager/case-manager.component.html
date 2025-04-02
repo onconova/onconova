@@ -34,7 +34,11 @@
             <small class="text-muted">Overall survival</small>
             <div>
                 @if (case) {
-                    {{ case.overallSurvival | number:'1.0-0' }} months
+                    @if (case.overallSurvival !== null) {
+                        {{ case.overallSurvival | number:'1.0-0' }} months
+                    } @else {
+                        -
+                    }
                 } @else {
                     <p-skeleton width="12rem" height="1.5rem" />
                 }      
