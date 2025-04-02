@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
+import { SelectButton } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 
 import openApiSchema from "../../../../../openapi.json";
@@ -43,6 +44,7 @@ import { Divider } from 'primeng/divider';
     FormsModule,
     SelectModule,
     DatePickerComponent,
+    SelectButton,
     Fluid,
     Fieldset,
     Divider,
@@ -103,7 +105,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             genePanel: [this.initialData?.genePanel],      
             assessment: [this.initialData?.assessment],      
             confidence: [this.initialData?.confidence],      
-            analysisMethod: [this.initialData?.analysisMethod],  
+            analysisMethod: [this.initialData?.analysisMethod, Validators.required],  
             clinicalRelevance: [this.initialData?.clinicalRelevance], 
             genes: [this.initialData?.genes,Validators.required],     
             dnaHgvs: [this.initialData?.dnaHgsv, [Validators.required, Validators.pattern(this.extractRegexPattern('dnaHgvs'))]],         

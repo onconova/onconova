@@ -21,32 +21,29 @@
         </div>
 
         <div class="field">
-            <label class="form-label">Analysis method</label>
+            <label class="form-label required">Analysis method</label>
             <pop-concept-selector 
                 formControlName="analysisMethod"
                 terminology="StructuralVariantAnalysisMethod"
                 [showSynonyms]="false"/>
-            <small class="help-text">Analysis method used to detect the variant"</small>
             <pop-form-control-error controlName="analysisMethod"></pop-form-control-error>
         </div>
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label class="form-label">Assessment</label>
-            <pop-radio-select  
+            <p-selectbutton  
                 formControlName="assessment"
-                [choices]="assessmentChoices"
-                class="flex flex-wrap gap-4"/>
-            <small class="help-text">Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants.</small>
+                [options]="assessmentChoices"
+                optionLabel="name" optionValue="value"/>
             <pop-form-control-error controlName="assessment"></pop-form-control-error>
         </div>
 
-        <div class="field">
-            <label class="form-label">Confidence</label>
-            <pop-radio-select  
+        <div class="field flex flex-column">
+            <label class="form-label">Variant call confidence</label>
+            <p-selectbutton  
                 formControlName="confidence"
-                [choices]="confidenceChoices"
-                class="flex flex-wrap gap-4"/>
-            <small class="help-text">Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores.</small>
+                [options]="confidenceChoices"
+                optionLabel="name" optionValue="value"/>
             <pop-form-control-error controlName="confidence"></pop-form-control-error>
         </div>
 
@@ -60,7 +57,6 @@
                 placeholder="Select an option" 
                 appendTo="body" 
                 />
-            <small class="help-text">Classification of the clinical relevance or pathogenicity of the variant.</small>
             <pop-form-control-error controlName="clinicalRelevance"></pop-form-control-error>
         </div>
 
@@ -68,7 +64,7 @@
         <p-fieldset legend="Variant description">
 
             <div class="field">
-                <label class="form-label">Gene(s) affected</label>
+                <label class="form-label required">Gene(s) affected</label>
                 <pop-concept-selector 
                     formControlName="genes"
                     terminology="Gene"
@@ -93,24 +89,12 @@
             </div>
 
             <div class="field">
-                <label class="form-label">Genomic DNA-level description</label>
-                <input type="text" 
-                    pInputText 
-                    formControlName="genomicHgvs" 
-                    placeholder="Enter a value, e.g. NC_005228.5:c.1239283C>T"
-                    />                      
-                <small class="help-text">Description of the genomic DNA sequence change using a valid HGVS-formatted expression</small>
-                <pop-form-control-error controlName="genomicHgvs"></pop-form-control-error>
-            </div>
-
-            <div class="field">
-                <label class="form-label">Coding DNA-level description</label>
+                <label class="form-label required">DNA-level description</label>
                 <input type="text" 
                     pInputText 
                     formControlName="dnaHgvs" 
-                    placeholder="Enter a value, e.g. NM_005228.5:c.2369C>T"
+                    placeholder="Enter a value, e.g. NM_005228.5:c.2369C>T or NG_00019.3:g.11225562C>T"
                     />                      
-                <small class="help-text">Description of the coding DNA sequence change using a valid HGVS-formatted expression</small>
                 <pop-form-control-error controlName="dnaHgvs"></pop-form-control-error>
             </div>
 
@@ -121,7 +105,6 @@
                     formControlName="rnaHgvs" 
                     placeholder="Enter a value, e.g. NM_000050.2:r.2369c>t"
                     />                      
-                <small class="help-text">Description of the RNA sequence change using a valid HGVS-formatted expression</small>
                 <pop-form-control-error controlName="rnaHgvs"></pop-form-control-error>
             </div>
 
@@ -132,7 +115,6 @@
                     formControlName="proteinHgvs" 
                     placeholder="Enter a value, e.g. NP_000050.2:p.(Asn1836Lys)"
                     />                      
-                <small class="help-text">Description of the protein (aminoacid) sequence change using a valid HGVS-formatted expression</small>
                 <pop-form-control-error controlName="proteinHgvs"></pop-form-control-error>
             </div>
 
@@ -144,7 +126,7 @@
                     formControlName="copyNumber" 
                     placeholder="Enter a value, e.g. 2"
                     [min]="0"/>
-                <small class="help-text">Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.</small>
+                <small class="help-text">Genomic structural variant copy number. Applicable to large deletion/duplication structural variants</small>
                 <pop-form-control-error controlName="copyNumber"></pop-form-control-error>
             </div>
 
@@ -165,10 +147,13 @@
                 <label class="form-label">Allele frequency</label>
                 <p-inputnumber 
                     formControlName="alleleFrequency" 
-                    mode="decimal" 
                     placeholder="Enter a value, e.g. 0.75"
-                    [min]="0" 
-                    [max]="1"/>
+                    mode="decimal"
+                    min="0"
+                    max="1"
+                    [minFractionDigits]="1"
+                    [maxFractionDigits]="3"
+                    locale="en-US"/>
                 <small class="help-text">The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.</small>
                 <pop-form-control-error controlName="alleleFrequency"></pop-form-control-error>
             </div>
@@ -189,17 +174,16 @@
                     formControlName="zygosity"
                     terminology="Zygosity"
                     [showSynonyms]="true"/>
-                <small class="help-text">The observed level of occurrence of the variant in the set of chromosomes.</small>
                 <pop-form-control-error controlName="zygosity"></pop-form-control-error>
             </div>
             
-            <div class="field">
-                <label class="form-label">Inheritance</label>
+            <div class="field flex flex-column">
+                <label class="form-label">Inheritance type</label>
                 <pop-concept-selector 
                     formControlName="inheritance"
                     terminology="VariantInheritance"
+                    widget="selectbutton"
                     [showSynonyms]="true"/>
-                <small class="help-text">Variant inheritance origin (if known).</small>
                 <pop-form-control-error controlName="inheritance"></pop-form-control-error>
             </div>
 

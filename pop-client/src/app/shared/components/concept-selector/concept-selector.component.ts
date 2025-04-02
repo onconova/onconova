@@ -5,6 +5,7 @@ import { Observable, catchError, first, map, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { RadioButton } from 'primeng/radiobutton';
+import { SelectButton } from 'primeng/selectbutton';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
@@ -29,6 +30,7 @@ import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
         ReactiveFormsModule,
         AutoCompleteModule,
         RadioButton,
+        SelectButton,
     ]
 })
 export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, OnChanges {
@@ -42,7 +44,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
     @Input() multiple: boolean = false;
     @Input() placeholder: string = 'Select or search an option';
     @Input() conceptsLimit: number = 100;
-    @Input() widget: 'autocomplete' | 'radio' = 'autocomplete';
+    @Input() widget: 'autocomplete' | 'radio' | 'selectbutton' = 'autocomplete';
     @Input() returnCode: boolean = false;
 
     public formControl: FormControl = new FormControl();

@@ -49,8 +49,7 @@
     }
 
   </p-autoComplete>
-}
-@else if (widget === 'radio' && $concepts) {
+} @else if (widget === 'radio' && $concepts) {
   @for (concept of concepts; track concept.code;) {
     <div class="field-checkbox">
       <p-radiobutton 
@@ -60,5 +59,11 @@
       <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
     </div>    
   }
+} @else if (widget === 'selectbutton' && $concepts) {
+    <p-selectbutton 
+        [options]="concepts || []"
+        optionLabel="display"
+        [formControl]="formControl"/>
 }
+
 
