@@ -57,6 +57,7 @@
         </div>
     </div>
     <div class="col-12 md:col-5 lg:col-5 ">
+        <ng-container *ngTemplateOutlet="additionalPanelsTemplate"></ng-container>
         <p-card styleClass="">
             <div class="mb-3">
                 <h5 class="mb-0 font-semibold">Data Platform Summary</h5>
@@ -64,7 +65,6 @@
             </div>
             <pop-data-summary/>
         </p-card>
-
         <p-card styleClass="mt-3">
             <div class="mb-3">
                 <h5 class="mb-0 font-semibold">Paper of the Day - {{ today | date }}</h5>
