@@ -7,15 +7,30 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ProteinChangeType } from './protein-change-type';
 import { User } from './user';
 import { CodedConcept } from './coded-concept';
+import { RNAChangeType } from './rna-change-type';
 import { GenomicVariantAssessmentChoices } from './genomic-variant-assessment-choices';
 import { GenomicVariantConfidenceChoices } from './genomic-variant-confidence-choices';
 import { GenomicVariantClinicalRelevanceChoices } from './genomic-variant-clinical-relevance-choices';
-import { Range } from './range';
+import { DNAChangeType } from './dna-change-type';
 
 
 export interface GenomicVariant { 
+    dnaHgvs?: string | null;
+    dnaReferenceSequence?: string | null;
+    dnaChangePosition?: string | null;
+    dnaChangeType?: DNAChangeType | null;
+    rnaHgvs?: string | null;
+    rnaReferenceSequence?: string | null;
+    rnaChangePosition?: string | null;
+    rnaChangeType?: RNAChangeType | null;
+    proteinHgvs?: string | null;
+    proteinReferenceSequence?: string | null;
+    proteinChangePosition?: string | null;
+    proteinChangeType?: ProteinChangeType | null;
+    nucleotidesLength?: number | null;
     /**
      * 
      */
@@ -44,15 +59,12 @@ export interface GenomicVariant {
     confidence?: GenomicVariantConfidenceChoices | null;
     analysisMethod?: CodedConcept | null;
     clinicalRelevance?: GenomicVariantClinicalRelevanceChoices | null;
-    cytogeneticLocation?: string | null;
+    isVus?: boolean | null;
+    /**
+     * Indicates if the variant is pathogenic (determined automatically based on the clinical relevance classification)
+     */
+    isPathogenic: boolean;
     genomeAssemblyVersion?: CodedConcept | null;
-    genomicRefseq?: string | null;
-    transcriptRefseq?: string | null;
-    codingHgvs?: string | null;
-    proteinHgvs?: string | null;
-    genomicHgvs?: string | null;
-    dnaChangeType?: CodedConcept | null;
-    aminoacidChangeType?: CodedConcept | null;
     molecularConsequence?: CodedConcept | null;
     copyNumber?: number | null;
     alleleFrequency?: number | null;
@@ -60,9 +72,6 @@ export interface GenomicVariant {
     zygosity?: CodedConcept | null;
     inheritance?: CodedConcept | null;
     coordinateSystem?: CodedConcept | null;
-    exactGenomicCoordinates?: Range | null;
-    innerGenomicCoordinates?: Range | null;
-    outerGenomicCoordinates?: Range | null;
     clinvar?: string | null;
     /**
      * The user(s) who updated the data since its creation
@@ -72,7 +81,6 @@ export interface GenomicVariant {
      * Gene(s) affected by this variant
      */
     genes?: Array<CodedConcept>;
-    chromosomes?: Array<CodedConcept> | null;
     /**
      * Human-readable description
      */

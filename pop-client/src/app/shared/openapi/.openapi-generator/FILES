@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 README.md
 api.module.ts
 api/adverse-events.service.ts
@@ -111,7 +112,7 @@ model/dataset-create.ts
 model/dataset-filters.ts
 model/dataset-rule.ts
 model/dataset.ts
-model/end.ts
+model/dna-change-type.ts
 model/entity-statistics-schema.ts
 model/family-history-create.ts
 model/family-history-filters.ts
@@ -202,6 +203,7 @@ model/performance-status-create.ts
 model/performance-status-filters.ts
 model/performance-status.ts
 model/period.ts
+model/protein-change-type.ts
 model/radiotherapy-create.ts
 model/radiotherapy-dosage-create.ts
 model/radiotherapy-dosage.ts
@@ -212,7 +214,6 @@ model/radiotherapy-setting.ts
 model/radiotherapy.ts
 model/rai-staging-create.ts
 model/rai-staging.ts
-model/range.ts
 model/refreshed-token-pair.ts
 model/rhabdomyosarcoma-clinical-group-create.ts
 model/rhabdomyosarcoma-clinical-group.ts
@@ -221,9 +222,9 @@ model/risk-assessment-filters.ts
 model/risk-assessment.ts
 model/riss-staging-create.ts
 model/riss-staging.ts
+model/rna-change-type.ts
 model/staging-domain.ts
 model/staging-filters.ts
-model/start.ts
 model/surgery-create.ts
 model/surgery-filters.ts
 model/surgery-intent-choices.ts

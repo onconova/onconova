@@ -790,9 +790,9 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<object>;
-    public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<object>>;
-    public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<object>>;
+    public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: any; }>;
+    public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: any; }>>;
+    public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: any; }>>;
     public getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
@@ -843,7 +843,7 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/genomics`;
-        return this.httpClient.request<object>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<{ [key: string]: any; }>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1010,9 +1010,9 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<object>;
-    public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<object>>;
-    public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<object>>;
+    public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: any; }>;
+    public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: any; }>>;
+    public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: any; }>>;
     public getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
@@ -1067,7 +1067,7 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/progression-free-survival/${this.configuration.encodeParam({name: "therapyLine", value: therapyLine, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/drug-combinations`;
-        return this.httpClient.request<object>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<{ [key: string]: any; }>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1086,9 +1086,9 @@ export class CohortsService implements CohortsServiceInterface {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<object>;
-    public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<object>>;
-    public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<object>>;
+    public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<{ [key: string]: any; }>;
+    public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<{ [key: string]: any; }>>;
+    public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<{ [key: string]: any; }>>;
     public getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
@@ -1143,7 +1143,7 @@ export class CohortsService implements CohortsServiceInterface {
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/progression-free-survival/${this.configuration.encodeParam({name: "therapyLine", value: therapyLine, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapy-classifications`;
-        return this.httpClient.request<object>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<{ [key: string]: any; }>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

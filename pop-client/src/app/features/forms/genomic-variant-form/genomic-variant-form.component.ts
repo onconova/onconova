@@ -9,8 +9,10 @@ import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
+import { SelectButton } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 
+import openApiSchema from "../../../../../openapi.json";
 import { 
     GenomicVariantCreate,
     GenomicVariantsService,
@@ -29,6 +31,8 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { Fieldset } from 'primeng/fieldset';
+import { Divider } from 'primeng/divider';
 
 @Component({
   standalone: true,
@@ -40,7 +44,10 @@ import { AbstractFormBase } from '../abstract-form-base.component';
     FormsModule,
     SelectModule,
     DatePickerComponent,
+    SelectButton,
     Fluid,
+    Fieldset,
+    Divider,
     InputNumber,
     InputTextModule,
     ButtonModule,
@@ -98,62 +105,37 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             genePanel: [this.initialData?.genePanel],      
             assessment: [this.initialData?.assessment],      
             confidence: [this.initialData?.confidence],      
-            analysisMethod: [this.initialData?.analysisMethod],  
+            analysisMethod: [this.initialData?.analysisMethod, Validators.required],  
             clinicalRelevance: [this.initialData?.clinicalRelevance], 
             genes: [this.initialData?.genes,Validators.required],     
-            chromosomes: [this.initialData?.chromosomes],     
-            cytogeneticLocation: [this.initialData?.cytogeneticLocation,Validators.pattern('^([1-9]|1[0-9]|2[0-2]|X|Y)([pq])(\\d+)(\\d+)(?:\\.(\\d+))?$')],     
-            genomeAssemblyVersion: [this.initialData?.genomeAssemblyVersion],   
-            genomicRefseq: [this.initialData?.genomicRefseq, Validators.pattern('^(NG|NC|LRG)(.*)$')],      
-            transcriptRefseq: [this.initialData?.transcriptRefseq, Validators.pattern('^(NM|NG|ENST|LRG)(.*)$')],      
-            codingHgsv: [this.initialData?.codingHgsv, Validators.pattern('^(.*):c\\.(.*)$')],         
-            proteinHgvs: [this.initialData?.proteinHgvs, Validators.pattern('^(.*):p\\.(.*)$')],         
-            genomicHgvs: [this.initialData?.genomicHgvs, Validators.pattern('^(.*):g\\.(.*)$')],         
-            dnaChangeType: [this.initialData?.dnaChangeType],         
-            aminoacidChangeType: [this.initialData?.aminoacidChangeType],         
-            molecularConsequence: [this.initialData?.molecularConsequence],        
-            alleleFrequency: [this.initialData?.alleleFrequency],       
+            dnaHgvs: [this.initialData?.dnaHgsv, [Validators.required, Validators.pattern(this.extractRegexPattern('dnaHgvs'))]],         
+            rnaHgvs: [this.initialData?.rnaHgsv, Validators.pattern(this.extractRegexPattern('rnaHgvs'))],         
+            proteinHgvs: [this.initialData?.proteinHgvs, Validators.pattern(this.extractRegexPattern('proteinHgvs'))],         
             copyNumber: [this.initialData?.copyNumber],       
+            molecularConsequence: [this.initialData?.molecularConsequence],        
+            alleleFrequency: [this.initialData?.alleleFrequency],  
             alleleDepth: [this.initialData?.alleleDepth],       
             zygosity: [this.initialData?.zygosity],        
             inheritance: [this.initialData?.inheritance],        
-            coordinateSystem: [this.initialData?.coordinateSystem],        
-            exactGenomicCoordinatesStart: [this.initialData?.exactGenomicCoordinates?.start],             
-            exactGenomicCoordinatesEnd: [this.initialData?.exactGenomicCoordinates?.end],             
-            innerGenomicCoordinatesStart: [this.initialData?.innerGenomicCoordinates?.start],             
-            innerGenomicCoordinatesEnd: [this.initialData?.innerGenomicCoordinates?.end],             
-            outerGenomicCoordinatesStart: [this.initialData?.outerGenomicCoordinates?.start],             
-            outerGenomicCoordinatesEnd: [this.initialData?.outerGenomicCoordinates?.end],             
             clinvar: [this.initialData?.clinvar],             
         });
     }
 
 
-    constructAPIPayload(data: any): GenomicVariantCreate {    
+    constructAPIPayload(data: any): GenomicVariantCreate {   
         return {
             caseId: this.caseId,
             date: data.date,
             genes: data.genes,
-            chromosomes: data.chromosomes,
             genePanel: data.genePanel,            
             assessment: data.assessment,            
             confidence: data.confidence,            
             analysisMethod: data.analysisMethod,   
             clinicalRelevance: data.clinicalRelevance,   
-            cytogeneticLocation: data.cytogeneticLocation,   
-            genomeAssemblyVersion: data.genomeAssemblyVersion,   
-            genomicRefseq: data.genomicRefseq,   
-            transcriptRefseq: data.transcriptRefseq,   
-            codingHgvs: data.codingHgsv,   
-            proteinHgvs: data.proteinHgsv,   
-            genomicHgvs: data.genomicHgsv,   
-            dnaChangeType: data.dnaChangeType,   
-            aminoacidChangeType: data.aminoacidChangeType,   
+            dnaHgvs: data.dnaHgvs,   
+            rnaHgvs: data.rnaHgvs,   
+            proteinHgvs: data.proteinHgvs,   
             molecularConsequence: data.molecularConsequence,   
-            coordinateSystem: data.coordinateSystem,    
-            exactGenomicCoordinates: data.exactGenomicCoordinatesStart && data.exactGenomicCoordinatesEnd ? {start: data.exactGenomicCoordinatesStart, end: data.exactGenomicCoordinatesEnd}: null,   
-            innerGenomicCoordinates: data.innerGenomicCoordinatesStart && data.innerGenomicCoordinatesEnd ? {start: data.innerGenomicCoordinatesStart, end: data.innerGenomicCoordinatesEnd}: null,  
-            outerGenomicCoordinates: data.outerGenomicCoordinatesStart && data.outerGenomicCoordinatesEnd ? {start: data.outerGenomicCoordinatesStart, end: data.outerGenomicCoordinatesEnd}: null, 
             clinvar: data.clinvar,    
             alleleFrequency: data.alleleFrequency,   
             copyNumber: data.copyNumber,   
@@ -162,5 +144,25 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             inheritance: data.inheritance        
         };
     }
+
+    private extractRegexPattern(propertyName: string): string {
+        const schema = openApiSchema.components.schemas.GenomicVariantCreate;
+
+        const properties = schema.properties as Record<string, any>;
+        const propertySchema = properties?.[propertyName]?.anyOf?.[0];
+        
+        if (!propertySchema) {
+            console.error(`Property '${propertyName}' not found in schema`);
+            return '.*';
+        }
+        
+        if (propertySchema.type === 'string' && propertySchema.pattern) {
+            return propertySchema.pattern;
+        }
+        
+        console.warn(`No regex pattern found for property '${propertyName}'`);
+        return '.*';
+    }
+      
 
 }

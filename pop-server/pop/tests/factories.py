@@ -82,7 +82,6 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     created_by =  factory.SubFactory(UserFactory)
     date_of_birth = factory.LazyFunction(lambda: faker.date_of_birth(minimum_age=25, maximum_age=100))
     gender = make_terminology_factory(terminology.AdministrativeGender)
-    race = make_terminology_factory(terminology.Race)
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
     date_of_death = factory.LazyFunction(lambda: faker.date_this_decade() if random.random() > 0.5 else None)
     cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
@@ -305,10 +304,10 @@ def _random_aminoacid():
 
 def _random_code_mutation():
     return [
-        f'{_random_nucbase()}>{_random_nucbase()}',
-        'del',
-        f'ins{_random_nucbase()}{_random_nucbase()}',
-        'dup'
+        f'{random.randint(10,1000)}{_random_nucbase()}>{_random_nucbase()}',
+        f'{random.randint(10,10000)}del',
+        f'{random.randint(10,10000)}_{random.randint(10,10000)}ins{_random_nucbase()}{_random_nucbase()}',
+        f'{random.randint(10,10000)}dup'
     ][random.randint(0,3)] 
 
 def _random_aminoacid_mutation():
@@ -333,20 +332,14 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     confidence = FuzzyChoice(models.GenomicVariant.GenomicVariantConfidence)
     clinical_relevance = FuzzyChoice(models.GenomicVariant.GenomicVariantClinicalRelevance)
     analysis_method = make_terminology_factory(terminology.StructuralVariantAnalysisMethod)
-    cytogenetic_location = factory.LazyFunction(lambda: f'{random.randint(1,22)}p{random.randint(11,22)}')
-    genomic_refseq = factory.LazyFunction(lambda: _generate_random_refseq(prefix='NG'))
-    transcript_refseq = factory.LazyFunction(lambda: _generate_random_refseq(prefix='NM'))
-    coding_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM")}:c.{random.randint(10,10000)}{_random_code_mutation()}')
-    protein_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NP")}:p.{_random_aminoacid_mutation()}')
-    aminoacid_change_type = make_terminology_factory(terminology.AminoAcidChangeType)
+    dna_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NM_")}:c.{_random_code_mutation()}')
+    protein_hgvs = factory.LazyFunction(lambda: f'{_generate_random_refseq(prefix="NP_")}:p.{_random_aminoacid_mutation()}')
     molecular_consequence = make_terminology_factory(terminology.MolecularConsequence)
     copy_number = factory.LazyFunction(lambda: random.randint(1,9))
     allele_frequency = factory.LazyFunction(lambda: random.randint(0,100)/100)
     allele_depth = factory.LazyFunction(lambda: random.randint(0,99999))
     zygosity = make_terminology_factory(terminology.Zygosity)
-    exact_genomic_coordinates = factory.LazyFunction(lambda: (random.randint(0,9999), random.randint(9999,99999999)))
     genes = factory.post_generation(make_m2m_terminology_factory('genes', terminology.Gene, min=1, max=2)) 
-    chromosomes = factory.post_generation(make_m2m_terminology_factory('chromosomes', terminology.ChromosomeIdentifier, min=1, max=1)) 
 
 
 class PerformanceStatusFactory(factory.django.DjangoModelFactory):

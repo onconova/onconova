@@ -6,11 +6,9 @@ services:
           service: pop-server
         build:
           target: development     
-        develop:
-            watch:
-            - action: sync
-              path: .
-              target: /app/src
+        volumes:
+          - ./pop-server:/app/src
+
 
     pop-client:
         container_name: "${COMPOSE_PROJECT_NAME}-dev-client"
@@ -20,7 +18,7 @@ services:
         build:
           target: development
         volumes:
-          - ./pop-client:/app
+          - ./pop-client/src:/app/src
 
     pop-nginx:
         image: nginx:1.23        
@@ -37,10 +35,6 @@ services:
         ports:
             - "${WEBAPP_HTTPS_PORT}:443"
             - "${WEBAPP_HTTP_PORT}:80"
-        develop:
-            watch:
-            - action: rebuild
-              path: ./nginx.conf
 
     pop-postgres:
         image: postgres:13-alpine

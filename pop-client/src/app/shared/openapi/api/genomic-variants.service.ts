@@ -339,6 +339,121 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedGenomicVariant>>;
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedGenomicVariant>>;
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const dnaHgvsNotExists = requestParameters?.dnaHgvsNotExists;
+        const dnaHgvsExists = requestParameters?.dnaHgvsExists;
+        const dnaHgvs = requestParameters?.dnaHgvs;
+        const dnaHgvsNot = requestParameters?.dnaHgvsNot;
+        const dnaHgvsContains = requestParameters?.dnaHgvsContains;
+        const dnaHgvsNotContains = requestParameters?.dnaHgvsNotContains;
+        const dnaHgvsBeginsWith = requestParameters?.dnaHgvsBeginsWith;
+        const dnaHgvsNotBeginsWith = requestParameters?.dnaHgvsNotBeginsWith;
+        const dnaHgvsEndsWith = requestParameters?.dnaHgvsEndsWith;
+        const dnaHgvsNotEndsWith = requestParameters?.dnaHgvsNotEndsWith;
+        const dnaReferenceSequenceNotExists = requestParameters?.dnaReferenceSequenceNotExists;
+        const dnaReferenceSequenceExists = requestParameters?.dnaReferenceSequenceExists;
+        const dnaReferenceSequence = requestParameters?.dnaReferenceSequence;
+        const dnaReferenceSequenceNot = requestParameters?.dnaReferenceSequenceNot;
+        const dnaReferenceSequenceContains = requestParameters?.dnaReferenceSequenceContains;
+        const dnaReferenceSequenceNotContains = requestParameters?.dnaReferenceSequenceNotContains;
+        const dnaReferenceSequenceBeginsWith = requestParameters?.dnaReferenceSequenceBeginsWith;
+        const dnaReferenceSequenceNotBeginsWith = requestParameters?.dnaReferenceSequenceNotBeginsWith;
+        const dnaReferenceSequenceEndsWith = requestParameters?.dnaReferenceSequenceEndsWith;
+        const dnaReferenceSequenceNotEndsWith = requestParameters?.dnaReferenceSequenceNotEndsWith;
+        const dnaChangePositionNotExists = requestParameters?.dnaChangePositionNotExists;
+        const dnaChangePositionExists = requestParameters?.dnaChangePositionExists;
+        const dnaChangePosition = requestParameters?.dnaChangePosition;
+        const dnaChangePositionNot = requestParameters?.dnaChangePositionNot;
+        const dnaChangePositionContains = requestParameters?.dnaChangePositionContains;
+        const dnaChangePositionNotContains = requestParameters?.dnaChangePositionNotContains;
+        const dnaChangePositionBeginsWith = requestParameters?.dnaChangePositionBeginsWith;
+        const dnaChangePositionNotBeginsWith = requestParameters?.dnaChangePositionNotBeginsWith;
+        const dnaChangePositionEndsWith = requestParameters?.dnaChangePositionEndsWith;
+        const dnaChangePositionNotEndsWith = requestParameters?.dnaChangePositionNotEndsWith;
+        const dnaChangeTypeNotExists = requestParameters?.dnaChangeTypeNotExists;
+        const dnaChangeTypeExists = requestParameters?.dnaChangeTypeExists;
+        const dnaChangeType = requestParameters?.dnaChangeType;
+        const dnaChangeTypeNot = requestParameters?.dnaChangeTypeNot;
+        const dnaChangeTypeAnyOf = requestParameters?.dnaChangeTypeAnyOf;
+        const rnaHgvsNotExists = requestParameters?.rnaHgvsNotExists;
+        const rnaHgvsExists = requestParameters?.rnaHgvsExists;
+        const rnaHgvs = requestParameters?.rnaHgvs;
+        const rnaHgvsNot = requestParameters?.rnaHgvsNot;
+        const rnaHgvsContains = requestParameters?.rnaHgvsContains;
+        const rnaHgvsNotContains = requestParameters?.rnaHgvsNotContains;
+        const rnaHgvsBeginsWith = requestParameters?.rnaHgvsBeginsWith;
+        const rnaHgvsNotBeginsWith = requestParameters?.rnaHgvsNotBeginsWith;
+        const rnaHgvsEndsWith = requestParameters?.rnaHgvsEndsWith;
+        const rnaHgvsNotEndsWith = requestParameters?.rnaHgvsNotEndsWith;
+        const rnaReferenceSequenceNotExists = requestParameters?.rnaReferenceSequenceNotExists;
+        const rnaReferenceSequenceExists = requestParameters?.rnaReferenceSequenceExists;
+        const rnaReferenceSequence = requestParameters?.rnaReferenceSequence;
+        const rnaReferenceSequenceNot = requestParameters?.rnaReferenceSequenceNot;
+        const rnaReferenceSequenceContains = requestParameters?.rnaReferenceSequenceContains;
+        const rnaReferenceSequenceNotContains = requestParameters?.rnaReferenceSequenceNotContains;
+        const rnaReferenceSequenceBeginsWith = requestParameters?.rnaReferenceSequenceBeginsWith;
+        const rnaReferenceSequenceNotBeginsWith = requestParameters?.rnaReferenceSequenceNotBeginsWith;
+        const rnaReferenceSequenceEndsWith = requestParameters?.rnaReferenceSequenceEndsWith;
+        const rnaReferenceSequenceNotEndsWith = requestParameters?.rnaReferenceSequenceNotEndsWith;
+        const rnaChangePositionNotExists = requestParameters?.rnaChangePositionNotExists;
+        const rnaChangePositionExists = requestParameters?.rnaChangePositionExists;
+        const rnaChangePosition = requestParameters?.rnaChangePosition;
+        const rnaChangePositionNot = requestParameters?.rnaChangePositionNot;
+        const rnaChangePositionContains = requestParameters?.rnaChangePositionContains;
+        const rnaChangePositionNotContains = requestParameters?.rnaChangePositionNotContains;
+        const rnaChangePositionBeginsWith = requestParameters?.rnaChangePositionBeginsWith;
+        const rnaChangePositionNotBeginsWith = requestParameters?.rnaChangePositionNotBeginsWith;
+        const rnaChangePositionEndsWith = requestParameters?.rnaChangePositionEndsWith;
+        const rnaChangePositionNotEndsWith = requestParameters?.rnaChangePositionNotEndsWith;
+        const rnaChangeTypeNotExists = requestParameters?.rnaChangeTypeNotExists;
+        const rnaChangeTypeExists = requestParameters?.rnaChangeTypeExists;
+        const rnaChangeType = requestParameters?.rnaChangeType;
+        const rnaChangeTypeNot = requestParameters?.rnaChangeTypeNot;
+        const rnaChangeTypeAnyOf = requestParameters?.rnaChangeTypeAnyOf;
+        const proteinHgvsNotExists = requestParameters?.proteinHgvsNotExists;
+        const proteinHgvsExists = requestParameters?.proteinHgvsExists;
+        const proteinHgvs = requestParameters?.proteinHgvs;
+        const proteinHgvsNot = requestParameters?.proteinHgvsNot;
+        const proteinHgvsContains = requestParameters?.proteinHgvsContains;
+        const proteinHgvsNotContains = requestParameters?.proteinHgvsNotContains;
+        const proteinHgvsBeginsWith = requestParameters?.proteinHgvsBeginsWith;
+        const proteinHgvsNotBeginsWith = requestParameters?.proteinHgvsNotBeginsWith;
+        const proteinHgvsEndsWith = requestParameters?.proteinHgvsEndsWith;
+        const proteinHgvsNotEndsWith = requestParameters?.proteinHgvsNotEndsWith;
+        const proteinReferenceSequenceNotExists = requestParameters?.proteinReferenceSequenceNotExists;
+        const proteinReferenceSequenceExists = requestParameters?.proteinReferenceSequenceExists;
+        const proteinReferenceSequence = requestParameters?.proteinReferenceSequence;
+        const proteinReferenceSequenceNot = requestParameters?.proteinReferenceSequenceNot;
+        const proteinReferenceSequenceContains = requestParameters?.proteinReferenceSequenceContains;
+        const proteinReferenceSequenceNotContains = requestParameters?.proteinReferenceSequenceNotContains;
+        const proteinReferenceSequenceBeginsWith = requestParameters?.proteinReferenceSequenceBeginsWith;
+        const proteinReferenceSequenceNotBeginsWith = requestParameters?.proteinReferenceSequenceNotBeginsWith;
+        const proteinReferenceSequenceEndsWith = requestParameters?.proteinReferenceSequenceEndsWith;
+        const proteinReferenceSequenceNotEndsWith = requestParameters?.proteinReferenceSequenceNotEndsWith;
+        const proteinChangePositionNotExists = requestParameters?.proteinChangePositionNotExists;
+        const proteinChangePositionExists = requestParameters?.proteinChangePositionExists;
+        const proteinChangePosition = requestParameters?.proteinChangePosition;
+        const proteinChangePositionNot = requestParameters?.proteinChangePositionNot;
+        const proteinChangePositionContains = requestParameters?.proteinChangePositionContains;
+        const proteinChangePositionNotContains = requestParameters?.proteinChangePositionNotContains;
+        const proteinChangePositionBeginsWith = requestParameters?.proteinChangePositionBeginsWith;
+        const proteinChangePositionNotBeginsWith = requestParameters?.proteinChangePositionNotBeginsWith;
+        const proteinChangePositionEndsWith = requestParameters?.proteinChangePositionEndsWith;
+        const proteinChangePositionNotEndsWith = requestParameters?.proteinChangePositionNotEndsWith;
+        const proteinChangeTypeNotExists = requestParameters?.proteinChangeTypeNotExists;
+        const proteinChangeTypeExists = requestParameters?.proteinChangeTypeExists;
+        const proteinChangeType = requestParameters?.proteinChangeType;
+        const proteinChangeTypeNot = requestParameters?.proteinChangeTypeNot;
+        const proteinChangeTypeAnyOf = requestParameters?.proteinChangeTypeAnyOf;
+        const nucleotidesLengthNotExists = requestParameters?.nucleotidesLengthNotExists;
+        const nucleotidesLengthExists = requestParameters?.nucleotidesLengthExists;
+        const nucleotidesLengthLessThan = requestParameters?.nucleotidesLengthLessThan;
+        const nucleotidesLengthLessThanOrEqual = requestParameters?.nucleotidesLengthLessThanOrEqual;
+        const nucleotidesLengthGreaterThan = requestParameters?.nucleotidesLengthGreaterThan;
+        const nucleotidesLengthGreaterThanOrEqual = requestParameters?.nucleotidesLengthGreaterThanOrEqual;
+        const nucleotidesLengthEqual = requestParameters?.nucleotidesLengthEqual;
+        const nucleotidesLengthNotEqual = requestParameters?.nucleotidesLengthNotEqual;
+        const nucleotidesLengthBetween = requestParameters?.nucleotidesLengthBetween;
+        const nucleotidesLengthNotBetween = requestParameters?.nucleotidesLengthNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -395,16 +510,10 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         const clinicalRelevance = requestParameters?.clinicalRelevance;
         const clinicalRelevanceNot = requestParameters?.clinicalRelevanceNot;
         const clinicalRelevanceAnyOf = requestParameters?.clinicalRelevanceAnyOf;
-        const cytogeneticLocationNotExists = requestParameters?.cytogeneticLocationNotExists;
-        const cytogeneticLocationExists = requestParameters?.cytogeneticLocationExists;
-        const cytogeneticLocation = requestParameters?.cytogeneticLocation;
-        const cytogeneticLocationNot = requestParameters?.cytogeneticLocationNot;
-        const cytogeneticLocationContains = requestParameters?.cytogeneticLocationContains;
-        const cytogeneticLocationNotContains = requestParameters?.cytogeneticLocationNotContains;
-        const cytogeneticLocationBeginsWith = requestParameters?.cytogeneticLocationBeginsWith;
-        const cytogeneticLocationNotBeginsWith = requestParameters?.cytogeneticLocationNotBeginsWith;
-        const cytogeneticLocationEndsWith = requestParameters?.cytogeneticLocationEndsWith;
-        const cytogeneticLocationNotEndsWith = requestParameters?.cytogeneticLocationNotEndsWith;
+        const isVusNotExists = requestParameters?.isVusNotExists;
+        const isVusExists = requestParameters?.isVusExists;
+        const isVus = requestParameters?.isVus;
+        const isPathogenic = requestParameters?.isPathogenic;
         const genomeAssemblyVersionNotExists = requestParameters?.genomeAssemblyVersionNotExists;
         const genomeAssemblyVersionExists = requestParameters?.genomeAssemblyVersionExists;
         const genomeAssemblyVersion = requestParameters?.genomeAssemblyVersion;
@@ -412,70 +521,6 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         const genomeAssemblyVersionAnyOf = requestParameters?.genomeAssemblyVersionAnyOf;
         const genomeAssemblyVersionNotAnyOf = requestParameters?.genomeAssemblyVersionNotAnyOf;
         const genomeAssemblyVersionDescendantsOf = requestParameters?.genomeAssemblyVersionDescendantsOf;
-        const genomicRefseqNotExists = requestParameters?.genomicRefseqNotExists;
-        const genomicRefseqExists = requestParameters?.genomicRefseqExists;
-        const genomicRefseq = requestParameters?.genomicRefseq;
-        const genomicRefseqNot = requestParameters?.genomicRefseqNot;
-        const genomicRefseqContains = requestParameters?.genomicRefseqContains;
-        const genomicRefseqNotContains = requestParameters?.genomicRefseqNotContains;
-        const genomicRefseqBeginsWith = requestParameters?.genomicRefseqBeginsWith;
-        const genomicRefseqNotBeginsWith = requestParameters?.genomicRefseqNotBeginsWith;
-        const genomicRefseqEndsWith = requestParameters?.genomicRefseqEndsWith;
-        const genomicRefseqNotEndsWith = requestParameters?.genomicRefseqNotEndsWith;
-        const transcriptRefseqNotExists = requestParameters?.transcriptRefseqNotExists;
-        const transcriptRefseqExists = requestParameters?.transcriptRefseqExists;
-        const transcriptRefseq = requestParameters?.transcriptRefseq;
-        const transcriptRefseqNot = requestParameters?.transcriptRefseqNot;
-        const transcriptRefseqContains = requestParameters?.transcriptRefseqContains;
-        const transcriptRefseqNotContains = requestParameters?.transcriptRefseqNotContains;
-        const transcriptRefseqBeginsWith = requestParameters?.transcriptRefseqBeginsWith;
-        const transcriptRefseqNotBeginsWith = requestParameters?.transcriptRefseqNotBeginsWith;
-        const transcriptRefseqEndsWith = requestParameters?.transcriptRefseqEndsWith;
-        const transcriptRefseqNotEndsWith = requestParameters?.transcriptRefseqNotEndsWith;
-        const codingHgvsNotExists = requestParameters?.codingHgvsNotExists;
-        const codingHgvsExists = requestParameters?.codingHgvsExists;
-        const codingHgvs = requestParameters?.codingHgvs;
-        const codingHgvsNot = requestParameters?.codingHgvsNot;
-        const codingHgvsContains = requestParameters?.codingHgvsContains;
-        const codingHgvsNotContains = requestParameters?.codingHgvsNotContains;
-        const codingHgvsBeginsWith = requestParameters?.codingHgvsBeginsWith;
-        const codingHgvsNotBeginsWith = requestParameters?.codingHgvsNotBeginsWith;
-        const codingHgvsEndsWith = requestParameters?.codingHgvsEndsWith;
-        const codingHgvsNotEndsWith = requestParameters?.codingHgvsNotEndsWith;
-        const proteinHgvsNotExists = requestParameters?.proteinHgvsNotExists;
-        const proteinHgvsExists = requestParameters?.proteinHgvsExists;
-        const proteinHgvs = requestParameters?.proteinHgvs;
-        const proteinHgvsNot = requestParameters?.proteinHgvsNot;
-        const proteinHgvsContains = requestParameters?.proteinHgvsContains;
-        const proteinHgvsNotContains = requestParameters?.proteinHgvsNotContains;
-        const proteinHgvsBeginsWith = requestParameters?.proteinHgvsBeginsWith;
-        const proteinHgvsNotBeginsWith = requestParameters?.proteinHgvsNotBeginsWith;
-        const proteinHgvsEndsWith = requestParameters?.proteinHgvsEndsWith;
-        const proteinHgvsNotEndsWith = requestParameters?.proteinHgvsNotEndsWith;
-        const genomicHgvsNotExists = requestParameters?.genomicHgvsNotExists;
-        const genomicHgvsExists = requestParameters?.genomicHgvsExists;
-        const genomicHgvs = requestParameters?.genomicHgvs;
-        const genomicHgvsNot = requestParameters?.genomicHgvsNot;
-        const genomicHgvsContains = requestParameters?.genomicHgvsContains;
-        const genomicHgvsNotContains = requestParameters?.genomicHgvsNotContains;
-        const genomicHgvsBeginsWith = requestParameters?.genomicHgvsBeginsWith;
-        const genomicHgvsNotBeginsWith = requestParameters?.genomicHgvsNotBeginsWith;
-        const genomicHgvsEndsWith = requestParameters?.genomicHgvsEndsWith;
-        const genomicHgvsNotEndsWith = requestParameters?.genomicHgvsNotEndsWith;
-        const dnaChangeTypeNotExists = requestParameters?.dnaChangeTypeNotExists;
-        const dnaChangeTypeExists = requestParameters?.dnaChangeTypeExists;
-        const dnaChangeType = requestParameters?.dnaChangeType;
-        const dnaChangeTypeNot = requestParameters?.dnaChangeTypeNot;
-        const dnaChangeTypeAnyOf = requestParameters?.dnaChangeTypeAnyOf;
-        const dnaChangeTypeNotAnyOf = requestParameters?.dnaChangeTypeNotAnyOf;
-        const dnaChangeTypeDescendantsOf = requestParameters?.dnaChangeTypeDescendantsOf;
-        const aminoacidChangeTypeNotExists = requestParameters?.aminoacidChangeTypeNotExists;
-        const aminoacidChangeTypeExists = requestParameters?.aminoacidChangeTypeExists;
-        const aminoacidChangeType = requestParameters?.aminoacidChangeType;
-        const aminoacidChangeTypeNot = requestParameters?.aminoacidChangeTypeNot;
-        const aminoacidChangeTypeAnyOf = requestParameters?.aminoacidChangeTypeAnyOf;
-        const aminoacidChangeTypeNotAnyOf = requestParameters?.aminoacidChangeTypeNotAnyOf;
-        const aminoacidChangeTypeDescendantsOf = requestParameters?.aminoacidChangeTypeDescendantsOf;
         const molecularConsequenceNotExists = requestParameters?.molecularConsequenceNotExists;
         const molecularConsequenceExists = requestParameters?.molecularConsequenceExists;
         const molecularConsequence = requestParameters?.molecularConsequence;
@@ -534,12 +579,6 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         const coordinateSystemAnyOf = requestParameters?.coordinateSystemAnyOf;
         const coordinateSystemNotAnyOf = requestParameters?.coordinateSystemNotAnyOf;
         const coordinateSystemDescendantsOf = requestParameters?.coordinateSystemDescendantsOf;
-        const exactGenomicCoordinatesNotExists = requestParameters?.exactGenomicCoordinatesNotExists;
-        const exactGenomicCoordinatesExists = requestParameters?.exactGenomicCoordinatesExists;
-        const innerGenomicCoordinatesNotExists = requestParameters?.innerGenomicCoordinatesNotExists;
-        const innerGenomicCoordinatesExists = requestParameters?.innerGenomicCoordinatesExists;
-        const outerGenomicCoordinatesNotExists = requestParameters?.outerGenomicCoordinatesNotExists;
-        const outerGenomicCoordinatesExists = requestParameters?.outerGenomicCoordinatesExists;
         const clinvarNotExists = requestParameters?.clinvarNotExists;
         const clinvarExists = requestParameters?.clinvarExists;
         const clinvar = requestParameters?.clinvar;
@@ -557,19 +596,480 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         const genesDescendantsOf = requestParameters?.genesDescendantsOf;
         const genesAllOf = requestParameters?.genesAllOf;
         const genesNotAllOf = requestParameters?.genesNotAllOf;
-        const chromosomesNotExists = requestParameters?.chromosomesNotExists;
-        const chromosomesExists = requestParameters?.chromosomesExists;
-        const chromosomes = requestParameters?.chromosomes;
-        const chromosomesNot = requestParameters?.chromosomesNot;
-        const chromosomesAnyOf = requestParameters?.chromosomesAnyOf;
-        const chromosomesNotAnyOf = requestParameters?.chromosomesNotAnyOf;
-        const chromosomesDescendantsOf = requestParameters?.chromosomesDescendantsOf;
-        const chromosomesAllOf = requestParameters?.chromosomesAllOf;
-        const chromosomesNotAllOf = requestParameters?.chromosomesNotAllOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (dnaHgvsNotExists !== undefined && dnaHgvsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsNotExists, 'dnaHgvs.not.exists');
+        }
+        if (dnaHgvsExists !== undefined && dnaHgvsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsExists, 'dnaHgvs.exists');
+        }
+        if (dnaHgvs !== undefined && dnaHgvs !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvs, 'dnaHgvs');
+        }
+        if (dnaHgvsNot !== undefined && dnaHgvsNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsNot, 'dnaHgvs.not');
+        }
+        if (dnaHgvsContains !== undefined && dnaHgvsContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsContains, 'dnaHgvs.contains');
+        }
+        if (dnaHgvsNotContains !== undefined && dnaHgvsNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsNotContains, 'dnaHgvs.not.contains');
+        }
+        if (dnaHgvsBeginsWith !== undefined && dnaHgvsBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsBeginsWith, 'dnaHgvs.beginsWith');
+        }
+        if (dnaHgvsNotBeginsWith !== undefined && dnaHgvsNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsNotBeginsWith, 'dnaHgvs.not.beginsWith');
+        }
+        if (dnaHgvsEndsWith !== undefined && dnaHgvsEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsEndsWith, 'dnaHgvs.endsWith');
+        }
+        if (dnaHgvsNotEndsWith !== undefined && dnaHgvsNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaHgvsNotEndsWith, 'dnaHgvs.not.endsWith');
+        }
+        if (dnaReferenceSequenceNotExists !== undefined && dnaReferenceSequenceNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceNotExists, 'dnaReferenceSequence.not.exists');
+        }
+        if (dnaReferenceSequenceExists !== undefined && dnaReferenceSequenceExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceExists, 'dnaReferenceSequence.exists');
+        }
+        if (dnaReferenceSequence !== undefined && dnaReferenceSequence !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequence, 'dnaReferenceSequence');
+        }
+        if (dnaReferenceSequenceNot !== undefined && dnaReferenceSequenceNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceNot, 'dnaReferenceSequence.not');
+        }
+        if (dnaReferenceSequenceContains !== undefined && dnaReferenceSequenceContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceContains, 'dnaReferenceSequence.contains');
+        }
+        if (dnaReferenceSequenceNotContains !== undefined && dnaReferenceSequenceNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceNotContains, 'dnaReferenceSequence.not.contains');
+        }
+        if (dnaReferenceSequenceBeginsWith !== undefined && dnaReferenceSequenceBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceBeginsWith, 'dnaReferenceSequence.beginsWith');
+        }
+        if (dnaReferenceSequenceNotBeginsWith !== undefined && dnaReferenceSequenceNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceNotBeginsWith, 'dnaReferenceSequence.not.beginsWith');
+        }
+        if (dnaReferenceSequenceEndsWith !== undefined && dnaReferenceSequenceEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceEndsWith, 'dnaReferenceSequence.endsWith');
+        }
+        if (dnaReferenceSequenceNotEndsWith !== undefined && dnaReferenceSequenceNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaReferenceSequenceNotEndsWith, 'dnaReferenceSequence.not.endsWith');
+        }
+        if (dnaChangePositionNotExists !== undefined && dnaChangePositionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionNotExists, 'dnaChangePosition.not.exists');
+        }
+        if (dnaChangePositionExists !== undefined && dnaChangePositionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionExists, 'dnaChangePosition.exists');
+        }
+        if (dnaChangePosition !== undefined && dnaChangePosition !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePosition, 'dnaChangePosition');
+        }
+        if (dnaChangePositionNot !== undefined && dnaChangePositionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionNot, 'dnaChangePosition.not');
+        }
+        if (dnaChangePositionContains !== undefined && dnaChangePositionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionContains, 'dnaChangePosition.contains');
+        }
+        if (dnaChangePositionNotContains !== undefined && dnaChangePositionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionNotContains, 'dnaChangePosition.not.contains');
+        }
+        if (dnaChangePositionBeginsWith !== undefined && dnaChangePositionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionBeginsWith, 'dnaChangePosition.beginsWith');
+        }
+        if (dnaChangePositionNotBeginsWith !== undefined && dnaChangePositionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionNotBeginsWith, 'dnaChangePosition.not.beginsWith');
+        }
+        if (dnaChangePositionEndsWith !== undefined && dnaChangePositionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionEndsWith, 'dnaChangePosition.endsWith');
+        }
+        if (dnaChangePositionNotEndsWith !== undefined && dnaChangePositionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangePositionNotEndsWith, 'dnaChangePosition.not.endsWith');
+        }
+        if (dnaChangeTypeNotExists !== undefined && dnaChangeTypeNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangeTypeNotExists, 'dnaChangeType.not.exists');
+        }
+        if (dnaChangeTypeExists !== undefined && dnaChangeTypeExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangeTypeExists, 'dnaChangeType.exists');
+        }
+        if (dnaChangeType !== undefined && dnaChangeType !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangeType, 'dnaChangeType');
+        }
+        if (dnaChangeTypeNot !== undefined && dnaChangeTypeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>dnaChangeTypeNot, 'dnaChangeType.not');
+        }
+        if (dnaChangeTypeAnyOf) {
+            dnaChangeTypeAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaChangeType.anyOf');
+            })
+        }
+        if (rnaHgvsNotExists !== undefined && rnaHgvsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsNotExists, 'rnaHgvs.not.exists');
+        }
+        if (rnaHgvsExists !== undefined && rnaHgvsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsExists, 'rnaHgvs.exists');
+        }
+        if (rnaHgvs !== undefined && rnaHgvs !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvs, 'rnaHgvs');
+        }
+        if (rnaHgvsNot !== undefined && rnaHgvsNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsNot, 'rnaHgvs.not');
+        }
+        if (rnaHgvsContains !== undefined && rnaHgvsContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsContains, 'rnaHgvs.contains');
+        }
+        if (rnaHgvsNotContains !== undefined && rnaHgvsNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsNotContains, 'rnaHgvs.not.contains');
+        }
+        if (rnaHgvsBeginsWith !== undefined && rnaHgvsBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsBeginsWith, 'rnaHgvs.beginsWith');
+        }
+        if (rnaHgvsNotBeginsWith !== undefined && rnaHgvsNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsNotBeginsWith, 'rnaHgvs.not.beginsWith');
+        }
+        if (rnaHgvsEndsWith !== undefined && rnaHgvsEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsEndsWith, 'rnaHgvs.endsWith');
+        }
+        if (rnaHgvsNotEndsWith !== undefined && rnaHgvsNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaHgvsNotEndsWith, 'rnaHgvs.not.endsWith');
+        }
+        if (rnaReferenceSequenceNotExists !== undefined && rnaReferenceSequenceNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceNotExists, 'rnaReferenceSequence.not.exists');
+        }
+        if (rnaReferenceSequenceExists !== undefined && rnaReferenceSequenceExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceExists, 'rnaReferenceSequence.exists');
+        }
+        if (rnaReferenceSequence !== undefined && rnaReferenceSequence !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequence, 'rnaReferenceSequence');
+        }
+        if (rnaReferenceSequenceNot !== undefined && rnaReferenceSequenceNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceNot, 'rnaReferenceSequence.not');
+        }
+        if (rnaReferenceSequenceContains !== undefined && rnaReferenceSequenceContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceContains, 'rnaReferenceSequence.contains');
+        }
+        if (rnaReferenceSequenceNotContains !== undefined && rnaReferenceSequenceNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceNotContains, 'rnaReferenceSequence.not.contains');
+        }
+        if (rnaReferenceSequenceBeginsWith !== undefined && rnaReferenceSequenceBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceBeginsWith, 'rnaReferenceSequence.beginsWith');
+        }
+        if (rnaReferenceSequenceNotBeginsWith !== undefined && rnaReferenceSequenceNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceNotBeginsWith, 'rnaReferenceSequence.not.beginsWith');
+        }
+        if (rnaReferenceSequenceEndsWith !== undefined && rnaReferenceSequenceEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceEndsWith, 'rnaReferenceSequence.endsWith');
+        }
+        if (rnaReferenceSequenceNotEndsWith !== undefined && rnaReferenceSequenceNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaReferenceSequenceNotEndsWith, 'rnaReferenceSequence.not.endsWith');
+        }
+        if (rnaChangePositionNotExists !== undefined && rnaChangePositionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionNotExists, 'rnaChangePosition.not.exists');
+        }
+        if (rnaChangePositionExists !== undefined && rnaChangePositionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionExists, 'rnaChangePosition.exists');
+        }
+        if (rnaChangePosition !== undefined && rnaChangePosition !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePosition, 'rnaChangePosition');
+        }
+        if (rnaChangePositionNot !== undefined && rnaChangePositionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionNot, 'rnaChangePosition.not');
+        }
+        if (rnaChangePositionContains !== undefined && rnaChangePositionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionContains, 'rnaChangePosition.contains');
+        }
+        if (rnaChangePositionNotContains !== undefined && rnaChangePositionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionNotContains, 'rnaChangePosition.not.contains');
+        }
+        if (rnaChangePositionBeginsWith !== undefined && rnaChangePositionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionBeginsWith, 'rnaChangePosition.beginsWith');
+        }
+        if (rnaChangePositionNotBeginsWith !== undefined && rnaChangePositionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionNotBeginsWith, 'rnaChangePosition.not.beginsWith');
+        }
+        if (rnaChangePositionEndsWith !== undefined && rnaChangePositionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionEndsWith, 'rnaChangePosition.endsWith');
+        }
+        if (rnaChangePositionNotEndsWith !== undefined && rnaChangePositionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangePositionNotEndsWith, 'rnaChangePosition.not.endsWith');
+        }
+        if (rnaChangeTypeNotExists !== undefined && rnaChangeTypeNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangeTypeNotExists, 'rnaChangeType.not.exists');
+        }
+        if (rnaChangeTypeExists !== undefined && rnaChangeTypeExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangeTypeExists, 'rnaChangeType.exists');
+        }
+        if (rnaChangeType !== undefined && rnaChangeType !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangeType, 'rnaChangeType');
+        }
+        if (rnaChangeTypeNot !== undefined && rnaChangeTypeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>rnaChangeTypeNot, 'rnaChangeType.not');
+        }
+        if (rnaChangeTypeAnyOf) {
+            rnaChangeTypeAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaChangeType.anyOf');
+            })
+        }
+        if (proteinHgvsNotExists !== undefined && proteinHgvsNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsNotExists, 'proteinHgvs.not.exists');
+        }
+        if (proteinHgvsExists !== undefined && proteinHgvsExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsExists, 'proteinHgvs.exists');
+        }
+        if (proteinHgvs !== undefined && proteinHgvs !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvs, 'proteinHgvs');
+        }
+        if (proteinHgvsNot !== undefined && proteinHgvsNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsNot, 'proteinHgvs.not');
+        }
+        if (proteinHgvsContains !== undefined && proteinHgvsContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsContains, 'proteinHgvs.contains');
+        }
+        if (proteinHgvsNotContains !== undefined && proteinHgvsNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsNotContains, 'proteinHgvs.not.contains');
+        }
+        if (proteinHgvsBeginsWith !== undefined && proteinHgvsBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsBeginsWith, 'proteinHgvs.beginsWith');
+        }
+        if (proteinHgvsNotBeginsWith !== undefined && proteinHgvsNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsNotBeginsWith, 'proteinHgvs.not.beginsWith');
+        }
+        if (proteinHgvsEndsWith !== undefined && proteinHgvsEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsEndsWith, 'proteinHgvs.endsWith');
+        }
+        if (proteinHgvsNotEndsWith !== undefined && proteinHgvsNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinHgvsNotEndsWith, 'proteinHgvs.not.endsWith');
+        }
+        if (proteinReferenceSequenceNotExists !== undefined && proteinReferenceSequenceNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceNotExists, 'proteinReferenceSequence.not.exists');
+        }
+        if (proteinReferenceSequenceExists !== undefined && proteinReferenceSequenceExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceExists, 'proteinReferenceSequence.exists');
+        }
+        if (proteinReferenceSequence !== undefined && proteinReferenceSequence !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequence, 'proteinReferenceSequence');
+        }
+        if (proteinReferenceSequenceNot !== undefined && proteinReferenceSequenceNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceNot, 'proteinReferenceSequence.not');
+        }
+        if (proteinReferenceSequenceContains !== undefined && proteinReferenceSequenceContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceContains, 'proteinReferenceSequence.contains');
+        }
+        if (proteinReferenceSequenceNotContains !== undefined && proteinReferenceSequenceNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceNotContains, 'proteinReferenceSequence.not.contains');
+        }
+        if (proteinReferenceSequenceBeginsWith !== undefined && proteinReferenceSequenceBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceBeginsWith, 'proteinReferenceSequence.beginsWith');
+        }
+        if (proteinReferenceSequenceNotBeginsWith !== undefined && proteinReferenceSequenceNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceNotBeginsWith, 'proteinReferenceSequence.not.beginsWith');
+        }
+        if (proteinReferenceSequenceEndsWith !== undefined && proteinReferenceSequenceEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceEndsWith, 'proteinReferenceSequence.endsWith');
+        }
+        if (proteinReferenceSequenceNotEndsWith !== undefined && proteinReferenceSequenceNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinReferenceSequenceNotEndsWith, 'proteinReferenceSequence.not.endsWith');
+        }
+        if (proteinChangePositionNotExists !== undefined && proteinChangePositionNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionNotExists, 'proteinChangePosition.not.exists');
+        }
+        if (proteinChangePositionExists !== undefined && proteinChangePositionExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionExists, 'proteinChangePosition.exists');
+        }
+        if (proteinChangePosition !== undefined && proteinChangePosition !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePosition, 'proteinChangePosition');
+        }
+        if (proteinChangePositionNot !== undefined && proteinChangePositionNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionNot, 'proteinChangePosition.not');
+        }
+        if (proteinChangePositionContains !== undefined && proteinChangePositionContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionContains, 'proteinChangePosition.contains');
+        }
+        if (proteinChangePositionNotContains !== undefined && proteinChangePositionNotContains !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionNotContains, 'proteinChangePosition.not.contains');
+        }
+        if (proteinChangePositionBeginsWith !== undefined && proteinChangePositionBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionBeginsWith, 'proteinChangePosition.beginsWith');
+        }
+        if (proteinChangePositionNotBeginsWith !== undefined && proteinChangePositionNotBeginsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionNotBeginsWith, 'proteinChangePosition.not.beginsWith');
+        }
+        if (proteinChangePositionEndsWith !== undefined && proteinChangePositionEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionEndsWith, 'proteinChangePosition.endsWith');
+        }
+        if (proteinChangePositionNotEndsWith !== undefined && proteinChangePositionNotEndsWith !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangePositionNotEndsWith, 'proteinChangePosition.not.endsWith');
+        }
+        if (proteinChangeTypeNotExists !== undefined && proteinChangeTypeNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangeTypeNotExists, 'proteinChangeType.not.exists');
+        }
+        if (proteinChangeTypeExists !== undefined && proteinChangeTypeExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangeTypeExists, 'proteinChangeType.exists');
+        }
+        if (proteinChangeType !== undefined && proteinChangeType !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangeType, 'proteinChangeType');
+        }
+        if (proteinChangeTypeNot !== undefined && proteinChangeTypeNot !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>proteinChangeTypeNot, 'proteinChangeType.not');
+        }
+        if (proteinChangeTypeAnyOf) {
+            proteinChangeTypeAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'proteinChangeType.anyOf');
+            })
+        }
+        if (nucleotidesLengthNotExists !== undefined && nucleotidesLengthNotExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthNotExists, 'nucleotidesLength.not.exists');
+        }
+        if (nucleotidesLengthExists !== undefined && nucleotidesLengthExists !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthExists, 'nucleotidesLength.exists');
+        }
+        if (nucleotidesLengthLessThan !== undefined && nucleotidesLengthLessThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthLessThan, 'nucleotidesLength.lessThan');
+        }
+        if (nucleotidesLengthLessThanOrEqual !== undefined && nucleotidesLengthLessThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthLessThanOrEqual, 'nucleotidesLength.lessThanOrEqual');
+        }
+        if (nucleotidesLengthGreaterThan !== undefined && nucleotidesLengthGreaterThan !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthGreaterThan, 'nucleotidesLength.greaterThan');
+        }
+        if (nucleotidesLengthGreaterThanOrEqual !== undefined && nucleotidesLengthGreaterThanOrEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthGreaterThanOrEqual, 'nucleotidesLength.greaterThanOrEqual');
+        }
+        if (nucleotidesLengthEqual !== undefined && nucleotidesLengthEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthEqual, 'nucleotidesLength.equal');
+        }
+        if (nucleotidesLengthNotEqual !== undefined && nucleotidesLengthNotEqual !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>nucleotidesLengthNotEqual, 'nucleotidesLength.not.equal');
+        }
+        if (nucleotidesLengthBetween) {
+            nucleotidesLengthBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'nucleotidesLength.between');
+            })
+        }
+        if (nucleotidesLengthNotBetween) {
+            nucleotidesLengthNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'nucleotidesLength.not.between');
+            })
+        }
         if (id !== undefined && id !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>id, 'id');
@@ -808,45 +1308,21 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'clinicalRelevance.anyOf');
             })
         }
-        if (cytogeneticLocationNotExists !== undefined && cytogeneticLocationNotExists !== null) {
+        if (isVusNotExists !== undefined && isVusNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationNotExists, 'cytogeneticLocation.not.exists');
+            <any>isVusNotExists, 'isVus.not.exists');
         }
-        if (cytogeneticLocationExists !== undefined && cytogeneticLocationExists !== null) {
+        if (isVusExists !== undefined && isVusExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationExists, 'cytogeneticLocation.exists');
+            <any>isVusExists, 'isVus.exists');
         }
-        if (cytogeneticLocation !== undefined && cytogeneticLocation !== null) {
+        if (isVus !== undefined && isVus !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocation, 'cytogeneticLocation');
+            <any>isVus, 'isVus');
         }
-        if (cytogeneticLocationNot !== undefined && cytogeneticLocationNot !== null) {
+        if (isPathogenic !== undefined && isPathogenic !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationNot, 'cytogeneticLocation.not');
-        }
-        if (cytogeneticLocationContains !== undefined && cytogeneticLocationContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationContains, 'cytogeneticLocation.contains');
-        }
-        if (cytogeneticLocationNotContains !== undefined && cytogeneticLocationNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationNotContains, 'cytogeneticLocation.not.contains');
-        }
-        if (cytogeneticLocationBeginsWith !== undefined && cytogeneticLocationBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationBeginsWith, 'cytogeneticLocation.beginsWith');
-        }
-        if (cytogeneticLocationNotBeginsWith !== undefined && cytogeneticLocationNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationNotBeginsWith, 'cytogeneticLocation.not.beginsWith');
-        }
-        if (cytogeneticLocationEndsWith !== undefined && cytogeneticLocationEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationEndsWith, 'cytogeneticLocation.endsWith');
-        }
-        if (cytogeneticLocationNotEndsWith !== undefined && cytogeneticLocationNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cytogeneticLocationNotEndsWith, 'cytogeneticLocation.not.endsWith');
+            <any>isPathogenic, 'isPathogenic');
         }
         if (genomeAssemblyVersionNotExists !== undefined && genomeAssemblyVersionNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -879,270 +1355,6 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         if (genomeAssemblyVersionDescendantsOf !== undefined && genomeAssemblyVersionDescendantsOf !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>genomeAssemblyVersionDescendantsOf, 'genomeAssemblyVersion.descendantsOf');
-        }
-        if (genomicRefseqNotExists !== undefined && genomicRefseqNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqNotExists, 'genomicRefseq.not.exists');
-        }
-        if (genomicRefseqExists !== undefined && genomicRefseqExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqExists, 'genomicRefseq.exists');
-        }
-        if (genomicRefseq !== undefined && genomicRefseq !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseq, 'genomicRefseq');
-        }
-        if (genomicRefseqNot !== undefined && genomicRefseqNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqNot, 'genomicRefseq.not');
-        }
-        if (genomicRefseqContains !== undefined && genomicRefseqContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqContains, 'genomicRefseq.contains');
-        }
-        if (genomicRefseqNotContains !== undefined && genomicRefseqNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqNotContains, 'genomicRefseq.not.contains');
-        }
-        if (genomicRefseqBeginsWith !== undefined && genomicRefseqBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqBeginsWith, 'genomicRefseq.beginsWith');
-        }
-        if (genomicRefseqNotBeginsWith !== undefined && genomicRefseqNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqNotBeginsWith, 'genomicRefseq.not.beginsWith');
-        }
-        if (genomicRefseqEndsWith !== undefined && genomicRefseqEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqEndsWith, 'genomicRefseq.endsWith');
-        }
-        if (genomicRefseqNotEndsWith !== undefined && genomicRefseqNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicRefseqNotEndsWith, 'genomicRefseq.not.endsWith');
-        }
-        if (transcriptRefseqNotExists !== undefined && transcriptRefseqNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqNotExists, 'transcriptRefseq.not.exists');
-        }
-        if (transcriptRefseqExists !== undefined && transcriptRefseqExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqExists, 'transcriptRefseq.exists');
-        }
-        if (transcriptRefseq !== undefined && transcriptRefseq !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseq, 'transcriptRefseq');
-        }
-        if (transcriptRefseqNot !== undefined && transcriptRefseqNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqNot, 'transcriptRefseq.not');
-        }
-        if (transcriptRefseqContains !== undefined && transcriptRefseqContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqContains, 'transcriptRefseq.contains');
-        }
-        if (transcriptRefseqNotContains !== undefined && transcriptRefseqNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqNotContains, 'transcriptRefseq.not.contains');
-        }
-        if (transcriptRefseqBeginsWith !== undefined && transcriptRefseqBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqBeginsWith, 'transcriptRefseq.beginsWith');
-        }
-        if (transcriptRefseqNotBeginsWith !== undefined && transcriptRefseqNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqNotBeginsWith, 'transcriptRefseq.not.beginsWith');
-        }
-        if (transcriptRefseqEndsWith !== undefined && transcriptRefseqEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqEndsWith, 'transcriptRefseq.endsWith');
-        }
-        if (transcriptRefseqNotEndsWith !== undefined && transcriptRefseqNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>transcriptRefseqNotEndsWith, 'transcriptRefseq.not.endsWith');
-        }
-        if (codingHgvsNotExists !== undefined && codingHgvsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsNotExists, 'codingHgvs.not.exists');
-        }
-        if (codingHgvsExists !== undefined && codingHgvsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsExists, 'codingHgvs.exists');
-        }
-        if (codingHgvs !== undefined && codingHgvs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvs, 'codingHgvs');
-        }
-        if (codingHgvsNot !== undefined && codingHgvsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsNot, 'codingHgvs.not');
-        }
-        if (codingHgvsContains !== undefined && codingHgvsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsContains, 'codingHgvs.contains');
-        }
-        if (codingHgvsNotContains !== undefined && codingHgvsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsNotContains, 'codingHgvs.not.contains');
-        }
-        if (codingHgvsBeginsWith !== undefined && codingHgvsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsBeginsWith, 'codingHgvs.beginsWith');
-        }
-        if (codingHgvsNotBeginsWith !== undefined && codingHgvsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsNotBeginsWith, 'codingHgvs.not.beginsWith');
-        }
-        if (codingHgvsEndsWith !== undefined && codingHgvsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsEndsWith, 'codingHgvs.endsWith');
-        }
-        if (codingHgvsNotEndsWith !== undefined && codingHgvsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codingHgvsNotEndsWith, 'codingHgvs.not.endsWith');
-        }
-        if (proteinHgvsNotExists !== undefined && proteinHgvsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotExists, 'proteinHgvs.not.exists');
-        }
-        if (proteinHgvsExists !== undefined && proteinHgvsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsExists, 'proteinHgvs.exists');
-        }
-        if (proteinHgvs !== undefined && proteinHgvs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvs, 'proteinHgvs');
-        }
-        if (proteinHgvsNot !== undefined && proteinHgvsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNot, 'proteinHgvs.not');
-        }
-        if (proteinHgvsContains !== undefined && proteinHgvsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsContains, 'proteinHgvs.contains');
-        }
-        if (proteinHgvsNotContains !== undefined && proteinHgvsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotContains, 'proteinHgvs.not.contains');
-        }
-        if (proteinHgvsBeginsWith !== undefined && proteinHgvsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsBeginsWith, 'proteinHgvs.beginsWith');
-        }
-        if (proteinHgvsNotBeginsWith !== undefined && proteinHgvsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotBeginsWith, 'proteinHgvs.not.beginsWith');
-        }
-        if (proteinHgvsEndsWith !== undefined && proteinHgvsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsEndsWith, 'proteinHgvs.endsWith');
-        }
-        if (proteinHgvsNotEndsWith !== undefined && proteinHgvsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotEndsWith, 'proteinHgvs.not.endsWith');
-        }
-        if (genomicHgvsNotExists !== undefined && genomicHgvsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsNotExists, 'genomicHgvs.not.exists');
-        }
-        if (genomicHgvsExists !== undefined && genomicHgvsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsExists, 'genomicHgvs.exists');
-        }
-        if (genomicHgvs !== undefined && genomicHgvs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvs, 'genomicHgvs');
-        }
-        if (genomicHgvsNot !== undefined && genomicHgvsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsNot, 'genomicHgvs.not');
-        }
-        if (genomicHgvsContains !== undefined && genomicHgvsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsContains, 'genomicHgvs.contains');
-        }
-        if (genomicHgvsNotContains !== undefined && genomicHgvsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsNotContains, 'genomicHgvs.not.contains');
-        }
-        if (genomicHgvsBeginsWith !== undefined && genomicHgvsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsBeginsWith, 'genomicHgvs.beginsWith');
-        }
-        if (genomicHgvsNotBeginsWith !== undefined && genomicHgvsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsNotBeginsWith, 'genomicHgvs.not.beginsWith');
-        }
-        if (genomicHgvsEndsWith !== undefined && genomicHgvsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsEndsWith, 'genomicHgvs.endsWith');
-        }
-        if (genomicHgvsNotEndsWith !== undefined && genomicHgvsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomicHgvsNotEndsWith, 'genomicHgvs.not.endsWith');
-        }
-        if (dnaChangeTypeNotExists !== undefined && dnaChangeTypeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeNotExists, 'dnaChangeType.not.exists');
-        }
-        if (dnaChangeTypeExists !== undefined && dnaChangeTypeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeExists, 'dnaChangeType.exists');
-        }
-        if (dnaChangeType !== undefined && dnaChangeType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeType, 'dnaChangeType');
-        }
-        if (dnaChangeTypeNot !== undefined && dnaChangeTypeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeNot, 'dnaChangeType.not');
-        }
-        if (dnaChangeTypeAnyOf) {
-            dnaChangeTypeAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'dnaChangeType.anyOf');
-            })
-        }
-        if (dnaChangeTypeNotAnyOf) {
-            dnaChangeTypeNotAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'dnaChangeType.not.anyOf');
-            })
-        }
-        if (dnaChangeTypeDescendantsOf !== undefined && dnaChangeTypeDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeDescendantsOf, 'dnaChangeType.descendantsOf');
-        }
-        if (aminoacidChangeTypeNotExists !== undefined && aminoacidChangeTypeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>aminoacidChangeTypeNotExists, 'aminoacidChangeType.not.exists');
-        }
-        if (aminoacidChangeTypeExists !== undefined && aminoacidChangeTypeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>aminoacidChangeTypeExists, 'aminoacidChangeType.exists');
-        }
-        if (aminoacidChangeType !== undefined && aminoacidChangeType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>aminoacidChangeType, 'aminoacidChangeType');
-        }
-        if (aminoacidChangeTypeNot !== undefined && aminoacidChangeTypeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>aminoacidChangeTypeNot, 'aminoacidChangeType.not');
-        }
-        if (aminoacidChangeTypeAnyOf) {
-            aminoacidChangeTypeAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'aminoacidChangeType.anyOf');
-            })
-        }
-        if (aminoacidChangeTypeNotAnyOf) {
-            aminoacidChangeTypeNotAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'aminoacidChangeType.not.anyOf');
-            })
-        }
-        if (aminoacidChangeTypeDescendantsOf !== undefined && aminoacidChangeTypeDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>aminoacidChangeTypeDescendantsOf, 'aminoacidChangeType.descendantsOf');
         }
         if (molecularConsequenceNotExists !== undefined && molecularConsequenceNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1404,30 +1616,6 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>coordinateSystemDescendantsOf, 'coordinateSystem.descendantsOf');
         }
-        if (exactGenomicCoordinatesNotExists !== undefined && exactGenomicCoordinatesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exactGenomicCoordinatesNotExists, 'exactGenomicCoordinates.not.exists');
-        }
-        if (exactGenomicCoordinatesExists !== undefined && exactGenomicCoordinatesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exactGenomicCoordinatesExists, 'exactGenomicCoordinates.exists');
-        }
-        if (innerGenomicCoordinatesNotExists !== undefined && innerGenomicCoordinatesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>innerGenomicCoordinatesNotExists, 'innerGenomicCoordinates.not.exists');
-        }
-        if (innerGenomicCoordinatesExists !== undefined && innerGenomicCoordinatesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>innerGenomicCoordinatesExists, 'innerGenomicCoordinates.exists');
-        }
-        if (outerGenomicCoordinatesNotExists !== undefined && outerGenomicCoordinatesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>outerGenomicCoordinatesNotExists, 'outerGenomicCoordinates.not.exists');
-        }
-        if (outerGenomicCoordinatesExists !== undefined && outerGenomicCoordinatesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>outerGenomicCoordinatesExists, 'outerGenomicCoordinates.exists');
-        }
         if (clinvarNotExists !== undefined && clinvarNotExists !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>clinvarNotExists, 'clinvar.not.exists');
@@ -1502,50 +1690,6 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
             genesNotAllOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'genes.not.allOf');
-            })
-        }
-        if (chromosomesNotExists !== undefined && chromosomesNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesNotExists, 'chromosomes.not.exists');
-        }
-        if (chromosomesExists !== undefined && chromosomesExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesExists, 'chromosomes.exists');
-        }
-        if (chromosomes !== undefined && chromosomes !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomes, 'chromosomes');
-        }
-        if (chromosomesNot !== undefined && chromosomesNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesNot, 'chromosomes.not');
-        }
-        if (chromosomesAnyOf) {
-            chromosomesAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'chromosomes.anyOf');
-            })
-        }
-        if (chromosomesNotAnyOf) {
-            chromosomesNotAnyOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'chromosomes.not.anyOf');
-            })
-        }
-        if (chromosomesDescendantsOf !== undefined && chromosomesDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>chromosomesDescendantsOf, 'chromosomes.descendantsOf');
-        }
-        if (chromosomesAllOf) {
-            chromosomesAllOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'chromosomes.allOf');
-            })
-        }
-        if (chromosomesNotAllOf) {
-            chromosomesNotAllOf.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'chromosomes.not.allOf');
             })
         }
         if (limit !== undefined && limit !== null) {

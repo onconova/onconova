@@ -216,7 +216,7 @@ export interface CohortsServiceInterface {
      * 
 * @param requestParameters
      */
-    getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, extraHttpRequestParams?: any): Observable<object>;
+    getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * Get Cohort Overall Survival Curve
@@ -237,14 +237,14 @@ export interface CohortsServiceInterface {
      * 
 * @param requestParameters
      */
-    getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, extraHttpRequestParams?: any): Observable<object>;
+    getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * Get Cohort Progression Free Survival Curve By Therapy Classifications
      * 
 * @param requestParameters
      */
-    getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, extraHttpRequestParams?: any): Observable<object>;
+    getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * Get Cohort Trait Average

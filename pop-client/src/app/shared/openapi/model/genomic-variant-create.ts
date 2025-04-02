@@ -11,10 +11,12 @@ import { CodedConcept } from './coded-concept';
 import { GenomicVariantAssessmentChoices } from './genomic-variant-assessment-choices';
 import { GenomicVariantConfidenceChoices } from './genomic-variant-confidence-choices';
 import { GenomicVariantClinicalRelevanceChoices } from './genomic-variant-clinical-relevance-choices';
-import { Range } from './range';
 
 
 export interface GenomicVariantCreate { 
+    dnaHgvs?: string | null;
+    rnaHgvs?: string | null;
+    proteinHgvs?: string | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -30,15 +32,7 @@ export interface GenomicVariantCreate {
     confidence?: GenomicVariantConfidenceChoices | null;
     analysisMethod?: CodedConcept | null;
     clinicalRelevance?: GenomicVariantClinicalRelevanceChoices | null;
-    cytogeneticLocation?: string | null;
     genomeAssemblyVersion?: CodedConcept | null;
-    genomicRefseq?: string | null;
-    transcriptRefseq?: string | null;
-    codingHgvs?: string | null;
-    proteinHgvs?: string | null;
-    genomicHgvs?: string | null;
-    dnaChangeType?: CodedConcept | null;
-    aminoacidChangeType?: CodedConcept | null;
     molecularConsequence?: CodedConcept | null;
     copyNumber?: number | null;
     alleleFrequency?: number | null;
@@ -46,15 +40,11 @@ export interface GenomicVariantCreate {
     zygosity?: CodedConcept | null;
     inheritance?: CodedConcept | null;
     coordinateSystem?: CodedConcept | null;
-    exactGenomicCoordinates?: Range | null;
-    innerGenomicCoordinates?: Range | null;
-    outerGenomicCoordinates?: Range | null;
     clinvar?: string | null;
     /**
      * Gene(s) affected by this variant
      */
     genes?: Array<CodedConcept>;
-    chromosomes?: Array<CodedConcept> | null;
 }
 export namespace GenomicVariantCreate {
 }
