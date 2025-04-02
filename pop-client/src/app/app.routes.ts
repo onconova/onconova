@@ -1,9 +1,30 @@
 import { Routes } from '@angular/router';
 
 import { AuthGuard } from './core/auth/guards/auth.guard';
+import { pluginRoutes } from '../plugins/plugins.routes';
 
-export const routes: Routes = [
-    
+
+function mergeRoutes(baseRoutes: Routes, overrideRoutes: Routes): Routes {
+    return baseRoutes.map(baseRoute => {
+      const override = overrideRoutes.find(r => r.path === baseRoute.path);
+  
+      if (override) {
+        return {
+          ...baseRoute, // Keep existing properties (e.g., guards)
+          ...override, // Override properties explicitly set in the plugin
+          children: baseRoute.children
+            ? mergeRoutes(baseRoute.children, override.children || [])
+            : override.children || baseRoute.children, // Merge children recursively
+        };
+      }
+  
+      return baseRoute; // If no override exists, keep the base route
+    }).concat(
+      overrideRoutes.filter(or => !baseRoutes.some(br => br.path === or.path)) // Add new plugin routes
+    );
+  }
+
+const appRoutes: Routes = [
     { 
         path: 'auth', 
         loadChildren: () => import('./core/auth/auth.routes').then(m => m.authRoutes),
@@ -42,3 +63,5 @@ export const routes: Routes = [
     },
     { path: '**', redirectTo: '/notfound' },
 ];
+
+export const routes: Routes = mergeRoutes(appRoutes, pluginRoutes)
