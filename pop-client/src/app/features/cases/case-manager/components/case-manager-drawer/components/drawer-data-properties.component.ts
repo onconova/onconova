@@ -31,9 +31,12 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
             @case ('Array') {
                 <div>
                     <ul class="list-property">
-                        @for (item of data; track $index;) {
+                        @for (item of data; track $index; let idx = $index) {
                             <li>
-                                <pop-drawer-properties [data]="item"/>
+                                <small class="text-muted"><i class="pi pi-box"></i> {{ label | slice:0:-1 | titlecase }} #{{idx+1}}</small>
+                                <div class="nested-properties">
+                                    <pop-drawer-properties [data]="item"/>
+                                </div>
                             </li>                            
                         }
                     </ul>
@@ -46,7 +49,7 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
                             <small class="property-label {{ data ? '' : 'text-muted'}}">
                                 {{ property.label | titlecase }}
                             </small>
-                            <pop-drawer-properties [data]="property.value"/>
+                            <pop-drawer-properties [data]="property.value" [label]='property.label'/>
                         </div>
                     }
                 </div> 
@@ -58,12 +61,17 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
     `,
     styles: `
         ul.list-property {
-            padding-left: 1rem !important;
+            padding-left: .25rem;
+            margin-top: .25rem;
         }
         ul.list-property > li {
-            padding-left: .5rem !important;
-            border-left: solid 2px var(--p-text-muted-color) !important;
             list-style: none;
+        }
+        .nested-properties {
+            margin-left: .45rem;
+            padding-left: .5rem;
+            padding-top: .5rem;
+            border-left: .1rem solid color-mix(in srgb, var(--p-content-color), transparent 55%);
         }
     `,
     encapsulation: ViewEncapsulation.None,
@@ -74,6 +82,7 @@ export class DrawerDataPropertiesComponent {
     private readonly typeCheckService = inject(TypeCheckService)
 
     @Input({required: true}) data!: any;
+    @Input() label!: string;
     public dataType!: string;
     public subProperties: any[] = [];
 

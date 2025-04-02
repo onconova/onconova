@@ -10,7 +10,7 @@
 }
 .property-label {
     font-size: .9rem;
-    font-weight: bold;
+    font-weight: 600;
 }
 .drawer-property-tree .p-tree-root {
     margin-left: -1.5rem;
