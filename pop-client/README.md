@@ -23,11 +23,48 @@ rm -r src/app/shared/openapi && docker run --rm -v "${PWD}/:/local" openapitools
     --additional-properties fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model      
 ```
 
-## Generate a local development SSL certificate 
+## Adding plugins
 
-```bash 
-sudo certbot certonly --standalone --preferred-challenges http -d localhost -d localhost
+1. Create a plugin component in `/src/plugins`. For example, let's create a new custom dashboard with an additional panel
+```ts
+import { Component } from '@angular/core';
+import { DashboardComponent } from 'src/app/features/dashboard/dashboard.component';
+import { CommonModule } from '@angular/common';
+import { Card } from 'primeng/card';
+
+@Component({
+    standalone: true,
+    selector: 'custom-dashboard',
+    template: `
+    <pop-dashboard>
+        <ng-template #additionalPanels>
+            <p-card>{{ newContent }}</p-card>
+        </ng-template>
+    </pop-dashboard>
+    `,
+    imports: [
+        CommonModule,
+        DashboardComponent,
+        Card,
+    ],
+})
+export class CustomDashboardComponent {
+    public newContent = 'This is a new panel!!!!!!!'
+}
 ```
+
+2. Add new route or override an existing one on the `src/plugins/plugins.route.ts` file: 
+```ts
+export const pluginRoutes: Routes = [
+    {
+        path: '', 
+        children: [
+            { path: 'dashboard', loadComponent: () => import('./custom-dashboard/custom-dashboard.component').then(m => m.CustomDashboardComponent) }
+        ],
+    }
+];
+```
+
 
 ## Build
 
@@ -36,11 +73,3 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

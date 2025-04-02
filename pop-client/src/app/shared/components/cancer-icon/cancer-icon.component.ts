@@ -1,24 +1,49 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, inject } from '@angular/core';
+import { Component, Input, SimpleChange, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg-2';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
     standalone: true,
     selector: 'pop-cancer-icon',
-    styleUrl: 'cancer-icon.component.css',
-    encapsulation: ViewEncapsulation.None,
     template:`
-    <div [inlineSVG]="icon" class="cancer-icon">
+    <div [inlineSVG]="icon" 
+        class="cancer-icon" 
+        [setSVGAttributes]="{style: 'margin: auto; display: block;', height: height, width: width}"
+        (onSVGInserted)="loadingSVG=false; cdref.detectChanges()" 
+        style="display: {{loadingSVG ? 'none' : 'block'}}">
     </div>
+    @if (loadingSVG) {
+        <p-skeleton [height]="height" [width]="width"/>
+    }
     `,
+    styles: `
+    .cancer-icon {
+        display: flex;
+        width: fit-content;
+        aspect-ratio: 1;
+        padding: .2rem;
+        border-radius: var(--p-avatar-border-radius);
+        color: var(--p-primary-500);
+        background: color-mix(in srgb, var(--p-primary-500), transparent 80%);
+    }`,
+    encapsulation: ViewEncapsulation.None,
     imports: [
-        InlineSVGModule,
+        InlineSVGModule, Skeleton
     ]
 })
 export class CancerIconComponent {
 
+    public cdref = inject(ChangeDetectorRef)
+
     @Input() topography!: string;
+    @Input() height: string = '2rem';
+    @Input() width: string = '2rem';
+
     public defaultIcon : string = 'assets/images/body/unknown.svg';
     public icon: string = this.defaultIcon;
+    public loadingSVG: boolean = true;
+    public iconDisplay: boolean = false;
     private icons = {
         'mouth.svg': ['C00', 'C01', 'C02', 'C03', 'C04', 'C06'],
         'head.svg': ['C07', 'C08', 'C09', 'C10', 'C11', 'C12', 'C13', 'C14',],
@@ -54,7 +79,6 @@ export class CancerIconComponent {
         'endocrinology.svg': ['C74','C75'],
         'lymph_nodes.svg': ['C77'],
     }
-
 
     ngOnInit() {
         if (!this.topography) {

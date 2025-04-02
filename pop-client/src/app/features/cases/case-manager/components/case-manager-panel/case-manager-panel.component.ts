@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef,ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef,ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, first, of, map, startWith} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -65,6 +65,8 @@ export class CaseManagerPanelComponent implements OnInit {
     @Input() formComponent!: any;
     @Input() category!: PatientCaseDataCategories;
     @Input() service!: any; 
+    @Output() onCompletionChange = new EventEmitter<boolean>; 
+
     public loadingData: boolean = false;
     public data$!: Observable<any>;
     public menuItems$: Observable<MenuItem[]> = of(this.getMenuItems());
@@ -208,6 +210,7 @@ export class CaseManagerPanelComponent implements OnInit {
                             this.menuItems$ = of(this.getMenuItems(this.completed))
                             this.completedBy = this.authService.getUsername();
                             this.completedAt = new Date().toISOString();
+                            this.onCompletionChange.emit(this.completed)
                         }
                     })
             }
@@ -253,6 +256,7 @@ export class CaseManagerPanelComponent implements OnInit {
                             this.completed = false;
                             this.messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category} marked as incomplete.`})
                             this.menuItems$ = of(this.getMenuItems(this.completed))
+                            this.onCompletionChange.emit(this.completed)
                         }
                     })
             }

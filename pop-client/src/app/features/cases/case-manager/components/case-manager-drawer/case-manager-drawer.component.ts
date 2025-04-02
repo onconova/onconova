@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ViewEncapsulation, inject, ChangeDetectionStrategy, Pipe,PipeTransform  } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewEncapsulation, inject, ChangeDetectionStrategy, Pipe,PipeTransform, SimpleChanges  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DrawerModule } from 'primeng/drawer';
@@ -58,27 +58,32 @@ export class CaseManagerDrawerComponent {
     @Input() data!: OncologicalResource;
     @Input() icon!: LucideIconData;
     @Input() visible!: boolean;
+    @Input() editable: boolean = true;
     public createdBy$!: Observable<string>
     public lastUpdatedBy$!: Observable<string>
-    public actionItems: MenuItem[] =  [
-        {
-            label: 'Delete',
-            icon: 'pi pi-trash',
-            styleClass: 'delete-action',
-            command: (event) => {
-                this.confirmDelete(event);
-            }
-        },
-        {
-            label: 'Export',
-            disabled: !this.authService.user.canExportData,
-            icon: 'pi pi-file-export',
-            command: () => {
-                this.downloadService.downloadAsJson(this.data, 'pop-resource-' + this.data.id)
-            }
-        },
-    ]
-
+    public actionItems!: MenuItem[];
+    
+    ngOnChanges(changes:SimpleChanges){
+        this.actionItems =  [
+            {
+                label: 'Delete',
+                icon: 'pi pi-trash',
+                disabled: !this.editable,
+                styleClass: 'delete-action',
+                command: (event) => {
+                    this.confirmDelete(event);
+                }
+            },
+            {
+                label: 'Export',
+                disabled: !this.authService.user.canExportData,
+                icon: 'pi pi-file-export',
+                command: () => {
+                    this.downloadService.downloadAsJson(this.data, 'pop-resource-' + this.data.id)
+                }
+            },
+        ]
+    }
 
     confirmDelete(event: any) {
         this.confirmationService.confirm({

@@ -2,12 +2,12 @@ import { Component, OnInit, Input, ViewEncapsulation, inject  } from '@angular/c
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { Observable, delay } from 'rxjs'; 
+import { Observable, delay, map } from 'rxjs'; 
 
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Button } from 'primeng/button';
-import { KnobModule } from 'primeng/knob';
+import { Knob, KnobModule } from 'primeng/knob';
 import { Divider } from 'primeng/divider';
 import { Fieldset } from 'primeng/fieldset';
 
@@ -38,7 +38,9 @@ import {
     AdverseEventsService,
     TumorBoardsService,
     TreatmentResponsesService,
-    InteroperabilityService
+    InteroperabilityService,
+    NeoplasticEntity,
+    AnyStaging
 } from 'src/app/shared/openapi'
 
 import { 
@@ -65,6 +67,8 @@ import { CaseManagerPanelComponent,DataService } from './components/case-manager
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { ModalFormComponent } from "../../../shared/components/identicon/identicon.component";
+import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
+import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 
 
 
@@ -81,8 +85,11 @@ import { ModalFormComponent } from "../../../shared/components/identicon/identic
     AvatarModule,
     Button,
     Fieldset,
+    UserBadgeComponent,
+    CancerIconComponent,
     KnobModule,
     Divider,
+    Knob,
     SkeletonModule,
     ModalFormComponent
 ],
@@ -112,8 +119,6 @@ export class CaseManagerComponent implements OnInit {
     private treatmentResponsesService: TreatmentResponsesService = inject(TreatmentResponsesService);
     private downloadService: DownloadService = inject(DownloadService);
     public location: Location = inject(Location);
-
-    public exportLoading: boolean = false;
 
     // Case properties
     @Input() public pseudoidentifier: string = '';
@@ -253,8 +258,24 @@ export class CaseManagerComponent implements OnInit {
         performanceStatus: CircleGauge,
     }
 
+    public exportLoading: boolean = false;
+    public totalCompletion!: number; 
+    public primaryEntity$!: Observable<NeoplasticEntity>
+    public latestStaging$!: Observable<AnyStaging>
+
     ngOnInit() {
-        this.case$ = this.caseService.getPatientCaseByPseudoidentifier({pseudoidentifier:this.pseudoidentifier});
+        this.case$ = this.caseService.getPatientCaseByPseudoidentifier({pseudoidentifier:this.pseudoidentifier}).pipe(
+            map((response: PatientCase) => {
+                this.totalCompletion = response.dataCompletionRate;
+                this.primaryEntity$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: response.id, relationship:'primary'}).pipe(
+                    map(data => data.items[0])
+                )
+                this.latestStaging$ = this.stagingsService.getStagings({caseId: response.id}).pipe(map(data => {
+                    return data.items[0]
+                }))
+                return response
+            })
+        );
     }
 
     downloadCaseBundle(caseId: string) {
@@ -267,6 +288,10 @@ export class CaseManagerComponent implements OnInit {
                 this.exportLoading = false;
             }
         })
+    }
+
+    updateCompletion(completed: boolean) {
+        this.totalCompletion = this.totalCompletion + Math.round(100*(completed ? 1 : -1)/Object.keys(this.icons).length);
     }
 
 }

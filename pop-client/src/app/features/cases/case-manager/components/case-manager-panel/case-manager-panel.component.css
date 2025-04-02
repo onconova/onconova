@@ -10,7 +10,7 @@
 .case-manager-panel .p-timeline-event {
     min-height: unset;
 }
-.case-manager-panel .p-badge-circle {
+.case-manager-panel .p-badge {
     color: light-dark(var(--p-primary-600), var(--p-primary-400));
     background-color: color-mix(in srgb, var(--p-primary-400), transparent 80%) !important;
 }

@@ -1,10 +1,8 @@
-import { Component, Input, Output, forwardRef, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { TimelineModule } from 'primeng/timeline';
-import { OncologicalResource } from '../../models/resource.type';
 import { TypeCheckService } from '../../services/type-check.service';
 import { Period } from '../../openapi';
-import { timestamp } from 'rxjs';
 
 export interface RadioChoice {
     name: string 
@@ -36,7 +34,8 @@ export interface RadioChoice {
                     <div class="flex flex-column gap-2">
                         @for (entry of event.entries; track entry.id) {
                             <div (click)="onEventClick(entry)" class="cursor-pointer">
-                                <i class="pi pi-file"></i> {{ entry.description }}
+                                <i class="pi pi-box" style="color: light-dark(var(--p-primary-900), var(--p-primary-100))"></i>
+                                {{ entry.description }}
                             </div>                        
                         }
                     </div>

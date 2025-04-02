@@ -12,21 +12,71 @@
 </div>
 
 <!-- Case summary -->
-<div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
+<div class="card flex py-3 header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
     <pop-identicon [value]="pseudoidentifier"/>
     <div class="ml-3 my-auto">
-        <span class="text-muted">Case</span>
+        <small class="text-muted">Patient case</small>
         <h2 class="text-monospace my-0">
             {{ pseudoidentifier }}
         </h2>
         <div>
             @if (case) {
-                {{ case.gender.display }}, 
+                <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : 'pi pi-venus'"></i> {{ case.gender.display }}, 
                 {{ case.age }} years@if(case.isDeceased){, †}
             } @else {
                 <p-skeleton width="7rem" height="1.2rem" />
             }
         </div>    
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        @let primaryEntity = primaryEntity$ | async;
+        @if (case && primaryEntity) {
+            <div class="flex">
+                <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+                <div>
+                    <small class="text-muted">Primary site</small>
+                    <div>{{ primaryEntity.topography.display }}</div>
+                </div>
+            </div>
+            <small class="text-muted">Morphology</small>
+            <div>{{ primaryEntity.morphology.display }}</div>
+        } @else {
+            <p-skeleton width="12rem" height="1.5rem" />
+        }   
+    </div>
+    <p-divider layout="vertical"></p-divider>
+    <div class="">
+        <div class="text-left">
+            <small class="text-muted">Latest staging</small>
+            <div>
+                @let latestStaging = latestStaging$ | async;
+                @if (case) {
+                    @if (latestStaging) {
+                        {{ latestStaging.description }}
+                    } @else {
+                        -
+                    }
+                } @else {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }      
+            </div>
+        </div> 
+
+        <div class="text-left mt-1">
+            <small class="text-muted">Age at diagnosis</small>
+            <div>
+                @if (case) {
+                    @if (case.overallSurvival !== null) {
+                        {{ case.ageAtDiagnosis | number:'1.0-0' }} years
+                    } @else {
+                        -
+                    }
+                } @else {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }      
+            </div>
+        </div> 
     </div>
     <p-divider layout="vertical"></p-divider>
     <div class="">
@@ -85,28 +135,59 @@
         </div> 
     </div>
     <p-divider layout="vertical"></p-divider>
+    <div class="text-center">
+        <small class="text-muted">Completion</small>
+        @if (case) {
+            <p-knob [ngModel]="totalCompletion | number:'1.0-0'" 
+                    styleClass="mt-2"
+                    [readonly]="true" 
+                    valueTemplate="{value}%"
+                    [size]="55"/>
+        } @else {
+            <p-skeleton width="5rem" height="5rem" />     
+        }
+    </div>
+    <p-divider layout="vertical"></p-divider>
     <div class="">
-        <div class="text-left">
-            <small class="text-muted">Created</small>
-            <div>
-                @if (case) {
-                    {{ case.createdAt | date }}
-                } @else {
-                    <p-skeleton width="7rem" height="1.5rem" />                    
+        <div class=flex>
+            @if (case) {
+                @if (case.createdBy) {
+                    <pop-user-badge [user]="case.createdBy" class="my-auto mr-2"/>
                 }
-            </div>
-        </div> 
+            } @else {
+                <p-skeleton width="4rem" height="4rem" />                    
+            }
+            <div class="text-left">
+                <small class="text-muted">Registration</small>
+                <div>
+                    @if (case) {
+                        {{ case.createdAt | date }}
+                    } @else {
+                        <p-skeleton width="7rem" height="1.5rem" />                    
+                    }
+                </div>
+            </div> 
+        </div>
 
-        <div class="text-left mt-1">
-            <small class="text-muted">Last updated</small>
-            <div>
-                @if (case) {
-                    {{ case.updatedAt | date }}
-                } @else {
-                    <p-skeleton width="7rem" height="1.5rem"/>
-                }      
-            </div>
-        </div> 
+        <div class=flex>
+            @if (case) {
+                @if (case.updatedBy && case.updatedBy[case.updatedBy.length-1]) {
+                    <pop-user-badge [user]="case.updatedBy[case.updatedBy.length-1]" class="my-auto mr-2"/>
+                }
+            } @else {
+                <p-skeleton width="4rem" height="4rem" />                    
+                }
+            <div class="text-left mt-1">
+                <small class="text-muted">Last updated</small>
+                <div>
+                    @if (case) {
+                        {{ case.updatedAt | date }}
+                    } @else {
+                        <p-skeleton width="7rem" height="1.5rem"/>
+                    }      
+                </div>
+            </div> 
+        </div>
     </div>
 </div>
 
@@ -121,6 +202,7 @@
                     title="Neoplastic Entities"
                     [icon]="icons.neoplasticEntities"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="NeoplasticEntityFormComponent"
                     [service]="neoplasticEntityService"
                     [category]="PatientCaseDataCategories.NeoplasticEntities"/>
@@ -131,6 +213,7 @@
                     title="Stagings"
                     [icon]="icons.stagings"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="StagingFormComponent"
                     [service]="stagingService"
                     [category]="PatientCaseDataCategories.Stagings"/>
@@ -141,6 +224,7 @@
                     title="Risk Assessments"
                     [icon]="icons.riskAssessments"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="RiskAssessmentFormComponent"
                     [service]="riskAssessmentService"
                     [category]="PatientCaseDataCategories.RiskAssessments"/>
@@ -151,6 +235,7 @@
                     title="Tumor Markers"
                     [icon]="icons.tumorMarkers"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="TumorMarkerFormComponent"
                     [service]="tumorMarkerService"
                     [category]="PatientCaseDataCategories.TumorMarkers"/>
@@ -164,6 +249,7 @@
                     title="Genomic Variants"
                     [icon]="icons.genomicVariants"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="GenomicVariantFormComponent"
                     [service]="genomicVariantService"
                     [category]="PatientCaseDataCategories.GenomicVariants"/>
@@ -174,6 +260,7 @@
                     title="Genomic Signatures"
                     [icon]="icons.genomicSignatures"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="GenomicSignatureFormComponent"
                     [service]="genomicSignatureService"
                     [category]="PatientCaseDataCategories.GenomicSignatures"/>
@@ -189,6 +276,7 @@
                     title="Systemic Treatments"
                     [icon]="icons.systemicTherapies"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="SystemicTherapyFormComponent"
                     [service]="systemicTherapyService"
                     [category]="PatientCaseDataCategories.SystemicTherapies"/>
@@ -199,6 +287,7 @@
                     title="Surgical Procedures"
                     [icon]="icons.surgeries"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="SurgeryFormComponent"
                     [service]="surgeryService"
                     [category]="PatientCaseDataCategories.Surgeries"/>
@@ -209,6 +298,7 @@
                     title="Radiotherapies"
                     [icon]="icons.radiotherapies"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="RadiotherapyFormComponent"
                     [service]="radiotherapyService"
                     [category]="PatientCaseDataCategories.Radiotherapies"/>
@@ -220,6 +310,7 @@
                     title="Lifestyle"
                     [icon]="icons.lifestyle"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="LifestyleFormComponent"
                     [service]="lifestyleService"
                     [category]="PatientCaseDataCategories.Lifestyles"/>
@@ -230,6 +321,7 @@
                     title="Familiy History"
                     [icon]="icons.familyHistory"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="FamilyHistoryFormComponent"
                     [service]="familyHistoryService"
                     [category]="PatientCaseDataCategories.FamilyHistories"/>
@@ -240,6 +332,7 @@
                     title="Comorbidities"
                     [icon]="icons.comorbidities"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="ComorbiditiesAssessmentFormComponent"
                     [service]="comorbiditiesAssessmentService"
                     [category]="PatientCaseDataCategories.ComorbiditiesAssessments"/>
@@ -250,6 +343,7 @@
                     title="Vitals"
                     [icon]="icons.vitals"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="VitalsFormComponent"
                     [service]="vitalsService"
                     [category]="PatientCaseDataCategories.Vitals"/> 
@@ -265,6 +359,7 @@
                     title="Tumor Boards"
                     [icon]="icons.tumorBoards"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [category]="PatientCaseDataCategories.TumorBoardReviews"
                     [formComponent]="TumorBoardFormComponent"
                     [service]="tumorBoardService"/>
@@ -275,6 +370,7 @@
                     title="Adverse Events"
                     [icon]="icons.adverseEvents"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [category]="PatientCaseDataCategories.AdverseEvents"
                     [formComponent]="AdverseEventFormComponent"
                     [service]="adverseEventService"/>
@@ -285,6 +381,7 @@
                     title="Treatment Responses"
                     [icon]="icons.treatmentResponses"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [category]="PatientCaseDataCategories.TherapyResponses"
                     [formComponent]="TreatmentResponseFormComponent"
                     [service]="treatmentResponseService"/>
@@ -295,6 +392,7 @@
                     title="Performance Status"
                     [icon]="icons.performanceStatus"
                     [caseId]="case.id"
+                    (onCompletionChange)="updateCompletion($event)"
                     [formComponent]="PerformanceStatusFormComponent"
                     [service]="performanceStatusService"
                     [category]="PatientCaseDataCategories.PerformanceStatus"/>

@@ -23,16 +23,19 @@
                 <i class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>                
             }
         </div>
-        @let menuItems = menuItems$ | async;
-        @if (authService.user.canManageCases) {
-            <i class="pi pi-cog cursor-pointer ml-auto my-auto" 
-               style="color: var(--p-button-text-secondary-color)" 
-               (click)="menu.toggle($event)"></i>
+        
+        @if (!loadingData) {
+            @let menuItems = menuItems$ | async;
+            @if (authService.user.canManageCases) {
+                <i class="pi pi-cog cursor-pointer ml-auto my-auto" 
+                style="color: var(--p-button-text-secondary-color)" 
+                (click)="menu.toggle($event)"></i>
+            }
+            <p-confirmdialog />
+            <p-menu #menu 
+            [model]="menuItems || getMenuItems()" 
+            [popup]="true"/>
         }
-        <p-confirmdialog />
-        <p-menu #menu 
-        [model]="menuItems || getMenuItems()" 
-        [popup]="true"/>
     </ng-template>
     
 
@@ -56,5 +59,6 @@
     [(visible)]="drawerVisible" 
     [data]="drawerData" 
     [icon]="icon"
+    [editable]="!completed"
     (delete)="deleteEntry($event)"
     (update)="updateEntry($event)"/>

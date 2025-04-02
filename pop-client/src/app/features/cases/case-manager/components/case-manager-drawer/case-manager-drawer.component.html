@@ -55,6 +55,7 @@
             <p-splitbutton 
                 label="Edit" 
                 [disabled]="!authService.user.canManageCases"
+                [buttonDisabled]="!editable"
                 [icon]="authService.user.canManageCases? 'pi pi-pencil' : 'pi pi-lock'" 
                 dropdownIcon="pi pi-cog" 
                 (onClick)="visibleChange.emit(false); update.emit(data)"
