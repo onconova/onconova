@@ -373,7 +373,7 @@ class GenomicVariantModelTest(TestCase):
     
     @classmethod
     def setUpTestData(cls):
-        cls.variant = factories.GenomicVariantFactory.create(dna_hgvs=None, rna_hgvs=None, genomic_hgvs=None, protein_hgvs=None)
+        cls.variant = factories.GenomicVariantFactory.create(dna_hgvs=None, rna_hgvs=None, protein_hgvs=None)
     
     def test_cytogenetic_location_annotated_from_single_gene(self):
         self.variant.genes.set([terminology.Gene.objects.create(properties={'location': '12p34.5'}, code='gene-1', display='gene-1', system='system')])
@@ -399,66 +399,37 @@ class GenomicVariantModelTest(TestCase):
 
     @parameterized.expand(
         [
-            # NCIB Sequences
+            # NCIB Sequences (genomic DNA coordinate)
+           ('NM_12345:c.123C>A', 'NM_12345'),
+           ('NR_12345.1:c.123C>A', 'NR_12345.1'),
+           ('XM_12345.2:c.123C>A', 'XM_12345.2'),
+           ('XR_12345.3:c.123C>A', 'XR_12345.3'),
            ('NC_12345:g.123456C>A', 'NC_12345'),
-           ('AC_12345.1:g.123456C>A', 'AC_12345.1'),
-           ('NG_12345.2:g.123456C>A', 'NG_12345.2'),
-           ('NT_12345.3:g.123456C>A', 'NT_12345.3'),
-           ('NW_12345.4:g.123456C>A', 'NW_12345.4'),
-           ('NZ_12345.5:g.123456C>A', 'NZ_12345.5'),
-           # ENSEMBL Sequences
+            # NCIB Sequences (coding DNA coordinate)
+           ('NG_00001(NM_12345.0):c.123C>A', 'NM_12345.0'),
+           ('NC_00001(NR_12345.0):c.123C>A', 'NR_12345.0'),
+           ('NW_00001(XM_12345.0):c.123C>A', 'XM_12345.0'),
+           ('AC_00001(XR_12345.0):c.123C>A', 'XR_12345.0'),
+           # ENSEMBL Sequences (genomic DNA coordinate)
            ('ENSG12345:g.123456C>A', 'ENSG12345'),
-           # LRG Sequences
+           # ENSEMBL Sequences (coding DNA coordinate)
+           ('ENST12345:c.123C>A', 'ENST12345'),
+           ('ENST12345.0:c.123C>A', 'ENST12345.0'),
+           # LRG Sequences (genomic DNA coordinate)
            ('LRG_123:g.123456C>A', 'LRG_123'),
+           # LRG Sequences (coding DNA coordinate)
+           ('LRG_123t4:c.123C>A', 'LRG_123t4'),
         ],
         name_func = dynamic_test_name
     )
-    def test_genomic_reference_sequence(self, hgvs, expected):
-        self.variant.genomic_hgvs = hgvs
+    def test_dna_reference_sequence(self, hgvs, expected):
+        self.variant.dna_hgvs = hgvs
         self.variant.save()
-        self.assertEqual(self.variant.genomic_reference_sequence, expected)
+        self.assertEqual(self.variant.dna_reference_sequence, expected)
         
     @parameterized.expand(
         [
-           ('NC_12345:g.12345C>A', '12345'),
-           ('NC_12345:g.(12345_45678)C>A', '(12345_45678)'),
-           ('NC_12345:g.(?_12345)C>A', '(?_12345)'),
-           ('NC_12345:g.(12345_?)C>A', '(12345_?)'),
-           ('NC_12345:g.12345_45678del', '12345_45678'),
-           ('NC_12345:g.(12345_?)_45678del', '(12345_?)_45678'),
-           ('NC_12345:g.12345_(45678_?)del', '12345_(45678_?)'),
-           ('NC_12345:g.(12345_?)_(45678_?)del', '(12345_?)_(45678_?)'),
-        ],
-        name_func = dynamic_test_name
-    )
-    def test_genomic_change_position(self, hgvs, expected):
-        self.variant.genomic_hgvs = hgvs
-        self.variant.save()
-        self.assertEqual(self.variant.genomic_change_position, expected)
-
-
-    @parameterized.expand(
-        [
-           ('NC_12345:g.12345C>A', 1),
-           ('NC_12345:g.(12345_45678)C>A', 1),
-           ('NC_12345:g.(?_12345)C>A', 1),
-           ('NC_12345:g.(12345_?)C>A', 1),
-           ('NC_12345:g.12345_45678del', 33333),
-           ('NC_12345:g.(12345_?)_45678del', 33333),
-           ('NC_12345:g.12345_(45678_?)del', 33333),
-           ('NC_12345:g.(12345_?)_(45678_?)del', 33333),
-           ('NC_12345:g.(12345_12350)_(45670_45678)del', 33320),
-        ],
-        name_func = dynamic_test_name
-    )
-    def test_nucleotides_length_from_genomic_hgvs(self, hgvs, expected):
-        self.variant.genomic_hgvs = hgvs
-        self.variant.save()
-        self.assertEqual(self.variant.nucleotides_length, expected)
-
-    @parameterized.expand(
-        [
-            # Examples from HGVS documentation 
+            # Examples from HGVS documentation (genomic DNA coordinate)
             ('NC_000001.11:g.1234=', 'unchanged'),
             ('NC_000001.11:g.1234_2345=', 'unchanged'),
             ('NC_000023.10:g.33038255C>A', 'substitution'),
@@ -475,41 +446,7 @@ class GenomicVariantModelTest(TestCase):
             ('NC_000011.10:g.1999904_1999946|met=', 'methylation-unchanged'),
             ('NC_000002.12:g.?_8247756delins[NC_000011.10:g.15825272_?]', 'translocation'),
             ('NC_000004.12:g.134850793_134850794ins[NC_000023.11:g.89555676_100352080] and NC_000023.11:g.89555676_100352080del', 'transposition'),
-        ],
-        name_func = dynamic_test_name
-    )
-    def test_genomic_change_type(self, hgvs, expected):
-        self.variant.genomic_hgvs = hgvs
-        self.variant.save()
-        self.assertEqual(self.variant.genomic_change_type, expected)
-        
-    @parameterized.expand(
-        [
-            # NCIB Sequences
-           ('NM_12345:c.123C>A', 'NM_12345'),
-           ('NR_12345.1:c.123C>A', 'NR_12345.1'),
-           ('XM_12345.2:c.123C>A', 'XM_12345.2'),
-           ('XR_12345.3:c.123C>A', 'XR_12345.3'),
-           ('NG_00001(NM_12345.0):c.123C>A', 'NM_12345.0'),
-           ('NC_00001(NR_12345.0):c.123C>A', 'NR_12345.0'),
-           ('NW_00001(XM_12345.0):c.123C>A', 'XM_12345.0'),
-           ('AC_00001(XR_12345.0):c.123C>A', 'XR_12345.0'),
-           # ENSEMBL Sequences
-           ('ENST12345:c.123C>A', 'ENST12345'),
-           ('ENST12345.0:c.123C>A', 'ENST12345.0'),
-           # LRG Sequences
-           ('LRG_123t4:c.123C>A', 'LRG_123t4'),
-        ],
-        name_func = dynamic_test_name
-    )
-    def test_dna_reference_sequence(self, hgvs, expected):
-        self.variant.dna_hgvs = hgvs
-        self.variant.save()
-        self.assertEqual(self.variant.dna_reference_sequence, expected)
-        
-    @parameterized.expand(
-        [
-            # Examples from HGVS documentation 
+            # Examples from HGVS documentation (coding DNA coordinate)
             ('NM_004006.2:c.123=', 'unchanged'),
             ('NM_004006.2:c.56A>C', 'substitution'),
             ('NM_004006.2:c.5697del', 'deletion'),
@@ -535,6 +472,16 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
+            # Sequences (genomic DNA coordinate)
+           ('NC_12345:g.12345C>A', '12345'),
+           ('NC_12345:g.(12345_45678)C>A', '(12345_45678)'),
+           ('NC_12345:g.(?_12345)C>A', '(?_12345)'),
+           ('NC_12345:g.(12345_?)C>A', '(12345_?)'),
+           ('NC_12345:g.12345_45678del', '12345_45678'),
+           ('NC_12345:g.(12345_?)_45678del', '(12345_?)_45678'),
+           ('NC_12345:g.12345_(45678_?)del', '12345_(45678_?)'),
+           ('NC_12345:g.(12345_?)_(45678_?)del', '(12345_?)_(45678_?)'),
+            # Sequences (coding DNA coordinate)
            ('NM_12345.0:c.123C>A', '123'),
            ('NM_12345.0:c.(123_456)C>A', '(123_456)'),
            ('NM_12345.0:c.(?_1234)C>A', '(?_1234)'),
@@ -553,6 +500,17 @@ class GenomicVariantModelTest(TestCase):
         
     @parameterized.expand(
         [
+            # Sequences (genomic DNA coordinate)
+           ('NC_12345:g.12345C>A', 1),
+           ('NC_12345:g.(12345_45678)C>A', 1),
+           ('NC_12345:g.(?_12345)C>A', 1),
+           ('NC_12345:g.(12345_?)C>A', 1),
+           ('NC_12345:g.12345_45678del', 33333),
+           ('NC_12345:g.(12345_?)_45678del', 33333),
+           ('NC_12345:g.12345_(45678_?)del', 33333),
+           ('NC_12345:g.(12345_?)_(45678_?)del', 33333),
+           ('NC_12345:g.(12345_12350)_(45670_45678)del', 33320),
+            # Sequences (coding DNA coordinate)
            ('NM_12345:c.12C>A', 1),
            ('NM_12345:c.(12_45)C>A', 1),
            ('NM_12345:c.(?_12)C>A', 1),

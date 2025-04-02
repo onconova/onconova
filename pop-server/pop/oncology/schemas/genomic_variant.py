@@ -5,37 +5,6 @@ from pydantic import AliasChoices, Field
 from typing import Optional
 
 class GenomicVariantSchema(ModelGetSchema):
-    genomicHgvs: Optional[str] = Field(
-        default=None,
-        title='Genomic HGVS',
-        description='Genomic HGVS expression (g-coordinate expression, HGVS version >=21.1)',
-        pattern=HGVSRegex.GENOMIC_HGVS,
-        alias='genomic_hgvs',
-        validation_alias=AliasChoices('genomicHgvs','genomic_hgvs'),        
-    )
-    genomicReferenceSequence: Optional[str] = Field(
-        default=None,
-        title='Genomic HGVS RefSeq',
-        description='Genomic reference sequence identifier used as genomic HGVS reference.',
-        pattern=HGVSRegex.GENOMIC_REFSEQ,
-        alias='genomic_reference_sequence',
-        validation_alias=AliasChoices('genomicReferenceSequence','genomic_reference_sequence'),        
-    )
-    genomicChangePosition: Optional[str] = Field(
-        default=None,
-        title='Genomic change position',
-        description='Genomic-level nucleotide position/range where the variant was found.',
-        pattern=HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE,
-        alias='genomic_change_position',
-        validation_alias=AliasChoices('genomicChangePosition','genomic_change_position'),        
-    )
-    genomicChangeType: Optional[orm.GenomicVariant.DNAChangeType] = Field(
-        default=None,
-        title='Genomic change type',
-        description='Genomic variant type of variant.',
-        alias='genomic_change_type',
-        validation_alias=AliasChoices('genomicChangeType','genomic_change_type'),        
-    )
     dnaHgvs: Optional[str] = Field(
         default=None,
         title='DNA HGVS',
@@ -141,14 +110,6 @@ class GenomicVariantSchema(ModelGetSchema):
 
 
 class GenomicVariantCreateSchema(ModelCreateSchema):
-    genomicHgvs: Optional[str] = Field(
-        default=None,
-        title='Genomic HGVS',
-        description='Genomic HGVS expression (g-coordinate expression, HGVS version >=21.1)',
-        pattern=HGVSRegex.GENOMIC_HGVS,
-        alias='genomic_hgvs',
-        validation_alias=AliasChoices('genomicHgvs','genomic_hgvs'),        
-    )
     dnaHgvs: Optional[str] = Field(
         default=None,
         title='DNA HGVS',

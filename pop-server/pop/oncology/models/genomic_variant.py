@@ -51,9 +51,8 @@ class HGVSRegex:
     PROTEIN_REFSEQ = fr"(?:{PROTEIN_NCIB_REFSEQ})|(?:{PROTEIN_ENSEMBL_REFSEQ})|(?:{PROTEIN_LRG_REFSEQ})"
 
     # Genomic coordinates
-    COORDINATE = r"g|c|p|r"
     POSITION = r'(?:\?|\*|(?:\+|-)?\d+(?:(?:\+|-)?\d+)?)'
-    NUCLEOTIDE_UNCERTAIN_POSITION= rf"\({POSITION}_{POSITION}\)"
+    NUCLEOTIDE_UNCERTAIN_POSITION = rf"\({POSITION}_{POSITION}\)"
     NUCLEOTIDE_POSITION = fr"(?:{POSITION}|{NUCLEOTIDE_UNCERTAIN_POSITION})"
     NUCLEOTIDE_RANGE = fr"(?:{NUCLEOTIDE_POSITION}_{NUCLEOTIDE_POSITION})"
     NUCLEOTIDE_POSITION_OR_RANGE = fr"(?:{NUCLEOTIDE_RANGE}|{NUCLEOTIDE_POSITION})"
@@ -117,8 +116,7 @@ class HGVSRegex:
     PROTEIN_CHANGE_DESCRIPTION = rf'{PROTEIN_NOTHING}|{PROTEIN_DELETION_INSERTION}|{PROTEIN_DELETION}|{PROTEIN_INSERTION}|{PROTEIN_DUPLICATION}|{PROTEIN_NONSENSE}|{PROTEIN_FRAMESHIFT}|{PROTEIN_EXTENSION}|{PROTEIN_REPETITION}|{PROTEIN_MISSENSE}|{PROTEIN_SILENT}'
 
     # Complete HGVS regexes for each scenario
-    GENOMIC_HGVS = rf'({GENOMIC_REFSEQ}):g\.({DNA_CHANGE_DESCRIPTION})'
-    DNA_HGVS = rf'(?:{GENOMIC_REFSEQ})?\(?({RNA_REFSEQ})\)?:c\.({DNA_CHANGE_DESCRIPTION})'
+    DNA_HGVS = rf'(?:{GENOMIC_REFSEQ}:g)|(?:(?:{GENOMIC_REFSEQ})?\(?({RNA_REFSEQ})\)?:c)\.({DNA_CHANGE_DESCRIPTION})'
     RNA_HGVS = rf'({RNA_REFSEQ}):r\.\(?({RNA_CHANGE_DESCRIPTION})\)?'
     PROTEIN_HGVS = rf'({PROTEIN_REFSEQ}):p\.\(?({PROTEIN_CHANGE_DESCRIPTION})\)?'
 
@@ -300,40 +298,6 @@ class GenomicVariant(BaseModel):
         terminology = terminologies.ReferenceGenomeBuild,
         null = True, blank = True,
     )
-    genomic_hgvs = models.CharField(
-        verbose_name=_('HGVS genomic-level expression'),
-        help_text=_("Description of the genomic sequence change using a valid HGVS-formatted expression, e.g. NC_000016.9:g.2124200_2138612dup"),
-        max_length=500,
-        null=True, blank=True,
-    )
-    genomic_reference_sequence = AnnotationProperty(
-        verbose_name = _('Genomic HGVS RefSeq'),
-        annotation = RegexpMatchSubstring(F('genomic_hgvs'), fr'({HGVSRegex.GENOMIC_REFSEQ})'),
-    )
-    genomic_change_position = AnnotationProperty(
-        verbose_name = _('Genomic change position'),
-        annotation = RegexpMatchSubstring(F('genomic_hgvs'), fr":g\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
-    )    
-    genomic_change_type = AnnotationProperty(
-        verbose_name = _('Genomic change type'),
-        annotation = Case(
-            When(genomic_hgvs__regex=HGVSRegex.DNA_TRANSLOCATION, then=Value(DNAChangeType.TRANSLOCATION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_TRANSPOSITION, then=Value(DNAChangeType.TRANSPOSITION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_DELETION_INSERTION, then=Value(DNAChangeType.DELETION_INSERTION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_INSERTION, then=Value(DNAChangeType.INSERTION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_DELETION, then=Value(DNAChangeType.DELETION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_DUPLICATION, then=Value(DNAChangeType.DUPLICATION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_UNCHANGED, then=Value(DNAChangeType.UNCHANGED)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_INVERSION, then=Value(DNAChangeType.INVERSION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_SUBSTITUTION, then=Value(DNAChangeType.SUBSTITUTION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_REPETITION, then=Value(DNAChangeType.REPETITION)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_METHYLATION_GAIN, then=Value(DNAChangeType.METHYLATION_GAIN)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_METHYLATION_LOSS, then=Value(DNAChangeType.METHYLATION_LOSS)),
-            When(genomic_hgvs__regex=HGVSRegex.DNA_METHYLATION_EQUAL, then=Value(DNAChangeType.METHYLATION_UNCHANGED)),
-            default=None,
-            output_field=models.CharField(choices=DNAChangeType)
-        ),
-    )
     dna_hgvs = models.CharField(
         verbose_name=_('HGVS DNA-level expression'),
         help_text=_("Description of the coding (cDNA) sequence change using a valid HGVS-formatted expression, e.g. NM_005228.5:c.2369C>T"),
@@ -342,15 +306,20 @@ class GenomicVariant(BaseModel):
     )
     dna_reference_sequence = AnnotationProperty(
         verbose_name = _('DNA HGVS RefSeq'),
-        annotation = RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.RNA_REFSEQ})'),
+        annotation = Coalesce(
+            RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.RNA_REFSEQ})'),
+            RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.GENOMIC_REFSEQ})'),
+        ),
     )
     dna_change_position = AnnotationProperty(
         verbose_name = _('DNA change position'),
-        annotation = RegexpMatchSubstring(F('dna_hgvs'), fr":c\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
+        annotation = RegexpMatchSubstring(F('dna_hgvs'), fr":[cg]\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
     )    
     dna_change_type = AnnotationProperty(
         verbose_name = _('DNA change type'),
         annotation = Case(
+            When(dna_hgvs__regex=HGVSRegex.DNA_TRANSLOCATION, then=Value(DNAChangeType.TRANSLOCATION)),
+            When(dna_hgvs__regex=HGVSRegex.DNA_TRANSPOSITION, then=Value(DNAChangeType.TRANSPOSITION)),
             When(dna_hgvs__regex=HGVSRegex.DNA_DELETION_INSERTION, then=Value(DNAChangeType.DELETION_INSERTION)),
             When(dna_hgvs__regex=HGVSRegex.DNA_INSERTION, then=Value(DNAChangeType.INSERTION)),
             When(dna_hgvs__regex=HGVSRegex.DNA_DELETION, then=Value(DNAChangeType.DELETION)),
@@ -427,13 +396,12 @@ class GenomicVariant(BaseModel):
         verbose_name = _('Total affected nucleotides (estimated if uncertain)'),
         annotation = Case(
             When(
-                Q(genomic_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$') | 
                 Q(dna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$') |
                 Q(rna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$'), 
                 then=
                     Cast(
                         RegexpMatchSubstring(
-                            Coalesce('genomic_change_position', 'dna_change_position', 'rna_change_position'), 
+                            Coalesce('dna_change_position', 'rna_change_position'), 
                             rf'^{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(\d+)'
                         ), 
                         output_field=models.IntegerField()
@@ -441,14 +409,13 @@ class GenomicVariant(BaseModel):
                     -
                     Cast(
                         RegexpMatchSubstring(
-                            Coalesce('genomic_change_position', 'dna_change_position', 'rna_change_position'), 
+                            Coalesce('dna_change_position', 'rna_change_position'), 
                             rf'(\d+)\D*_{HGVSRegex.NUCLEOTIDE_POSITION}$'
                         ), 
                         output_field=models.IntegerField()
                     )
             ),
             When(
-                  Q(genomic_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$') |
                   Q(dna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$') |
                   Q(rna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$'), 
                 then=Value(1),
@@ -505,11 +472,6 @@ class GenomicVariant(BaseModel):
     
     class Meta:
         constraints = [
-            CheckConstraint(
-                condition=Q(genomic_hgvs__isnull=True) | Q(genomic_hgvs__regex=HGVSRegex.GENOMIC_HGVS),
-                name="valid_genomic_hgvs",
-                violation_error_message="Genomic HGVS must be a valid 'g.'-HGVS expression.",
-            ),
             CheckConstraint(
                 condition=Q(dna_hgvs__isnull=True) | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
                 name="valid_dna_hgvs",
