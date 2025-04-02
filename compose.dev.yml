@@ -18,7 +18,7 @@ services:
         build:
           target: development
         volumes:
-          - ./pop-client:/app
+          - ./pop-client/src:/app/src
 
     pop-nginx:
         image: nginx:1.23        

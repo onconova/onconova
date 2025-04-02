@@ -120,9 +120,9 @@ To ensure that the images are built properly
 
 2. Build all images through proxy and with trusted root CA certificates
     ```bash
-    docker compose build \ 
+    docker compose build \
         --build-arg http_proxy='http://<username>:<password>@<hostname>:<port>' \
-        --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \ 
+        --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \
         --build-arg ROOT_CA_CERTIFICATES='/etc/certs/root_ca_certificates.pem'
     ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

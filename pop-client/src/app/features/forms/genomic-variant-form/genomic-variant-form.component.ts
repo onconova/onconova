@@ -106,13 +106,12 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             analysisMethod: [this.initialData?.analysisMethod],  
             clinicalRelevance: [this.initialData?.clinicalRelevance], 
             genes: [this.initialData?.genes,Validators.required],     
-            genomicHgvs: [this.initialData?.genomicHgvs, Validators.pattern(this.extractRegexPattern('genomicHgvs'))],         
-            dnaHgvs: [this.initialData?.dnaHgsv, Validators.pattern(this.extractRegexPattern('dnaHgvs'))],         
+            dnaHgvs: [this.initialData?.dnaHgsv, [Validators.required, Validators.pattern(this.extractRegexPattern('dnaHgvs'))]],         
             rnaHgvs: [this.initialData?.rnaHgsv, Validators.pattern(this.extractRegexPattern('rnaHgvs'))],         
             proteinHgvs: [this.initialData?.proteinHgvs, Validators.pattern(this.extractRegexPattern('proteinHgvs'))],         
-            molecularConsequence: [this.initialData?.molecularConsequence],        
-            alleleFrequency: [this.initialData?.alleleFrequency],       
             copyNumber: [this.initialData?.copyNumber],       
+            molecularConsequence: [this.initialData?.molecularConsequence],        
+            alleleFrequency: [this.initialData?.alleleFrequency],  
             alleleDepth: [this.initialData?.alleleDepth],       
             zygosity: [this.initialData?.zygosity],        
             inheritance: [this.initialData?.inheritance],        
@@ -121,28 +120,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     }
 
 
-    constructAPIPayload(data: any): GenomicVariantCreate {    
-        console.log({
-            caseId: this.caseId,
-            date: data.date,
-            genes: data.genes,
-            genePanel: data.genePanel,            
-            assessment: data.assessment,            
-            confidence: data.confidence,            
-            analysisMethod: data.analysisMethod,   
-            clinicalRelevance: data.clinicalRelevance,   
-            genomicHgvs: data.genomicHgvs,   
-            dnaHgvs: data.dnaHgvs,   
-            rnaHgvs: data.rnaHgvs,   
-            proteinHgvs: data.proteinHgvs,   
-            molecularConsequence: data.molecularConsequence,   
-            clinvar: data.clinvar,    
-            alleleFrequency: data.alleleFrequency,   
-            copyNumber: data.copyNumber,   
-            alleleDepth: data.alleleDepth,   
-            zygosity: data.zygosity,   
-            inheritance: data.inheritance        
-        })
+    constructAPIPayload(data: any): GenomicVariantCreate {   
         return {
             caseId: this.caseId,
             date: data.date,
@@ -152,7 +130,6 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
             confidence: data.confidence,            
             analysisMethod: data.analysisMethod,   
             clinicalRelevance: data.clinicalRelevance,   
-            genomicHgvs: data.genomicHgvs,   
             dnaHgvs: data.dnaHgvs,   
             rnaHgvs: data.rnaHgvs,   
             proteinHgvs: data.proteinHgvs,   

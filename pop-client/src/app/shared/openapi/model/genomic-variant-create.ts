@@ -14,7 +14,6 @@ import { GenomicVariantClinicalRelevanceChoices } from './genomic-variant-clinic
 
 
 export interface GenomicVariantCreate { 
-    genomicHgvs?: string | null;
     dnaHgvs?: string | null;
     rnaHgvs?: string | null;
     proteinHgvs?: string | null;

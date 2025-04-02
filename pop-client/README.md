@@ -14,6 +14,14 @@ ng serve --ssl --ssl-cert ../etc/certs/localhost.pem --ssl-key ../etc/certs/loca
 ```bash
 rm -r src/app/shared/openapi && npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-angular -o src/app/shared/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model 
 ```
+Alternatively using Docker
+```bash
+rm -r src/app/shared/openapi && docker run --rm -v "${PWD}/:/local" openapitools/openapi-generator-cli generate \
+    -i /local/openapi.json \
+    -g typescript-angular \
+    -o /local/src/app/shared/openapi \
+    --additional-properties fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model      
+```
 
 ## Generate a local development SSL certificate 
 

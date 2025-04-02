@@ -18,10 +18,6 @@ import { DNAChangeType } from './dna-change-type';
 
 
 export interface GenomicVariant { 
-    genomicHgvs?: string | null;
-    genomicReferenceSequence?: string | null;
-    genomicChangePosition?: string | null;
-    genomicChangeType?: DNAChangeType | null;
     dnaHgvs?: string | null;
     dnaReferenceSequence?: string | null;
     dnaChangePosition?: string | null;

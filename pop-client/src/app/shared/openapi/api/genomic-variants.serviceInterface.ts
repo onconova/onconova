@@ -33,41 +33,6 @@ export interface GetGenomicVariantByIdRequestParams {
 }
 
 export interface GetGenomicVariantsRequestParams {
-    genomicHgvsNotExists?: boolean;
-    genomicHgvsExists?: boolean;
-    genomicHgvs?: string;
-    genomicHgvsNot?: string;
-    genomicHgvsContains?: string;
-    genomicHgvsNotContains?: string;
-    genomicHgvsBeginsWith?: string;
-    genomicHgvsNotBeginsWith?: string;
-    genomicHgvsEndsWith?: string;
-    genomicHgvsNotEndsWith?: string;
-    genomicReferenceSequenceNotExists?: boolean;
-    genomicReferenceSequenceExists?: boolean;
-    genomicReferenceSequence?: string;
-    genomicReferenceSequenceNot?: string;
-    genomicReferenceSequenceContains?: string;
-    genomicReferenceSequenceNotContains?: string;
-    genomicReferenceSequenceBeginsWith?: string;
-    genomicReferenceSequenceNotBeginsWith?: string;
-    genomicReferenceSequenceEndsWith?: string;
-    genomicReferenceSequenceNotEndsWith?: string;
-    genomicChangePositionNotExists?: boolean;
-    genomicChangePositionExists?: boolean;
-    genomicChangePosition?: string;
-    genomicChangePositionNot?: string;
-    genomicChangePositionContains?: string;
-    genomicChangePositionNotContains?: string;
-    genomicChangePositionBeginsWith?: string;
-    genomicChangePositionNotBeginsWith?: string;
-    genomicChangePositionEndsWith?: string;
-    genomicChangePositionNotEndsWith?: string;
-    genomicChangeTypeNotExists?: boolean;
-    genomicChangeTypeExists?: boolean;
-    genomicChangeType?: string;
-    genomicChangeTypeNot?: string;
-    genomicChangeTypeAnyOf?: Array<'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged'>;
     dnaHgvsNotExists?: boolean;
     dnaHgvsExists?: boolean;
     dnaHgvs?: string;
