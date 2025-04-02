@@ -260,19 +260,19 @@ export class CaseManagerComponent implements OnInit {
 
     public exportLoading: boolean = false;
     public totalCompletion!: number; 
-    public primaryEntity$!: Observable<NeoplasticEntity>
-    public latestStaging$!: Observable<AnyStaging>
+    public primaryEntity$!: Observable<NeoplasticEntity | null>
+    public latestStaging$!: Observable<AnyStaging | null>
 
     ngOnInit() {
         this.case$ = this.caseService.getPatientCaseByPseudoidentifier({pseudoidentifier:this.pseudoidentifier}).pipe(
             map((response: PatientCase) => {
                 this.totalCompletion = response.dataCompletionRate;
                 this.primaryEntity$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: response.id, relationship:'primary'}).pipe(
-                    map(data => data.items[0])
+                    map(data => data.items.length ? data.items[0] : null)
                 )
-                this.latestStaging$ = this.stagingsService.getStagings({caseId: response.id}).pipe(map(data => {
-                    return data.items[0]
-                }))
+                this.latestStaging$ = this.stagingsService.getStagings({caseId: response.id}).pipe(
+                    map(data => data.items.length ? data.items[0] : null)
+                )
                 return response
             })
         );

@@ -31,19 +31,39 @@
     <p-divider layout="vertical"></p-divider>
     <div class="">
         @let primaryEntity = primaryEntity$ | async;
-        @if (case && primaryEntity) {
+        @if (case) {
             <div class="flex">
+                @if (primaryEntity) {
                 <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+                }
                 <div>
                     <small class="text-muted">Primary site</small>
-                    <div>{{ primaryEntity.topography.display }}</div>
+                    @if (primaryEntity !== undefined) {
+                        <div>
+                            @if (primaryEntity) {
+                                {{ primaryEntity.topography.display }}
+                            } @else {
+                                -
+                            }
+                        </div>
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }  
                 </div>
             </div>
             <small class="text-muted">Morphology</small>
-            <div>{{ primaryEntity.morphology.display }}</div>
-        } @else {
-            <p-skeleton width="12rem" height="1.5rem" />
-        }   
+            @if (primaryEntity !== undefined) {
+                <div>
+                    @if (primaryEntity) {
+                        {{ primaryEntity.morphology.display }}
+                    } @else {
+                        -
+                    }
+                </div>
+            }  @else {
+                <p-skeleton width="12rem" height="1.5rem" />
+            }  
+        } 
     </div>
     <p-divider layout="vertical"></p-divider>
     <div class="">
