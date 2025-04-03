@@ -12,10 +12,15 @@
 export type TumorMarkerImmunohistochemicalScoreChoices = '0' | '1+' | '2+' | '3+' | 'indeterminate';
 
 export const TumorMarkerImmunohistochemicalScoreChoices = {
+
     _0: '0' as TumorMarkerImmunohistochemicalScoreChoices,
+
     _1: '1+' as TumorMarkerImmunohistochemicalScoreChoices,
+
     _2: '2+' as TumorMarkerImmunohistochemicalScoreChoices,
+
     _3: '3+' as TumorMarkerImmunohistochemicalScoreChoices,
+
     Indeterminate: 'indeterminate' as TumorMarkerImmunohistochemicalScoreChoices
 };
 

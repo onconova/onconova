@@ -21,6 +21,6 @@ export interface CodedConcept {
     display?: string | null;
     version?: string | null;
     synonyms?: Array<string> | null;
-    properties?: { [key: string]: any; } | null;
+    properties?: object | null;
 }
 

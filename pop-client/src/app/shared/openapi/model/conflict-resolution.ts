@@ -12,7 +12,9 @@
 export type ConflictResolution = 'overwrite' | 'reassign';
 
 export const ConflictResolution = {
+
     Overwrite: 'overwrite' as ConflictResolution,
+
     Reassign: 'reassign' as ConflictResolution
 };
 

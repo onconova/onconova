@@ -12,19 +12,33 @@
 export type StagingDomain = 'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma';
 
 export const StagingDomain = {
+
     Tnm: 'tnm' as StagingDomain,
+
     Figo: 'figo' as StagingDomain,
+
     Binet: 'binet' as StagingDomain,
+
     Rai: 'rai' as StagingDomain,
+
     Breslow: 'breslow' as StagingDomain,
+
     Clark: 'clark' as StagingDomain,
+
     Iss: 'iss' as StagingDomain,
+
     Riss: 'riss' as StagingDomain,
+
     Inss: 'inss' as StagingDomain,
+
     Inrgss: 'inrgss' as StagingDomain,
+
     Gleason: 'gleason' as StagingDomain,
+
     Rhabdomyosarcoma: 'rhabdomyosarcoma' as StagingDomain,
+
     Wilms: 'wilms' as StagingDomain,
+
     Lymphoma: 'lymphoma' as StagingDomain
 };
 

@@ -12,8 +12,11 @@
 export type TumorMarkerPresenceChoices = 'positive' | 'negative' | 'indeterminate';
 
 export const TumorMarkerPresenceChoices = {
+
     Positive: 'positive' as TumorMarkerPresenceChoices,
+
     Negative: 'negative' as TumorMarkerPresenceChoices,
+
     Indeterminate: 'indeterminate' as TumorMarkerPresenceChoices
 };
 

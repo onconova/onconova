@@ -12,11 +12,17 @@
 export type AdverseEventOutcomeChoices = 'resolved' | 'resolved-with-sequelae' | 'recovering' | 'ongoing' | 'fatal' | 'unknown';
 
 export const AdverseEventOutcomeChoices = {
+
     Resolved: 'resolved' as AdverseEventOutcomeChoices,
+
     ResolvedWithSequelae: 'resolved-with-sequelae' as AdverseEventOutcomeChoices,
+
     Recovering: 'recovering' as AdverseEventOutcomeChoices,
+
     Ongoing: 'ongoing' as AdverseEventOutcomeChoices,
+
     Fatal: 'fatal' as AdverseEventOutcomeChoices,
+
     Unknown: 'unknown' as AdverseEventOutcomeChoices
 };
 

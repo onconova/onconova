@@ -1,4 +1,3 @@
-@let config = config$ | async;
 @if (config) {
 
     <query-builder 
@@ -73,6 +72,14 @@
                 optionValue="value" 
                 optionLabel="name" 
                 appendTo="body"/>
+            <!-- Tooltip for field description -->
+            <p-avatar icon="pi pi-question" 
+                    shape="circle" 
+                    [style]="{'scale': '.65', 'margin-left': '-0.75rem'}"
+                    [pTooltip]="rule.field | getDescription:fields" 
+                    [tooltipOptions]="{tooltipStyleClass: 'info-tooltip'}" 
+                    tooltipPosition="right"/>
+
         </ng-container>
 
         <!-- Override input component for operators -->
@@ -91,14 +98,24 @@
         </ng-container>
 
         <!-- Override input component for 'date' type -->
-        <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Date">
+        <ng-container *queryInput="let rule; let options=options; type: 'date'">
             <pop-datepicker 
                 [disabled]="disabled"
                 [(ngModel)]="rule.value"/>
         </ng-container>
 
+        <!-- Override input component for 'Period' type -->
+        <ng-container *queryInput="let rule; let options=options; type: 'Period'">
+            <pop-datepicker 
+                [(ngModel)]="rule.value"
+                [disabled]="disabled"
+                selectionMode="range"
+                placeholder="DD/MM/YYYY - DD/MM/YYYY"
+            />
+        </ng-container>
+
         <!-- Override input component for 'string' type -->
-        <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.String">
+        <ng-container *queryInput="let rule; let options=options; type: 'string'">
             <input 
                 type="text" 
                 pInputText 
@@ -108,7 +125,7 @@
         </ng-container>
 
         <!-- Override input component for 'enum' type -->
-        <ng-container *queryInput="let rule; let options=options; type: CohortRuleType.Enum">
+        <ng-container *queryInput="let rule; let options=options; type: 'enum'">
             @let isMultipleChoice = ['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator);
             @if (isMultipleChoice) {
                 <p-multiselect 
@@ -134,21 +151,16 @@
         </ng-container>
 
         <!-- Override input component for 'number' type -->
-        <ng-container *queryInput="let rule; type: CohortRuleType.Measure">
-            <p-inputnumber 
+        <ng-container *queryInput="let rule; let options=options;  type: 'Measure'">
+            <pop-measure-input
                 [(ngModel)]="rule.value" 
-                [disabled]="disabled"
-                placeholder="Enter a value" 
-                useGrouping="false" 
-                mode="decimal" 
-                [minFractionDigits]="1" 
-                [maxFractionDigits]="3" 
-                locale="en-US"/>
+                [measure]="options[0].value"
+                [defaultUnit]="options[1].value"/>
         </ng-container>
 
-        <!-- Override input component for 'number' type -->
-        <ng-container *queryInput="let rule; type: CohortRuleType.Number">
-            @let requiresRange = ['NotBetweenIntegerFilter','BetweenIntegerFilter', 'NotBetweenFloatFilter','BetweenFloatFilter'].includes(rule.operator);
+        <!-- Override input component for 'float' type -->
+        <ng-container *queryInput="let rule; type: 'number'">
+            @let requiresRange = [operators.NotBetweenFloatFilter, operators.BetweenFloatFilter].includes(rule.operator);
             @if (requiresRange) {
                 <pop-range-input
                     [(range)]="rule.value"
@@ -166,8 +178,25 @@
             }        
         </ng-container>
 
+
+        <!-- Override input component for 'integer' type -->
+        <ng-container *queryInput="let rule;  type: 'integer'">
+            @let requiresRange = [operators.NotBetweenIntegerFilter, operators.BetweenIntegerFilter].includes(rule.operator);
+            @if (requiresRange) {
+                <pop-range-input
+                    [(range)]="rule.value"
+                    [disabled]="disabled"/>
+            } @else {
+                <p-inputnumber 
+                    [(ngModel)]="rule.value" 
+                    [disabled]="disabled"
+                    placeholder="Enter a value" 
+                    useGrouping="false" />
+            }        
+        </ng-container>
+
         <!-- Override input component for 'boolean' type -->
-        <ng-container *queryInput="let rule; type: CohortRuleType.Boolean">
+        <ng-container *queryInput="let rule; type: 'boolean'">
             <p-selectbutton 
                 [options]="booleanOptions" 
                 [(ngModel)]="rule.value" 
@@ -178,7 +207,7 @@
         </ng-container>
 
         <!-- Override input component for 'coded_concept' type -->
-        <ng-container *queryInput="let rule; let field=field; let options=options; type: CohortRuleType.CodedConcept">
+        <ng-container *queryInput="let rule; let field=field; let options=options; type: 'CodedConcept'">
             <pop-concept-selector 
                 [(ngModel)]="rule.value" 
                 [terminology]="options[0].value"
@@ -187,6 +216,18 @@
                 [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(rule.operator)"
                 [showSynonyms]="false"/>
         </ng-container>
+
+        <!-- Override input component for 'coded_concept_list' type -->
+        <ng-container *queryInput="let rule; let field=field; let options=options; type: 'MultiCodedConcept'">
+            <pop-concept-selector 
+                [(ngModel)]="rule.value" 
+                [terminology]="options[0].value"
+                [returnCode]="true"
+                [disabled]="disabled"
+                [multiple]="true"
+                [showSynonyms]="false"/>
+        </ng-container>
+
     </query-builder>
 }
 

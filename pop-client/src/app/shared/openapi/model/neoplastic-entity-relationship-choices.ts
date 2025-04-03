@@ -12,9 +12,13 @@
 export type NeoplasticEntityRelationshipChoices = 'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence';
 
 export const NeoplasticEntityRelationshipChoices = {
+
     Primary: 'primary' as NeoplasticEntityRelationshipChoices,
+
     Metastatic: 'metastatic' as NeoplasticEntityRelationshipChoices,
+
     LocalRecurrence: 'local_recurrence' as NeoplasticEntityRelationshipChoices,
+
     RegionalRecurrence: 'regional_recurrence' as NeoplasticEntityRelationshipChoices
 };
 

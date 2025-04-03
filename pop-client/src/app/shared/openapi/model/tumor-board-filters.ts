@@ -9,7 +9,7 @@
  */
 
 
-export interface TumorBoardFilters2 { 
+export interface TumorBoardFilters { 
     /**
      * Id - Filter for full text matches
      */

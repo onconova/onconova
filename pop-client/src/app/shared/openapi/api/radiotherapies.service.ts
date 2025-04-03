@@ -36,6 +36,7 @@ import { RadiotherapySettingCreate } from '../model/radiotherapy-setting-create'
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     RadiotherapiesServiceInterface,
     CreateRadiotherapyRequestParams,
@@ -60,66 +61,10 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class RadiotherapiesService implements RadiotherapiesServiceInterface {
+export class RadiotherapiesService extends BaseService implements RadiotherapiesServiceInterface {
 
-    protected basePath = 'http://localhost';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
@@ -139,34 +84,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -225,34 +155,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -311,34 +226,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -393,33 +293,18 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -468,33 +353,18 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -543,33 +413,18 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -728,70 +583,38 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (dosagesId !== undefined && dosagesId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesId, 'dosages.id');
-        }
-        if (dosagesIdNot !== undefined && dosagesIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdNot, 'dosages.id.not');
-        }
-        if (dosagesIdContains !== undefined && dosagesIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdContains, 'dosages.id.contains');
-        }
-        if (dosagesIdNotContains !== undefined && dosagesIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdNotContains, 'dosages.id.not.contains');
-        }
-        if (dosagesIdBeginsWith !== undefined && dosagesIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdBeginsWith, 'dosages.id.beginsWith');
-        }
-        if (dosagesIdNotBeginsWith !== undefined && dosagesIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdNotBeginsWith, 'dosages.id.not.beginsWith');
-        }
-        if (dosagesIdEndsWith !== undefined && dosagesIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdEndsWith, 'dosages.id.endsWith');
-        }
-        if (dosagesIdNotEndsWith !== undefined && dosagesIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIdNotEndsWith, 'dosages.id.not.endsWith');
-        }
-        if (dosagesFractionsNotExists !== undefined && dosagesFractionsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsNotExists, 'dosages.fractions.not.exists');
-        }
-        if (dosagesFractionsExists !== undefined && dosagesFractionsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsExists, 'dosages.fractions.exists');
-        }
-        if (dosagesFractionsLessThan !== undefined && dosagesFractionsLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsLessThan, 'dosages.fractions.lessThan');
-        }
-        if (dosagesFractionsLessThanOrEqual !== undefined && dosagesFractionsLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsLessThanOrEqual, 'dosages.fractions.lessThanOrEqual');
-        }
-        if (dosagesFractionsGreaterThan !== undefined && dosagesFractionsGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsGreaterThan, 'dosages.fractions.greaterThan');
-        }
-        if (dosagesFractionsGreaterThanOrEqual !== undefined && dosagesFractionsGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsGreaterThanOrEqual, 'dosages.fractions.greaterThanOrEqual');
-        }
-        if (dosagesFractionsEqual !== undefined && dosagesFractionsEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsEqual, 'dosages.fractions.equal');
-        }
-        if (dosagesFractionsNotEqual !== undefined && dosagesFractionsNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesFractionsNotEqual, 'dosages.fractions.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesId, 'dosages.id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdNot, 'dosages.id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdContains, 'dosages.id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdNotContains, 'dosages.id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdBeginsWith, 'dosages.id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdNotBeginsWith, 'dosages.id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdEndsWith, 'dosages.id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIdNotEndsWith, 'dosages.id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsNotExists, 'dosages.fractions.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsExists, 'dosages.fractions.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsLessThan, 'dosages.fractions.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsLessThanOrEqual, 'dosages.fractions.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsGreaterThan, 'dosages.fractions.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsGreaterThanOrEqual, 'dosages.fractions.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsEqual, 'dosages.fractions.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesFractionsNotEqual, 'dosages.fractions.not.equal');
         if (dosagesFractionsBetween) {
             dosagesFractionsBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -804,38 +627,22 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'dosages.fractions.not.between');
             })
         }
-        if (dosagesDoseNotExists !== undefined && dosagesDoseNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseNotExists, 'dosages.dose.not.exists');
-        }
-        if (dosagesDoseExists !== undefined && dosagesDoseExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseExists, 'dosages.dose.exists');
-        }
-        if (dosagesDoseLessThan !== undefined && dosagesDoseLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseLessThan, 'dosages.dose.lessThan');
-        }
-        if (dosagesDoseLessThanOrEqual !== undefined && dosagesDoseLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseLessThanOrEqual, 'dosages.dose.lessThanOrEqual');
-        }
-        if (dosagesDoseGreaterThan !== undefined && dosagesDoseGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseGreaterThan, 'dosages.dose.greaterThan');
-        }
-        if (dosagesDoseGreaterThanOrEqual !== undefined && dosagesDoseGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseGreaterThanOrEqual, 'dosages.dose.greaterThanOrEqual');
-        }
-        if (dosagesDoseEqual !== undefined && dosagesDoseEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseEqual, 'dosages.dose.equal');
-        }
-        if (dosagesDoseNotEqual !== undefined && dosagesDoseNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesDoseNotEqual, 'dosages.dose.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseNotExists, 'dosages.dose.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseExists, 'dosages.dose.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseLessThan, 'dosages.dose.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseLessThanOrEqual, 'dosages.dose.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseGreaterThan, 'dosages.dose.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseGreaterThanOrEqual, 'dosages.dose.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseEqual, 'dosages.dose.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesDoseNotEqual, 'dosages.dose.not.equal');
         if (dosagesDoseBetween) {
             dosagesDoseBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -848,14 +655,10 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'dosages.dose.not.between');
             })
         }
-        if (dosagesIrradiatedVolume !== undefined && dosagesIrradiatedVolume !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolume, 'dosages.irradiatedVolume');
-        }
-        if (dosagesIrradiatedVolumeNot !== undefined && dosagesIrradiatedVolumeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeNot, 'dosages.irradiatedVolume.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolume, 'dosages.irradiatedVolume');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeNot, 'dosages.irradiatedVolume.not');
         if (dosagesIrradiatedVolumeAnyOf) {
             dosagesIrradiatedVolumeAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -868,26 +671,16 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'dosages.irradiatedVolume.not.anyOf');
             })
         }
-        if (dosagesIrradiatedVolumeDescendantsOf !== undefined && dosagesIrradiatedVolumeDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeDescendantsOf, 'dosages.irradiatedVolume.descendantsOf');
-        }
-        if (dosagesIrradiatedVolumeMorphologyNotExists !== undefined && dosagesIrradiatedVolumeMorphologyNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeMorphologyNotExists, 'dosages.irradiatedVolumeMorphology.not.exists');
-        }
-        if (dosagesIrradiatedVolumeMorphologyExists !== undefined && dosagesIrradiatedVolumeMorphologyExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeMorphologyExists, 'dosages.irradiatedVolumeMorphology.exists');
-        }
-        if (dosagesIrradiatedVolumeMorphology !== undefined && dosagesIrradiatedVolumeMorphology !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeMorphology, 'dosages.irradiatedVolumeMorphology');
-        }
-        if (dosagesIrradiatedVolumeMorphologyNot !== undefined && dosagesIrradiatedVolumeMorphologyNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeMorphologyNot, 'dosages.irradiatedVolumeMorphology.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeDescendantsOf, 'dosages.irradiatedVolume.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeMorphologyNotExists, 'dosages.irradiatedVolumeMorphology.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeMorphologyExists, 'dosages.irradiatedVolumeMorphology.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeMorphology, 'dosages.irradiatedVolumeMorphology');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeMorphologyNot, 'dosages.irradiatedVolumeMorphology.not');
         if (dosagesIrradiatedVolumeMorphologyAnyOf) {
             dosagesIrradiatedVolumeMorphologyAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -900,26 +693,16 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'dosages.irradiatedVolumeMorphology.not.anyOf');
             })
         }
-        if (dosagesIrradiatedVolumeMorphologyDescendantsOf !== undefined && dosagesIrradiatedVolumeMorphologyDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeMorphologyDescendantsOf, 'dosages.irradiatedVolumeMorphology.descendantsOf');
-        }
-        if (dosagesIrradiatedVolumeQualifierNotExists !== undefined && dosagesIrradiatedVolumeQualifierNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeQualifierNotExists, 'dosages.irradiatedVolumeQualifier.not.exists');
-        }
-        if (dosagesIrradiatedVolumeQualifierExists !== undefined && dosagesIrradiatedVolumeQualifierExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeQualifierExists, 'dosages.irradiatedVolumeQualifier.exists');
-        }
-        if (dosagesIrradiatedVolumeQualifier !== undefined && dosagesIrradiatedVolumeQualifier !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeQualifier, 'dosages.irradiatedVolumeQualifier');
-        }
-        if (dosagesIrradiatedVolumeQualifierNot !== undefined && dosagesIrradiatedVolumeQualifierNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeQualifierNot, 'dosages.irradiatedVolumeQualifier.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeMorphologyDescendantsOf, 'dosages.irradiatedVolumeMorphology.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeQualifierNotExists, 'dosages.irradiatedVolumeQualifier.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeQualifierExists, 'dosages.irradiatedVolumeQualifier.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeQualifier, 'dosages.irradiatedVolumeQualifier');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeQualifierNot, 'dosages.irradiatedVolumeQualifier.not');
         if (dosagesIrradiatedVolumeQualifierAnyOf) {
             dosagesIrradiatedVolumeQualifierAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -932,50 +715,28 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'dosages.irradiatedVolumeQualifier.not.anyOf');
             })
         }
-        if (dosagesIrradiatedVolumeQualifierDescendantsOf !== undefined && dosagesIrradiatedVolumeQualifierDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dosagesIrradiatedVolumeQualifierDescendantsOf, 'dosages.irradiatedVolumeQualifier.descendantsOf');
-        }
-        if (settingsId !== undefined && settingsId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsId, 'settings.id');
-        }
-        if (settingsIdNot !== undefined && settingsIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdNot, 'settings.id.not');
-        }
-        if (settingsIdContains !== undefined && settingsIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdContains, 'settings.id.contains');
-        }
-        if (settingsIdNotContains !== undefined && settingsIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdNotContains, 'settings.id.not.contains');
-        }
-        if (settingsIdBeginsWith !== undefined && settingsIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdBeginsWith, 'settings.id.beginsWith');
-        }
-        if (settingsIdNotBeginsWith !== undefined && settingsIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdNotBeginsWith, 'settings.id.not.beginsWith');
-        }
-        if (settingsIdEndsWith !== undefined && settingsIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdEndsWith, 'settings.id.endsWith');
-        }
-        if (settingsIdNotEndsWith !== undefined && settingsIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsIdNotEndsWith, 'settings.id.not.endsWith');
-        }
-        if (settingsModality !== undefined && settingsModality !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsModality, 'settings.modality');
-        }
-        if (settingsModalityNot !== undefined && settingsModalityNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsModalityNot, 'settings.modality.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesIrradiatedVolumeQualifierDescendantsOf, 'dosages.irradiatedVolumeQualifier.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsId, 'settings.id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdNot, 'settings.id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdContains, 'settings.id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdNotContains, 'settings.id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdBeginsWith, 'settings.id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdNotBeginsWith, 'settings.id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdEndsWith, 'settings.id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsIdNotEndsWith, 'settings.id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsModality, 'settings.modality');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsModalityNot, 'settings.modality.not');
         if (settingsModalityAnyOf) {
             settingsModalityAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -988,18 +749,12 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'settings.modality.not.anyOf');
             })
         }
-        if (settingsModalityDescendantsOf !== undefined && settingsModalityDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsModalityDescendantsOf, 'settings.modality.descendantsOf');
-        }
-        if (settingsTechnique !== undefined && settingsTechnique !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsTechnique, 'settings.technique');
-        }
-        if (settingsTechniqueNot !== undefined && settingsTechniqueNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsTechniqueNot, 'settings.technique.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsModalityDescendantsOf, 'settings.modality.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsTechnique, 'settings.technique');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsTechniqueNot, 'settings.technique.not');
         if (settingsTechniqueAnyOf) {
             settingsTechniqueAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1012,74 +767,40 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'settings.technique.not.anyOf');
             })
         }
-        if (settingsTechniqueDescendantsOf !== undefined && settingsTechniqueDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>settingsTechniqueDescendantsOf, 'settings.technique.descendantsOf');
-        }
-        if (id !== undefined && id !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>id, 'id');
-        }
-        if (idNot !== undefined && idNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNot, 'id.not');
-        }
-        if (idContains !== undefined && idContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idContains, 'id.contains');
-        }
-        if (idNotContains !== undefined && idNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotContains, 'id.not.contains');
-        }
-        if (idBeginsWith !== undefined && idBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idBeginsWith, 'id.beginsWith');
-        }
-        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotBeginsWith, 'id.not.beginsWith');
-        }
-        if (idEndsWith !== undefined && idEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idEndsWith, 'id.endsWith');
-        }
-        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotEndsWith, 'id.not.endsWith');
-        }
-        if (caseId !== undefined && caseId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseId, 'caseId');
-        }
-        if (caseIdNot !== undefined && caseIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNot, 'caseId.not');
-        }
-        if (caseIdContains !== undefined && caseIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdContains, 'caseId.contains');
-        }
-        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotContains, 'caseId.not.contains');
-        }
-        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdBeginsWith, 'caseId.beginsWith');
-        }
-        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
-        }
-        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdEndsWith, 'caseId.endsWith');
-        }
-        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsTechniqueDescendantsOf, 'settings.technique.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>id, 'id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNot, 'id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idContains, 'id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotContains, 'id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idBeginsWith, 'id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotBeginsWith, 'id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idEndsWith, 'id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotEndsWith, 'id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseId, 'caseId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNot, 'caseId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdContains, 'caseId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotContains, 'caseId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdBeginsWith, 'caseId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdEndsWith, 'caseId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotEndsWith, 'caseId.not.endsWith');
         if (periodOverlaps) {
             periodOverlaps.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1116,30 +837,18 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'period.not.containedBy');
             })
         }
-        if (sessionsLessThan !== undefined && sessionsLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sessionsLessThan, 'sessions.lessThan');
-        }
-        if (sessionsLessThanOrEqual !== undefined && sessionsLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sessionsLessThanOrEqual, 'sessions.lessThanOrEqual');
-        }
-        if (sessionsGreaterThan !== undefined && sessionsGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sessionsGreaterThan, 'sessions.greaterThan');
-        }
-        if (sessionsGreaterThanOrEqual !== undefined && sessionsGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sessionsGreaterThanOrEqual, 'sessions.greaterThanOrEqual');
-        }
-        if (sessionsEqual !== undefined && sessionsEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sessionsEqual, 'sessions.equal');
-        }
-        if (sessionsNotEqual !== undefined && sessionsNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sessionsNotEqual, 'sessions.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sessionsLessThan, 'sessions.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sessionsLessThanOrEqual, 'sessions.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sessionsGreaterThan, 'sessions.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sessionsGreaterThanOrEqual, 'sessions.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sessionsEqual, 'sessions.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sessionsNotEqual, 'sessions.not.equal');
         if (sessionsBetween) {
             sessionsBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1152,36 +861,24 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'sessions.not.between');
             })
         }
-        if (intent !== undefined && intent !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>intent, 'intent');
-        }
-        if (intentNot !== undefined && intentNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>intentNot, 'intent.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>intent, 'intent');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>intentNot, 'intent.not');
         if (intentAnyOf) {
             intentAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'intent.anyOf');
             })
         }
-        if (terminationReasonNotExists !== undefined && terminationReasonNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonNotExists, 'terminationReason.not.exists');
-        }
-        if (terminationReasonExists !== undefined && terminationReasonExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonExists, 'terminationReason.exists');
-        }
-        if (terminationReason !== undefined && terminationReason !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReason, 'terminationReason');
-        }
-        if (terminationReasonNot !== undefined && terminationReasonNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonNot, 'terminationReason.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonNotExists, 'terminationReason.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonExists, 'terminationReason.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReason, 'terminationReason');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonNot, 'terminationReason.not');
         if (terminationReasonAnyOf) {
             terminationReasonAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1194,97 +891,52 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
                   <any>element, 'terminationReason.not.anyOf');
             })
         }
-        if (terminationReasonDescendantsOf !== undefined && terminationReasonDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonDescendantsOf, 'terminationReason.descendantsOf');
-        }
-        if (therapyLineIdNotExists !== undefined && therapyLineIdNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotExists, 'therapyLineId.not.exists');
-        }
-        if (therapyLineIdExists !== undefined && therapyLineIdExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdExists, 'therapyLineId.exists');
-        }
-        if (therapyLineId !== undefined && therapyLineId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineId, 'therapyLineId');
-        }
-        if (therapyLineIdNot !== undefined && therapyLineIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNot, 'therapyLineId.not');
-        }
-        if (therapyLineIdContains !== undefined && therapyLineIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdContains, 'therapyLineId.contains');
-        }
-        if (therapyLineIdNotContains !== undefined && therapyLineIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotContains, 'therapyLineId.not.contains');
-        }
-        if (therapyLineIdBeginsWith !== undefined && therapyLineIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdBeginsWith, 'therapyLineId.beginsWith');
-        }
-        if (therapyLineIdNotBeginsWith !== undefined && therapyLineIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotBeginsWith, 'therapyLineId.not.beginsWith');
-        }
-        if (therapyLineIdEndsWith !== undefined && therapyLineIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdEndsWith, 'therapyLineId.endsWith');
-        }
-        if (therapyLineIdNotEndsWith !== undefined && therapyLineIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotEndsWith, 'therapyLineId.not.endsWith');
-        }
-        if (targetedEntitiesIds !== undefined && targetedEntitiesIds !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIds, 'targetedEntitiesIds');
-        }
-        if (targetedEntitiesIdsNot !== undefined && targetedEntitiesIdsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
-        }
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonDescendantsOf, 'terminationReason.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotExists, 'therapyLineId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdExists, 'therapyLineId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineId, 'therapyLineId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNot, 'therapyLineId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdContains, 'therapyLineId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotContains, 'therapyLineId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdBeginsWith, 'therapyLineId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotBeginsWith, 'therapyLineId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdEndsWith, 'therapyLineId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotEndsWith, 'therapyLineId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIds, 'targetedEntitiesIds');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1330,34 +982,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1406,34 +1043,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1478,34 +1100,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1554,34 +1161,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1626,34 +1218,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1702,34 +1279,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -1792,34 +1354,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -1882,34 +1429,19 @@ export class RadiotherapiesService implements RadiotherapiesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header

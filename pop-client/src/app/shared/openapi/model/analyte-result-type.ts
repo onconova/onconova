@@ -12,16 +12,27 @@
 export type AnalyteResultType = 'MassConcentration' | 'ArbitraryConcentration' | 'SubstanceConcentration' | 'MultipleOfMedian' | 'Fraction' | 'Presence' | 'CombinedPositiveScore' | 'ImmuneCellsScore' | 'TumorProportionScore' | 'ImmunoHistoChemicalScore' | 'NuclearExpressionStatus';
 
 export const AnalyteResultType = {
+
     MassConcentration: 'MassConcentration' as AnalyteResultType,
+
     ArbitraryConcentration: 'ArbitraryConcentration' as AnalyteResultType,
+
     SubstanceConcentration: 'SubstanceConcentration' as AnalyteResultType,
+
     MultipleOfMedian: 'MultipleOfMedian' as AnalyteResultType,
+
     Fraction: 'Fraction' as AnalyteResultType,
+
     Presence: 'Presence' as AnalyteResultType,
+
     CombinedPositiveScore: 'CombinedPositiveScore' as AnalyteResultType,
+
     ImmuneCellsScore: 'ImmuneCellsScore' as AnalyteResultType,
+
     TumorProportionScore: 'TumorProportionScore' as AnalyteResultType,
+
     ImmunoHistoChemicalScore: 'ImmunoHistoChemicalScore' as AnalyteResultType,
+
     NuclearExpressionStatus: 'NuclearExpressionStatus' as AnalyteResultType
 };
 

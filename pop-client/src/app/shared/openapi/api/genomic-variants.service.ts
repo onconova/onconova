@@ -28,6 +28,7 @@ import { PaginatedGenomicVariant } from '../model/paginated-genomic-variant';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     GenomicVariantsServiceInterface,
     CreateGenomicVariantRequestParams,
@@ -42,66 +43,10 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class GenomicVariantsService implements GenomicVariantsServiceInterface {
+export class GenomicVariantsService extends BaseService implements GenomicVariantsServiceInterface {
 
-    protected basePath = 'http://localhost';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
@@ -121,34 +66,19 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -203,33 +133,18 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -274,34 +189,19 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -600,464 +500,244 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (dnaHgvsNotExists !== undefined && dnaHgvsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsNotExists, 'dnaHgvs.not.exists');
-        }
-        if (dnaHgvsExists !== undefined && dnaHgvsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsExists, 'dnaHgvs.exists');
-        }
-        if (dnaHgvs !== undefined && dnaHgvs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvs, 'dnaHgvs');
-        }
-        if (dnaHgvsNot !== undefined && dnaHgvsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsNot, 'dnaHgvs.not');
-        }
-        if (dnaHgvsContains !== undefined && dnaHgvsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsContains, 'dnaHgvs.contains');
-        }
-        if (dnaHgvsNotContains !== undefined && dnaHgvsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsNotContains, 'dnaHgvs.not.contains');
-        }
-        if (dnaHgvsBeginsWith !== undefined && dnaHgvsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsBeginsWith, 'dnaHgvs.beginsWith');
-        }
-        if (dnaHgvsNotBeginsWith !== undefined && dnaHgvsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsNotBeginsWith, 'dnaHgvs.not.beginsWith');
-        }
-        if (dnaHgvsEndsWith !== undefined && dnaHgvsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsEndsWith, 'dnaHgvs.endsWith');
-        }
-        if (dnaHgvsNotEndsWith !== undefined && dnaHgvsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaHgvsNotEndsWith, 'dnaHgvs.not.endsWith');
-        }
-        if (dnaReferenceSequenceNotExists !== undefined && dnaReferenceSequenceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceNotExists, 'dnaReferenceSequence.not.exists');
-        }
-        if (dnaReferenceSequenceExists !== undefined && dnaReferenceSequenceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceExists, 'dnaReferenceSequence.exists');
-        }
-        if (dnaReferenceSequence !== undefined && dnaReferenceSequence !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequence, 'dnaReferenceSequence');
-        }
-        if (dnaReferenceSequenceNot !== undefined && dnaReferenceSequenceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceNot, 'dnaReferenceSequence.not');
-        }
-        if (dnaReferenceSequenceContains !== undefined && dnaReferenceSequenceContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceContains, 'dnaReferenceSequence.contains');
-        }
-        if (dnaReferenceSequenceNotContains !== undefined && dnaReferenceSequenceNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceNotContains, 'dnaReferenceSequence.not.contains');
-        }
-        if (dnaReferenceSequenceBeginsWith !== undefined && dnaReferenceSequenceBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceBeginsWith, 'dnaReferenceSequence.beginsWith');
-        }
-        if (dnaReferenceSequenceNotBeginsWith !== undefined && dnaReferenceSequenceNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceNotBeginsWith, 'dnaReferenceSequence.not.beginsWith');
-        }
-        if (dnaReferenceSequenceEndsWith !== undefined && dnaReferenceSequenceEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceEndsWith, 'dnaReferenceSequence.endsWith');
-        }
-        if (dnaReferenceSequenceNotEndsWith !== undefined && dnaReferenceSequenceNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaReferenceSequenceNotEndsWith, 'dnaReferenceSequence.not.endsWith');
-        }
-        if (dnaChangePositionNotExists !== undefined && dnaChangePositionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionNotExists, 'dnaChangePosition.not.exists');
-        }
-        if (dnaChangePositionExists !== undefined && dnaChangePositionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionExists, 'dnaChangePosition.exists');
-        }
-        if (dnaChangePosition !== undefined && dnaChangePosition !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePosition, 'dnaChangePosition');
-        }
-        if (dnaChangePositionNot !== undefined && dnaChangePositionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionNot, 'dnaChangePosition.not');
-        }
-        if (dnaChangePositionContains !== undefined && dnaChangePositionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionContains, 'dnaChangePosition.contains');
-        }
-        if (dnaChangePositionNotContains !== undefined && dnaChangePositionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionNotContains, 'dnaChangePosition.not.contains');
-        }
-        if (dnaChangePositionBeginsWith !== undefined && dnaChangePositionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionBeginsWith, 'dnaChangePosition.beginsWith');
-        }
-        if (dnaChangePositionNotBeginsWith !== undefined && dnaChangePositionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionNotBeginsWith, 'dnaChangePosition.not.beginsWith');
-        }
-        if (dnaChangePositionEndsWith !== undefined && dnaChangePositionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionEndsWith, 'dnaChangePosition.endsWith');
-        }
-        if (dnaChangePositionNotEndsWith !== undefined && dnaChangePositionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangePositionNotEndsWith, 'dnaChangePosition.not.endsWith');
-        }
-        if (dnaChangeTypeNotExists !== undefined && dnaChangeTypeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeNotExists, 'dnaChangeType.not.exists');
-        }
-        if (dnaChangeTypeExists !== undefined && dnaChangeTypeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeExists, 'dnaChangeType.exists');
-        }
-        if (dnaChangeType !== undefined && dnaChangeType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeType, 'dnaChangeType');
-        }
-        if (dnaChangeTypeNot !== undefined && dnaChangeTypeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dnaChangeTypeNot, 'dnaChangeType.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsNotExists, 'dnaHgvs.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsExists, 'dnaHgvs.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvs, 'dnaHgvs');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsNot, 'dnaHgvs.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsContains, 'dnaHgvs.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsNotContains, 'dnaHgvs.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsBeginsWith, 'dnaHgvs.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsNotBeginsWith, 'dnaHgvs.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsEndsWith, 'dnaHgvs.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaHgvsNotEndsWith, 'dnaHgvs.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceNotExists, 'dnaReferenceSequence.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceExists, 'dnaReferenceSequence.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequence, 'dnaReferenceSequence');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceNot, 'dnaReferenceSequence.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceContains, 'dnaReferenceSequence.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceNotContains, 'dnaReferenceSequence.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceBeginsWith, 'dnaReferenceSequence.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceNotBeginsWith, 'dnaReferenceSequence.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceEndsWith, 'dnaReferenceSequence.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaReferenceSequenceNotEndsWith, 'dnaReferenceSequence.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionNotExists, 'dnaChangePosition.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionExists, 'dnaChangePosition.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePosition, 'dnaChangePosition');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionNot, 'dnaChangePosition.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionContains, 'dnaChangePosition.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionNotContains, 'dnaChangePosition.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionBeginsWith, 'dnaChangePosition.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionNotBeginsWith, 'dnaChangePosition.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionEndsWith, 'dnaChangePosition.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangePositionNotEndsWith, 'dnaChangePosition.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangeTypeNotExists, 'dnaChangeType.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangeTypeExists, 'dnaChangeType.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangeType, 'dnaChangeType');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangeTypeNot, 'dnaChangeType.not');
         if (dnaChangeTypeAnyOf) {
             dnaChangeTypeAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'dnaChangeType.anyOf');
             })
         }
-        if (rnaHgvsNotExists !== undefined && rnaHgvsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsNotExists, 'rnaHgvs.not.exists');
-        }
-        if (rnaHgvsExists !== undefined && rnaHgvsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsExists, 'rnaHgvs.exists');
-        }
-        if (rnaHgvs !== undefined && rnaHgvs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvs, 'rnaHgvs');
-        }
-        if (rnaHgvsNot !== undefined && rnaHgvsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsNot, 'rnaHgvs.not');
-        }
-        if (rnaHgvsContains !== undefined && rnaHgvsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsContains, 'rnaHgvs.contains');
-        }
-        if (rnaHgvsNotContains !== undefined && rnaHgvsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsNotContains, 'rnaHgvs.not.contains');
-        }
-        if (rnaHgvsBeginsWith !== undefined && rnaHgvsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsBeginsWith, 'rnaHgvs.beginsWith');
-        }
-        if (rnaHgvsNotBeginsWith !== undefined && rnaHgvsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsNotBeginsWith, 'rnaHgvs.not.beginsWith');
-        }
-        if (rnaHgvsEndsWith !== undefined && rnaHgvsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsEndsWith, 'rnaHgvs.endsWith');
-        }
-        if (rnaHgvsNotEndsWith !== undefined && rnaHgvsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaHgvsNotEndsWith, 'rnaHgvs.not.endsWith');
-        }
-        if (rnaReferenceSequenceNotExists !== undefined && rnaReferenceSequenceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceNotExists, 'rnaReferenceSequence.not.exists');
-        }
-        if (rnaReferenceSequenceExists !== undefined && rnaReferenceSequenceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceExists, 'rnaReferenceSequence.exists');
-        }
-        if (rnaReferenceSequence !== undefined && rnaReferenceSequence !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequence, 'rnaReferenceSequence');
-        }
-        if (rnaReferenceSequenceNot !== undefined && rnaReferenceSequenceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceNot, 'rnaReferenceSequence.not');
-        }
-        if (rnaReferenceSequenceContains !== undefined && rnaReferenceSequenceContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceContains, 'rnaReferenceSequence.contains');
-        }
-        if (rnaReferenceSequenceNotContains !== undefined && rnaReferenceSequenceNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceNotContains, 'rnaReferenceSequence.not.contains');
-        }
-        if (rnaReferenceSequenceBeginsWith !== undefined && rnaReferenceSequenceBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceBeginsWith, 'rnaReferenceSequence.beginsWith');
-        }
-        if (rnaReferenceSequenceNotBeginsWith !== undefined && rnaReferenceSequenceNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceNotBeginsWith, 'rnaReferenceSequence.not.beginsWith');
-        }
-        if (rnaReferenceSequenceEndsWith !== undefined && rnaReferenceSequenceEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceEndsWith, 'rnaReferenceSequence.endsWith');
-        }
-        if (rnaReferenceSequenceNotEndsWith !== undefined && rnaReferenceSequenceNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaReferenceSequenceNotEndsWith, 'rnaReferenceSequence.not.endsWith');
-        }
-        if (rnaChangePositionNotExists !== undefined && rnaChangePositionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionNotExists, 'rnaChangePosition.not.exists');
-        }
-        if (rnaChangePositionExists !== undefined && rnaChangePositionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionExists, 'rnaChangePosition.exists');
-        }
-        if (rnaChangePosition !== undefined && rnaChangePosition !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePosition, 'rnaChangePosition');
-        }
-        if (rnaChangePositionNot !== undefined && rnaChangePositionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionNot, 'rnaChangePosition.not');
-        }
-        if (rnaChangePositionContains !== undefined && rnaChangePositionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionContains, 'rnaChangePosition.contains');
-        }
-        if (rnaChangePositionNotContains !== undefined && rnaChangePositionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionNotContains, 'rnaChangePosition.not.contains');
-        }
-        if (rnaChangePositionBeginsWith !== undefined && rnaChangePositionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionBeginsWith, 'rnaChangePosition.beginsWith');
-        }
-        if (rnaChangePositionNotBeginsWith !== undefined && rnaChangePositionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionNotBeginsWith, 'rnaChangePosition.not.beginsWith');
-        }
-        if (rnaChangePositionEndsWith !== undefined && rnaChangePositionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionEndsWith, 'rnaChangePosition.endsWith');
-        }
-        if (rnaChangePositionNotEndsWith !== undefined && rnaChangePositionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangePositionNotEndsWith, 'rnaChangePosition.not.endsWith');
-        }
-        if (rnaChangeTypeNotExists !== undefined && rnaChangeTypeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangeTypeNotExists, 'rnaChangeType.not.exists');
-        }
-        if (rnaChangeTypeExists !== undefined && rnaChangeTypeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangeTypeExists, 'rnaChangeType.exists');
-        }
-        if (rnaChangeType !== undefined && rnaChangeType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangeType, 'rnaChangeType');
-        }
-        if (rnaChangeTypeNot !== undefined && rnaChangeTypeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>rnaChangeTypeNot, 'rnaChangeType.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsNotExists, 'rnaHgvs.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsExists, 'rnaHgvs.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvs, 'rnaHgvs');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsNot, 'rnaHgvs.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsContains, 'rnaHgvs.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsNotContains, 'rnaHgvs.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsBeginsWith, 'rnaHgvs.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsNotBeginsWith, 'rnaHgvs.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsEndsWith, 'rnaHgvs.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaHgvsNotEndsWith, 'rnaHgvs.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceNotExists, 'rnaReferenceSequence.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceExists, 'rnaReferenceSequence.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequence, 'rnaReferenceSequence');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceNot, 'rnaReferenceSequence.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceContains, 'rnaReferenceSequence.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceNotContains, 'rnaReferenceSequence.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceBeginsWith, 'rnaReferenceSequence.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceNotBeginsWith, 'rnaReferenceSequence.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceEndsWith, 'rnaReferenceSequence.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaReferenceSequenceNotEndsWith, 'rnaReferenceSequence.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionNotExists, 'rnaChangePosition.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionExists, 'rnaChangePosition.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePosition, 'rnaChangePosition');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionNot, 'rnaChangePosition.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionContains, 'rnaChangePosition.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionNotContains, 'rnaChangePosition.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionBeginsWith, 'rnaChangePosition.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionNotBeginsWith, 'rnaChangePosition.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionEndsWith, 'rnaChangePosition.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangePositionNotEndsWith, 'rnaChangePosition.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangeTypeNotExists, 'rnaChangeType.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangeTypeExists, 'rnaChangeType.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangeType, 'rnaChangeType');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>rnaChangeTypeNot, 'rnaChangeType.not');
         if (rnaChangeTypeAnyOf) {
             rnaChangeTypeAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'rnaChangeType.anyOf');
             })
         }
-        if (proteinHgvsNotExists !== undefined && proteinHgvsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotExists, 'proteinHgvs.not.exists');
-        }
-        if (proteinHgvsExists !== undefined && proteinHgvsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsExists, 'proteinHgvs.exists');
-        }
-        if (proteinHgvs !== undefined && proteinHgvs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvs, 'proteinHgvs');
-        }
-        if (proteinHgvsNot !== undefined && proteinHgvsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNot, 'proteinHgvs.not');
-        }
-        if (proteinHgvsContains !== undefined && proteinHgvsContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsContains, 'proteinHgvs.contains');
-        }
-        if (proteinHgvsNotContains !== undefined && proteinHgvsNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotContains, 'proteinHgvs.not.contains');
-        }
-        if (proteinHgvsBeginsWith !== undefined && proteinHgvsBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsBeginsWith, 'proteinHgvs.beginsWith');
-        }
-        if (proteinHgvsNotBeginsWith !== undefined && proteinHgvsNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotBeginsWith, 'proteinHgvs.not.beginsWith');
-        }
-        if (proteinHgvsEndsWith !== undefined && proteinHgvsEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsEndsWith, 'proteinHgvs.endsWith');
-        }
-        if (proteinHgvsNotEndsWith !== undefined && proteinHgvsNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinHgvsNotEndsWith, 'proteinHgvs.not.endsWith');
-        }
-        if (proteinReferenceSequenceNotExists !== undefined && proteinReferenceSequenceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceNotExists, 'proteinReferenceSequence.not.exists');
-        }
-        if (proteinReferenceSequenceExists !== undefined && proteinReferenceSequenceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceExists, 'proteinReferenceSequence.exists');
-        }
-        if (proteinReferenceSequence !== undefined && proteinReferenceSequence !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequence, 'proteinReferenceSequence');
-        }
-        if (proteinReferenceSequenceNot !== undefined && proteinReferenceSequenceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceNot, 'proteinReferenceSequence.not');
-        }
-        if (proteinReferenceSequenceContains !== undefined && proteinReferenceSequenceContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceContains, 'proteinReferenceSequence.contains');
-        }
-        if (proteinReferenceSequenceNotContains !== undefined && proteinReferenceSequenceNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceNotContains, 'proteinReferenceSequence.not.contains');
-        }
-        if (proteinReferenceSequenceBeginsWith !== undefined && proteinReferenceSequenceBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceBeginsWith, 'proteinReferenceSequence.beginsWith');
-        }
-        if (proteinReferenceSequenceNotBeginsWith !== undefined && proteinReferenceSequenceNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceNotBeginsWith, 'proteinReferenceSequence.not.beginsWith');
-        }
-        if (proteinReferenceSequenceEndsWith !== undefined && proteinReferenceSequenceEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceEndsWith, 'proteinReferenceSequence.endsWith');
-        }
-        if (proteinReferenceSequenceNotEndsWith !== undefined && proteinReferenceSequenceNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinReferenceSequenceNotEndsWith, 'proteinReferenceSequence.not.endsWith');
-        }
-        if (proteinChangePositionNotExists !== undefined && proteinChangePositionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionNotExists, 'proteinChangePosition.not.exists');
-        }
-        if (proteinChangePositionExists !== undefined && proteinChangePositionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionExists, 'proteinChangePosition.exists');
-        }
-        if (proteinChangePosition !== undefined && proteinChangePosition !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePosition, 'proteinChangePosition');
-        }
-        if (proteinChangePositionNot !== undefined && proteinChangePositionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionNot, 'proteinChangePosition.not');
-        }
-        if (proteinChangePositionContains !== undefined && proteinChangePositionContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionContains, 'proteinChangePosition.contains');
-        }
-        if (proteinChangePositionNotContains !== undefined && proteinChangePositionNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionNotContains, 'proteinChangePosition.not.contains');
-        }
-        if (proteinChangePositionBeginsWith !== undefined && proteinChangePositionBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionBeginsWith, 'proteinChangePosition.beginsWith');
-        }
-        if (proteinChangePositionNotBeginsWith !== undefined && proteinChangePositionNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionNotBeginsWith, 'proteinChangePosition.not.beginsWith');
-        }
-        if (proteinChangePositionEndsWith !== undefined && proteinChangePositionEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionEndsWith, 'proteinChangePosition.endsWith');
-        }
-        if (proteinChangePositionNotEndsWith !== undefined && proteinChangePositionNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangePositionNotEndsWith, 'proteinChangePosition.not.endsWith');
-        }
-        if (proteinChangeTypeNotExists !== undefined && proteinChangeTypeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangeTypeNotExists, 'proteinChangeType.not.exists');
-        }
-        if (proteinChangeTypeExists !== undefined && proteinChangeTypeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangeTypeExists, 'proteinChangeType.exists');
-        }
-        if (proteinChangeType !== undefined && proteinChangeType !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangeType, 'proteinChangeType');
-        }
-        if (proteinChangeTypeNot !== undefined && proteinChangeTypeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>proteinChangeTypeNot, 'proteinChangeType.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsNotExists, 'proteinHgvs.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsExists, 'proteinHgvs.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvs, 'proteinHgvs');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsNot, 'proteinHgvs.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsContains, 'proteinHgvs.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsNotContains, 'proteinHgvs.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsBeginsWith, 'proteinHgvs.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsNotBeginsWith, 'proteinHgvs.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsEndsWith, 'proteinHgvs.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinHgvsNotEndsWith, 'proteinHgvs.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceNotExists, 'proteinReferenceSequence.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceExists, 'proteinReferenceSequence.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequence, 'proteinReferenceSequence');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceNot, 'proteinReferenceSequence.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceContains, 'proteinReferenceSequence.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceNotContains, 'proteinReferenceSequence.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceBeginsWith, 'proteinReferenceSequence.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceNotBeginsWith, 'proteinReferenceSequence.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceEndsWith, 'proteinReferenceSequence.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinReferenceSequenceNotEndsWith, 'proteinReferenceSequence.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionNotExists, 'proteinChangePosition.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionExists, 'proteinChangePosition.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePosition, 'proteinChangePosition');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionNot, 'proteinChangePosition.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionContains, 'proteinChangePosition.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionNotContains, 'proteinChangePosition.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionBeginsWith, 'proteinChangePosition.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionNotBeginsWith, 'proteinChangePosition.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionEndsWith, 'proteinChangePosition.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangePositionNotEndsWith, 'proteinChangePosition.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangeTypeNotExists, 'proteinChangeType.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangeTypeExists, 'proteinChangeType.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangeType, 'proteinChangeType');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>proteinChangeTypeNot, 'proteinChangeType.not');
         if (proteinChangeTypeAnyOf) {
             proteinChangeTypeAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'proteinChangeType.anyOf');
             })
         }
-        if (nucleotidesLengthNotExists !== undefined && nucleotidesLengthNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthNotExists, 'nucleotidesLength.not.exists');
-        }
-        if (nucleotidesLengthExists !== undefined && nucleotidesLengthExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthExists, 'nucleotidesLength.exists');
-        }
-        if (nucleotidesLengthLessThan !== undefined && nucleotidesLengthLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthLessThan, 'nucleotidesLength.lessThan');
-        }
-        if (nucleotidesLengthLessThanOrEqual !== undefined && nucleotidesLengthLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthLessThanOrEqual, 'nucleotidesLength.lessThanOrEqual');
-        }
-        if (nucleotidesLengthGreaterThan !== undefined && nucleotidesLengthGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthGreaterThan, 'nucleotidesLength.greaterThan');
-        }
-        if (nucleotidesLengthGreaterThanOrEqual !== undefined && nucleotidesLengthGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthGreaterThanOrEqual, 'nucleotidesLength.greaterThanOrEqual');
-        }
-        if (nucleotidesLengthEqual !== undefined && nucleotidesLengthEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthEqual, 'nucleotidesLength.equal');
-        }
-        if (nucleotidesLengthNotEqual !== undefined && nucleotidesLengthNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nucleotidesLengthNotEqual, 'nucleotidesLength.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthNotExists, 'nucleotidesLength.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthExists, 'nucleotidesLength.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthLessThan, 'nucleotidesLength.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthLessThanOrEqual, 'nucleotidesLength.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthGreaterThan, 'nucleotidesLength.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthGreaterThanOrEqual, 'nucleotidesLength.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthEqual, 'nucleotidesLength.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nucleotidesLengthNotEqual, 'nucleotidesLength.not.equal');
         if (nucleotidesLengthBetween) {
             nucleotidesLengthBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1070,94 +750,50 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'nucleotidesLength.not.between');
             })
         }
-        if (id !== undefined && id !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>id, 'id');
-        }
-        if (idNot !== undefined && idNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNot, 'id.not');
-        }
-        if (idContains !== undefined && idContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idContains, 'id.contains');
-        }
-        if (idNotContains !== undefined && idNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotContains, 'id.not.contains');
-        }
-        if (idBeginsWith !== undefined && idBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idBeginsWith, 'id.beginsWith');
-        }
-        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotBeginsWith, 'id.not.beginsWith');
-        }
-        if (idEndsWith !== undefined && idEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idEndsWith, 'id.endsWith');
-        }
-        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotEndsWith, 'id.not.endsWith');
-        }
-        if (caseId !== undefined && caseId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseId, 'caseId');
-        }
-        if (caseIdNot !== undefined && caseIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNot, 'caseId.not');
-        }
-        if (caseIdContains !== undefined && caseIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdContains, 'caseId.contains');
-        }
-        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotContains, 'caseId.not.contains');
-        }
-        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdBeginsWith, 'caseId.beginsWith');
-        }
-        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
-        }
-        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdEndsWith, 'caseId.endsWith');
-        }
-        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
-        }
-        if (dateBefore !== undefined && dateBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateBefore, 'date.before');
-        }
-        if (dateAfter !== undefined && dateAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateAfter, 'date.after');
-        }
-        if (dateOnOrBefore !== undefined && dateOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOnOrBefore, 'date.onOrBefore');
-        }
-        if (dateOnOrAfter !== undefined && dateOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOnOrAfter, 'date.onOrAfter');
-        }
-        if (dateOn !== undefined && dateOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOn, 'date.on');
-        }
-        if (dateNotOn !== undefined && dateNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateNotOn, 'date.not.on');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>id, 'id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNot, 'id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idContains, 'id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotContains, 'id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idBeginsWith, 'id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotBeginsWith, 'id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idEndsWith, 'id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotEndsWith, 'id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseId, 'caseId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNot, 'caseId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdContains, 'caseId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotContains, 'caseId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdBeginsWith, 'caseId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdEndsWith, 'caseId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateBefore, 'date.before');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateAfter, 'date.after');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOnOrBefore, 'date.onOrBefore');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOnOrAfter, 'date.onOrAfter');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOn, 'date.on');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateNotOn, 'date.not.on');
         if (dateBetween) {
             dateBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1170,106 +806,62 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'date.not.between');
             })
         }
-        if (genePanelNotExists !== undefined && genePanelNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelNotExists, 'genePanel.not.exists');
-        }
-        if (genePanelExists !== undefined && genePanelExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelExists, 'genePanel.exists');
-        }
-        if (genePanel !== undefined && genePanel !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanel, 'genePanel');
-        }
-        if (genePanelNot !== undefined && genePanelNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelNot, 'genePanel.not');
-        }
-        if (genePanelContains !== undefined && genePanelContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelContains, 'genePanel.contains');
-        }
-        if (genePanelNotContains !== undefined && genePanelNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelNotContains, 'genePanel.not.contains');
-        }
-        if (genePanelBeginsWith !== undefined && genePanelBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelBeginsWith, 'genePanel.beginsWith');
-        }
-        if (genePanelNotBeginsWith !== undefined && genePanelNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelNotBeginsWith, 'genePanel.not.beginsWith');
-        }
-        if (genePanelEndsWith !== undefined && genePanelEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelEndsWith, 'genePanel.endsWith');
-        }
-        if (genePanelNotEndsWith !== undefined && genePanelNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genePanelNotEndsWith, 'genePanel.not.endsWith');
-        }
-        if (assessmentNotExists !== undefined && assessmentNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessmentNotExists, 'assessment.not.exists');
-        }
-        if (assessmentExists !== undefined && assessmentExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessmentExists, 'assessment.exists');
-        }
-        if (assessment !== undefined && assessment !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessment, 'assessment');
-        }
-        if (assessmentNot !== undefined && assessmentNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>assessmentNot, 'assessment.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelNotExists, 'genePanel.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelExists, 'genePanel.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanel, 'genePanel');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelNot, 'genePanel.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelContains, 'genePanel.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelNotContains, 'genePanel.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelBeginsWith, 'genePanel.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelNotBeginsWith, 'genePanel.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelEndsWith, 'genePanel.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genePanelNotEndsWith, 'genePanel.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessmentNotExists, 'assessment.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessmentExists, 'assessment.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessment, 'assessment');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessmentNot, 'assessment.not');
         if (assessmentAnyOf) {
             assessmentAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'assessment.anyOf');
             })
         }
-        if (confidenceNotExists !== undefined && confidenceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>confidenceNotExists, 'confidence.not.exists');
-        }
-        if (confidenceExists !== undefined && confidenceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>confidenceExists, 'confidence.exists');
-        }
-        if (confidence !== undefined && confidence !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>confidence, 'confidence');
-        }
-        if (confidenceNot !== undefined && confidenceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>confidenceNot, 'confidence.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>confidenceNotExists, 'confidence.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>confidenceExists, 'confidence.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>confidence, 'confidence');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>confidenceNot, 'confidence.not');
         if (confidenceAnyOf) {
             confidenceAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'confidence.anyOf');
             })
         }
-        if (analysisMethodNotExists !== undefined && analysisMethodNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>analysisMethodNotExists, 'analysisMethod.not.exists');
-        }
-        if (analysisMethodExists !== undefined && analysisMethodExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>analysisMethodExists, 'analysisMethod.exists');
-        }
-        if (analysisMethod !== undefined && analysisMethod !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>analysisMethod, 'analysisMethod');
-        }
-        if (analysisMethodNot !== undefined && analysisMethodNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>analysisMethodNot, 'analysisMethod.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>analysisMethodNotExists, 'analysisMethod.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>analysisMethodExists, 'analysisMethod.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>analysisMethod, 'analysisMethod');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>analysisMethodNot, 'analysisMethod.not');
         if (analysisMethodAnyOf) {
             analysisMethodAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1282,64 +874,38 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'analysisMethod.not.anyOf');
             })
         }
-        if (analysisMethodDescendantsOf !== undefined && analysisMethodDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>analysisMethodDescendantsOf, 'analysisMethod.descendantsOf');
-        }
-        if (clinicalRelevanceNotExists !== undefined && clinicalRelevanceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinicalRelevanceNotExists, 'clinicalRelevance.not.exists');
-        }
-        if (clinicalRelevanceExists !== undefined && clinicalRelevanceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinicalRelevanceExists, 'clinicalRelevance.exists');
-        }
-        if (clinicalRelevance !== undefined && clinicalRelevance !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinicalRelevance, 'clinicalRelevance');
-        }
-        if (clinicalRelevanceNot !== undefined && clinicalRelevanceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinicalRelevanceNot, 'clinicalRelevance.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>analysisMethodDescendantsOf, 'analysisMethod.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinicalRelevanceNotExists, 'clinicalRelevance.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinicalRelevanceExists, 'clinicalRelevance.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinicalRelevance, 'clinicalRelevance');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinicalRelevanceNot, 'clinicalRelevance.not');
         if (clinicalRelevanceAnyOf) {
             clinicalRelevanceAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'clinicalRelevance.anyOf');
             })
         }
-        if (isVusNotExists !== undefined && isVusNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>isVusNotExists, 'isVus.not.exists');
-        }
-        if (isVusExists !== undefined && isVusExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>isVusExists, 'isVus.exists');
-        }
-        if (isVus !== undefined && isVus !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>isVus, 'isVus');
-        }
-        if (isPathogenic !== undefined && isPathogenic !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>isPathogenic, 'isPathogenic');
-        }
-        if (genomeAssemblyVersionNotExists !== undefined && genomeAssemblyVersionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomeAssemblyVersionNotExists, 'genomeAssemblyVersion.not.exists');
-        }
-        if (genomeAssemblyVersionExists !== undefined && genomeAssemblyVersionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomeAssemblyVersionExists, 'genomeAssemblyVersion.exists');
-        }
-        if (genomeAssemblyVersion !== undefined && genomeAssemblyVersion !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomeAssemblyVersion, 'genomeAssemblyVersion');
-        }
-        if (genomeAssemblyVersionNot !== undefined && genomeAssemblyVersionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomeAssemblyVersionNot, 'genomeAssemblyVersion.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isVusNotExists, 'isVus.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isVusExists, 'isVus.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isVus, 'isVus');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isPathogenic, 'isPathogenic');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genomeAssemblyVersionNotExists, 'genomeAssemblyVersion.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genomeAssemblyVersionExists, 'genomeAssemblyVersion.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genomeAssemblyVersion, 'genomeAssemblyVersion');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genomeAssemblyVersionNot, 'genomeAssemblyVersion.not');
         if (genomeAssemblyVersionAnyOf) {
             genomeAssemblyVersionAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1352,26 +918,16 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'genomeAssemblyVersion.not.anyOf');
             })
         }
-        if (genomeAssemblyVersionDescendantsOf !== undefined && genomeAssemblyVersionDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genomeAssemblyVersionDescendantsOf, 'genomeAssemblyVersion.descendantsOf');
-        }
-        if (molecularConsequenceNotExists !== undefined && molecularConsequenceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>molecularConsequenceNotExists, 'molecularConsequence.not.exists');
-        }
-        if (molecularConsequenceExists !== undefined && molecularConsequenceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>molecularConsequenceExists, 'molecularConsequence.exists');
-        }
-        if (molecularConsequence !== undefined && molecularConsequence !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>molecularConsequence, 'molecularConsequence');
-        }
-        if (molecularConsequenceNot !== undefined && molecularConsequenceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>molecularConsequenceNot, 'molecularConsequence.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genomeAssemblyVersionDescendantsOf, 'genomeAssemblyVersion.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>molecularConsequenceNotExists, 'molecularConsequence.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>molecularConsequenceExists, 'molecularConsequence.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>molecularConsequence, 'molecularConsequence');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>molecularConsequenceNot, 'molecularConsequence.not');
         if (molecularConsequenceAnyOf) {
             molecularConsequenceAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1384,42 +940,24 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'molecularConsequence.not.anyOf');
             })
         }
-        if (molecularConsequenceDescendantsOf !== undefined && molecularConsequenceDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>molecularConsequenceDescendantsOf, 'molecularConsequence.descendantsOf');
-        }
-        if (copyNumberNotExists !== undefined && copyNumberNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberNotExists, 'copyNumber.not.exists');
-        }
-        if (copyNumberExists !== undefined && copyNumberExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberExists, 'copyNumber.exists');
-        }
-        if (copyNumberLessThan !== undefined && copyNumberLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberLessThan, 'copyNumber.lessThan');
-        }
-        if (copyNumberLessThanOrEqual !== undefined && copyNumberLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberLessThanOrEqual, 'copyNumber.lessThanOrEqual');
-        }
-        if (copyNumberGreaterThan !== undefined && copyNumberGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberGreaterThan, 'copyNumber.greaterThan');
-        }
-        if (copyNumberGreaterThanOrEqual !== undefined && copyNumberGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberGreaterThanOrEqual, 'copyNumber.greaterThanOrEqual');
-        }
-        if (copyNumberEqual !== undefined && copyNumberEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberEqual, 'copyNumber.equal');
-        }
-        if (copyNumberNotEqual !== undefined && copyNumberNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>copyNumberNotEqual, 'copyNumber.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>molecularConsequenceDescendantsOf, 'molecularConsequence.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberNotExists, 'copyNumber.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberExists, 'copyNumber.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberLessThan, 'copyNumber.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberLessThanOrEqual, 'copyNumber.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberGreaterThan, 'copyNumber.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberGreaterThanOrEqual, 'copyNumber.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberEqual, 'copyNumber.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>copyNumberNotEqual, 'copyNumber.not.equal');
         if (copyNumberBetween) {
             copyNumberBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1432,38 +970,22 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'copyNumber.not.between');
             })
         }
-        if (alleleFrequencyNotExists !== undefined && alleleFrequencyNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyNotExists, 'alleleFrequency.not.exists');
-        }
-        if (alleleFrequencyExists !== undefined && alleleFrequencyExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyExists, 'alleleFrequency.exists');
-        }
-        if (alleleFrequencyLessThan !== undefined && alleleFrequencyLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyLessThan, 'alleleFrequency.lessThan');
-        }
-        if (alleleFrequencyLessThanOrEqual !== undefined && alleleFrequencyLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyLessThanOrEqual, 'alleleFrequency.lessThanOrEqual');
-        }
-        if (alleleFrequencyGreaterThan !== undefined && alleleFrequencyGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyGreaterThan, 'alleleFrequency.greaterThan');
-        }
-        if (alleleFrequencyGreaterThanOrEqual !== undefined && alleleFrequencyGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyGreaterThanOrEqual, 'alleleFrequency.greaterThanOrEqual');
-        }
-        if (alleleFrequencyEqual !== undefined && alleleFrequencyEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyEqual, 'alleleFrequency.equal');
-        }
-        if (alleleFrequencyNotEqual !== undefined && alleleFrequencyNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleFrequencyNotEqual, 'alleleFrequency.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyNotExists, 'alleleFrequency.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyExists, 'alleleFrequency.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyLessThan, 'alleleFrequency.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyLessThanOrEqual, 'alleleFrequency.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyGreaterThan, 'alleleFrequency.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyGreaterThanOrEqual, 'alleleFrequency.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyEqual, 'alleleFrequency.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleFrequencyNotEqual, 'alleleFrequency.not.equal');
         if (alleleFrequencyBetween) {
             alleleFrequencyBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1476,38 +998,22 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'alleleFrequency.not.between');
             })
         }
-        if (alleleDepthNotExists !== undefined && alleleDepthNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthNotExists, 'alleleDepth.not.exists');
-        }
-        if (alleleDepthExists !== undefined && alleleDepthExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthExists, 'alleleDepth.exists');
-        }
-        if (alleleDepthLessThan !== undefined && alleleDepthLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthLessThan, 'alleleDepth.lessThan');
-        }
-        if (alleleDepthLessThanOrEqual !== undefined && alleleDepthLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthLessThanOrEqual, 'alleleDepth.lessThanOrEqual');
-        }
-        if (alleleDepthGreaterThan !== undefined && alleleDepthGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthGreaterThan, 'alleleDepth.greaterThan');
-        }
-        if (alleleDepthGreaterThanOrEqual !== undefined && alleleDepthGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthGreaterThanOrEqual, 'alleleDepth.greaterThanOrEqual');
-        }
-        if (alleleDepthEqual !== undefined && alleleDepthEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthEqual, 'alleleDepth.equal');
-        }
-        if (alleleDepthNotEqual !== undefined && alleleDepthNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alleleDepthNotEqual, 'alleleDepth.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthNotExists, 'alleleDepth.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthExists, 'alleleDepth.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthLessThan, 'alleleDepth.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthLessThanOrEqual, 'alleleDepth.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthGreaterThan, 'alleleDepth.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthGreaterThanOrEqual, 'alleleDepth.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthEqual, 'alleleDepth.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alleleDepthNotEqual, 'alleleDepth.not.equal');
         if (alleleDepthBetween) {
             alleleDepthBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1520,22 +1026,14 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'alleleDepth.not.between');
             })
         }
-        if (zygosityNotExists !== undefined && zygosityNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>zygosityNotExists, 'zygosity.not.exists');
-        }
-        if (zygosityExists !== undefined && zygosityExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>zygosityExists, 'zygosity.exists');
-        }
-        if (zygosity !== undefined && zygosity !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>zygosity, 'zygosity');
-        }
-        if (zygosityNot !== undefined && zygosityNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>zygosityNot, 'zygosity.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>zygosityNotExists, 'zygosity.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>zygosityExists, 'zygosity.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>zygosity, 'zygosity');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>zygosityNot, 'zygosity.not');
         if (zygosityAnyOf) {
             zygosityAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1548,26 +1046,16 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'zygosity.not.anyOf');
             })
         }
-        if (zygosityDescendantsOf !== undefined && zygosityDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>zygosityDescendantsOf, 'zygosity.descendantsOf');
-        }
-        if (inheritanceNotExists !== undefined && inheritanceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>inheritanceNotExists, 'inheritance.not.exists');
-        }
-        if (inheritanceExists !== undefined && inheritanceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>inheritanceExists, 'inheritance.exists');
-        }
-        if (inheritance !== undefined && inheritance !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>inheritance, 'inheritance');
-        }
-        if (inheritanceNot !== undefined && inheritanceNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>inheritanceNot, 'inheritance.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>zygosityDescendantsOf, 'zygosity.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>inheritanceNotExists, 'inheritance.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>inheritanceExists, 'inheritance.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>inheritance, 'inheritance');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>inheritanceNot, 'inheritance.not');
         if (inheritanceAnyOf) {
             inheritanceAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1580,26 +1068,16 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'inheritance.not.anyOf');
             })
         }
-        if (inheritanceDescendantsOf !== undefined && inheritanceDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>inheritanceDescendantsOf, 'inheritance.descendantsOf');
-        }
-        if (coordinateSystemNotExists !== undefined && coordinateSystemNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>coordinateSystemNotExists, 'coordinateSystem.not.exists');
-        }
-        if (coordinateSystemExists !== undefined && coordinateSystemExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>coordinateSystemExists, 'coordinateSystem.exists');
-        }
-        if (coordinateSystem !== undefined && coordinateSystem !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>coordinateSystem, 'coordinateSystem');
-        }
-        if (coordinateSystemNot !== undefined && coordinateSystemNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>coordinateSystemNot, 'coordinateSystem.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>inheritanceDescendantsOf, 'inheritance.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>coordinateSystemNotExists, 'coordinateSystem.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>coordinateSystemExists, 'coordinateSystem.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>coordinateSystem, 'coordinateSystem');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>coordinateSystemNot, 'coordinateSystem.not');
         if (coordinateSystemAnyOf) {
             coordinateSystemAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1612,58 +1090,32 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'coordinateSystem.not.anyOf');
             })
         }
-        if (coordinateSystemDescendantsOf !== undefined && coordinateSystemDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>coordinateSystemDescendantsOf, 'coordinateSystem.descendantsOf');
-        }
-        if (clinvarNotExists !== undefined && clinvarNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarNotExists, 'clinvar.not.exists');
-        }
-        if (clinvarExists !== undefined && clinvarExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarExists, 'clinvar.exists');
-        }
-        if (clinvar !== undefined && clinvar !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvar, 'clinvar');
-        }
-        if (clinvarNot !== undefined && clinvarNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarNot, 'clinvar.not');
-        }
-        if (clinvarContains !== undefined && clinvarContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarContains, 'clinvar.contains');
-        }
-        if (clinvarNotContains !== undefined && clinvarNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarNotContains, 'clinvar.not.contains');
-        }
-        if (clinvarBeginsWith !== undefined && clinvarBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarBeginsWith, 'clinvar.beginsWith');
-        }
-        if (clinvarNotBeginsWith !== undefined && clinvarNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarNotBeginsWith, 'clinvar.not.beginsWith');
-        }
-        if (clinvarEndsWith !== undefined && clinvarEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarEndsWith, 'clinvar.endsWith');
-        }
-        if (clinvarNotEndsWith !== undefined && clinvarNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>clinvarNotEndsWith, 'clinvar.not.endsWith');
-        }
-        if (genes !== undefined && genes !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genes, 'genes');
-        }
-        if (genesNot !== undefined && genesNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesNot, 'genes.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>coordinateSystemDescendantsOf, 'coordinateSystem.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarNotExists, 'clinvar.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarExists, 'clinvar.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvar, 'clinvar');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarNot, 'clinvar.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarContains, 'clinvar.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarNotContains, 'clinvar.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarBeginsWith, 'clinvar.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarNotBeginsWith, 'clinvar.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarEndsWith, 'clinvar.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>clinvarNotEndsWith, 'clinvar.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genes, 'genes');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genesNot, 'genes.not');
         if (genesAnyOf) {
             genesAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1676,10 +1128,8 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'genes.not.anyOf');
             })
         }
-        if (genesDescendantsOf !== undefined && genesDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>genesDescendantsOf, 'genes.descendantsOf');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>genesDescendantsOf, 'genes.descendantsOf');
         if (genesAllOf) {
             genesAllOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1692,45 +1142,26 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
                   <any>element, 'genes.not.allOf');
             })
         }
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1780,34 +1211,19 @@ export class GenomicVariantsService implements GenomicVariantsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header

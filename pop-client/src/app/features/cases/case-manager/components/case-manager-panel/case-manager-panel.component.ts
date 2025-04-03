@@ -80,7 +80,7 @@ export class CaseManagerPanelComponent implements OnInit {
 
     ngOnInit(): void {
         if ( this.service ){
-            this.data$ = this.service.get({caseId:this.caseId})
+            this.data$ = this.service.get(this.caseId)
             if (this.data$) {
                 this.refreshEntries()
             }

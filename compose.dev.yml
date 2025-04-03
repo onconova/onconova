@@ -19,6 +19,7 @@ services:
           target: development
         volumes:
           - ./pop-client/src:/app/src
+          - ./pop-client/openapi.json:/app/openapi.json
 
     pop-nginx:
         image: nginx:1.23        

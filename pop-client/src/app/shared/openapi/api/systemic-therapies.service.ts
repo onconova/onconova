@@ -32,6 +32,7 @@ import { SystemicTherapyMedicationCreate } from '../model/systemic-therapy-medic
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     SystemicTherapiesServiceInterface,
     CreateSystemicTherapyRequestParams,
@@ -51,66 +52,10 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class SystemicTherapiesService implements SystemicTherapiesServiceInterface {
+export class SystemicTherapiesService extends BaseService implements SystemicTherapiesServiceInterface {
 
-    protected basePath = 'http://localhost';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
@@ -130,34 +75,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -216,34 +146,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -298,33 +213,18 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -373,33 +273,18 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -615,46 +500,26 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (medicationsId !== undefined && medicationsId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsId, 'medications.id');
-        }
-        if (medicationsIdNot !== undefined && medicationsIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdNot, 'medications.id.not');
-        }
-        if (medicationsIdContains !== undefined && medicationsIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdContains, 'medications.id.contains');
-        }
-        if (medicationsIdNotContains !== undefined && medicationsIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdNotContains, 'medications.id.not.contains');
-        }
-        if (medicationsIdBeginsWith !== undefined && medicationsIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdBeginsWith, 'medications.id.beginsWith');
-        }
-        if (medicationsIdNotBeginsWith !== undefined && medicationsIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdNotBeginsWith, 'medications.id.not.beginsWith');
-        }
-        if (medicationsIdEndsWith !== undefined && medicationsIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdEndsWith, 'medications.id.endsWith');
-        }
-        if (medicationsIdNotEndsWith !== undefined && medicationsIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsIdNotEndsWith, 'medications.id.not.endsWith');
-        }
-        if (medicationsDrug !== undefined && medicationsDrug !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDrug, 'medications.drug');
-        }
-        if (medicationsDrugNot !== undefined && medicationsDrugNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDrugNot, 'medications.drug.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsId, 'medications.id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdNot, 'medications.id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdContains, 'medications.id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdNotContains, 'medications.id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdBeginsWith, 'medications.id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdNotBeginsWith, 'medications.id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdEndsWith, 'medications.id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsIdNotEndsWith, 'medications.id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDrug, 'medications.drug');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDrugNot, 'medications.drug.not');
         if (medicationsDrugAnyOf) {
             medicationsDrugAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -667,26 +532,16 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.drug.not.anyOf');
             })
         }
-        if (medicationsDrugDescendantsOf !== undefined && medicationsDrugDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDrugDescendantsOf, 'medications.drug.descendantsOf');
-        }
-        if (medicationsRouteNotExists !== undefined && medicationsRouteNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsRouteNotExists, 'medications.route.not.exists');
-        }
-        if (medicationsRouteExists !== undefined && medicationsRouteExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsRouteExists, 'medications.route.exists');
-        }
-        if (medicationsRoute !== undefined && medicationsRoute !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsRoute, 'medications.route');
-        }
-        if (medicationsRouteNot !== undefined && medicationsRouteNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsRouteNot, 'medications.route.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDrugDescendantsOf, 'medications.drug.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsRouteNotExists, 'medications.route.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsRouteExists, 'medications.route.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsRoute, 'medications.route');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsRouteNot, 'medications.route.not');
         if (medicationsRouteAnyOf) {
             medicationsRouteAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -699,66 +554,36 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.route.not.anyOf');
             })
         }
-        if (medicationsRouteDescendantsOf !== undefined && medicationsRouteDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsRouteDescendantsOf, 'medications.route.descendantsOf');
-        }
-        if (medicationsUsedOfflabelNotExists !== undefined && medicationsUsedOfflabelNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsUsedOfflabelNotExists, 'medications.usedOfflabel.not.exists');
-        }
-        if (medicationsUsedOfflabelExists !== undefined && medicationsUsedOfflabelExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsUsedOfflabelExists, 'medications.usedOfflabel.exists');
-        }
-        if (medicationsUsedOfflabel !== undefined && medicationsUsedOfflabel !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsUsedOfflabel, 'medications.usedOfflabel');
-        }
-        if (medicationsWithinSocNotExists !== undefined && medicationsWithinSocNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsWithinSocNotExists, 'medications.withinSoc.not.exists');
-        }
-        if (medicationsWithinSocExists !== undefined && medicationsWithinSocExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsWithinSocExists, 'medications.withinSoc.exists');
-        }
-        if (medicationsWithinSoc !== undefined && medicationsWithinSoc !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsWithinSoc, 'medications.withinSoc');
-        }
-        if (medicationsDosageMassConcentrationNotExists !== undefined && medicationsDosageMassConcentrationNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationNotExists, 'medications.dosageMassConcentration.not.exists');
-        }
-        if (medicationsDosageMassConcentrationExists !== undefined && medicationsDosageMassConcentrationExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationExists, 'medications.dosageMassConcentration.exists');
-        }
-        if (medicationsDosageMassConcentrationLessThan !== undefined && medicationsDosageMassConcentrationLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationLessThan, 'medications.dosageMassConcentration.lessThan');
-        }
-        if (medicationsDosageMassConcentrationLessThanOrEqual !== undefined && medicationsDosageMassConcentrationLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationLessThanOrEqual, 'medications.dosageMassConcentration.lessThanOrEqual');
-        }
-        if (medicationsDosageMassConcentrationGreaterThan !== undefined && medicationsDosageMassConcentrationGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationGreaterThan, 'medications.dosageMassConcentration.greaterThan');
-        }
-        if (medicationsDosageMassConcentrationGreaterThanOrEqual !== undefined && medicationsDosageMassConcentrationGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationGreaterThanOrEqual, 'medications.dosageMassConcentration.greaterThanOrEqual');
-        }
-        if (medicationsDosageMassConcentrationEqual !== undefined && medicationsDosageMassConcentrationEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationEqual, 'medications.dosageMassConcentration.equal');
-        }
-        if (medicationsDosageMassConcentrationNotEqual !== undefined && medicationsDosageMassConcentrationNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassConcentrationNotEqual, 'medications.dosageMassConcentration.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsRouteDescendantsOf, 'medications.route.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsUsedOfflabelNotExists, 'medications.usedOfflabel.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsUsedOfflabelExists, 'medications.usedOfflabel.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsUsedOfflabel, 'medications.usedOfflabel');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsWithinSocNotExists, 'medications.withinSoc.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsWithinSocExists, 'medications.withinSoc.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsWithinSoc, 'medications.withinSoc');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationNotExists, 'medications.dosageMassConcentration.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationExists, 'medications.dosageMassConcentration.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationLessThan, 'medications.dosageMassConcentration.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationLessThanOrEqual, 'medications.dosageMassConcentration.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationGreaterThan, 'medications.dosageMassConcentration.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationGreaterThanOrEqual, 'medications.dosageMassConcentration.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationEqual, 'medications.dosageMassConcentration.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassConcentrationNotEqual, 'medications.dosageMassConcentration.not.equal');
         if (medicationsDosageMassConcentrationBetween) {
             medicationsDosageMassConcentrationBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -771,38 +596,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageMassConcentration.not.between');
             })
         }
-        if (medicationsDosageMassNotExists !== undefined && medicationsDosageMassNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassNotExists, 'medications.dosageMass.not.exists');
-        }
-        if (medicationsDosageMassExists !== undefined && medicationsDosageMassExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassExists, 'medications.dosageMass.exists');
-        }
-        if (medicationsDosageMassLessThan !== undefined && medicationsDosageMassLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassLessThan, 'medications.dosageMass.lessThan');
-        }
-        if (medicationsDosageMassLessThanOrEqual !== undefined && medicationsDosageMassLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassLessThanOrEqual, 'medications.dosageMass.lessThanOrEqual');
-        }
-        if (medicationsDosageMassGreaterThan !== undefined && medicationsDosageMassGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassGreaterThan, 'medications.dosageMass.greaterThan');
-        }
-        if (medicationsDosageMassGreaterThanOrEqual !== undefined && medicationsDosageMassGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassGreaterThanOrEqual, 'medications.dosageMass.greaterThanOrEqual');
-        }
-        if (medicationsDosageMassEqual !== undefined && medicationsDosageMassEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassEqual, 'medications.dosageMass.equal');
-        }
-        if (medicationsDosageMassNotEqual !== undefined && medicationsDosageMassNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassNotEqual, 'medications.dosageMass.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassNotExists, 'medications.dosageMass.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassExists, 'medications.dosageMass.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassLessThan, 'medications.dosageMass.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassLessThanOrEqual, 'medications.dosageMass.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassGreaterThan, 'medications.dosageMass.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassGreaterThanOrEqual, 'medications.dosageMass.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassEqual, 'medications.dosageMass.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassNotEqual, 'medications.dosageMass.not.equal');
         if (medicationsDosageMassBetween) {
             medicationsDosageMassBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -815,38 +624,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageMass.not.between');
             })
         }
-        if (medicationsDosageVolumeNotExists !== undefined && medicationsDosageVolumeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeNotExists, 'medications.dosageVolume.not.exists');
-        }
-        if (medicationsDosageVolumeExists !== undefined && medicationsDosageVolumeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeExists, 'medications.dosageVolume.exists');
-        }
-        if (medicationsDosageVolumeLessThan !== undefined && medicationsDosageVolumeLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeLessThan, 'medications.dosageVolume.lessThan');
-        }
-        if (medicationsDosageVolumeLessThanOrEqual !== undefined && medicationsDosageVolumeLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeLessThanOrEqual, 'medications.dosageVolume.lessThanOrEqual');
-        }
-        if (medicationsDosageVolumeGreaterThan !== undefined && medicationsDosageVolumeGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeGreaterThan, 'medications.dosageVolume.greaterThan');
-        }
-        if (medicationsDosageVolumeGreaterThanOrEqual !== undefined && medicationsDosageVolumeGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeGreaterThanOrEqual, 'medications.dosageVolume.greaterThanOrEqual');
-        }
-        if (medicationsDosageVolumeEqual !== undefined && medicationsDosageVolumeEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeEqual, 'medications.dosageVolume.equal');
-        }
-        if (medicationsDosageVolumeNotEqual !== undefined && medicationsDosageVolumeNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageVolumeNotEqual, 'medications.dosageVolume.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeNotExists, 'medications.dosageVolume.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeExists, 'medications.dosageVolume.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeLessThan, 'medications.dosageVolume.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeLessThanOrEqual, 'medications.dosageVolume.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeGreaterThan, 'medications.dosageVolume.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeGreaterThanOrEqual, 'medications.dosageVolume.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeEqual, 'medications.dosageVolume.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageVolumeNotEqual, 'medications.dosageVolume.not.equal');
         if (medicationsDosageVolumeBetween) {
             medicationsDosageVolumeBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -859,38 +652,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageVolume.not.between');
             })
         }
-        if (medicationsDosageMassSurfaceNotExists !== undefined && medicationsDosageMassSurfaceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceNotExists, 'medications.dosageMassSurface.not.exists');
-        }
-        if (medicationsDosageMassSurfaceExists !== undefined && medicationsDosageMassSurfaceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceExists, 'medications.dosageMassSurface.exists');
-        }
-        if (medicationsDosageMassSurfaceLessThan !== undefined && medicationsDosageMassSurfaceLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceLessThan, 'medications.dosageMassSurface.lessThan');
-        }
-        if (medicationsDosageMassSurfaceLessThanOrEqual !== undefined && medicationsDosageMassSurfaceLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceLessThanOrEqual, 'medications.dosageMassSurface.lessThanOrEqual');
-        }
-        if (medicationsDosageMassSurfaceGreaterThan !== undefined && medicationsDosageMassSurfaceGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceGreaterThan, 'medications.dosageMassSurface.greaterThan');
-        }
-        if (medicationsDosageMassSurfaceGreaterThanOrEqual !== undefined && medicationsDosageMassSurfaceGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceGreaterThanOrEqual, 'medications.dosageMassSurface.greaterThanOrEqual');
-        }
-        if (medicationsDosageMassSurfaceEqual !== undefined && medicationsDosageMassSurfaceEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceEqual, 'medications.dosageMassSurface.equal');
-        }
-        if (medicationsDosageMassSurfaceNotEqual !== undefined && medicationsDosageMassSurfaceNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageMassSurfaceNotEqual, 'medications.dosageMassSurface.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceNotExists, 'medications.dosageMassSurface.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceExists, 'medications.dosageMassSurface.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceLessThan, 'medications.dosageMassSurface.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceLessThanOrEqual, 'medications.dosageMassSurface.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceGreaterThan, 'medications.dosageMassSurface.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceGreaterThanOrEqual, 'medications.dosageMassSurface.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceEqual, 'medications.dosageMassSurface.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageMassSurfaceNotEqual, 'medications.dosageMassSurface.not.equal');
         if (medicationsDosageMassSurfaceBetween) {
             medicationsDosageMassSurfaceBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -903,38 +680,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageMassSurface.not.between');
             })
         }
-        if (medicationsDosageRateMassConcentrationNotExists !== undefined && medicationsDosageRateMassConcentrationNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationNotExists, 'medications.dosageRateMassConcentration.not.exists');
-        }
-        if (medicationsDosageRateMassConcentrationExists !== undefined && medicationsDosageRateMassConcentrationExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationExists, 'medications.dosageRateMassConcentration.exists');
-        }
-        if (medicationsDosageRateMassConcentrationLessThan !== undefined && medicationsDosageRateMassConcentrationLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationLessThan, 'medications.dosageRateMassConcentration.lessThan');
-        }
-        if (medicationsDosageRateMassConcentrationLessThanOrEqual !== undefined && medicationsDosageRateMassConcentrationLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationLessThanOrEqual, 'medications.dosageRateMassConcentration.lessThanOrEqual');
-        }
-        if (medicationsDosageRateMassConcentrationGreaterThan !== undefined && medicationsDosageRateMassConcentrationGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationGreaterThan, 'medications.dosageRateMassConcentration.greaterThan');
-        }
-        if (medicationsDosageRateMassConcentrationGreaterThanOrEqual !== undefined && medicationsDosageRateMassConcentrationGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationGreaterThanOrEqual, 'medications.dosageRateMassConcentration.greaterThanOrEqual');
-        }
-        if (medicationsDosageRateMassConcentrationEqual !== undefined && medicationsDosageRateMassConcentrationEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationEqual, 'medications.dosageRateMassConcentration.equal');
-        }
-        if (medicationsDosageRateMassConcentrationNotEqual !== undefined && medicationsDosageRateMassConcentrationNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassConcentrationNotEqual, 'medications.dosageRateMassConcentration.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationNotExists, 'medications.dosageRateMassConcentration.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationExists, 'medications.dosageRateMassConcentration.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationLessThan, 'medications.dosageRateMassConcentration.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationLessThanOrEqual, 'medications.dosageRateMassConcentration.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationGreaterThan, 'medications.dosageRateMassConcentration.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationGreaterThanOrEqual, 'medications.dosageRateMassConcentration.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationEqual, 'medications.dosageRateMassConcentration.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassConcentrationNotEqual, 'medications.dosageRateMassConcentration.not.equal');
         if (medicationsDosageRateMassConcentrationBetween) {
             medicationsDosageRateMassConcentrationBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -947,38 +708,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageRateMassConcentration.not.between');
             })
         }
-        if (medicationsDosageRateMassNotExists !== undefined && medicationsDosageRateMassNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassNotExists, 'medications.dosageRateMass.not.exists');
-        }
-        if (medicationsDosageRateMassExists !== undefined && medicationsDosageRateMassExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassExists, 'medications.dosageRateMass.exists');
-        }
-        if (medicationsDosageRateMassLessThan !== undefined && medicationsDosageRateMassLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassLessThan, 'medications.dosageRateMass.lessThan');
-        }
-        if (medicationsDosageRateMassLessThanOrEqual !== undefined && medicationsDosageRateMassLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassLessThanOrEqual, 'medications.dosageRateMass.lessThanOrEqual');
-        }
-        if (medicationsDosageRateMassGreaterThan !== undefined && medicationsDosageRateMassGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassGreaterThan, 'medications.dosageRateMass.greaterThan');
-        }
-        if (medicationsDosageRateMassGreaterThanOrEqual !== undefined && medicationsDosageRateMassGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassGreaterThanOrEqual, 'medications.dosageRateMass.greaterThanOrEqual');
-        }
-        if (medicationsDosageRateMassEqual !== undefined && medicationsDosageRateMassEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassEqual, 'medications.dosageRateMass.equal');
-        }
-        if (medicationsDosageRateMassNotEqual !== undefined && medicationsDosageRateMassNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassNotEqual, 'medications.dosageRateMass.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassNotExists, 'medications.dosageRateMass.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassExists, 'medications.dosageRateMass.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassLessThan, 'medications.dosageRateMass.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassLessThanOrEqual, 'medications.dosageRateMass.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassGreaterThan, 'medications.dosageRateMass.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassGreaterThanOrEqual, 'medications.dosageRateMass.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassEqual, 'medications.dosageRateMass.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassNotEqual, 'medications.dosageRateMass.not.equal');
         if (medicationsDosageRateMassBetween) {
             medicationsDosageRateMassBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -991,38 +736,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageRateMass.not.between');
             })
         }
-        if (medicationsDosageRateVolumeNotExists !== undefined && medicationsDosageRateVolumeNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeNotExists, 'medications.dosageRateVolume.not.exists');
-        }
-        if (medicationsDosageRateVolumeExists !== undefined && medicationsDosageRateVolumeExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeExists, 'medications.dosageRateVolume.exists');
-        }
-        if (medicationsDosageRateVolumeLessThan !== undefined && medicationsDosageRateVolumeLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeLessThan, 'medications.dosageRateVolume.lessThan');
-        }
-        if (medicationsDosageRateVolumeLessThanOrEqual !== undefined && medicationsDosageRateVolumeLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeLessThanOrEqual, 'medications.dosageRateVolume.lessThanOrEqual');
-        }
-        if (medicationsDosageRateVolumeGreaterThan !== undefined && medicationsDosageRateVolumeGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeGreaterThan, 'medications.dosageRateVolume.greaterThan');
-        }
-        if (medicationsDosageRateVolumeGreaterThanOrEqual !== undefined && medicationsDosageRateVolumeGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeGreaterThanOrEqual, 'medications.dosageRateVolume.greaterThanOrEqual');
-        }
-        if (medicationsDosageRateVolumeEqual !== undefined && medicationsDosageRateVolumeEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeEqual, 'medications.dosageRateVolume.equal');
-        }
-        if (medicationsDosageRateVolumeNotEqual !== undefined && medicationsDosageRateVolumeNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateVolumeNotEqual, 'medications.dosageRateVolume.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeNotExists, 'medications.dosageRateVolume.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeExists, 'medications.dosageRateVolume.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeLessThan, 'medications.dosageRateVolume.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeLessThanOrEqual, 'medications.dosageRateVolume.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeGreaterThan, 'medications.dosageRateVolume.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeGreaterThanOrEqual, 'medications.dosageRateVolume.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeEqual, 'medications.dosageRateVolume.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateVolumeNotEqual, 'medications.dosageRateVolume.not.equal');
         if (medicationsDosageRateVolumeBetween) {
             medicationsDosageRateVolumeBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1035,38 +764,22 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageRateVolume.not.between');
             })
         }
-        if (medicationsDosageRateMassSurfaceNotExists !== undefined && medicationsDosageRateMassSurfaceNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceNotExists, 'medications.dosageRateMassSurface.not.exists');
-        }
-        if (medicationsDosageRateMassSurfaceExists !== undefined && medicationsDosageRateMassSurfaceExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceExists, 'medications.dosageRateMassSurface.exists');
-        }
-        if (medicationsDosageRateMassSurfaceLessThan !== undefined && medicationsDosageRateMassSurfaceLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceLessThan, 'medications.dosageRateMassSurface.lessThan');
-        }
-        if (medicationsDosageRateMassSurfaceLessThanOrEqual !== undefined && medicationsDosageRateMassSurfaceLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceLessThanOrEqual, 'medications.dosageRateMassSurface.lessThanOrEqual');
-        }
-        if (medicationsDosageRateMassSurfaceGreaterThan !== undefined && medicationsDosageRateMassSurfaceGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceGreaterThan, 'medications.dosageRateMassSurface.greaterThan');
-        }
-        if (medicationsDosageRateMassSurfaceGreaterThanOrEqual !== undefined && medicationsDosageRateMassSurfaceGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceGreaterThanOrEqual, 'medications.dosageRateMassSurface.greaterThanOrEqual');
-        }
-        if (medicationsDosageRateMassSurfaceEqual !== undefined && medicationsDosageRateMassSurfaceEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceEqual, 'medications.dosageRateMassSurface.equal');
-        }
-        if (medicationsDosageRateMassSurfaceNotEqual !== undefined && medicationsDosageRateMassSurfaceNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>medicationsDosageRateMassSurfaceNotEqual, 'medications.dosageRateMassSurface.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceNotExists, 'medications.dosageRateMassSurface.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceExists, 'medications.dosageRateMassSurface.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceLessThan, 'medications.dosageRateMassSurface.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceLessThanOrEqual, 'medications.dosageRateMassSurface.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceGreaterThan, 'medications.dosageRateMassSurface.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceGreaterThanOrEqual, 'medications.dosageRateMassSurface.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceEqual, 'medications.dosageRateMassSurface.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsDosageRateMassSurfaceNotEqual, 'medications.dosageRateMassSurface.not.equal');
         if (medicationsDosageRateMassSurfaceBetween) {
             medicationsDosageRateMassSurfaceBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1079,30 +792,18 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'medications.dosageRateMassSurface.not.between');
             })
         }
-        if (durationLessThan !== undefined && durationLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>durationLessThan, 'duration.lessThan');
-        }
-        if (durationLessThanOrEqual !== undefined && durationLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>durationLessThanOrEqual, 'duration.lessThanOrEqual');
-        }
-        if (durationGreaterThan !== undefined && durationGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>durationGreaterThan, 'duration.greaterThan');
-        }
-        if (durationGreaterThanOrEqual !== undefined && durationGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>durationGreaterThanOrEqual, 'duration.greaterThanOrEqual');
-        }
-        if (durationEqual !== undefined && durationEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>durationEqual, 'duration.equal');
-        }
-        if (durationNotEqual !== undefined && durationNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>durationNotEqual, 'duration.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>durationLessThan, 'duration.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>durationLessThanOrEqual, 'duration.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>durationGreaterThan, 'duration.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>durationGreaterThanOrEqual, 'duration.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>durationEqual, 'duration.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>durationNotEqual, 'duration.not.equal');
         if (durationBetween) {
             durationBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1115,70 +816,38 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'duration.not.between');
             })
         }
-        if (id !== undefined && id !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>id, 'id');
-        }
-        if (idNot !== undefined && idNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNot, 'id.not');
-        }
-        if (idContains !== undefined && idContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idContains, 'id.contains');
-        }
-        if (idNotContains !== undefined && idNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotContains, 'id.not.contains');
-        }
-        if (idBeginsWith !== undefined && idBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idBeginsWith, 'id.beginsWith');
-        }
-        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotBeginsWith, 'id.not.beginsWith');
-        }
-        if (idEndsWith !== undefined && idEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idEndsWith, 'id.endsWith');
-        }
-        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotEndsWith, 'id.not.endsWith');
-        }
-        if (caseId !== undefined && caseId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseId, 'caseId');
-        }
-        if (caseIdNot !== undefined && caseIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNot, 'caseId.not');
-        }
-        if (caseIdContains !== undefined && caseIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdContains, 'caseId.contains');
-        }
-        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotContains, 'caseId.not.contains');
-        }
-        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdBeginsWith, 'caseId.beginsWith');
-        }
-        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
-        }
-        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdEndsWith, 'caseId.endsWith');
-        }
-        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>id, 'id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNot, 'id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idContains, 'id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotContains, 'id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idBeginsWith, 'id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotBeginsWith, 'id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idEndsWith, 'id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotEndsWith, 'id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseId, 'caseId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNot, 'caseId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdContains, 'caseId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotContains, 'caseId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdBeginsWith, 'caseId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdEndsWith, 'caseId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotEndsWith, 'caseId.not.endsWith');
         if (periodOverlaps) {
             periodOverlaps.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1215,30 +884,18 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'period.not.containedBy');
             })
         }
-        if (cyclesLessThan !== undefined && cyclesLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cyclesLessThan, 'cycles.lessThan');
-        }
-        if (cyclesLessThanOrEqual !== undefined && cyclesLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cyclesLessThanOrEqual, 'cycles.lessThanOrEqual');
-        }
-        if (cyclesGreaterThan !== undefined && cyclesGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cyclesGreaterThan, 'cycles.greaterThan');
-        }
-        if (cyclesGreaterThanOrEqual !== undefined && cyclesGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cyclesGreaterThanOrEqual, 'cycles.greaterThanOrEqual');
-        }
-        if (cyclesEqual !== undefined && cyclesEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cyclesEqual, 'cycles.equal');
-        }
-        if (cyclesNotEqual !== undefined && cyclesNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>cyclesNotEqual, 'cycles.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>cyclesLessThan, 'cycles.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>cyclesLessThanOrEqual, 'cycles.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>cyclesGreaterThan, 'cycles.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>cyclesGreaterThanOrEqual, 'cycles.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>cyclesEqual, 'cycles.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>cyclesNotEqual, 'cycles.not.equal');
         if (cyclesBetween) {
             cyclesBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1251,40 +908,26 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'cycles.not.between');
             })
         }
-        if (intent !== undefined && intent !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>intent, 'intent');
-        }
-        if (intentNot !== undefined && intentNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>intentNot, 'intent.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>intent, 'intent');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>intentNot, 'intent.not');
         if (intentAnyOf) {
             intentAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'intent.anyOf');
             })
         }
-        if (isAdjunctive !== undefined && isAdjunctive !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>isAdjunctive, 'isAdjunctive');
-        }
-        if (adjunctiveRoleNotExists !== undefined && adjunctiveRoleNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>adjunctiveRoleNotExists, 'adjunctiveRole.not.exists');
-        }
-        if (adjunctiveRoleExists !== undefined && adjunctiveRoleExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>adjunctiveRoleExists, 'adjunctiveRole.exists');
-        }
-        if (adjunctiveRole !== undefined && adjunctiveRole !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>adjunctiveRole, 'adjunctiveRole');
-        }
-        if (adjunctiveRoleNot !== undefined && adjunctiveRoleNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>adjunctiveRoleNot, 'adjunctiveRole.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isAdjunctive, 'isAdjunctive');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>adjunctiveRoleNotExists, 'adjunctiveRole.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>adjunctiveRoleExists, 'adjunctiveRole.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>adjunctiveRole, 'adjunctiveRole');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>adjunctiveRoleNot, 'adjunctiveRole.not');
         if (adjunctiveRoleAnyOf) {
             adjunctiveRoleAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1297,26 +940,16 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'adjunctiveRole.not.anyOf');
             })
         }
-        if (adjunctiveRoleDescendantsOf !== undefined && adjunctiveRoleDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>adjunctiveRoleDescendantsOf, 'adjunctiveRole.descendantsOf');
-        }
-        if (terminationReasonNotExists !== undefined && terminationReasonNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonNotExists, 'terminationReason.not.exists');
-        }
-        if (terminationReasonExists !== undefined && terminationReasonExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonExists, 'terminationReason.exists');
-        }
-        if (terminationReason !== undefined && terminationReason !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReason, 'terminationReason');
-        }
-        if (terminationReasonNot !== undefined && terminationReasonNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonNot, 'terminationReason.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>adjunctiveRoleDescendantsOf, 'adjunctiveRole.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonNotExists, 'terminationReason.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonExists, 'terminationReason.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReason, 'terminationReason');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonNot, 'terminationReason.not');
         if (terminationReasonAnyOf) {
             terminationReasonAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1329,97 +962,52 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
                   <any>element, 'terminationReason.not.anyOf');
             })
         }
-        if (terminationReasonDescendantsOf !== undefined && terminationReasonDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>terminationReasonDescendantsOf, 'terminationReason.descendantsOf');
-        }
-        if (therapyLineIdNotExists !== undefined && therapyLineIdNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotExists, 'therapyLineId.not.exists');
-        }
-        if (therapyLineIdExists !== undefined && therapyLineIdExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdExists, 'therapyLineId.exists');
-        }
-        if (therapyLineId !== undefined && therapyLineId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineId, 'therapyLineId');
-        }
-        if (therapyLineIdNot !== undefined && therapyLineIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNot, 'therapyLineId.not');
-        }
-        if (therapyLineIdContains !== undefined && therapyLineIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdContains, 'therapyLineId.contains');
-        }
-        if (therapyLineIdNotContains !== undefined && therapyLineIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotContains, 'therapyLineId.not.contains');
-        }
-        if (therapyLineIdBeginsWith !== undefined && therapyLineIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdBeginsWith, 'therapyLineId.beginsWith');
-        }
-        if (therapyLineIdNotBeginsWith !== undefined && therapyLineIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotBeginsWith, 'therapyLineId.not.beginsWith');
-        }
-        if (therapyLineIdEndsWith !== undefined && therapyLineIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdEndsWith, 'therapyLineId.endsWith');
-        }
-        if (therapyLineIdNotEndsWith !== undefined && therapyLineIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>therapyLineIdNotEndsWith, 'therapyLineId.not.endsWith');
-        }
-        if (targetedEntitiesIds !== undefined && targetedEntitiesIds !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIds, 'targetedEntitiesIds');
-        }
-        if (targetedEntitiesIdsNot !== undefined && targetedEntitiesIdsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
-        }
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>terminationReasonDescendantsOf, 'terminationReason.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotExists, 'therapyLineId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdExists, 'therapyLineId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineId, 'therapyLineId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNot, 'therapyLineId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdContains, 'therapyLineId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotContains, 'therapyLineId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdBeginsWith, 'therapyLineId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotBeginsWith, 'therapyLineId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdEndsWith, 'therapyLineId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>therapyLineIdNotEndsWith, 'therapyLineId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIds, 'targetedEntitiesIds');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1465,34 +1053,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1541,34 +1114,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1613,34 +1171,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1689,34 +1232,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -1779,34 +1307,19 @@ export class SystemicTherapiesService implements SystemicTherapiesServiceInterfa
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header

@@ -28,6 +28,7 @@ import { PaginatedLifestyle } from '../model/paginated-lifestyle';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     LifestylesServiceInterface,
     CreateLifestyleRequestParams,
@@ -42,66 +43,10 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class LifestylesService implements LifestylesServiceInterface {
+export class LifestylesService extends BaseService implements LifestylesServiceInterface {
 
-    protected basePath = 'http://localhost';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
@@ -121,34 +66,19 @@ export class LifestylesService implements LifestylesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -203,33 +133,18 @@ export class LifestylesService implements LifestylesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -274,34 +189,19 @@ export class LifestylesService implements LifestylesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -429,94 +329,50 @@ export class LifestylesService implements LifestylesServiceInterface {
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (id !== undefined && id !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>id, 'id');
-        }
-        if (idNot !== undefined && idNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNot, 'id.not');
-        }
-        if (idContains !== undefined && idContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idContains, 'id.contains');
-        }
-        if (idNotContains !== undefined && idNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotContains, 'id.not.contains');
-        }
-        if (idBeginsWith !== undefined && idBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idBeginsWith, 'id.beginsWith');
-        }
-        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotBeginsWith, 'id.not.beginsWith');
-        }
-        if (idEndsWith !== undefined && idEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idEndsWith, 'id.endsWith');
-        }
-        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotEndsWith, 'id.not.endsWith');
-        }
-        if (caseId !== undefined && caseId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseId, 'caseId');
-        }
-        if (caseIdNot !== undefined && caseIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNot, 'caseId.not');
-        }
-        if (caseIdContains !== undefined && caseIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdContains, 'caseId.contains');
-        }
-        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotContains, 'caseId.not.contains');
-        }
-        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdBeginsWith, 'caseId.beginsWith');
-        }
-        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
-        }
-        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdEndsWith, 'caseId.endsWith');
-        }
-        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
-        }
-        if (dateBefore !== undefined && dateBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateBefore, 'date.before');
-        }
-        if (dateAfter !== undefined && dateAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateAfter, 'date.after');
-        }
-        if (dateOnOrBefore !== undefined && dateOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOnOrBefore, 'date.onOrBefore');
-        }
-        if (dateOnOrAfter !== undefined && dateOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOnOrAfter, 'date.onOrAfter');
-        }
-        if (dateOn !== undefined && dateOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOn, 'date.on');
-        }
-        if (dateNotOn !== undefined && dateNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateNotOn, 'date.not.on');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>id, 'id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNot, 'id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idContains, 'id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotContains, 'id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idBeginsWith, 'id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotBeginsWith, 'id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idEndsWith, 'id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotEndsWith, 'id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseId, 'caseId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNot, 'caseId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdContains, 'caseId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotContains, 'caseId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdBeginsWith, 'caseId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdEndsWith, 'caseId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateBefore, 'date.before');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateAfter, 'date.after');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOnOrBefore, 'date.onOrBefore');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOnOrAfter, 'date.onOrAfter');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOn, 'date.on');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateNotOn, 'date.not.on');
         if (dateBetween) {
             dateBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -529,22 +385,14 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'date.not.between');
             })
         }
-        if (smokingStatusNotExists !== undefined && smokingStatusNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingStatusNotExists, 'smokingStatus.not.exists');
-        }
-        if (smokingStatusExists !== undefined && smokingStatusExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingStatusExists, 'smokingStatus.exists');
-        }
-        if (smokingStatus !== undefined && smokingStatus !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingStatus, 'smokingStatus');
-        }
-        if (smokingStatusNot !== undefined && smokingStatusNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingStatusNot, 'smokingStatus.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingStatusNotExists, 'smokingStatus.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingStatusExists, 'smokingStatus.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingStatus, 'smokingStatus');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingStatusNot, 'smokingStatus.not');
         if (smokingStatusAnyOf) {
             smokingStatusAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -557,42 +405,24 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'smokingStatus.not.anyOf');
             })
         }
-        if (smokingStatusDescendantsOf !== undefined && smokingStatusDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingStatusDescendantsOf, 'smokingStatus.descendantsOf');
-        }
-        if (smokingPackyearsNotExists !== undefined && smokingPackyearsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsNotExists, 'smokingPackyears.not.exists');
-        }
-        if (smokingPackyearsExists !== undefined && smokingPackyearsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsExists, 'smokingPackyears.exists');
-        }
-        if (smokingPackyearsLessThan !== undefined && smokingPackyearsLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsLessThan, 'smokingPackyears.lessThan');
-        }
-        if (smokingPackyearsLessThanOrEqual !== undefined && smokingPackyearsLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsLessThanOrEqual, 'smokingPackyears.lessThanOrEqual');
-        }
-        if (smokingPackyearsGreaterThan !== undefined && smokingPackyearsGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsGreaterThan, 'smokingPackyears.greaterThan');
-        }
-        if (smokingPackyearsGreaterThanOrEqual !== undefined && smokingPackyearsGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsGreaterThanOrEqual, 'smokingPackyears.greaterThanOrEqual');
-        }
-        if (smokingPackyearsEqual !== undefined && smokingPackyearsEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsEqual, 'smokingPackyears.equal');
-        }
-        if (smokingPackyearsNotEqual !== undefined && smokingPackyearsNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingPackyearsNotEqual, 'smokingPackyears.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingStatusDescendantsOf, 'smokingStatus.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsNotExists, 'smokingPackyears.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsExists, 'smokingPackyears.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsLessThan, 'smokingPackyears.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsLessThanOrEqual, 'smokingPackyears.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsGreaterThan, 'smokingPackyears.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsGreaterThanOrEqual, 'smokingPackyears.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsEqual, 'smokingPackyears.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingPackyearsNotEqual, 'smokingPackyears.not.equal');
         if (smokingPackyearsBetween) {
             smokingPackyearsBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -605,38 +435,22 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'smokingPackyears.not.between');
             })
         }
-        if (smokingQuitedNotExists !== undefined && smokingQuitedNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedNotExists, 'smokingQuited.not.exists');
-        }
-        if (smokingQuitedExists !== undefined && smokingQuitedExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedExists, 'smokingQuited.exists');
-        }
-        if (smokingQuitedLessThan !== undefined && smokingQuitedLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedLessThan, 'smokingQuited.lessThan');
-        }
-        if (smokingQuitedLessThanOrEqual !== undefined && smokingQuitedLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedLessThanOrEqual, 'smokingQuited.lessThanOrEqual');
-        }
-        if (smokingQuitedGreaterThan !== undefined && smokingQuitedGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedGreaterThan, 'smokingQuited.greaterThan');
-        }
-        if (smokingQuitedGreaterThanOrEqual !== undefined && smokingQuitedGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedGreaterThanOrEqual, 'smokingQuited.greaterThanOrEqual');
-        }
-        if (smokingQuitedEqual !== undefined && smokingQuitedEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedEqual, 'smokingQuited.equal');
-        }
-        if (smokingQuitedNotEqual !== undefined && smokingQuitedNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>smokingQuitedNotEqual, 'smokingQuited.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedNotExists, 'smokingQuited.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedExists, 'smokingQuited.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedLessThan, 'smokingQuited.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedLessThanOrEqual, 'smokingQuited.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedGreaterThan, 'smokingQuited.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedGreaterThanOrEqual, 'smokingQuited.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedEqual, 'smokingQuited.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>smokingQuitedNotEqual, 'smokingQuited.not.equal');
         if (smokingQuitedBetween) {
             smokingQuitedBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -649,22 +463,14 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'smokingQuited.not.between');
             })
         }
-        if (alcoholConsumptionNotExists !== undefined && alcoholConsumptionNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alcoholConsumptionNotExists, 'alcoholConsumption.not.exists');
-        }
-        if (alcoholConsumptionExists !== undefined && alcoholConsumptionExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alcoholConsumptionExists, 'alcoholConsumption.exists');
-        }
-        if (alcoholConsumption !== undefined && alcoholConsumption !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alcoholConsumption, 'alcoholConsumption');
-        }
-        if (alcoholConsumptionNot !== undefined && alcoholConsumptionNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alcoholConsumptionNot, 'alcoholConsumption.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alcoholConsumptionNotExists, 'alcoholConsumption.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alcoholConsumptionExists, 'alcoholConsumption.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alcoholConsumption, 'alcoholConsumption');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alcoholConsumptionNot, 'alcoholConsumption.not');
         if (alcoholConsumptionAnyOf) {
             alcoholConsumptionAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -677,42 +483,24 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'alcoholConsumption.not.anyOf');
             })
         }
-        if (alcoholConsumptionDescendantsOf !== undefined && alcoholConsumptionDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>alcoholConsumptionDescendantsOf, 'alcoholConsumption.descendantsOf');
-        }
-        if (nightSleepNotExists !== undefined && nightSleepNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepNotExists, 'nightSleep.not.exists');
-        }
-        if (nightSleepExists !== undefined && nightSleepExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepExists, 'nightSleep.exists');
-        }
-        if (nightSleepLessThan !== undefined && nightSleepLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepLessThan, 'nightSleep.lessThan');
-        }
-        if (nightSleepLessThanOrEqual !== undefined && nightSleepLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepLessThanOrEqual, 'nightSleep.lessThanOrEqual');
-        }
-        if (nightSleepGreaterThan !== undefined && nightSleepGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepGreaterThan, 'nightSleep.greaterThan');
-        }
-        if (nightSleepGreaterThanOrEqual !== undefined && nightSleepGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepGreaterThanOrEqual, 'nightSleep.greaterThanOrEqual');
-        }
-        if (nightSleepEqual !== undefined && nightSleepEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepEqual, 'nightSleep.equal');
-        }
-        if (nightSleepNotEqual !== undefined && nightSleepNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>nightSleepNotEqual, 'nightSleep.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>alcoholConsumptionDescendantsOf, 'alcoholConsumption.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepNotExists, 'nightSleep.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepExists, 'nightSleep.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepLessThan, 'nightSleep.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepLessThanOrEqual, 'nightSleep.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepGreaterThan, 'nightSleep.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepGreaterThanOrEqual, 'nightSleep.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepEqual, 'nightSleep.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>nightSleepNotEqual, 'nightSleep.not.equal');
         if (nightSleepBetween) {
             nightSleepBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -725,22 +513,14 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'nightSleep.not.between');
             })
         }
-        if (recreationalDrugsNotExists !== undefined && recreationalDrugsNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsNotExists, 'recreationalDrugs.not.exists');
-        }
-        if (recreationalDrugsExists !== undefined && recreationalDrugsExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsExists, 'recreationalDrugs.exists');
-        }
-        if (recreationalDrugs !== undefined && recreationalDrugs !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugs, 'recreationalDrugs');
-        }
-        if (recreationalDrugsNot !== undefined && recreationalDrugsNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsNot, 'recreationalDrugs.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>recreationalDrugsNotExists, 'recreationalDrugs.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>recreationalDrugsExists, 'recreationalDrugs.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>recreationalDrugs, 'recreationalDrugs');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>recreationalDrugsNot, 'recreationalDrugs.not');
         if (recreationalDrugsAnyOf) {
             recreationalDrugsAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -753,10 +533,8 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'recreationalDrugs.not.anyOf');
             })
         }
-        if (recreationalDrugsDescendantsOf !== undefined && recreationalDrugsDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>recreationalDrugsDescendantsOf, 'recreationalDrugs.descendantsOf');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>recreationalDrugsDescendantsOf, 'recreationalDrugs.descendantsOf');
         if (recreationalDrugsAllOf) {
             recreationalDrugsAllOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -769,22 +547,14 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'recreationalDrugs.not.allOf');
             })
         }
-        if (exposuresNotExists !== undefined && exposuresNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresNotExists, 'exposures.not.exists');
-        }
-        if (exposuresExists !== undefined && exposuresExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresExists, 'exposures.exists');
-        }
-        if (exposures !== undefined && exposures !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposures, 'exposures');
-        }
-        if (exposuresNot !== undefined && exposuresNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresNot, 'exposures.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exposuresNotExists, 'exposures.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exposuresExists, 'exposures.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exposures, 'exposures');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exposuresNot, 'exposures.not');
         if (exposuresAnyOf) {
             exposuresAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -797,10 +567,8 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'exposures.not.anyOf');
             })
         }
-        if (exposuresDescendantsOf !== undefined && exposuresDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>exposuresDescendantsOf, 'exposures.descendantsOf');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exposuresDescendantsOf, 'exposures.descendantsOf');
         if (exposuresAllOf) {
             exposuresAllOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -813,45 +581,26 @@ export class LifestylesService implements LifestylesServiceInterface {
                   <any>element, 'exposures.not.allOf');
             })
         }
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -901,34 +650,19 @@ export class LifestylesService implements LifestylesServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header

@@ -12,12 +12,19 @@
 export type AccessRoles = 'External' | 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator';
 
 export const AccessRoles = {
+
     External: 'External' as AccessRoles,
+
     Viewer: 'Viewer' as AccessRoles,
+
     DataContributor: 'Data Contributor' as AccessRoles,
+
     DataAnalyst: 'Data Analyst' as AccessRoles,
+
     ProjectManager: 'Project Manager' as AccessRoles,
+
     PlatformManager: 'Platform Manager' as AccessRoles,
+
     SystemAdministrator: 'System Administrator' as AccessRoles
 };
 

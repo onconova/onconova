@@ -12,13 +12,21 @@
 export type RNAChangeType = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition';
 
 export const RNAChangeType = {
+
     Substitution: 'substitution' as RNAChangeType,
+
     DeletionInsertion: 'deletion-insertion' as RNAChangeType,
+
     Insertion: 'insertion' as RNAChangeType,
+
     Deletion: 'deletion' as RNAChangeType,
+
     Duplication: 'duplication' as RNAChangeType,
+
     Inversion: 'inversion' as RNAChangeType,
+
     Unchanged: 'unchanged' as RNAChangeType,
+
     Repetition: 'repetition' as RNAChangeType
 };
 

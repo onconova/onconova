@@ -36,6 +36,7 @@ import { PaginatedAdverseEvent } from '../model/paginated-adverse-event';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
+import { BaseService } from '../api.base.service';
 import {
     AdverseEventsServiceInterface,
     CreateAdverseEventRequestParams,
@@ -60,66 +61,10 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class AdverseEventsService implements AdverseEventsServiceInterface {
+export class AdverseEventsService extends BaseService implements AdverseEventsServiceInterface {
 
-    protected basePath = 'http://localhost';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
-
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
-            if (firstBasePath != undefined) {
-                basePath = firstBasePath;
-            }
-
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-    }
-
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
-        } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
-        }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
     /**
@@ -139,34 +84,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -225,34 +155,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -311,34 +226,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -393,33 +293,18 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -468,33 +353,18 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -543,33 +413,18 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -614,34 +469,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -690,34 +530,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -762,34 +587,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -838,34 +648,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -910,34 +705,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1121,282 +901,150 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (suspectedCausesId !== undefined && suspectedCausesId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesId, 'suspectedCauses.id');
-        }
-        if (suspectedCausesIdNot !== undefined && suspectedCausesIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdNot, 'suspectedCauses.id.not');
-        }
-        if (suspectedCausesIdContains !== undefined && suspectedCausesIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdContains, 'suspectedCauses.id.contains');
-        }
-        if (suspectedCausesIdNotContains !== undefined && suspectedCausesIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdNotContains, 'suspectedCauses.id.not.contains');
-        }
-        if (suspectedCausesIdBeginsWith !== undefined && suspectedCausesIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdBeginsWith, 'suspectedCauses.id.beginsWith');
-        }
-        if (suspectedCausesIdNotBeginsWith !== undefined && suspectedCausesIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdNotBeginsWith, 'suspectedCauses.id.not.beginsWith');
-        }
-        if (suspectedCausesIdEndsWith !== undefined && suspectedCausesIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdEndsWith, 'suspectedCauses.id.endsWith');
-        }
-        if (suspectedCausesIdNotEndsWith !== undefined && suspectedCausesIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesIdNotEndsWith, 'suspectedCauses.id.not.endsWith');
-        }
-        if (suspectedCausesSystemicTherapyIdNotExists !== undefined && suspectedCausesSystemicTherapyIdNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdNotExists, 'suspectedCauses.systemicTherapyId.not.exists');
-        }
-        if (suspectedCausesSystemicTherapyIdExists !== undefined && suspectedCausesSystemicTherapyIdExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdExists, 'suspectedCauses.systemicTherapyId.exists');
-        }
-        if (suspectedCausesSystemicTherapyId !== undefined && suspectedCausesSystemicTherapyId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyId, 'suspectedCauses.systemicTherapyId');
-        }
-        if (suspectedCausesSystemicTherapyIdNot !== undefined && suspectedCausesSystemicTherapyIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdNot, 'suspectedCauses.systemicTherapyId.not');
-        }
-        if (suspectedCausesSystemicTherapyIdContains !== undefined && suspectedCausesSystemicTherapyIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdContains, 'suspectedCauses.systemicTherapyId.contains');
-        }
-        if (suspectedCausesSystemicTherapyIdNotContains !== undefined && suspectedCausesSystemicTherapyIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdNotContains, 'suspectedCauses.systemicTherapyId.not.contains');
-        }
-        if (suspectedCausesSystemicTherapyIdBeginsWith !== undefined && suspectedCausesSystemicTherapyIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdBeginsWith, 'suspectedCauses.systemicTherapyId.beginsWith');
-        }
-        if (suspectedCausesSystemicTherapyIdNotBeginsWith !== undefined && suspectedCausesSystemicTherapyIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdNotBeginsWith, 'suspectedCauses.systemicTherapyId.not.beginsWith');
-        }
-        if (suspectedCausesSystemicTherapyIdEndsWith !== undefined && suspectedCausesSystemicTherapyIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdEndsWith, 'suspectedCauses.systemicTherapyId.endsWith');
-        }
-        if (suspectedCausesSystemicTherapyIdNotEndsWith !== undefined && suspectedCausesSystemicTherapyIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSystemicTherapyIdNotEndsWith, 'suspectedCauses.systemicTherapyId.not.endsWith');
-        }
-        if (suspectedCausesMedicationIdNotExists !== undefined && suspectedCausesMedicationIdNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdNotExists, 'suspectedCauses.medicationId.not.exists');
-        }
-        if (suspectedCausesMedicationIdExists !== undefined && suspectedCausesMedicationIdExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdExists, 'suspectedCauses.medicationId.exists');
-        }
-        if (suspectedCausesMedicationId !== undefined && suspectedCausesMedicationId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationId, 'suspectedCauses.medicationId');
-        }
-        if (suspectedCausesMedicationIdNot !== undefined && suspectedCausesMedicationIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdNot, 'suspectedCauses.medicationId.not');
-        }
-        if (suspectedCausesMedicationIdContains !== undefined && suspectedCausesMedicationIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdContains, 'suspectedCauses.medicationId.contains');
-        }
-        if (suspectedCausesMedicationIdNotContains !== undefined && suspectedCausesMedicationIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdNotContains, 'suspectedCauses.medicationId.not.contains');
-        }
-        if (suspectedCausesMedicationIdBeginsWith !== undefined && suspectedCausesMedicationIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdBeginsWith, 'suspectedCauses.medicationId.beginsWith');
-        }
-        if (suspectedCausesMedicationIdNotBeginsWith !== undefined && suspectedCausesMedicationIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdNotBeginsWith, 'suspectedCauses.medicationId.not.beginsWith');
-        }
-        if (suspectedCausesMedicationIdEndsWith !== undefined && suspectedCausesMedicationIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdEndsWith, 'suspectedCauses.medicationId.endsWith');
-        }
-        if (suspectedCausesMedicationIdNotEndsWith !== undefined && suspectedCausesMedicationIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesMedicationIdNotEndsWith, 'suspectedCauses.medicationId.not.endsWith');
-        }
-        if (suspectedCausesRadiotherapyIdNotExists !== undefined && suspectedCausesRadiotherapyIdNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdNotExists, 'suspectedCauses.radiotherapyId.not.exists');
-        }
-        if (suspectedCausesRadiotherapyIdExists !== undefined && suspectedCausesRadiotherapyIdExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdExists, 'suspectedCauses.radiotherapyId.exists');
-        }
-        if (suspectedCausesRadiotherapyId !== undefined && suspectedCausesRadiotherapyId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyId, 'suspectedCauses.radiotherapyId');
-        }
-        if (suspectedCausesRadiotherapyIdNot !== undefined && suspectedCausesRadiotherapyIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdNot, 'suspectedCauses.radiotherapyId.not');
-        }
-        if (suspectedCausesRadiotherapyIdContains !== undefined && suspectedCausesRadiotherapyIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdContains, 'suspectedCauses.radiotherapyId.contains');
-        }
-        if (suspectedCausesRadiotherapyIdNotContains !== undefined && suspectedCausesRadiotherapyIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdNotContains, 'suspectedCauses.radiotherapyId.not.contains');
-        }
-        if (suspectedCausesRadiotherapyIdBeginsWith !== undefined && suspectedCausesRadiotherapyIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdBeginsWith, 'suspectedCauses.radiotherapyId.beginsWith');
-        }
-        if (suspectedCausesRadiotherapyIdNotBeginsWith !== undefined && suspectedCausesRadiotherapyIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdNotBeginsWith, 'suspectedCauses.radiotherapyId.not.beginsWith');
-        }
-        if (suspectedCausesRadiotherapyIdEndsWith !== undefined && suspectedCausesRadiotherapyIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdEndsWith, 'suspectedCauses.radiotherapyId.endsWith');
-        }
-        if (suspectedCausesRadiotherapyIdNotEndsWith !== undefined && suspectedCausesRadiotherapyIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesRadiotherapyIdNotEndsWith, 'suspectedCauses.radiotherapyId.not.endsWith');
-        }
-        if (suspectedCausesSurgeryIdNotExists !== undefined && suspectedCausesSurgeryIdNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdNotExists, 'suspectedCauses.surgeryId.not.exists');
-        }
-        if (suspectedCausesSurgeryIdExists !== undefined && suspectedCausesSurgeryIdExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdExists, 'suspectedCauses.surgeryId.exists');
-        }
-        if (suspectedCausesSurgeryId !== undefined && suspectedCausesSurgeryId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryId, 'suspectedCauses.surgeryId');
-        }
-        if (suspectedCausesSurgeryIdNot !== undefined && suspectedCausesSurgeryIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdNot, 'suspectedCauses.surgeryId.not');
-        }
-        if (suspectedCausesSurgeryIdContains !== undefined && suspectedCausesSurgeryIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdContains, 'suspectedCauses.surgeryId.contains');
-        }
-        if (suspectedCausesSurgeryIdNotContains !== undefined && suspectedCausesSurgeryIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdNotContains, 'suspectedCauses.surgeryId.not.contains');
-        }
-        if (suspectedCausesSurgeryIdBeginsWith !== undefined && suspectedCausesSurgeryIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdBeginsWith, 'suspectedCauses.surgeryId.beginsWith');
-        }
-        if (suspectedCausesSurgeryIdNotBeginsWith !== undefined && suspectedCausesSurgeryIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdNotBeginsWith, 'suspectedCauses.surgeryId.not.beginsWith');
-        }
-        if (suspectedCausesSurgeryIdEndsWith !== undefined && suspectedCausesSurgeryIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdEndsWith, 'suspectedCauses.surgeryId.endsWith');
-        }
-        if (suspectedCausesSurgeryIdNotEndsWith !== undefined && suspectedCausesSurgeryIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesSurgeryIdNotEndsWith, 'suspectedCauses.surgeryId.not.endsWith');
-        }
-        if (suspectedCausesCausalityNotExists !== undefined && suspectedCausesCausalityNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesCausalityNotExists, 'suspectedCauses.causality.not.exists');
-        }
-        if (suspectedCausesCausalityExists !== undefined && suspectedCausesCausalityExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesCausalityExists, 'suspectedCauses.causality.exists');
-        }
-        if (suspectedCausesCausality !== undefined && suspectedCausesCausality !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesCausality, 'suspectedCauses.causality');
-        }
-        if (suspectedCausesCausalityNot !== undefined && suspectedCausesCausalityNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>suspectedCausesCausalityNot, 'suspectedCauses.causality.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesId, 'suspectedCauses.id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdNot, 'suspectedCauses.id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdContains, 'suspectedCauses.id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdNotContains, 'suspectedCauses.id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdBeginsWith, 'suspectedCauses.id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdNotBeginsWith, 'suspectedCauses.id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdEndsWith, 'suspectedCauses.id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesIdNotEndsWith, 'suspectedCauses.id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdNotExists, 'suspectedCauses.systemicTherapyId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdExists, 'suspectedCauses.systemicTherapyId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyId, 'suspectedCauses.systemicTherapyId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdNot, 'suspectedCauses.systemicTherapyId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdContains, 'suspectedCauses.systemicTherapyId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdNotContains, 'suspectedCauses.systemicTherapyId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdBeginsWith, 'suspectedCauses.systemicTherapyId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdNotBeginsWith, 'suspectedCauses.systemicTherapyId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdEndsWith, 'suspectedCauses.systemicTherapyId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSystemicTherapyIdNotEndsWith, 'suspectedCauses.systemicTherapyId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdNotExists, 'suspectedCauses.medicationId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdExists, 'suspectedCauses.medicationId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationId, 'suspectedCauses.medicationId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdNot, 'suspectedCauses.medicationId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdContains, 'suspectedCauses.medicationId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdNotContains, 'suspectedCauses.medicationId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdBeginsWith, 'suspectedCauses.medicationId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdNotBeginsWith, 'suspectedCauses.medicationId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdEndsWith, 'suspectedCauses.medicationId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesMedicationIdNotEndsWith, 'suspectedCauses.medicationId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdNotExists, 'suspectedCauses.radiotherapyId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdExists, 'suspectedCauses.radiotherapyId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyId, 'suspectedCauses.radiotherapyId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdNot, 'suspectedCauses.radiotherapyId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdContains, 'suspectedCauses.radiotherapyId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdNotContains, 'suspectedCauses.radiotherapyId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdBeginsWith, 'suspectedCauses.radiotherapyId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdNotBeginsWith, 'suspectedCauses.radiotherapyId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdEndsWith, 'suspectedCauses.radiotherapyId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesRadiotherapyIdNotEndsWith, 'suspectedCauses.radiotherapyId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdNotExists, 'suspectedCauses.surgeryId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdExists, 'suspectedCauses.surgeryId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryId, 'suspectedCauses.surgeryId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdNot, 'suspectedCauses.surgeryId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdContains, 'suspectedCauses.surgeryId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdNotContains, 'suspectedCauses.surgeryId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdBeginsWith, 'suspectedCauses.surgeryId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdNotBeginsWith, 'suspectedCauses.surgeryId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdEndsWith, 'suspectedCauses.surgeryId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesSurgeryIdNotEndsWith, 'suspectedCauses.surgeryId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesCausalityNotExists, 'suspectedCauses.causality.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesCausalityExists, 'suspectedCauses.causality.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesCausality, 'suspectedCauses.causality');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesCausalityNot, 'suspectedCauses.causality.not');
         if (suspectedCausesCausalityAnyOf) {
             suspectedCausesCausalityAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'suspectedCauses.causality.anyOf');
             })
         }
-        if (mitigationsId !== undefined && mitigationsId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsId, 'mitigations.id');
-        }
-        if (mitigationsIdNot !== undefined && mitigationsIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdNot, 'mitigations.id.not');
-        }
-        if (mitigationsIdContains !== undefined && mitigationsIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdContains, 'mitigations.id.contains');
-        }
-        if (mitigationsIdNotContains !== undefined && mitigationsIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdNotContains, 'mitigations.id.not.contains');
-        }
-        if (mitigationsIdBeginsWith !== undefined && mitigationsIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdBeginsWith, 'mitigations.id.beginsWith');
-        }
-        if (mitigationsIdNotBeginsWith !== undefined && mitigationsIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdNotBeginsWith, 'mitigations.id.not.beginsWith');
-        }
-        if (mitigationsIdEndsWith !== undefined && mitigationsIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdEndsWith, 'mitigations.id.endsWith');
-        }
-        if (mitigationsIdNotEndsWith !== undefined && mitigationsIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsIdNotEndsWith, 'mitigations.id.not.endsWith');
-        }
-        if (mitigationsCategory !== undefined && mitigationsCategory !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsCategory, 'mitigations.category');
-        }
-        if (mitigationsCategoryNot !== undefined && mitigationsCategoryNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsCategoryNot, 'mitigations.category.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsId, 'mitigations.id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdNot, 'mitigations.id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdContains, 'mitigations.id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdNotContains, 'mitigations.id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdBeginsWith, 'mitigations.id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdNotBeginsWith, 'mitigations.id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdEndsWith, 'mitigations.id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsIdNotEndsWith, 'mitigations.id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsCategory, 'mitigations.category');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsCategoryNot, 'mitigations.category.not');
         if (mitigationsCategoryAnyOf) {
             mitigationsCategoryAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'mitigations.category.anyOf');
             })
         }
-        if (mitigationsAdjustmentNotExists !== undefined && mitigationsAdjustmentNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsAdjustmentNotExists, 'mitigations.adjustment.not.exists');
-        }
-        if (mitigationsAdjustmentExists !== undefined && mitigationsAdjustmentExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsAdjustmentExists, 'mitigations.adjustment.exists');
-        }
-        if (mitigationsAdjustment !== undefined && mitigationsAdjustment !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsAdjustment, 'mitigations.adjustment');
-        }
-        if (mitigationsAdjustmentNot !== undefined && mitigationsAdjustmentNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsAdjustmentNot, 'mitigations.adjustment.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsAdjustmentNotExists, 'mitigations.adjustment.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsAdjustmentExists, 'mitigations.adjustment.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsAdjustment, 'mitigations.adjustment');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsAdjustmentNot, 'mitigations.adjustment.not');
         if (mitigationsAdjustmentAnyOf) {
             mitigationsAdjustmentAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1409,26 +1057,16 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'mitigations.adjustment.not.anyOf');
             })
         }
-        if (mitigationsAdjustmentDescendantsOf !== undefined && mitigationsAdjustmentDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsAdjustmentDescendantsOf, 'mitigations.adjustment.descendantsOf');
-        }
-        if (mitigationsDrugNotExists !== undefined && mitigationsDrugNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsDrugNotExists, 'mitigations.drug.not.exists');
-        }
-        if (mitigationsDrugExists !== undefined && mitigationsDrugExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsDrugExists, 'mitigations.drug.exists');
-        }
-        if (mitigationsDrug !== undefined && mitigationsDrug !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsDrug, 'mitigations.drug');
-        }
-        if (mitigationsDrugNot !== undefined && mitigationsDrugNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsDrugNot, 'mitigations.drug.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsAdjustmentDescendantsOf, 'mitigations.adjustment.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsDrugNotExists, 'mitigations.drug.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsDrugExists, 'mitigations.drug.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsDrug, 'mitigations.drug');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsDrugNot, 'mitigations.drug.not');
         if (mitigationsDrugAnyOf) {
             mitigationsDrugAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1441,26 +1079,16 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'mitigations.drug.not.anyOf');
             })
         }
-        if (mitigationsDrugDescendantsOf !== undefined && mitigationsDrugDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsDrugDescendantsOf, 'mitigations.drug.descendantsOf');
-        }
-        if (mitigationsProcedureNotExists !== undefined && mitigationsProcedureNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsProcedureNotExists, 'mitigations.procedure.not.exists');
-        }
-        if (mitigationsProcedureExists !== undefined && mitigationsProcedureExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsProcedureExists, 'mitigations.procedure.exists');
-        }
-        if (mitigationsProcedure !== undefined && mitigationsProcedure !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsProcedure, 'mitigations.procedure');
-        }
-        if (mitigationsProcedureNot !== undefined && mitigationsProcedureNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsProcedureNot, 'mitigations.procedure.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsDrugDescendantsOf, 'mitigations.drug.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsProcedureNotExists, 'mitigations.procedure.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsProcedureExists, 'mitigations.procedure.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsProcedure, 'mitigations.procedure');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsProcedureNot, 'mitigations.procedure.not');
         if (mitigationsProcedureAnyOf) {
             mitigationsProcedureAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1473,26 +1101,16 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'mitigations.procedure.not.anyOf');
             })
         }
-        if (mitigationsProcedureDescendantsOf !== undefined && mitigationsProcedureDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsProcedureDescendantsOf, 'mitigations.procedure.descendantsOf');
-        }
-        if (mitigationsManagementNotExists !== undefined && mitigationsManagementNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsManagementNotExists, 'mitigations.management.not.exists');
-        }
-        if (mitigationsManagementExists !== undefined && mitigationsManagementExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsManagementExists, 'mitigations.management.exists');
-        }
-        if (mitigationsManagement !== undefined && mitigationsManagement !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsManagement, 'mitigations.management');
-        }
-        if (mitigationsManagementNot !== undefined && mitigationsManagementNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsManagementNot, 'mitigations.management.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsProcedureDescendantsOf, 'mitigations.procedure.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsManagementNotExists, 'mitigations.management.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsManagementExists, 'mitigations.management.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsManagement, 'mitigations.management');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsManagementNot, 'mitigations.management.not');
         if (mitigationsManagementAnyOf) {
             mitigationsManagementAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1505,98 +1123,52 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'mitigations.management.not.anyOf');
             })
         }
-        if (mitigationsManagementDescendantsOf !== undefined && mitigationsManagementDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>mitigationsManagementDescendantsOf, 'mitigations.management.descendantsOf');
-        }
-        if (id !== undefined && id !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>id, 'id');
-        }
-        if (idNot !== undefined && idNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNot, 'id.not');
-        }
-        if (idContains !== undefined && idContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idContains, 'id.contains');
-        }
-        if (idNotContains !== undefined && idNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotContains, 'id.not.contains');
-        }
-        if (idBeginsWith !== undefined && idBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idBeginsWith, 'id.beginsWith');
-        }
-        if (idNotBeginsWith !== undefined && idNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotBeginsWith, 'id.not.beginsWith');
-        }
-        if (idEndsWith !== undefined && idEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idEndsWith, 'id.endsWith');
-        }
-        if (idNotEndsWith !== undefined && idNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idNotEndsWith, 'id.not.endsWith');
-        }
-        if (caseId !== undefined && caseId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseId, 'caseId');
-        }
-        if (caseIdNot !== undefined && caseIdNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNot, 'caseId.not');
-        }
-        if (caseIdContains !== undefined && caseIdContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdContains, 'caseId.contains');
-        }
-        if (caseIdNotContains !== undefined && caseIdNotContains !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotContains, 'caseId.not.contains');
-        }
-        if (caseIdBeginsWith !== undefined && caseIdBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdBeginsWith, 'caseId.beginsWith');
-        }
-        if (caseIdNotBeginsWith !== undefined && caseIdNotBeginsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
-        }
-        if (caseIdEndsWith !== undefined && caseIdEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdEndsWith, 'caseId.endsWith');
-        }
-        if (caseIdNotEndsWith !== undefined && caseIdNotEndsWith !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>caseIdNotEndsWith, 'caseId.not.endsWith');
-        }
-        if (dateBefore !== undefined && dateBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateBefore, 'date.before');
-        }
-        if (dateAfter !== undefined && dateAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateAfter, 'date.after');
-        }
-        if (dateOnOrBefore !== undefined && dateOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOnOrBefore, 'date.onOrBefore');
-        }
-        if (dateOnOrAfter !== undefined && dateOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOnOrAfter, 'date.onOrAfter');
-        }
-        if (dateOn !== undefined && dateOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateOn, 'date.on');
-        }
-        if (dateNotOn !== undefined && dateNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateNotOn, 'date.not.on');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsManagementDescendantsOf, 'mitigations.management.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>id, 'id');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNot, 'id.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idContains, 'id.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotContains, 'id.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idBeginsWith, 'id.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotBeginsWith, 'id.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idEndsWith, 'id.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>idNotEndsWith, 'id.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseId, 'caseId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNot, 'caseId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdContains, 'caseId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotContains, 'caseId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdBeginsWith, 'caseId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotBeginsWith, 'caseId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdEndsWith, 'caseId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateBefore, 'date.before');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateAfter, 'date.after');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOnOrBefore, 'date.onOrBefore');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOnOrAfter, 'date.onOrAfter');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateOn, 'date.on');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateNotOn, 'date.not.on');
         if (dateBetween) {
             dateBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1609,14 +1181,10 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'date.not.between');
             })
         }
-        if (event !== undefined && event !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>event, 'event');
-        }
-        if (eventNot !== undefined && eventNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>eventNot, 'event.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>event, 'event');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>eventNot, 'event.not');
         if (eventAnyOf) {
             eventAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1629,34 +1197,20 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'event.not.anyOf');
             })
         }
-        if (eventDescendantsOf !== undefined && eventDescendantsOf !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>eventDescendantsOf, 'event.descendantsOf');
-        }
-        if (gradeLessThan !== undefined && gradeLessThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gradeLessThan, 'grade.lessThan');
-        }
-        if (gradeLessThanOrEqual !== undefined && gradeLessThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gradeLessThanOrEqual, 'grade.lessThanOrEqual');
-        }
-        if (gradeGreaterThan !== undefined && gradeGreaterThan !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gradeGreaterThan, 'grade.greaterThan');
-        }
-        if (gradeGreaterThanOrEqual !== undefined && gradeGreaterThanOrEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gradeGreaterThanOrEqual, 'grade.greaterThanOrEqual');
-        }
-        if (gradeEqual !== undefined && gradeEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gradeEqual, 'grade.equal');
-        }
-        if (gradeNotEqual !== undefined && gradeNotEqual !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gradeNotEqual, 'grade.not.equal');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>eventDescendantsOf, 'event.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>gradeLessThan, 'grade.lessThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>gradeLessThanOrEqual, 'grade.lessThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>gradeGreaterThan, 'grade.greaterThan');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>gradeGreaterThanOrEqual, 'grade.greaterThanOrEqual');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>gradeEqual, 'grade.equal');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>gradeNotEqual, 'grade.not.equal');
         if (gradeBetween) {
             gradeBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1669,52 +1223,32 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'grade.not.between');
             })
         }
-        if (outcome !== undefined && outcome !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>outcome, 'outcome');
-        }
-        if (outcomeNot !== undefined && outcomeNot !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>outcomeNot, 'outcome.not');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>outcome, 'outcome');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>outcomeNot, 'outcome.not');
         if (outcomeAnyOf) {
             outcomeAnyOf.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'outcome.anyOf');
             })
         }
-        if (dateResolvedNotExists !== undefined && dateResolvedNotExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedNotExists, 'dateResolved.not.exists');
-        }
-        if (dateResolvedExists !== undefined && dateResolvedExists !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedExists, 'dateResolved.exists');
-        }
-        if (dateResolvedBefore !== undefined && dateResolvedBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedBefore, 'dateResolved.before');
-        }
-        if (dateResolvedAfter !== undefined && dateResolvedAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedAfter, 'dateResolved.after');
-        }
-        if (dateResolvedOnOrBefore !== undefined && dateResolvedOnOrBefore !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedOnOrBefore, 'dateResolved.onOrBefore');
-        }
-        if (dateResolvedOnOrAfter !== undefined && dateResolvedOnOrAfter !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedOnOrAfter, 'dateResolved.onOrAfter');
-        }
-        if (dateResolvedOn !== undefined && dateResolvedOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedOn, 'dateResolved.on');
-        }
-        if (dateResolvedNotOn !== undefined && dateResolvedNotOn !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>dateResolvedNotOn, 'dateResolved.not.on');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedNotExists, 'dateResolved.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedExists, 'dateResolved.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedBefore, 'dateResolved.before');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedAfter, 'dateResolved.after');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedOnOrBefore, 'dateResolved.onOrBefore');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedOnOrAfter, 'dateResolved.onOrAfter');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedOn, 'dateResolved.on');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dateResolvedNotOn, 'dateResolved.not.on');
         if (dateResolvedBetween) {
             dateResolvedBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1727,45 +1261,26 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
                   <any>element, 'dateResolved.not.between');
             })
         }
-        if (limit !== undefined && limit !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>limit, 'limit');
-        }
-        if (offset !== undefined && offset !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>offset, 'offset');
-        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         let responseType_: 'text' | 'json' | 'blob' = 'json';
@@ -1815,34 +1330,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -1905,34 +1405,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header
@@ -1995,34 +1480,19 @@ export class AdverseEventsService implements AdverseEventsServiceInterface {
 
         let localVarHeaders = this.defaultHeaders;
 
-        let localVarCredential: string | undefined;
         // authentication (JWTAuth) required
-        localVarCredential = this.configuration.lookupCredential('JWTAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
 
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                'application/json'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
         }
 
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
 
-        let localVarTransferCache: boolean | undefined = options && options.transferCache;
-        if (localVarTransferCache === undefined) {
-            localVarTransferCache = true;
-        }
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
         // to determine the Content-Type header

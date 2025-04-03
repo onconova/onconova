@@ -11,6 +11,7 @@ import {
     CohortRuleType,
  } from 'src/app/shared/openapi';
 
+ import { TooltipModule } from 'primeng/tooltip';
 import { Button } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { RadioButton } from 'primeng/radiobutton';
@@ -20,9 +21,19 @@ import { MultiSelect } from 'primeng/multiselect';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 
-import { NgxAngularQueryBuilderModule, RuleSet, Field } from "ngx-angular-query-builder";
+
+import OpenAPISpecification from "../../../../../openapi.json";
+import { DataResource } from "src/app/shared/openapi";
+import { NgxAngularQueryBuilderModule, QueryBuilderConfig, Field as FieldBase, Entity, EntityMap, FieldMap } from "ngx-angular-query-builder";
 
 import { Pipe, PipeTransform } from '@angular/core';
+import { map, ObjectUnsubscribedError } from 'rxjs';
+import { MeasureInputComponent } from "../../../shared/components/measure-input/measure-input.component";
+import { Avatar } from 'primeng/avatar';
+
+type Field = FieldBase & {
+    description: string;
+  }
 
 function mapOperator(operator: string): string {
     switch (operator) {
@@ -108,6 +119,10 @@ function mapOperator(operator: string): string {
             return 'Is';
         case CohortQueryFilter.NotEqualsConceptFilter:
             return 'Is not';
+        case CohortQueryFilter.AllOfConceptFilter:
+            return 'Is exactly';
+        case CohortQueryFilter.NotAllOfConceptFilter:
+            return 'Is exactly not';
         case CohortQueryFilter.AnyOfConceptFilter:
             return 'Is any of';
         case CohortQueryFilter.NotAnyOfConceptFilter:
@@ -157,6 +172,15 @@ export class filterByEntityPipe implements PipeTransform {
   }
 }
 
+@Pipe({
+    standalone: true,
+    name: 'getDescription'
+})
+export class getDescriptionPipe implements PipeTransform {
+  transform(value: any[], fields: any[]): string {
+    return fields.find(f => f.value == value)?.description
+  }
+}
 
 @Component({
     standalone: true,
@@ -172,22 +196,26 @@ export class filterByEntityPipe implements PipeTransform {
       },
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        NgxAngularQueryBuilderModule,
-        Button,
-        ButtonGroup,
-        SelectButton,
-        InputNumber,
-        InputText,
-        Select,
-        MultiSelect,
-        RangeInputComponent,
-        ConceptSelectorComponent,
-        DatePickerComponent,
-        MapOperatorsPipe,        
-        filterByEntityPipe,
-    ]
+    CommonModule,
+    FormsModule,
+    NgxAngularQueryBuilderModule,
+    Button,
+    ButtonGroup,
+    SelectButton,
+    InputNumber,
+    InputText,
+    Avatar,
+    Select,
+    MultiSelect,
+    TooltipModule,
+    RangeInputComponent,
+    ConceptSelectorComponent,
+    DatePickerComponent,
+    MapOperatorsPipe,
+    filterByEntityPipe,
+    getDescriptionPipe,
+    MeasureInputComponent
+]
 })
 export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
@@ -209,7 +237,143 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     public selectedCodedConcept = null; 
     public query = {rules: []};
 
-    config$ = this.cohortsService.getCohortBuilderConfig();
+    public operators = CohortQueryFilter 
+    private entities = [
+        DataResource.PatientCase, 
+        DataResource.NeoplasticEntity,
+        DataResource.TnmStaging,
+        DataResource.FigoStaging,
+        DataResource.BinetStaging,
+        DataResource.RaiStaging,
+        DataResource.BreslowDepth,
+        DataResource.ClarkStaging,
+        DataResource.IssStaging,
+        DataResource.RissStaging,
+        DataResource.GleasonGrade,
+        DataResource.InssStage,
+        DataResource.InrgssStage,
+        DataResource.WilmsStage,
+        DataResource.RhabdomyosarcomaClinicalGroup,
+        DataResource.LymphomaStaging,
+        DataResource.TumorMarker,
+        DataResource.RiskAssessment,
+        DataResource.TreatmentResponse,
+        DataResource.TherapyLine,
+        DataResource.SystemicTherapy,
+        DataResource.PerformanceStatus,
+        DataResource.Surgery,
+        DataResource.Radiotherapy,
+        DataResource.Lifestyle,
+        DataResource.ComorbiditiesAssessment,
+        DataResource.FamilyHistory,
+        DataResource.MolecularTumorBoard,
+        DataResource.UnspecifiedTumorBoard,
+        DataResource.AdverseEvent,
+        DataResource.Vitals,
+        DataResource.GenomicVariant,
+        DataResource.TumorMutationalBurden,
+        DataResource.MicrosatelliteInstability,
+        DataResource.LossOfHeterozygosity,
+        DataResource.HomologousRecombinationDeficiency,
+        DataResource.TumorNeoantigenBurden,
+        DataResource.AneuploidScore
+    ];    
+
+    public config: QueryBuilderConfig = {
+        allowEmptyRulesets: false,
+        entities: this.entities.reduce(
+            (entityMap: any, resource: DataResource) => {
+                entityMap[resource] = {value: resource, name: resource.replace(/([a-z])([A-Z])/g, '$1 $2')}
+                return entityMap
+            }, {} as EntityMap
+        ),
+        fields: this.entities.flatMap(entity => this.getEntityFields(entity)).reduce(
+            (fieldsMap: any, field: Field) => {                
+                fieldsMap[field.value as string] = field
+                return fieldsMap
+            }, {} as FieldMap
+        ),
+    } 
+
+    getEntityFields(entity: DataResource): Field[] {
+        const ignoredFields: string[] = ['description', 'caseId', 'id','createdAt','updatedAt', 'createdBy', 'updatedBy', 'externalSourceId']
+        // Get the schema definition of the entity from the OpenAPISpecification object
+        const schemas = OpenAPISpecification.components.schemas
+        // Get a list of all fields/properties in that schema
+        const properties = schemas[entity].properties || {};
+        // Iterate over each property
+        return Object.entries(properties).filter(
+            ([propertyKey,property]) => !ignoredFields.includes(propertyKey)
+        ).flatMap(
+            ([propertyKey,property]): Field | Field[] => {
+                let propertyType: any;
+                let isArray: boolean = false;
+                const nullable = property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null'
+                if (nullable) {
+                    propertyType = property.anyOf[0];
+                } else if (property.items) {
+                    propertyType = property.items;                    
+                    isArray = true;
+                } else {
+                    propertyType = property;
+                }
+                if (propertyType.type === undefined && propertyType.$ref) {
+                    propertyType = propertyType.$ref.split('/').pop();
+                } else {
+                    propertyType = propertyType.type;
+                }        
+                
+                // Handle nested resources
+                if ([
+                    DataResource.SystemicTherapyMedication,
+                    DataResource.RadiotherapyDosage,
+                    DataResource.RadiotherapySetting,
+                    DataResource.AdverseEventMitigation,
+                    DataResource.AdverseEventSuspectedCause,
+                    DataResource.MolecularTherapeuticRecommendation,
+
+                ].includes(propertyType)) {
+                    return this.getEntityFields(propertyType).map((nested_field: Field) => ({
+                        name: `${property.title} - ${nested_field.name}`,
+                        entity: entity,
+                        value: `${entity}.${propertyKey}.${nested_field.value?.split('.').pop()}`,
+                        options: nested_field.options,
+                        type: nested_field.type,
+                        operators: nested_field.operators,
+                        description: nested_field.description,
+                    }))
+                }
+
+                // Determine any selection options if the property has an enumeration
+                // @ts-ignore
+                let propertyEnum = property.enum || schemas[propertyType]?.enum;
+                let options: any[] = [];
+                if (propertyEnum) {
+                    options = propertyEnum.map((option: any) => ({ value: option, label: option }));
+                    propertyType = 'enum';
+                }
+                if (propertyType == 'CodedConcept') {
+                    options = [{value: property['x-terminology']}];
+                }
+                if (propertyType == 'Measure') {
+                    options = [
+                        {value: property['x-measure']},
+                        {value: property['x-default-unit']}
+                    ];
+                }
+                propertyType = (isArray ? "Multi" : "") + propertyType;
+                // Create a field object and add it to the array
+                return {
+                    name: property.title,
+                    entity: entity,
+                    value: `${entity}.${propertyKey}`,
+                    options: options,
+                    type: propertyType,
+                    operators: this.getTypeFilterOperators(propertyType),
+                    description: property.description,
+                }
+        }) as Field[];
+    }
 
     getCodesFromEvent(event: any) {
         if (event){
@@ -240,4 +404,96 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
         this.formControl.valueChanges.subscribe(val => fn(val));
     }
 
+    private getTypeFilterOperators(type: string): CohortQueryFilter[]  {
+        switch (type) {
+            case 'string':
+                return [ 
+                    CohortQueryFilter.ExactStringFilter,
+                    CohortQueryFilter.NotExactStringFilter,
+                    CohortQueryFilter.ContainsStringFilter, 
+                    CohortQueryFilter.NotContainsStringFilter, 
+                    CohortQueryFilter.BeginsWithStringFilter, 
+                    CohortQueryFilter.NotBeginsWithStringFilter, 
+                    CohortQueryFilter.EndsWithStringFilter, 
+                    CohortQueryFilter.NotEndsWithStringFilter
+                ]
+            case 'enum':
+                return [ 
+                    CohortQueryFilter.EqualsEnumFilter,
+                    CohortQueryFilter.NotEqualsEnumFilter,
+                    CohortQueryFilter.AnyOfEnumFilter,
+                    CohortQueryFilter.NotAnyOfEnumFilter,    
+                ]
+            case 'number':
+                return [ 
+                    CohortQueryFilter.EqualFloatFilter,
+                    CohortQueryFilter.NotEqualFloatFilter,
+                    CohortQueryFilter.LessThanFloatFilter,
+                    CohortQueryFilter.LessThanOrEqualFloatFilter,
+                    CohortQueryFilter.GreaterThanFloatFilter,
+                    CohortQueryFilter.GreaterThanOrEqualFloatFilter,
+                    CohortQueryFilter.BetweenFloatFilter,
+                    CohortQueryFilter.NotBetweenFloatFilter
+                ]
+            case 'integer':
+                return [ 
+                    CohortQueryFilter.EqualIntegerFilter,
+                    CohortQueryFilter.NotEqualIntegerFilter,
+                    CohortQueryFilter.LessThanIntegerFilter,
+                    CohortQueryFilter.LessThanOrEqualIntegerFilter,
+                    CohortQueryFilter.GreaterThanIntegerFilter,
+                    CohortQueryFilter.GreaterThanOrEqualIntegerFilter,
+                    CohortQueryFilter.BetweenIntegerFilter,
+                    CohortQueryFilter.NotBetweenIntegerFilter
+                ]
+            case 'date':
+                return [ 
+                    CohortQueryFilter.BeforeDateFilter,
+                    CohortQueryFilter.AfterDateFilter,
+                    CohortQueryFilter.OnOrBeforeDateFilter,
+                    CohortQueryFilter.OnOrAfterDateFilter,
+                    CohortQueryFilter.OnDateFilter,
+                    CohortQueryFilter.NotOnDateFilter,
+                ]
+            case 'Period':
+                return [ 
+                    CohortQueryFilter.OverlapsPeriodFilter,
+                    CohortQueryFilter.NotOverlapsPeriodFilter,
+                    CohortQueryFilter.ContainsPeriodFilter,
+                    CohortQueryFilter.NotContainsPeriodFilter,
+                    CohortQueryFilter.ContainedByPeriodFilter,
+                    CohortQueryFilter.NotContainedByPeriodFilter
+                ]
+            case 'CodedConcept':
+                return [ 
+                    CohortQueryFilter.EqualsConceptFilter,
+                    CohortQueryFilter.NotEqualsConceptFilter,
+                    CohortQueryFilter.AnyOfConceptFilter,
+                    CohortQueryFilter.NotAnyOfConceptFilter,
+                    CohortQueryFilter.DescendantsOfConceptFilter
+                ]
+            case 'Measure':
+                return [ 
+                    CohortQueryFilter.EqualFloatFilter,
+                    CohortQueryFilter.NotEqualFloatFilter,
+                    CohortQueryFilter.LessThanFloatFilter,
+                    CohortQueryFilter.LessThanOrEqualFloatFilter,
+                    CohortQueryFilter.GreaterThanFloatFilter,
+                    CohortQueryFilter.GreaterThanOrEqualFloatFilter,
+                    CohortQueryFilter.BetweenFloatFilter,
+                    CohortQueryFilter.NotBetweenFloatFilter
+                ]
+            case 'MultiCodedConcept':
+                return [ 
+                    CohortQueryFilter.AllOfConceptFilter,
+                    CohortQueryFilter.NotAllOfConceptFilter,
+                    CohortQueryFilter.NotEqualsConceptFilter,
+                    CohortQueryFilter.AnyOfConceptFilter,
+                    CohortQueryFilter.NotAnyOfConceptFilter,
+                    CohortQueryFilter.DescendantsOfConceptFilter
+                ]
+            default:
+                return []
+        }
+    }
 }

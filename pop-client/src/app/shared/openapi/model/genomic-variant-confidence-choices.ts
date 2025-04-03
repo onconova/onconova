@@ -12,8 +12,11 @@
 export type GenomicVariantConfidenceChoices = 'low' | 'high' | 'indeterminate';
 
 export const GenomicVariantConfidenceChoices = {
+
     Low: 'low' as GenomicVariantConfidenceChoices,
+
     High: 'high' as GenomicVariantConfidenceChoices,
+
     Indeterminate: 'indeterminate' as GenomicVariantConfidenceChoices
 };
 

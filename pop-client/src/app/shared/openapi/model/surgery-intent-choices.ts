@@ -12,7 +12,9 @@
 export type SurgeryIntentChoices = 'curative' | 'palliative';
 
 export const SurgeryIntentChoices = {
+
     Curative: 'curative' as SurgeryIntentChoices,
+
     Palliative: 'palliative' as SurgeryIntentChoices
 };
 

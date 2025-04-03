@@ -159,7 +159,7 @@ export interface DatasetFilters {
     createdBy?: string | null;
 }
 export namespace DatasetFilters {
-    export type RulesResourceEnum = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'TumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
+    export type RulesResourceEnum = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
     export const RulesResourceEnum = {
         PatientCase: 'PatientCase' as RulesResourceEnum,
         NeoplasticEntity: 'NeoplasticEntity' as RulesResourceEnum,
@@ -190,7 +190,6 @@ export namespace DatasetFilters {
         AdverseEventSuspectedCause: 'AdverseEventSuspectedCause' as RulesResourceEnum,
         AdverseEventMitigation: 'AdverseEventMitigation' as RulesResourceEnum,
         TreatmentResponse: 'TreatmentResponse' as RulesResourceEnum,
-        TumorBoard: 'TumorBoard' as RulesResourceEnum,
         UnspecifiedTumorBoard: 'UnspecifiedTumorBoard' as RulesResourceEnum,
         MolecularTumorBoard: 'MolecularTumorBoard' as RulesResourceEnum,
         MolecularTherapeuticRecommendation: 'MolecularTherapeuticRecommendation' as RulesResourceEnum,
@@ -200,7 +199,6 @@ export namespace DatasetFilters {
         Vitals: 'Vitals' as RulesResourceEnum,
         ComorbiditiesAssessment: 'ComorbiditiesAssessment' as RulesResourceEnum,
         GenomicVariant: 'GenomicVariant' as RulesResourceEnum,
-        GenomicSignature: 'GenomicSignature' as RulesResourceEnum,
         TumorMutationalBurden: 'TumorMutationalBurden' as RulesResourceEnum,
         MicrosatelliteInstability: 'MicrosatelliteInstability' as RulesResourceEnum,
         LossOfHeterozygosity: 'LossOfHeterozygosity' as RulesResourceEnum,
@@ -208,7 +206,7 @@ export namespace DatasetFilters {
         TumorNeoantigenBurden: 'TumorNeoantigenBurden' as RulesResourceEnum,
         AneuploidScore: 'AneuploidScore' as RulesResourceEnum
     };
-    export type RulesResourceNotEnum = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'TumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
+    export type RulesResourceNotEnum = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
     export const RulesResourceNotEnum = {
         PatientCase: 'PatientCase' as RulesResourceNotEnum,
         NeoplasticEntity: 'NeoplasticEntity' as RulesResourceNotEnum,
@@ -239,7 +237,6 @@ export namespace DatasetFilters {
         AdverseEventSuspectedCause: 'AdverseEventSuspectedCause' as RulesResourceNotEnum,
         AdverseEventMitigation: 'AdverseEventMitigation' as RulesResourceNotEnum,
         TreatmentResponse: 'TreatmentResponse' as RulesResourceNotEnum,
-        TumorBoard: 'TumorBoard' as RulesResourceNotEnum,
         UnspecifiedTumorBoard: 'UnspecifiedTumorBoard' as RulesResourceNotEnum,
         MolecularTumorBoard: 'MolecularTumorBoard' as RulesResourceNotEnum,
         MolecularTherapeuticRecommendation: 'MolecularTherapeuticRecommendation' as RulesResourceNotEnum,
@@ -249,7 +246,6 @@ export namespace DatasetFilters {
         Vitals: 'Vitals' as RulesResourceNotEnum,
         ComorbiditiesAssessment: 'ComorbiditiesAssessment' as RulesResourceNotEnum,
         GenomicVariant: 'GenomicVariant' as RulesResourceNotEnum,
-        GenomicSignature: 'GenomicSignature' as RulesResourceNotEnum,
         TumorMutationalBurden: 'TumorMutationalBurden' as RulesResourceNotEnum,
         MicrosatelliteInstability: 'MicrosatelliteInstability' as RulesResourceNotEnum,
         LossOfHeterozygosity: 'LossOfHeterozygosity' as RulesResourceNotEnum,
@@ -257,7 +253,7 @@ export namespace DatasetFilters {
         TumorNeoantigenBurden: 'TumorNeoantigenBurden' as RulesResourceNotEnum,
         AneuploidScore: 'AneuploidScore' as RulesResourceNotEnum
     };
-    export type RulesResourceAnyOfEnum = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'TumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
+    export type RulesResourceAnyOfEnum = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
     export const RulesResourceAnyOfEnum = {
         PatientCase: 'PatientCase' as RulesResourceAnyOfEnum,
         NeoplasticEntity: 'NeoplasticEntity' as RulesResourceAnyOfEnum,
@@ -288,7 +284,6 @@ export namespace DatasetFilters {
         AdverseEventSuspectedCause: 'AdverseEventSuspectedCause' as RulesResourceAnyOfEnum,
         AdverseEventMitigation: 'AdverseEventMitigation' as RulesResourceAnyOfEnum,
         TreatmentResponse: 'TreatmentResponse' as RulesResourceAnyOfEnum,
-        TumorBoard: 'TumorBoard' as RulesResourceAnyOfEnum,
         UnspecifiedTumorBoard: 'UnspecifiedTumorBoard' as RulesResourceAnyOfEnum,
         MolecularTumorBoard: 'MolecularTumorBoard' as RulesResourceAnyOfEnum,
         MolecularTherapeuticRecommendation: 'MolecularTherapeuticRecommendation' as RulesResourceAnyOfEnum,
@@ -298,7 +293,6 @@ export namespace DatasetFilters {
         Vitals: 'Vitals' as RulesResourceAnyOfEnum,
         ComorbiditiesAssessment: 'ComorbiditiesAssessment' as RulesResourceAnyOfEnum,
         GenomicVariant: 'GenomicVariant' as RulesResourceAnyOfEnum,
-        GenomicSignature: 'GenomicSignature' as RulesResourceAnyOfEnum,
         TumorMutationalBurden: 'TumorMutationalBurden' as RulesResourceAnyOfEnum,
         MicrosatelliteInstability: 'MicrosatelliteInstability' as RulesResourceAnyOfEnum,
         LossOfHeterozygosity: 'LossOfHeterozygosity' as RulesResourceAnyOfEnum,

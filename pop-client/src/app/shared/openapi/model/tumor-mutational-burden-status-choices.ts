@@ -12,9 +12,13 @@
 export type TumorMutationalBurdenStatusChoices = 'low' | 'high' | 'intermediate' | 'indeterminate';
 
 export const TumorMutationalBurdenStatusChoices = {
+
     Low: 'low' as TumorMutationalBurdenStatusChoices,
+
     High: 'high' as TumorMutationalBurdenStatusChoices,
+
     Intermediate: 'intermediate' as TumorMutationalBurdenStatusChoices,
+
     Indeterminate: 'indeterminate' as TumorMutationalBurdenStatusChoices
 };
 

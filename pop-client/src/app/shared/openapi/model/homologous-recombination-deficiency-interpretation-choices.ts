@@ -12,8 +12,11 @@
 export type HomologousRecombinationDeficiencyInterpretationChoices = 'positive' | 'negative' | 'indeterminate';
 
 export const HomologousRecombinationDeficiencyInterpretationChoices = {
+
     Positive: 'positive' as HomologousRecombinationDeficiencyInterpretationChoices,
+
     Negative: 'negative' as HomologousRecombinationDeficiencyInterpretationChoices,
+
     Indeterminate: 'indeterminate' as HomologousRecombinationDeficiencyInterpretationChoices
 };
 

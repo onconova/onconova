@@ -12,16 +12,27 @@
 export type ProteinChangeType = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
 
 export const ProteinChangeType = {
+
     Missense: 'missense' as ProteinChangeType,
+
     Nonsense: 'nonsense' as ProteinChangeType,
+
     DeletionInsertion: 'deletion-insertion' as ProteinChangeType,
+
     Insertion: 'insertion' as ProteinChangeType,
+
     Deletion: 'deletion' as ProteinChangeType,
+
     Duplication: 'duplication' as ProteinChangeType,
+
     Frameshift: 'frameshift' as ProteinChangeType,
+
     Extension: 'extension' as ProteinChangeType,
+
     Silent: 'silent' as ProteinChangeType,
+
     NoProtein: 'no-protein' as ProteinChangeType,
+
     Repetition: 'repetition' as ProteinChangeType
 };
 

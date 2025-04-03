@@ -46,7 +46,6 @@ from .family_history import FamilyHistorySchema, FamilyHistoryCreateSchema
 from .vitals import VitalsSchema, VitalsCreateSchema
 from .treatment_response import TreatmentResponseSchema, TreatmentResponseCreateSchema
 from .tumor_board import (
-    TumorBoardSchema,
     UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema
@@ -73,7 +72,6 @@ SurgeryFilters = create_filters_schema(schema = SurgerySchema, name='SurgeryFilt
 RadiotherapyFilters = create_filters_schema(schema = RadiotherapySchema, name='RadiotherapyFilters')
 AdverseEventFilters = create_filters_schema(schema = AdverseEventSchema, name='AdverseEventFilters')
 TreatmentResponseFilters = create_filters_schema(schema = TreatmentResponseSchema, name='TreatmentResponseFilters')
-TumorBoardFilters = create_filters_schema(schema = TumorBoardSchema, name='TumorBoardFilters')
 PerformanceStatusFilters = create_filters_schema(schema = PerformanceStatusSchema, name='PerformanceStatusFilters')
 LifestyleFilters = create_filters_schema(schema = LifestyleSchema, name='LifestyleFilters')
 FamilyHistoryFilters = create_filters_schema(schema = FamilyHistorySchema, name='FamilyHistoryFilters')
@@ -127,7 +125,6 @@ ONCOLOGY_SCHEMAS = (
     # Treatment response schemas 
     TreatmentResponseSchema, TreatmentResponseCreateSchema,
     # Tumor board schemas 
-    TumorBoardSchema,
     UnspecifiedTumorBoardSchema, UnspecifiedTumorBoardCreateSchema,
     MolecularTumorBoardSchema, MolecularTumorBoardCreateSchema,
     MolecularTherapeuticRecommendationSchema, MolecularTherapeuticRecommendationCreateSchema,

@@ -12,9 +12,13 @@
 export type TumorMarkerTumorProportionScoreChoices = 'TC0' | 'TC1' | 'TC2' | 'TC3';
 
 export const TumorMarkerTumorProportionScoreChoices = {
+
     Tc0: 'TC0' as TumorMarkerTumorProportionScoreChoices,
+
     Tc1: 'TC1' as TumorMarkerTumorProportionScoreChoices,
+
     Tc2: 'TC2' as TumorMarkerTumorProportionScoreChoices,
+
     Tc3: 'TC3' as TumorMarkerTumorProportionScoreChoices
 };
 

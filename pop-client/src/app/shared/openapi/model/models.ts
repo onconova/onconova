@@ -186,7 +186,7 @@ export * from './transform';
 export * from './treatment-response';
 export * from './treatment-response-create';
 export * from './treatment-response-filters';
-export * from './tumor-board-filters2';
+export * from './tumor-board-filters';
 export * from './tumor-marker';
 export * from './tumor-marker-create';
 export * from './tumor-marker-filters';

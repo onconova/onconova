@@ -32,7 +32,7 @@ TYPES_MAP = {
     float: CohortRuleType.NUMBER,
     bool: CohortRuleType.BOOLEAN,
     CodedConceptSchema: CohortRuleType.CODED_CONCEPT,
-    List[CodedConceptSchema]: CohortRuleType.CODED_CONCEPT,
+    List[CodedConceptSchema]: CohortRuleType.CODED_CONCEPT_LIST,
     PeriodSchema: CohortRuleType.PERIOD,
     Measure: CohortRuleType.MEASURE,
     enum.Enum: CohortRuleType.ENUM,
@@ -107,7 +107,7 @@ class CohortBuilderController(ControllerBase):
                     ]
                 )
                 terminology = ''
-                if annotation is CodedConceptSchema and fieldinfo.json_schema_extra:
+                if (annotation is CodedConceptSchema or annotation is List[CodedConceptSchema]) and fieldinfo.json_schema_extra:
                     terminology = fieldinfo.json_schema_extra.get('x-terminology')
                     fields[unique_key].options = [{'name': 'terminology', 'value': terminology}]
                 

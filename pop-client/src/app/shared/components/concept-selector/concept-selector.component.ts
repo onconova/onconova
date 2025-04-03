@@ -102,14 +102,14 @@ writeValue(value: any): void {
     if (this.returnCode) {
         if (value) {
             // Find the concept by code
-            this.concepts$.pipe(first()).subscribe({
+            this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology, codes: this.multiple ? value : [value]}).pipe(first()).subscribe({
                 next: (response) => {
                     if (this.multiple) {
                         this.formControl.patchValue(
-                            value.map((val: string) => this.concepts.find(c => c.code === val))
+                            value.map((val: string) => response.items.find(c => c.code === val))
                         );
                     } else {
-                        this.formControl.patchValue(this.concepts.find(c => c.code === value));
+                        this.formControl.patchValue(response.items.find(c => c.code === value));
                     }
                 },
             })

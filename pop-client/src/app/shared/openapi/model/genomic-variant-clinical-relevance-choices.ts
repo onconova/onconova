@@ -12,11 +12,17 @@
 export type GenomicVariantClinicalRelevanceChoices = 'pathogenic' | 'likely_pathogenic' | 'uncertain_significance' | 'ambiguous' | 'likely_benign' | 'benign';
 
 export const GenomicVariantClinicalRelevanceChoices = {
+
     Pathogenic: 'pathogenic' as GenomicVariantClinicalRelevanceChoices,
+
     LikelyPathogenic: 'likely_pathogenic' as GenomicVariantClinicalRelevanceChoices,
+
     UncertainSignificance: 'uncertain_significance' as GenomicVariantClinicalRelevanceChoices,
+
     Ambiguous: 'ambiguous' as GenomicVariantClinicalRelevanceChoices,
+
     LikelyBenign: 'likely_benign' as GenomicVariantClinicalRelevanceChoices,
+
     Benign: 'benign' as GenomicVariantClinicalRelevanceChoices
 };
 

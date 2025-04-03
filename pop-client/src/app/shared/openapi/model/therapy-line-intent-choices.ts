@@ -12,7 +12,9 @@
 export type TherapyLineIntentChoices = 'curative' | 'palliative';
 
 export const TherapyLineIntentChoices = {
+
     Curative: 'curative' as TherapyLineIntentChoices,
+
     Palliative: 'palliative' as TherapyLineIntentChoices
 };
 

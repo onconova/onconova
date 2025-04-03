@@ -12,9 +12,13 @@
 export type GenomicVariantAssessmentChoices = 'present' | 'absent' | 'no-call' | 'indeterminate';
 
 export const GenomicVariantAssessmentChoices = {
+
     Present: 'present' as GenomicVariantAssessmentChoices,
+
     Absent: 'absent' as GenomicVariantAssessmentChoices,
+
     NoCall: 'no-call' as GenomicVariantAssessmentChoices,
+
     Indeterminate: 'indeterminate' as GenomicVariantAssessmentChoices
 };
 

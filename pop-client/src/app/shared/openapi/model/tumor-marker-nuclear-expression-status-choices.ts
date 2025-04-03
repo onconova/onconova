@@ -12,8 +12,11 @@
 export type TumorMarkerNuclearExpressionStatusChoices = 'intact' | 'loss' | 'indeterminate';
 
 export const TumorMarkerNuclearExpressionStatusChoices = {
+
     Intact: 'intact' as TumorMarkerNuclearExpressionStatusChoices,
+
     Loss: 'loss' as TumorMarkerNuclearExpressionStatusChoices,
+
     Indeterminate: 'indeterminate' as TumorMarkerNuclearExpressionStatusChoices
 };
 

@@ -12,8 +12,11 @@
 export type AdverseEventMitigationCategoryChoices = 'adjustment' | 'pharmacological' | 'procedure';
 
 export const AdverseEventMitigationCategoryChoices = {
+
     Adjustment: 'adjustment' as AdverseEventMitigationCategoryChoices,
+
     Pharmacological: 'pharmacological' as AdverseEventMitigationCategoryChoices,
+
     Procedure: 'procedure' as AdverseEventMitigationCategoryChoices
 };
 

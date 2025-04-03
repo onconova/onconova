@@ -12,7 +12,9 @@
 export type SystemicTherapyIntentChoices = 'curative' | 'palliative';
 
 export const SystemicTherapyIntentChoices = {
+
     Curative: 'curative' as SystemicTherapyIntentChoices,
+
     Palliative: 'palliative' as SystemicTherapyIntentChoices
 };
 

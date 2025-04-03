@@ -12,8 +12,11 @@
 export type PatientCaseConsentStatusChoices = 'valid' | 'revoked' | 'unknown';
 
 export const PatientCaseConsentStatusChoices = {
+
     Valid: 'valid' as PatientCaseConsentStatusChoices,
+
     Revoked: 'revoked' as PatientCaseConsentStatusChoices,
+
     Unknown: 'unknown' as PatientCaseConsentStatusChoices
 };
 

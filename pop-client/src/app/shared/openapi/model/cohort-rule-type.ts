@@ -9,16 +9,26 @@
  */
 
 
-export type CohortRuleType = 'string' | 'number' | 'date' | 'boolean' | 'coded_concept' | 'measure' | 'period' | 'enum';
+export type CohortRuleType = 'string' | 'number' | 'date' | 'boolean' | 'coded_concept' | 'coded_concept_list' | 'measure' | 'period' | 'enum';
 
 export const CohortRuleType = {
+
     String: 'string' as CohortRuleType,
+
     Number: 'number' as CohortRuleType,
+
     Date: 'date' as CohortRuleType,
+
     Boolean: 'boolean' as CohortRuleType,
+
     CodedConcept: 'coded_concept' as CohortRuleType,
+
+    CodedConceptList: 'coded_concept_list' as CohortRuleType,
+
     Measure: 'measure' as CohortRuleType,
+
     Period: 'period' as CohortRuleType,
+
     Enum: 'enum' as CohortRuleType
 };
 

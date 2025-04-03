@@ -8,7 +8,7 @@ from pop.core.schemas.factory import create_filters_schema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
 DataResource = Enum('DataResource', {
-    model.__name__.upper(): model.__name__ for model in oncology_schemas.ONCOLOGY_SCHEMAS if issubclass(model, ModelGetSchema)
+    model.__name__.upper(): model.__name__ for model in oncology_schemas.ONCOLOGY_SCHEMAS if issubclass(model, ModelGetSchema) and model.__name__ not in ['GenomicSignature']
 }, type=str)
 
 class DatasetRule(Schema):

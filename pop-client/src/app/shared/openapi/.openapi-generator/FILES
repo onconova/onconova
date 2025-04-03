@@ -1,6 +1,7 @@
 .gitignore
 .openapi-generator-ignore
 README.md
+api.base.service.ts
 api.module.ts
 api/adverse-events.service.ts
 api/adverse-events.serviceInterface.ts
@@ -248,7 +249,7 @@ model/transform.ts
 model/treatment-response-create.ts
 model/treatment-response-filters.ts
 model/treatment-response.ts
-model/tumor-board-filters2.ts
+model/tumor-board-filters.ts
 model/tumor-marker-create.ts
 model/tumor-marker-filters.ts
 model/tumor-marker-immune-cell-score-choices.ts

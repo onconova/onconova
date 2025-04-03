@@ -12,8 +12,11 @@
 export type ComorbiditiesAssessmentPanelChoices = 'Charlson' | 'Elixhauser' | 'NCI';
 
 export const ComorbiditiesAssessmentPanelChoices = {
+
     Charlson: 'Charlson' as ComorbiditiesAssessmentPanelChoices,
+
     Elixhauser: 'Elixhauser' as ComorbiditiesAssessmentPanelChoices,
+
     Nci: 'NCI' as ComorbiditiesAssessmentPanelChoices
 };
 

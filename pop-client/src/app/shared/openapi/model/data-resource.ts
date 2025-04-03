@@ -9,54 +9,96 @@
  */
 
 
-export type DataResource = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'TumorBoard' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'GenomicSignature' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
+export type DataResource = 'PatientCase' | 'NeoplasticEntity' | 'TNMStaging' | 'FIGOStaging' | 'BinetStaging' | 'RaiStaging' | 'BreslowDepth' | 'ClarkStaging' | 'ISSStaging' | 'RISSStaging' | 'GleasonGrade' | 'INSSStage' | 'INRGSSStage' | 'WilmsStage' | 'RhabdomyosarcomaClinicalGroup' | 'LymphomaStaging' | 'TumorMarker' | 'RiskAssessment' | 'TherapyLine' | 'SystemicTherapy' | 'SystemicTherapyMedication' | 'Surgery' | 'Radiotherapy' | 'RadiotherapyDosage' | 'RadiotherapySetting' | 'AdverseEvent' | 'AdverseEventSuspectedCause' | 'AdverseEventMitigation' | 'TreatmentResponse' | 'UnspecifiedTumorBoard' | 'MolecularTumorBoard' | 'MolecularTherapeuticRecommendation' | 'PerformanceStatus' | 'Lifestyle' | 'FamilyHistory' | 'Vitals' | 'ComorbiditiesAssessment' | 'GenomicVariant' | 'TumorMutationalBurden' | 'MicrosatelliteInstability' | 'LossOfHeterozygosity' | 'HomologousRecombinationDeficiency' | 'TumorNeoantigenBurden' | 'AneuploidScore';
 
 export const DataResource = {
+
     PatientCase: 'PatientCase' as DataResource,
+
     NeoplasticEntity: 'NeoplasticEntity' as DataResource,
+
     TnmStaging: 'TNMStaging' as DataResource,
+
     FigoStaging: 'FIGOStaging' as DataResource,
+
     BinetStaging: 'BinetStaging' as DataResource,
+
     RaiStaging: 'RaiStaging' as DataResource,
+
     BreslowDepth: 'BreslowDepth' as DataResource,
+
     ClarkStaging: 'ClarkStaging' as DataResource,
+
     IssStaging: 'ISSStaging' as DataResource,
+
     RissStaging: 'RISSStaging' as DataResource,
+
     GleasonGrade: 'GleasonGrade' as DataResource,
+
     InssStage: 'INSSStage' as DataResource,
+
     InrgssStage: 'INRGSSStage' as DataResource,
+
     WilmsStage: 'WilmsStage' as DataResource,
+
     RhabdomyosarcomaClinicalGroup: 'RhabdomyosarcomaClinicalGroup' as DataResource,
+
     LymphomaStaging: 'LymphomaStaging' as DataResource,
+
     TumorMarker: 'TumorMarker' as DataResource,
+
     RiskAssessment: 'RiskAssessment' as DataResource,
+
     TherapyLine: 'TherapyLine' as DataResource,
+
     SystemicTherapy: 'SystemicTherapy' as DataResource,
+
     SystemicTherapyMedication: 'SystemicTherapyMedication' as DataResource,
+
     Surgery: 'Surgery' as DataResource,
+
     Radiotherapy: 'Radiotherapy' as DataResource,
+
     RadiotherapyDosage: 'RadiotherapyDosage' as DataResource,
+
     RadiotherapySetting: 'RadiotherapySetting' as DataResource,
+
     AdverseEvent: 'AdverseEvent' as DataResource,
+
     AdverseEventSuspectedCause: 'AdverseEventSuspectedCause' as DataResource,
+
     AdverseEventMitigation: 'AdverseEventMitigation' as DataResource,
+
     TreatmentResponse: 'TreatmentResponse' as DataResource,
-    TumorBoard: 'TumorBoard' as DataResource,
+
     UnspecifiedTumorBoard: 'UnspecifiedTumorBoard' as DataResource,
+
     MolecularTumorBoard: 'MolecularTumorBoard' as DataResource,
+
     MolecularTherapeuticRecommendation: 'MolecularTherapeuticRecommendation' as DataResource,
+
     PerformanceStatus: 'PerformanceStatus' as DataResource,
+
     Lifestyle: 'Lifestyle' as DataResource,
+
     FamilyHistory: 'FamilyHistory' as DataResource,
+
     Vitals: 'Vitals' as DataResource,
+
     ComorbiditiesAssessment: 'ComorbiditiesAssessment' as DataResource,
+
     GenomicVariant: 'GenomicVariant' as DataResource,
-    GenomicSignature: 'GenomicSignature' as DataResource,
+
     TumorMutationalBurden: 'TumorMutationalBurden' as DataResource,
+
     MicrosatelliteInstability: 'MicrosatelliteInstability' as DataResource,
+
     LossOfHeterozygosity: 'LossOfHeterozygosity' as DataResource,
+
     HomologousRecombinationDeficiency: 'HomologousRecombinationDeficiency' as DataResource,
+
     TumorNeoantigenBurden: 'TumorNeoantigenBurden' as DataResource,
+
     AneuploidScore: 'AneuploidScore' as DataResource
 };
 

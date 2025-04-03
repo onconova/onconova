@@ -12,18 +12,31 @@
 export type DNAChangeType = 'substitution' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'inversion' | 'unchanged' | 'repetition' | 'translocation' | 'transposition' | 'methylation-gain' | 'methylation-loss' | 'methylation-unchanged';
 
 export const DNAChangeType = {
+
     Substitution: 'substitution' as DNAChangeType,
+
     DeletionInsertion: 'deletion-insertion' as DNAChangeType,
+
     Insertion: 'insertion' as DNAChangeType,
+
     Deletion: 'deletion' as DNAChangeType,
+
     Duplication: 'duplication' as DNAChangeType,
+
     Inversion: 'inversion' as DNAChangeType,
+
     Unchanged: 'unchanged' as DNAChangeType,
+
     Repetition: 'repetition' as DNAChangeType,
+
     Translocation: 'translocation' as DNAChangeType,
+
     Transposition: 'transposition' as DNAChangeType,
+
     MethylationGain: 'methylation-gain' as DNAChangeType,
+
     MethylationLoss: 'methylation-loss' as DNAChangeType,
+
     MethylationUnchanged: 'methylation-unchanged' as DNAChangeType
 };
 

@@ -12,11 +12,17 @@
 export type AdverseEventSuspectedCauseCausalityChoices = 'unrelated' | 'unlikely-related' | 'possibly-related' | 'probably-related' | 'definitely-related' | 'conditionally-related';
 
 export const AdverseEventSuspectedCauseCausalityChoices = {
+
     Unrelated: 'unrelated' as AdverseEventSuspectedCauseCausalityChoices,
+
     UnlikelyRelated: 'unlikely-related' as AdverseEventSuspectedCauseCausalityChoices,
+
     PossiblyRelated: 'possibly-related' as AdverseEventSuspectedCauseCausalityChoices,
+
     ProbablyRelated: 'probably-related' as AdverseEventSuspectedCauseCausalityChoices,
+
     DefinitelyRelated: 'definitely-related' as AdverseEventSuspectedCauseCausalityChoices,
+
     ConditionallyRelated: 'conditionally-related' as AdverseEventSuspectedCauseCausalityChoices
 };
 

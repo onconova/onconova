@@ -21,3 +21,7 @@
     position: absolute !important;
     right: 0rem !important;
 }
+.info-tooltip > .p-tooltip-text {
+    white-space: nowrap !important;
+    color: var(--p-text-color) !important;
+}
