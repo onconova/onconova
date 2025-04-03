@@ -128,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'         # US English
 TIME_ZONE = 'Europe/Berlin'     # Central European time
 USE_I18N = True                 # Enable Django’s translation system
-USE_TZ = True                   # Do not make datetimes timezone-aware by default
+USE_TZ = False                   # Do not make datetimes timezone-aware by default
 
 
 # Static files (CSS, JavaScript, Images)
