@@ -86,13 +86,15 @@ class Cohort(BaseModel):
 
     def update_cohort_cases(self) -> models.QuerySet:        
         from pop.analytics.schemas import CohortRuleset 
-
+        
         if self.frozen_set.exists():
             return self.frozen_set.all()
 
         if not self.include_criteria and not self.exclude_criteria:
             return []
 
+        cohort = PatientCase.objects.all()
+        
         if self.include_criteria:
             query = CohortRuleset.model_validate(self.include_criteria).convert_to_query()
             cohort = cohort.filter(next(query)).distinct()
