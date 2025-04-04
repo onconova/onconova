@@ -23,7 +23,7 @@ import { InputText } from 'primeng/inputtext';
 
 import OpenAPISpecification from "../../../../../openapi.json";
 import { DataResource } from "src/app/shared/openapi";
-import { NgxAngularQueryBuilderModule, QueryBuilderConfig, Field as FieldBase, Entity, EntityMap, FieldMap } from "ngx-angular-query-builder";
+import { NgxAngularQueryBuilderModule, QueryBuilderConfig, Field as FieldBase, Entity, EntityMap, FieldMap } from "../../../shared/modules/query-builder/public-api";
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { map, ObjectUnsubscribedError } from 'rxjs';
