@@ -97,17 +97,18 @@
 
 
 
-<h4 class="text-muted">Definition</h4>
+<h5 class="text-muted">Definition</h5>
 <div class="flex flex-column gap-3">
     @if (cohortControl && cohort) {
         <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.includeCriteria === null">    
             <ng-template #header>
                 <div class="flex gap-2 align-items-center">
                     <i class="pi pi-thumbs-up"></i>
-                    <div class="font-bold">Inclusion criteria</div>
-                    <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="p-1"/>
+                    <div class="font-semibold">Inclusion criteria</div>
+                    <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
+            <div class="text-muted mb-2">Include all patient cases:</div>
             <pop-cohort-query-builder formControlName="includeCriteria"/>
         </p-panel>
     
@@ -115,10 +116,11 @@
             <ng-template #header>
                 <div class="flex gap-2 align-items-center">
                     <i class="pi pi-thumbs-down"></i>
-                    <div class="font-bold">Exclusion criteria</div>
-                    <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="p-1"/>
+                    <div class="font-semibold">Exclusion criteria</div>
+                    <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
+            <div class="text-muted mb-2">Exclude all patient cases:</div>
             <pop-cohort-query-builder formControlName="excludeCriteria"/>
         </p-panel>  
     }

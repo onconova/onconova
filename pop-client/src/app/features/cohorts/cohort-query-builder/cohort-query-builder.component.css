@@ -25,3 +25,6 @@
     white-space: nowrap !important;
     color: var(--p-text-color) !important;
 }
+.q-connector.q-transition.q-ruleset {
+    padding-top: 1rem !important;
+}

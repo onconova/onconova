@@ -25,10 +25,10 @@
 
         <ng-container *queryButtonGroup="let ruleset; let addRule=addRule; let addRuleSet=addRuleSet; let removeRuleSet=removeRuleSet">
             <div class="flex">
-                <p-buttongroup >
-                    <p-button label="Rule" icon="pi pi-plus" severity="secondary" (click)="addRule()" [disabled]="disabled"/>
-                    <p-button label="Ruleset" icon="pi pi-folder-plus" severity="secondary" (click)="addRuleSet()" [disabled]="disabled"/>
-                    <p-button label="Ruleset" icon="pi pi-trash" severity="secondary" (click)="removeRuleSet()" [disabled]="disabled"/>
+                <p-buttongroup class="mr-3">
+                    <p-button label="Rule" icon="pi pi-plus" severity="secondary" (click)="addRule()" [disabled]="disabled" title="Add new rule to the ruleset"/>
+                    <p-button label="Ruleset" icon="pi pi-folder-plus" severity="secondary" (click)="addRuleSet()" [disabled]="disabled" title="Add new sub-ruleset to the ruleset"/>
+                    <p-button label="Ruleset" icon="pi pi-trash" severity="secondary" (click)="removeRuleSet()" [disabled]="disabled" title="Delete the ruleset"/>
                 </p-buttongroup>
             </div>
         </ng-container>
@@ -46,17 +46,21 @@
 
         <!-- Override input component for entities -->
         <ng-container *queryEntity="let rule; let entities=entities; let onChange=onChange">
-            <p-select 
-                [options]="entities" 
-                [(ngModel)]="rule.entity" 
-                (ngModelChange)="onChange($event, rule)" 
-                [filter]="true" 
-                filterBy="name" 
-                [disabled]="disabled"
-                placeholder="Select an entity" 
-                optionValue="value" 
-                optionLabel="name" 
-                appendTo="body"/>
+            <div class="flex">
+                <div class="text-muted my-auto mr-2">Where</div>
+                <p-select 
+                    [options]="entities" 
+                    [(ngModel)]="rule.entity" 
+                    (ngModelChange)="onChange($event, rule)" 
+                    [filter]="true" 
+                    filterBy="name" 
+                    [disabled]="disabled"
+                    placeholder="Select an entity" 
+                    optionValue="value" 
+                    optionLabel="name" 
+                    appendTo="body"/>
+                <div class="text-muted my-auto ml-2" style="margin-right: -.5rem !important;">-</div>
+            </div>
         </ng-container>
 
         <!-- Override input component for fields -->
@@ -75,11 +79,10 @@
             <!-- Tooltip for field description -->
             <p-avatar icon="pi pi-question" 
                     shape="circle" 
-                    [style]="{'scale': '.65', 'margin-left': '-0.75rem'}"
+                    [style]="{'scale': '.65', 'margin-left': '-0.75rem', 'margin-right': '-0.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto',}"
                     [pTooltip]="rule.field | getDescription:fields" 
                     [tooltipOptions]="{tooltipStyleClass: 'info-tooltip'}" 
                     tooltipPosition="right"/>
-
         </ng-container>
 
         <!-- Override input component for operators -->
