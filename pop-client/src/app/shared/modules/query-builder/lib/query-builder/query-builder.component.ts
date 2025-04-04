@@ -30,6 +30,7 @@ import {
   QueryBuilderConfig,
   RemoveButtonContext,
   ArrowIconContext,
+  EntityRule,
   Rule,
   RuleSet,
   EmptyWarningContext
@@ -135,6 +136,8 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
   @Input() parentOperatorTemplate!: QueryOperatorDirective;
   @Input() parentFieldTemplate!: QueryFieldDirective;
   @Input() parentEntityTemplate!: QueryEntityDirective;
+  @Input() parentAddRuleFieldButtonTemplate!: any;
+  @Input() addRuleFieldButtonTemplate!: any;
   @Input() parentSwitchGroupTemplate!: QuerySwitchGroupDirective;
   @Input() parentButtonGroupTemplate!: QueryButtonGroupDirective;
   @Input() parentRemoveButtonTemplate!: QueryRemoveButtonDirective;
@@ -176,9 +179,9 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
   private operatorsCache: { [key: string]: string[] } = {};
   private inputContextCache = new Map<Rule, InputContext>();
   private operatorContextCache = new Map<Rule, OperatorContext>();
-  private fieldContextCache = new Map<Rule, FieldContext>();
-  private entityContextCache = new Map<Rule, EntityContext>();
-  private removeButtonContextCache = new Map<Rule, RemoveButtonContext>();
+  private fieldContextCache = new Map<EntityRule, FieldContext>();
+  private entityContextCache = new Map<EntityRule, EntityContext>();
+  private removeButtonContextCache = new Map<EntityRule, RemoveButtonContext>();
   private buttonGroupContext!: ButtonGroupContext;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
@@ -266,8 +269,8 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     return this.disabled;
   };
 
-  findTemplateForRule(rule: Rule): TemplateRef<any> | any {
-    const type = this.getInputType(rule.field, rule.operator as string);
+  findTemplateForRule(ruleField: Rule): TemplateRef<any> | any {
+    const type = this.getInputType(ruleField.field, ruleField.operator as string);
     if (type) {
       const queryInput = this.findQueryInput(type);
       if (queryInput) {
@@ -436,20 +439,55 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     this.handleDataChange();
   }
 
-  removeRule(rule: Rule, parent?: RuleSet): void {
+  addFieldRule(parent: EntityRule): void {
+    if (this.disabled) {
+      return;
+    }
+    
+    if (this.config.addRuleField) {
+      this.config.addRuleField(parent);
+    } else {
+      const entity: Entity = this.entities.find((e) => e.value === parent.entity) as Entity;
+      const field = this.getDefaultField(entity) as Field;
+      parent.fields = (parent.fields || []).concat([
+        {
+          field: field.value as string,
+          operator: this.getDefaultOperator(field) as string,
+          value: this.getDefaultValue(field.defaultValue),
+        }
+      ]);
+    }
+
+    this.handleTouched();
+    this.handleDataChange();
+  }
+
+
+  removeRuleField(field: Rule, parent: EntityRule): void {
+    if (this.disabled) {
+      return;
+    }
+
+    if (this.config.removeRuleField) {
+      this.config.removeRuleField(field, parent);
+    } else {
+      parent.fields = parent.fields.filter((r) => r !== field);
+    }
+    this.handleTouched();
+    this.handleDataChange();
+  }
+
+  removeEntityRule(rule: EntityRule, parent?: RuleSet): void {
     if (this.disabled) {
       return;
     }
 
     parent = parent || this.data;
-    if (this.config.removeRule) {
-      this.config.removeRule(rule, parent);
+    if (this.config.removeEntityRule) {
+      this.config.removeEntityRule(rule, parent);
     } else {
       parent.rules = parent.rules.filter((r) => r !== rule);
     }
-    this.inputContextCache.delete(rule);
-    this.operatorContextCache.delete(rule);
-    this.fieldContextCache.delete(rule);
     this.entityContextCache.delete(rule);
     this.removeButtonContextCache.delete(rule);
 
@@ -518,23 +556,23 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     this.handleDataChange();
   }
 
-  changeOperator(rule: Rule): void {
+  changeOperator(ruleField: Rule): void {
     if (this.disabled) {
       return;
     }
 
     if (this.config.coerceValueForOperator) {
-      rule.value = this.config.coerceValueForOperator(rule.operator as string, rule.value, rule);
+      ruleField.value = this.config.coerceValueForOperator(ruleField.operator as string, ruleField.value, ruleField);
     } else {
-      rule.value = this.coerceValueForOperator(rule.operator as string, rule.value, rule);
+      ruleField.value = this.coerceValueForOperator(ruleField.operator as string, ruleField.value, ruleField);
     }
 
     this.handleTouched();
     this.handleDataChange();
   }
 
-  coerceValueForOperator(operator: string, value: any, rule: Rule): any {
-    const inputType: string | null = this.getInputType(rule.field, operator);
+  coerceValueForOperator(operator: string, value: any, field: Rule): any {
+    const inputType: string | null = this.getInputType(field.field, operator);
     if (inputType === "multiselect" && !Array.isArray(value)) {
       return [value];
     }
@@ -550,41 +588,35 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     this.handleDataChange();
   }
 
-  changeField(fieldValue: string, rule: Rule): void {
+  changeField(fieldValue: string, ruleField: EntityRule): void {
     if (this.disabled) {
       return;
     }
 
-    const inputContext = this.inputContextCache.get(rule);
+    const inputContext = this.inputContextCache.get(ruleField);
     const currentField = inputContext && inputContext.field;
 
     const nextField: Field = this.config.fields[fieldValue];
 
-    const nextValue = this.calculateFieldChangeValue(currentField as Field, nextField, rule.value);
+    const nextValue = this.calculateFieldChangeValue(currentField as Field, nextField, ruleField.value);
 
     if (nextValue !== undefined) {
-      rule.value = nextValue;
+      ruleField.value = nextValue;
     } else {
-      delete rule.value;
+      delete ruleField.value;
     }
 
-    rule.operator = this.getDefaultOperator(nextField) as string;
+    ruleField.operator = this.getDefaultOperator(nextField) as string;
 
     // Create new context objects so templates will automatically update
-    this.inputContextCache.delete(rule);
-    this.operatorContextCache.delete(rule);
-    this.fieldContextCache.delete(rule);
-    this.entityContextCache.delete(rule);
-    this.getInputContext(rule);
-    this.getFieldContext(rule);
-    this.getOperatorContext(rule);
-    this.getEntityContext(rule);
-
+    this.inputContextCache.delete(ruleField);
+    this.operatorContextCache.delete(ruleField);
+    this.fieldContextCache.delete(ruleField);
     this.handleTouched();
     this.handleDataChange();
   }
 
-  changeEntity(entityValue: string, rule: Rule, index: number, data: RuleSet): void {
+  changeEntity(entityValue: string, rule: EntityRule, index: number, data: RuleSet): void {
     if (this.disabled) {
       return;
     }
@@ -596,10 +628,12 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
       rs = this.data;
       i = rs.rules.findIndex((x) => x === rule);
     }
-    rule.field = defaultField.value as string;
+    rule.fields = [{
+        field: defaultField.value as string,
+    }];
     rs.rules[i] = rule;
     if (defaultField) {
-      this.changeField(defaultField.value as string, rule);
+      this.changeField(defaultField.value as string, rule.fields[0]);
     } else {
       this.handleTouched();
       this.handleDataChange();
@@ -645,6 +679,11 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     return t ? t.template : null;
   }
 
+  getAddFieldRuleButtonTemplate(): TemplateRef<any> | null {
+    const t = this.parentAddRuleFieldButtonTemplate || this.addRuleFieldButtonTemplate;
+    return t ? t.template : null;
+  }
+
   getRemoveButtonTemplate(): TemplateRef<any> | null {
     const t = this.parentRemoveButtonTemplate || this.removeButtonTemplate;
     return t ? t.template : null;
@@ -678,10 +717,11 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     return this.buttonGroupContext;
   }
 
-  getRemoveButtonContext(rule: Rule): RemoveButtonContext {
+
+  getRemoveButtonContext(rule: EntityRule): RemoveButtonContext {
     if (!this.removeButtonContextCache.has(rule)) {
       this.removeButtonContextCache.set(rule, {
-        removeRule: this.removeRule.bind(this),
+        removeEntityRule: this.removeEntityRule.bind(this),
         getDisabledState: this.getDisabledState,
         $implicit: rule
       });
@@ -689,20 +729,32 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     return this.removeButtonContextCache.get(rule) as RemoveButtonContext;
   }
 
-  getFieldContext(rule: Rule): FieldContext {
-    if (!this.fieldContextCache.has(rule)) {
-      this.fieldContextCache.set(rule, {
+  getAddRuleFieldButtonContext(rulefield: Rule): FieldContext {
+    if (!this.fieldContextCache.has(rulefield)) {
+      this.fieldContextCache.set(rulefield, {
         onChange: this.changeField.bind(this),
         getFields: this.getFields.bind(this),
         getDisabledState: this.getDisabledState,
         fields: this.fields,
-        $implicit: rule
+        $implicit: rulefield
       });
     }
-    return this.fieldContextCache.get(rule) as FieldContext;
+    return this.fieldContextCache.get(rulefield) as FieldContext;
+  }
+  getFieldContext(entityRule: EntityRule): FieldContext {
+    if (!this.fieldContextCache.has(entityRule)) {
+      this.fieldContextCache.set(entityRule, {
+        onChange: this.changeField.bind(this),
+        getFields: this.getFields.bind(this),
+        getDisabledState: this.getDisabledState,
+        fields: this.fields,
+        $implicit: entityRule
+      });
+    }
+    return this.fieldContextCache.get(entityRule) as FieldContext;
   }
 
-  getEntityContext(rule: Rule): EntityContext {
+  getEntityContext(rule: EntityRule): EntityContext {
     if (!this.entityContextCache.has(rule)) {
       this.entityContextCache.set(rule, {
         onChange: this.changeEntity.bind(this) as any,
@@ -737,29 +789,29 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
     };
   }
 
-  getOperatorContext(rule: Rule): OperatorContext {
-    if (!this.operatorContextCache.has(rule)) {
-      this.operatorContextCache.set(rule, {
+  getOperatorContext(ruleField: Rule): OperatorContext {
+    if (!this.operatorContextCache.has(ruleField)) {
+      this.operatorContextCache.set(ruleField, {
         onChange: this.changeOperator.bind(this) as any,
         getDisabledState: this.getDisabledState,
-        operators: this.getOperators(rule.field),
-        $implicit: rule
+        operators: this.getOperators(ruleField.field),
+        $implicit: ruleField
       });
     }
-    return this.operatorContextCache.get(rule) as OperatorContext;
+    return this.operatorContextCache.get(ruleField) as OperatorContext;
   }
 
-  getInputContext(rule: Rule): InputContext {
-    if (!this.inputContextCache.has(rule)) {
-      this.inputContextCache.set(rule, {
+  getInputContext(ruleField: Rule): InputContext {
+    if (!this.inputContextCache.has(ruleField)) {
+      this.inputContextCache.set(ruleField, {
         onChange: this.changeInput.bind(this),
         getDisabledState: this.getDisabledState,
-        options: this.getOptions(rule.field),
-        field: this.config.fields[rule.field],
-        $implicit: rule
+        options: this.getOptions(ruleField.field),
+        field: this.config.fields[ruleField.field],
+        $implicit: ruleField
       });
     }
-    return this.inputContextCache.get(rule) as InputContext;
+    return this.inputContextCache.get(ruleField) as InputContext;
   }
 
   private calculateFieldChangeValue(currentField: Field, nextField: Field, currentValue: any): any {
@@ -810,7 +862,7 @@ export class QueryBuilderComponent implements OnChanges, ControlValueAccessor, V
         } else if ((item as Rule).field) {
           const field = this.config.fields[(item as Rule).field];
           if (field && field.validator) {
-            const error = field.validator(item as Rule, ruleset);
+            const error = field.validator(item as EntityRule, ruleset);
             if (error != null) {
               errorStore.push(error);
             }

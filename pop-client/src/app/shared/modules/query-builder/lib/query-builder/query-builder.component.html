@@ -83,22 +83,37 @@
 <div #treeContainer (transitionend)="transitionEnd($event)" [ngClass]="getClassNames('treeContainer', data.collapsed ? 'collapsed' : '')">
   @if (data && data.rules) {
     <ul [ngClass]="getClassNames('tree')">
-      @for (rule of data.rules; track $index; let i = $index) {
+      @for (entityRule of data.rules; track $index; let i = $index) {
           @if ({
-            ruleset: !!rule.rules,
-            invalid: !config.allowEmptyRulesets && rule.rules && rule.rules.length === 0
+            ruleset: !!entityRule.rules,
+            invalid: !config.allowEmptyRulesets && entityRule.rules && entityRule.rules.length === 0
           }; as local) {
             <li [ngClass]="getQueryItemClassName(local)">
               @if (!local.ruleset) {
+                @if (getAddFieldRuleButtonTemplate(); as template) {
+                  <div [ngClass]="getClassNames('buttonGroup', 'rightAlign')">
+                    <ng-container *ngTemplateOutlet="template; context: getAddRuleFieldButtonContext(entityRule)"/>
+                  </div>
+                } @else {
+                  <div [ngClass]="getClassNames('rightAlign')">
+                    <button type="button" 
+                            [ngClass]="getClassNames('button')"
+                            (click)="addFieldRule(entityRule)"
+                            [disabled]="disabled">
+                      <i [ngClass]="getClassNames('addIcon')"></i>
+                    </button>
+                  </div>
+
+                }
                 @if (getRemoveButtonTemplate(); as template) {
                   <div [ngClass]="getClassNames('buttonGroup', 'rightAlign')">
-                    <ng-container *ngTemplateOutlet="template; context: getRemoveButtonContext(rule)"/>
+                    <ng-container *ngTemplateOutlet="template; context: getRemoveButtonContext(entityRule)"/>
                   </div>
                 } @else {
                   <div [ngClass]="getClassNames('removeButtonSize', 'rightAlign')">
                     <button type="button" 
                             [ngClass]="getClassNames('button', 'removeButton')"
-                            (click)="removeRule(rule, data)"
+                            (click)="removeEntityRule(entityRule, data)"
                             [disabled]="disabled">
                       <i [ngClass]="getClassNames('removeIcon')"></i>
                     </button>
@@ -107,12 +122,12 @@
                 @if (entities.length) {
                   <div class="q-inline-block-display">
                     @if (getEntityTemplate(); as template) {
-                      <ng-container *ngTemplateOutlet="template; context: getEntityContext(rule)"/>
+                      <ng-container *ngTemplateOutlet="template; context: getEntityContext(entityRule)"/>
                     } @else {
                       <div [ngClass]="getClassNames('entityControlSize')">
                         <select [ngClass]="getClassNames('entityControl')"
-                              [(ngModel)]="rule.entity"
-                              (ngModelChange)="changeEntity($event, rule, i, data)"
+                              [(ngModel)]="entityRule.entity"
+                              (ngModelChange)="changeEntity($event, entityRule, i, data)"
                               [disabled]="disabled">
                           @for (entity of entities; track $index) {
                             <option [ngValue]="entity.value">
@@ -125,126 +140,132 @@
                   </div>
                 }
       
-                @if (getFieldTemplate(); as template) {
-                  <ng-container *ngTemplateOutlet="template; context: getFieldContext(rule)"/>
-                } @else {
-                  <div [ngClass]="getClassNames('fieldControlSize')">
-                    <select
-                      [ngClass]="getClassNames('fieldControl')"
-                      [(ngModel)]="rule.field"
-                      (ngModelChange)="changeField($event, rule)"
-                      [disabled]="disabled"
-                    >
-                      @for (field of getFields(rule.entity); track $index) {
-                        <option [ngValue]="field.value">
-                          {{ field.name }}
-                        </option>
+                <ul [ngClass]="getClassNames('tree')">
+                  @for (rule of entityRule.fields; track $index;) {
+                    <li [ngClass]="getQueryItemClassName(local)">          
+
+                      @if (getFieldTemplate(); as template) {
+                        <ng-container *ngTemplateOutlet="template; context: getFieldContext(rule)"/>
+                      } @else {
+                        <div [ngClass]="getClassNames('fieldControlSize')">
+                          <select
+                            [ngClass]="getClassNames('fieldControl')"
+                            [(ngModel)]="rule.field"
+                            (ngModelChange)="changeField($event, rule)"
+                            [disabled]="disabled"
+                          >
+                            @for (field of getFields(rule.entity); track $index) {
+                              <option [ngValue]="field.value">
+                                {{ field.name }}
+                              </option>
+                            }
+                          </select>
+                        </div>
                       }
-                    </select>
-                  </div>
-                }
-      
-                @if (getOperatorTemplate(); as template) {
-                  <ng-container *ngTemplateOutlet="template; context: getOperatorContext(rule)"/>
-                } @else { 
-                  <div [ngClass]="getClassNames('operatorControlSize')">
-                    <select
-                      [ngClass]="getClassNames('operatorControl')"
-                      [(ngModel)]="rule.operator"
-                      (ngModelChange)="changeOperator(rule)"
-                      [disabled]="disabled"
-                    >
-                      @for (operator of getOperators(rule.field); track $index) {
-                        <option [ngValue]="operator">
-                          {{ operator }}
-                        </option>
+            
+                      @if (getOperatorTemplate(); as template) {
+                        <ng-container *ngTemplateOutlet="template; context: getOperatorContext(rule)"/>
+                      } @else { 
+                        <div [ngClass]="getClassNames('operatorControlSize')">
+                          <select
+                            [ngClass]="getClassNames('operatorControl')"
+                            [(ngModel)]="rule.operator"
+                            (ngModelChange)="changeOperator(rule)"
+                            [disabled]="disabled"
+                          >
+                            @for (operator of getOperators(rule.field); track $index) {
+                              <option [ngValue]="operator">
+                                {{ operator }}
+                              </option>
+                            }
+                          </select>
+                        </div>
                       }
-                    </select>
-                  </div>
-                }
-  
-                @if (findTemplateForRule(rule); as template) {
-                  <ng-container *ngTemplateOutlet="template; context: getInputContext(rule)"/>
-                } @else {
-                  <div
-                    [ngClass]="getClassNames('inputControlSize')"
-                    [ngSwitch]="getInputType(rule.field, rule.operator)"
-                  >
-                    <input
-                      [ngClass]="getClassNames('inputControl')"
-                      [(ngModel)]="rule.value"
-                      (ngModelChange)="changeInput()"
-                      [disabled]="disabled"
-                      *ngSwitchCase="'string'"
-                      type="text"
-                    />
-                    <input
-                      [ngClass]="getClassNames('inputControl')"
-                      [(ngModel)]="rule.value"
-                      (ngModelChange)="changeInput()"
-                      [disabled]="disabled"
-                      *ngSwitchCase="'number'"
-                      type="number"
-                    />
-                    <input
-                      [ngClass]="getClassNames('inputControl')"
-                      [(ngModel)]="rule.value"
-                      (ngModelChange)="changeInput()"
-                      [disabled]="disabled"
-                      *ngSwitchCase="'date'"
-                      type="date"
-                    />
-                    <input
-                      [ngClass]="getClassNames('inputControl')"
-                      [(ngModel)]="rule.value"
-                      (ngModelChange)="changeInput()"
-                      [disabled]="disabled"
-                      *ngSwitchCase="'time'"
-                      type="time"
-                    />
-                    <select
-                      [ngClass]="getClassNames('inputControl')"
-                      [(ngModel)]="rule.value"
-                      (ngModelChange)="changeInput()"
-                      [disabled]="disabled"
-                      *ngSwitchCase="'category'">
-                      @for (opt of getOptions(rule.field); track $index;) {
-                        <option [ngValue]="opt.value">
-                          {{ opt.name }}
-                        </option>
+        
+                      @if (findTemplateForRule(rule); as template) {
+                        <ng-container *ngTemplateOutlet="template; context: getInputContext(rule)"/>
+                      } @else {
+                        <div
+                          [ngClass]="getClassNames('inputControlSize')"
+                          [ngSwitch]="getInputType(rule.field, rule.operator)"
+                        >
+                          <input
+                            [ngClass]="getClassNames('inputControl')"
+                            [(ngModel)]="rule.value"
+                            (ngModelChange)="changeInput()"
+                            [disabled]="disabled"
+                            *ngSwitchCase="'string'"
+                            type="text"
+                          />
+                          <input
+                            [ngClass]="getClassNames('inputControl')"
+                            [(ngModel)]="rule.value"
+                            (ngModelChange)="changeInput()"
+                            [disabled]="disabled"
+                            *ngSwitchCase="'number'"
+                            type="number"
+                          />
+                          <input
+                            [ngClass]="getClassNames('inputControl')"
+                            [(ngModel)]="rule.value"
+                            (ngModelChange)="changeInput()"
+                            [disabled]="disabled"
+                            *ngSwitchCase="'date'"
+                            type="date"
+                          />
+                          <input
+                            [ngClass]="getClassNames('inputControl')"
+                            [(ngModel)]="rule.value"
+                            (ngModelChange)="changeInput()"
+                            [disabled]="disabled"
+                            *ngSwitchCase="'time'"
+                            type="time"
+                          />
+                          <select
+                            [ngClass]="getClassNames('inputControl')"
+                            [(ngModel)]="rule.value"
+                            (ngModelChange)="changeInput()"
+                            [disabled]="disabled"
+                            *ngSwitchCase="'category'">
+                            @for (opt of getOptions(rule.field); track $index;) {
+                              <option [ngValue]="opt.value">
+                                {{ opt.name }}
+                              </option>
+                            }
+                          </select>
+                          <ng-container *ngSwitchCase="'multiselect'">
+                            <select
+                              [ngClass]="getClassNames('inputControl')"
+                              [(ngModel)]="rule.value"
+                              (ngModelChange)="changeInput()"
+                              [disabled]="disabled"
+                              multiple
+                            >
+                              @for (opt of getOptions(rule.field); track $index;) {
+                                <option [ngValue]="opt.value">
+                                  {{ opt.name }}
+                                </option>
+                              }
+                            </select>
+                          </ng-container>
+                          <input
+                            [ngClass]="getClassNames('inputControl')"
+                            [(ngModel)]="rule.value"
+                            (ngModelChange)="changeInput()"
+                            [disabled]="disabled"
+                            *ngSwitchCase="'boolean'"
+                            type="checkbox"
+                          />
+                        </div>
                       }
-                    </select>
-                    <ng-container *ngSwitchCase="'multiselect'">
-                      <select
-                        [ngClass]="getClassNames('inputControl')"
-                        [(ngModel)]="rule.value"
-                        (ngModelChange)="changeInput()"
-                        [disabled]="disabled"
-                        multiple
-                      >
-                        @for (opt of getOptions(rule.field); track $index;) {
-                          <option [ngValue]="opt.value">
-                            {{ opt.name }}
-                          </option>
-                        }
-                      </select>
-                    </ng-container>
-                    <input
-                      [ngClass]="getClassNames('inputControl')"
-                      [(ngModel)]="rule.value"
-                      (ngModelChange)="changeInput()"
-                      [disabled]="disabled"
-                      *ngSwitchCase="'boolean'"
-                      type="checkbox"
-                    />
-                  </div>
-                }
+                    </li>
+                  }
+                </ul>
   
                 
-              }
-              @if (local.ruleset) {
+              } @else {
                 <query-builder
-                  [data]="rule"
+                  [data]="entityRule"
                   [disabled]="disabled"
                   [parentTouchedCallback]="parentTouchedCallback || onTouchedCallback"
                   [parentChangeCallback]="parentChangeCallback || onChangeCallback"

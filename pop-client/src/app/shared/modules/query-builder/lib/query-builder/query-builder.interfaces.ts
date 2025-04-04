@@ -2,16 +2,20 @@ import { ValidationErrors } from "@angular/forms";
 
 export interface RuleSet {
   condition: string;
-  rules: Array<RuleSet | Rule | any>;
+  rules: Array<RuleSet | EntityRule | any>;
   collapsed?: boolean;
   isChild?: boolean;
+}
+
+export interface EntityRule {
+  fields: Rule[];
+  entity?: string;
 }
 
 export interface Rule {
   field: string;
   value?: any;
   operator?: string;
-  entity?: string;
 }
 
 export interface Option {
@@ -33,7 +37,7 @@ export interface Field {
   defaultValue?: any;
   defaultOperator?: any;
   entity?: string;
-  validator?: (rule: Rule, parent: RuleSet) => any | null;
+  validator?: (rule: EntityRule, parent: RuleSet) => any | null;
 }
 
 export interface LocalRuleMeta {
@@ -95,9 +99,11 @@ export interface QueryBuilderConfig {
   getOptions?: (field: string) => Option[];
   addRuleSet?: (parent: RuleSet) => void;
   addRule?: (parent: RuleSet) => void;
+  addRuleField?: (parent: EntityRule) => void;
   removeRuleSet?: (ruleset: RuleSet, parent?: RuleSet) => void;
-  removeRule?: (rule: Rule, parent: RuleSet) => void;
-  coerceValueForOperator?: (operator: string, value: any, rule: Rule) => any;
+  removeEntityRule?: (rule: EntityRule, parent: RuleSet) => void;
+  removeRuleField?: (field: Rule, parent: EntityRule) => void;
+  coerceValueForOperator?: (operator: string, value: any, ruleField: Rule) => any;
   calculateFieldChangeValue?: (currentField: Field, nextField: Field, currentValue: any) => any;
 }
 
@@ -119,18 +125,18 @@ export interface ArrowIconContext {
 }
 
 export interface EntityContext {
-  onChange: (entityValue: string, rule: Rule) => void;
+  onChange: (entityValue: string, rule: EntityRule) => void;
   getDisabledState: () => boolean;
   entities: Entity[];
-  $implicit: Rule;
+  $implicit: EntityRule;
 }
 
 export interface FieldContext {
-  onChange: (fieldValue: string, rule: Rule) => void;
+  onChange: (fieldValue: string, rule: EntityRule) => void;
   getFields: (entityName: string) => void;
   getDisabledState: () => boolean;
   fields: Field[];
-  $implicit: Rule;
+  $implicit: EntityRule;
 }
 
 export interface OperatorContext {
@@ -157,7 +163,19 @@ export interface ButtonGroupContext {
 }
 
 export interface RemoveButtonContext {
-  removeRule: (rule: Rule) => void;
+  removeEntityRule: (rule: EntityRule) => void;
   getDisabledState: () => boolean;
-  $implicit: Rule;
+  $implicit: EntityRule;
+}
+
+export interface AddRuleFieldButtonContext {
+  removeSubqueryRule: (rule: EntityRule) => void;
+  getDisabledState: () => boolean;
+  $implicit: EntityRule;
+}
+
+export interface RemoveRuleFieldButtonContext {
+  removeRuleField: (rule: EntityRule) => void;
+  getDisabledState: () => boolean;
+  $implicit: EntityRule;
 }
