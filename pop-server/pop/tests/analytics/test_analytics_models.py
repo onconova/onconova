@@ -5,6 +5,22 @@ from pop.tests.factories import PatientCaseFactory, UserFactory
 import numpy as np
 from random import random
 
+
+class TestGetCohortPopulation(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.population = 4
+        cls.cohort = Cohort.objects.create(name='Test Cohort')
+        cls.cohort.cases.set([PatientCaseFactory.create() for _ in range(cls.population)])
+
+    def test_no_cases(self):
+        self.cohort.cases.set([])
+        self.assertEqual(self.cohort.population, 0)
+
+    def test_population(self):
+        self.assertEqual(self.cohort.population, self.population)
+
 class TestGetCohortTraitAverage(TestCase):
 
     @classmethod

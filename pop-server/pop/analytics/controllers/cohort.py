@@ -56,7 +56,7 @@ class CohortsController(ControllerBase):
         operation_id='getCohorts',
     )
     @paginate()
-    def get_all_cohorts_matching_the_query(self, query: Query[CohortFilters]): # type: ignore
+    def get_all_cohorts_matching_the_query(self, query: Query[CohortFilters]):
         queryset = Cohort.objects.all().order_by('-created_at')
         return query.filter(queryset)
 
@@ -68,7 +68,7 @@ class CohortsController(ControllerBase):
         permissions=[perms.CanManageCohorts],
         operation_id='createCohort',
     )
-    def create_cohort(self, payload: CohortCreateSchema): # type: ignore
+    def create_cohort(self, payload: CohortCreateSchema):
         cohort = payload.model_dump_django(user=self.context.request.user)
         cohort.update_cohort_cases()
         return cohort
@@ -110,7 +110,7 @@ class CohortsController(ControllerBase):
         permissions=[perms.CanManageCohorts],
         operation_id='updateCohort',
     )
-    def update_cohort(self, cohortId: str, payload: CohortCreateSchema): # type: ignore
+    def update_cohort(self, cohortId: str, payload: CohortCreateSchema):
         cohort = get_object_or_404(Cohort, id=cohortId)
         cohort = payload.model_dump_django(instance=cohort, user=self.context.request.user)
         cohort.update_cohort_cases()

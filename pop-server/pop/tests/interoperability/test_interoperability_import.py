@@ -37,7 +37,7 @@ class BundleParserTest(TestCase):
         cls.original_radiotherapy_dosage = factories.RadiotherapyDosageFactory(radiotherapy=cls.original_radiotherapy, created_by=cls.original_user)
         cls.original_radiotherapy_setting = factories.RadiotherapySettingFactory(radiotherapy=cls.original_radiotherapy, created_by=cls.original_user)
         cls.original_adverse_event = factories.AdverseEventFactory(**basic)
-        cls.original_adverse_event_cause = factories.AdverseEventSuspectedCauseFactory(adverse_event=cls.original_adverse_event, created_by=cls.original_user, radiotherapy=cls.original_radiotherapy)
+        cls.original_adverse_event_cause = factories.AdverseEventSuspectedCauseFactory(adverse_event=cls.original_adverse_event, created_by=cls.original_user, systemic_therapy=cls.original_systemic_therapy)
         cls.original_adverse_event_mitigation = factories.AdverseEventMitigationFactory(adverse_event=cls.original_adverse_event, created_by=cls.original_user)
         cls.bundle = PatientCaseBundle.model_validate(cls.original_case)
         cls.original_staging = factories.TNMStagingFactory.create(**basic, staged_entities=related_entities)

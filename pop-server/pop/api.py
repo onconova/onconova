@@ -36,7 +36,6 @@ from pop.interoperability.controllers import (
 )
 from pop.analytics.controllers import (
     CohortsController, 
-    CohortBuilderController, 
     DashboardController, 
     DatasetsController,
     CohortAnalysisController
@@ -79,7 +78,6 @@ api.register_controllers(
     TerminologyController,
     CohortsController,
     CohortAnalysisController,
-    CohortBuilderController,
     DashboardController,
     DatasetsController,
     OthersController,
