@@ -86,16 +86,14 @@ model/cases-per-month-schema.ts
 model/clark-staging-create.ts
 model/clark-staging.ts
 model/coded-concept.ts
-model/cohort-builder-config.ts
-model/cohort-builder-entity.ts
-model/cohort-builder-field-option.ts
-model/cohort-builder-field.ts
 model/cohort-contribution.ts
 model/cohort-create.ts
 model/cohort-filters.ts
 model/cohort-query-entity.ts
 model/cohort-query-filter.ts
-model/cohort-rule-type.ts
+model/cohort-rule.ts
+model/cohort-ruleset-rules-inner.ts
+model/cohort-ruleset.ts
 model/cohort-trait-average.ts
 model/cohort-trait-counts.ts
 model/cohort-trait-median.ts
@@ -224,6 +222,7 @@ model/risk-assessment.ts
 model/riss-staging-create.ts
 model/riss-staging.ts
 model/rna-change-type.ts
+model/ruleset-condition.ts
 model/staging-domain.ts
 model/staging-filters.ts
 model/surgery-create.ts

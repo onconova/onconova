@@ -7,17 +7,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CohortRuleset } from './cohort-ruleset';
 
 
 export interface CohortCreate { 
+    includeCriteria?: CohortRuleset | null;
+    excludeCriteria?: CohortRuleset | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
      * Name of the cohort
      */
     name: string;
-    includeCriteria?: object | null;
-    excludeCriteria?: object | null;
     /**
      * Whether the cohort is public
      */

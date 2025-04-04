@@ -12,7 +12,6 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { Cohort } from '../model/models';
-import { CohortBuilderConfig } from '../model/models';
 import { CohortContribution } from '../model/models';
 import { CohortCreate } from '../model/models';
 import { CohortTraitAverage } from '../model/models';
@@ -171,12 +170,6 @@ export interface CohortsServiceInterface {
     deleteCohortById(requestParameters: DeleteCohortByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
-     * Get Cohort Builder Configuration
-     * 
-*/
-    getCohortBuilderConfig(extraHttpRequestParams?: any): Observable<CohortBuilderConfig>;
-
-    /**
      * Get Cohort By Id
      * 
 * @param requestParameters
@@ -216,7 +209,7 @@ export interface CohortsServiceInterface {
      * 
 * @param requestParameters
      */
-    getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, extraHttpRequestParams?: any): Observable<object>;
+    getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * Get Cohort Overall Survival Curve
@@ -237,14 +230,14 @@ export interface CohortsServiceInterface {
      * 
 * @param requestParameters
      */
-    getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, extraHttpRequestParams?: any): Observable<object>;
+    getCohortProgressionFreeSurvivalCurveByDrugCombinations(requestParameters: GetCohortProgressionFreeSurvivalCurveByDrugCombinationsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * Get Cohort Progression Free Survival Curve By Therapy Classifications
      * 
 * @param requestParameters
      */
-    getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, extraHttpRequestParams?: any): Observable<object>;
+    getCohortProgressionFreeSurvivalCurveByTherapyClassifications(requestParameters: GetCohortProgressionFreeSurvivalCurveByTherapyClassificationsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
 
     /**
      * Get Cohort Trait Average

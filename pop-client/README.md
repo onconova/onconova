@@ -20,7 +20,7 @@ rm -r pop-client/src/app/shared/openapi && npx @openapitools/openapi-generator-c
 ```
 Alternatively using Docker
 ```bash
-rm -r pop-client/src/app/shared/openapi && docker run --rm -v "${PWD}/pop-client/:/local" openapitools/openapi-generator-cli generate \
+rm -r ${PWD}/pop-client/src/app/shared/openapi && docker run --rm -v "${PWD}/pop-client/:/local" openapitools/openapi-generator-cli:latest-release generate \
     -i /local/openapi.json \
     -g typescript-angular \
     -o /local/src/app/shared/openapi \

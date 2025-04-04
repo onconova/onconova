@@ -75,9 +75,6 @@ class TerminologyController(ControllerBase):
             ).order_by('-matching_score')
 
         if query.codes:
-            print(queryset)
             queryset = queryset.filter(code__in=query.codes).distinct()
-            print(queryset)
-            print(query.codes)
         return queryset
 

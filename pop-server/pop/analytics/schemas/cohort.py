@@ -117,7 +117,7 @@ class CohortCreateSchema(ModelCreateSchema):
         alias='exclude_criteria', 
         validation_alias=AliasChoices('excludeCriteria','exclude_criteria')
     )
-    config = SchemaConfig(model=orm.Cohort, exclude=('include_criteria', 'exclude_criteria'))
+    config = SchemaConfig(model=orm.Cohort)
 
 class CohortFilters(create_filters_schema(schema=CohortSchema, name='CohortFilters')):
     createdBy: Optional[str] = Field(None, description='Filter for a particular cohort creator by its username')

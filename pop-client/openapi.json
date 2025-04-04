@@ -30100,6 +30100,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "title": "Response",
                   "type": "object"
                 }
@@ -30205,6 +30206,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "title": "Response",
                   "type": "object"
                 }
@@ -30258,6 +30260,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "additionalProperties": true,
                   "title": "Response",
                   "type": "object"
                 }
@@ -30269,33 +30272,6 @@
           },
           "422": {
             "description": "Unprocessable Entity"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "JWTAuth": []
-          }
-        ]
-      }
-    },
-    "/api/cohort-builder/config": {
-      "get": {
-        "operationId": "getCohortBuilderConfig",
-        "summary": "Get Cohort Builder Configuration",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CohortBuilderConfig"
-                }
-              }
-            }
           }
         },
         "tags": [
@@ -33373,6 +33349,7 @@
           "properties": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -57776,7 +57753,7 @@
             "x-expanded": false
           },
           "isPublic": {
-            "default": false,
+            "default": true,
             "description": "Whether the cohort is public",
             "title": "Is public?",
             "type": "boolean",
@@ -57865,6 +57842,30 @@
       },
       "CohortCreate": {
         "properties": {
+          "includeCriteria": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CohortRuleset"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Logic rules to filter and constrain the cases to be included in the cohort",
+            "title": "Inclusion critera"
+          },
+          "excludeCriteria": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CohortRuleset"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Logic rules to filter and constrain the cases to be excluded from the cohort",
+            "title": "Exclusion critera"
+          },
           "externalSource": {
             "anyOf": [
               {
@@ -57898,34 +57899,8 @@
             "type": "string",
             "x-expanded": false
           },
-          "includeCriteria": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "JSON object defining inclusion criteria",
-            "title": "Inclusion criteria",
-            "x-expanded": false
-          },
-          "excludeCriteria": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "JSON object defining exclusion criteria",
-            "title": "Exclusion criteria",
-            "x-expanded": false
-          },
           "isPublic": {
-            "default": false,
+            "default": true,
             "description": "Whether the cohort is public",
             "title": "Is public?",
             "type": "boolean",
@@ -57970,6 +57945,197 @@
         ],
         "title": "CohortCreate",
         "type": "object"
+      },
+      "CohortQueryEntity": {
+        "enum": [
+          "PatientCase",
+          "PatientCaseDataCompletion",
+          "NeoplasticEntity",
+          "Staging",
+          "TNMStaging",
+          "FIGOStaging",
+          "BinetStaging",
+          "RaiStaging",
+          "BreslowDepth",
+          "ClarkStaging",
+          "ISSStaging",
+          "RISSStaging",
+          "GleasonGrade",
+          "INSSStage",
+          "INRGSSStage",
+          "WilmsStage",
+          "RhabdomyosarcomaClinicalGroup",
+          "LymphomaStaging",
+          "TumorMarker",
+          "RiskAssessment",
+          "TreatmentResponse",
+          "TherapyLine",
+          "SystemicTherapy",
+          "SystemicTherapyMedication",
+          "PerformanceStatus",
+          "Surgery",
+          "Radiotherapy",
+          "RadiotherapyDosage",
+          "RadiotherapySetting",
+          "Lifestyle",
+          "ComorbiditiesAssessment",
+          "FamilyHistory",
+          "TumorBoard",
+          "MolecularTumorBoard",
+          "UnspecifiedTumorBoard",
+          "MolecularTherapeuticRecommendation",
+          "AdverseEvent",
+          "AdverseEventSuspectedCause",
+          "AdverseEventMitigation",
+          "Vitals",
+          "GenomicVariant",
+          "GenomicSignature",
+          "TumorMutationalBurden",
+          "MicrosatelliteInstability",
+          "LossOfHeterozygosity",
+          "HomologousRecombinationDeficiency",
+          "TumorNeoantigenBurden",
+          "AneuploidScore"
+        ],
+        "title": "CohortQueryEntity",
+        "type": "string"
+      },
+      "CohortQueryFilter": {
+        "enum": [
+          "ExactStringFilter",
+          "NotExactStringFilter",
+          "ContainsStringFilter",
+          "NotContainsStringFilter",
+          "BeginsWithStringFilter",
+          "NotBeginsWithStringFilter",
+          "EndsWithStringFilter",
+          "NotEndsWithStringFilter",
+          "BeforeDateFilter",
+          "AfterDateFilter",
+          "OnOrBeforeDateFilter",
+          "OnOrAfterDateFilter",
+          "OnDateFilter",
+          "NotOnDateFilter",
+          "BetweenDatesFilter",
+          "NotBetweenDatesFilter",
+          "OverlapsPeriodFilter",
+          "NotOverlapsPeriodFilter",
+          "ContainsPeriodFilter",
+          "NotContainsPeriodFilter",
+          "ContainedByPeriodFilter",
+          "NotContainedByPeriodFilter",
+          "LessThanIntegerFilter",
+          "LessThanOrEqualIntegerFilter",
+          "GreaterThanIntegerFilter",
+          "GreaterThanOrEqualIntegerFilter",
+          "EqualIntegerFilter",
+          "NotEqualIntegerFilter",
+          "BetweenIntegerFilter",
+          "NotBetweenIntegerFilter",
+          "LessThanFloatFilter",
+          "LessThanOrEqualFloatFilter",
+          "GreaterThanFloatFilter",
+          "GreaterThanOrEqualFloatFilter",
+          "EqualFloatFilter",
+          "NotEqualFloatFilter",
+          "BetweenFloatFilter",
+          "NotBetweenFloatFilter",
+          "EqualsBooleanFilter",
+          "EqualsConceptFilter",
+          "NotEqualsConceptFilter",
+          "AnyOfConceptFilter",
+          "NotAnyOfConceptFilter",
+          "DescendantsOfConceptFilter",
+          "AllOfConceptFilter",
+          "NotAllOfConceptFilter",
+          "ExactRefereceFilter",
+          "NotExactRefereceFilter",
+          "AnyOfReferecesFilter",
+          "NotAnyOfReferecesFilter",
+          "AllOfReferencesFilter",
+          "NotAllOfReferencesFilter",
+          "EqualsEnumFilter",
+          "NotEqualsEnumFilter",
+          "AnyOfEnumFilter",
+          "NotAnyOfEnumFilter",
+          "IsNullFilter",
+          "NotIsNullFilter"
+        ],
+        "title": "CohortQueryFilter",
+        "type": "string"
+      },
+      "CohortRule": {
+        "properties": {
+          "entity": {
+            "$ref": "#/components/schemas/CohortQueryEntity",
+            "description": "Name of the case-related resource",
+            "title": "entity"
+          },
+          "field": {
+            "description": "Dot-separated path of the resource field (e.g. 'medications.drug')",
+            "title": "Field",
+            "type": "string"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/CohortQueryFilter",
+            "description": "Name of the filter operator to be applied to the field",
+            "title": "Operator"
+          },
+          "value": {
+            "description": "Filter value to be applied to the field using the rule's oprerator",
+            "title": "Value"
+          }
+        },
+        "required": [
+          "entity",
+          "field",
+          "operator",
+          "value"
+        ],
+        "title": "CohortRule",
+        "type": "object"
+      },
+      "CohortRuleset": {
+        "properties": {
+          "condition": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RulesetCondition"
+              }
+            ],
+            "default": "and",
+            "description": "Logical condition used to chain the rules within the ruleset",
+            "title": "Logical condition"
+          },
+          "rules": {
+            "description": "List of rules or nested rulesets that define the fields and values to use for the filtering.",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CohortRule"
+                },
+                {
+                  "$ref": "#/components/schemas/CohortRuleset"
+                }
+              ]
+            },
+            "title": "Rules",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rules"
+        ],
+        "title": "CohortRuleset",
+        "type": "object"
+      },
+      "RulesetCondition": {
+        "enum": [
+          "and",
+          "or"
+        ],
+        "title": "RulesetCondition",
+        "type": "string"
       },
       "CohortContribution": {
         "properties": {
@@ -58215,236 +58381,6 @@
         ],
         "title": "KapplerMeierCurve",
         "type": "object"
-      },
-      "CohortBuilderConfig": {
-        "properties": {
-          "allowEmptyRulesets": {
-            "const": false,
-            "default": false,
-            "title": "Allowemptyrulesets",
-            "type": "boolean"
-          },
-          "fields": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/CohortBuilderField"
-            },
-            "title": "Fields",
-            "type": "object"
-          },
-          "entities": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/CohortBuilderEntity"
-            },
-            "title": "Entities",
-            "type": "object"
-          }
-        },
-        "required": [
-          "fields",
-          "entities"
-        ],
-        "title": "CohortBuilderConfig",
-        "type": "object"
-      },
-      "CohortBuilderEntity": {
-        "properties": {
-          "name": {
-            "title": "Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "name"
-        ],
-        "title": "CohortBuilderEntity",
-        "type": "object"
-      },
-      "CohortBuilderField": {
-        "properties": {
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "operators": {
-            "items": {
-              "$ref": "#/components/schemas/CohortQueryFilter"
-            },
-            "title": "Operators",
-            "type": "array"
-          },
-          "type": {
-            "$ref": "#/components/schemas/CohortRuleType"
-          },
-          "entity": {
-            "$ref": "#/components/schemas/CohortQueryEntity"
-          },
-          "options": {
-            "default": [],
-            "items": {
-              "$ref": "#/components/schemas/CohortBuilderFieldOption"
-            },
-            "title": "Options",
-            "type": "array"
-          }
-        },
-        "required": [
-          "name",
-          "operators",
-          "type",
-          "entity"
-        ],
-        "title": "CohortBuilderField",
-        "type": "object"
-      },
-      "CohortBuilderFieldOption": {
-        "properties": {
-          "name": {
-            "title": "Name",
-            "type": "string"
-          },
-          "value": {
-            "title": "Value"
-          }
-        },
-        "required": [
-          "name",
-          "value"
-        ],
-        "title": "CohortBuilderFieldOption",
-        "type": "object"
-      },
-      "CohortQueryEntity": {
-        "enum": [
-          "PatientCase",
-          "PatientCaseDataCompletion",
-          "NeoplasticEntity",
-          "Staging",
-          "TNMStaging",
-          "FIGOStaging",
-          "BinetStaging",
-          "RaiStaging",
-          "BreslowDepth",
-          "ClarkStaging",
-          "ISSStaging",
-          "RISSStaging",
-          "GleasonGrade",
-          "INSSStage",
-          "INRGSSStage",
-          "WilmsStage",
-          "RhabdomyosarcomaClinicalGroup",
-          "LymphomaStaging",
-          "TumorMarker",
-          "RiskAssessment",
-          "TreatmentResponse",
-          "TherapyLine",
-          "SystemicTherapy",
-          "SystemicTherapyMedication",
-          "PerformanceStatus",
-          "Surgery",
-          "Radiotherapy",
-          "RadiotherapyDosage",
-          "RadiotherapySetting",
-          "Lifestyle",
-          "ComorbiditiesAssessment",
-          "FamilyHistory",
-          "TumorBoard",
-          "MolecularTumorBoard",
-          "UnspecifiedTumorBoard",
-          "MolecularTherapeuticRecommendation",
-          "AdverseEvent",
-          "AdverseEventSuspectedCause",
-          "AdverseEventMitigation",
-          "Vitals",
-          "GenomicVariant",
-          "GenomicSignature",
-          "TumorMutationalBurden",
-          "MicrosatelliteInstability",
-          "LossOfHeterozygosity",
-          "HomologousRecombinationDeficiency",
-          "TumorNeoantigenBurden",
-          "AneuploidScore"
-        ],
-        "title": "CohortQueryEntity",
-        "type": "string"
-      },
-      "CohortQueryFilter": {
-        "enum": [
-          "ExactStringFilter",
-          "NotExactStringFilter",
-          "ContainsStringFilter",
-          "NotContainsStringFilter",
-          "BeginsWithStringFilter",
-          "NotBeginsWithStringFilter",
-          "EndsWithStringFilter",
-          "NotEndsWithStringFilter",
-          "BeforeDateFilter",
-          "AfterDateFilter",
-          "OnOrBeforeDateFilter",
-          "OnOrAfterDateFilter",
-          "OnDateFilter",
-          "NotOnDateFilter",
-          "BetweenDatesFilter",
-          "NotBetweenDatesFilter",
-          "OverlapsPeriodFilter",
-          "NotOverlapsPeriodFilter",
-          "ContainsPeriodFilter",
-          "NotContainsPeriodFilter",
-          "ContainedByPeriodFilter",
-          "NotContainedByPeriodFilter",
-          "LessThanIntegerFilter",
-          "LessThanOrEqualIntegerFilter",
-          "GreaterThanIntegerFilter",
-          "GreaterThanOrEqualIntegerFilter",
-          "EqualIntegerFilter",
-          "NotEqualIntegerFilter",
-          "BetweenIntegerFilter",
-          "NotBetweenIntegerFilter",
-          "LessThanFloatFilter",
-          "LessThanOrEqualFloatFilter",
-          "GreaterThanFloatFilter",
-          "GreaterThanOrEqualFloatFilter",
-          "EqualFloatFilter",
-          "NotEqualFloatFilter",
-          "BetweenFloatFilter",
-          "NotBetweenFloatFilter",
-          "EqualsBooleanFilter",
-          "EqualsConceptFilter",
-          "NotEqualsConceptFilter",
-          "AnyOfConceptFilter",
-          "NotAnyOfConceptFilter",
-          "DescendantsOfConceptFilter",
-          "AllOfConceptFilter",
-          "NotAllOfConceptFilter",
-          "ExactRefereceFilter",
-          "NotExactRefereceFilter",
-          "AnyOfReferecesFilter",
-          "NotAnyOfReferecesFilter",
-          "AllOfReferencesFilter",
-          "NotAllOfReferencesFilter",
-          "EqualsEnumFilter",
-          "NotEqualsEnumFilter",
-          "AnyOfEnumFilter",
-          "NotAnyOfEnumFilter",
-          "IsNullFilter",
-          "NotIsNullFilter"
-        ],
-        "title": "CohortQueryFilter",
-        "type": "string"
-      },
-      "CohortRuleType": {
-        "enum": [
-          "string",
-          "number",
-          "date",
-          "boolean",
-          "coded_concept",
-          "coded_concept_list",
-          "measure",
-          "period",
-          "enum"
-        ],
-        "title": "CohortRuleType",
-        "type": "string"
       },
       "DataPlatformStatisticsSchema": {
         "properties": {

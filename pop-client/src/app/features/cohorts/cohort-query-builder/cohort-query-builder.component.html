@@ -1,5 +1,4 @@
 @if (config) {
-
     <query-builder 
         [(ngModel)]="query" 
         (ngModelChange)="onQueryChange($event)"  
@@ -8,14 +7,15 @@
         [classNames]="{row: 'row flex gap-3 p-1 m-3'}">
 
 
-        <ng-container *querySwitchGroup="let ruleset">
+        <ng-container *querySwitchGroup="let ruleset; let onChange=onChange;">
             @if (ruleset) {
                 <p-selectbutton 
-                [options]="rulesetConditions" 
-                [disabled]="disabled"
-                [(ngModel)]="ruleset.condition"  
-                optionLabel="label" 
-                optionValue="value" />
+                    [options]="rulesetConditions" 
+                    [disabled]="disabled"
+                    [(ngModel)]="ruleset.condition"  
+                    (ngModelChange)="onChange($event, ruleset)" 
+                    optionLabel="label" 
+                    optionValue="value" />
             }
         </ng-container>
 
@@ -98,16 +98,18 @@
         </ng-container>
 
         <!-- Override input component for 'date' type -->
-        <ng-container *queryInput="let rule; let options=options; type: 'date'">
+        <ng-container *queryInput="let rule;  let onChange=onChange; let options=options; type: 'date'">
             <pop-datepicker 
                 [disabled]="disabled"
-                [(ngModel)]="rule.value"/>
+                [(ngModel)]="rule.value"
+                (ngModelChange)="onChange($event, rule)" />
         </ng-container>
 
         <!-- Override input component for 'Period' type -->
-        <ng-container *queryInput="let rule; let options=options; type: 'Period'">
+        <ng-container *queryInput="let rule;  let onChange=onChange; let options=options; type: 'Period'">
             <pop-datepicker 
                 [(ngModel)]="rule.value"
+                (ngModelChange)="onChange($event, rule)" 
                 [disabled]="disabled"
                 selectionMode="range"
                 placeholder="DD/MM/YYYY - DD/MM/YYYY"
@@ -115,22 +117,24 @@
         </ng-container>
 
         <!-- Override input component for 'string' type -->
-        <ng-container *queryInput="let rule; let options=options; type: 'string'">
+        <ng-container *queryInput="let rule;  let onChange=onChange; let options=options; type: 'string'">
             <input 
                 type="text" 
                 pInputText 
                 [(ngModel)]="rule.value" 
+                (ngModelChange)="onChange($event, rule)" 
                 [disabled]="disabled"
                 placeholder="Enter a query"/>
         </ng-container>
 
         <!-- Override input component for 'enum' type -->
-        <ng-container *queryInput="let rule; let options=options; type: 'enum'">
+        <ng-container *queryInput="let rule;  let onChange=onChange; let options=options; type: 'enum'">
             @let isMultipleChoice = ['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator);
             @if (isMultipleChoice) {
                 <p-multiselect 
                     [options]="options" 
                     [(ngModel)]="rule.value" 
+                    (ngModelChange)="onChange($event, rule)" 
                     optionLabel="value" 
                     optionValue="value"
                     placeholder="Select one or more options" 
@@ -140,6 +144,7 @@
                 <p-select 
                     [options]="options" 
                     [(ngModel)]="rule.value"
+                    (ngModelChange)="onChange($event, rule)" 
                     [disabled]="disabled" 
                     optionLabel="value"
                     optionValue="value"
@@ -151,15 +156,16 @@
         </ng-container>
 
         <!-- Override input component for 'number' type -->
-        <ng-container *queryInput="let rule; let options=options;  type: 'Measure'">
+        <ng-container *queryInput="let rule; let onChange=onChange; let options=options;  type: 'Measure'">
             <pop-measure-input
                 [(ngModel)]="rule.value" 
+                (ngModelChange)="onChange($event, rule)" 
                 [measure]="options[0].value"
                 [defaultUnit]="options[1].value"/>
         </ng-container>
 
         <!-- Override input component for 'float' type -->
-        <ng-container *queryInput="let rule; type: 'number'">
+        <ng-container *queryInput="let rule; let onChange=onChange; type: 'number'">
             @let requiresRange = [operators.NotBetweenFloatFilter, operators.BetweenFloatFilter].includes(rule.operator);
             @if (requiresRange) {
                 <pop-range-input
@@ -168,6 +174,7 @@
             } @else {
                 <p-inputnumber 
                     [(ngModel)]="rule.value" 
+                    (ngModelChange)="onChange($event, rule)" 
                     [disabled]="disabled"
                     placeholder="Enter a value" 
                     useGrouping="false" 
@@ -180,15 +187,17 @@
 
 
         <!-- Override input component for 'integer' type -->
-        <ng-container *queryInput="let rule;  type: 'integer'">
+        <ng-container *queryInput="let rule; let onChange=onChange; type: 'integer'">
             @let requiresRange = [operators.NotBetweenIntegerFilter, operators.BetweenIntegerFilter].includes(rule.operator);
             @if (requiresRange) {
                 <pop-range-input
                     [(range)]="rule.value"
+                    (ngModelChange)="onChange($event, rule)" 
                     [disabled]="disabled"/>
             } @else {
                 <p-inputnumber 
                     [(ngModel)]="rule.value" 
+                    (ngModelChange)="onChange($event, rule)" 
                     [disabled]="disabled"
                     placeholder="Enter a value" 
                     useGrouping="false" />
@@ -196,10 +205,11 @@
         </ng-container>
 
         <!-- Override input component for 'boolean' type -->
-        <ng-container *queryInput="let rule; type: 'boolean'">
+        <ng-container *queryInput="let rule; let onChange=onChange; type: 'boolean'">
             <p-selectbutton 
                 [options]="booleanOptions" 
                 [(ngModel)]="rule.value" 
+                (ngModelChange)="onChange($event, rule)" 
                 optionLabel="label" 
                 optionValue="value"
                 [disabled]="disabled" 
@@ -207,9 +217,10 @@
         </ng-container>
 
         <!-- Override input component for 'coded_concept' type -->
-        <ng-container *queryInput="let rule; let field=field; let options=options; type: 'CodedConcept'">
+        <ng-container *queryInput="let rule; let onChange=onChange; let field=field; let options=options; type: 'CodedConcept'">
             <pop-concept-selector 
                 [(ngModel)]="rule.value" 
+                (ngModelChange)="onChange($event, rule)" 
                 [terminology]="options[0].value"
                 [returnCode]="true"
                 [disabled]="disabled"
@@ -218,7 +229,7 @@
         </ng-container>
 
         <!-- Override input component for 'coded_concept_list' type -->
-        <ng-container *queryInput="let rule; let field=field; let options=options; type: 'MultiCodedConcept'">
+        <ng-container *queryInput="let rule; let onChange=onChange; let field=field; let options=options; type: 'MultiCodedConcept'">
             <pop-concept-selector 
                 [(ngModel)]="rule.value" 
                 [terminology]="options[0].value"

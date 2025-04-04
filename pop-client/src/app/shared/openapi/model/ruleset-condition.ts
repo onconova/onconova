@@ -9,7 +9,12 @@
  */
 
 
-export interface CohortBuilderEntity { 
-    name: string;
-}
+export type RulesetCondition = 'and' | 'or';
+
+export const RulesetCondition = {
+
+    And: 'and' as RulesetCondition,
+
+    Or: 'or' as RulesetCondition
+};
 
