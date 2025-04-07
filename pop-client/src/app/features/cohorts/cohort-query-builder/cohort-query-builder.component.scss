@@ -1,0 +1,331 @@
+
+/* Use the primeng style for the rules and make it switch with theme */
+.q-rule {
+    background-color: light-dark(var(--p-surface-50), var(--p-surface-800)) !important;
+    border-radius: var(--p-border-radius-sm);
+}
+.q-rule, .q-ruleset {
+    border-color: var(--p-content-border-color) !important;
+}
+
+/* Adjust the tree-like structure joining the rulesets and rules */
+.q-connector::before {
+    height: calc(50% + 20px) !important;
+    top: -20px !important;
+}
+.q-connector::before, .q-connector::after {
+    border-color: var(--p-content-border-color) !important;
+}
+
+.rule-filter-button-group{
+    position: absolute !important;
+    right: 0rem !important;
+}
+.info-tooltip > .p-tooltip-text {
+    white-space: nowrap !important;
+    color: var(--p-text-color) !important;
+}
+.q-connector.q-transition.q-ruleset {
+    padding-top: 1rem !important;
+}
+
+:host {
+    display: block;
+    width: 100%;
+  
+    .q-icon {
+      font-style: normal;
+      font-size: 12px;
+    }
+  
+    .q-remove-icon {
+      &::before {
+        content: "❌";
+      }
+    }
+  
+    .q-arrow-icon-button {
+      float: left;
+      margin: 4px 6px 4px 0;
+      transform: rotate(90deg);
+      transition: linear 0.25s transform;
+      cursor: pointer;
+  
+      &.q-collapsed {
+        transform: rotate(0);
+      }
+    }
+  
+    .q-arrow-icon {
+      &::before {
+        content: "▶";
+      }
+    }
+  
+    .q-add-icon {
+      color: #555;
+      &::before {
+        content: "➕";
+      }
+    }
+  
+    .q-remove-button {
+      color: #b3415d;
+      width: 31px;
+    }
+  
+    .q-switch-group,
+    .q-button-group {
+      font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
+      overflow: hidden;
+    }
+  
+    .q-right-align {
+      float: right;
+    }
+  
+    .q-button {
+      margin-left: 8px;
+      padding: 0 8px;
+      background-color: white;
+  
+      &:disabled {
+        display: none;
+      }
+    }
+  
+    .q-control-size {
+      display: inline-block;
+      vertical-align: top;
+      padding-right: 10px;
+    }
+  
+    .q-input-control,
+    .q-operator-control,
+    .q-field-control,
+    .q-entity-control {
+      display: inline-block;
+      padding: 5px 8px;
+      color: #555;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      width: auto;
+      min-width: 180px;
+  
+      &:disabled {
+        border-color: transparent;
+      }
+    }
+  
+    .q-operator-control,
+    .q-field-control,
+    .q-entity-control,
+    .q-input-control:not([type="checkbox"]) {
+      min-height: 32px;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+  
+    .q-switch-label,
+    .q-button {
+      float: left;
+      margin-bottom: 0;
+      font-size: 14px;
+      line-height: 30px;
+      font-weight: normal;
+      text-align: center;
+      text-shadow: none;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+  
+      &:hover {
+        cursor: pointer;
+        background-color: #f0f0f0;
+      }
+    }
+  
+    .q-switch-label {
+      background-color: #e4e4e4;
+      padding: 0 8px;
+    }
+  
+    .q-switch-radio {
+      position: absolute;
+      clip: rect(0, 0, 0, 0);
+      height: 1px;
+      width: 1px;
+      border: 0;
+      overflow: hidden;
+  
+      &:checked + .q-switch-label {
+        border: 1px solid rgb(97, 158, 215);
+        background: white;
+        color: rgb(49, 118, 179);
+      }
+  
+      &:disabled + .q-switch-label {
+        display: none;
+      }
+  
+      &:checked:disabled + .q-switch-label {
+        display: initial;
+        color: initial;
+        cursor: default;
+        border-color: transparent;
+      }
+    }
+  
+    .q-invalid-ruleset {
+      border: 1px solid rgba(179, 65, 93, 0.5) !important;
+      background: rgba(179, 65, 93, 0.1) !important;
+    }
+  
+    .q-empty-warning {
+      color: rgb(141, 37, 46);
+      text-align: center;
+    }
+  
+    .q-ruleset {
+      border: 1px solid #ccc;
+    }
+  
+    .q-rule {
+      border: 1px solid #ccc;
+      background: white;
+    }
+  
+    .q-transition {
+      -webkit-transition: all 0.1s ease-in-out;
+      -moz-transition: all 0.1s ease-in-out;
+      -ms-transition: all 0.1s ease-in-out;
+      -o-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out;
+    }
+  
+    .q-tree-container {
+      width: 100%;
+      overflow: hidden;
+      transition: ease-in 0.25s max-height;
+      padding-left: 1rem;
+  
+      &.q-collapsed {
+        max-height: 0 !important;
+      }
+    }
+  
+    .q-tree {
+      list-style: none;
+      margin: 4px 0 2px;
+    }
+  
+    .q-row {
+      padding: 6px 8px;
+      margin-top: 6px;
+    }
+  
+    .q-connector {
+      position: relative;
+  
+      &::before {
+        top: -5px;
+        border-width: 0 0 2px 2px;
+      }
+  
+      &::after {
+        border-width: 0 0 0 2px;
+        top: 50%;
+      }
+  
+      &::before,
+      &::after {
+        content: "";
+        left: -35px;
+        border-color: #ccc;
+        border-style: solid;
+        width: 32px;
+        height: calc(50% + 6px);
+        position: absolute;
+      }
+  
+      &:last-child::after {
+        content: none;
+      }
+    }
+    ::ng-deep {
+      .q-condition-select {
+        width: fit-content;
+        background: none;
+        border: none;
+      }
+      .q-condition-select .p-select-label {
+        font-size: .9rem;
+        background: var(--p-button-primary-background);
+        color: var(--p-button-primary-color) !important;
+        padding: .25rem .75rem !important;
+        border-radius: 5rem;
+        display: flex;
+        margin-top: .75rem;
+        box-shadow: none !important;
+      }
+      .q-condition-select .p-select-label::before {
+        content: "⬤";
+        font-size: 0.5rem;
+        margin-right: 0.25rem;
+        display: block;
+        margin-top: 0.25rem;
+
+      }
+      .q-condition-select .p-select-dropdown {
+        background: none !important;
+        margin-left: -0.25rem;
+        margin-top: 0.75rem;
+      }
+
+    }
+    .q-logic-connector {
+      position: absolute;
+      left: -55px;
+      top: calc(50% - .75rem);
+      font-size: .9rem;
+      background: var(--p-button-primary-background);
+      color: var(--p-button-primary-color) !important;
+      padding: 0.25rem .5rem;
+      border-radius: 6.5rem;
+      z-index: 6;
+      display: flex;
+
+      &::before {
+        content: "⬤";
+        font-size: 0.35rem;
+        margin-right: 0.25rem;
+        display: block;
+        margin-top: .25rem;
+      }
+    }
+    
+    .q-row.q-connector {
+      margin-top: .75rem;
+      border-left: solid 3px;
+      border-left-color: var(--p-button-primary-background) !important;
+    }
+  
+    .q-inline-block-display {
+      display: inline-block;
+      margin: auto 0;
+    }
+  
+    .q-field-description-tooltip > .p-tooltip-text {
+      white-space: nowrap !important;
+      color: var(--p-text-color) !important;
+    }
+
+    .q-filters-container {
+      padding-left: 1rem;
+      border-left: solid 2px var(--p-content-border-color);
+      margin-left: 1rem;
+    }
+  }
+  

@@ -178,6 +178,5 @@ export class CohortBuilderComponent {
         this.pageSize = event.rows;
         this.refreshCohortCases()
      }
-     
 
 }
