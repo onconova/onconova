@@ -152,6 +152,7 @@
                               [options]="[{label: 'Yes', value: true}, {label: 'No', value: false}]" 
                               [(ngModel)]="filter.value" 
                               (ngModelChange)="changeInput()"
+                              [allowEmpty]="false"
                               [disabled]="disabled"/>
                           }
                           @case ('enum') {

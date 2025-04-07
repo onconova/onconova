@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.db.models import Q
-from pop.analytics.schemas import CohortRule, CohortRuleset, RulesetCondition, CohortQueryFilter, CohortQueryEntity
+from pop.analytics.schemas import CohortRule, CohortRuleset, RulesetCondition, CohortRuleFilter, CohortQueryFilter, CohortQueryEntity
 from pop.oncology.models import PatientCase
 from pop.tests.factories import (
     PatientCaseFactory, PrimaryNeoplasticEntityFactory, SystemicTherapyFactory, SystemicTherapyMedicationFactory
@@ -25,9 +25,11 @@ class TestCohortRules(TestCase):
         # case = PatientCaseFactory(pseudoidentifier=value)
         rule = CohortRule(
             entity=CohortQueryEntity.PatientCase,
-            field='pseudoidentifier',
-            operator=CohortQueryFilter.ExactStringFilter,
-            value=value
+            filters=[CohortRuleFilter(
+                field='pseudoidentifier',
+                operator=CohortQueryFilter.ExactStringFilter,
+                value=value
+            )]
         )
         query = next(rule.convert_to_query())
         # Assert the query object
@@ -42,9 +44,11 @@ class TestCohortRules(TestCase):
         # entity = PrimaryNeoplasticEntityFactory(relationship='primary')
         rule = CohortRule(
             entity=CohortQueryEntity.NeoplasticEntity,
-            field='relationship',
-            operator=CohortQueryFilter.ExactStringFilter,
-            value=value
+            filters=[CohortRuleFilter(
+                field='relationship',
+                operator=CohortQueryFilter.ExactStringFilter,
+                value=value
+            )]
         )
         query = next(rule.convert_to_query())
         # Assert the query object
@@ -57,9 +61,11 @@ class TestCohortRules(TestCase):
         # entity = PrimaryNeoplasticEntityFactory(relationship='primary')
         rule = CohortRule(
             entity=CohortQueryEntity.SystemicTherapy,
-            field='medications.drug',
-            operator=CohortQueryFilter.NotIsNullFilter,
-            value=True
+            filters=[CohortRuleFilter(
+                field='medications.drug',
+                operator=CohortQueryFilter.NotIsNullFilter,
+                value=True
+            )]
         )
         query = next(rule.convert_to_query())
         # Assert the query object
@@ -75,15 +81,19 @@ class TestCohortRules(TestCase):
             rules=[
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='pseudoidentifier',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case1.pseudoidentifier
+                    filters=[CohortRuleFilter(
+                        field='pseudoidentifier',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case1.pseudoidentifier
+                    )]
                 ),
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='clinical_center',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case1.clinical_center
+                    filters=[CohortRuleFilter(
+                        field='clinical_center',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case1.clinical_center
+                    )]
                 ),
             ]
         )
@@ -105,15 +115,19 @@ class TestCohortRules(TestCase):
             rules=[
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='pseudoidentifier',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case1.pseudoidentifier
+                    filters=[CohortRuleFilter(
+                        field='pseudoidentifier',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case1.pseudoidentifier
+                    )]
                 ),
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='pseudoidentifier',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case2.pseudoidentifier
+                    filters=[CohortRuleFilter(
+                        field='pseudoidentifier',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case2.pseudoidentifier
+                    )]
                 ),
             ]
         )
@@ -135,15 +149,19 @@ class TestCohortRules(TestCase):
             rules=[
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='pseudoidentifier',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case1.pseudoidentifier
+                    filters=[CohortRuleFilter(
+                        field='pseudoidentifier',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case1.pseudoidentifier
+                    )]
                 ),
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='pseudoidentifier',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case2.pseudoidentifier
+                    filters=[CohortRuleFilter(
+                        field='pseudoidentifier',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case2.pseudoidentifier
+                    )]
                 ),
             ]
         )
@@ -153,9 +171,11 @@ class TestCohortRules(TestCase):
                 nested,
                 CohortRule(
                     entity=CohortQueryEntity.PatientCase,
-                    field='clinical_center',
-                    operator=CohortQueryFilter.ExactStringFilter,
-                    value=self.case1.clinical_center
+                    filters=[CohortRuleFilter(
+                        field='clinical_center',
+                        operator=CohortQueryFilter.ExactStringFilter,
+                        value=self.case1.clinical_center
+                    )]
                 ),
             ]
         )

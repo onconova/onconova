@@ -733,6 +733,10 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     CohortQueryFilter.EndsWithStringFilter, 
                     CohortQueryFilter.NotEndsWithStringFilter
                 ]
+            case 'boolean':
+                return [ 
+                    CohortQueryFilter.EqualsBooleanFilter,
+                ]
             case 'enum':
                 return [ 
                     CohortQueryFilter.EqualsEnumFilter,
