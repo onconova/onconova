@@ -37,7 +37,6 @@ import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-p
     templateUrl: './cohort-builder.component.html',
     styleUrl: './cohort-builder.component.css',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -110,8 +109,8 @@ export class CohortBuilderComponent {
                 if (!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
                     this.cohortControl.controls['name'].setValue(cohort.name) ;
                     this.cohortControl.controls['isPublic'].setValue(cohort.isPublic);
-                    this.cohortControl.controls['includeCriteria'].setValue(this.convertFromAPI(cohort.includeCriteria));
-                    this.cohortControl.controls['excludeCriteria'].setValue(this.convertFromAPI(cohort.excludeCriteria));    
+                    this.cohortControl.controls['includeCriteria'].setValue(cohort.includeCriteria);
+                    this.cohortControl.controls['excludeCriteria'].setValue(cohort.excludeCriteria);    
                 }
             },
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
@@ -159,8 +158,8 @@ export class CohortBuilderComponent {
         const payload: CohortCreate = {
             name: cohortData.name,
             isPublic: cohortData.isPublic,
-            includeCriteria: this.convertToAPI(cohortData.includeCriteria),
-            excludeCriteria: this.convertToAPI(cohortData.excludeCriteria),
+            includeCriteria: cohortData.includeCriteria,
+            excludeCriteria: cohortData.excludeCriteria,
         };
         this.cohortsService.updateCohort({cohortId: this.cohortId, cohortCreate: payload}).pipe(first()).subscribe({
             next: (response: ModifiedResource) => {
@@ -179,56 +178,5 @@ export class CohortBuilderComponent {
         this.pageSize = event.rows;
         this.refreshCohortCases()
      }
-     
-
-    private convertFromAPI(ruleset_: any) {  
-        if (!ruleset_) {
-            return ruleset_
-        }
-        let ruleset = {...ruleset_};
-        if (ruleset.rules && ruleset.rules.length > 0) {
-            ruleset.rules = this.convertRule(ruleset.rules, true) 
-        }
-        return ruleset
-    }  
-
-    private convertToAPI(ruleset_: any) {  
-        if (!ruleset_) {
-            return ruleset_
-        }
-        let ruleset = {...ruleset_};
-        if (ruleset.rules && ruleset.rules.length > 0) {
-            ruleset.rules = this.convertRule(ruleset.rules, false) 
-        }
-        return ruleset
-    }  
-
-    private convertRule(rules: any, toInternal: boolean = true) {
-        if (!rules || rules.length === 0) {
-            return null
-        }
-        return rules.map((rule_: any) => {
-            let rule = {...rule_};
-            if (rule.filters && rule.filters.length > 0) {
-                rule.filters = rule.filters.map((filter_: any) => {
-                    let filter = {...filter_}
-                    if (filter.field) {
-                        if (toInternal) {
-                            filter.field = `${rule.entity}.${filter.field}`
-                        } else {
-                            filter.field = filter.field.split('.').pop();
-                        }
-                    }
-                    return filter
-                })
-            }
-            // Recursively apply to nested rules
-            if (rule.rules && rule.rules.length > 0) {
-                rule.rules = this.convertRule(rule.rules, toInternal);
-            }
-            return rule
-        });
-      }
-
 
 }

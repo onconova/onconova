@@ -20,65 +20,65 @@ function mapOperator(operator: string): string {
         case CohortQueryFilter.NotEndsWithStringFilter: 
             return 'Does not end with'
         case CohortQueryFilter.BeforeDateFilter:
-            return 'Before';
+            return 'Is before';
         case CohortQueryFilter.AfterDateFilter:
-            return 'After';
+            return 'Is after';
         case CohortQueryFilter.OnOrBeforeDateFilter:
             return 'On or before';
         case CohortQueryFilter.OnOrAfterDateFilter:
             return 'On or after';
         case CohortQueryFilter.OnDateFilter:
-            return 'On date';
+            return 'Is';
         case CohortQueryFilter.NotOnDateFilter:
-            return 'Not on';
+            return 'Is not';
         case CohortQueryFilter.BetweenDatesFilter:
-            return 'Between';
+            return 'Is between';
         case CohortQueryFilter.NotBetweenDatesFilter:
-            return 'Not between';
+            return 'Is not between';
         case CohortQueryFilter.OverlapsPeriodFilter:
             return 'Overlaps with';
         case CohortQueryFilter.NotOverlapsPeriodFilter:
             return 'Does not overlap with';
         case CohortQueryFilter.ContainsPeriodFilter:
-            return 'Contains folowing period';
+            return 'Contains';
         case CohortQueryFilter.NotContainsPeriodFilter:
-            return 'Does not contain following period';
+            return 'Does not contain';
         case CohortQueryFilter.ContainedByPeriodFilter:
-            return 'Contained by following period';
+            return 'Is contained by';
         case CohortQueryFilter.NotContainedByPeriodFilter:
-            return 'Not contained by following period';
+            return 'Is not contained by';
         case CohortQueryFilter.LessThanIntegerFilter:
-            return 'Less than'
+            return 'Is less than'
         case CohortQueryFilter.LessThanOrEqualIntegerFilter:
-            return 'Less than or equal'
+            return 'Is less than or equal'
         case CohortQueryFilter.GreaterThanIntegerFilter:
-            return 'Greater than'
+            return 'Is greater than'
         case CohortQueryFilter.GreaterThanOrEqualIntegerFilter:
-            return 'Greater than or equal'
+            return 'Is greater than or equal'
         case CohortQueryFilter.EqualIntegerFilter:
-            return 'Equals'
+            return 'Is equal to'
         case CohortQueryFilter.NotEqualIntegerFilter:
-            return 'Not equal'
+            return 'Is not equal to'
         case CohortQueryFilter.BetweenIntegerFilter:
-            return 'Between'
+            return 'Is between'
         case CohortQueryFilter.NotBetweenIntegerFilter:
-            return 'Not between'
+            return 'Is not between'
         case CohortQueryFilter.LessThanFloatFilter:
-            return 'Less than'
+            return 'Is less than'
         case CohortQueryFilter.LessThanOrEqualFloatFilter:
-            return 'Less than or equal'
+            return 'Is less than or equal'
         case CohortQueryFilter.GreaterThanFloatFilter:
-            return 'Greater than'
+            return 'Is greater than'
         case CohortQueryFilter.GreaterThanOrEqualFloatFilter:
-            return 'Greater than or equal'
+            return 'Is greater than or equal'
         case CohortQueryFilter.EqualFloatFilter:
-            return 'Equals'
+            return 'Is equal to'
         case CohortQueryFilter.NotEqualFloatFilter:
-            return 'Not equal'
+            return 'Is not equal to '
         case CohortQueryFilter.BetweenFloatFilter:
-            return 'Between'
+            return 'Is between'
         case CohortQueryFilter.NotBetweenFloatFilter:
-            return 'Not between'
+            return 'Is not between'
         case CohortQueryFilter.EqualsBooleanFilter:
             return 'Is';
         case CohortQueryFilter.EqualsConceptFilter:
@@ -96,9 +96,9 @@ function mapOperator(operator: string): string {
         case CohortQueryFilter.DescendantsOfConceptFilter:
             return 'Is any descendant of';
         case CohortQueryFilter.ExactRefereceFilter:
-            return 'Exact reference';
+            return 'Is exact reference';
         case CohortQueryFilter.NotExactRefereceFilter:
-            return 'Not exact reference';
+            return 'Is not exact reference';
         case CohortQueryFilter.EqualsEnumFilter:
             return 'Is';
         case CohortQueryFilter.NotEqualsEnumFilter:

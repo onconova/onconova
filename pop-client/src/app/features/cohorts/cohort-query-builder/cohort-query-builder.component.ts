@@ -6,14 +6,12 @@ import { ConceptSelectorComponent, DatePickerComponent, RangeInputComponent } fr
 import { forwardRef } from '@angular/core';
 
 import { 
-    CohortsService,
     CohortQueryFilter,
  } from 'src/app/shared/openapi';
 
  import { TooltipModule } from 'primeng/tooltip';
 import { Button } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
-import { RadioButton } from 'primeng/radiobutton';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from 'primeng/select';
 import { MultiSelect } from 'primeng/multiselect';
@@ -24,8 +22,6 @@ import { InputText } from 'primeng/inputtext';
 import OpenAPISpecification from "../../../../../openapi.json";
 import { DataResource } from "src/app/shared/openapi";
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { map, ObjectUnsubscribedError } from 'rxjs';
 import { MeasureInputComponent } from "../../../shared/components/measure-input/measure-input.component";
 import { Avatar } from 'primeng/avatar';
 
@@ -33,7 +29,6 @@ import {
   AbstractControl,
   NG_VALIDATORS,
   ValidationErrors,
-  Validator
 } from "@angular/forms";
 import {
   Entity,
@@ -95,6 +90,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
     @Input() allowRuleset = true;
     @Input() allowCollapse = true;
+    @Input() allowEmptyDefault = false;
     @Input() emptyMessage = "A ruleset cannot be empty. Please add a rule or remove it all together.";
     @Input() parentValue?: RuleSet;
     @Input() parentChangeCallback!: () => void;
@@ -272,26 +268,76 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
   @Input()
   get value(): RuleSet | null {
-    return this.data.rules.length ? this.data : null
+    if (this.data.rules.length) {
+        let data =  {...this.data}
+        data.rules = this.convertRule(data.rules, false) 
+        return data        
+    } else {
+        return null
+    }
   }
-  set value(value: RuleSet) {
-    // When component is initialized without a formControl, null is passed to value
-    this.data = value || { condition: "and", rules: [] };
+  set value(value: RuleSet | null) {
+    
+    if (value) {
+        this.data = value;
+    } else {
+        if (this.allowEmptyDefault) {
+            this.addRule()
+        } else {
+            this.data = {condition: 'and', rules: []}
+        }
+    }
     this.handleDataChange();
   }
 
   writeValue(obj: any): void {
-    this.value = obj;
+    console.log(obj)
+    if (obj) {
+        let data =  {...obj}
+        data.rules = this.convertRule(data.rules, true) 
+        this.value = data;
+    } else {
+        this.value = null
+    }
+
   }
   registerOnChange(fn: any): void {
-    this.onChangeCallback = () => fn(this.data);
+    this.onChangeCallback = () => fn(this.value);
   }
   registerOnTouched(fn: any): void {
-    this.onTouchedCallback = () => fn(this.data);
+    this.onTouchedCallback = () => fn(this.value);
   }
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
     this.changeDetectorRef.detectChanges();
+  }
+
+
+  private convertRule(rules: any, toInternal: boolean = true) {
+    if (!rules || rules.length === 0) {
+        return null
+    }
+    return rules.map((rule_: any) => {
+        let rule = {...rule_};
+        if (rule.filters && rule.filters.length > 0) {
+            rule.filters = rule.filters.map((filter_: any) => {
+                let filter = {...filter_}
+                if (filter.field) {
+                    if (toInternal) {
+                        filter.field = `${rule.entity}.${filter.field}`
+                    } else {
+                        filter.field = filter.field.split('.').pop();
+                    }
+                }
+                return filter
+            })
+        }
+        // Recursively apply to nested rules
+        if (rule.rules && rule.rules.length > 0) {
+            rule.rules = this.convertRule(rule.rules, toInternal);
+        }
+        return rule
+    });
   }
 
   // ----------END----------
@@ -815,118 +861,3 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
 }
 
-
-function mapOperator(operator: string): string {
-    switch (operator) {
-        case CohortQueryFilter.ExactStringFilter:
-            return 'Matches exactly'
-        case CohortQueryFilter.NotExactStringFilter:
-            return 'Does not match exactly'
-        case CohortQueryFilter.ContainsStringFilter: 
-            return 'Contains'
-        case CohortQueryFilter.NotContainsStringFilter: 
-            return 'Does not contain'
-        case CohortQueryFilter.BeginsWithStringFilter: 
-            return 'Begins with'
-        case CohortQueryFilter.NotBeginsWithStringFilter: 
-            return 'Does not begin with'
-        case CohortQueryFilter.EndsWithStringFilter: 
-            return 'Ends with'
-        case CohortQueryFilter.NotEndsWithStringFilter: 
-            return 'Does not end with'
-        case CohortQueryFilter.BeforeDateFilter:
-            return 'Before';
-        case CohortQueryFilter.AfterDateFilter:
-            return 'After';
-        case CohortQueryFilter.OnOrBeforeDateFilter:
-            return 'On or before';
-        case CohortQueryFilter.OnOrAfterDateFilter:
-            return 'On or after';
-        case CohortQueryFilter.OnDateFilter:
-            return 'On date';
-        case CohortQueryFilter.NotOnDateFilter:
-            return 'Not on';
-        case CohortQueryFilter.BetweenDatesFilter:
-            return 'Between';
-        case CohortQueryFilter.NotBetweenDatesFilter:
-            return 'Not between';
-        case CohortQueryFilter.OverlapsPeriodFilter:
-            return 'Overlaps with';
-        case CohortQueryFilter.NotOverlapsPeriodFilter:
-            return 'Does not overlap with';
-        case CohortQueryFilter.ContainsPeriodFilter:
-            return 'Contains folowing period';
-        case CohortQueryFilter.NotContainsPeriodFilter:
-            return 'Does not contain following period';
-        case CohortQueryFilter.ContainedByPeriodFilter:
-            return 'Contained by following period';
-        case CohortQueryFilter.NotContainedByPeriodFilter:
-            return 'Not contained by following period';
-        case CohortQueryFilter.LessThanIntegerFilter:
-            return 'Less than'
-        case CohortQueryFilter.LessThanOrEqualIntegerFilter:
-            return 'Less than or equal'
-        case CohortQueryFilter.GreaterThanIntegerFilter:
-            return 'Greater than'
-        case CohortQueryFilter.GreaterThanOrEqualIntegerFilter:
-            return 'Greater than or equal'
-        case CohortQueryFilter.EqualIntegerFilter:
-            return 'Equals'
-        case CohortQueryFilter.NotEqualIntegerFilter:
-            return 'Not equal'
-        case CohortQueryFilter.BetweenIntegerFilter:
-            return 'Between'
-        case CohortQueryFilter.NotBetweenIntegerFilter:
-            return 'Not between'
-        case CohortQueryFilter.LessThanFloatFilter:
-            return 'Less than'
-        case CohortQueryFilter.LessThanOrEqualFloatFilter:
-            return 'Less than or equal'
-        case CohortQueryFilter.GreaterThanFloatFilter:
-            return 'Greater than'
-        case CohortQueryFilter.GreaterThanOrEqualFloatFilter:
-            return 'Greater than or equal'
-        case CohortQueryFilter.EqualFloatFilter:
-            return 'Equals'
-        case CohortQueryFilter.NotEqualFloatFilter:
-            return 'Not equal'
-        case CohortQueryFilter.BetweenFloatFilter:
-            return 'Between'
-        case CohortQueryFilter.NotBetweenFloatFilter:
-            return 'Not between'
-        case CohortQueryFilter.EqualsBooleanFilter:
-            return 'Is';
-        case CohortQueryFilter.EqualsConceptFilter:
-            return 'Is';
-        case CohortQueryFilter.NotEqualsConceptFilter:
-            return 'Is not';
-        case CohortQueryFilter.AllOfConceptFilter:
-            return 'Is exactly';
-        case CohortQueryFilter.NotAllOfConceptFilter:
-            return 'Is exactly not';
-        case CohortQueryFilter.AnyOfConceptFilter:
-            return 'Is any of';
-        case CohortQueryFilter.NotAnyOfConceptFilter:
-            return 'Is not any of';
-        case CohortQueryFilter.DescendantsOfConceptFilter:
-            return 'Is any descendant of';
-        case CohortQueryFilter.ExactRefereceFilter:
-            return 'Exact reference';
-        case CohortQueryFilter.NotExactRefereceFilter:
-            return 'Not exact reference';
-        case CohortQueryFilter.EqualsEnumFilter:
-            return 'Is';
-        case CohortQueryFilter.NotEqualsEnumFilter:
-            return 'Is not';
-        case CohortQueryFilter.AnyOfEnumFilter:
-            return 'Is any of';
-        case CohortQueryFilter.NotAnyOfEnumFilter:
-            return 'Is not any of';
-        case CohortQueryFilter.IsNullFilter:
-            return 'Is empty (unset)';
-        case CohortQueryFilter.NotIsNullFilter:
-            return 'Is not empty (unset)';
-        default:
-            return operator;
-    }
-}

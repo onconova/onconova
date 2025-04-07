@@ -65,6 +65,7 @@
                         <p-select 
                             [options]="entities" 
                             [(ngModel)]="rule.entity" 
+                            (ngModelChange)="changeEntity($event, rule, i, data)"
                             [filter]="true" 
                             filterBy="name" 
                             [disabled]="disabled"
@@ -85,6 +86,7 @@
                           [options]="getFields(rule.entity)" 
                           [(ngModel)]="filter.field" 
                           (onChange)="filter.value = null;"
+                          (ngModelChange)="changeField($event, filter)"
                           [filter]="true" 
                           filterBy="name" 
                           [disabled]="disabled"
@@ -109,6 +111,7 @@
                           [filter]="true" 
                           filterBy="name" 
                           (onChange)="filter.value = null;"
+                          (ngModelChange)="changeOperator(filter)"
                           [disabled]="disabled"
                           placeholder="Select a filter" 
                           optionValue="value" 
@@ -122,12 +125,14 @@
                               type="text" 
                               pInputText 
                               [(ngModel)]="filter.value" 
+                              (ngModelChange)="changeInput()"
                               [disabled]="disabled"
                               placeholder="Enter a query"/>
                           }
                           @case ('Period') {
                             <pop-datepicker 
                               [(ngModel)]="filter.value"
+                              (ngModelChange)="changeInput()"
                               [disabled]="disabled"
                               selectionMode="range"
                               placeholder="DD/MM/YYYY - DD/MM/YYYY"/>
@@ -135,11 +140,13 @@
                           @case ('date') {
                             <pop-datepicker 
                               [disabled]="disabled"
-                              [(ngModel)]="filter.value"/>
+                              [(ngModel)]="filter.value"
+                              (ngModelChange)="changeInput()"/>
                           }
                           @case ('Measure') {
                             <pop-measure-input
                               [(ngModel)]="filter.value" 
+                              (ngModelChange)="changeInput()"
                               [measure]="field.measureType || ''"
                               [defaultUnit]="field.defaultUnit || ''"/>
                           }
@@ -147,6 +154,7 @@
                             <p-selectbutton 
                               [options]="[{label: 'Yes', value: true}, {label: 'No', value: false}]" 
                               [(ngModel)]="filter.value" 
+                              (ngModelChange)="changeInput()"
                               [disabled]="disabled"/>
                           }
                           @case ('enum') {
@@ -154,6 +162,7 @@
                                 <p-multiselect 
                                     [options]="field.options" 
                                     [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
                                     optionLabel="value" 
                                     optionValue="value"
                                     placeholder="Select one or more options" 
@@ -163,6 +172,7 @@
                                 <p-select 
                                     [options]="field.options" 
                                     [(ngModel)]="filter.value"
+                                    (ngModelChange)="changeInput()"
                                     [disabled]="disabled" 
                                     optionLabel="value"
                                     optionValue="value"
@@ -173,6 +183,7 @@
                           @case ('CodedConcept') {
                             <pop-concept-selector 
                               [(ngModel)]="filter.value" 
+                              (ngModelChange)="changeInput()"
                               [terminology]="field.terminology || ''"
                               [returnCode]="true"
                               [disabled]="disabled"
@@ -182,6 +193,7 @@
                           @case ('MultiCodedConcept') {
                             <pop-concept-selector 
                               [(ngModel)]="filter.value" 
+                              (ngModelChange)="changeInput()"
                               [terminology]="field.terminology || ''"
                               [returnCode]="true"
                               [disabled]="disabled"
@@ -193,10 +205,12 @@
                             @if (requiresRange) {
                                 <pop-range-input
                                     [(range)]="filter.value"
+                                    (ngModelChange)="changeInput()"
                                     [disabled]="disabled"/>
                             } @else {
                                 <p-inputnumber 
                                     [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
                                     [disabled]="disabled"
                                     placeholder="Enter a value" 
                                     useGrouping="false" 
@@ -211,10 +225,12 @@
                             @if (requiresRange) {
                                 <pop-range-input
                                     [(range)]="filter.value"
+                                    (ngModelChange)="changeInput()"
                                     [disabled]="disabled"/>
                             } @else {
                                 <p-inputnumber 
                                     [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
                                     [disabled]="disabled"
                                     placeholder="Enter a value" 
                                     useGrouping="false"/>

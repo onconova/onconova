@@ -98,9 +98,6 @@
 
 
 <h5 class="text-muted">Definition</h5>
-{{ cohortControl.value.includeCriteria | json}}
-<br>
-{{ cohortControl.value.excludeCriteria | json}}
 <div class="flex flex-column gap-3">
     @if (cohortControl && cohort) {
         <p-panel class="cohort-criteria-panel" [toggleable]="true">    
@@ -112,7 +109,7 @@
                 </div>
             </ng-template>
             <div class="text-muted mb-2">Include all patient cases:</div>
-            <pop-cohort-query-builder formControlName="includeCriteria"/>
+            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true"/>
         </p-panel>
     
         <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
