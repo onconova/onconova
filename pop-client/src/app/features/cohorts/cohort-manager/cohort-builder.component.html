@@ -98,9 +98,12 @@
 
 
 <h5 class="text-muted">Definition</h5>
+{{ cohortControl.value.includeCriteria | json}}
+<br>
+{{ cohortControl.value.excludeCriteria | json}}
 <div class="flex flex-column gap-3">
     @if (cohortControl && cohort) {
-        <p-panel class="cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.includeCriteria === null">    
+        <p-panel class="cohort-criteria-panel" [toggleable]="true">    
             <ng-template #header>
                 <div class="flex gap-2 align-items-center">
                     <i class="pi pi-thumbs-up"></i>
