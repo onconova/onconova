@@ -1,4 +1,6 @@
 {{ query | json}}
+<br>
+{{ formControl.value | json}}
 @if (config) {
     <query-builder 
         [(ngModel)]="query" 
@@ -15,6 +17,7 @@
                     [disabled]="disabled"
                     [(ngModel)]="ruleset.condition"  
                     (ngModelChange)="onChange($event, ruleset)" 
+                    [allowEmpty]="false"
                     optionLabel="label" 
                     optionValue="value" />
             }
@@ -34,15 +37,23 @@
             </div>
         </ng-container>
 
-        <ng-container *queryRemoveButton="let rule; let removeRule=removeRule">
-            <p-button 
-                icon="pi pi-trash" 
-                class="remove-rule-button" 
-                [rounded]="true" 
-                [text]="true" 
-                [disabled]="disabled"
-                severity="secondary" 
-                (click)="removeRule(rule)"/>
+        <ng-container *queryRuleFilterButtonGroup="let rule; let parent=parent; let removeRule=removeRule; let addRuleFilter=addRuleFilter;">
+            <div class="rule-filter-button-group">
+                <p-button 
+                    icon="pi pi-plus" 
+                    [rounded]="true" 
+                    [text]="true" 
+                    [disabled]="disabled"
+                    severity="secondary" 
+                    (click)="addRuleFilter(rule)"/>     
+                <p-button 
+                    icon="pi pi-trash" 
+                    [rounded]="true" 
+                    [text]="true" 
+                    [disabled]="disabled"
+                    severity="secondary" 
+                    (click)="removeRule(rule, parent)"/>
+            </div>
         </ng-container>
 
         <!-- Override input component for entities -->
@@ -65,14 +76,14 @@
         </ng-container>
 
         <!-- Override input component for fields -->
-        <ng-container *queryField="let rule; let fields=fields; let onChange=onChange">
+        <ng-container *queryField="let filter; let rule=rule; let fields=fields; let onChange=onChange">
             <p-select 
                 [options]="fields | filterByEntity:rule.entity" 
-                [(ngModel)]="rule.field" 
+                [(ngModel)]="filter.field" 
                 [filter]="true" 
                 filterBy="name" 
                 [disabled]="disabled"
-                (ngModelChange)="onChange($event, rule)" 
+                (ngModelChange)="onChange($event, filter)" 
                 placeholder="Select a field" 
                 optionValue="value" 
                 optionLabel="name" 

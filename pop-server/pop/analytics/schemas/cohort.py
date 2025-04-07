@@ -31,11 +31,7 @@ CohortQueryFilter = Enum('CohortQueryFilter', {
     filter.__name__: filter.__name__ for filter in filters_module.__all__
 }, type=str)
 
-class CohortRule(Schema):
-    entity: CohortQueryEntity = Field( # type: ignore
-        title='entity', 
-        description="Name of the case-related resource", 
-    )
+class CohortRuleFilter(Schema):
     field: str = Field(
         title='Field', 
         description="Dot-separated path of the resource field (e.g. 'medications.drug')", 
@@ -47,24 +43,36 @@ class CohortRule(Schema):
     value: Any  = Field(
         title='Value', 
         description="Filter value to be applied to the field using the rule's oprerator", 
-    )
+    )    
     
     @property
     def db_field(self):
         return '__'.join([camel_to_snake(step) for step in self.field.split('.')])
     
+
+class CohortRule(Schema):
+    entity: CohortQueryEntity = Field( # type: ignore
+        title='entity', 
+        description="Name of the case-related resource", 
+    )
+    filters: List[CohortRuleFilter] = Field(
+        title='Filters', 
+        description="List of filters to be applied to the resource",
+    )
+
     def convert_to_query(self) -> Iterator[Q]:
         model = getattr(oncology_models, self.entity, None)
-        filter = getattr(filters_module, self.operator, None)
-        field = self.db_field
+        subquery = Q()
+        for filter in self.filters:
+            operator = getattr(filters_module, filter.operator, None)
+            field = filter.db_field
+            subquery = subquery & operator.get_query(field, filter.value, model)
+
         if model is oncology_models.PatientCase:
-            yield filter.get_query(field, self.value, model)
+            yield subquery
         else:
-            subquery = filter.get_query(field, self.value, model)
-            subqueryset = model.objects.filter(Q(case=OuterRef("pk")) & subquery)
-            yield Q(Exists(subqueryset))
-
-
+            subquery = model.objects.filter(Q(case=OuterRef("pk")) & subquery)
+            yield Q(Exists(subquery))
 
 class CohortRuleset(Schema):
     condition: RulesetCondition = Field(

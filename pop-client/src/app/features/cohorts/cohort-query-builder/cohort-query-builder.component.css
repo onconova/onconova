@@ -17,7 +17,7 @@
     border-color: var(--p-content-border-color) !important;
 }
 
-.remove-rule-button{
+.rule-filter-button-group{
     position: absolute !important;
     right: 0rem !important;
 }

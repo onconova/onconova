@@ -12,7 +12,7 @@ export * from "./lib/query-builder/query-field.directive";
 export * from "./lib/query-builder/query-input.directive";
 export * from "./lib/query-builder/query-operator.directive";
 export * from "./lib/query-builder/query-switch-group.directive";
-export * from "./lib/query-builder/query-remove-button.directive";
+export * from "./lib/query-builder/query-filter-button-group.directive";
 export * from "./lib/query-builder/query-empty-warning.directive";
 export * from "./lib/query-builder/query-arrow-icon.directive";
 

@@ -273,12 +273,18 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     private convertRule(rules: any, toInternal: boolean = true) {
         return rules.map((rule_: any) => {
             let rule = {...rule_};
-            if (rule.field) {
-                if (toInternal) {
-                    rule.field = `${rule.entity}.${rule.field}`
-                } else {
-                    rule.field = rule.field.split('.').pop();
-                }
+            if (rule.filters && rule.filters.length > 0) {
+                rule.filters = rule.filters.map((filter_: any) => {
+                    let filter = {...filter_}
+                    if (filter.field) {
+                        if (toInternal) {
+                            filter.field = `${rule.entity}.${filter.field}`
+                        } else {
+                            filter.field = filter.field.split('.').pop();
+                        }
+                    }
+                    return filter
+                })
             }
             // Recursively apply to nested rules
             if (rule.rules && rule.rules.length > 0) {
