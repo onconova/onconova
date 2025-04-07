@@ -74,7 +74,6 @@ export interface QueryBuilderConfig {
 
 export interface InputContext {
   onChange: () => void;
-  getDisabledState: () => boolean;
   options: Option[];
   field: Field;
   $implicit: RuleFilter;

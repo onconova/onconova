@@ -1,15 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, SimpleChanges, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, forwardRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, ValidationErrors, AbstractControl, NG_VALIDATORS, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { ConceptSelectorComponent, DatePickerComponent, RangeInputComponent } from '../../../shared/components';
-import { forwardRef } from '@angular/core';
-
-import { 
-    CohortQueryFilter,
- } from 'src/app/shared/openapi';
-
- import { TooltipModule } from 'primeng/tooltip';
+import { TooltipModule } from 'primeng/tooltip';
 import { Button } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { SelectButton } from 'primeng/selectbutton';
@@ -17,33 +10,15 @@ import { Select } from 'primeng/select';
 import { MultiSelect } from 'primeng/multiselect';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
-
+import { Avatar } from 'primeng/avatar';
+import { Message } from 'primeng/message';
 
 import OpenAPISpecification from "../../../../../openapi.json";
-import { DataResource } from "src/app/shared/openapi";
+import { DataResource, CohortQueryFilter} from 'src/app/shared/openapi';
+import { ConceptSelectorComponent, DatePickerComponent, RangeInputComponent, MeasureInputComponent } from '../../../shared/components';
 
-import { MeasureInputComponent } from "../../../shared/components/measure-input/measure-input.component";
-import { Avatar } from 'primeng/avatar';
-
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  ValidationErrors,
-} from "@angular/forms";
-import {
-  Entity,
-  EntityMap,
-  Field,
-  FieldMap,
-  InputContext,
-  Option,
-  QueryBuilderConfig,
-  Rule,
-  RuleFilter,
-  RuleSet,
-} from "./cohort-query-builder.interfaces";
+import { Entity, EntityMap, Field, FieldMap, InputContext, Option, QueryBuilderConfig, Rule, RuleFilter, RuleSet} from "./cohort-query-builder.interfaces";
 import { MapOperatorsPipe } from './query-builder-operators.pipe';
-import { Message } from 'primeng/message';
 
 export const CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -56,7 +31,6 @@ export const VALIDATOR: any = {
   useExisting: forwardRef(() => CohortQueryBuilderComponent),
   multi: true
 };
-
 
 
 @Component({
@@ -87,9 +61,8 @@ export const VALIDATOR: any = {
 })
 export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
-
     @Input() allowRuleset = true;
-    @Input() allowCollapse = true;
+    @Input() allowCollapse = false;
     @Input() allowEmptyDefault = false;
     @Input() emptyMessage = "A ruleset cannot be empty. Please add a rule or remove it all together.";
     @Input() parentValue?: RuleSet;
@@ -263,9 +236,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     return hasErrors ? errors : null;
   }
 
-  // ----------ControlValueAccessor Implementation----------
-
-
   @Input()
   get value(): RuleSet | null {
     if (this.data.rules.length) {
@@ -339,13 +309,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
         return rule
     });
   }
-
-  // ----------END----------
-
-  getDisabledState = (): boolean => {
-    return this.disabled;
-  };
-
 
   getOperators(field: string): string[] {
     if (this.operatorsCache[field]) {

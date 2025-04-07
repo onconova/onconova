@@ -108,7 +108,6 @@
                     <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
-            <div class="text-muted mb-2">Include all patient cases:</div>
             <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true"/>
         </p-panel>
     
@@ -120,7 +119,6 @@
                     <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
-            <div class="text-muted mb-2">Exclude all patient cases:</div>
             <pop-cohort-query-builder formControlName="excludeCriteria"/>
         </p-panel>  
     }

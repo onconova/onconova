@@ -20,11 +20,11 @@
     </div>
   
     <!-- Ruleset chain condition -->
-    <p-selectbutton 
-      [options]="[{label: 'AND', value: 'and'}, {label: 'OR', value: 'or'}]" 
+    <p-select 
+      styleClass="q-condition-select"
+      [options]="[{label: 'All of the following are correct', value: 'and'}, {label: 'One of the following are correct', value: 'or'}]" 
       [disabled]="disabled"
-      [(ngModel)]="data.condition"  
-      [allowEmpty]="false"/>
+      [(ngModel)]="data.condition"/>
   </div>
   
   <!-- Query tree -->
@@ -37,6 +37,7 @@
               invalid: !config.allowEmptyRulesets && rule.rules && rule.rules.length === 0
             }; as local) {
               <li [ngClass]="['flex', 'q-row', 'q-connector', 'q-transition', local.ruleset ? 'q-ruleset' : 'q-rule', local.invalid ? 'q-invalid-ruleSet' : '']">
+                <div class="q-logic-connector">{{ data.condition}}</div>
                 @if (!local.ruleset) {
                   <!-- Rule button group -->
                   <div class="q-button-group q-right-align">
@@ -60,27 +61,23 @@
                   
                   <!-- Entity selector -->
                   <div class="q-inline-block-display">
-                      <div class="flex">
-                        <div class="text-muted my-auto mr-2">Where</div>
-                        <p-select 
-                            [options]="entities" 
-                            [(ngModel)]="rule.entity" 
-                            (ngModelChange)="changeEntity($event, rule, i, data)"
-                            [filter]="true" 
-                            filterBy="name" 
-                            [disabled]="disabled"
-                            placeholder="Select an entity" 
-                            optionValue="value" 
-                            optionLabel="name" 
-                            appendTo="body"/>
-                    </div>
+                    <p-select 
+                        [options]="entities" 
+                        [(ngModel)]="rule.entity" 
+                        (ngModelChange)="changeEntity($event, rule, i, data)"
+                        [filter]="true" 
+                        filterBy="name" 
+                        [disabled]="disabled"
+                        placeholder="Select an entity" 
+                        optionValue="value" 
+                        optionLabel="name" 
+                        appendTo="body"/>
                   </div>
         
-                  <ul class="pl-0">
+                  <ul class="q-filters-container">
                     @for (filter of rule.filters; track $index;) {
                       @let field = config.fields[filter.field];
-                      <li class="flex gap-3 ml-0">          
-                        <div class="text-muted my-auto ml-2" style="margin-right: -.5rem !important;">-</div>
+                      <li class="flex gap-3 ml-0 mt-2">          
                         <!-- Filter field selector -->
                         <p-select 
                           [options]="getFields(rule.entity)" 
@@ -158,7 +155,7 @@
                               [disabled]="disabled"/>
                           }
                           @case ('enum') {
-                            @if (['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(rule.operator)) {
+                            @if (['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(filter.operator)) {
                                 <p-multiselect 
                                     [options]="field.options" 
                                     [(ngModel)]="filter.value" 
@@ -187,7 +184,7 @@
                               [terminology]="field.terminology || ''"
                               [returnCode]="true"
                               [disabled]="disabled"
-                              [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(rule.operator)"
+                              [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(filter.operator)"
                               [showSynonyms]="false"/>
                           }
                           @case ('MultiCodedConcept') {
@@ -201,7 +198,7 @@
                               [showSynonyms]="false"/>
                           }
                           @case ('number') {
-                            @let requiresRange = ['NotBetweenFloatFilter', 'BetweenFloatFilter'].includes(rule.operator);
+                            @let requiresRange = ['NotBetweenFloatFilter', 'BetweenFloatFilter'].includes(filter.operator);
                             @if (requiresRange) {
                                 <pop-range-input
                                     [(range)]="filter.value"
@@ -221,7 +218,7 @@
                             }    
                           }
                           @case ('integer') {
-                            @let requiresRange = ['NotBetweenIntegerFilter', 'BetweenIntegerFilter'].includes(rule.operator);
+                            @let requiresRange = ['NotBetweenIntegerFilter', 'BetweenIntegerFilter'].includes(filter.operator);
                             @if (requiresRange) {
                                 <pop-range-input
                                     [(range)]="filter.value"

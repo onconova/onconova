@@ -209,6 +209,7 @@
       width: 100%;
       overflow: hidden;
       transition: ease-in 0.25s max-height;
+      padding-left: 1rem;
   
       &.q-collapsed {
         max-height: 0 !important;
@@ -241,10 +242,10 @@
       &::before,
       &::after {
         content: "";
-        left: -12px;
+        left: -35px;
         border-color: #ccc;
         border-style: solid;
-        width: 9px;
+        width: 32px;
         height: calc(50% + 6px);
         position: absolute;
       }
@@ -253,15 +254,78 @@
         content: none;
       }
     }
+    ::ng-deep {
+      .q-condition-select {
+        width: fit-content;
+        background: none;
+        border: none;
+      }
+      .q-condition-select .p-select-label {
+        font-size: .9rem;
+        background: var(--p-button-primary-background);
+        color: var(--p-button-primary-color) !important;
+        padding: .25rem .75rem !important;
+        border-radius: 5rem;
+        display: flex;
+        margin-top: .75rem;
+        box-shadow: none !important;
+      }
+      .q-condition-select .p-select-label::before {
+        content: "⬤";
+        font-size: 0.5rem;
+        margin-right: 0.25rem;
+        display: block;
+        margin-top: 0.25rem;
+
+      }
+      .q-condition-select .p-select-dropdown {
+        background: none !important;
+        margin-left: -0.25rem;
+        margin-top: 0.75rem;
+      }
+
+    }
+    .q-logic-connector {
+      position: absolute;
+      left: -55px;
+      top: calc(50% - .75rem);
+      font-size: .9rem;
+      background: var(--p-button-primary-background);
+      color: var(--p-button-primary-color) !important;
+      padding: 0.25rem .5rem;
+      border-radius: 6.5rem;
+      z-index: 6;
+      display: flex;
+
+      &::before {
+        content: "⬤";
+        font-size: 0.35rem;
+        margin-right: 0.25rem;
+        display: block;
+        margin-top: .25rem;
+      }
+    }
+    
+    .q-row.q-connector {
+      margin-top: .75rem;
+      border-left: solid 3px;
+      border-left-color: var(--p-button-primary-background) !important;
+    }
   
     .q-inline-block-display {
       display: inline-block;
-      vertical-align: top;
+      margin: auto 0;
     }
   
     .q-field-description-tooltip > .p-tooltip-text {
       white-space: nowrap !important;
       color: var(--p-text-color) !important;
+    }
+
+    .q-filters-container {
+      padding-left: 1rem;
+      border-left: solid 2px var(--p-content-border-color);
+      margin-left: 1rem;
     }
   }
   
