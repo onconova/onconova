@@ -29,6 +29,7 @@ django-ninja-extra = "0.22.3"
 django-ninja-jwt = "5.3.5"
 django-cors-headers = "4.6.0"
 django-queryable-properties = "1.10.0"
+django-pghistory = "3.5.5"
 # Tools
 numpy = "2.2.3"
 measurement = "3.2.2"

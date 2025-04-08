@@ -1,3 +1,4 @@
+import pghistory 
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -8,6 +9,7 @@ import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies 
 
 
+@pghistory.track()
 class FamilyHistory(BaseModel):
 
     case = models.ForeignKey(

@@ -12,8 +12,6 @@ _is_modelschema_class_defined = False
 
 CREATE_IGNORED_FIELDS = (
     'id', 
-    'created_at', 'updated_at', 
-    'created_by', 'updated_by',
 )  
 
 @dataclass

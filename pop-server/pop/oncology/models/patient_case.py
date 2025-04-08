@@ -1,5 +1,6 @@
 import random 
 import string
+import pghistory
 
 from django.db import models 
 from django.contrib.postgres.fields import ArrayField
@@ -37,6 +38,7 @@ class PatientCaseDataCategories(models.TextChoices):
 DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
 
 
+@pghistory.track()
 class PatientCase(BaseModel):
 
     objects = QueryablePropertiesManager()

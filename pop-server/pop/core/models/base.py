@@ -1,6 +1,14 @@
 import uuid 
+import pghistory
+import pghistory.models
 from django.db import models
+from django.db.models import Q, Subquery, OuterRef, Min, Max, Value
+from django.db.models.functions import Cast, Replace, Coalesce
 from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.aggregates import ArrayAgg
+
+from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
+from queryable_properties.managers import QueryablePropertiesManager
 
 from .user import User 
 
@@ -23,29 +31,13 @@ class BaseModel(models.Model):
         created_by: The user who created the model instance.
         updated_by: The users who modified the model instance.
     """
+    
+    objects = QueryablePropertiesManager()
 
     id = models.UUIDField(
         primary_key=True, 
         default=uuid.uuid4, 
         editable=False
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-    )
-    created_by = models.ForeignKey(
-        help_text=_('The user who created the original data'),
-        to=User,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        null=True,
-    )
-    updated_by = models.ManyToManyField(
-        help_text=_('The user(s) who updated the data since its creation'),
-        to=User,
-        related_name='+'
     )
     external_source = models.CharField(
         verbose_name = _('External data source'),
@@ -80,6 +72,41 @@ class BaseModel(models.Model):
         if not self.pk and not self.id:
             self.id = self._generate_unique_id()
 
+        events_model = getattr(self, 'pgh_event_model', None)
+        if events_model:
+            events_related_name = events_model._meta.get_field('pgh_obj')._related_name
+            AnnotationProperty(
+                annotation=Max(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='insert')),
+            ).contribute_to_class(self.__class__, 'created_at')
+            
+            AnnotationProperty(
+                annotation=Max(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='update')),
+            ).contribute_to_class(self.__class__, 'updated_at')
+            
+            AnnotationProperty(
+                annotation=Cast(Replace(
+                    Cast(Subquery(pghistory.models.Events.objects
+                            .filter(pgh_id__in=OuterRef(f'{events_related_name}__pgh_id'), pgh_label='insert')
+                            .exclude(pgh_context__user__isnull=True)
+                            .values_list('pgh_context__user', flat=True)[:1]
+                    ), models.CharField()),
+                    Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
+                )
+            ).contribute_to_class(self.__class__, 'created_by')
+            
+            AnnotationProperty(
+                annotation=ArrayAgg(
+                    Cast(Replace(
+                        Cast(Subquery(pghistory.models.Events.objects
+                                .filter(pgh_id__in=OuterRef(f'{events_related_name}__pgh_id'), pgh_label='update')
+                                .exclude(pgh_context__user__isnull=True)
+                                .values('pgh_context__user')
+                        ), models.CharField()),
+                        Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
+                    )
+                ),
+            ).contribute_to_class(self.__class__, 'updated_by')
+            
     @property
     def description(self):
         """

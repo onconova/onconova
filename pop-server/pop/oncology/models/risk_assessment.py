@@ -1,3 +1,4 @@
+import pghistory 
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -7,7 +8,7 @@ from pop.oncology.models import PatientCase, NeoplasticEntity
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
-
+@pghistory.track()
 class RiskAssessment(BaseModel):
     """
     A risk assessment may be done by collecting information about a person’s age, sex, personal

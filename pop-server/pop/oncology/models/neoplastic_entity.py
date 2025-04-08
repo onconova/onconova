@@ -1,3 +1,4 @@
+import pghistory
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +18,8 @@ class NeoplasticEntityRelationship(models.TextChoices):
     METASTATIC = METASTATIC
     LOCAL_RECURRENCE = LOCAL_RECURRENCE
     REGIONAL_RECURRENCE = REGIONAL_RECURRENCE 
-    
+
+@pghistory.track()
 class NeoplasticEntity(BaseModel):
     
     case = models.ForeignKey(

@@ -1,8 +1,10 @@
 
 from django.db import models
+import pghistory
 from django.contrib.postgres.fields import DateRangeField
 from pop.terminology.fields import CodedConceptField
 from pop.terminology.models import CodedConcept
+from pop.core.models import BaseModel
 from enum import Enum 
 
 class OptionsEnum(models.TextChoices):
@@ -10,6 +12,10 @@ class OptionsEnum(models.TextChoices):
     OPTIONB = 'optionB'
 
 class MockCodedConcept(CodedConcept):
+    pass
+    
+@pghistory.track()
+class MockBaseModel(BaseModel):    
     pass
     
 class MockModel(models.Model):

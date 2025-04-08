@@ -3,8 +3,10 @@ from django.test import TestCase
 from django.db.models import Model
 from pop.oncology import models, schemas
 from pop.tests import factories, common 
+from pop.core.models import User
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
 from parameterized import parameterized
+from django.db.models import Field
 
 class ApiControllerTextMixin(common.ApiControllerTestMixin):
     FACTORY: factories.factory.django.DjangoModelFactory
@@ -21,7 +23,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
         cls.MODEL = [cls.MODEL]*cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
         cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
         cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA        
-        cls.INSTANCES = [factory(created_by=cls.user) for factory in cls.FACTORY]      
+        cls.INSTANCES = [factory.create() for factory in cls.FACTORY]      
         cls.PAYLOADS = [schema.model_validate(instance).model_dump(mode='json') for schema, instance in zip(cls.CREATE_SCHEMA, cls.INSTANCES)]
         
     def _remove_key_recursive(self, dictionary, keys_to_remove):
@@ -66,8 +68,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                         entry = response.json()[0]
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
                     result = self.SCHEMA[i].model_validate(entry).model_dump()
-                    expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
-                    result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
                     self.assertEqual(expected, result)
                 self.MODEL[i].objects.all().delete()
 
@@ -83,8 +83,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertEqual(response.status_code, 200)
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
                     result = self.SCHEMA[i].model_validate(response.json()).model_dump()
-                    expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
-                    result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
                     self.assertDictEqual(result, expected)
                 self.MODEL[i].objects.all().delete()
     
@@ -103,9 +101,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_create(self, scenario, config):                  
-        for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
-            payload = self.PAYLOADS[i]
+        for i,(instance, payload, model) in enumerate(zip(self.INSTANCES, self.PAYLOADS, self.MODEL)):
             instance.delete()
             # Call the API endpoint.
             response = self.call_api_endpoint('POST', self.get_route_url(instance), data=payload, **config)
@@ -113,18 +109,20 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     created_id = response.json()['id']
-                    self.assertEqual(response.status_code, 201)
-                    created_instance = self.MODEL[i].objects.filter(id=created_id).first()
-                    self.assertIsNotNone(created_instance)
-                    self.assertEqual(self.user,created_instance.created_by)
-                    self.assertIn(self.user, created_instance.updated_by.all())
-                self.MODEL[i].objects.all().delete()
+                    created_instance = model.objects.filter(id=created_id).first()
+                    self.assertIsNotNone(created_instance, 'Resource has not been created')
+                    # Assert audit trail
+                    self.assertEqual(self.user.pk, created_instance.created_by, 'Unexpected creator user.')
+                    self.assertEqual(created_instance.events.first().pgh_label, 'insert', 'Event not properly registered')
+                model.objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update(self, scenario, config):              
         for i in range(self.SUBTESTS):
             instance = self.INSTANCES[i]
             payload = self.PAYLOADS[i]
+
+            payload['externalSource'] = 'test_value'
             with self.subTest(i=i):      
                 # Call the API endpoint
                 response = self.call_api_endpoint('PUT', self.get_route_url_with_id(instance), data=payload, **config)
@@ -134,8 +132,8 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertEqual(response.status_code, 200) 
                     updated_instance =self.MODEL[i].objects.filter(id=updated_id).first() 
                     self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
-                    self.assertEqual(instance.created_by, updated_instance.created_by) 
-                    self.assertIn(self.user, updated_instance.updated_by.all()) 
+                    print('updated_instance', updated_instance.events.values())
+                    self.assertIn(self.user.pk, updated_instance.updated_by, 'The updating user is not registered') 
                 self.MODEL[i].objects.all().delete() 
                
                 

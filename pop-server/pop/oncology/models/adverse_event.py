@@ -1,3 +1,4 @@
+import pghistory
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +15,7 @@ import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies 
 
 
+@pghistory.track()
 class AdverseEvent(BaseModel):
     
     class AdverseEventOutcome(models.TextChoices):
@@ -74,6 +76,7 @@ class AdverseEvent(BaseModel):
         return ' '.join([self.event.display,f'(grade {self.grade})', causes])
 
 
+@pghistory.track()
 class AdverseEventSuspectedCause(BaseModel):
     
     class AdverseEventCausality(models.TextChoices):
@@ -141,6 +144,7 @@ class AdverseEventSuspectedCause(BaseModel):
     
 
 
+@pghistory.track()
 class AdverseEventMitigation(BaseModel): 
     
     class AdverseEventMitigationCategory(models.TextChoices):

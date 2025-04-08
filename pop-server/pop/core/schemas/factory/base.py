@@ -206,6 +206,8 @@ class BaseSchema(Schema):
             # Loop over all fields in the Django model's meta options
             for field in obj._meta.get_fields():
                 orm_field_name = field.name
+                if orm_field_name in ['events', 'parent_events']:
+                    continue
                 # Check if a custmom resolver has been defined for the field
                 if hasattr(cls, f'resolve_{orm_field_name}'):
                     data[orm_field_name] = getattr(cls, f'resolve_{orm_field_name}')(obj)
@@ -378,16 +380,7 @@ class BaseSchema(Schema):
             related_schema = data['schema']
             for entry in data['entries']:               
                 related_instance = orm_field.related_model(**{f'{orm_field.field.name}': instance})
-                related_schema.model_validate(entry).model_dump_django(instance=related_instance, user=user)
-                
-        # Update the information on the requesting user        
-        if user:
-            if create:
-                instance.created_by = user
-            instance.updated_by.add(user)
-
-        # Save instance and return
-        instance.save()            
+                related_schema.model_validate(entry).model_dump_django(instance=related_instance, user=user)            
         return instance
 
 

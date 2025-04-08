@@ -1,4 +1,5 @@
 import uuid 
+import pghistory
 from django.db import models
 from django.db.models import Case, When, Q
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -7,6 +8,7 @@ from django.contrib.auth.models import AbstractUser
 
 from queryable_properties.properties import MappingProperty
 from queryable_properties.properties import AnnotationProperty
+
 
 class User(AbstractUser):
         
@@ -87,6 +89,9 @@ class User(AbstractUser):
     can_audit_logs = construct_GeneratedField_from_access_level(min_access_level=5, action='audit logs')
     can_manage_users = construct_GeneratedField_from_access_level(min_access_level=5, action='manage users')
     is_system_admin = construct_GeneratedField_from_access_level(min_access_level=6, action='manage users')
+    
+    def __str__(self):
+        return self.username
     
     class Meta:
         constraints = [

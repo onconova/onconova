@@ -1,4 +1,6 @@
 
+import pghistory
+
 from typing import List
 from enum import Enum 
 from pydantic import BaseModel as PydanticBaseModel
@@ -44,6 +46,7 @@ class ImmunohistochemicalScore(models.TextChoices):
     THREE = '3+'
     INDETERMINATE = 'indeterminate'
  
+@pghistory.track()
 class TumorMarker(BaseModel):
         
     case = models.ForeignKey(

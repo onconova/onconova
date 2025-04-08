@@ -1,16 +1,18 @@
-from uuid import UUID
+from datetime import datetime, timedelta
+from uuid import UUID, uuid4
 from pop.core.models import BaseModel, User
+from pop.tests.models import MockBaseModel
 from pop.tests.common import AbstractModelMixinTestCase
 from django.test import TestCase 
-
-
+from unittest import mock
 
 class BaseModelTestCase(AbstractModelMixinTestCase):
     mixin = BaseModel
 
     def test_init_with_id(self):
-        instance = self.model(id='test123')
-        self.assertEqual(instance.id, 'test123')
+        id = uuid4()
+        instance = self.model(id=id)
+        self.assertEqual(instance.id, id)
 
     def test_init_without_id(self):
         instance = self.model()
@@ -20,6 +22,19 @@ class BaseModelTestCase(AbstractModelMixinTestCase):
         instance = self.model()
         with self.assertRaises(NotImplementedError):
             str(instance)
+
+    def test_created_at_annotation(self):
+        before_create = datetime.now()  - timedelta(minutes=1)
+        instance = MockBaseModel.objects.create(id=uuid4())
+        self.assertGreater(instance.created_at, before_create)
+        self.assertIsNone(instance.updated_at)
+        
+    def test_updated_at_annotation(self):
+        instance = MockBaseModel.objects.create(id=uuid4())
+        instance.external_source = 'test'
+        instance.save()
+        print('EVENTS', instance.events.values())
+        self.assertGreaterEqual(instance.updated_at, instance.created_at)
 
 
 

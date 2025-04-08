@@ -1,3 +1,4 @@
+import pghistory 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -20,7 +21,14 @@ class GenomicSignaturePresence(models.TextChoices):
     POSITIVE = 'positive'
     NEGATIVE = 'negative'
     INDETERMINATE = 'indeterminate'
-    
+
+
+@pghistory.track(
+    obj_field=pghistory.ObjForeignKey(
+        related_name="parent_events",
+        related_query_name="parent_events_query",
+    )
+)
 class GenomicSignature(BaseModel):
 
     case = models.ForeignKey(
@@ -52,6 +60,7 @@ class GenomicSignature(BaseModel):
         return self.get_discriminated_genomic_signature().description
     
 
+@pghistory.track()
 class TumorMutationalBurden(GenomicSignature):
 
     class TumorMutationalBurdenStatus(models.TextChoices):
@@ -83,6 +92,7 @@ class TumorMutationalBurden(GenomicSignature):
     def description(self):
         return f'TMB: {self.value} Muts/Mb'
 
+@pghistory.track()
 class LossOfHeterozygosity(GenomicSignature):
 
     genomic_signature = models.OneToOneField(
@@ -103,6 +113,7 @@ class LossOfHeterozygosity(GenomicSignature):
         return f'LOH: {self.value} %'
 
 
+@pghistory.track()
 class MicrosatelliteInstability(GenomicSignature):
 
     genomic_signature = models.OneToOneField(
@@ -123,6 +134,7 @@ class MicrosatelliteInstability(GenomicSignature):
         return f'MSI: {self.value.display}'
 
 
+@pghistory.track()
 class HomologousRecombinationDeficiency(GenomicSignature):
 
     class HomologousRecombinationDeficiencyPresence(models.TextChoices):
@@ -155,6 +167,7 @@ class HomologousRecombinationDeficiency(GenomicSignature):
         return f'HRD: {self.value or self.interpretation}'
 
 
+@pghistory.track()
 class TumorNeoantigenBurden(GenomicSignature):
 
     genomic_signature = models.OneToOneField(
@@ -175,6 +188,7 @@ class TumorNeoantigenBurden(GenomicSignature):
         return f'TNB: {self.value} Neoant/Mb'
 
 
+@pghistory.track()
 class AneuploidScore(GenomicSignature):
 
     genomic_signature = models.OneToOneField(
