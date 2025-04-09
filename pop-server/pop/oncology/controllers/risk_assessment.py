@@ -1,4 +1,4 @@
-from enum import Enum
+import pghistory 
 
 from ninja import Query
 from ninja.schema import Schema, Field
@@ -7,7 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import RiskAssessment
 
 from django.shortcuts import get_object_or_404
@@ -84,3 +84,42 @@ class RiskAssessmentController(ControllerBase):
         get_object_or_404(RiskAssessment, id=riskAssessmentId).delete()
         return 204, None
     
+    @route.get(
+        path='/{riskAssessmentId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllRiskAssessmentHistoryEvents',
+    )
+    @paginate()
+    def get_all_risk_assessment_history_events(self, riskAssessmentId: str):
+        instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{riskAssessmentId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getRiskAssessmentHistoryEventById',
+    )
+    def get_risk_assessment_history_event_by_id(self, riskAssessmentId: str, eventId: str):
+        instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{riskAssessmentId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertRiskAssessmentToHistoryEvent',
+    )
+    def revert_risk_assessment_to_history_event(self, riskAssessmentId: str, eventId: str):
+        instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

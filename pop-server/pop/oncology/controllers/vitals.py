@@ -1,11 +1,12 @@
+import pghistory
+
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Vitals
 
 from django.shortcuts import get_object_or_404
@@ -84,3 +85,42 @@ class VitalsController(ControllerBase):
         get_object_or_404(Vitals, id=vitalsId).delete()
         return 204, None
     
+    @route.get(
+        path='/{vitalsId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllVitalsHistoryEvents',
+    )
+    @paginate()
+    def get_all_vitals_history_events(self, vitalsId: str):
+        instance = get_object_or_404(Vitals, id=vitalsId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{vitalsId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getVitalsHistoryEventById',
+    )
+    def get_vitals_history_event_by_id(self, vitalsId: str, eventId: str):
+        instance = get_object_or_404(Vitals, id=vitalsId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{vitalsId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertVitalsToHistoryEvent',
+    )
+    def revert_vitals_to_history_event(self, vitalsId: str, eventId: str):
+        instance = get_object_or_404(Vitals, id=vitalsId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

@@ -87,6 +87,15 @@ class ApiControllerTestMixin:
     def get_route_url_with_id(self, instance):
         return f'/{instance.id}'
     
+    def get_route_url_history(self, instance):
+        return f'/{instance.id}/history/events'
+    
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.id}/history/events/{event.pgh_id}/reversion'
+
     @staticmethod
     def _authenticate_user(username, password):
         # Login the user and retrieve the JWT token

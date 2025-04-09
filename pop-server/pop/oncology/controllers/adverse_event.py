@@ -1,13 +1,13 @@
+import pghistory
 from typing import List
 
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
 
 
@@ -93,6 +93,46 @@ class AdverseEventController(ControllerBase):
         instance = get_object_or_404(AdverseEvent, id=adverseEventId)
         return payload.model_dump_django(instance=instance, user=self.context.request.user)    
 
+    @route.get(
+        path='/{adverseEventId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllAdverseEventHistoryEvents',
+    )
+    @paginate()
+    def get_all_adverse_event_history_events(self, adverseEventId: str):
+        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{adverseEventId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAdverseEventHistoryEventById',
+    )
+    def get_adverse_event_history_event_by_id(self, adverseEventId: str, eventId: str):
+        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{adverseEventId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertAdverseEventToHistoryEvent',
+    )
+    def revert_adverse_event_to_history_event(self, adverseEventId: str, eventId: str):
+        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
+
 
     @route.get(
         path='/{adverseEventId}/suspected-causes', 
@@ -159,6 +199,47 @@ class AdverseEventController(ControllerBase):
         get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId).delete()
         return 204, None
     
+
+    @route.get(
+        path='/{adverseEventId}/suspected-causes/{causeId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllAdverseEventSuspectedCauseHistoryEvents',
+    )
+    @paginate()
+    def get_all_adverse_event_suspected_cause_history_events(self, adverseEventId: str, causeId: str):
+        instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAdverseEventSuspectedCauseHistoryEventById',
+    )
+    def get_adverse_event_suspected_cause_history_event_by_id(self, adverseEventId: str, causeId: str, eventId: str):
+        instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertAdverseEventSuspectedCauseToHistoryEvent',
+    )
+    def revert_adverse_event_suspected_cause_to_history_event(self, adverseEventId: str, causeId: str, eventId: str):
+        instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
+
     
     @route.get(
         path='/{adverseEventId}/mitigations', 
@@ -224,3 +305,43 @@ class AdverseEventController(ControllerBase):
         get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId).delete()
         return 204, None
     
+
+    @route.get(
+        path='/{adverseEventId}/mitigations/{mitigationId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllAdverseEventMitigationHistoryEvents',
+    )
+    @paginate()
+    def get_all_adverse_event_mitigation_history_events(self, adverseEventId: str, mitigationId: str):
+        instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAdverseEventMitigationHistoryEventById',
+    )
+    def get_adverse_event_mitigation_history_event_by_id(self, adverseEventId: str, mitigationId: str, eventId: str):
+        instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertAdverseEventMitigationToHistoryEvent',
+    )
+    def revert_adverse_event_mitigation_to_history_event(self, adverseEventId: str, mitigationId: str, eventId: str):
+        instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

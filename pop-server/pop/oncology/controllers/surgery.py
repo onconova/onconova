@@ -1,11 +1,12 @@
+import pghistory
+
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Surgery, TherapyLine
 
 from django.shortcuts import get_object_or_404
@@ -83,4 +84,43 @@ class SurgeryController(ControllerBase):
         instance.delete()
         TherapyLine.assign_therapy_lines(case)
         return 204, None
-    
+        
+    @route.get(
+        path='/{surgeryId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllSurgeryHistoryEvents',
+    )
+    @paginate()
+    def get_all_surgery_history_events(self, surgeryId: str):
+        instance = get_object_or_404(Surgery, id=surgeryId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{surgeryId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getSurgeryHistoryEventById',
+    )
+    def get_surgery_history_event_by_id(self, surgeryId: str, eventId: str):
+        instance = get_object_or_404(Surgery, id=surgeryId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{surgeryId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertSurgeryToHistoryEvent',
+    )
+    def revert_surgery_to_history_event(self, surgeryId: str, eventId: str):
+        instance = get_object_or_404(Surgery, id=surgeryId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

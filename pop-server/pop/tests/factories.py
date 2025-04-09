@@ -409,6 +409,7 @@ class TumorBoardFactory(factory.django.DjangoModelFactory):
         model = models.UnspecifiedTumorBoard
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
+    recommendations = factory.post_generation(make_m2m_terminology_factory('recommendations', terminology.TumorBoardRecommendation, min=1, max=3)) 
     related_entities = factory.post_generation(add_m2m_related('related_entities', PrimaryNeoplasticEntityFactory, min=1, max=1))
 
 class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):

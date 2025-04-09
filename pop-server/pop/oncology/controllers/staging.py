@@ -1,4 +1,4 @@
-from enum import Enum
+import pghistory
 
 from ninja import Query
 from ninja_jwt.authentication import JWTAuth
@@ -6,11 +6,12 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
+from django.db.models import QuerySet
 from typing import List, Union
 from typing_extensions import TypeAliasType
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Staging, StagingDomain
 from pop.oncology.schemas import (
     StagingFilters,
@@ -150,4 +151,67 @@ class StagingController(ControllerBase):
         instance.delete()
         return 204, None
     
+    @route.get(
+        path='/{stagingId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllStagingHistoryEvents',
+    )
+    @paginate()
+    def get_all_staging_history_events(self, stagingId: str):
+        instance = get_object_or_404(Staging, id=stagingId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{stagingId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getStagingHistoryEventById',
+    )
+    def get_staging_history_event_by_id(self, stagingId: str, eventId: str):
+        instance = get_object_or_404(Staging, id=stagingId)
+        event = instance.parent_events.filter(pgh_id=eventId).first()
+        if not event and hasattr(instance, 'events'):
+            event = instance.events.filter(pgh_id=eventId).first()
+        if not event:
+            return 404, None
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{stagingId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertStagingToHistoryEvent',
+    )
+    def revert_staging_to_history_event(self, stagingId: str, eventId: str):
+        instance = get_object_or_404(Staging, id=stagingId)
+        instance = instance.get_domain_staging()
+        parent_event = instance.parent_events.filter(pgh_id=eventId).first()
+        event = instance.events.filter(pgh_obj_id=parent_event.pgh_obj_id, pgh_created_at=parent_event.pgh_created_at).first()
+        if not parent_event and not event:
+            return 404, None
+        if parent_event:
+            instance = parent_event.revert()
+        if event:
+            qset = QuerySet(model=event.pgh_tracked_model)
+            pk = getattr(event, event.pgh_tracked_model._meta.pk.name)
+            instance = qset.update_or_create(
+                pk=pk,
+                defaults={
+                    field.name: getattr(event, field.name)
+                    for field in event.pgh_tracked_model._meta.fields
+                    if field != event.pgh_tracked_model._meta.pk 
+                    and hasattr(event, field.name)
+                },
+            )[0]
+        return 201, instance 
 

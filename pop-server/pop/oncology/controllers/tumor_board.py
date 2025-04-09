@@ -1,15 +1,18 @@
+import pghistory 
+
 from ninja import Query
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
+from django.db.models import QuerySet 
 
 from typing import List, Union 
 from typing_extensions import TypeAliasType
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models.tumor_board import TumorBoard, TumorBoardSpecialties, MolecularTumorBoard, MolecularTherapeuticRecommendation
 from pop.oncology.schemas import (
     TumorBoardFilters,
@@ -114,6 +117,70 @@ class TumorBoardController(ControllerBase):
         instance.delete()
         return 204, None
     
+    @route.get(
+        path='/{tumorBoardId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllTumorBoardHistoryEvents',
+    )
+    @paginate()
+    def get_all_tumor_board_history_events(self, tumorBoardId: str):
+        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{tumorBoardId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getTumorBoardHistoryEventById',
+    )
+    def get_tumor_board_history_event_by_id(self, tumorBoardId: str, eventId: str):
+        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        event = instance.parent_events.filter(pgh_id=eventId).first()
+        if not event and hasattr(instance, 'events'):
+            event = instance.events.filter(pgh_id=eventId).first()
+        if not event:
+            return 404, None
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{tumorBoardId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertTumorBoardToHistoryEvent',
+    )
+    def revert_tumor_board_to_history_event(self, tumorBoardId: str, eventId: str):
+        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        instance = instance.specialized_tumor_board
+        parent_event = instance.parent_events.filter(pgh_id=eventId).first()
+        event = instance.events.filter(pgh_obj_id=parent_event.pgh_obj_id, pgh_created_at=parent_event.pgh_created_at).first()
+        if not parent_event and not event:
+            return 404, None
+        if parent_event:
+            instance = parent_event.revert()
+        if event:
+            qset = QuerySet(model=event.pgh_tracked_model)
+            pk = getattr(event, event.pgh_tracked_model._meta.pk.name)
+            instance = qset.update_or_create(
+                pk=pk,
+                defaults={
+                    field.name: getattr(event, field.name)
+                    for field in event.pgh_tracked_model._meta.fields
+                    if field != event.pgh_tracked_model._meta.pk 
+                    and hasattr(event, field.name)
+                },
+            )[0]
+        return 201, instance 
+
 
 
 @api_controller(
@@ -192,3 +259,43 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
         instance.delete()
         return 204, None
+
+    @route.get(
+        path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllMolecularTherapeuticRecommendationHistoryEvents',
+    )
+    @paginate()
+    def get_all_molecular_tumor_board_therapeutic_history_events(self, tumorBoardId: str, recommendationId: str):
+        instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getMolecularTherapeuticRecommendationHistoryEventById',
+    )
+    def get_molecular_tumor_board_therapeutic_history_event_by_id(self, tumorBoardId: str, recommendationId: str, eventId: str):
+        instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertMolecularTherapeuticRecommendationToHistoryEvent',
+    )
+    def revert_molecular_tumor_board_therapeutic_to_history_event(self, tumorBoardId: str, recommendationId: str, eventId: str):
+        instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
