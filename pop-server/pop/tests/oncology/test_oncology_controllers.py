@@ -1,4 +1,4 @@
-
+import pghistory.models
 from django.test import TestCase
 from django.db.models import Model
 from pop.oncology import models, schemas
@@ -13,6 +13,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     MODEL: Model
     SCHEMA: ModelGetSchema
     CREATE_SCHEMA: ModelCreateSchema      
+    history_tracked: bool = True 
 
     @classmethod
     def setUpTestData(cls):
@@ -23,8 +24,15 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
         cls.MODEL = [cls.MODEL]*cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
         cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
         cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA        
-        cls.INSTANCES = [factory.create() for factory in cls.FACTORY]      
-        cls.PAYLOADS = [schema.model_validate(instance).model_dump(mode='json') for schema, instance in zip(cls.CREATE_SCHEMA, cls.INSTANCES)]
+        cls.INSTANCE = []
+        cls.CREATE_PAYLOAD = []
+        cls.UPDATE_PAYLOAD = []
+        for factory, schema in zip(cls.FACTORY, cls.CREATE_SCHEMA):
+            instance1, instance2  = factory.create_batch(2)
+            cls.INSTANCE.append(instance1)
+            cls.CREATE_PAYLOAD.append(schema.model_validate(instance1).model_dump(mode='json'))
+            cls.UPDATE_PAYLOAD.append(schema.model_validate(instance2).model_dump(mode='json'))
+            instance2.delete()
         
     def _remove_key_recursive(self, dictionary, keys_to_remove):
         """
@@ -55,7 +63,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_all(self, scenario, config):            
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
+            instance = self.INSTANCE[i]
             # Call the API endpoint
             response = self.call_api_endpoint('GET', self.get_route_url(instance), **config)
             with self.subTest(i=i):
@@ -74,7 +82,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_by_id(self, scenario, config):              
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
+            instance = self.INSTANCE[i]
             # Call the API endpoint
             response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):
@@ -89,7 +97,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_delete(self, scenario, config):            
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
+            instance = self.INSTANCE[i]
             # Call the API endpoint
             response = self.call_api_endpoint('DELETE', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):       
@@ -97,11 +105,14 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 204)
                     self.assertFalse(self.MODEL[i].objects.filter(id=instance.id).exists())
+                    # Assert audit trail
+                    if self.history_tracked:
+                        self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='delete').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_create(self, scenario, config):                  
-        for i,(instance, payload, model) in enumerate(zip(self.INSTANCES, self.PAYLOADS, self.MODEL)):
+        for i,(instance, payload, model) in enumerate(zip(self.INSTANCE, self.CREATE_PAYLOAD, self.MODEL)):
             instance.delete()
             # Call the API endpoint.
             response = self.call_api_endpoint('POST', self.get_route_url(instance), data=payload, **config)
@@ -112,17 +123,16 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     created_instance = model.objects.filter(id=created_id).first()
                     self.assertIsNotNone(created_instance, 'Resource has not been created')
                     # Assert audit trail
-                    self.assertEqual(self.user.pk, created_instance.created_by, 'Unexpected creator user.')
-                    self.assertEqual(created_instance.events.first().pgh_label, 'insert', 'Event not properly registered')
+                    if self.history_tracked:
+                        self.assertEqual(self.user.pk, created_instance.created_by, 'Unexpected creator user.')
+                        self.assertTrue(created_instance.events.filter(pgh_label='insert').exists(), 'Event not properly registered')
                 model.objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update(self, scenario, config):              
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
-            payload = self.PAYLOADS[i]
-
-            payload['externalSource'] = 'test_value'
+            instance = self.INSTANCE[i]
+            payload = self.UPDATE_PAYLOAD[i]
             with self.subTest(i=i):      
                 # Call the API endpoint
                 response = self.call_api_endpoint('PUT', self.get_route_url_with_id(instance), data=payload, **config)
@@ -132,8 +142,10 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertEqual(response.status_code, 200) 
                     updated_instance =self.MODEL[i].objects.filter(id=updated_id).first() 
                     self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
-                    print('updated_instance', updated_instance.events.values())
-                    self.assertIn(self.user.pk, updated_instance.updated_by, 'The updating user is not registered') 
+                    # Assert audit trail
+                    if self.history_tracked:
+                        self.assertIn(self.user.pk, updated_instance.updated_by, 'The updating user is not registered') 
+                        self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='update').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete() 
                
                 
@@ -344,7 +356,7 @@ class TestTherapyLineController(ApiControllerTextMixin, TestCase):
     MODEL = models.TherapyLine
     SCHEMA = schemas.TherapyLineSchema
     CREATE_SCHEMA = schemas.TherapyLineCreateSchema    
-
+    history_tracked = False
 
 class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/performance-status'

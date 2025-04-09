@@ -21,7 +21,7 @@ class TumorBoardSpecialties(models.TextChoices):
 @pghistory.track(
     obj_field=pghistory.ObjForeignKey(
         related_name="parent_events",
-        related_query_name="parent_events_query",
+        related_query_name="parent_events",
     )
 )
 class TumorBoard(BaseModel):
@@ -85,6 +85,7 @@ class UnspecifiedTumorBoard(TumorBoard):
     )
 
 
+@pghistory.track()
 class MolecularTumorBoard(TumorBoard):
         
     tumor_board = models.OneToOneField(

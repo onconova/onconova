@@ -6,6 +6,7 @@ from django.db.models import Q, Subquery, OuterRef, Min, Max, Value
 from django.db.models.functions import Cast, Replace, Coalesce
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.aggregates import ArrayAgg
+from django.contrib.postgres.expressions import ArraySubquery
 
 from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
 from queryable_properties.managers import QueryablePropertiesManager
@@ -76,7 +77,7 @@ class BaseModel(models.Model):
         if events_model:
             events_related_name = events_model._meta.get_field('pgh_obj')._related_name
             AnnotationProperty(
-                annotation=Max(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='insert')),
+                annotation=Min(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='insert')),
             ).contribute_to_class(self.__class__, 'created_at')
             
             AnnotationProperty(
@@ -86,25 +87,29 @@ class BaseModel(models.Model):
             AnnotationProperty(
                 annotation=Cast(Replace(
                     Cast(Subquery(pghistory.models.Events.objects
-                            .filter(pgh_id__in=OuterRef(f'{events_related_name}__pgh_id'), pgh_label='insert')
+                            .annotate(pgh_obj_pk=Cast('pgh_obj_id', models.UUIDField()))
+                            .filter(pgh_obj_pk=OuterRef('pk'), pgh_label='insert')
                             .exclude(pgh_context__user__isnull=True)
-                            .values_list('pgh_context__user', flat=True)[:1]
+                            .values('pgh_context__user')[:1]
                     ), models.CharField()),
                     Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
                 )
             ).contribute_to_class(self.__class__, 'created_by')
-            
+
+            query = Q(pgh_id__in=OuterRef(f'{events_related_name}__pgh_id'))
+            if hasattr(self, 'parent_events'):
+                query = query | Q(pgh_id__in=OuterRef(f'parent_events__pgh_id'))
+
             AnnotationProperty(
                 annotation=ArrayAgg(
-                    Cast(Replace(
-                        Cast(Subquery(pghistory.models.Events.objects
-                                .filter(pgh_id__in=OuterRef(f'{events_related_name}__pgh_id'), pgh_label='update')
+                    Cast(Replace(Cast(
+                        pghistory.models.Events.objects
+                                .filter(query, pgh_label='update')
                                 .exclude(pgh_context__user__isnull=True)
-                                .values('pgh_context__user')
-                        ), models.CharField()),
-                        Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
+                                .values('pgh_context__user')[:1]
+                    ,models.CharField()),Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
                     )
-                ),
+                )
             ).contribute_to_class(self.__class__, 'updated_by')
             
     @property

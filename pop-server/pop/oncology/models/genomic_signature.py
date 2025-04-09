@@ -26,7 +26,7 @@ class GenomicSignaturePresence(models.TextChoices):
 @pghistory.track(
     obj_field=pghistory.ObjForeignKey(
         related_name="parent_events",
-        related_query_name="parent_events_query",
+        related_query_name="parent_events",
     )
 )
 class GenomicSignature(BaseModel):
