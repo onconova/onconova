@@ -1,3 +1,5 @@
+import pghistory 
+
 from django.test import TestCase
 from pop.tests import common, factories
 from pop.oncology.models import PatientCase 
@@ -13,13 +15,14 @@ class TestBundlesController(common.ApiControllerTestMixin, TestCase):
     @classmethod
     def setUpTestData(cls):
         super().setUpTestData()
-        cls.case = factories.PatientCaseFactory.create()
-        factories.PrimaryNeoplasticEntityFactory.create(case=cls.case)
-        factories.SystemicTherapyFactory.create(case=cls.case, therapy_line=None)
-        cls.case.save() 
-        cls.case.refresh_from_db() 
-        cls.bundle = PatientCaseBundle.model_validate(cls.case)
-        cls.payload = cls.bundle.model_dump(mode='json')
+        with pghistory.context(username=cls.user.username):
+            cls.case = factories.PatientCaseFactory.create()
+            factories.PrimaryNeoplasticEntityFactory.create(case=cls.case)
+            factories.SystemicTherapyFactory.create(case=cls.case, therapy_line=None)
+            cls.case.save() 
+            cls.case.refresh_from_db() 
+            cls.bundle = PatientCaseBundle.model_validate(cls.case)
+            cls.payload = cls.bundle.model_dump(mode='json')
         
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_export_case(self, scenario, config):

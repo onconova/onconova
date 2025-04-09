@@ -77,19 +77,19 @@ class TestGetCohortTraitCounts(TestCase):
         cls.cohort = Cohort.objects.create(name='Test Cohort')
         cls.user1 = UserFactory()
         cls.user2 = UserFactory()
-        cls.cohort.cases.set([PatientCaseFactory.create(created_by=cls.user1 if random() > 0.25 else cls.user2) for _ in range(10)])
+        cls.cohort.cases.set([PatientCaseFactory.create(clinical_center='centerA' if random() > 0.25 else 'centerB') for _ in range(10)])
 
     def test_no_cases(self):
         self.cohort.cases.set([])
-        result = self.cohort.get_cohort_trait_counts('created_by__username')
+        result = self.cohort.get_cohort_trait_counts('clinical_center')
         self.assertIsNone(result)
 
     def test_trait_counts(self):
-        counter = Counter([c.created_by.username for c in self.cohort.cases.all()])
-        result = self.cohort.get_cohort_trait_counts('created_by__username')
+        counter = Counter([c.clinical_center for c in self.cohort.cases.all()])
+        result = self.cohort.get_cohort_trait_counts('clinical_center')
         expected = OrderedDict([
-            (self.user1.username, (counter[self.user1.username], counter[self.user1.username]/self.cohort.cases.count()*100)),
-            (self.user2.username, (counter[self.user2.username], counter[self.user2.username]/self.cohort.cases.count()*100))
+            ('centerA', (counter['centerA'], counter['centerA']/self.cohort.cases.count()*100)),
+            ('centerB', (counter['centerB'], counter['centerB']/self.cohort.cases.count()*100))
 
         ])
         self.assertEqual(result, expected)

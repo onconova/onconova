@@ -85,14 +85,14 @@ class BaseModel(models.Model):
             ).contribute_to_class(self.__class__, 'updated_at')
             
             AnnotationProperty(
-                annotation=Cast(Replace(
+                annotation=Replace(
                     Cast(Subquery(pghistory.models.Events.objects
                             .annotate(pgh_obj_pk=Cast('pgh_obj_id', models.UUIDField()))
                             .filter(pgh_obj_pk=OuterRef('pk'), pgh_label='insert')
-                            .exclude(pgh_context__user__isnull=True)
-                            .values('pgh_context__user')[:1]
+                            .exclude(pgh_context__username__isnull=True)
+                            .values('pgh_context__username')[:1]
                     ), models.CharField()),
-                    Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
+                    Value('"'),Value('')
                 )
             ).contribute_to_class(self.__class__, 'created_by')
 
@@ -102,12 +102,12 @@ class BaseModel(models.Model):
 
             AnnotationProperty(
                 annotation=ArrayAgg(
-                    Cast(Replace(Cast(
+                    Replace(Cast(
                         pghistory.models.Events.objects
                                 .filter(query, pgh_label='update')
-                                .exclude(pgh_context__user__isnull=True)
-                                .values('pgh_context__user')[:1]
-                    ,models.CharField()),Value('"'),Value('')), models.ForeignKey(to=User, on_delete=models.DO_NOTHING)
+                                .exclude(pgh_context__username__isnull=True)
+                                .values('pgh_context__username')[:1]
+                    ,models.CharField()),Value('"'),Value('')
                     )
                 )
             ).contribute_to_class(self.__class__, 'updated_by')

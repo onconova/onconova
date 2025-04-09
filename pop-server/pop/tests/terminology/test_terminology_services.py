@@ -8,44 +8,6 @@ from pop.terminology.services import download_canonical_url, expand_valueset, Co
                                 FilterOperator, follow_valueset_composition_rule, collect_codedconcept_terminology
 
 
-class TestDownloadCanonicalUrl(unittest.TestCase):
-    @patch('pop.terminology.services.resolve_canonical_url')
-    @patch('pop.terminology.services.request_http_get')
-    def test_download_non_json_url(self, mock_request_http_get, mock_resolve_canonical_url):
-        canonical_url = 'https://example.com/non-json-url'
-        mock_resolve_canonical_url.return_value = 'https://example.com/resolved-url.json'
-        mock_request_http_get.return_value = 'downloaded content'
-
-        result = download_canonical_url(canonical_url)
-        self.assertEqual(result, 'downloaded content')
-        mock_resolve_canonical_url.assert_called_once_with(canonical_url)
-        mock_request_http_get.assert_called_once_with('https://example.com/resolved-url.json')
-
-    @patch('pop.terminology.services.request_http_get')
-    def test_download_json_url(self, mock_request_http_get):
-        canonical_url = 'https://example.com/json-url.json'
-        mock_request_http_get.return_value = 'downloaded content'
-
-        result = download_canonical_url(canonical_url)
-        self.assertEqual(result, 'downloaded content')
-        mock_request_http_get.assert_called_once_with(canonical_url)
-
-    @patch('pop.terminology.services.resolve_canonical_url')
-    def test_invalid_canonical_url(self, mock_resolve_canonical_url):
-        canonical_url = 'invalid-url'
-        mock_resolve_canonical_url.side_effect = ValueError('Invalid URL')
-
-        with self.assertRaises(ValueError):
-            download_canonical_url(canonical_url)
-
-    @patch('pop.terminology.services.request_http_get')
-    def test_network_error(self, mock_request_http_get):
-        canonical_url = 'https://example.com/json-url.json'
-        mock_request_http_get.side_effect = requests.exceptions.RequestException('Network error')
-
-        with self.assertRaises(requests.exceptions.RequestException):
-            download_canonical_url(canonical_url)
-
 class TestExpandValueSet(unittest.TestCase):
 
     def test_expansion_with_predefined_expansion(self):

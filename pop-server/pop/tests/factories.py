@@ -476,12 +476,12 @@ def fake_complete_case():
         user = UserFactory.create()
     else:
         user = User.objects.all()[random.randint(0, User.objects.count()-1)]
-    case = PatientCaseFactory.create(created_by=user)
+    case = PatientCaseFactory.create()
     if case.date_of_death:
         case.date_of_death = faker.date_between(case.date_of_birth + timedelta(days=35*365), case.date_of_birth + timedelta(days=99*365))
     case.created_at = faker.date_between(datetime(2020,1,1).date(), datetime.now().date())
     case.save()
-    basic = dict(case=case, created_by=user)
+    basic = dict(case=case, )
     # Add neoplastic entities and staging
     initial_diagnosis_date = faker.date_between(case.date_of_birth + timedelta(days=25*365), (case.date_of_death or datetime.now().date()) - timedelta(days=2*365))
     primary = PrimaryNeoplasticEntityFactory.create(**basic, assertion_date=initial_diagnosis_date)
@@ -491,7 +491,6 @@ def fake_complete_case():
         conditions.append(MetastaticNeoplasticEntityFactory.create(
             case=case, 
             related_primary=primary, 
-            created_by=user,
             assertion_date=faker.date_between(initial_diagnosis_date, initial_diagnosis_date + timedelta(days=random.randint(0,365)))
         ))
     # Add TNM staging
@@ -513,13 +512,13 @@ def fake_complete_case():
             period=(therapy_start, therapy_end)
         )
         for _ in range(random.randint(1,3)):
-            SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy, created_by=user)
+            SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy, )
         
         # For palliative therapy, add radiotherapy with 60% probability
         if systemic_therapy.intent == 'palliative' and random.randint(0,100) > 40:
             radiotherapy = RadiotherapyFactory.create(**basic, therapy_line=None, targeted_entities=conditions, period=(therapy_start, therapy_end))
             for _ in range(random.randint(1,3)):
-                RadiotherapyDosageFactory.create(radiotherapy=radiotherapy, created_by=user)
+                RadiotherapyDosageFactory.create(radiotherapy=radiotherapy, )
         
         # For curative therapy, add surgery with 50% probability
         if systemic_therapy.intent == 'curative' and random.randint(0,100) > 50:
@@ -532,9 +531,9 @@ def fake_complete_case():
         # Add adverse event for systemic therapy
         for _ in range(random.randint(0,1)):
             adverse_event = AdverseEventFactory.create(**basic, date=faker.date_between(therapy_start, therapy_end))
-            AdverseEventSuspectedCauseFactory.create(adverse_event=adverse_event, systemic_therapy=systemic_therapy, created_by=user, radiotherapy=None)
+            AdverseEventSuspectedCauseFactory.create(adverse_event=adverse_event, systemic_therapy=systemic_therapy, radiotherapy=None)
             for _ in range(random.randint(0,2)):
-                AdverseEventMitigationFactory.create(adverse_event=adverse_event, created_by=user)
+                AdverseEventMitigationFactory.create(adverse_event=adverse_event, )
 
     # Add observations and lab results
     during_cancer_treatment = lambda: faker.date_between(initial_diagnosis_date, case.date_of_death or datetime.now().date())

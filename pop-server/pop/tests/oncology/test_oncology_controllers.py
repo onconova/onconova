@@ -1,12 +1,14 @@
+import pghistory
 import pghistory.models
+
 from django.test import TestCase
 from django.db.models import Model
+
 from pop.oncology import models, schemas
 from pop.tests import factories, common 
-from pop.core.models import User
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
+
 from parameterized import parameterized
-from django.db.models import Field
 
 class ApiControllerTextMixin(common.ApiControllerTestMixin):
     FACTORY: factories.factory.django.DjangoModelFactory
@@ -28,11 +30,12 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
         cls.CREATE_PAYLOAD = []
         cls.UPDATE_PAYLOAD = []
         for factory, schema in zip(cls.FACTORY, cls.CREATE_SCHEMA):
-            instance1, instance2  = factory.create_batch(2)
-            cls.INSTANCE.append(instance1)
-            cls.CREATE_PAYLOAD.append(schema.model_validate(instance1).model_dump(mode='json'))
-            cls.UPDATE_PAYLOAD.append(schema.model_validate(instance2).model_dump(mode='json'))
-            instance2.delete()
+            with pghistory.context(username=cls.user.username):
+                instance1, instance2  = factory.create_batch(2)
+                cls.INSTANCE.append(instance1)
+                cls.CREATE_PAYLOAD.append(schema.model_validate(instance1).model_dump(mode='json'))
+                cls.UPDATE_PAYLOAD.append(schema.model_validate(instance2).model_dump(mode='json'))
+                instance2.delete()
         
     def _remove_key_recursive(self, dictionary, keys_to_remove):
         """
@@ -75,7 +78,11 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     else:
                         entry = response.json()[0]
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
+                    print(entry)
                     result = self.SCHEMA[i].model_validate(entry).model_dump()
+                    if self.history_tracked:
+                        expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
+                        result['createdAt'] = result['createdAt'].replace(microsecond=0)
                     self.assertEqual(expected, result)
                 self.MODEL[i].objects.all().delete()
 
@@ -91,6 +98,9 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertEqual(response.status_code, 200)
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
                     result = self.SCHEMA[i].model_validate(response.json()).model_dump()
+                    if self.history_tracked:
+                        expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
+                        result['createdAt'] = result['createdAt'].replace(microsecond=0)
                     self.assertDictEqual(result, expected)
                 self.MODEL[i].objects.all().delete()
     
@@ -124,7 +134,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertIsNotNone(created_instance, 'Resource has not been created')
                     # Assert audit trail
                     if self.history_tracked:
-                        self.assertEqual(self.user.pk, created_instance.created_by, 'Unexpected creator user.')
+                        self.assertEqual(self.user.username, created_instance.created_by, 'Unexpected creator user.')
                         self.assertTrue(created_instance.events.filter(pgh_label='insert').exists(), 'Event not properly registered')
                 model.objects.all().delete()
 
@@ -144,7 +154,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
                     # Assert audit trail
                     if self.history_tracked:
-                        self.assertIn(self.user.pk, updated_instance.updated_by, 'The updating user is not registered') 
+                        self.assertIn(self.user.username, updated_instance.updated_by, 'The updating user is not registered') 
                         self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='update').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete() 
                

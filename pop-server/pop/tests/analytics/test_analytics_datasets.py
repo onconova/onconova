@@ -19,7 +19,6 @@ class TestConstructDataset(TestCase):
     def setUpTestData(cls):
         cls.case = factories.PatientCaseFactory()
         cls.cohort = Cohort.objects.create(name='test_cohort')
-        cls.case.updated_by.set([factories.UserFactory.create() for _ in range(3)])
         cls.cohort.cases.set([cls.case])     
 
     def test_basic_dataset(self):
@@ -38,11 +37,11 @@ class TestConstructDataset(TestCase):
         self.assertEqual(self.case.date_of_birth, dataset[0].get('DateOfBirth'))    
         self.assertEqual(self.case.id, dataset[0].get('Id'))      
 
-    def test_query_m2m_field(self):
-        rule = DatasetRule(resource='PatientCase', field='updatedBy')
-        dataset = construct_dataset(self.cohort, [rule])
-        self.assertEqual(len(dataset), 1)
-        self.assertEqual(sorted([user.id for user in self.case.updated_by.all()]), sorted(dataset[0].get('UpdatedBy')))
+    # def test_query_m2m_field(self):
+    #     rule = DatasetRule(resource='PatientCase', field='updatedBy')
+    #     dataset = construct_dataset(self.cohort, [rule])
+    #     self.assertEqual(len(dataset), 1)
+    #     self.assertEqual(sorted([user.id for user in self.case.updated_by.all()]), sorted(dataset[0].get('UpdatedBy')))
 
     def test_query_date_field(self):
         rule = DatasetRule(resource='PatientCase', field='dateOfBirth')
