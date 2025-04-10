@@ -106,7 +106,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pop.wsgi.application'
 
 PGHISTORY_CONTEXT_FIELD = pghistory.ContextJSONField()
-PGHISTORY_DEFAULT_TRACKERS = (pghistory.InsertEvent(), pghistory.UpdateEvent(), pghistory.DeleteEvent())
+PGHISTORY_DEFAULT_TRACKERS = (
+    pghistory.InsertEvent(label='create'), 
+    pghistory.UpdateEvent(label='update'), 
+    pghistory.DeleteEvent(label='delete'), 
+    pghistory.ManualEvent(label='import'), 
+    pghistory.ManualEvent(label='export'),
+)
 
 # Database(s)
 DATABASES = {

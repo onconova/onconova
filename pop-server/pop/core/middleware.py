@@ -23,7 +23,7 @@ class DjangoRequest:
     def __setattr__(self, attr, value):
         if attr == "user":
             user = (
-                value._meta.pk.get_db_prep_value(value.pk, connection)
+                str(value._meta.pk.get_db_prep_value(value.pk, connection))
                 if value and hasattr(value, "_meta")
                 else None
             )

@@ -1,7 +1,5 @@
-from ninja_jwt.controller import NinjaJWTDefaultController
 from ninja_extra import NinjaExtraAPI
 
-from django.conf import settings 
 
 from pop.core.controllers import AuthController, UsersController
 from pop.core.measures.controllers import MeasuresController
@@ -32,7 +30,7 @@ from pop.oncology.controllers import (
     OthersController,
 )
 from pop.interoperability.controllers import (    
-    BundleController,
+    InteroperabilityController,
 )
 from pop.analytics.controllers import (
     CohortsController, 
@@ -52,8 +50,8 @@ api = NinjaExtraAPI(
 api.register_controllers(
     AuthController,
     UsersController,
+    InteroperabilityController,
     PatientCaseController,
-    BundleController,
     NeoplasticEntityController,
     StagingController,
     RiskAssessmentController,

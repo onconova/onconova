@@ -77,7 +77,7 @@ class BaseModel(models.Model):
         if events_model:
             events_related_name = events_model._meta.get_field('pgh_obj')._related_name
             AnnotationProperty(
-                annotation=Min(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='insert')),
+                annotation=Min(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='create')),
             ).contribute_to_class(self.__class__, 'created_at')
             
             AnnotationProperty(
@@ -88,7 +88,7 @@ class BaseModel(models.Model):
                 annotation=Replace(
                     Cast(Subquery(pghistory.models.Events.objects
                             .annotate(pgh_obj_pk=Cast('pgh_obj_id', models.UUIDField()))
-                            .filter(pgh_obj_pk=OuterRef('pk'), pgh_label='insert')
+                            .filter(pgh_obj_pk=OuterRef('pk'), pgh_label='create')
                             .exclude(pgh_context__username__isnull=True)
                             .values('pgh_context__username')[:1]
                     ), models.CharField()),

@@ -137,7 +137,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     # Assert audit trail
                     if self.history_tracked:
                         self.assertEqual(self.user.username, created_instance.created_by, 'Unexpected creator user.')
-                        self.assertTrue(created_instance.events.filter(pgh_label='insert').exists(), 'Event not properly registered')
+                        self.assertTrue(created_instance.events.filter(pgh_label='create').exists(), 'Event not properly registered')
                 model.objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
@@ -217,9 +217,9 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
             payload = self.UPDATE_PAYLOAD[i]
             updated_instance = self.CREATE_SCHEMA[i].model_validate(payload).model_dump_django(instance=deepcopy(original_instance))
             if hasattr(original_instance, 'parent_events'):
-                insert_event = original_instance.parent_events.filter(pgh_label='insert').first()
+                insert_event = original_instance.parent_events.filter(pgh_label='create').first()
             else:
-                insert_event = original_instance.events.filter(pgh_label='insert').first()
+                insert_event = original_instance.events.filter(pgh_label='create').first()
             response = self.call_api_endpoint('PUT', self.get_route_url_history_revert(original_instance, insert_event), **config)
             with self.subTest(i=i):
                 # Assert response content

@@ -26,7 +26,7 @@ class TestDjangoRequest(TestCase):
 
         setattr(req, "user", user)
 
-        mock_context.assert_called_once_with(username="alice", user=1)
+        mock_context.assert_called_once_with(username="alice", user='1')
 
 
 class TestHistoryMiddleware(TestCase):

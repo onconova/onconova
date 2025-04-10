@@ -1,9 +1,31 @@
+from datetime import datetime
 from typing import List, Union, Dict
-from pydantic import Field, AliasChoices
+from pydantic import Field, AliasChoices, BaseModel 
 from pop.oncology.models.patient_case import PatientCaseDataCategories
 import pop.oncology.schemas as sc
 
-
+class ExportMetadata(BaseModel):
+    exported_at: datetime = Field(
+        ...,
+        title="Export Timestamp",
+        description="The datetime when the resource was exported."
+    )
+    exported_by: str = Field(
+        ...,
+        title="Exported By",
+        description="Username of the user who performed the export."
+    )
+    export_version: str = Field(
+        ...,
+        title="Export Version",
+        description="Version tag of the exporting system."
+    )
+    checksum: str = Field(
+        ...,
+        title="Export Checksum",
+        description="Checksum (e.g., SHA256) of the exported content for integrity verification."
+    )
+    
 class PatientCaseBundle(sc.PatientCaseSchema):
     """ The order of the properties matters for the import tool (based on references tree)"""
     neoplasticEntities: List[sc.NeoplasticEntitySchema] = Field(

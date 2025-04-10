@@ -109,7 +109,7 @@ class HistoryEvent(Schema):
     @staticmethod 
     def resolve_category(obj):
         return {
-            'insert': HistoryEventCategory.CREATE,
+            'create': HistoryEventCategory.CREATE,
             'update': HistoryEventCategory.UPDATE,
             'delete': HistoryEventCategory.DELETE,
             'export': HistoryEventCategory.EXPORT,
