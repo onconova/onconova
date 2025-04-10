@@ -5,14 +5,15 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
-from django.db.models import QuerySet
-from typing import List, Union
+from typing import Union
 from typing_extensions import TypeAliasType
 
 from pop.core import permissions as perms
+from pop.core.utils import revert_multitable_model
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
-from pop.oncology.models import Staging, StagingDomain
+from pop.oncology.models import Staging
 from pop.oncology.schemas import (
     StagingFilters,
     TNMStagingSchema, TNMStagingCreateSchema,
@@ -195,23 +196,8 @@ class StagingController(ControllerBase):
     def revert_staging_to_history_event(self, stagingId: str, eventId: str):
         instance = get_object_or_404(Staging, id=stagingId)
         instance = instance.get_domain_staging()
-        parent_event = instance.parent_events.filter(pgh_id=eventId).first()
-        event = instance.events.filter(pgh_obj_id=parent_event.pgh_obj_id, pgh_created_at=parent_event.pgh_created_at).first()
-        if not parent_event and not event:
+        try:
+            return 201, revert_multitable_model(instance, eventId)
+        except ObjectDoesNotExist:
             return 404, None
-        if parent_event:
-            instance = parent_event.revert()
-        if event:
-            qset = QuerySet(model=event.pgh_tracked_model)
-            pk = getattr(event, event.pgh_tracked_model._meta.pk.name)
-            instance = qset.update_or_create(
-                pk=pk,
-                defaults={
-                    field.name: getattr(event, field.name)
-                    for field in event.pgh_tracked_model._meta.fields
-                    if field != event.pgh_tracked_model._meta.pk 
-                    and hasattr(event, field.name)
-                },
-            )[0]
-        return 201, instance 
 

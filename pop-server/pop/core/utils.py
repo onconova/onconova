@@ -1,10 +1,13 @@
-
-from typing import List, Any, Dict, Union, get_args, get_origin, Optional, Tuple, Literal
-from enum import Enum
-from pydantic import BaseModel, Field
 import re
-from django.db.models.enums import ChoicesType
 import inspect
+from enum import Enum
+from typing import Any,Union, get_args, get_origin, Optional, Literal
+
+from pydantic import BaseModel, Field
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Model as DjangoModel, QuerySet
+from django.db.models.enums import ChoicesType
 
 def is_optional(field: type) -> bool:
     """
@@ -127,3 +130,34 @@ def get_all_models_from_field(field: Field, issubclass_of: type = BaseModel) -> 
 def get_related_model_from_field(field: Field) -> Optional[BaseModel]:
     return next(get_all_models_from_field(field), None)
 
+
+def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
+    # Get multi-table events 
+    parent_event = instance.parent_events.filter(pgh_id=eventId).first()
+    if parent_event:
+        event = instance.events.filter(pgh_obj_id=parent_event.pgh_obj_id, pgh_created_at=parent_event.pgh_created_at).first()
+    else:
+        event = instance.events.filter(pgh_id=eventId).first()
+        if event:
+            parent_event = instance.parent_events.filter(pgh_obj_id=event.pgh_obj_id, pgh_created_at=event.pgh_created_at).first()
+    if not event and not parent_event:
+        raise ObjectDoesNotExist()
+        
+    # Revert the events for all tables
+    if parent_event:
+        # Parent event is always model-complete and can be handled by pghistory
+        instance = parent_event.revert()
+    if event:
+        # Child event is not model-complete according to pghistory and must be reverted manually
+        qset = QuerySet(model=event.pgh_tracked_model)
+        pk = getattr(event, event.pgh_tracked_model._meta.pk.name)
+        instance = qset.update_or_create(
+            pk=pk,
+            defaults={
+                field.name: getattr(event, field.name)
+                for field in event.pgh_tracked_model._meta.fields
+                if field != event.pgh_tracked_model._meta.pk 
+                and hasattr(event, field.name)
+            },
+        )[0]
+    return instance
