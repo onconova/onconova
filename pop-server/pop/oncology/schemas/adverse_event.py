@@ -20,7 +20,7 @@ class AdverseEventSchema(ModelGetSchema):
     suspectedCauses: List[AdverseEventSuspectedCauseSchema] = Field(
         description='Suspected causes of the adverse event',
         alias='suspected_causes',
-        validation_aliases=AliasChoices('suspected_causes','suspectedCauses')
+        validation_aliases=AliasChoices('suspectedCauses','suspected_causes')
     )
     mitigations: List[AdverseEventMitigationSchema] = Field(
         description='Mitigations of the adverse event',

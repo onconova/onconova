@@ -38,8 +38,8 @@ export interface PatientCaseBundle {
      * Approximate age of the patient in years
      */
     age: number;
-    overall_survival?: number | null;
-    age_at_diagnosis?: number | null;
+    overallSurvival?: number | null;
+    ageAtDiagnosis?: number | null;
     /**
      * Percentage indicating the completeness of a case in terms of its data.
      */
@@ -90,30 +90,30 @@ export interface PatientCaseBundle {
     /**
      * Date-time when the resource was created
      */
-    created_at: string;
-    udpated_at?: string | null;
-    created_by: string | null;
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
     /**
      * Usernames of the users who have updated the resource
      */
-    updated_by?: Array<string | null>;
-    neoplastic_entities?: Array<NeoplasticEntity>;
+    updatedBy?: Array<string | null>;
+    neoplasticEntities?: Array<NeoplasticEntity>;
     stagings?: Array<PatientCaseBundleStagingsInner>;
-    tumor_markers?: Array<TumorMarker>;
-    risk_assessments?: Array<RiskAssessment>;
-    therapy_lines?: Array<TherapyLine>;
-    systemic_therapies?: Array<SystemicTherapy>;
+    tumorMarkers?: Array<TumorMarker>;
+    riskAssessments?: Array<RiskAssessment>;
+    therapyLines?: Array<TherapyLine>;
+    systemicTherapies?: Array<SystemicTherapy>;
     surgeries?: Array<Surgery>;
     radiotherapies?: Array<Radiotherapy>;
-    adverse_events?: Array<AdverseEvent>;
-    treatment_responses?: Array<TreatmentResponse>;
-    performance_status?: Array<PerformanceStatus>;
+    adverseEvents?: Array<AdverseEvent>;
+    treatmentResponses?: Array<TreatmentResponse>;
+    performanceStatus?: Array<PerformanceStatus>;
     comorbidities?: Array<ComorbiditiesAssessment>;
-    genomic_variants?: Array<GenomicVariant>;
+    genomicVariants?: Array<GenomicVariant>;
     genomicSignatures?: Array<PatientCaseBundleGenomicSignaturesInner>;
     vitals?: Array<Vitals>;
     lifestyles?: Array<Lifestyle>;
-    family_histories?: Array<FamilyHistory>;
+    familyHistory?: Array<FamilyHistory>;
     tumorBoards?: Array<PatientCaseBundleTumorBoardsInner>;
     completedDataCategories: { [key: string]: PatientCaseDataCompletionStatusSchema; };
 }

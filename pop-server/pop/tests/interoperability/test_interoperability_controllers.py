@@ -28,8 +28,8 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
         if scenario == 'HTTPS Authenticated':
             self.assertEqual(response.status_code, 200)
             export = response.json()
-            self.assertEqual(self.user.username, export['exported_by'])
-            self.assertEqual(settings.VERSION, export['export_version'])
+            self.assertEqual(self.user.username, export['exportedBy'])
+            self.assertEqual(settings.VERSION, export['exportVersion'])
             self.assertTrue(re.findall(r"([a-fA-F\d]{32})", export['checksum']))
             self.assertTrue(self.entity.events.filter(pgh_label='export').exists(), 'Event not properly registered')
 

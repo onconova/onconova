@@ -36881,8 +36881,8 @@
             "type": "array",
             "validation_aliases": {
               "choices": [
-                "suspected_causes",
-                "suspectedCauses"
+                "suspectedCauses",
+                "suspected_causes"
               ]
             }
           },
@@ -40731,8 +40731,8 @@
             "type": "array",
             "validation_aliases": {
               "choices": [
-                "therapeutic_recommendations",
-                "therapeuticRecommendations"
+                "therapeuticRecommendations",
+                "therapeutic_recommendations"
               ]
             }
           },
@@ -41137,7 +41137,7 @@
             "title": "Age",
             "type": "integer"
           },
-          "overall_survival": {
+          "overallSurvival": {
             "anyOf": [
               {
                 "type": "number"
@@ -41149,7 +41149,7 @@
             "description": "Overall survival of the patient since diagnosis",
             "title": "Overall survival"
           },
-          "age_at_diagnosis": {
+          "ageAtDiagnosis": {
             "anyOf": [
               {
                 "type": "integer"
@@ -41327,13 +41327,13 @@
             "title": "Description",
             "type": "string"
           },
-          "created_at": {
+          "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created At",
+            "title": "Createdat",
             "type": "string"
           },
-          "udpated_at": {
+          "updatedAt": {
             "anyOf": [
               {
                 "format": "date-time",
@@ -41344,9 +41344,9 @@
               }
             ],
             "description": "Date-time when the resource was last updated",
-            "title": "Udpated At"
+            "title": "Updatedat"
           },
-          "created_by": {
+          "createdBy": {
             "anyOf": [
               {
                 "type": "string"
@@ -41356,9 +41356,9 @@
               }
             ],
             "description": "Username of the user who created the resource",
-            "title": "Created By"
+            "title": "Createdby"
           },
-          "updated_by": {
+          "updatedBy": {
             "default": [],
             "description": "Usernames of the users who have updated the resource",
             "items": {
@@ -41371,15 +41371,15 @@
                 }
               ]
             },
-            "title": "Updated By",
+            "title": "Updatedby",
             "type": "array"
           },
-          "neoplastic_entities": {
+          "neoplasticEntities": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/NeoplasticEntity"
             },
-            "title": "Neoplastic Entities",
+            "title": "Neoplasticentities",
             "type": "array"
           },
           "stagings": {
@@ -41433,36 +41433,36 @@
             "title": "Stagings",
             "type": "array"
           },
-          "tumor_markers": {
+          "tumorMarkers": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/TumorMarker"
             },
-            "title": "Tumor Markers",
+            "title": "Tumormarkers",
             "type": "array"
           },
-          "risk_assessments": {
+          "riskAssessments": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/RiskAssessment"
             },
-            "title": "Risk Assessments",
+            "title": "Riskassessments",
             "type": "array"
           },
-          "therapy_lines": {
+          "therapyLines": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/TherapyLine"
             },
-            "title": "Therapy Lines",
+            "title": "Therapylines",
             "type": "array"
           },
-          "systemic_therapies": {
+          "systemicTherapies": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/SystemicTherapy"
             },
-            "title": "Systemic Therapies",
+            "title": "Systemictherapies",
             "type": "array"
           },
           "surgeries": {
@@ -41481,28 +41481,28 @@
             "title": "Radiotherapies",
             "type": "array"
           },
-          "adverse_events": {
+          "adverseEvents": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/AdverseEvent"
             },
-            "title": "Adverse Events",
+            "title": "Adverseevents",
             "type": "array"
           },
-          "treatment_responses": {
+          "treatmentResponses": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/TreatmentResponse"
             },
-            "title": "Treatment Responses",
+            "title": "Treatmentresponses",
             "type": "array"
           },
-          "performance_status": {
+          "performanceStatus": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/PerformanceStatus"
             },
-            "title": "Performance Status",
+            "title": "Performancestatus",
             "type": "array"
           },
           "comorbidities": {
@@ -41513,12 +41513,12 @@
             "title": "Comorbidities",
             "type": "array"
           },
-          "genomic_variants": {
+          "genomicVariants": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/GenomicVariant"
             },
-            "title": "Genomic Variants",
+            "title": "Genomicvariants",
             "type": "array"
           },
           "genomicSignatures": {
@@ -41564,12 +41564,12 @@
             "title": "Lifestyles",
             "type": "array"
           },
-          "family_histories": {
+          "familyHistory": {
             "default": [],
             "items": {
               "$ref": "#/components/schemas/FamilyHistory"
             },
-            "title": "Family Histories",
+            "title": "Familyhistory",
             "type": "array"
           },
           "tumorBoards": {
@@ -41609,8 +41609,8 @@
           "dateOfBirth",
           "isDeceased",
           "description",
-          "created_at",
-          "created_by",
+          "createdAt",
+          "createdBy",
           "completedDataCategories"
         ],
         "title": "PatientCaseBundle",
@@ -44047,6 +44047,53 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "createdAt": {
+            "description": "Date-time when the resource was created",
+            "format": "date-time",
+            "title": "Createdat",
+            "type": "string"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Date-time when the resource was last updated",
+            "title": "Updatedat"
+          },
+          "createdBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Username of the user who created the resource",
+            "title": "Createdby"
+          },
+          "updatedBy": {
+            "default": [],
+            "description": "Usernames of the users who have updated the resource",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Updatedby",
+            "type": "array"
           }
         },
         "required": [
@@ -44055,7 +44102,9 @@
           "caseId",
           "ordinal",
           "intent",
-          "description"
+          "description",
+          "createdAt",
+          "createdBy"
         ],
         "title": "TherapyLine",
         "type": "object"

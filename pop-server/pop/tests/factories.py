@@ -483,6 +483,10 @@ def fake_complete_case():
         if case.date_of_death:
             case.date_of_death = faker.date_between(case.date_of_birth + timedelta(days=35*365), case.date_of_birth + timedelta(days=99*365))
         case.save()
+        event = case.events.get(pgh_label='create')
+        event.pgh_created_at = faker.date_between(datetime(2020,1,1).date(), datetime.now().date())
+        event.save() 
+        
         basic = dict(case=case)
         # Add neoplastic entities and staging
         initial_diagnosis_date = faker.date_between(case.date_of_birth + timedelta(days=25*365), (case.date_of_death or datetime.now().date()) - timedelta(days=2*365))

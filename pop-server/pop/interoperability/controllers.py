@@ -56,9 +56,9 @@ class InteroperabilityController(ControllerBase):
         schema = next((schema for schema in oncology_schemas.ONCOLOGY_SCHEMAS if getattr(schema,'__orm_model__', None) == instance._meta.model))
         export_data = schema.model_validate(instance).model_dump(mode='json')
         metadata = ExportMetadata(
-            exported_at=datetime.now(),
-            exported_by=self.context.request.user.username,
-            export_version=settings.VERSION,
+            exportedAt=datetime.now(),
+            exportedBy=self.context.request.user.username,
+            exportVersion=settings.VERSION,
             checksum=hashlib.md5(json.dumps(export_data, sort_keys=True).encode('utf-8')).hexdigest()
         ).model_dump(mode='json')
         pghistory.create_event(instance, label="export")

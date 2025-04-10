@@ -1,3 +1,4 @@
+import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
@@ -6,7 +7,7 @@ from ninja_extra import api_controller, ControllerBase, route
 from typing import List
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TherapyLine, PatientCase
 
 from django.shortcuts import get_object_or_404
@@ -83,6 +84,45 @@ class TherapyLineController(ControllerBase):
         get_object_or_404(TherapyLine, id=therapyLineId).delete()
         return 204, None
     
+    @route.get(
+        path='/{therapyLineId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllTherapyLineHistoryEvents',
+    )
+    @paginate()
+    def get_all_therapy_line_history_events(self, therapyLineId: str):
+        instance = get_object_or_404(TherapyLine, id=therapyLineId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{therapyLineId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getTherapyLineHistoryEventById',
+    )
+    def get_therapy_line_history_event_by_id(self, therapyLineId: str, eventId: str):
+        instance = get_object_or_404(TherapyLine, id=therapyLineId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{therapyLineId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertTherapyLineToHistoryEvent',
+    )
+    def revert_therapy_line_to_history_event(self, therapyLineId: str, eventId: str):
+        instance = get_object_or_404(TherapyLine, id=therapyLineId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
     
     @route.get(
         path='/{caseId}/re-assignments', 

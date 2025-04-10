@@ -500,7 +500,6 @@ class TestTherapyLineController(ApiControllerTextMixin, TestCase):
     MODEL = models.TherapyLine
     SCHEMA = schemas.TherapyLineSchema
     CREATE_SCHEMA = schemas.TherapyLineCreateSchema    
-    history_tracked = False
 
 class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/performance-status'

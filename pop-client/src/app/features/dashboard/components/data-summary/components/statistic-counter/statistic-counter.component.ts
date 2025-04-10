@@ -15,7 +15,7 @@ import { style } from '@angular/animations';
     selector: 'pop-data-summay-counter',
     template: `
         <div class="data-statistic">
-            @if (count) {
+            @if (count !== undefined) {
                 <div class="data-statistic-number" [ngxCountAnimation]="count" duration="1000"></div>
             } @else {
                 <p-skeleton/>

@@ -1,21 +1,21 @@
 from datetime import datetime
 from typing import List, Union, Dict
-from pydantic import Field, AliasChoices, BaseModel 
+from pydantic import Field, AliasChoices, BaseModel, ConfigDict
 from pop.oncology.models.patient_case import PatientCaseDataCategories
 import pop.oncology.schemas as sc
 
 class ExportMetadata(BaseModel):
-    exported_at: datetime = Field(
+    exportedAt: datetime = Field(
         ...,
         title="Export Timestamp",
         description="The datetime when the resource was exported."
     )
-    exported_by: str = Field(
+    exportedBy: str = Field(
         ...,
         title="Exported By",
         description="Username of the user who performed the export."
     )
-    export_version: str = Field(
+    exportVersion: str = Field(
         ...,
         title="Export Version",
         description="Version tag of the exporting system."
@@ -31,7 +31,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     neoplasticEntities: List[sc.NeoplasticEntitySchema] = Field(
         default=[], 
         alias='neoplastic_entities', 
-        validation_alias=AliasChoices('neoplastic_entities','neoplasticEntities')
+        validation_alias=AliasChoices('neoplasticEntities','neoplastic_entities')
     ) 
     stagings: List[Union[sc.TNMStagingSchema, sc.FIGOStagingSchema, sc.BinetStagingSchema, 
                         sc.RaiStagingSchema, sc.BreslowDepthSchema, sc.ClarkStagingSchema, 
@@ -43,22 +43,22 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     tumorMarkers: List[sc.TumorMarkerSchema] = Field(
         default=[], 
         alias='tumor_markers', 
-        validation_alias=AliasChoices('tumor_markers','tumorMarkers')
+        validation_alias=AliasChoices('tumorMarkers','tumor_markers')
     )  
     riskAssessments: List[sc.RiskAssessmentSchema] = Field(
         default=[], 
         alias='risk_assessments', 
-        validation_alias=AliasChoices('risk_assessments','riskAssessments')
+        validation_alias=AliasChoices('riskAssessments','risk_assessments')
     )  
     therapyLines: List[sc.TherapyLineSchema] = Field(
         default=[], 
         alias='therapy_lines', 
-        validation_alias=AliasChoices('therapy_lines','therapyLines')
+        validation_alias=AliasChoices('therapyLines','therapy_lines')
     )  
     systemicTherapies: List[sc.SystemicTherapySchema] = Field(
         default=[], 
         alias='systemic_therapies', 
-        validation_alias=AliasChoices('systemic_therapies','systemicTherapies')
+        validation_alias=AliasChoices('systemicTherapies','systemic_therapies')
     )  
     surgeries: List[sc.SurgerySchema] = Field(
         default=[], 
@@ -69,17 +69,17 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     adverseEvents: List[sc.AdverseEventSchema] = Field(
         default=[], 
         alias='adverse_events', 
-        validation_alias=AliasChoices('adverse_events','adverseEvents')
+        validation_alias=AliasChoices('adverseEvents','adverse_events')
     )  
     treatmentResponses: List[sc.TreatmentResponseSchema] = Field(
         default=[], 
         alias='treatment_responses', 
-        validation_alias=AliasChoices('treatment_responses','treatmentResponses')
+        validation_alias=AliasChoices('treatmentResponses','treatment_responses')
     )  
     performanceStatus: List[sc.PerformanceStatusSchema] = Field(
         default=[], 
         alias='performance_status', 
-        validation_alias=AliasChoices('performance_status','performanceStatus')
+        validation_alias=AliasChoices('performanceStatus','performance_status')
     )  
     comorbidities: List[sc.ComorbiditiesAssessmentSchema] = Field(
         default=[], 
@@ -87,7 +87,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     genomicVariants: List[sc.GenomicVariantSchema] = Field(
         default=[], 
         alias='genomic_variants', 
-        validation_alias=AliasChoices('genomic_variants','genomicVariants')
+        validation_alias=AliasChoices('genomicVariants','genomic_variants')
     )  
     genomicSignatures: List[Union[
         sc.TumorMutationalBurdenSchema, sc.MicrosatelliteInstabilitySchema,
@@ -104,7 +104,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     familyHistory: List[sc.FamilyHistorySchema] =  Field(
         default=[], 
         alias='family_histories', 
-        validation_alias=AliasChoices('family_histories','familyHistory')
+        validation_alias=AliasChoices('familyHistory','family_histories')
     )  
     vitals: List[sc.VitalsSchema] = Field(
         default=[], 
@@ -113,6 +113,9 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         default=[], 
     )  
     completedDataCategories: Dict[PatientCaseDataCategories, sc.PatientCaseDataCompletionStatusSchema]
+    
+    
+    model_config = ConfigDict(serialize_by_alias=False)
     
     @staticmethod
     def resolve_stagings(obj):

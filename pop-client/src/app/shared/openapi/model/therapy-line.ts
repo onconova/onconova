@@ -41,6 +41,16 @@ export interface TherapyLine {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace TherapyLine {
 }

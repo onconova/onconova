@@ -22,7 +22,7 @@ class TherapyLineSchema(ModelGetSchema):
         title='Progression-free survival in months',
         description='Progression-free survival (PFS) of the patient for the therapy line', 
         alias='progression_free_survival',
-        validation_alias=AliasChoices('progression_free_survival', 'progressionFreeSurvival')
+        validation_alias=AliasChoices('progressionFreeSurvival', 'progression_free_survival')
     ) 
     config = SchemaConfig(model=orm.TherapyLine, exclude=['label'])
 
