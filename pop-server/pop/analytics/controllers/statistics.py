@@ -8,7 +8,6 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.oncology import models as oncological_models
 from pop.analytics.schemas.statistics import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
-from pop.analytics.models import Cohort
 from pop.analytics.aggregates import Median
 
 
@@ -48,7 +47,7 @@ class DashboardController(ControllerBase):
             entries = sum([model.objects.count() for model in oncological_models.MODELS]),
             mutations = oncological_models.GenomicVariant.objects.count(),
             clinicalCenters = oncological_models.PatientCase.objects.distinct('clinical_center').count(),
-            contributors = oncological_models.PatientCase.objects.distinct('created_by').count(),
+            contributors = oncological_models.PatientCase.objects.select_properties('created_by').distinct('created_by').count(),
             projects = 0,
         )
     
@@ -69,7 +68,7 @@ class DashboardController(ControllerBase):
                 dataCompletionMedian = entity_cohort.aggregate(Median('data_completion_rate')).get('data_completion_rate__median'),
                 topographyCode=entity_code,
                 topographyGroup=entity_display,
-                contributors=list(entity_cohort.values_list('created_by__username', flat=True)) 
+                contributors=list(entity_cohort.select_properties('created_by').values_list('created_by', flat=True)) 
             ))
         statistics.sort(key=lambda x: x.population, reverse=True)
         return statistics
@@ -85,7 +84,7 @@ class DashboardController(ControllerBase):
         from django.db.models.functions import TruncMonth
         from django.db.models import Count, Window
         from pop.oncology.models import PatientCase
-        return PatientCase.objects.annotate(
+        return PatientCase.objects.select_properties('created_at').annotate(
                 month=TruncMonth('created_at')
             ).values('month').annotate(
                 cumulativeCount=Window(expression=Count('id'), order_by=F('month').asc())

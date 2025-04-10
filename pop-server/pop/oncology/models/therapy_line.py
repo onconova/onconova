@@ -10,12 +10,12 @@ from queryable_properties.managers import QueryablePropertiesManager
 
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
-from pop.core.models import BaseModel 
+from pop.core.models import UntrackedBaseModel 
 from pop.oncology.models import PatientCase, TreatmentResponse
 import pop.terminology.models as terminology
 
 
-class TherapyLine(BaseModel):
+class TherapyLine(UntrackedBaseModel):
  
     objects = QueryablePropertiesManager()
     

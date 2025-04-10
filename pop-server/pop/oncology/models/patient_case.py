@@ -237,7 +237,8 @@ class PatientCase(BaseModel):
             ),
         ]
 
-    
+
+@pghistory.track()    
 class PatientCaseDataCompletion(BaseModel):
         
     PatientCaseDataCategories = PatientCaseDataCategories

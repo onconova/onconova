@@ -123,7 +123,6 @@ class BundleParser:
             # Import data completion status                                    
             for category, completion in self.bundle.completedDataCategories.items():
                 if completion.status:
-                    category_completion = models.PatientCaseDataCompletion.objects.create(case=imported_case, category=category)
-                    category_completion.created_at = completion.timestamp 
-                    category_completion.created_by = User.objects.filter(username=completion.username).first()
+                    with pghistory.context(username=completion.username):
+                        models.PatientCaseDataCompletion.objects.create(case=imported_case, category=category)
         return imported_case

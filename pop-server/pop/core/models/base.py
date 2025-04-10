@@ -13,7 +13,7 @@ from queryable_properties.managers import QueryablePropertiesManager
 
 from .user import User 
 
-class BaseModel(models.Model):
+class UntrackedBaseModel(models.Model):
     """
     A base model class that provides common fields and methods for all models.
 
@@ -27,10 +27,6 @@ class BaseModel(models.Model):
     Attributes:
         auto_id: A unique identifier for the model instance.
         id: A human-readable identifier for the model instance.
-        created_at: The date and time at which the model instance was created.
-        updated_at: The date and time at which the model instance was last modified.
-        created_by: The user who created the model instance.
-        updated_by: The users who modified the model instance.
     """
     
     objects = QueryablePropertiesManager()
@@ -53,64 +49,6 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-
-    def __init__(self, *args, **kwargs):
-        """
-        Initializes the model instance.
-
-        This method is the constructor for the model instance. It is called when a
-        new instance is created. It calls the parent class's constructor and then
-        checks if the instance has a primary key and identifier. If the instance
-        does not have an identifier, it generates a unique identifier for the
-        instance using the `_generate_unique_id` method.
-
-        :param args: The positional arguments to be passed to the parent class
-                     constructor.
-        :param kwargs: The keyword arguments to be passed to the parent class
-                       constructor.
-        """
-        super().__init__(*args, **kwargs)
-        if not self.pk and not self.id:
-            self.id = self._generate_unique_id()
-
-        events_model = getattr(self, 'pgh_event_model', None)
-        if events_model:
-            events_related_name = events_model._meta.get_field('pgh_obj')._related_name
-            AnnotationProperty(
-                annotation=Min(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='create')),
-            ).contribute_to_class(self.__class__, 'created_at')
-            
-            AnnotationProperty(
-                annotation=Max(f'{events_related_name}__pgh_created_at', filter=Q(events__pgh_label='update')),
-            ).contribute_to_class(self.__class__, 'updated_at')
-            
-            AnnotationProperty(
-                annotation=Replace(
-                    Cast(Subquery(pghistory.models.Events.objects
-                            .annotate(pgh_obj_pk=Cast('pgh_obj_id', models.UUIDField()))
-                            .filter(pgh_obj_pk=OuterRef('pk'), pgh_label='create')
-                            .exclude(pgh_context__username__isnull=True)
-                            .values('pgh_context__username')[:1]
-                    ), models.CharField()),
-                    Value('"'),Value('')
-                )
-            ).contribute_to_class(self.__class__, 'created_by')
-
-            query = Q(pgh_id__in=OuterRef(f'{events_related_name}__pgh_id'))
-            if hasattr(self, 'parent_events'):
-                query = query | Q(pgh_id__in=OuterRef(f'parent_events__pgh_id'))
-
-            AnnotationProperty(
-                annotation=ArrayAgg(
-                    Replace(Cast(
-                        pghistory.models.Events.objects
-                                .filter(query, pgh_label='update')
-                                .exclude(pgh_context__username__isnull=True)
-                                .values('pgh_context__username')[:1]
-                    ,models.CharField()),Value('"'),Value('')
-                    )
-                )
-            ).contribute_to_class(self.__class__, 'updated_by')
             
     @property
     def description(self):
@@ -128,3 +66,38 @@ class BaseModel(models.Model):
 
     def __str__(self):
         return self.description
+
+
+class BaseModel(UntrackedBaseModel):
+    
+    created_at = AnnotationProperty(
+        annotation=Min(f'events__pgh_created_at', filter=Q(events__pgh_label='create')),
+    )
+    updated_at = AnnotationProperty(
+        annotation=Min(f'events__pgh_created_at', filter=Q(events__pgh_label='update')),
+    )
+    created_by = AnnotationProperty(
+        annotation=Replace(
+            Cast(Subquery(pghistory.models.Events.objects
+                    .filter(pgh_obj_id=Cast(OuterRef('pk'), models.CharField())).filter(pgh_label='create')
+                    .exclude(pgh_context__username__isnull=True)
+                    .values('pgh_context__username')[:1]
+            ), models.CharField()),
+            Value('"'),Value('')
+        )
+    )
+    updated_by = AnnotationProperty(
+        annotation=ArrayAgg(
+            Replace(Cast(Subquery(
+                pghistory.models.Events.objects
+                        .filter(pgh_id__in=OuterRef(f'events__pgh_id'), pgh_label='update')
+                        .exclude(pgh_context__username__isnull=True)
+                        .values('pgh_context__username')[:1]
+            ), models.CharField()),
+            Value('"'),Value('')
+            )
+        )
+    )
+
+    class Meta:
+        abstract = True

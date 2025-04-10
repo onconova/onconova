@@ -134,7 +134,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         from pop.oncology.models.patient_case import PatientCase
         return {category: sc.PatientCaseDataCompletionStatusSchema(
                 status=completion is not None,
-                username= completion.created_by.username if completion else None,
+                username= completion.created_by if completion else None,
                 timestamp=completion.created_at if completion else None,
         ) for category in PatientCaseDataCategories.values for completion in (
             (
