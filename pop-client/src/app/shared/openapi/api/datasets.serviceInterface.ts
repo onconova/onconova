@@ -13,8 +13,10 @@ import { Observable }                                        from 'rxjs';
 
 import { Dataset } from '../model/models';
 import { DatasetCreate } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedDataset } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -28,8 +30,19 @@ export interface DeleteDatasetByIdRequestParams {
     datasetId: string;
 }
 
+export interface GetAllDatasetHistoryEventsRequestParams {
+    datasetId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetDatasetByIdRequestParams {
     datasetId: string;
+}
+
+export interface GetDatasetHistoryEventByIdRequestParams {
+    datasetId: string;
+    eventId: string;
 }
 
 export interface GetDatasetsRequestParams {
@@ -76,6 +89,11 @@ export interface GetDatasetsRequestParams {
     offset?: number;
 }
 
+export interface RevertDatasetToHistoryEventRequestParams {
+    datasetId: string;
+    eventId: string;
+}
+
 export interface UpdateDatasetRequestParams {
     datasetId: string;
     datasetCreate: DatasetCreate;
@@ -101,6 +119,13 @@ export interface DatasetsServiceInterface {
     deleteDatasetById(requestParameters: DeleteDatasetByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Dataset History Events
+     * 
+* @param requestParameters
+     */
+    getAllDatasetHistoryEvents(requestParameters: GetAllDatasetHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Dataset By Id
      * 
 * @param requestParameters
@@ -108,11 +133,25 @@ export interface DatasetsServiceInterface {
     getDatasetById(requestParameters: GetDatasetByIdRequestParams, extraHttpRequestParams?: any): Observable<Dataset>;
 
     /**
+     * Get Dataset History Event By Id
+     * 
+* @param requestParameters
+     */
+    getDatasetHistoryEventById(requestParameters: GetDatasetHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Datasets Matching The Query
      * 
 * @param requestParameters
      */
     getDatasets(requestParameters: GetDatasetsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedDataset>;
+
+    /**
+     * Revert Dataset To History Event
+     * 
+* @param requestParameters
+     */
+    revertDatasetToHistoryEvent(requestParameters: RevertDatasetToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Dataset

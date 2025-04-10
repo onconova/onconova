@@ -18,10 +18,12 @@ import { CohortTraitAverage } from '../model/models';
 import { CohortTraitCounts } from '../model/models';
 import { CohortTraitMedian } from '../model/models';
 import { DatasetRule } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { KapplerMeierCurve } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedAny } from '../model/models';
 import { PaginatedCohort } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 
 
@@ -34,6 +36,12 @@ export interface CreateCohortRequestParams {
 
 export interface DeleteCohortByIdRequestParams {
     cohortId: string;
+}
+
+export interface GetAllCohortHistoryEventsRequestParams {
+    cohortId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetCohortByIdRequestParams {
@@ -68,6 +76,11 @@ export interface GetCohortDatasetDynamicallyRequestParams {
 
 export interface GetCohortGenomicsRequestParams {
     cohortId: string;
+}
+
+export interface GetCohortHistoryEventByIdRequestParams {
+    cohortId: string;
+    eventId: string;
 }
 
 export interface GetCohortOverallSurvivalCurveRequestParams {
@@ -145,6 +158,11 @@ export interface GetCohortsRequestParams {
     offset?: number;
 }
 
+export interface RevertCohortToHistoryEventRequestParams {
+    cohortId: string;
+    eventId: string;
+}
+
 export interface UpdateCohortRequestParams {
     cohortId: string;
     cohortCreate: CohortCreate;
@@ -168,6 +186,13 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     deleteCohortById(requestParameters: DeleteCohortByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Get All Cohort History Events
+     * 
+* @param requestParameters
+     */
+    getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
 
     /**
      * Get Cohort By Id
@@ -210,6 +235,13 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     getCohortGenomics(requestParameters: GetCohortGenomicsRequestParams, extraHttpRequestParams?: any): Observable<{ [key: string]: any; }>;
+
+    /**
+     * Get Cohort History Event By Id
+     * 
+* @param requestParameters
+     */
+    getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
 
     /**
      * Get Cohort Overall Survival Curve
@@ -266,6 +298,13 @@ export interface CohortsServiceInterface {
 * @param requestParameters
      */
     getCohorts(requestParameters: GetCohortsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedCohort>;
+
+    /**
+     * Revert Cohort To History Event
+     * 
+* @param requestParameters
+     */
+    revertCohortToHistoryEvent(requestParameters: RevertCohortToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Cohort

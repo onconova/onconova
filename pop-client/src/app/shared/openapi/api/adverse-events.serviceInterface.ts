@@ -17,8 +17,10 @@ import { AdverseEventMitigation } from '../model/models';
 import { AdverseEventMitigationCreate } from '../model/models';
 import { AdverseEventSuspectedCause } from '../model/models';
 import { AdverseEventSuspectedCauseCreate } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedAdverseEvent } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -56,9 +58,20 @@ export interface GetAdverseEventByIdRequestParams {
     adverseEventId: string;
 }
 
+export interface GetAdverseEventHistoryEventByIdRequestParams {
+    adverseEventId: string;
+    eventId: string;
+}
+
 export interface GetAdverseEventMitigationByIdRequestParams {
     adverseEventId: string;
     mitigationId: string;
+}
+
+export interface GetAdverseEventMitigationHistoryEventByIdRequestParams {
+    adverseEventId: string;
+    mitigationId: string;
+    eventId: string;
 }
 
 export interface GetAdverseEventMitigationsRequestParams {
@@ -68,6 +81,12 @@ export interface GetAdverseEventMitigationsRequestParams {
 export interface GetAdverseEventSuspectedCauseByIdRequestParams {
     adverseEventId: string;
     causeId: string;
+}
+
+export interface GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams {
+    adverseEventId: string;
+    causeId: string;
+    eventId: string;
 }
 
 export interface GetAdverseEventSuspectedCausesRequestParams {
@@ -221,6 +240,43 @@ export interface GetAdverseEventsRequestParams {
     offset?: number;
 }
 
+export interface GetAllAdverseEventHistoryEventsRequestParams {
+    adverseEventId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetAllAdverseEventMitigationHistoryEventsRequestParams {
+    adverseEventId: string;
+    mitigationId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams {
+    adverseEventId: string;
+    causeId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface RevertAdverseEventMitigationToHistoryEventRequestParams {
+    adverseEventId: string;
+    mitigationId: string;
+    eventId: string;
+}
+
+export interface RevertAdverseEventSuspectedCauseToHistoryEventRequestParams {
+    adverseEventId: string;
+    causeId: string;
+    eventId: string;
+}
+
+export interface RevertAdverseEventToHistoryEventRequestParams {
+    adverseEventId: string;
+    eventId: string;
+}
+
 export interface UpdateAdverseEventRequestParams {
     adverseEventId: string;
     adverseEventCreate: AdverseEventCreate;
@@ -293,11 +349,25 @@ export interface AdverseEventsServiceInterface {
     getAdverseEventById(requestParameters: GetAdverseEventByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEvent>;
 
     /**
+     * Get Adverse Event History Event By Id
+     * 
+* @param requestParameters
+     */
+    getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get Adverse Event Mitigation By Id
      * 
 * @param requestParameters
      */
     getAdverseEventMitigationById(requestParameters: GetAdverseEventMitigationByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventMitigation>;
+
+    /**
+     * Get Adverse Event Mitigation History Event By Id
+     * 
+* @param requestParameters
+     */
+    getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
 
     /**
      * Get Adverse Event Mitigations Matching The Query
@@ -314,6 +384,13 @@ export interface AdverseEventsServiceInterface {
     getAdverseEventSuspectedCauseById(requestParameters: GetAdverseEventSuspectedCauseByIdRequestParams, extraHttpRequestParams?: any): Observable<AdverseEventSuspectedCause>;
 
     /**
+     * Get Adverse Event Suspected Cause History Event By Id
+     * 
+* @param requestParameters
+     */
+    getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get Adverse Event Suspected Causes Matching The Query
      * 
 * @param requestParameters
@@ -326,6 +403,48 @@ export interface AdverseEventsServiceInterface {
 * @param requestParameters
      */
     getAdverseEvents(requestParameters: GetAdverseEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAdverseEvent>;
+
+    /**
+     * Get All Adverse Event History Events
+     * 
+* @param requestParameters
+     */
+    getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Get All Adverse Event Mitigation History Events
+     * 
+* @param requestParameters
+     */
+    getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Get All Adverse Event Suspected Cause History Events
+     * 
+* @param requestParameters
+     */
+    getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Revert Adverse Event Mitigation To History Event
+     * 
+* @param requestParameters
+     */
+    revertAdverseEventMitigationToHistoryEvent(requestParameters: RevertAdverseEventMitigationToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revert Adverse Event Suspected Cause To History Event
+     * 
+* @param requestParameters
+     */
+    revertAdverseEventSuspectedCauseToHistoryEvent(requestParameters: RevertAdverseEventSuspectedCauseToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revert Adverse Event To History Event
+     * 
+* @param requestParameters
+     */
+    revertAdverseEventToHistoryEvent(requestParameters: RevertAdverseEventToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Adverse Event

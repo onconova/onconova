@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedRiskAssessment } from '../model/models';
 import { RiskAssessment } from '../model/models';
 import { RiskAssessmentCreate } from '../model/models';
@@ -28,8 +30,19 @@ export interface DeleteRiskAssessmentByIdRequestParams {
     riskAssessmentId: string;
 }
 
+export interface GetAllRiskAssessmentHistoryEventsRequestParams {
+    riskAssessmentId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetRiskAssessmentByIdRequestParams {
     riskAssessmentId: string;
+}
+
+export interface GetRiskAssessmentHistoryEventByIdRequestParams {
+    riskAssessmentId: string;
+    eventId: string;
 }
 
 export interface GetRiskAssessmentsRequestParams {
@@ -83,6 +96,11 @@ export interface GetRiskAssessmentsRequestParams {
     offset?: number;
 }
 
+export interface RevertRiskAssessmentToHistoryEventRequestParams {
+    riskAssessmentId: string;
+    eventId: string;
+}
+
 export interface UpdateRiskAssessmentByIdRequestParams {
     riskAssessmentId: string;
     riskAssessmentCreate: RiskAssessmentCreate;
@@ -108,6 +126,13 @@ export interface RiskAssessmentsServiceInterface {
     deleteRiskAssessmentById(requestParameters: DeleteRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Risk Assessment History Events
+     * 
+* @param requestParameters
+     */
+    getAllRiskAssessmentHistoryEvents(requestParameters: GetAllRiskAssessmentHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Risk Assessment By Id
      * 
 * @param requestParameters
@@ -115,11 +140,25 @@ export interface RiskAssessmentsServiceInterface {
     getRiskAssessmentById(requestParameters: GetRiskAssessmentByIdRequestParams, extraHttpRequestParams?: any): Observable<RiskAssessment>;
 
     /**
+     * Get Risk Assessment History Event By Id
+     * 
+* @param requestParameters
+     */
+    getRiskAssessmentHistoryEventById(requestParameters: GetRiskAssessmentHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Risk Assessments Matching The Query
      * 
 * @param requestParameters
      */
     getRiskAssessments(requestParameters: GetRiskAssessmentsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedRiskAssessment>;
+
+    /**
+     * Revert Risk Assessment To History Event
+     * 
+* @param requestParameters
+     */
+    revertRiskAssessmentToHistoryEvent(requestParameters: RevertRiskAssessmentToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Risk Assessment

@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedSurgery } from '../model/models';
 import { Surgery } from '../model/models';
 import { SurgeryCreate } from '../model/models';
@@ -26,6 +28,12 @@ export interface CreateSurgeryRequestParams {
 
 export interface DeleteSurgeryByIdRequestParams {
     surgeryId: string;
+}
+
+export interface GetAllSurgeryHistoryEventsRequestParams {
+    surgeryId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetSurgeriesRequestParams {
@@ -109,6 +117,16 @@ export interface GetSurgeryByIdRequestParams {
     surgeryId: string;
 }
 
+export interface GetSurgeryHistoryEventByIdRequestParams {
+    surgeryId: string;
+    eventId: string;
+}
+
+export interface RevertSurgeryToHistoryEventRequestParams {
+    surgeryId: string;
+    eventId: string;
+}
+
 export interface UpdateSurgeryByIdRequestParams {
     surgeryId: string;
     surgeryCreate: SurgeryCreate;
@@ -134,6 +152,13 @@ export interface SurgeriesServiceInterface {
     deleteSurgeryById(requestParameters: DeleteSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Surgery History Events
+     * 
+* @param requestParameters
+     */
+    getAllSurgeryHistoryEvents(requestParameters: GetAllSurgeryHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get All Surgeries Matching The Query
      * 
 * @param requestParameters
@@ -146,6 +171,20 @@ export interface SurgeriesServiceInterface {
 * @param requestParameters
      */
     getSurgeryById(requestParameters: GetSurgeryByIdRequestParams, extraHttpRequestParams?: any): Observable<Surgery>;
+
+    /**
+     * Get Surgery History Event By Id
+     * 
+* @param requestParameters
+     */
+    getSurgeryHistoryEventById(requestParameters: GetSurgeryHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
+     * Revert Surgery To History Event
+     * 
+* @param requestParameters
+     */
+    revertSurgeryToHistoryEvent(requestParameters: RevertSurgeryToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Surgery

@@ -12,8 +12,10 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyStaging } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedAnyStaging } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { Payload } from '../model/models';
 
 
@@ -28,8 +30,19 @@ export interface DeleteStagingByIdRequestParams {
     stagingId: string;
 }
 
+export interface GetAllStagingHistoryEventsRequestParams {
+    stagingId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetStagingByIdRequestParams {
     stagingId: string;
+}
+
+export interface GetStagingHistoryEventByIdRequestParams {
+    stagingId: string;
+    eventId: string;
 }
 
 export interface GetStagingsRequestParams {
@@ -71,6 +84,11 @@ export interface GetStagingsRequestParams {
     offset?: number;
 }
 
+export interface RevertStagingToHistoryEventRequestParams {
+    stagingId: string;
+    eventId: string;
+}
+
 export interface UpdateStagingByIdRequestParams {
     stagingId: string;
     payload: Payload;
@@ -96,6 +114,13 @@ export interface StagingsServiceInterface {
     deleteStagingById(requestParameters: DeleteStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Staging History Events
+     * 
+* @param requestParameters
+     */
+    getAllStagingHistoryEvents(requestParameters: GetAllStagingHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Staging By Id
      * 
 * @param requestParameters
@@ -103,11 +128,25 @@ export interface StagingsServiceInterface {
     getStagingById(requestParameters: GetStagingByIdRequestParams, extraHttpRequestParams?: any): Observable<AnyStaging>;
 
     /**
+     * Get Staging History Event By Id
+     * 
+* @param requestParameters
+     */
+    getStagingHistoryEventById(requestParameters: GetStagingHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Stagings Matching The Query
      * 
 * @param requestParameters
      */
     getStagings(requestParameters: GetStagingsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAnyStaging>;
+
+    /**
+     * Revert Staging To History Event
+     * 
+* @param requestParameters
+     */
+    revertStagingToHistoryEvent(requestParameters: RevertStagingToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Staging

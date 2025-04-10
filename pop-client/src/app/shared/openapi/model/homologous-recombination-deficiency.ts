@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { HomologousRecombinationDeficiencyInterpretationChoices } from './homologous-recombination-deficiency-interpretation-choices';
 
 
@@ -17,15 +16,6 @@ export interface HomologousRecombinationDeficiency {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -36,16 +26,22 @@ export interface HomologousRecombinationDeficiency {
      * Clinically-relevant date at which the patient\'s genomic signature was assessed.
      */
     date: string;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     value?: number | null;
     interpretation?: HomologousRecombinationDeficiencyInterpretationChoices | null;
     /**
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace HomologousRecombinationDeficiency {
     export type CategoryEnum = 'homologous_recombination_deficiency';

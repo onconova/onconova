@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedRadiotherapy } from '../model/models';
 import { Radiotherapy } from '../model/models';
 import { RadiotherapyCreate } from '../model/models';
@@ -50,6 +52,26 @@ export interface DeleteRadiotherapyDosageRequestParams {
 export interface DeleteRadiotherapySettingRequestParams {
     radiotherapyId: string;
     settingId: string;
+}
+
+export interface GetAllRadiotherapyDosageHistoryEventsRequestParams {
+    radiotherapyId: string;
+    dosageId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetAllRadiotherapyHistoryEventsRequestParams {
+    radiotherapyId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetAllRadiotherapySettingHistoryEventsRequestParams {
+    radiotherapyId: string;
+    settingId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetRadiotherapiesRequestParams {
@@ -183,8 +205,19 @@ export interface GetRadiotherapyDosageByIdRequestParams {
     dosageId: string;
 }
 
+export interface GetRadiotherapyDosageHistoryEventByIdRequestParams {
+    radiotherapyId: string;
+    dosageId: string;
+    eventId: string;
+}
+
 export interface GetRadiotherapyDosagesRequestParams {
     radiotherapyId: string;
+}
+
+export interface GetRadiotherapyHistoryEventByIdRequestParams {
+    radiotherapyId: string;
+    eventId: string;
 }
 
 export interface GetRadiotherapySettingByIdRequestParams {
@@ -192,8 +225,31 @@ export interface GetRadiotherapySettingByIdRequestParams {
     settingId: string;
 }
 
+export interface GetRadiotherapySettingHistoryEventByIdRequestParams {
+    radiotherapyId: string;
+    settingId: string;
+    eventId: string;
+}
+
 export interface GetRadiotherapySettingsRequestParams {
     radiotherapyId: string;
+}
+
+export interface RevertRadiotherapyDosageToHistoryEventRequestParams {
+    radiotherapyId: string;
+    dosageId: string;
+    eventId: string;
+}
+
+export interface RevertRadiotherapySettingToHistoryEventRequestParams {
+    radiotherapyId: string;
+    settingId: string;
+    eventId: string;
+}
+
+export interface RevertRadiotherapyToHistoryEventRequestParams {
+    radiotherapyId: string;
+    eventId: string;
 }
 
 export interface UpdateRadiotherapyRequestParams {
@@ -261,6 +317,27 @@ export interface RadiotherapiesServiceInterface {
     deleteRadiotherapySetting(requestParameters: DeleteRadiotherapySettingRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Radiotherapy Dosage History Events
+     * 
+* @param requestParameters
+     */
+    getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Get All Radiotherapy History Events
+     * 
+* @param requestParameters
+     */
+    getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Get All Radiotherapy Setting History Events
+     * 
+* @param requestParameters
+     */
+    getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get All Radiotherapies Matching The Query
      * 
 * @param requestParameters
@@ -282,11 +359,25 @@ export interface RadiotherapiesServiceInterface {
     getRadiotherapyDosageById(requestParameters: GetRadiotherapyDosageByIdRequestParams, extraHttpRequestParams?: any): Observable<RadiotherapyDosage>;
 
     /**
+     * Get Radiotherapy Dosage History Event By Id
+     * 
+* @param requestParameters
+     */
+    getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get Radiotherapy Dosages Matching The Query
      * 
 * @param requestParameters
      */
     getRadiotherapyDosages(requestParameters: GetRadiotherapyDosagesRequestParams, extraHttpRequestParams?: any): Observable<Array<RadiotherapyDosage>>;
+
+    /**
+     * Get Radiotherapy History Event By Id
+     * 
+* @param requestParameters
+     */
+    getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
 
     /**
      * Get Radiotherapy Setting By Id
@@ -296,11 +387,39 @@ export interface RadiotherapiesServiceInterface {
     getRadiotherapySettingById(requestParameters: GetRadiotherapySettingByIdRequestParams, extraHttpRequestParams?: any): Observable<RadiotherapySetting>;
 
     /**
+     * Get Radiotherapy Setting History Event By Id
+     * 
+* @param requestParameters
+     */
+    getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get Radiotherapy Settings Matching The Query
      * 
 * @param requestParameters
      */
     getRadiotherapySettings(requestParameters: GetRadiotherapySettingsRequestParams, extraHttpRequestParams?: any): Observable<Array<RadiotherapySetting>>;
+
+    /**
+     * Revert Radiotherapy Dosage To History Event
+     * 
+* @param requestParameters
+     */
+    revertRadiotherapyDosageToHistoryEvent(requestParameters: RevertRadiotherapyDosageToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revert Radiotherapy Setting To History Event
+     * 
+* @param requestParameters
+     */
+    revertRadiotherapySettingToHistoryEvent(requestParameters: RevertRadiotherapySettingToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revert Radiotherapy To History Event
+     * 
+* @param requestParameters
+     */
+    revertRadiotherapyToHistoryEvent(requestParameters: RevertRadiotherapyToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Radiotherapy

@@ -10,7 +10,6 @@
 import { ComorbiditiesAssessment } from './comorbidities-assessment';
 import { RiskAssessment } from './risk-assessment';
 import { SystemicTherapy } from './systemic-therapy';
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { PatientCaseBundleGenomicSignaturesInner } from './patient-case-bundle-genomic-signatures-inner';
 import { PatientCaseBundleTumorBoardsInner } from './patient-case-bundle-tumor-boards-inner';
@@ -49,15 +48,6 @@ export interface PatientCaseBundle {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -94,13 +84,19 @@ export interface PatientCaseBundle {
     dateOfDeath?: string | null;
     causeOfDeath?: CodedConcept | null;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    created_at: string;
+    udpated_at?: string | null;
+    created_by: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updated_by?: Array<string | null>;
     neoplastic_entities?: Array<NeoplasticEntity>;
     stagings?: Array<PatientCaseBundleStagingsInner>;
     tumor_markers?: Array<TumorMarker>;

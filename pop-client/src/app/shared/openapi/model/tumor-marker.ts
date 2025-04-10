@@ -8,7 +8,6 @@
  * Do not edit the class manually.
  */
 import { TumorMarkerTumorProportionScoreChoices } from './tumor-marker-tumor-proportion-score-choices';
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { TumorMarkerNuclearExpressionStatusChoices } from './tumor-marker-nuclear-expression-status-choices';
 import { Measure } from './measure';
@@ -22,15 +21,6 @@ export interface TumorMarker {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -57,10 +47,6 @@ export interface TumorMarker {
     presence?: TumorMarkerPresenceChoices | null;
     nuclearExpressionStatus?: TumorMarkerNuclearExpressionStatusChoices | null;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * References to the neoplastic entities that are related or the focus of the tumor marker analysis.
      */
     relatedEntitiesIds?: Array<string>;
@@ -68,6 +54,16 @@ export interface TumorMarker {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace TumorMarker {
 }

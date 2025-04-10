@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
@@ -39,6 +41,12 @@ export interface DeletePatientCaseDataCompletionRequestParams {
     category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
 }
 
+export interface GetAllPatientCaseHistoryEventsRequestParams {
+    caseId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetPatientCaseByIdRequestParams {
     caseId: string;
 }
@@ -50,6 +58,11 @@ export interface GetPatientCaseByPseudoidentifierRequestParams {
 export interface GetPatientCaseDataCompletionStatusRequestParams {
     caseId: string;
     category: 'comorbidities-assessments' | 'family-histories' | 'genomic-signatures' | 'genomic-variants' | 'lifestyles' | 'comorbidities' | 'neoplastic-entities' | 'performance-status' | 'radiotherapies' | 'risk-assessments' | 'stagings' | 'surgeries' | 'systemic-therapies' | 'tumor-markers' | 'vitals' | 'tumor-board-reviews' | 'adverse-events' | 'therapy-responses';
+}
+
+export interface GetPatientCaseHistoryEventByIdRequestParams {
+    caseId: string;
+    eventId: string;
 }
 
 export interface GetPatientCasesRequestParams {
@@ -181,6 +194,11 @@ export interface GetPatientCasesRequestParams {
     offset?: number;
 }
 
+export interface RevertPatientCaseToHistoryEventRequestParams {
+    caseId: string;
+    eventId: string;
+}
+
 export interface UpdatePatientCaseByIdRequestParams {
     caseId: string;
     patientCaseCreate: PatientCaseCreate;
@@ -220,6 +238,13 @@ export interface PatientCasesServiceInterface {
     deletePatientCaseDataCompletion(requestParameters: DeletePatientCaseDataCompletionRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Patient Case History Events
+     * 
+* @param requestParameters
+     */
+    getAllPatientCaseHistoryEvents(requestParameters: GetAllPatientCaseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Default Clinical Center
      * 
 */
@@ -247,11 +272,25 @@ export interface PatientCasesServiceInterface {
     getPatientCaseDataCompletionStatus(requestParameters: GetPatientCaseDataCompletionStatusRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseDataCompletionStatusSchema>;
 
     /**
+     * Get Patient Case History Event By Id
+     * 
+* @param requestParameters
+     */
+    getPatientCaseHistoryEventById(requestParameters: GetPatientCaseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Patient Cases Matching The Query
      * 
 * @param requestParameters
      */
     getPatientCases(requestParameters: GetPatientCasesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedPatientCase>;
+
+    /**
+     * Revert Patient Case To History Event
+     * 
+* @param requestParameters
+     */
+    revertPatientCaseToHistoryEvent(requestParameters: RevertPatientCaseToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Patient Case

@@ -10,7 +10,6 @@
 import { FIGOStaging } from './figo-staging';
 import { BreslowDepth } from './breslow-depth';
 import { INRGSSStage } from './inrgss-stage';
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { TNMStaging } from './tnm-staging';
 import { RISSStaging } from './riss-staging';
@@ -31,15 +30,6 @@ export interface PatientCaseBundleStagingsInner {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -50,10 +40,6 @@ export interface PatientCaseBundleStagingsInner {
      * Clinically-relevant date at which the staging was performed and recorded.
      */
     date: string;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -77,6 +63,16 @@ export interface PatientCaseBundleStagingsInner {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string;
+    createdBy: string;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string>;
     /**
      * Breslow depth given in milimeters
      */

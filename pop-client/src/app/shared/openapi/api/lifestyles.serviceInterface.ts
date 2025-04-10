@@ -11,9 +11,11 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { Lifestyle } from '../model/models';
 import { LifestyleCreate } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedLifestyle } from '../model/models';
 
 
@@ -28,8 +30,19 @@ export interface DeleteLifestyleByIdRequestParams {
     lifestyleId: string;
 }
 
+export interface GetAllLifestyleHistoryEventsRequestParams {
+    lifestyleId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetLifestyleByIdRequestParams {
     lifestyleId: string;
+}
+
+export interface GetLifestyleHistoryEventByIdRequestParams {
+    lifestyleId: string;
+    eventId: string;
 }
 
 export interface GetLifestylesRequestParams {
@@ -123,6 +136,11 @@ export interface GetLifestylesRequestParams {
     offset?: number;
 }
 
+export interface RevertLifestyleToHistoryEventRequestParams {
+    lifestyleId: string;
+    eventId: string;
+}
+
 export interface UpdateLifestyleByIdRequestParams {
     lifestyleId: string;
     lifestyleCreate: LifestyleCreate;
@@ -148,6 +166,13 @@ export interface LifestylesServiceInterface {
     deleteLifestyleById(requestParameters: DeleteLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Lifestyle History Events
+     * 
+* @param requestParameters
+     */
+    getAllLifestyleHistoryEvents(requestParameters: GetAllLifestyleHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Lifestyle By Id
      * 
 * @param requestParameters
@@ -155,11 +180,25 @@ export interface LifestylesServiceInterface {
     getLifestyleById(requestParameters: GetLifestyleByIdRequestParams, extraHttpRequestParams?: any): Observable<Lifestyle>;
 
     /**
+     * Get Lifestyle History Event By Id
+     * 
+* @param requestParameters
+     */
+    getLifestyleHistoryEventById(requestParameters: GetLifestyleHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Lifestyles Matching The Query
      * 
 * @param requestParameters
      */
     getLifestyles(requestParameters: GetLifestylesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedLifestyle>;
+
+    /**
+     * Revert Lifestyle To History Event
+     * 
+* @param requestParameters
+     */
+    revertLifestyleToHistoryEvent(requestParameters: RevertLifestyleToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Lifestyle

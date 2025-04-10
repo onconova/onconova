@@ -8,7 +8,6 @@
  * Do not edit the class manually.
  */
 import { SystemicTherapyIntentChoices } from './systemic-therapy-intent-choices';
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { Period } from './period';
 import { SystemicTherapyMedication } from './systemic-therapy-medication';
@@ -27,15 +26,6 @@ export interface SystemicTherapy {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -54,17 +44,13 @@ export interface SystemicTherapy {
      * Treatment intent of the system therapy
      */
     intent: SystemicTherapyIntentChoices;
+    adjunctiveRole?: CodedConcept | null;
     /**
      * Indicates whether it is adjunctive therapy instead of a primary therapy 
      */
     isAdjunctive: boolean;
-    adjunctiveRole?: CodedConcept | null;
     terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were targeted by the systemic therapy
      */
@@ -73,6 +59,16 @@ export interface SystemicTherapy {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace SystemicTherapy {
 }

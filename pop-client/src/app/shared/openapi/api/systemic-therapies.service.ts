@@ -17,7 +17,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { HistoryEvent } from '../model/history-event';
+// @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
+// @ts-ignore
+import { PaginatedHistoryEvent } from '../model/paginated-history-event';
 // @ts-ignore
 import { PaginatedSystemicTherapy } from '../model/paginated-systemic-therapy';
 // @ts-ignore
@@ -39,10 +43,16 @@ import {
     CreateSystemicTherapyMedicationRequestParams,
     DeleteSystemicTherapyByIdRequestParams,
     DeleteSystemicTherapyMedicationRequestParams,
+    GetAllSystemicTherapyHistoryEventsRequestParams,
+    GetAllSystemicTherapyMedicationHistoryEventsRequestParams,
     GetSystemicTherapiesRequestParams,
     GetSystemicTherapyByIdRequestParams,
+    GetSystemicTherapyHistoryEventByIdRequestParams,
     GetSystemicTherapyMedicationByIdRequestParams,
+    GetSystemicTherapyMedicationHistoryEventByIdRequestParams,
     GetSystemicTherapyMedicationsRequestParams,
+    RevertSystemicTherapyMedicationToHistoryEventRequestParams,
+    RevertSystemicTherapyToHistoryEventRequestParams,
     UpdateSystemicTherapyRequestParams,
     UpdateSystemicTherapyMedicationRequestParams
 } from './systemic-therapies.serviceInterface';
@@ -313,6 +323,142 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
     }
 
     /**
+     * Get All Systemic Therapy History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const systemicTherapyId = requestParameters?.systemicTherapyId;
+        if (systemicTherapyId === null || systemicTherapyId === undefined) {
+            throw new Error('Required parameter systemicTherapyId was null or undefined when calling getAllSystemicTherapyHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Systemic Therapy Medication History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const systemicTherapyId = requestParameters?.systemicTherapyId;
+        if (systemicTherapyId === null || systemicTherapyId === undefined) {
+            throw new Error('Required parameter systemicTherapyId was null or undefined when calling getAllSystemicTherapyMedicationHistoryEvents.');
+        }
+        const medicationId = requestParameters?.medicationId;
+        if (medicationId === null || medicationId === undefined) {
+            throw new Error('Required parameter medicationId was null or undefined when calling getAllSystemicTherapyMedicationHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/${this.configuration.encodeParam({name: "medicationId", value: medicationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get All Systemic Therapies Matching The Query
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -469,7 +615,6 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const intent = requestParameters?.intent;
         const intentNot = requestParameters?.intentNot;
         const intentAnyOf = requestParameters?.intentAnyOf;
-        const isAdjunctive = requestParameters?.isAdjunctive;
         const adjunctiveRoleNotExists = requestParameters?.adjunctiveRoleNotExists;
         const adjunctiveRoleExists = requestParameters?.adjunctiveRoleExists;
         const adjunctiveRole = requestParameters?.adjunctiveRole;
@@ -477,6 +622,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const adjunctiveRoleAnyOf = requestParameters?.adjunctiveRoleAnyOf;
         const adjunctiveRoleNotAnyOf = requestParameters?.adjunctiveRoleNotAnyOf;
         const adjunctiveRoleDescendantsOf = requestParameters?.adjunctiveRoleDescendantsOf;
+        const isAdjunctive = requestParameters?.isAdjunctive;
         const terminationReasonNotExists = requestParameters?.terminationReasonNotExists;
         const terminationReasonExists = requestParameters?.terminationReasonExists;
         const terminationReason = requestParameters?.terminationReason;
@@ -919,8 +1065,6 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isAdjunctive, 'isAdjunctive');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>adjunctiveRoleNotExists, 'adjunctiveRole.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>adjunctiveRoleExists, 'adjunctiveRole.exists');
@@ -942,6 +1086,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>adjunctiveRoleDescendantsOf, 'adjunctiveRole.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isAdjunctive, 'isAdjunctive');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>terminationReasonNotExists, 'terminationReason.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1094,6 +1240,67 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
     }
 
     /**
+     * Get Systemic Therapy History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const systemicTherapyId = requestParameters?.systemicTherapyId;
+        if (systemicTherapyId === null || systemicTherapyId === undefined) {
+            throw new Error('Required parameter systemicTherapyId was null or undefined when calling getSystemicTherapyHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getSystemicTherapyHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get Systemic Therapy Medication By Id
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1155,6 +1362,71 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
     }
 
     /**
+     * Get Systemic Therapy Medication History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const systemicTherapyId = requestParameters?.systemicTherapyId;
+        if (systemicTherapyId === null || systemicTherapyId === undefined) {
+            throw new Error('Required parameter systemicTherapyId was null or undefined when calling getSystemicTherapyMedicationHistoryEventById.');
+        }
+        const medicationId = requestParameters?.medicationId;
+        if (medicationId === null || medicationId === undefined) {
+            throw new Error('Required parameter medicationId was null or undefined when calling getSystemicTherapyMedicationHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getSystemicTherapyMedicationHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/${this.configuration.encodeParam({name: "medicationId", value: medicationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get Systemic Therapy Medications Matching The Query
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -1199,6 +1471,132 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications`;
         return this.httpClient.request<Array<SystemicTherapyMedication>>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Systemic Therapy Medication To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertSystemicTherapyMedicationToHistoryEvent(requestParameters: RevertSystemicTherapyMedicationToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertSystemicTherapyMedicationToHistoryEvent(requestParameters: RevertSystemicTherapyMedicationToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertSystemicTherapyMedicationToHistoryEvent(requestParameters: RevertSystemicTherapyMedicationToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertSystemicTherapyMedicationToHistoryEvent(requestParameters: RevertSystemicTherapyMedicationToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const systemicTherapyId = requestParameters?.systemicTherapyId;
+        if (systemicTherapyId === null || systemicTherapyId === undefined) {
+            throw new Error('Required parameter systemicTherapyId was null or undefined when calling revertSystemicTherapyMedicationToHistoryEvent.');
+        }
+        const medicationId = requestParameters?.medicationId;
+        if (medicationId === null || medicationId === undefined) {
+            throw new Error('Required parameter medicationId was null or undefined when calling revertSystemicTherapyMedicationToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertSystemicTherapyMedicationToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/${this.configuration.encodeParam({name: "medicationId", value: medicationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Systemic Therapy To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertSystemicTherapyToHistoryEvent(requestParameters: RevertSystemicTherapyToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertSystemicTherapyToHistoryEvent(requestParameters: RevertSystemicTherapyToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertSystemicTherapyToHistoryEvent(requestParameters: RevertSystemicTherapyToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertSystemicTherapyToHistoryEvent(requestParameters: RevertSystemicTherapyToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const systemicTherapyId = requestParameters?.systemicTherapyId;
+        if (systemicTherapyId === null || systemicTherapyId === undefined) {
+            throw new Error('Required parameter systemicTherapyId was null or undefined when calling revertSystemicTherapyToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertSystemicTherapyToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

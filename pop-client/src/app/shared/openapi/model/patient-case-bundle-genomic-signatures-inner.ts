@@ -10,7 +10,6 @@
 import { TumorNeoantigenBurden } from './tumor-neoantigen-burden';
 import { LossOfHeterozygosity } from './loss-of-heterozygosity';
 import { MicrosatelliteInstability } from './microsatellite-instability';
-import { User } from './user';
 import { HomologousRecombinationDeficiencyInterpretationChoices } from './homologous-recombination-deficiency-interpretation-choices';
 import { HomologousRecombinationDeficiency } from './homologous-recombination-deficiency';
 import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-status-choices';
@@ -24,15 +23,6 @@ export interface PatientCaseBundleGenomicSignaturesInner {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User;
     externalSource?: string;
     externalSourceId?: string;
     /**
@@ -44,10 +34,6 @@ export interface PatientCaseBundleGenomicSignaturesInner {
      */
     date: string;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * The actual aneuploid score (AS) value in total altered arms
      */
     value: number;
@@ -56,6 +42,16 @@ export interface PatientCaseBundleGenomicSignaturesInner {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string;
+    createdBy: string;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string>;
     interpretation?: HomologousRecombinationDeficiencyInterpretationChoices;
 }
 export namespace PatientCaseBundleGenomicSignaturesInner {

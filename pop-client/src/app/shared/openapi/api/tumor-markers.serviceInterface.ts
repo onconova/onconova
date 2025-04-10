@@ -12,7 +12,9 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnalyteDetails } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedTumorMarker } from '../model/models';
 import { TumorMarker } from '../model/models';
 import { TumorMarkerCreate } from '../model/models';
@@ -29,12 +31,23 @@ export interface DeleteTumorMarkerByIdRequestParams {
     tumorMarkerId: string;
 }
 
+export interface GetAllTumorMarkerHistoryEventsRequestParams {
+    tumorMarkerId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetTumorMarkerAnalyteDetailsByCodeRequestParams {
     analyteCode: string;
 }
 
 export interface GetTumorMarkerByIdRequestParams {
     tumorMarkerId: string;
+}
+
+export interface GetTumorMarkerHistoryEventByIdRequestParams {
+    tumorMarkerId: string;
+    eventId: string;
 }
 
 export interface GetTumorMarkersRequestParams {
@@ -158,6 +171,11 @@ export interface GetTumorMarkersRequestParams {
     offset?: number;
 }
 
+export interface RevertTumorMarkerToHistoryEventRequestParams {
+    tumorMarkerId: string;
+    eventId: string;
+}
+
 export interface UpdateTumorMarkerByIdRequestParams {
     tumorMarkerId: string;
     tumorMarkerCreate: TumorMarkerCreate;
@@ -183,6 +201,13 @@ export interface TumorMarkersServiceInterface {
     deleteTumorMarkerById(requestParameters: DeleteTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Tumor Marker History Events
+     * 
+* @param requestParameters
+     */
+    getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Tumor Marker Analyte Details By Code
      * 
 * @param requestParameters
@@ -197,11 +222,25 @@ export interface TumorMarkersServiceInterface {
     getTumorMarkerById(requestParameters: GetTumorMarkerByIdRequestParams, extraHttpRequestParams?: any): Observable<TumorMarker>;
 
     /**
+     * Get Tumor Marker History Event By Id
+     * 
+* @param requestParameters
+     */
+    getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Tumor Markers Matching The Query
      * 
 * @param requestParameters
      */
     getTumorMarkers(requestParameters: GetTumorMarkersRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTumorMarker>;
+
+    /**
+     * Revert Tumor Marker To History Event
+     * 
+* @param requestParameters
+     */
+    revertTumorMarkerToHistoryEvent(requestParameters: RevertTumorMarkerToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Neoplastic Entity

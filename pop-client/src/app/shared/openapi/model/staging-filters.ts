@@ -13,7 +13,7 @@ export interface StagingFilters {
     stagingDomain?: StagingFilters.StagingDomainEnum;
     'stagingDomain.not'?: StagingFilters.StagingDomainNotEnum;
     /**
-     * None - (\'Filter for excluding a subset of value choices\',)
+     * Staging domain - (\'Filter for excluding a subset of value choices\',)
      */
     'stagingDomain.anyOf'?: Array<StagingFilters.StagingDomainAnyOfEnum>;
     /**

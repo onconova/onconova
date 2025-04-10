@@ -8,7 +8,6 @@
  * Do not edit the class manually.
  */
 import { ProteinChangeType } from './protein-change-type';
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { RNAChangeType } from './rna-change-type';
 import { GenomicVariantAssessmentChoices } from './genomic-variant-assessment-choices';
@@ -35,15 +34,6 @@ export interface GenomicVariant {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -74,10 +64,6 @@ export interface GenomicVariant {
     coordinateSystem?: CodedConcept | null;
     clinvar?: string | null;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * Gene(s) affected by this variant
      */
     genes?: Array<CodedConcept>;
@@ -85,6 +71,16 @@ export interface GenomicVariant {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace GenomicVariant {
 }
