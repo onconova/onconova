@@ -24,8 +24,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
         
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_export_resource(self, scenario, config):
-        resource = 'NeoplasticEntity'
-        response = self.call_api_endpoint('GET', f'/resources/{resource}/{self.entity.id}', **config)
+        response = self.call_api_endpoint('GET', f'/resources/{self.entity.id}', **config)
         if scenario == 'HTTPS Authenticated':
             self.assertEqual(response.status_code, 200)
             export = response.json()
@@ -34,6 +33,12 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             self.assertTrue(re.findall(r"([a-fA-F\d]{32})", export['checksum']))
             self.assertTrue(self.entity.events.filter(pgh_label='export').exists(), 'Event not properly registered')
 
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_resolve_resource_id(self, scenario, config):
+        response = self.call_api_endpoint('GET', f'/resources/{self.entity.id}/description', **config)
+        if scenario == 'HTTPS Authenticated':
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(self.entity.description, response.json())
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_export_bundle(self, scenario, config):

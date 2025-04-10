@@ -1,13 +1,15 @@
 import re
 import inspect
+from uuid import UUID
 from enum import Enum
-from typing import Any,Union, get_args, get_origin, Optional, Literal
+from typing import Any, Union, get_args, get_origin, Optional, Literal
 
 from pydantic import BaseModel, Field
 
-from django.core.exceptions import ObjectDoesNotExist
+from django.apps import apps
 from django.db.models import Model as DjangoModel, QuerySet
 from django.db.models.enums import ChoicesType
+from django.core.exceptions import ObjectDoesNotExist
 
 def is_optional(field: type) -> bool:
     """
@@ -130,6 +132,29 @@ def get_all_models_from_field(field: Field, issubclass_of: type = BaseModel) -> 
 def get_related_model_from_field(field: Field) -> Optional[BaseModel]:
     return next(get_all_models_from_field(field), None)
 
+def find_uuid_across_models(search_uuid: Union[str,UUID], using: str = "default", app_label=None) -> Optional[DjangoModel]:
+    """
+    Searches all models with UUIDFields for a specific UUID value.
+    
+    Args:
+        search_uuid (Union[str,UUID]): The UUID string to search for.
+        using (str): The database alias (defaults to "default").
+        app_label (Optional[str]): The app's label on which to search for. If not specified, defaults to all apps.
+    
+    Returns:
+        Django model instance if found, else None.
+    """
+    for model in apps.get_models():
+        if app_label and model._meta.app_label!=app_label:
+            continue
+        model_name = f"{model._meta.app_label}.{model.__name__}"
+        try:
+            match = model.objects.using(using).filter(pk=search_uuid).first()
+            if match:
+                return match
+        except Exception as e:
+            # Skip models with inaccessible fields or permissions
+            continue
 
 def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
     # Get multi-table events 
