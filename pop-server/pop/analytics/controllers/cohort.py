@@ -1,3 +1,4 @@
+import pghistory
 from django.shortcuts import get_object_or_404
 
 from collections import Counter
@@ -13,7 +14,7 @@ from ninja_extra.exceptions import APIException
 from pop.core import permissions as perms
 from pop.core.utils import camel_to_snake
 from pop.core.models import User
-from pop.core.schemas import Paginated, ModifiedResourceSchema, UserSchema
+from pop.core.schemas import Paginated, ModifiedResourceSchema, HistoryEvent
 from pop.oncology import schemas as oncological_schemas
 
 from pop.analytics.datasets import construct_dataset
@@ -148,6 +149,47 @@ class CohortsController(ControllerBase):
         ]
 
 
+    @route.get(
+        path='/{cohortId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllCohortHistoryEvents',
+    )
+    @paginate()
+    def get_all_cohort_history_events(self, cohortId: str):
+        instance = get_object_or_404(Cohort, id=cohortId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{cohortId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getCohortHistoryEventById',
+    )
+    def get_cohort_history_event_by_id(self, cohortId: str, eventId: str):
+        instance = get_object_or_404(Cohort, id=cohortId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{cohortId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertCohortToHistoryEvent',
+    )
+    def revert_cohort_to_history_event(self, cohortId: str, eventId: str):
+        instance = get_object_or_404(Cohort, id=cohortId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
+    
+    
     @route.post(
         path='/{cohortId}/dynamic-dataset', 
         response={
