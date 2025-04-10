@@ -3,6 +3,7 @@ from factory.fuzzy import FuzzyChoice, FuzzyText
 import faker
 import random 
 import string
+import pghistory
 from datetime import datetime, timedelta
 from psycopg.types.range import Range as PostgresRange
 
@@ -477,88 +478,88 @@ def fake_complete_case():
         user = UserFactory.create()
     else:
         user = User.objects.all()[random.randint(0, User.objects.count()-1)]
-    case = PatientCaseFactory.create()
-    if case.date_of_death:
-        case.date_of_death = faker.date_between(case.date_of_birth + timedelta(days=35*365), case.date_of_birth + timedelta(days=99*365))
-    case.created_at = faker.date_between(datetime(2020,1,1).date(), datetime.now().date())
-    case.save()
-    basic = dict(case=case, )
-    # Add neoplastic entities and staging
-    initial_diagnosis_date = faker.date_between(case.date_of_birth + timedelta(days=25*365), (case.date_of_death or datetime.now().date()) - timedelta(days=2*365))
-    primary = PrimaryNeoplasticEntityFactory.create(**basic, assertion_date=initial_diagnosis_date)
-    conditions = [primary]
-    if random.randint(0,100) > 40:
-        # Add metastases with 60% probability
-        conditions.append(MetastaticNeoplasticEntityFactory.create(
-            case=case, 
-            related_primary=primary, 
-            assertion_date=faker.date_between(initial_diagnosis_date, initial_diagnosis_date + timedelta(days=random.randint(0,365)))
-        ))
-    # Add TNM staging
-    TNMStagingFactory.create(
-        **basic, 
-        staged_entities=conditions, 
-        date=initial_diagnosis_date
-    )
-    # Add therapies
-    for _ in range(random.randint(1,5)):
-        # Generate a random therapy period within 35 months of the initial diagnosis
-        therapy_start = initial_diagnosis_date + timedelta(days=31*random.randint(0,35))
-        therapy_end = therapy_start + timedelta(days=31*random.randint(1,35))
-        # Add systemic therapy
-        systemic_therapy = SystemicTherapyFactory.create(
+    with pghistory.context(username=user.username):
+        case = PatientCaseFactory.create()
+        if case.date_of_death:
+            case.date_of_death = faker.date_between(case.date_of_birth + timedelta(days=35*365), case.date_of_birth + timedelta(days=99*365))
+        case.save()
+        basic = dict(case=case)
+        # Add neoplastic entities and staging
+        initial_diagnosis_date = faker.date_between(case.date_of_birth + timedelta(days=25*365), (case.date_of_death or datetime.now().date()) - timedelta(days=2*365))
+        primary = PrimaryNeoplasticEntityFactory.create(**basic, assertion_date=initial_diagnosis_date)
+        conditions = [primary]
+        if random.randint(0,100) > 40:
+            # Add metastases with 60% probability
+            conditions.append(MetastaticNeoplasticEntityFactory.create(
+                case=case, 
+                related_primary=primary, 
+                assertion_date=faker.date_between(initial_diagnosis_date, initial_diagnosis_date + timedelta(days=random.randint(0,365)))
+            ))
+        # Add TNM staging
+        TNMStagingFactory.create(
             **basic, 
-            therapy_line=None, 
-            targeted_entities=conditions,
-            period=(therapy_start, therapy_end)
+            staged_entities=conditions, 
+            date=initial_diagnosis_date
         )
-        for _ in range(random.randint(1,3)):
-            SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy, )
-        
-        # For palliative therapy, add radiotherapy with 60% probability
-        if systemic_therapy.intent == 'palliative' and random.randint(0,100) > 40:
-            radiotherapy = RadiotherapyFactory.create(**basic, therapy_line=None, targeted_entities=conditions, period=(therapy_start, therapy_end))
+        # Add therapies
+        for _ in range(random.randint(1,5)):
+            # Generate a random therapy period within 35 months of the initial diagnosis
+            therapy_start = initial_diagnosis_date + timedelta(days=31*random.randint(0,35))
+            therapy_end = therapy_start + timedelta(days=31*random.randint(1,35))
+            # Add systemic therapy
+            systemic_therapy = SystemicTherapyFactory.create(
+                **basic, 
+                therapy_line=None, 
+                targeted_entities=conditions,
+                period=(therapy_start, therapy_end)
+            )
             for _ in range(random.randint(1,3)):
-                RadiotherapyDosageFactory.create(radiotherapy=radiotherapy, )
-        
-        # For curative therapy, add surgery with 50% probability
-        if systemic_therapy.intent == 'curative' and random.randint(0,100) > 50:
-            SurgeryFactory.create(**basic, therapy_line=None, targeted_entities=conditions, date=faker.date_between(therapy_start, therapy_end))        
-        
-        # Add treatment responses 
-        for _ in range(random.randint(0,2)):
-            TreatmentResponseFactory.create(**basic, assessed_entities=conditions, date=faker.date_between(therapy_start, therapy_end))
-
-        # Add adverse event for systemic therapy
-        for _ in range(random.randint(0,1)):
-            adverse_event = AdverseEventFactory.create(**basic, date=faker.date_between(therapy_start, therapy_end))
-            AdverseEventSuspectedCauseFactory.create(adverse_event=adverse_event, systemic_therapy=systemic_therapy, radiotherapy=None)
+                SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy, )
+            
+            # For palliative therapy, add radiotherapy with 60% probability
+            if systemic_therapy.intent == 'palliative' and random.randint(0,100) > 40:
+                radiotherapy = RadiotherapyFactory.create(**basic, therapy_line=None, targeted_entities=conditions, period=(therapy_start, therapy_end))
+                for _ in range(random.randint(1,3)):
+                    RadiotherapyDosageFactory.create(radiotherapy=radiotherapy, )
+            
+            # For curative therapy, add surgery with 50% probability
+            if systemic_therapy.intent == 'curative' and random.randint(0,100) > 50:
+                SurgeryFactory.create(**basic, therapy_line=None, targeted_entities=conditions, date=faker.date_between(therapy_start, therapy_end))        
+            
+            # Add treatment responses 
             for _ in range(random.randint(0,2)):
-                AdverseEventMitigationFactory.create(adverse_event=adverse_event, )
+                TreatmentResponseFactory.create(**basic, assessed_entities=conditions, date=faker.date_between(therapy_start, therapy_end))
 
-    # Add observations and lab results
-    during_cancer_treatment = lambda: faker.date_between(initial_diagnosis_date, case.date_of_death or datetime.now().date())
-    for _ in range(random.randint(1,4)):
-        TumorMarkerTestFactory.create(**basic, related_entities=conditions, date=during_cancer_treatment())
-    genomics_date = during_cancer_treatment()
-    for _ in range(random.randint(1,12)):
-        GenomicVariantFactory.create(**basic, date=genomics_date, gene_panel=random.choice(('FoundationOneCDx', 'FoundationOneLiquid', 'MelArray', 'Oncomine')))
-    for _ in range(random.randint(1,2)):
-        TumorMutationalBurdenFactory.create(**basic, date=during_cancer_treatment())
-    for _ in range(random.randint(1,2)):
-        LossOfHeterozygosityFactory.create(**basic, date=during_cancer_treatment())
-    FamilyHistoryFactory.create(**basic, date=during_cancer_treatment())
-    RiskAssessmentFactory.create(**basic, assessed_entities=conditions, date=during_cancer_treatment())
-    LifestyleFactory.create(**basic)
-    ComorbiditiesAssessmentFactory.create(**basic, index_condition=primary, date=during_cancer_treatment())
-    for _ in range(random.randint(1,4)):
-        VitalsFactory.create(**basic)
-    MolecularTumorBoardFactory.create(**basic, related_entities=conditions, date=during_cancer_treatment())
-    for _ in range(random.randint(2,5)):    
-        PerformanceStatusFactory.create(**basic, date=during_cancer_treatment())
+            # Add adverse event for systemic therapy
+            for _ in range(random.randint(0,1)):
+                adverse_event = AdverseEventFactory.create(**basic, date=faker.date_between(therapy_start, therapy_end))
+                AdverseEventSuspectedCauseFactory.create(adverse_event=adverse_event, systemic_therapy=systemic_therapy, radiotherapy=None)
+                for _ in range(random.randint(0,2)):
+                    AdverseEventMitigationFactory.create(adverse_event=adverse_event, )
 
-    models.TherapyLine.assign_therapy_lines(case)
-    for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories):    
-        if random.randint(0,100) > 45:
-            PatientCaseDataCompletionFactory.create(**basic, category=category.value)     
+        # Add observations and lab results
+        during_cancer_treatment = lambda: faker.date_between(initial_diagnosis_date, case.date_of_death or datetime.now().date())
+        for _ in range(random.randint(1,4)):
+            TumorMarkerTestFactory.create(**basic, related_entities=conditions, date=during_cancer_treatment())
+        genomics_date = during_cancer_treatment()
+        for _ in range(random.randint(1,12)):
+            GenomicVariantFactory.create(**basic, date=genomics_date, gene_panel=random.choice(('FoundationOneCDx', 'FoundationOneLiquid', 'MelArray', 'Oncomine')))
+        for _ in range(random.randint(1,2)):
+            TumorMutationalBurdenFactory.create(**basic, date=during_cancer_treatment())
+        for _ in range(random.randint(1,2)):
+            LossOfHeterozygosityFactory.create(**basic, date=during_cancer_treatment())
+        FamilyHistoryFactory.create(**basic, date=during_cancer_treatment())
+        RiskAssessmentFactory.create(**basic, assessed_entities=conditions, date=during_cancer_treatment())
+        LifestyleFactory.create(**basic)
+        ComorbiditiesAssessmentFactory.create(**basic, index_condition=primary, date=during_cancer_treatment())
+        for _ in range(random.randint(1,4)):
+            VitalsFactory.create(**basic)
+        MolecularTumorBoardFactory.create(**basic, related_entities=conditions, date=during_cancer_treatment())
+        for _ in range(random.randint(2,5)):    
+            PerformanceStatusFactory.create(**basic, date=during_cancer_treatment())
+
+        models.TherapyLine.assign_therapy_lines(case)
+        for category in list(models.PatientCaseDataCompletion.PatientCaseDataCategories):    
+            if random.randint(0,100) > 45:
+                PatientCaseDataCompletionFactory.create(**basic, category=category.value)     
     return case
