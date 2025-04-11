@@ -22,25 +22,39 @@
 
     <p-divider/>
 
-    <div class="mb-5">
-        @if (data.createdBy) {
-            <div class="property">
-                <small class="property-label">Created by: </small>
-                <pop-user-badge [username]="data.createdBy" class="my-auto mr-2"/>
-                <div><small>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
-            </div>
-        }
-        @if (data.updatedBy && data.updatedBy.length && data.updatedBy[0]) {
-            <div class="property">
-                <small class="property-label">Last updated by: </small>
-                @if (data.updatedBy[data.updatedBy.length-1]; as lastUpdatedBy) {
-                    <pop-user-badge [username]="lastUpdatedBy" class="my-auto mr-2"/>
-                }
-                <div><small>{{ data.updatedAt | date: 'dd/MM/yyyy HH:mm:ss' }}</small></div>
-            </div>
+    <div>
+        History
+        @let history = history$ | async;
+        @if (history) {
+        <p-timeline [value]="history" class="history">
+            <ng-template pTemplate="content" let-event>
+                <div class="flex mb-4" style="margin-top: -0.5rem;">
+                    <pop-user-badge [username]="event.user" class="my-auto mr-2" style="scale: .9;"/>
+                    <div>
+                        <div class="case-manager-panel-timeline-date">
+                            <small>{{ event.timestamp | date: 'MMM d, y, h:mm' }}</small>
+                        </div>
+                        <div class="timeline-event-category">
+                            <small>
+                                @switch (event.category) {
+                                    @case ('create') {
+                                        <i class="pi pi-sparkles"></i> Created resource
+                                    }
+                                    @case ('update') {
+                                        <i class="pi pi-pencil"></i> Updated {{ (event.differential | keyvalue).length }} {{ event.differential.length > 1 ? 'properties' : 'property'}}
+                                    }
+                                    @case ('export') {
+                                        <i class="pi pi-file-export"></i> Exported resource
+                                    }
+                                }
+                            </small>
+                        </div>                                                
+                    </div>                    
+                </div>                
+            </ng-template>
+        </p-timeline>
         }
     </div>
-
 
     <ng-template #footer>
     

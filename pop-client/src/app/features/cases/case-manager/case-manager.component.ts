@@ -128,12 +128,14 @@ export class CaseManagerComponent implements OnInit {
     public neoplasticEntityService: DataService = {
         get: (caseId) => this.neoplasticEntitiesService.getNeoplasticEntities({caseId: caseId}),
         delete: (id) => this.neoplasticEntitiesService.deleteNeoplasticEntityById({entityId: id}),
+        history: (id) => this.neoplasticEntitiesService.getAllNeoplasticEntityHistoryEvents({entityId: id}),
     };
 
     // Case-specific data observables
     public stagingService: DataService = {
         get: (caseId) => this.stagingsService.getStagings({caseId: caseId}),
         delete: (id) => this.stagingsService.deleteStagingById({stagingId: id}),
+        history: (id) => this.stagingsService.getAllStagingHistoryEvents({stagingId: id}),
     };
 
 
@@ -141,80 +143,95 @@ export class CaseManagerComponent implements OnInit {
     public tumorMarkerService: DataService = {
         get: (caseId) => this.tumorMarkersService.getTumorMarkers({caseId: caseId}),
         delete: (id) => this.tumorMarkersService.deleteTumorMarkerById({tumorMarkerId: id}),
+        history: (id) => this.tumorMarkersService.getAllTumorMarkerHistoryEvents({tumorMarkerId: id}),
     };
 
     // Case-specific data observables
     public riskAssessmentService: DataService = {
         get: (caseId) => this.riskAssessmentsService.getRiskAssessments({caseId: caseId}),
         delete: (id) => this.riskAssessmentsService.deleteRiskAssessmentById({riskAssessmentId: id}),
+        history: (id) => this.riskAssessmentsService.getAllRiskAssessmentHistoryEvents({riskAssessmentId: id}),
     };
 
     // Case-specific data observables
     public systemicTherapyService: DataService = {
         get: (caseId) => this.systemicTherapiesService.getSystemicTherapies({caseId: caseId}),
         delete: (id) => this.systemicTherapiesService.deleteSystemicTherapyById({systemicTherapyId: id}),
+        history: (id) => this.systemicTherapiesService.getAllSystemicTherapyHistoryEvents({systemicTherapyId: id}),
     };
 
     // Case-specific data observables
     public performanceStatusService: DataService = {
         get: (caseId) => this.performanceStatiiService.getPerformanceStatus({caseId: caseId}),
         delete: (id) => this.performanceStatiiService.deletePerformanceStatus({performanceStatusId: id}),
+        history: (id) => this.performanceStatiiService.getAllPerformanceStatusHistoryEvents({performanceStatusId: id}),
     };
 
     // Case-specific data observables
     public surgeryService: DataService = {
         get: (caseId) => this.surgeriesService.getSurgeries({caseId: caseId}),
         delete: (id) => this.surgeriesService.deleteSurgeryById({surgeryId: id}),
+        history: (id) => this.surgeriesService.getAllSurgeryHistoryEvents({surgeryId: id}),
     };
     // Case-specific data observables
     public radiotherapyService: DataService = {
         get: (caseId) => this.radiotherapiesService.getRadiotherapies({caseId: caseId}),
         delete: (id) => this.radiotherapiesService.deleteRadiotherapyById({radiotherapyId: id}),
+        history: (id) => this.radiotherapiesService.getAllRadiotherapyHistoryEvents({radiotherapyId: id}),
     };
     // Case-specific data observables
     public lifestyleService: DataService = {
         get: (caseId) => this.lifestylesService.getLifestyles({caseId: caseId}),
         delete: (id) => this.lifestylesService.deleteLifestyleById({lifestyleId: id}),
+        history: (id) => this.lifestylesService.getAllLifestyleHistoryEvents({lifestyleId: id}),
     };
     // Case-specific data observables
     public familyHistoryService: DataService = {
         get: (caseId) => this.familyHistoriesService.getFamilyHistories({caseId: caseId}),
         delete: (id) => this.familyHistoriesService.deleteFamilyHistoryById({familyHistoryId: id}),
+        history: (id) => this.familyHistoriesService.getAllFamilyHistoryHistoryEvents({familyHistoryId: id}),
     };
     // Case-specific data observables
     public comorbiditiesAssessmentService: DataService = {
         get: (caseId) => this.comorbiditiesAssessmentsService.getComorbiditiesAssessments({caseId: caseId}),
         delete: (id) => this.comorbiditiesAssessmentsService.deleteComorbiditiesAssessment({comorbiditiesAssessmentId: id}),
+        history: (id) => this.comorbiditiesAssessmentsService.getAllComorbiditiesAssessmentHistoryEvents({comorbiditiesAssessmentId: id}),
     };
     // Case-specific data observables
     public genomicVariantService: DataService = {
         get: (caseId) => this.genomicVariantsService.getGenomicVariants({caseId: caseId}),
         delete: (id) => this.genomicVariantsService.deleteGenomicVariant({genomicVariantId: id}),
+        history: (id) => this.genomicVariantsService.getAllGenomicVariantHistoryEvents({genomicVariantId: id}),
     };
     // Case-specific data observables
     public genomicSignatureService: DataService = {
         get: (caseId) => this.genomicSignaturesService.getGenomicSignatures({caseId: caseId}),
         delete: (id) => this.genomicSignaturesService.deleteGenomicSignatureById({genomicSignatureId: id}),
+        history: (id) => this.genomicSignaturesService.getAllGenomicSignatureHistoryEvents({genomicSignatureId: id}),
     };
     // Case-specific data observables
     public vitalsService: DataService = {
         get: (caseId) => this.vitalsCoreService.getVitals({caseId: caseId}),
         delete: (id) => this.vitalsCoreService.deleteVitalsById({vitalsId: id}),
+        history: (id) => this.vitalsCoreService.getAllVitalsHistoryEvents({vitalsId: id}),
     };
     // Case-specific data observables
     public adverseEventService: DataService = {
         get: (caseId) => this.adverseEventsService.getAdverseEvents({caseId: caseId}),
         delete: (id) => this.adverseEventsService.deleteAdverseEventById({adverseEventId: id}),
+        history: (id) => this.adverseEventsService.getAllAdverseEventHistoryEvents({adverseEventId: id}),
     };
     // Case-specific data observables
     public tumorBoardService: DataService = {
         get: (caseId) => this.tumorBoardsService.getTumorBoards({caseId: caseId}),
         delete: (id) => this.tumorBoardsService.deleteTumorBoardById({tumorBoardId: id}),
+        history: (id) => this.tumorBoardsService.getAllTumorBoardHistoryEvents({tumorBoardId: id}),
     };
     // Case-specific data observables
     public treatmentResponseService: DataService = {
         get: (caseId) => this.treatmentResponsesService.getTreatmentResponses({caseId: caseId}),
         delete: (id) => this.treatmentResponsesService.deleteTreatmentResponse({treatmentRresponseId: id}),
+        history: (id) => this.treatmentResponsesService.getAllTreatmentResponseHistoryEvents({treatmentRresponseId: id}),
     };
 
     // Form components
