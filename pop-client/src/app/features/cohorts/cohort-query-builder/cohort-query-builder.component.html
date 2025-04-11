@@ -24,6 +24,7 @@
       styleClass="q-condition-select"
       [options]="[{label: 'All of the following are correct', value: 'and'}, {label: 'One of the following are correct', value: 'or'}]" 
       [disabled]="disabled"
+      (ngModelChange)="changeCondition($event)"
       [(ngModel)]="data.condition"/>
   </div>
   
