@@ -31,7 +31,10 @@ export class UserBadgeComponent implements OnInit {
     private readonly userBadgeService = inject(UserBadgeService)
 
     @Input({required: true}) username!: string;
+    @Input() showName: boolean = false;
+
     public user$!: Observable<User>;
+
 
     ngOnInit() {
         this.user$ = this.userBadgeService.getUser(this.username)

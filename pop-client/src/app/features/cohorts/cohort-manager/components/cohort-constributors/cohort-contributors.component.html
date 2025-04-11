@@ -22,7 +22,7 @@
       <ng-template #body let-contribution let-i="rowIndex">
         <tr [ngClass]="{'top-rank-1': 1 === i+1, 'top-rank-2': 2 === i+1, 'top-rank-3': 3 === i+1}">
           <td style="text-align: center;">{{ i + 1 }}</td>
-          <td><pop-user-badge [username]="contribution.contributor"/></td>
+          <td><pop-user-badge [username]="contribution.contributor" [showName]="true"/></td>
           <td style="text-align: center;">{{ contribution.contributions }} ({{ contribution.contributions/totalContributions*100 | number: '1.0-0' }}%)</td>
         </tr>
       </ng-template>

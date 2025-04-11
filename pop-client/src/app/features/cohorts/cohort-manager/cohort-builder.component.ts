@@ -15,7 +15,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts, HistoryEvent } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
 import { catchError, first, map, Observable, of } from 'rxjs';
@@ -29,6 +29,8 @@ import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.
 import { Skeleton } from 'primeng/skeleton';
 import { Message } from 'primeng/message';
 import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-panel.component';
+import { Timeline, TimelineModule } from 'primeng/timeline';
+import { Card } from 'primeng/card';
 
 
 @Component({
@@ -53,10 +55,12 @@ import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-p
         Skeleton,
         InputText,
         UserBadgeComponent,
+        TimelineModule,
         Divider,
         TabsModule,
         DataView,
         Button,
+        Card,
         Chip,
     ]
 })
@@ -81,6 +85,7 @@ export class CohortBuilderComponent {
     public cohort!: Cohort; 
     public loading: boolean = false;
     public editCohortName: boolean = false;
+    public cohortHistory$!: Observable<HistoryEvent[]>
     public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
     public cohortGenderStats$: Observable<CohortTraitCounts | null> = of(null)
     public cohortOverallSurvivalStats$: Observable<CohortTraitMedian | null> = of(null)
@@ -115,6 +120,7 @@ export class CohortBuilderComponent {
             },
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
         })
+        this.cohortHistory$ = this.cohortsService.getAllCohortHistoryEvents({cohortId: this.cohortId}).pipe(map(response=>response.items))
     }
 
     refreshCohortStatistics() {
