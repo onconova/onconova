@@ -29,12 +29,7 @@
                     <p-avatar-group>
                         @for (contributorUsername of entity.contributors; track $index; let index = $index;) {
                             @if (index<3) {
-                                @let contributor = contributorUsername | getUser | async;
-                                @if (contributor) {
-                                    <pop-user-badge [user]="contributor"/>
-                                } @else {
-                                    <p-skeleton shape="circle" size="2rem"/>
-                                }
+                                <pop-user-badge [username]="contributorUsername"/>
                             }
                         }
                         @if (entity.contributors.length>3) {

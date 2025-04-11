@@ -20,6 +20,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DrawerDataPropertiesComponent } from './components/drawer-data-properties.component';
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { OncologicalResource } from 'src/app/shared/models/resource.type';
+import { UserBadgeComponent } from "../../../../../shared/components/user-badge/user-badge.component";
 
 
 @Component({
@@ -33,17 +34,17 @@ import { OncologicalResource } from 'src/app/shared/models/resource.type';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
-        LucideAngularModule,
-        DrawerModule,
-        AvatarModule,
-        DividerModule,
-        Button,
-        GetFullNamePipe,
-        SplitButton,
-        ConfirmDialog,
-        DrawerDataPropertiesComponent,
-    ]
+    CommonModule,
+    LucideAngularModule,
+    DrawerModule,
+    AvatarModule,
+    DividerModule,
+    Button,
+    SplitButton,
+    ConfirmDialog,
+    DrawerDataPropertiesComponent,
+    UserBadgeComponent
+]
 })
 export class CaseManagerDrawerComponent {
 

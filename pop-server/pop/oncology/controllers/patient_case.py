@@ -155,7 +155,7 @@ class PatientCaseController(ControllerBase):
         category_completion = PatientCaseDataCompletion.objects.filter(case__id=caseId, category=category).first()
         return PatientCaseDataCompletionStatusSchema(
                 status=category_completion is not None,
-                username=category_completion.created_by.username if category_completion else None,
+                username=category_completion.created_by if category_completion else None,
                 timestamp=category_completion.created_at if category_completion else None,
         )
         

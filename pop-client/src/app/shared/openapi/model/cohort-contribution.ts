@@ -11,7 +11,7 @@ import { User } from './user';
 
 
 export interface CohortContribution { 
-    contributor: User;
+    contributor: string;
     contributions: number;
 }
 

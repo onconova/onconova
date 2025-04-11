@@ -142,9 +142,9 @@ class CohortsController(ControllerBase):
     @paginate()
     def get_cohort_contributions(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        contributions = Counter(list(cohort.cases.values_list('created_by', flat=True)))
+        contributions = Counter(list(cohort.cases.select_properties('created_by').values_list('created_by', flat=True)))
         return 200, [
-            CohortContribution(contributor=User.objects.get(id=contributor), contributions=contributions)
+            CohortContribution(contributor=contributor, contributions=contributions)
             for contributor, contributions in contributions.items() if contributor
         ]
 

@@ -47,7 +47,7 @@ class DashboardController(ControllerBase):
             entries = sum([model.objects.count() for model in oncological_models.MODELS]),
             mutations = oncological_models.GenomicVariant.objects.count(),
             clinicalCenters = oncological_models.PatientCase.objects.distinct('clinical_center').count(),
-            contributors = oncological_models.PatientCase.objects.select_properties('created_by').distinct('created_by').count(),
+            contributors = oncological_models.PatientCase.pgh_event_model.objects.values('pgh_context__username').distinct().count(),
             projects = 0,
         )
     
@@ -68,7 +68,7 @@ class DashboardController(ControllerBase):
                 dataCompletionMedian = entity_cohort.aggregate(Median('data_completion_rate')).get('data_completion_rate__median'),
                 topographyCode=entity_code,
                 topographyGroup=entity_display,
-                contributors=list(entity_cohort.select_properties('created_by').values_list('created_by', flat=True)) 
+                contributors = oncological_models.PatientCase.pgh_event_model.objects.filter(pgh_obj_id__in=entity_cohort).values_list('pgh_context__username', flat=True).distinct(),
             ))
         statistics.sort(key=lambda x: x.population, reverse=True)
         return statistics
