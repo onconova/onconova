@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { CodedConceptTreeComponent } from './coded-concept-tree.component';
 import { ReplacePipe } from 'src/app/shared/pipes/replace.pipe';
 import { TypeCheckService } from 'src/app/shared/services/type-check.service';
+import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
     standalone: true,
@@ -18,10 +20,21 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
                 <div>{{ data.start | date }} - {{ data.end | date }}</div> 
             }
             @case ('Measure') {
-                <div>{{ data.value }} {{ data.unit | replace:'__':'/' }}</div> 
+                <div>{{ data.value | number: '1.0-4' }} {{ data.unit | replace:'__':'/' }}</div> 
+            }
+            @case ('number') {
+                <div>{{ data | number: '1.0-4' }}</div> 
             }
             @case ('Date') {
                 <div>{{ data | date }}</div> 
+            }
+            @case ('UUID') {
+                @let reference = data | resolve | async;
+                @if (reference) {
+                    <div>{{ reference }}</div> 
+                } @else {
+                    <p-skeleton height="1.5rem" width="10rem"/>
+                }
             }
             @case ('CodedConcept') {
                 <div>
@@ -31,9 +44,9 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
             @case ('Array') {
                 <div>
                     <ul class="list-property">
-                        @for (item of data; track $index; let idx = $index) {
-                            <li>
-                                <small class="text-muted"><i class="pi pi-box"></i> {{ label | slice:0:-1 | titlecase }} #{{idx+1}}</small>
+                        @for (item of data; track $index; let idx = $index; let first = $first;) {
+                            <li [ngClass]="first ? 'mt-2' : ''">
+                                <small class="text-muted"><i class="pi pi-box"></i> {{ label | slice:0:-1 | titlecase | replace:'Id':' ' }} #{{idx+1}}</small>
                                 <div class="nested-properties">
                                     <pop-drawer-properties [data]="item"/>
                                 </div>
@@ -47,7 +60,7 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
                     @for (property of subProperties; track $index;) {
                         <div class="property">             
                             <small class="property-label {{ data ? '' : 'text-muted'}}">
-                                {{ property.label | titlecase }}
+                                {{ property.label | titlecase | replace:'Ids':' ' | replace:'Id':' '}}
                             </small>
                             <pop-drawer-properties [data]="property.value" [label]='property.label'/>
                         </div>
@@ -75,7 +88,13 @@ import { TypeCheckService } from 'src/app/shared/services/type-check.service';
         }
     `,
     encapsulation: ViewEncapsulation.None,
-    imports: [CommonModule, CodedConceptTreeComponent, ReplacePipe]
+    imports: [
+        CommonModule, 
+        Skeleton,
+        CodedConceptTreeComponent, 
+        ReplacePipe, 
+        ResolveResourcePipe
+    ]
 })
 export class DrawerDataPropertiesComponent {
 
@@ -122,7 +141,9 @@ export class DrawerDataPropertiesComponent {
                         }
                     }
                 ).filter(property => property !== null)             
-            }      
+            }                    
+        } else if (this.typeCheckService.isUUID(this.data)) {
+            this.dataType = 'UUID';    
         } else if (this.typeCheckService.isDate(this.data) || this.typeCheckService.isDateString(this.data)) {
             this.dataType = 'Date';                                
         } else {
