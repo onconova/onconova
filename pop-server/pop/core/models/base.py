@@ -2,13 +2,14 @@ import uuid
 import pghistory
 import pghistory.models
 from django.db import models
-from django.db.models import Q, Subquery, OuterRef, Min, Max, Value
-from django.db.models.functions import Cast, Replace, Coalesce
+from django.db.models import Q, Min, Max
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.aggregates import ArrayAgg
-from django.contrib.postgres.expressions import ArraySubquery
+from django.db.models.fields.json import KeyTextTransform
+from django.utils.functional import lazy
 
-from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
+
+from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 from .user import User 
@@ -74,29 +75,13 @@ class BaseModel(UntrackedBaseModel):
         annotation=Min(f'events__pgh_created_at', filter=Q(events__pgh_label='create')),
     )
     updated_at = AnnotationProperty(
-        annotation=Min(f'events__pgh_created_at', filter=Q(events__pgh_label='update')),
+        annotation=Max(f'events__pgh_created_at', filter=Q(events__pgh_label='update')),
     )
     created_by = AnnotationProperty(
-        annotation=Replace(
-            Cast(Subquery(pghistory.models.Events.objects
-                    .filter(pgh_obj_id=Cast(OuterRef('pk'), models.CharField())).filter(pgh_label='create')
-                    .exclude(pgh_context__username__isnull=True)
-                    .values('pgh_context__username')[:1]
-            ), models.CharField()),
-            Value('"'),Value('')
-        )
+        annotation=KeyTextTransform('username', 'events__pgh_context', filter=Q(events__pgh_label='create'))
     )
     updated_by = AnnotationProperty(
-        annotation=ArrayAgg(
-            Replace(Cast(Subquery(
-                pghistory.models.Events.objects
-                        .filter(pgh_id__in=OuterRef(f'events__pgh_id'), pgh_label='update')
-                        .exclude(pgh_context__username__isnull=True)
-                        .values('pgh_context__username')[:1]
-            ), models.CharField()),
-            Value('"'),Value('')
-            )
-        )
+        annotation=ArrayAgg(KeyTextTransform('username', 'events__pgh_context', filter=Q(events__pgh_label='create')), distinct=True)
     )
 
     class Meta:
