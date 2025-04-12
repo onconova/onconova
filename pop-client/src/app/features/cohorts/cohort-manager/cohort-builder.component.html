@@ -75,6 +75,16 @@
         }
     </pop-cohort-trait-panel>
 
+    @let cohortTopographyStats = cohortTopographyStats$ | async;
+    <pop-cohort-trait-panel  title="Predominant site" [icon]="siteIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortTopographyStats) {
+            <span class="font-bold text-lg">{{ cohortTopographyStats.category }}</span> 
+            @if (cohortTopographyStats.percentage !== null) {
+                {{ cohortTopographyStats.percentage | number:'1.0-1' }}
+            }%
+        }
+    </pop-cohort-trait-panel>
+
     @let cohortOverallSurvivalStats = cohortOverallSurvivalStats$ | async;
     <pop-cohort-trait-panel  title="Median overall survival" [icon]="survivalIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
         @if (cohortOverallSurvivalStats) {

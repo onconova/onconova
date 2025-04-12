@@ -92,6 +92,13 @@ class CancerTopography(CodedConcept):
     codesystem = 'http://terminology.hl7.org/CodeSystem/icd-o-3-topography'
     description = 'Codes describing the location(s) of primary or secondary cancer.'
 
+class CancerTopographyGroup(CancerTopography):
+    class QuerysetManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset().exclude(code__contains='.')
+    objects = QuerysetManager()
+    class Meta:
+        proxy=True
 
 class CancerMorphology(CodedConcept):
     codesystem = 'http://terminology.hl7.org/CodeSystem/icd-o-3-morphology'

@@ -12,7 +12,7 @@ import { TabsModule } from 'primeng/tabs';
 import { Divider } from 'primeng/divider';
 
 // Icons
-import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars } from 'lucide-angular';
+import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
 import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts, HistoryEvent } from 'src/app/shared/openapi';
@@ -87,6 +87,7 @@ export class CohortBuilderComponent {
     public editCohortName: boolean = false;
     public cohortHistory$!: Observable<HistoryEvent[]>
     public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
+    public cohortTopographyStats$: Observable<CohortTraitCounts | null> = of(null)
     public cohortGenderStats$: Observable<CohortTraitCounts | null> = of(null)
     public cohortOverallSurvivalStats$: Observable<CohortTraitMedian | null> = of(null)
     public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
@@ -97,6 +98,7 @@ export class CohortBuilderComponent {
     public readonly genderIcon = VenusAndMars;
     public readonly survivalIcon = Activity;
     public readonly ageIcon = CalendarClock;
+    public readonly siteIcon = Locate;
     public readonly completionIcon = ClipboardCheck;
 
 
@@ -134,6 +136,12 @@ export class CohortBuilderComponent {
             }
         }
         this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
+        this.cohortTopographyStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'neoplasticEntities.topographyGroup.display'}).pipe(
+            map(
+            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+            ),
+            catchError(errorHandler),
+        )
         this.cohortGenderStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'gender.display'}).pipe(
             map(
             (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
