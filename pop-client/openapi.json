@@ -25543,116 +25543,6 @@
           },
           {
             "in": "query",
-            "name": "proteinChangePosition.not.exists",
-            "schema": {
-              "description": "Protein change position - Filter for entries without a value",
-              "title": "Proteinchangeposition.Not.Exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.exists",
-            "schema": {
-              "description": "Protein change position - Filter for entries with a value",
-              "title": "Proteinchangeposition.Exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition",
-            "schema": {
-              "description": "Protein change position - Filter for full text matches",
-              "title": "Proteinchangeposition",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.not",
-            "schema": {
-              "description": "Protein change position - Filter for full text mismatches",
-              "title": "Proteinchangeposition.Not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.contains",
-            "schema": {
-              "description": "Protein change position - Filter for partial text matches",
-              "title": "Proteinchangeposition.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.not.contains",
-            "schema": {
-              "description": "Protein change position - Filter for partial text mismatches",
-              "title": "Proteinchangeposition.Not.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.beginsWith",
-            "schema": {
-              "description": "Protein change position - Filter for entries starting with the text",
-              "title": "Proteinchangeposition.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.not.beginsWith",
-            "schema": {
-              "description": "Protein change position - Filter for entries not starting with the text",
-              "title": "Proteinchangeposition.Not.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.endsWith",
-            "schema": {
-              "description": "Protein change position - Filter for entries ending with the text",
-              "title": "Proteinchangeposition.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "proteinChangePosition.not.endsWith",
-            "schema": {
-              "description": "Protein change position - Filter for entries not ending with the text",
-              "title": "Proteinchangeposition.Not.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Protein change position - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
             "name": "proteinChangeType.not.exists",
             "schema": {
               "description": "Protein change type - Filter for entries without a value",
@@ -40295,19 +40185,6 @@
             "description": "Protein reference sequence identifier used as protein HGVS reference.",
             "title": "Protein HGVS RefSeq"
           },
-          "proteinChangePosition": {
-            "anyOf": [
-              {
-                "pattern": "(?:(?:(?:(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+|(?:(?:\\(\\?_(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+\\))|(?:\\((?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+_\\?\\))|(?:\\((?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+_(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+\\))))_(?:(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+|(?:(?:\\(\\?_(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+\\))|(?:\\((?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+_\\?\\))|(?:\\((?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+_(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+\\)))))|(?:(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+|(?:(?:\\(\\?_(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+\\))|(?:\\((?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+_\\?\\))|(?:\\((?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+_(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))\\d+\\)))))",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Protein-level aminoacid position/range where the variant was found.",
-            "title": "Protein change position"
-          },
           "proteinChangeType": {
             "anyOf": [
               {
@@ -43432,8 +43309,6 @@
           }
         },
         "required": [
-          "ecogInterpretation",
-          "karnofskyInterpretation",
           "id",
           "caseId",
           "date",
@@ -59281,56 +59156,6 @@
           "proteinReferenceSequence.not.endsWith": {
             "description": "Protein HGVS RefSeq - Filter for entries not ending with the text",
             "title": "Proteinreferencesequence.Not.Endswith",
-            "type": "string"
-          },
-          "proteinChangePosition.not.exists": {
-            "description": "Protein change position - Filter for entries without a value",
-            "title": "Proteinchangeposition.Not.Exists",
-            "type": "boolean"
-          },
-          "proteinChangePosition.exists": {
-            "description": "Protein change position - Filter for entries with a value",
-            "title": "Proteinchangeposition.Exists",
-            "type": "boolean"
-          },
-          "proteinChangePosition": {
-            "description": "Protein change position - Filter for full text matches",
-            "title": "Proteinchangeposition",
-            "type": "string"
-          },
-          "proteinChangePosition.not": {
-            "description": "Protein change position - Filter for full text mismatches",
-            "title": "Proteinchangeposition.Not",
-            "type": "string"
-          },
-          "proteinChangePosition.contains": {
-            "description": "Protein change position - Filter for partial text matches",
-            "title": "Proteinchangeposition.Contains",
-            "type": "string"
-          },
-          "proteinChangePosition.not.contains": {
-            "description": "Protein change position - Filter for partial text mismatches",
-            "title": "Proteinchangeposition.Not.Contains",
-            "type": "string"
-          },
-          "proteinChangePosition.beginsWith": {
-            "description": "Protein change position - Filter for entries starting with the text",
-            "title": "Proteinchangeposition.Beginswith",
-            "type": "string"
-          },
-          "proteinChangePosition.not.beginsWith": {
-            "description": "Protein change position - Filter for entries not starting with the text",
-            "title": "Proteinchangeposition.Not.Beginswith",
-            "type": "string"
-          },
-          "proteinChangePosition.endsWith": {
-            "description": "Protein change position - Filter for entries ending with the text",
-            "title": "Proteinchangeposition.Endswith",
-            "type": "string"
-          },
-          "proteinChangePosition.not.endsWith": {
-            "description": "Protein change position - Filter for entries not ending with the text",
-            "title": "Proteinchangeposition.Not.Endswith",
             "type": "string"
           },
           "proteinChangeType.not.exists": {

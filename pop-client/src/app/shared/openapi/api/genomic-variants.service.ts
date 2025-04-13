@@ -463,16 +463,6 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const proteinReferenceSequenceNotBeginsWith = requestParameters?.proteinReferenceSequenceNotBeginsWith;
         const proteinReferenceSequenceEndsWith = requestParameters?.proteinReferenceSequenceEndsWith;
         const proteinReferenceSequenceNotEndsWith = requestParameters?.proteinReferenceSequenceNotEndsWith;
-        const proteinChangePositionNotExists = requestParameters?.proteinChangePositionNotExists;
-        const proteinChangePositionExists = requestParameters?.proteinChangePositionExists;
-        const proteinChangePosition = requestParameters?.proteinChangePosition;
-        const proteinChangePositionNot = requestParameters?.proteinChangePositionNot;
-        const proteinChangePositionContains = requestParameters?.proteinChangePositionContains;
-        const proteinChangePositionNotContains = requestParameters?.proteinChangePositionNotContains;
-        const proteinChangePositionBeginsWith = requestParameters?.proteinChangePositionBeginsWith;
-        const proteinChangePositionNotBeginsWith = requestParameters?.proteinChangePositionNotBeginsWith;
-        const proteinChangePositionEndsWith = requestParameters?.proteinChangePositionEndsWith;
-        const proteinChangePositionNotEndsWith = requestParameters?.proteinChangePositionNotEndsWith;
         const proteinChangeTypeNotExists = requestParameters?.proteinChangeTypeNotExists;
         const proteinChangeTypeExists = requestParameters?.proteinChangeTypeExists;
         const proteinChangeType = requestParameters?.proteinChangeType;
@@ -822,26 +812,6 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>proteinReferenceSequenceEndsWith, 'proteinReferenceSequence.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>proteinReferenceSequenceNotEndsWith, 'proteinReferenceSequence.not.endsWith');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionNotExists, 'proteinChangePosition.not.exists');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionExists, 'proteinChangePosition.exists');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePosition, 'proteinChangePosition');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionNot, 'proteinChangePosition.not');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionContains, 'proteinChangePosition.contains');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionNotContains, 'proteinChangePosition.not.contains');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionBeginsWith, 'proteinChangePosition.beginsWith');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionNotBeginsWith, 'proteinChangePosition.not.beginsWith');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionEndsWith, 'proteinChangePosition.endsWith');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>proteinChangePositionNotEndsWith, 'proteinChangePosition.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>proteinChangeTypeNotExists, 'proteinChangeType.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

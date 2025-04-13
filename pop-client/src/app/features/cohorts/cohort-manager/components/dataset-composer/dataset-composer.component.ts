@@ -76,7 +76,11 @@ export class DatasetComposerComponent {
 
     getColumns(data: any[]): string[] {
         const allKeys = new Set<string>();
-        data.forEach(item => Object.keys(item).forEach(key => allKeys.add(key)));
+        data.forEach(item => Object.entries(item).forEach(([key,value]) => {
+            if (value !== null) {
+                allKeys.add(key);
+            }
+        }))
         return Array.from(allKeys);
     }
 
@@ -153,10 +157,24 @@ export class DatasetComposerComponent {
         ]}),
         this.constructResourceTreeNode(DataResource.TreatmentResponse, 'Treatment Responses'),
         this.constructResourceTreeNode(DataResource.GenomicVariant, 'Genomic Variants'),
+        {key: 'GenomicSignatures', label: 'Genomic Signatures', children: [
+            this.constructResourceTreeNode(DataResource.TumorMutationalBurden, 'Tumor Mutational Burdens', {exclude: ['category']}),
+            this.constructResourceTreeNode(DataResource.MicrosatelliteInstability, 'Microsatellite Instabilities', {exclude: ['category']}),
+            this.constructResourceTreeNode(DataResource.LossOfHeterozygosity, 'Losses of Heterozygosity', {exclude: ['category']}),
+            this.constructResourceTreeNode(DataResource.HomologousRecombinationDeficiency, 'Homologous Recombination Deficiencies', {exclude: ['category']}),
+            this.constructResourceTreeNode(DataResource.TumorNeoantigenBurden, 'Tumor Neoantigen Burdens', {exclude: ['category']}),
+            this.constructResourceTreeNode(DataResource.AneuploidScore, 'Aneuploid Score', {exclude: ['category']}),
+        ]},
         this.constructResourceTreeNode(DataResource.AdverseEvent, 'Adverse Events', {exclude: ['suspectedCauses', 'mitigations'], children: [
             this.constructResourceTreeNode(DataResource.AdverseEventSuspectedCause, 'Suspected Causes', {isRoot: false}),
             this.constructResourceTreeNode(DataResource.AdverseEventMitigation, 'Mitigations', {isRoot: false})
         ]}),
+        {key: 'TumorBoards', label: 'Tumor Boards', children: [
+            this.constructResourceTreeNode(DataResource.UnspecifiedTumorBoard, 'Unspecified Tumor Boards', {exclude: ['category']}),
+            this.constructResourceTreeNode(DataResource.MolecularTumorBoard, 'Molecular Tumor Boards', {exclude: ['category'], children: [
+                this.constructResourceTreeNode(DataResource.MolecularTherapeuticRecommendation, 'Therapeutic Recommendations', {isRoot: false}),
+            ]}),
+        ]},
         this.constructResourceTreeNode(DataResource.PerformanceStatus, 'Performance Status'),
         this.constructResourceTreeNode(DataResource.Lifestyle, 'Lifestyle'),
         this.constructResourceTreeNode(DataResource.FamilyHistory, 'Family History'),
@@ -207,7 +225,9 @@ export class DatasetComposerComponent {
             key: resource, 
             label: label, 
             children: isRoot ? [
-                {key: `${resource}-properties`, label: "Properties", children: this.apiSchemaKeys[resource].filter(((item: any) => !resource.includes(item.field)))},
+                {key: `${resource}-properties`, label: "Properties", children: this.apiSchemaKeys[resource].filter(
+                    ((item: any) => !resource.includes(item.field) && !options?.exclude?.includes(item.field))
+                )},
                 {key: `${resource}-metadata`, label: "Metadata", children: this.createMetadataItems(resource)},
             ] : this.apiSchemaKeys[resource]
         }
@@ -266,6 +286,7 @@ export class DatasetComposerComponent {
         this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.datasetRules, limit: this.pageSize, offset: this.currentOffset}).pipe(
             map(response => {
                 this.totalEntries = response.count;
+                console.log(response.items)
                 return response.items
             })
         )

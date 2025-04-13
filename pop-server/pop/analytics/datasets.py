@@ -1,6 +1,6 @@
 from typing import List, Dict, Tuple, Optional,  Union, Set
 
-from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel
+from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, When, Case
 from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg
 
@@ -69,9 +69,9 @@ class DatasetRuleProcessor:
     def _get_model_field_name(self, schema):
         """Retrieves the corresponding schema for the resource."""
         schema_field_info = schema.model_fields.get(self.dataset_field)        
-        if not schema_field_info or not schema_field_info.alias:
+        if not schema_field_info:
             raise DatasetRuleProcessingError(f'Could not resolve field "{self.dataset_field}" into a schema or ORM model field.')
-        return schema_field_info.alias
+        return schema_field_info.alias or self.dataset_field
 
     def _get_transformer(self, transform: Optional[Union[str, tuple]]):
         """Fetches transformation function if specified, otherwise defaults."""
@@ -90,15 +90,15 @@ class DatasetRuleProcessor:
 
     @property 
     def parent_related_name(self):
-        return {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model] if self.parent_model else None
+        return next((field.name for field in self.parent_model._meta.get_fields() if issubclass(self.resource_model, field.related_model))) if self.parent_model else None
 
     @property
     def related_model_lookup(self) -> str:
         """Determines the Django ORM lookup for related models."""
-        if self.resource_model._meta.model_name == "patientcase":
-            return ""  # No relation needed for PatientCase
+        if self.resource_model._meta.model_name.lower() == "patientcase":
+            return ""  
         if self.parent_model:
-            return {field.related_model: field.name for field in self.parent_model._meta.get_fields()}[self.resource_model]
+            return self.resource_model._meta.verbose_name_plural.replace(' ','_')
         return self.resource_model._meta.get_field("case").related_query_name()
 
     @property
@@ -203,13 +203,12 @@ class AggregationNode:
             annotations.update({'id': F('id')})
         if not annotations:
             raise AttributeError("The aggregation node's subquery cannot be constructed without annotations.")
-
         return ArrayAgg(Subquery(
             self.aggregated_model.objects.filter(
-                id=OuterRef(f'{self.aggregated_model_parent_related_name}__id')
+                id=OuterRef(f'{self.aggregated_model_parent_related_name}__id'),
             ).annotate(
                 related_json_object=JSONObject(**annotations)
-            ).values('related_json_object')[:1]
+            ).filter(related_json_object__isnull=False).values('related_json_object')[:1]
         ), distinct=True)
 
     def add_annotation_node(self, key: str, expression: Expression) -> None:

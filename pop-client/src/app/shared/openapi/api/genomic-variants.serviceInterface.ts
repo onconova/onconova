@@ -136,16 +136,6 @@ export interface GetGenomicVariantsRequestParams {
     proteinReferenceSequenceNotBeginsWith?: string;
     proteinReferenceSequenceEndsWith?: string;
     proteinReferenceSequenceNotEndsWith?: string;
-    proteinChangePositionNotExists?: boolean;
-    proteinChangePositionExists?: boolean;
-    proteinChangePosition?: string;
-    proteinChangePositionNot?: string;
-    proteinChangePositionContains?: string;
-    proteinChangePositionNotContains?: string;
-    proteinChangePositionBeginsWith?: string;
-    proteinChangePositionNotBeginsWith?: string;
-    proteinChangePositionEndsWith?: string;
-    proteinChangePositionNotEndsWith?: string;
     proteinChangeTypeNotExists?: boolean;
     proteinChangeTypeExists?: boolean;
     proteinChangeType?: string;

@@ -27,7 +27,6 @@ export interface GenomicVariant {
     rnaChangeType?: RNAChangeType | null;
     proteinHgvs?: string | null;
     proteinReferenceSequence?: string | null;
-    proteinChangePosition?: string | null;
     proteinChangeType?: ProteinChangeType | null;
     nucleotidesLength?: number | null;
     /**

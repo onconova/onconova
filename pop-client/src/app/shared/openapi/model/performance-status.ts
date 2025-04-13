@@ -11,8 +11,8 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface PerformanceStatus { 
-    ecogInterpretation: CodedConcept | null;
-    karnofskyInterpretation: CodedConcept | null;
+    ecogInterpretation?: CodedConcept | null;
+    karnofskyInterpretation?: CodedConcept | null;
     /**
      * 
      */

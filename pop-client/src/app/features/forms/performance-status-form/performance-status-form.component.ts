@@ -80,7 +80,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
         {label: '80', value: 80},
         {label: '90', value: 90},
         {label: '100', value: 100},
-    ];
+    ].reverse();
 
     public readonly scoreTypeChoices: RadioChoice[] = [
         { name: 'ECOG', value: 'ecog' },

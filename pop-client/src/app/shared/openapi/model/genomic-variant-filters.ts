@@ -359,46 +359,6 @@ export interface GenomicVariantFilters {
      */
     'proteinReferenceSequence.not.endsWith'?: string;
     /**
-     * Protein change position - Filter for entries without a value
-     */
-    'proteinChangePosition.not.exists'?: boolean;
-    /**
-     * Protein change position - Filter for entries with a value
-     */
-    'proteinChangePosition.exists'?: boolean;
-    /**
-     * Protein change position - Filter for full text matches
-     */
-    proteinChangePosition?: string;
-    /**
-     * Protein change position - Filter for full text mismatches
-     */
-    'proteinChangePosition.not'?: string;
-    /**
-     * Protein change position - Filter for partial text matches
-     */
-    'proteinChangePosition.contains'?: string;
-    /**
-     * Protein change position - Filter for partial text mismatches
-     */
-    'proteinChangePosition.not.contains'?: string;
-    /**
-     * Protein change position - Filter for entries starting with the text
-     */
-    'proteinChangePosition.beginsWith'?: string;
-    /**
-     * Protein change position - Filter for entries not starting with the text
-     */
-    'proteinChangePosition.not.beginsWith'?: string;
-    /**
-     * Protein change position - Filter for entries ending with the text
-     */
-    'proteinChangePosition.endsWith'?: string;
-    /**
-     * Protein change position - Filter for entries not ending with the text
-     */
-    'proteinChangePosition.not.endsWith'?: string;
-    /**
      * Protein change type - Filter for entries without a value
      */
     'proteinChangeType.not.exists'?: boolean;

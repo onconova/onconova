@@ -83,14 +83,6 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='protein_reference_sequence',
         validation_alias=AliasChoices('proteinReferenceSequence','protein_reference_sequence'),        
     )
-    proteinChangePosition: Optional[str] = Field(
-        default=None,
-        title='Protein change position',
-        description='Protein-level aminoacid position/range where the variant was found.',
-        pattern=HGVSRegex.AMINOACID_POSITION_OR_RANGE,
-        alias='protein_change_position',
-        validation_alias=AliasChoices('proteinChangePosition','protein_change_position'),        
-    )
     proteinChangeType: Optional[orm.GenomicVariant.ProteinChangeType] = Field(
         default=None,
         title='Protein change type',
