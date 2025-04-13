@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedTherapyLine } from '../model/models';
 import { TherapyLine } from '../model/models';
 import { TherapyLineCreate } from '../model/models';
@@ -28,12 +30,23 @@ export interface DeleteTherapyLineRequestParams {
     therapyLineId: string;
 }
 
+export interface GetAllTherapyLineHistoryEventsRequestParams {
+    therapyLineId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetReassignedPatientCaseTherapyLinesRequestParams {
     caseId: string;
 }
 
 export interface GetTherapyLineByIdRequestParams {
     therapyLineId: string;
+}
+
+export interface GetTherapyLineHistoryEventByIdRequestParams {
+    therapyLineId: string;
+    eventId: string;
 }
 
 export interface GetTherapyLinesRequestParams {
@@ -104,6 +117,11 @@ export interface GetTherapyLinesRequestParams {
     offset?: number;
 }
 
+export interface RevertTherapyLineToHistoryEventRequestParams {
+    therapyLineId: string;
+    eventId: string;
+}
+
 export interface UpdateTherapyLineRequestParams {
     therapyLineId: string;
     therapyLineCreate: TherapyLineCreate;
@@ -129,6 +147,13 @@ export interface TherapyLinesServiceInterface {
     deleteTherapyLine(requestParameters: DeleteTherapyLineRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Therapy Line History Events
+     * 
+* @param requestParameters
+     */
+    getAllTherapyLineHistoryEvents(requestParameters: GetAllTherapyLineHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Reassigned Patient Case Therapy Lines
      * 
 * @param requestParameters
@@ -143,11 +168,25 @@ export interface TherapyLinesServiceInterface {
     getTherapyLineById(requestParameters: GetTherapyLineByIdRequestParams, extraHttpRequestParams?: any): Observable<TherapyLine>;
 
     /**
+     * Get Therapy Line History Event By Id
+     * 
+* @param requestParameters
+     */
+    getTherapyLineHistoryEventById(requestParameters: GetTherapyLineHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Therapy Lines Matching The Query
      * 
 * @param requestParameters
      */
     getTherapyLines(requestParameters: GetTherapyLinesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTherapyLine>;
+
+    /**
+     * Revert Therapy Line To History Event
+     * 
+* @param requestParameters
+     */
+    revertTherapyLineToHistoryEvent(requestParameters: RevertTherapyLineToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Therapy Line

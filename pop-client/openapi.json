@@ -4072,6 +4072,89 @@
         "parameters": [
           {
             "in": "query",
+            "name": "topographyGroup.not.exists",
+            "schema": {
+              "description": "Topographical group - Filter for entries without a value",
+              "title": "Topographygroup.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "topographyGroup.exists",
+            "schema": {
+              "description": "Topographical group - Filter for entries with a value",
+              "title": "Topographygroup.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "topographyGroup",
+            "schema": {
+              "description": "Topographical group - Filter for a matching concept code",
+              "title": "Topographygroup",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for a matching concept code"
+          },
+          {
+            "in": "query",
+            "name": "topographyGroup.not",
+            "schema": {
+              "description": "Topographical group - Filter for a mismatching concept code",
+              "title": "Topographygroup.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for a mismatching concept code"
+          },
+          {
+            "in": "query",
+            "name": "topographyGroup.anyOf",
+            "schema": {
+              "description": "Topographical group - Filter for a matching set of concept codes",
+              "items": {
+                "type": "string"
+              },
+              "title": "Topographygroup.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for a matching set of concept codes"
+          },
+          {
+            "in": "query",
+            "name": "topographyGroup.not.anyOf",
+            "schema": {
+              "description": "Topographical group - Filter for a mismmatching set of concept codes",
+              "items": {
+                "type": "string"
+              },
+              "title": "Topographygroup.Not.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for a mismmatching set of concept codes"
+          },
+          {
+            "in": "query",
+            "name": "topographyGroup.descendantsOf",
+            "schema": {
+              "description": "Topographical group - Filter for all child concepts of a given concepts code",
+              "title": "Topographygroup.Descendantsof",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Topographical group - Filter for all child concepts of a given concepts code"
+          },
+          {
+            "in": "query",
             "name": "id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -17016,6 +17099,166 @@
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Therapy Lines"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/therapy-lines/{therapyLineId}/history/events": {
+      "get": {
+        "operationId": "getAllTherapyLineHistoryEvents",
+        "summary": "Get All Therapy Line History Events",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "therapyLineId",
+            "schema": {
+              "title": "Therapylineid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Therapy Lines"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/therapy-lines/{therapyLineId}/history/events/{eventId}": {
+      "get": {
+        "operationId": "getTherapyLineHistoryEventById",
+        "summary": "Get Therapy Line History Event By Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "therapyLineId",
+            "schema": {
+              "title": "Therapylineid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "eventId",
+            "schema": {
+              "title": "Eventid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryEvent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "tags": [
+          "Therapy Lines"
+        ],
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/therapy-lines/{therapyLineId}/history/events/{eventId}/reversion": {
+      "put": {
+        "operationId": "revertTherapyLineToHistoryEvent",
+        "summary": "Revert Therapy Line To History Event",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "therapyLineId",
+            "schema": {
+              "title": "Therapylineid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "eventId",
+            "schema": {
+              "title": "Eventid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifiedResource"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not Found"
@@ -38597,7 +38840,7 @@
           "dnaReferenceSequence": {
             "anyOf": [
               {
-                "pattern": "(?:(?:NM_|NR_|XM_|XR_)\\d+(?:\\.\\d{1,3})?)|(?:ENST\\d+(?:\\.\\d{1,3})?)|(?:LRG_\\d+t\\d{1,3})",
+                "pattern": "(?:(?:NM_|NR_|XM_|XR_)\\d+(?:\\.\\d{1,3})?)|(?:ENST\\d+(?:\\.\\d{1,3})?)|(?:LRG_\\d+t\\d{1,3})|(?:(?:NC_|AC_|NG_|NT_|NW_|NZ_)\\d+(?:\\.\\d{1,3})?)|(?:ENSG\\d+(?:\\.\\d{1,3})?)|(?:LRG_\\d+)",
                 "type": "string"
               },
               {
@@ -40942,6 +41185,18 @@
       },
       "NeoplasticEntity": {
         "properties": {
+          "topographyGroup": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConcept"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Broad anatomical location of the neoplastic entity",
+            "title": "Topographical group"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -46760,6 +47015,47 @@
       },
       "NeoplasticEntityFilters": {
         "properties": {
+          "topographyGroup.not.exists": {
+            "description": "Topographical group - Filter for entries without a value",
+            "title": "Topographygroup.Not.Exists",
+            "type": "boolean"
+          },
+          "topographyGroup.exists": {
+            "description": "Topographical group - Filter for entries with a value",
+            "title": "Topographygroup.Exists",
+            "type": "boolean"
+          },
+          "topographyGroup": {
+            "description": "Topographical group - Filter for a matching concept code",
+            "title": "Topographygroup",
+            "type": "string"
+          },
+          "topographyGroup.not": {
+            "description": "Topographical group - Filter for a mismatching concept code",
+            "title": "Topographygroup.Not",
+            "type": "string"
+          },
+          "topographyGroup.anyOf": {
+            "description": "Topographical group - Filter for a matching set of concept codes",
+            "items": {
+              "type": "string"
+            },
+            "title": "Topographygroup.Anyof",
+            "type": "array"
+          },
+          "topographyGroup.not.anyOf": {
+            "description": "Topographical group - Filter for a mismmatching set of concept codes",
+            "items": {
+              "type": "string"
+            },
+            "title": "Topographygroup.Not.Anyof",
+            "type": "array"
+          },
+          "topographyGroup.descendantsOf": {
+            "description": "Topographical group - Filter for all child concepts of a given concepts code",
+            "title": "Topographygroup.Descendantsof",
+            "type": "string"
+          },
           "id": {
             "description": "Id - Filter for full text matches",
             "title": "Id",
@@ -63133,7 +63429,8 @@
       "CohortContribution": {
         "properties": {
           "contributor": {
-            "$ref": "#/components/schemas/User"
+            "title": "Contributor",
+            "type": "string"
           },
           "contributions": {
             "title": "Contributions",

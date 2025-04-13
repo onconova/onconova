@@ -37,6 +37,13 @@ export interface GetAllNeoplasticEntityHistoryEventsRequestParams {
 }
 
 export interface GetNeoplasticEntitiesRequestParams {
+    topographyGroupNotExists?: boolean;
+    topographyGroupExists?: boolean;
+    topographyGroup?: string;
+    topographyGroupNot?: string;
+    topographyGroupAnyOf?: Array<string>;
+    topographyGroupNotAnyOf?: Array<string>;
+    topographyGroupDescendantsOf?: string;
     id?: string;
     idNot?: string;
     idContains?: string;

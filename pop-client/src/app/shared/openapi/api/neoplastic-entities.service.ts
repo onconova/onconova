@@ -255,6 +255,13 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
     public getNeoplasticEntities(requestParameters?: GetNeoplasticEntitiesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedNeoplasticEntity>>;
     public getNeoplasticEntities(requestParameters?: GetNeoplasticEntitiesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedNeoplasticEntity>>;
     public getNeoplasticEntities(requestParameters?: GetNeoplasticEntitiesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const topographyGroupNotExists = requestParameters?.topographyGroupNotExists;
+        const topographyGroupExists = requestParameters?.topographyGroupExists;
+        const topographyGroup = requestParameters?.topographyGroup;
+        const topographyGroupNot = requestParameters?.topographyGroupNot;
+        const topographyGroupAnyOf = requestParameters?.topographyGroupAnyOf;
+        const topographyGroupNotAnyOf = requestParameters?.topographyGroupNotAnyOf;
+        const topographyGroupDescendantsOf = requestParameters?.topographyGroupDescendantsOf;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -320,6 +327,28 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>topographyGroupNotExists, 'topographyGroup.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>topographyGroupExists, 'topographyGroup.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>topographyGroup, 'topographyGroup');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>topographyGroupNot, 'topographyGroup.not');
+        if (topographyGroupAnyOf) {
+            topographyGroupAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'topographyGroup.anyOf');
+            })
+        }
+        if (topographyGroupNotAnyOf) {
+            topographyGroupNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'topographyGroup.not.anyOf');
+            })
+        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>topographyGroupDescendantsOf, 'topographyGroup.descendantsOf');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

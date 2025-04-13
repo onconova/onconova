@@ -1,6 +1,7 @@
 from typing import List
 
-from django.db.models import F
+from django.db.models import Count, Window, F
+from django.db.models.functions import TruncMonth
 
 from ninja_extra import route, api_controller
 from ninja_jwt.authentication import JWTAuth
@@ -43,7 +44,9 @@ class DashboardController(ControllerBase):
     def get_full_cohort_statistics(self):
         return DataPlatformStatisticsSchema(
             cases = oncological_models.PatientCase.objects.count(),
-            primarySites = len(self.get_primary_sites()),
+            primarySites = oncological_models.NeoplasticEntity.objects.select_properties('topography_group').filter(
+                relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
+            ).distinct('topography_group').count(),
             entries = sum([model.objects.count() for model in oncological_models.MODELS]),
             mutations = oncological_models.GenomicVariant.objects.count(),
             clinicalCenters = oncological_models.PatientCase.objects.distinct('clinical_center').count(),
@@ -59,9 +62,12 @@ class DashboardController(ControllerBase):
         operation_id='getPrimarySiteStatistics',
     )
     def get_primary_site_statistics(self):
-        primary_entities = self.get_primary_sites()
+        primary_entities = oncological_models.NeoplasticEntity.objects.select_properties('topography_group').filter(
+                relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
+            ).values('topography_group__code','topography_group__display').distinct()
         statistics = []
-        for (entity_code,entity_display) in primary_entities:
+        for entity in primary_entities:
+            entity_code, entity_display = entity.get('topography_group__code'),entity.get('topography_group__display')
             entity_cohort = oncological_models.PatientCase.objects.filter(neoplastic_entities__topography__code__contains=entity_code).filter(neoplastic_entities__relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY)
             statistics.append(EntityStatisticsSchema(
                 population = entity_cohort.count(),                
@@ -81,10 +87,7 @@ class DashboardController(ControllerBase):
         operation_id='getCasesOverTime',
     )
     def get_cases_over_time(self):
-        from django.db.models.functions import TruncMonth
-        from django.db.models import Count, Window
-        from pop.oncology.models import PatientCase
-        return PatientCase.objects.select_properties('created_at').annotate(
+        return oncological_models.PatientCase.objects.select_properties('created_at').annotate(
                 month=TruncMonth('created_at')
             ).values('month').annotate(
                 cumulativeCount=Window(expression=Count('id'), order_by=F('month').asc())

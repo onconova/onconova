@@ -12,6 +12,7 @@ import { NeoplasticEntityRelationshipChoices } from './neoplastic-entity-relatio
 
 
 export interface NeoplasticEntity { 
+    topographyGroup?: CodedConcept | null;
     /**
      * 
      */
