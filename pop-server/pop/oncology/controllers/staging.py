@@ -102,12 +102,13 @@ class StagingController(ControllerBase):
         path='', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createStaging',
     )
     def create_staging(self, payload: AnyPayloadSchemas): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.get(
         path='/{stagingId}', 
@@ -128,7 +129,7 @@ class StagingController(ControllerBase):
         path='/{stagingId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateStagingById',
@@ -142,7 +143,7 @@ class StagingController(ControllerBase):
         path='/{stagingId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteStagingById',
@@ -156,7 +157,7 @@ class StagingController(ControllerBase):
         path='/{stagingId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllStagingHistoryEvents',
@@ -170,7 +171,7 @@ class StagingController(ControllerBase):
         path='/{stagingId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getStagingHistoryEventById',
@@ -188,7 +189,7 @@ class StagingController(ControllerBase):
         path='/{stagingId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertStagingToHistoryEvent',

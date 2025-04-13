@@ -52,6 +52,7 @@ class CohortsController(ControllerBase):
         path='', 
         response={
             200: Paginated[CohortSchema],
+            401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohorts',
@@ -64,7 +65,8 @@ class CohortsController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCohorts],
         operation_id='createCohort',
@@ -72,14 +74,14 @@ class CohortsController(ControllerBase):
     def create_cohort(self, payload: CohortCreateSchema):
         cohort = payload.model_dump_django()
         cohort.update_cohort_cases()
-        return cohort
+        return 201, cohort
         
 
     @route.get(
         path='/{cohortId}', 
         response={
             200: CohortSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortById',
@@ -92,7 +94,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCohorts],
         operation_id='deleteCohortById',
@@ -106,7 +108,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCohorts],
         operation_id='updateCohort',
@@ -121,7 +123,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/cases', 
         response={
             200: Paginated[oncological_schemas.PatientCaseSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortCases',
@@ -134,7 +136,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/contributors', 
         response={
             200: List[CohortContribution],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortContributors',
@@ -153,7 +155,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllCohortHistoryEvents',
@@ -167,7 +169,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getCohortHistoryEventById',
@@ -180,7 +182,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertCohortToHistoryEvent',
@@ -194,7 +196,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/dynamic-dataset', 
         response={
             200: Paginated[Any],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortDatasetDynamically',
@@ -207,7 +209,7 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/datasets/{datasetId}', 
         response={
             200: Paginated[Any],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortDataset',
@@ -225,8 +227,8 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/traits/{trait}/average', 
         response={
             200: CohortTraitAverage,
-            404: None,
-            422: None,
+            404: None, 422: None,
+            401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortTraitAverage',
@@ -242,8 +244,8 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/traits/{trait}/median', 
         response={
             200: CohortTraitMedian,
-            404: None,
-            422: None,
+            404: None, 422: None,
+            401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortTraitMedian',
@@ -259,8 +261,8 @@ class CohortsController(ControllerBase):
         path='/{cohortId}/traits/{trait}/counts', 
         response={
             200: List[CohortTraitCounts],
-            404: None,
-            422: None,
+            404: None, 422: None,
+            401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
         operation_id='getCohortTraitCounts',

@@ -19,25 +19,11 @@ from pop.analytics.aggregates import Median
 )
 class DashboardController(ControllerBase):
 
-    @staticmethod
-    def get_primary_sites():
-        primary_entities = list(oncological_models.NeoplasticEntity.objects.filter(
-                relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
-        ).filter(topography__parent__isnull=False).values('topography__parent__code','topography__parent__display').distinct()) + \
-        list(oncological_models.NeoplasticEntity.objects.filter(
-                relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
-        ).filter(topography__parent__isnull=True).values('topography__code','topography__display').distinct())
-
-        primary_entities = set([(
-            entity.get('topography__code') or entity.get('topography__parent__code'), 
-            entity.get('topography__display') or entity.get('topography__parent__display')
-        ) for entity in primary_entities])
-        return primary_entities
-
     @route.get(
         path='/stats', 
         response={
-            200: DataPlatformStatisticsSchema
+            200: DataPlatformStatisticsSchema,
+            401: None, 403: None,
         },
         operation_id='getFullCohortStatistics',
     )
@@ -57,7 +43,8 @@ class DashboardController(ControllerBase):
     @route.get(
         path='/primary-site-stats', 
         response={
-            200: List[EntityStatisticsSchema]
+            200: List[EntityStatisticsSchema],
+            401: None, 403: None,
         },
         operation_id='getPrimarySiteStatistics',
     )
@@ -82,7 +69,8 @@ class DashboardController(ControllerBase):
     @route.get(
         path='/cases-over-time', 
         response={
-            200: List[CasesPerMonthSchema]
+            200: List[CasesPerMonthSchema],
+            401: None, 403: None,
         },
         operation_id='getCasesOverTime',
     )

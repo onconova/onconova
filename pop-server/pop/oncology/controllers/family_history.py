@@ -35,20 +35,21 @@ class FamilyHistoryController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createFamilyHistory',
     )
     def create_family_history(self, payload: FamilyHistoryCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
         
 
     @route.get(
         path='/{familyHistoryId}', 
         response={
             200: FamilyHistorySchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getFamilyHistoryById',
@@ -61,7 +62,7 @@ class FamilyHistoryController(ControllerBase):
         path='/{familyHistoryId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteFamilyHistoryById',
@@ -75,7 +76,7 @@ class FamilyHistoryController(ControllerBase):
         path='/{familyHistoryId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateFamilyHistory',
@@ -88,7 +89,7 @@ class FamilyHistoryController(ControllerBase):
         path='/{familyHistoryId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllFamilyHistoryHistoryEvents',
@@ -102,7 +103,7 @@ class FamilyHistoryController(ControllerBase):
         path='/{familyHistoryId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getFamilyHistoryHistoryEventById',
@@ -115,7 +116,7 @@ class FamilyHistoryController(ControllerBase):
         path='/{familyHistoryId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertFamilyHistoryToHistoryEvent',

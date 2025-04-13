@@ -43,19 +43,20 @@ class RadiotherapyController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createRadiotherapy',
     )
     def create_radiotherapy(self, payload: RadiotherapyCreateSchema): # type: ignore
-        return payload.model_dump_django().assign_therapy_line()
+        return 201, payload.model_dump_django().assign_therapy_line()
     
     @route.get(
         path='/{radiotherapyId}', 
         response={
             200: RadiotherapySchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyById',
@@ -68,7 +69,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteRadiotherapyById',
@@ -85,7 +86,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateRadiotherapy',
@@ -98,7 +99,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllRadiotherapyHistoryEvents',
@@ -112,7 +113,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyHistoryEventById',
@@ -125,7 +126,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertRadiotherapyToHistoryEvent',
@@ -141,7 +142,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages', 
         response={
             200: List[RadiotherapyDosageSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyDosages',
@@ -154,7 +155,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages/{dosageId}', 
         response={
             200: RadiotherapyDosageSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyDosageById',
@@ -166,20 +167,21 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createRadiotherapyDosage',
     )
     def create_radiotherapy_dosage(self, radiotherapyId: str, payload: RadiotherapyDosageCreateSchema): # type: ignore
         instance = RadiotherapyDosage(radiotherapy=get_object_or_404(Radiotherapy, id=radiotherapyId))
-        return payload.model_dump_django(instance=instance, create=True)
+        return 201, payload.model_dump_django(instance=instance, create=True)
 
 
     @route.put(
         path='/{radiotherapyId}/dosages/{dosageId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateRadiotherapyDosage',
@@ -193,7 +195,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages/{dosageId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteRadiotherapyDosage',
@@ -206,7 +208,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages/{dosageId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllRadiotherapyDosageHistoryEvents',
@@ -220,7 +222,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages/{dosageId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyDosageHistoryEventById',
@@ -233,7 +235,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/dosages/{dosageId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertRadiotherapyDosageToHistoryEvent',
@@ -249,7 +251,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings', 
         response={
             200: List[RadiotherapySettingSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapySettings',
@@ -261,7 +263,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings/{settingId}', 
         response={
             200: RadiotherapySettingSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapySettingById',
@@ -273,19 +275,20 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createRadiotherapySetting',
     )
     def create_radiotherapy_setting(self, radiotherapyId: str, payload: RadiotherapySettingCreateSchema): # type: ignore
         instance = RadiotherapySetting(radiotherapy=get_object_or_404(Radiotherapy, id=radiotherapyId))
-        return payload.model_dump_django(instance=instance, create=True)
+        return 201, payload.model_dump_django(instance=instance, create=True)
 
     @route.put(
         path='/{radiotherapyId}/settings/{settingId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateRadiotherapySetting',
@@ -298,7 +301,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings/{settingId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteRadiotherapySetting',
@@ -311,7 +314,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings/{settingId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllRadiotherapySettingHistoryEvents',
@@ -325,7 +328,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings/{settingId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapySettingHistoryEventById',
@@ -338,7 +341,7 @@ class RadiotherapyController(ControllerBase):
         path='/{radiotherapyId}/settings/{settingId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertRadiotherapySettingToHistoryEvent',

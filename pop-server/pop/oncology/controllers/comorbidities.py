@@ -39,21 +39,20 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createComorbiditiesAssessment',
     )
     def create_comorbidities_assessment(self, payload: ComorbiditiesAssessmentCreateSchema): # type: ignore
-        return ComorbiditiesAssessmentCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django()
+        return 201, payload.model_dump_django()
         
     @route.get(
         path='/{comorbiditiesAssessmentId}', 
         response={
             200: ComorbiditiesAssessmentSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesAssessmentById',
@@ -66,7 +65,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         path='/{comorbiditiesAssessmentId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteComorbiditiesAssessment',
@@ -81,7 +80,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         path='/{comorbiditiesAssessmentId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateComorbiditiesAssessment',
@@ -97,7 +96,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         path='/{comorbiditiesAssessmentId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllComorbiditiesAssessmentHistoryEvents',
@@ -111,7 +110,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         path='/{comorbiditiesAssessmentId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesAssessmentHistoryEventById',
@@ -124,7 +123,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         path='/{comorbiditiesAssessmentId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertComorbiditiesAssessmentToHistoryEvent',
@@ -145,6 +144,7 @@ class ComorbiditiesPanelsController(ControllerBase):
         path='', 
         response={
             200: List[ComorbiditiesPanel], 
+            401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesPanels',
@@ -165,6 +165,7 @@ class ComorbiditiesPanelsController(ControllerBase):
         path='/{panel}', 
         response={
             200: ComorbiditiesPanel, 
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesPanelsByName',

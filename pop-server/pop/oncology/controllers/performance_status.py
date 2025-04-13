@@ -38,19 +38,20 @@ class PerformanceStatusController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createPerformanceStatus',
     )
     def create_performance_status(self, payload: PerformanceStatusCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.get(
         path='/{performanceStatusId}', 
         response={
             200: PerformanceStatusSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getPerformanceStatusById',
@@ -62,7 +63,7 @@ class PerformanceStatusController(ControllerBase):
         path='/{performanceStatusId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updatePerformanceStatusById',
@@ -75,7 +76,7 @@ class PerformanceStatusController(ControllerBase):
         path='/{performanceStatusId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deletePerformanceStatus',
@@ -88,7 +89,7 @@ class PerformanceStatusController(ControllerBase):
         path='/{performanceStatusId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllPerformanceStatusHistoryEvents',
@@ -102,7 +103,7 @@ class PerformanceStatusController(ControllerBase):
         path='/{performanceStatusId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getPerformanceStatusHistoryEventById',
@@ -115,7 +116,7 @@ class PerformanceStatusController(ControllerBase):
         path='/{performanceStatusId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertPerformanceStatusToHistoryEvent',

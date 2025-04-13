@@ -39,13 +39,24 @@ from pop.analytics.controllers import (
     CohortAnalysisController
 )
 
+from ninja_jwt.authentication import JWTAuth
 
 
 api = NinjaExtraAPI(
     title="POP API",
     description="Precision Oncology Platform API for exchange of research cancer data",
     urls_namespace="pop",
-    servers=None,
+    servers=[dict(
+        url='https://{domain}:{port}/api', 
+        description='API server', 
+        variables={
+            "port": {"default": "4443"}, 
+            "domain": {"default": "localhost"}
+        }),
+    ],
+    openapi_extra=dict(
+        info=dict(license=dict(name="MIT", url="https://github.com/precisionmedicineinitiative/POP/blob/main/LICENSE"))
+    )
 )
 api.register_controllers(
     AuthController,

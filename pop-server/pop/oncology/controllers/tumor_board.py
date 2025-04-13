@@ -70,12 +70,13 @@ class TumorBoardController(ControllerBase):
         path='', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createTumorBoard',
     )
     def create_tumor_board(self, payload: AnyPayloadSchemas): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.get(
         path='/{tumorBoardId}', 
@@ -96,7 +97,7 @@ class TumorBoardController(ControllerBase):
         path='/{tumorBoardId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateTumorBoardById',
@@ -109,7 +110,7 @@ class TumorBoardController(ControllerBase):
         path='/{tumorBoardId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteTumorBoardById',
@@ -123,7 +124,7 @@ class TumorBoardController(ControllerBase):
         path='/{tumorBoardId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllTumorBoardHistoryEvents',
@@ -137,7 +138,7 @@ class TumorBoardController(ControllerBase):
         path='/{tumorBoardId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getTumorBoardHistoryEventById',
@@ -155,7 +156,7 @@ class TumorBoardController(ControllerBase):
         path='/{tumorBoardId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertTumorBoardToHistoryEvent',
@@ -181,7 +182,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         path='/{tumorBoardId}/therapeutic-recommendations', 
         response={
             200: List[MolecularTherapeuticRecommendationSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getMolecularTherapeuticRecommendations',
@@ -207,37 +208,34 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         path='/{tumorBoardId}/therapeutic-recommendations', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createMolecularTherapeuticRecommendation',
     )
     def create_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, payload: MolecularTherapeuticRecommendationCreateSchema): # type: ignore
         instance = MolecularTherapeuticRecommendation(molecular_tumor_board=get_object_or_404(MolecularTumorBoard, id=tumorBoardId))
-        return MolecularTherapeuticRecommendationCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance, create=True)
+        return 201, payload.model_dump_django(instance=instance, create=True)
         
 
     @route.put(
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateMolecularTherapeuticRecommendation',
     )
     def update_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, recommendationId: str, payload: MolecularTherapeuticRecommendationCreateSchema): # type: ignore
         instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
-        return MolecularTherapeuticRecommendationCreateSchema\
-                    .model_validate(payload)\
-                    .model_dump_django(instance=instance)
+        return payload.model_dump_django(instance=instance)
         
     @route.delete(
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteMolecularTherapeuticRecommendation',
@@ -251,7 +249,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllMolecularTherapeuticRecommendationHistoryEvents',
@@ -265,7 +263,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getMolecularTherapeuticRecommendationHistoryEventById',
@@ -278,7 +276,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertMolecularTherapeuticRecommendationToHistoryEvent',

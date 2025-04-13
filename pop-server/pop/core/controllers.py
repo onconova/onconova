@@ -33,6 +33,7 @@ class AuthController(ControllerBase):
         "/pair",
         response=TokenPair,
         operation_id="getTokenPair",
+        openapi_extra=dict(security=[])
     )
     def obtain_token_pair(self, credentials: UserCredentials):
         credentials.check_user_authentication_rule()
@@ -42,6 +43,7 @@ class AuthController(ControllerBase):
         "/refresh",
         response=RefreshedTokenPair,
         operation_id="refreshTokenPair",
+        openapi_extra=dict(security=[])
     )
     def refresh_token_pair(self, refresh_token: TokenRefresh):
         return refresh_token.to_response_schema()
@@ -57,7 +59,8 @@ class UsersController(ControllerBase):
     @route.get(
         path="/users",
         response={
-            200: Paginated[UserSchema]
+            200: Paginated[UserSchema],
+            401: None, 403: None,
         }, 
         permissions=[perms.CanViewUsers],
         operation_id='getUsers',
@@ -71,7 +74,7 @@ class UsersController(ControllerBase):
         path="/users/{userId}", 
         response={
             200: UserSchema,
-            404: None
+            404: None, 401: None, 403: None,
         }, 
         permissions=[perms.CanViewUsers],
         operation_id='getUserById',
@@ -84,18 +87,19 @@ class UsersController(ControllerBase):
         path="/users", 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         }, 
         permissions=[perms.CanManageUsers],
         operation_id='createUser',
     )
     def create_user(self, payload: UserCreateSchema):
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.put(
         path='/users/{userId}', 
        response={
             200: UserSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageUsers],
         operation_id='updateUser',
@@ -108,8 +112,7 @@ class UsersController(ControllerBase):
         path='/users/{userId}/password', 
        response={
             200: None,
-            404: None,
-            403: None,
+            404: None, 401: None, 403: None,
         },
         operation_id='updateUserPassword',
     )
@@ -128,6 +131,7 @@ class UsersController(ControllerBase):
         path='/users/{userId}/password/reset', 
         response={
             200: None,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageUsers],
         operation_id='resetUserPassword',
@@ -142,7 +146,7 @@ class UsersController(ControllerBase):
         path='/users/{userId}/profile', 
        response={
             200: UserSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageUsers | perms.IsRequestingUser],
         operation_id='updateUserProfile',

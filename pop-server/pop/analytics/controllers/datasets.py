@@ -27,6 +27,7 @@ class DatasetsController(ControllerBase):
         path='', 
         response={
             200: Paginated[DatasetSchema],
+            401: None, 403: None,
         },
         permissions=[perms.CanViewDatasets],
         operation_id='getDatasets',
@@ -39,20 +40,21 @@ class DatasetsController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageDatasets],
         operation_id='createDataset',
     )
     def create_dataset(self, payload: DatasetCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
         
 
     @route.get(
         path='/{datasetId}', 
         response={
             200: DatasetSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewDatasets],
         operation_id='getDatasetById',
@@ -65,7 +67,7 @@ class DatasetsController(ControllerBase):
         path='/{datasetId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageDatasets],
         operation_id='deleteDatasetById',
@@ -79,7 +81,7 @@ class DatasetsController(ControllerBase):
         path='/{datasetId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageDatasets],
         operation_id='updateDataset',
@@ -91,7 +93,7 @@ class DatasetsController(ControllerBase):
         path='/{datasetId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllDatasetHistoryEvents',
@@ -105,7 +107,7 @@ class DatasetsController(ControllerBase):
         path='/{datasetId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getDatasetHistoryEventById',
@@ -118,7 +120,7 @@ class DatasetsController(ControllerBase):
         path='/{datasetId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertDatasetToHistoryEvent',

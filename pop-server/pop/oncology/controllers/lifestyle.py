@@ -38,20 +38,21 @@ class LifestyleController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createLifestyle',
     )
     def create_lifestyle(self, payload: LifestyleCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
         
 
     @route.get(
         path='/{lifestyleId}', 
         response={
             200: LifestyleSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getLifestyleById',
@@ -64,7 +65,7 @@ class LifestyleController(ControllerBase):
         path='/{lifestyleId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateLifestyleById',
@@ -77,7 +78,7 @@ class LifestyleController(ControllerBase):
         path='/{lifestyleId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteLifestyleById',
@@ -90,7 +91,7 @@ class LifestyleController(ControllerBase):
         path='/{lifestyleId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllLifestyleHistoryEvents',
@@ -104,7 +105,7 @@ class LifestyleController(ControllerBase):
         path='/{lifestyleId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getLifestyleHistoryEventById',
@@ -117,7 +118,7 @@ class LifestyleController(ControllerBase):
         path='/{lifestyleId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertLifestyleToHistoryEvent',

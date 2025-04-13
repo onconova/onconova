@@ -40,19 +40,20 @@ class NeoplasticEntityController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createNeoplasticEntity',
     )
     def create_neoplastic_entity(self, payload: NeoplasticEntityCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
         
     @route.get(
         path='/{entityId}', 
         response={
             200: NeoplasticEntitySchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getNeoplasticEntityById',
@@ -64,7 +65,7 @@ class NeoplasticEntityController(ControllerBase):
         path='/{entityId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateNeoplasticEntityById',
@@ -77,7 +78,7 @@ class NeoplasticEntityController(ControllerBase):
         path='/{entityId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteNeoplasticEntityById',
@@ -90,7 +91,7 @@ class NeoplasticEntityController(ControllerBase):
         path='/{entityId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllNeoplasticEntityHistoryEvents',
@@ -104,7 +105,7 @@ class NeoplasticEntityController(ControllerBase):
         path='/{entityId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getNeoplasticEntityHistoryEventById',
@@ -117,7 +118,7 @@ class NeoplasticEntityController(ControllerBase):
         path='/{entityId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertNeoplasticEntityToHistoryEvent',

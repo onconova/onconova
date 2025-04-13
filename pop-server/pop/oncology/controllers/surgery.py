@@ -36,19 +36,20 @@ class SurgeryController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createSurgery',
     )
     def create_surgery(self, payload: SurgeryCreateSchema): # type: ignore
-        return payload.model_dump_django().assign_therapy_line()
+        return 201, payload.model_dump_django().assign_therapy_line()
 
     @route.get(
         path='/{surgeryId}', 
         response={
             200: SurgerySchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSurgeryById',
@@ -60,7 +61,7 @@ class SurgeryController(ControllerBase):
         path='/{surgeryId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateSurgeryById',
@@ -73,7 +74,7 @@ class SurgeryController(ControllerBase):
         path='/{surgeryId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteSurgeryById',
@@ -89,7 +90,7 @@ class SurgeryController(ControllerBase):
         path='/{surgeryId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllSurgeryHistoryEvents',
@@ -103,7 +104,7 @@ class SurgeryController(ControllerBase):
         path='/{surgeryId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSurgeryHistoryEventById',
@@ -116,7 +117,7 @@ class SurgeryController(ControllerBase):
         path='/{surgeryId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertSurgeryToHistoryEvent',

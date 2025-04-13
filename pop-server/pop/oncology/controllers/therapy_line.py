@@ -37,19 +37,20 @@ class TherapyLineController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createTherapyLine',
     )
     def create_therapy_line(self, payload: TherapyLineCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.get(
         path='/{therapyLineId}', 
         response={
             200: TherapyLineSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getTherapyLineById',
@@ -62,7 +63,7 @@ class TherapyLineController(ControllerBase):
         path='/{therapyLineId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateTherapyLine',
@@ -75,7 +76,7 @@ class TherapyLineController(ControllerBase):
         path='/{therapyLineId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteTherapyLine',
@@ -88,7 +89,7 @@ class TherapyLineController(ControllerBase):
         path='/{therapyLineId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllTherapyLineHistoryEvents',
@@ -102,7 +103,7 @@ class TherapyLineController(ControllerBase):
         path='/{therapyLineId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getTherapyLineHistoryEventById',
@@ -115,7 +116,7 @@ class TherapyLineController(ControllerBase):
         path='/{therapyLineId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertTherapyLineToHistoryEvent',
@@ -128,7 +129,7 @@ class TherapyLineController(ControllerBase):
         path='/{caseId}/re-assignments', 
         response={
             200: List[TherapyLineSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getReassignedPatientCaseTherapyLines',

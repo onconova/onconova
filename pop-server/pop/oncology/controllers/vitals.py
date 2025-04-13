@@ -36,20 +36,21 @@ class VitalsController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createVitals',
     )
     def create_vitals(self, payload: VitalsCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
         
         
     @route.get(
         path='/{vitalsId}', 
         response={
             200: VitalsSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getVitalsById',
@@ -62,7 +63,7 @@ class VitalsController(ControllerBase):
         path='/{vitalsId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateVitalsById',
@@ -76,7 +77,7 @@ class VitalsController(ControllerBase):
         path='/{vitalsId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteVitalsById',
@@ -89,7 +90,7 @@ class VitalsController(ControllerBase):
         path='/{vitalsId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllVitalsHistoryEvents',
@@ -103,7 +104,7 @@ class VitalsController(ControllerBase):
         path='/{vitalsId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getVitalsHistoryEventById',
@@ -116,7 +117,7 @@ class VitalsController(ControllerBase):
         path='/{vitalsId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertVitalsToHistoryEvent',

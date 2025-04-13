@@ -38,19 +38,20 @@ class RiskAssessmentController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createRiskAssessment',
     )
     def create_risk_assessment(self, payload: RiskAssessmentCreateSchema): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.get(
         path='/{riskAssessmentId}', 
         response={
             200: RiskAssessmentSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRiskAssessmentById',
@@ -62,7 +63,7 @@ class RiskAssessmentController(ControllerBase):
         path='/{riskAssessmentId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateRiskAssessmentById',
@@ -75,7 +76,7 @@ class RiskAssessmentController(ControllerBase):
         path='/{riskAssessmentId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteRiskAssessmentById',
@@ -88,7 +89,7 @@ class RiskAssessmentController(ControllerBase):
         path='/{riskAssessmentId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllRiskAssessmentHistoryEvents',
@@ -102,7 +103,7 @@ class RiskAssessmentController(ControllerBase):
         path='/{riskAssessmentId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getRiskAssessmentHistoryEventById',
@@ -115,7 +116,7 @@ class RiskAssessmentController(ControllerBase):
         path='/{riskAssessmentId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertRiskAssessmentToHistoryEvent',

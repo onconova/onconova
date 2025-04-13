@@ -41,13 +41,14 @@ class PatientCaseController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createPatientCase',
     )
     def create_patient_case(self, payload: PatientCaseCreateSchema):
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
 
     @route.get(
         path='/{caseId}', 
@@ -77,7 +78,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updatePatientCaseById',
@@ -92,7 +93,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deletePatientCaseById',
@@ -106,7 +107,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllPatientCaseHistoryEvents',
@@ -120,7 +121,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getPatientCaseHistoryEventById',
@@ -133,7 +134,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertPatientCaseToHistoryEvent',
@@ -146,7 +147,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/data-completion/{category}', 
         response={
             200: PatientCaseDataCompletionStatusSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getPatientCaseDataCompletionStatus',
@@ -163,7 +164,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/data-completion/{category}', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createPatientCaseDataCompletion',
@@ -175,7 +176,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/data-completion/{category}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deletePatientCaseDataCompletion',

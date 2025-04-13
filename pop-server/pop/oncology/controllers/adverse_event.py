@@ -32,6 +32,7 @@ class AdverseEventController(ControllerBase):
         path='', 
         response={
             200: Paginated[AdverseEventSchema],
+            401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEvents',
@@ -44,13 +45,14 @@ class AdverseEventController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createAdverseEvent',
     )
     def create_adverse_event(self, payload: AdverseEventCreateSchema): # type: ignore
-        return AdverseEventCreateSchema\
+        return 201, AdverseEventCreateSchema\
                     .model_validate(payload)\
                     .model_dump_django()
     
@@ -58,7 +60,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}', 
         response={
             200: AdverseEventSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventById',
@@ -70,7 +72,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteAdverseEventById',
@@ -84,7 +86,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateAdverseEvent',
@@ -97,7 +99,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllAdverseEventHistoryEvents',
@@ -111,7 +113,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventHistoryEventById',
@@ -124,7 +126,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertAdverseEventToHistoryEvent',
@@ -138,7 +140,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes', 
         response={
             200: List[AdverseEventSuspectedCauseSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventSuspectedCauses',
@@ -152,7 +154,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes/{causeId}', 
         response={
             200: AdverseEventSuspectedCauseSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventSuspectedCauseById',
@@ -164,19 +166,20 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createAdverseEventSuspectedCause',
     )
     def create_adverse_event_suspected_cause(self, adverseEventId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
         instance = AdverseEventSuspectedCause(adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId))
-        return payload.model_dump_django(instance=instance, create=True)
+        return 201, payload.model_dump_django(instance=instance, create=True)
 
     @route.put(
         path='/{adverseEventId}/suspected-causes/{causeId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateAdverseEventSuspectedCause',
@@ -190,7 +193,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes/{causeId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteAdverseEventSuspectedCause',
@@ -204,7 +207,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes/{causeId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllAdverseEventSuspectedCauseHistoryEvents',
@@ -218,7 +221,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventSuspectedCauseHistoryEventById',
@@ -231,7 +234,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertAdverseEventSuspectedCauseToHistoryEvent',
@@ -245,7 +248,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations', 
         response={
             200: List[AdverseEventMitigationSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventMitigations',
@@ -258,7 +261,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations/{mitigationId}', 
         response={
             200: AdverseEventMitigationSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventMitigationById',
@@ -270,19 +273,20 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createAdverseEventMitigation',
     )
     def create_adverse_event_mitigation(self, adverseEventId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
         instance = AdverseEventMitigation(adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId))
-        return payload.model_dump_django(instance=instance, create=True)
+        return 201, payload.model_dump_django(instance=instance, create=True)
 
     @route.put(
         path='/{adverseEventId}/mitigations/{mitigationId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateAdverseEventMitigation',
@@ -296,7 +300,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations/{mitigationId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteAdverseEventMitigation',
@@ -310,7 +314,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations/{mitigationId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllAdverseEventMitigationHistoryEvents',
@@ -324,7 +328,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventMitigationHistoryEventById',
@@ -337,7 +341,7 @@ class AdverseEventController(ControllerBase):
         path='/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertAdverseEventMitigationToHistoryEvent',

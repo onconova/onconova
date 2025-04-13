@@ -79,12 +79,13 @@ class GenomicSignatureController(ControllerBase):
         path='', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createGenomicSignature',
     )
     def create_genomic_signature(self, payload: AnyPayloadSchemas): # type: ignore
-        return payload.model_dump_django()
+        return 201, payload.model_dump_django()
         
     @route.get(
         path='/{genomicSignatureId}', 
@@ -105,7 +106,7 @@ class GenomicSignatureController(ControllerBase):
         path='/{genomicSignatureId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateGenomicSignatureById',
@@ -119,7 +120,7 @@ class GenomicSignatureController(ControllerBase):
         path='/{genomicSignatureId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteGenomicSignatureById',
@@ -133,7 +134,7 @@ class GenomicSignatureController(ControllerBase):
         path='/{genomicSignatureId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllGenomicSignatureHistoryEvents',
@@ -147,7 +148,7 @@ class GenomicSignatureController(ControllerBase):
         path='/{genomicSignatureId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getGenomicSignatureHistoryEventById',
@@ -165,7 +166,7 @@ class GenomicSignatureController(ControllerBase):
         path='/{genomicSignatureId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertGenomicSignatureToHistoryEvent',

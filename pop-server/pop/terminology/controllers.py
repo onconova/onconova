@@ -28,14 +28,15 @@ def get_matching_score_expression(query, score):
 
 @api_controller(
     "/terminologies", 
-    # auth=[JWTAuth()], 
+    auth=[JWTAuth()], 
     tags=["Terminology"]
 )
 class TerminologyController(ControllerBase):
     @route.get(
         path='/{terminologyName}/concepts', 
         response={
-            200: Paginated[CodedConceptSchema]
+            200: Paginated[CodedConceptSchema],
+            401: None, 403: None,
         },
         operation_id='getTerminologyConcepts',
     )

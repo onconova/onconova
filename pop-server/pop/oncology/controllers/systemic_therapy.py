@@ -39,19 +39,20 @@ class SystemicTherapyController(ControllerBase):
     @route.post(
         path='', 
         response={
-            201: ModifiedResourceSchema
+            201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createSystemicTherapy',
     )
     def create_systemic_therapy(self, payload: SystemicTherapyCreateSchema): # type: ignore
-        return payload.model_dump_django().assign_therapy_line()
+        return 201, payload.model_dump_django().assign_therapy_line()
      
     @route.get(
         path='/{systemicTherapyId}', 
         response={
             200: SystemicTherapySchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyById',
@@ -63,7 +64,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteSystemicTherapyById',
@@ -80,7 +81,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateSystemicTherapy',
@@ -93,7 +94,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllSystemicTherapyHistoryEvents',
@@ -107,7 +108,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyHistoryEventById',
@@ -120,7 +121,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertSystemicTherapyToHistoryEvent',
@@ -136,7 +137,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications', 
         response={
             200: List[SystemicTherapyMedicationSchema],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyMedications',
@@ -149,7 +150,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications/{medicationId}', 
         response={
             200: SystemicTherapyMedicationSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyMedicationById',
@@ -161,20 +162,21 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications', 
         response={
             201: ModifiedResourceSchema,
+            401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createSystemicTherapyMedication',
     )
     def create_systemic_therapy_medication(self, systemicTherapyId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
         instance = SystemicTherapyMedication(systemic_therapy=get_object_or_404(SystemicTherapy, id=systemicTherapyId))
-        return payload.model_dump_django(instance=instance, create=True)
+        return 201, payload.model_dump_django(instance=instance, create=True)
         
 
     @route.put(
         path='/{systemicTherapyId}/medications/{medicationId}', 
        response={
             200: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='updateSystemicTherapyMedication',
@@ -188,7 +190,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications/{medicationId}', 
         response={
             204: None, 
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='deleteSystemicTherapyMedication',
@@ -204,7 +206,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications/{medicationId}/history/events', 
         response={
             200: Paginated[HistoryEvent],
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getAllSystemicTherapyMedicationHistoryEvents',
@@ -218,7 +220,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}', 
         response={
             200: HistoryEvent,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyMedicationHistoryEventById',
@@ -231,7 +233,7 @@ class SystemicTherapyController(ControllerBase):
         path='/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}/reversion', 
         response={
             201: ModifiedResourceSchema,
-            404: None,
+            404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='revertSystemicTherapyMedicationToHistoryEvent',
