@@ -7,11 +7,13 @@ from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaCo
 
 class PerformanceStatusSchema(ModelGetSchema):
     ecogInterpretation: Optional[CodedConceptSchema] = Field(
-            description='Official interpretation of the ECOG score',
-            alias='ecog_interpretation',
-            validation_alias=AliasChoices('ecogInterpretation', 'ecog_interpretation'),
+        default=None,
+        description='Official interpretation of the ECOG score',
+        alias='ecog_interpretation',
+        validation_alias=AliasChoices('ecogInterpretation', 'ecog_interpretation'),
     )
     karnofskyInterpretation: Optional[CodedConceptSchema] = Field(
+        default=None,
         description='Official interpretation of the Karnofsky score',
         alias='karnofsky_interpretation',
         validation_alias=AliasChoices('karnofskyInterpretation', 'karnofsky_interpretation'),
