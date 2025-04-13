@@ -1,3 +1,5 @@
+import pghistory 
+
 from django.db import models
 from django.db.models import Q, Min, Max, Func, Case, When, Value, F, Subquery, OuterRef
 from django.db.models.functions import Concat, Left, Greatest, Least, Lower, Upper, Concat, Coalesce
@@ -13,6 +15,7 @@ from pop.oncology.models import PatientCase, TreatmentResponse
 import pop.terminology.models as terminology
 
 
+@pghistory.track()
 class TherapyLine(BaseModel):
  
     objects = QueryablePropertiesManager()

@@ -28,6 +28,7 @@ import { ResourceTimelineComponent } from "../../../../../shared/components/reso
 export interface DataService {
     get: (caseId: string) => any;
     delete: (id: string) => any;
+    history: (id: string) => any;
 }
 
 @Component({
@@ -75,6 +76,7 @@ export class CaseManagerPanelComponent implements OnInit {
     public completedAt:  string | null = null;
     public drawerVisible: boolean = false;
     public drawerData: any = {};
+    public drawerHistory!: any;
     public entries: any[] = [];
     
 
@@ -156,8 +158,9 @@ export class CaseManagerPanelComponent implements OnInit {
     }
 
     showDrawer(data: any) {
-        this.drawerVisible = true
-        this.drawerData = data
+        this.drawerVisible = true;
+        this.drawerData = data;
+        this.drawerHistory = this.service.history(data.id).pipe(map((response: any) => response.items));
     }
 
     updateEntry(data: any) {

@@ -1,11 +1,12 @@
+import pghistory
+
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TreatmentResponse, TherapyLine
 
 from django.shortcuts import get_object_or_404
@@ -84,4 +85,44 @@ class TreatmentResponseController(ControllerBase):
         instance.delete()
         TherapyLine.assign_therapy_lines(case)
         return 204, None
+    
+    @route.get(
+        path='/{treatmentRresponseId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllTreatmentResponseHistoryEvents',
+    )
+    @paginate()
+    def get_all_treatment_response_history_events(self, treatmentRresponseId: str):
+        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{treatmentRresponseId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getTreatmentResponseHistoryEventById',
+    )
+    def get_treatment_response_history_event_by_id(self, treatmentRresponseId: str, eventId: str):
+        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{treatmentRresponseId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertTreatmentResponseToHistoryEvent',
+    )
+    def revert_treatment_response_to_history_event(self, treatmentRresponseId: str, eventId: str):
+        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
     

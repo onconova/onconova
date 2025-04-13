@@ -1,3 +1,4 @@
+import pghistory
 from uuid import UUID
 from pop.core.models import BaseModel, User
 from pop.interoperability.schemas import PatientCaseBundle
@@ -17,54 +18,49 @@ class BundleParserTest(TestCase):
     def setUpTestData(cls):
         # Simulate bundling in an external setting
         cls.original_user = factories.UserFactory()
-        cls.original_case = factories.PatientCaseFactory(created_by=cls.original_user)
-        basic = dict(case=cls.original_case, created_by=cls.original_user)
-        cls.original_primary_entity = factories.PrimaryNeoplasticEntityFactory(**basic)
-        cls.original_secondary_entity = factories.MetastaticNeoplasticEntityFactory(**basic, related_primary=cls.original_primary_entity)
-        related_entities = [cls.original_primary_entity, cls.original_secondary_entity]
-        cls.original_treatment_response = factories.TreatmentResponseFactory(**basic, assessed_entities=related_entities)
-        cls.original_risk_assessment = factories.RiskAssessmentFactory(**basic, assessed_entities=related_entities)
-        cls.original_tumor_marker = factories.TumorMarkerTestFactory(**basic, related_entities=related_entities)
-        cls.original_family_history = factories.FamilyHistoryFactory(**basic)
-        cls.original_lifestyle = factories.LifestyleFactory(**basic)
-        cls.original_vitals = factories.VitalsFactory(**basic)
-        cls.original_genomic_variant = factories.GenomicVariantFactory(**basic)
-        cls.original_performance_status = factories.PerformanceStatusFactory(**basic)
-        cls.original_comorbidities = factories.ComorbiditiesAssessmentFactory(**basic, index_condition=cls.original_primary_entity)
-        cls.original_systemic_therapy = factories.SystemicTherapyFactory(**basic, targeted_entities=related_entities, therapy_line=None)
-        cls.original_systemic_therapy_medication = factories.SystemicTherapyMedicationFactory(systemic_therapy=cls.original_systemic_therapy, created_by=cls.original_user)
-        cls.original_radiotherapy = factories.RadiotherapyFactory(**basic, targeted_entities=related_entities, therapy_line=None)
-        cls.original_radiotherapy_dosage = factories.RadiotherapyDosageFactory(radiotherapy=cls.original_radiotherapy, created_by=cls.original_user)
-        cls.original_radiotherapy_setting = factories.RadiotherapySettingFactory(radiotherapy=cls.original_radiotherapy, created_by=cls.original_user)
-        cls.original_adverse_event = factories.AdverseEventFactory(**basic)
-        cls.original_adverse_event_cause = factories.AdverseEventSuspectedCauseFactory(adverse_event=cls.original_adverse_event, created_by=cls.original_user, systemic_therapy=cls.original_systemic_therapy)
-        cls.original_adverse_event_mitigation = factories.AdverseEventMitigationFactory(adverse_event=cls.original_adverse_event, created_by=cls.original_user)
-        cls.bundle = PatientCaseBundle.model_validate(cls.original_case)
-        cls.original_staging = factories.TNMStagingFactory.create(**basic, staged_entities=related_entities)
-        cls.original_genomic_signature = factories.TumorMutationalBurdenFactory.create(**basic)
-        cls.original_tumor_board = factories.MolecularTumorBoardFactory(**basic, related_entities=related_entities)
-        cls.original_tumor_board_recommendation = factories.MolecularTherapeuticRecommendationFactory(molecular_tumor_board=cls.original_tumor_board, created_by=cls.original_user, supporting_genomic_variants=[cls.original_genomic_variant], supporting_tumor_markers=[], supporting_genomic_signatures=[])
-        # TODO: currently bugged in model_validate, can be removed once fixed
-        cls.bundle.stagings = [schemas.TNMStagingSchema.model_validate(cls.original_staging)] 
-        cls.bundle.genomicSignatures = [schemas.TumorMutationalBurdenSchema.model_validate(cls.original_genomic_signature)] 
-        cls.bundle.familyHistory = [schemas.FamilyHistorySchema.model_validate(cls.original_family_history)]
-        cls.bundle.tumorBoards = [schemas.MolecularTumorBoardSchema.model_validate(cls.original_tumor_board)]
-        # Remove all instances of the "external" resources
-        for resource in (
-            cls.original_user,
-            cls.original_case,
-        ):
-            resource.delete()
+        with pghistory.context(username=cls.original_user.username):
+            cls.original_case = factories.PatientCaseFactory()
+            basic = dict(case=cls.original_case)
+            cls.original_primary_entity = factories.PrimaryNeoplasticEntityFactory(**basic)
+            cls.original_secondary_entity = factories.MetastaticNeoplasticEntityFactory(**basic, related_primary=cls.original_primary_entity)
+            related_entities = [cls.original_primary_entity, cls.original_secondary_entity]
+            cls.original_treatment_response = factories.TreatmentResponseFactory(**basic, assessed_entities=related_entities)
+            cls.original_risk_assessment = factories.RiskAssessmentFactory(**basic, assessed_entities=related_entities)
+            cls.original_tumor_marker = factories.TumorMarkerTestFactory(**basic, related_entities=related_entities)
+            cls.original_family_history = factories.FamilyHistoryFactory(**basic)
+            cls.original_lifestyle = factories.LifestyleFactory(**basic)
+            cls.original_vitals = factories.VitalsFactory(**basic)
+            cls.original_genomic_variant = factories.GenomicVariantFactory(**basic)
+            cls.original_performance_status = factories.PerformanceStatusFactory(**basic)
+            cls.original_comorbidities = factories.ComorbiditiesAssessmentFactory(**basic, index_condition=cls.original_primary_entity)
+            cls.original_systemic_therapy = factories.SystemicTherapyFactory(**basic, targeted_entities=related_entities, therapy_line=None)
+            cls.original_systemic_therapy_medication = factories.SystemicTherapyMedicationFactory(systemic_therapy=cls.original_systemic_therapy)
+            cls.original_radiotherapy = factories.RadiotherapyFactory(**basic, targeted_entities=related_entities, therapy_line=None)
+            cls.original_radiotherapy_dosage = factories.RadiotherapyDosageFactory(radiotherapy=cls.original_radiotherapy)
+            cls.original_radiotherapy_setting = factories.RadiotherapySettingFactory(radiotherapy=cls.original_radiotherapy)
+            cls.original_adverse_event = factories.AdverseEventFactory(**basic)
+            cls.original_adverse_event_cause = factories.AdverseEventSuspectedCauseFactory(adverse_event=cls.original_adverse_event, systemic_therapy=cls.original_systemic_therapy)
+            cls.original_adverse_event_mitigation = factories.AdverseEventMitigationFactory(adverse_event=cls.original_adverse_event)
+            cls.bundle = PatientCaseBundle.model_validate(cls.original_case)
+            cls.original_staging = factories.TNMStagingFactory.create(**basic, staged_entities=related_entities)
+            cls.original_genomic_signature = factories.TumorMutationalBurdenFactory.create(**basic)
+            cls.original_tumor_board = factories.MolecularTumorBoardFactory(**basic, related_entities=related_entities)
+            cls.original_tumor_board_recommendation = factories.MolecularTherapeuticRecommendationFactory(molecular_tumor_board=cls.original_tumor_board, supporting_genomic_variants=[cls.original_genomic_variant], supporting_tumor_markers=[], supporting_genomic_signatures=[])
+            # TODO: currently bugged in model_validate, can be removed once fixed
+            cls.bundle.stagings = [schemas.TNMStagingSchema.model_validate(cls.original_staging)] 
+            cls.bundle.genomicSignatures = [schemas.TumorMutationalBurdenSchema.model_validate(cls.original_genomic_signature)] 
+            cls.bundle.familyHistory = [schemas.FamilyHistorySchema.model_validate(cls.original_family_history)]
+            cls.bundle.tumorBoards = [schemas.MolecularTumorBoardSchema.model_validate(cls.original_tumor_board)]
+            # Remove all instances of the "external" resources
+            for resource in (
+                cls.original_user,
+                cls.original_case,
+            ):
+                resource.delete()
         # Simulate parsing of the external bundle
         cls.importing_user = factories.UserFactory()
         cls.parser = BundleParser(cls.bundle)
         
-        
-    def _assert_metadata(self, imported_instance, original_instance):
-        # Ensure the metadata has been kept as in the bundle
-        self.assertNotEqual(imported_instance.id, original_instance.id)
-        self.assertEqual(imported_instance.created_by.username, original_instance.created_by.username)
-        self.assertEqual(imported_instance.created_at, original_instance.created_at)       
         
     def test_get_or_create_user_creates_external_user(self):
         """Test that a new user is created when not found."""
@@ -98,6 +94,7 @@ class BundleParserTest(TestCase):
         self.imported_case = self.parser.import_bundle()
         self.imported_primary_entity = models.NeoplasticEntity.objects.get(case=self.imported_case, relationship='primary')
         self.imported_secondary_entity = models.NeoplasticEntity.objects.get(case=self.imported_case, relationship='metastatic')
+        self.imported_systemic_therapy = models.SystemicTherapy.objects.get(case=self.imported_case)
         self.imported_radiotherapy = models.Radiotherapy.objects.get(case=self.imported_case)
 
     
@@ -107,26 +104,22 @@ class BundleParserTest(TestCase):
         imported_case = models.PatientCase.objects.get(clinical_identifier=self.original_case.clinical_identifier)
         self.assertEqual(imported_case.pseudoidentifier,  self.original_case.pseudoidentifier)
         self.assertEqual(imported_case.clinical_identifier, self.original_case.clinical_identifier)
-        self._assert_metadata(imported_case, self.original_case)
         
     def test_import_bundle__neoplastic_entities(self):
         self._import_bundle()
         # Ensure the primary neoplastic entity has been imported properly
         imported_primary_entity = models.NeoplasticEntity.objects.get(case=self.imported_case, relationship='primary')
         self.assertEqual(imported_primary_entity.description, self.original_primary_entity.description)
-        self._assert_metadata(imported_primary_entity, self.original_primary_entity)
         
         # Ensure the secondary neoplastic entity has been imported properly
         imported_secondary_entity = models.NeoplasticEntity.objects.get(case=self.imported_case, related_primary=imported_primary_entity)
         self.assertEqual(imported_secondary_entity.description, self.original_secondary_entity.description)
-        self._assert_metadata(imported_secondary_entity, self.original_secondary_entity)
         
     def test_import_bundle__tnm_stagings(self):
         self._import_bundle()
         # Ensure the staging has been imported properly
         imported_staging = models.TNMStaging.objects.get(case=self.imported_case)
         self.assertEqual(imported_staging.description,  self.original_staging.description)
-        self._assert_metadata(imported_staging, self.original_staging)
         # Check resolved references 
         self.assertIn(self.imported_primary_entity, imported_staging.staged_entities.all())
         self.assertIn(self.imported_secondary_entity, imported_staging.staged_entities.all())
@@ -137,10 +130,8 @@ class BundleParserTest(TestCase):
         imported_systemic_therapy = models.SystemicTherapy.objects.get(case=self.imported_case)
         imported_systemic_therapy_medication = imported_systemic_therapy.medications.first()
         self.assertEqual(imported_systemic_therapy.period,  self.original_systemic_therapy.period)
-        self._assert_metadata(imported_systemic_therapy, self.original_systemic_therapy)
         # Check nested resources
         self.assertEqual(imported_systemic_therapy_medication.description,  self.original_systemic_therapy_medication.description)
-        self._assert_metadata(imported_systemic_therapy_medication, self.original_systemic_therapy)
         # Check resolved references 
         self.assertIn(self.imported_primary_entity, imported_systemic_therapy.targeted_entities.all())
         self.assertIn(self.imported_secondary_entity, imported_systemic_therapy.targeted_entities.all())
@@ -151,12 +142,9 @@ class BundleParserTest(TestCase):
         imported_radiotherapy = models.Radiotherapy.objects.get(case=self.imported_case)
         imported_radiotherapy_dosage = imported_radiotherapy.dosages.first()
         imported_radiotherapy_setting = imported_radiotherapy.settings.first()
-        self._assert_metadata(imported_radiotherapy, self.original_radiotherapy)
         # Check nested resources
         self.assertEqual(imported_radiotherapy_dosage.description,  self.original_radiotherapy_dosage.description)
-        self._assert_metadata(imported_radiotherapy_dosage, self.original_radiotherapy)
         self.assertEqual(imported_radiotherapy_setting.description,  self.original_radiotherapy_setting.description)
-        self._assert_metadata(imported_radiotherapy_setting, self.original_radiotherapy)
         # Check resolved references 
         self.assertIn(self.imported_primary_entity, imported_radiotherapy.targeted_entities.all())
         self.assertIn(self.imported_secondary_entity, imported_radiotherapy.targeted_entities.all())
@@ -166,49 +154,41 @@ class BundleParserTest(TestCase):
         # Ensure the genomic variant has been imported properly
         imported_genomic_variant = models.GenomicVariant.objects.get(case=self.imported_case)
         self.assertEqual(imported_genomic_variant.protein_hgvs,  self.original_genomic_variant.protein_hgvs)
-        self._assert_metadata(imported_genomic_variant, self.original_genomic_variant)
         
     def test_import_bundle__risk_assessments(self):
         self._import_bundle()
         # Ensure the risk assessment has been imported properly
         imported_risk_assessment = models.RiskAssessment.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_risk_assessment, self.original_risk_assessment)
         
     def test_import_bundle__family_histories(self):
         self._import_bundle()
         # Ensure the family history has been imported properly
         imported_family_history = models.FamilyHistory.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_family_history, self.original_family_history)
         
     def test_import_bundle__comorbidities(self):
         self._import_bundle()
         # Ensure the comordbities has been imported properly
         imported_comorbidity = models.ComorbiditiesAssessment.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_comorbidity, self.original_comorbidities)
         
     def test_import_bundle__lifestyles(self):
         self._import_bundle()
         # Ensure the lifestyle has been imported properly
         imported_lifestyle = models.Lifestyle.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_lifestyle, self.original_lifestyle)
         
     def test_import_bundle__vitals(self):
         self._import_bundle()
         # Ensure the vitals has been imported properly
         imported_vitals = models.Vitals.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_vitals, self.original_vitals)
         
     def test_import_bundle__tumor_markers(self):
         self._import_bundle()
         # Ensure the tumor marker has been imported properly
         imported_tumor_marker = models.TumorMarker.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_tumor_marker, self.original_tumor_marker)
 
     def test_import_bundle__treatment_response(self):
         self._import_bundle()
         # Ensure the treatment response has been imported properly
         imported_treatment_response = models.TreatmentResponse.objects.get(case=self.imported_case)
-        self._assert_metadata(imported_treatment_response, self.original_treatment_response)
 
     def test_import_bundle__adverse_events(self):
         self._import_bundle()
@@ -216,34 +196,27 @@ class BundleParserTest(TestCase):
         imported_adverse_event = models.AdverseEvent.objects.get(case=self.imported_case)
         imported_adverse_event_cause = imported_adverse_event.suspected_causes.first()
         imported_adverse_event_mitigation = imported_adverse_event.mitigations.first()
-        self._assert_metadata(imported_adverse_event, self.original_adverse_event)
         # Check nested resources
         self.assertEqual(imported_adverse_event_cause.causality,  self.original_adverse_event_cause.causality)
-        self.assertEqual(imported_adverse_event_cause.radiotherapy,  self.imported_radiotherapy)
-        self._assert_metadata(imported_adverse_event_cause, self.original_adverse_event)
+        self.assertEqual(imported_adverse_event_cause.systemic_therapy,  self.imported_systemic_therapy)
         self.assertEqual(imported_adverse_event_mitigation.description,  self.original_adverse_event_mitigation.description)
-        self._assert_metadata(imported_adverse_event_mitigation, self.original_adverse_event)
         
     def test_import_bundle__genomic_signatures(self):
         self._import_bundle()
         # Ensure the genomic signature has been imported properly
         imported_genomic_signature = models.TumorMutationalBurden.objects.get(case=self.imported_case)
         self.assertEqual(imported_genomic_signature.description,  self.original_genomic_signature.description)
-        self._assert_metadata(imported_genomic_signature, self.original_genomic_signature)
 
     def test_import_bundle__performance_status(self):
         self._import_bundle()
         # Ensure the performance status has been imported properly
         imported_performance_status = models.PerformanceStatus.objects.get(case=self.imported_case)
         self.assertEqual(imported_performance_status.description,  self.original_performance_status.description)
-        self._assert_metadata(imported_performance_status, self.original_performance_status)
 
     def test_import_bundle__molecular_tumor_boards(self):
         self._import_bundle()
         # Ensure the adverse event has been imported properly
         imported_molecular_tumor_board = models.MolecularTumorBoard.objects.get(case=self.imported_case)
         imported_molecular_tumor_board_recommendation = imported_molecular_tumor_board.therapeutic_recommendations.first()
-        self._assert_metadata(imported_molecular_tumor_board, self.original_tumor_board)
         # Check nested resources
-        self._assert_metadata(imported_molecular_tumor_board_recommendation, self.original_tumor_board)
         

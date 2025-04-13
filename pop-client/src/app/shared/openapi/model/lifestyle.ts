@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { Measure } from './measure';
 
@@ -17,15 +16,6 @@ export interface Lifestyle {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -41,15 +31,21 @@ export interface Lifestyle {
     smokingQuited?: Measure | null;
     alcoholConsumption?: CodedConcept | null;
     nightSleep?: Measure | null;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     recreationalDrugs?: Array<CodedConcept> | null;
     exposures?: Array<CodedConcept> | null;
     /**
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 

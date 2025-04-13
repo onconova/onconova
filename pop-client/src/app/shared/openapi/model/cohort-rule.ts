@@ -8,7 +8,7 @@
  * Do not edit the class manually.
  */
 import { CohortQueryEntity } from './cohort-query-entity';
-import { CohortQueryFilter } from './cohort-query-filter';
+import { CohortRuleFilter } from './cohort-rule-filter';
 
 
 export interface CohortRule { 
@@ -17,14 +17,9 @@ export interface CohortRule {
      */
     entity: CohortQueryEntity;
     /**
-     * Dot-separated path of the resource field (e.g. \'medications.drug\')
+     * List of filters to be applied to the resource
      */
-    field: string;
-    /**
-     * Name of the filter operator to be applied to the field
-     */
-    operator: CohortQueryFilter;
-    value: any | null;
+    filters: Array<CohortRuleFilter>;
 }
 export namespace CohortRule {
 }

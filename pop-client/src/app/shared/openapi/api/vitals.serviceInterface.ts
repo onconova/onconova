@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedVitals } from '../model/models';
 import { Vitals } from '../model/models';
 import { VitalsCreate } from '../model/models';
@@ -26,6 +28,12 @@ export interface CreateVitalsRequestParams {
 
 export interface DeleteVitalsByIdRequestParams {
     vitalsId: string;
+}
+
+export interface GetAllVitalsHistoryEventsRequestParams {
+    vitalsId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetVitalsRequestParams {
@@ -121,6 +129,16 @@ export interface GetVitalsByIdRequestParams {
     vitalsId: string;
 }
 
+export interface GetVitalsHistoryEventByIdRequestParams {
+    vitalsId: string;
+    eventId: string;
+}
+
+export interface RevertVitalsToHistoryEventRequestParams {
+    vitalsId: string;
+    eventId: string;
+}
+
 export interface UpdateVitalsByIdRequestParams {
     vitalsId: string;
     vitalsCreate: VitalsCreate;
@@ -146,6 +164,13 @@ export interface VitalsServiceInterface {
     deleteVitalsById(requestParameters: DeleteVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Vitals History Events
+     * 
+* @param requestParameters
+     */
+    getAllVitalsHistoryEvents(requestParameters: GetAllVitalsHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get All Vitals Matching The Query
      * 
 * @param requestParameters
@@ -158,6 +183,20 @@ export interface VitalsServiceInterface {
 * @param requestParameters
      */
     getVitalsById(requestParameters: GetVitalsByIdRequestParams, extraHttpRequestParams?: any): Observable<Vitals>;
+
+    /**
+     * Get Vitals History Event By Id
+     * 
+* @param requestParameters
+     */
+    getVitalsHistoryEventById(requestParameters: GetVitalsHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
+     * Revert Vitals To History Event
+     * 
+* @param requestParameters
+     */
+    revertVitalsToHistoryEvent(requestParameters: RevertVitalsToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Vitals

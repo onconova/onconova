@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 
 
@@ -16,15 +15,6 @@ export interface RiskAssessment {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -45,10 +35,6 @@ export interface RiskAssessment {
     risk: CodedConcept;
     score?: number | null;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * References to the neoplastic entities that were assessed to estimate the risk.
      */
     assessedEntitiesIds?: Array<string>;
@@ -56,5 +42,15 @@ export interface RiskAssessment {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 

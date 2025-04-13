@@ -12,10 +12,12 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyTumorBoard } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { MolecularTherapeuticRecommendation } from '../model/models';
 import { MolecularTherapeuticRecommendationCreate } from '../model/models';
 import { PaginatedAnyTumorBoard } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { Payload1 } from '../model/models';
 
 
@@ -40,9 +42,28 @@ export interface DeleteTumorBoardByIdRequestParams {
     tumorBoardId: string;
 }
 
+export interface GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams {
+    tumorBoardId: string;
+    recommendationId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetAllTumorBoardHistoryEventsRequestParams {
+    tumorBoardId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetMOlecularTherapeuticRecommendationByIdRequestParams {
     tumorBoardId: string;
     recommendationId: string;
+}
+
+export interface GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams {
+    tumorBoardId: string;
+    recommendationId: string;
+    eventId: string;
 }
 
 export interface GetMolecularTherapeuticRecommendationsRequestParams {
@@ -51,6 +72,11 @@ export interface GetMolecularTherapeuticRecommendationsRequestParams {
 
 export interface GetTumorBoardByIdRequestParams {
     tumorBoardId: string;
+}
+
+export interface GetTumorBoardHistoryEventByIdRequestParams {
+    tumorBoardId: string;
+    eventId: string;
 }
 
 export interface GetTumorBoardsRequestParams {
@@ -91,6 +117,17 @@ export interface GetTumorBoardsRequestParams {
     recommendationsNotAllOf?: Array<string>;
     limit?: number;
     offset?: number;
+}
+
+export interface RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams {
+    tumorBoardId: string;
+    recommendationId: string;
+    eventId: string;
+}
+
+export interface RevertTumorBoardToHistoryEventRequestParams {
+    tumorBoardId: string;
+    eventId: string;
 }
 
 export interface UpdateMolecularTherapeuticRecommendationRequestParams {
@@ -138,11 +175,32 @@ export interface TumorBoardsServiceInterface {
     deleteTumorBoardById(requestParameters: DeleteTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Molecular Tumor Board Therapeutic History Events
+     * 
+* @param requestParameters
+     */
+    getAllMolecularTherapeuticRecommendationHistoryEvents(requestParameters: GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Get All Tumor Board History Events
+     * 
+* @param requestParameters
+     */
+    getAllTumorBoardHistoryEvents(requestParameters: GetAllTumorBoardHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Molecular Tumor Board Therapeutic Recommendation By Id
      * 
 * @param requestParameters
      */
     getMOlecularTherapeuticRecommendationById(requestParameters: GetMOlecularTherapeuticRecommendationByIdRequestParams, extraHttpRequestParams?: any): Observable<MolecularTherapeuticRecommendation>;
+
+    /**
+     * Get Molecular Tumor Board Therapeutic History Event By Id
+     * 
+* @param requestParameters
+     */
+    getMolecularTherapeuticRecommendationHistoryEventById(requestParameters: GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
 
     /**
      * Get Molecular Tumor Board Therapeutic Recommendations Matching The Query
@@ -159,11 +217,32 @@ export interface TumorBoardsServiceInterface {
     getTumorBoardById(requestParameters: GetTumorBoardByIdRequestParams, extraHttpRequestParams?: any): Observable<AnyTumorBoard>;
 
     /**
+     * Get Tumor Board History Event By Id
+     * 
+* @param requestParameters
+     */
+    getTumorBoardHistoryEventById(requestParameters: GetTumorBoardHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Tumor Boards Matching The Query
      * 
 * @param requestParameters
      */
     getTumorBoards(requestParameters: GetTumorBoardsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAnyTumorBoard>;
+
+    /**
+     * Revert Molecular Tumor Board Therapeutic To History Event
+     * 
+* @param requestParameters
+     */
+    revertMolecularTherapeuticRecommendationToHistoryEvent(requestParameters: RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revert Tumor Board To History Event
+     * 
+* @param requestParameters
+     */
+    revertTumorBoardToHistoryEvent(requestParameters: RevertTumorBoardToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Molecular Tumor Board Therapeutic Recommendation

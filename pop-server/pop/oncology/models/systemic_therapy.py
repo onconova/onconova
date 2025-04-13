@@ -1,3 +1,4 @@
+import pghistory
 
 from django.db import models
 from django.db.models import ExpressionWrapper, Value, Func, F, Q, When, Case
@@ -17,6 +18,7 @@ import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies 
 import pop.core.measures as measures
 
+@pghistory.track()
 class SystemicTherapy(BaseModel):
     
     objects = QueryablePropertiesManager()
@@ -67,6 +69,12 @@ class SystemicTherapy(BaseModel):
         choices = TreatmentIntent,
         max_length=30,
     )
+    adjunctive_role = termfields.CodedConceptField(
+        verbose_name = _('Treatment Role'),
+        help_text = _("Indicates the role of the adjunctive therapy (if applicable)."),
+        terminology = terminologies.AdjunctiveTherapyRole,
+        null=True, blank=True,
+    )
     is_adjunctive = models.GeneratedField(
         verbose_name = _('Treatment Role'),
         help_text = _("Indicates whether it is adjunctive therapy instead of a primary therapy "),        
@@ -77,12 +85,6 @@ class SystemicTherapy(BaseModel):
         ),
         output_field = models.BooleanField(),
         db_persist = True,
-    )
-    adjunctive_role = termfields.CodedConceptField(
-        verbose_name = _('Treatment Role'),
-        help_text = _("Indicates the role of the adjunctive therapy (if applicable)."),
-        terminology = terminologies.AdjunctiveTherapyRole,
-        null=True, blank=True,
     )
     termination_reason = termfields.CodedConceptField(
         verbose_name = _('Termination reason'),
@@ -116,6 +118,7 @@ class SystemicTherapy(BaseModel):
         self.refresh_from_db()
         return self
 
+@pghistory.track()
 class SystemicTherapyMedication(BaseModel):
 
     systemic_therapy = models.ForeignKey(

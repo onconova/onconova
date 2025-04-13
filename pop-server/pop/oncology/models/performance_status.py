@@ -1,3 +1,4 @@
+import pghistory
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -19,6 +20,7 @@ KARNOFSKY_INTEPRETATION = {
     90: 'LA29176-7', 100: 'LA29175-9',
 }
 
+@pghistory.track()
 class PerformanceStatus(BaseModel):
  
     case = models.ForeignKey(

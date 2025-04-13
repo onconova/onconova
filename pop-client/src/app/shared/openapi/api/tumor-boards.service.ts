@@ -19,6 +19,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { AnyTumorBoard } from '../model/any-tumor-board';
 // @ts-ignore
+import { HistoryEvent } from '../model/history-event';
+// @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { MolecularTherapeuticRecommendation } from '../model/molecular-therapeutic-recommendation';
@@ -26,6 +28,8 @@ import { MolecularTherapeuticRecommendation } from '../model/molecular-therapeut
 import { MolecularTherapeuticRecommendationCreate } from '../model/molecular-therapeutic-recommendation-create';
 // @ts-ignore
 import { PaginatedAnyTumorBoard } from '../model/paginated-any-tumor-board';
+// @ts-ignore
+import { PaginatedHistoryEvent } from '../model/paginated-history-event';
 // @ts-ignore
 import { Payload1 } from '../model/payload1';
 
@@ -39,10 +43,16 @@ import {
     CreateTumorBoardRequestParams,
     DeleteMolecularTherapeuticRecommendationRequestParams,
     DeleteTumorBoardByIdRequestParams,
+    GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams,
+    GetAllTumorBoardHistoryEventsRequestParams,
     GetMOlecularTherapeuticRecommendationByIdRequestParams,
+    GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams,
     GetMolecularTherapeuticRecommendationsRequestParams,
     GetTumorBoardByIdRequestParams,
+    GetTumorBoardHistoryEventByIdRequestParams,
     GetTumorBoardsRequestParams,
+    RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams,
+    RevertTumorBoardToHistoryEventRequestParams,
     UpdateMolecularTherapeuticRecommendationRequestParams,
     UpdateTumorBoardByIdRequestParams
 } from './tumor-boards.serviceInterface';
@@ -313,6 +323,142 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
     }
 
     /**
+     * Get All Molecular Tumor Board Therapeutic History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllMolecularTherapeuticRecommendationHistoryEvents(requestParameters: GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllMolecularTherapeuticRecommendationHistoryEvents(requestParameters: GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllMolecularTherapeuticRecommendationHistoryEvents(requestParameters: GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllMolecularTherapeuticRecommendationHistoryEvents(requestParameters: GetAllMolecularTherapeuticRecommendationHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
+        if (tumorBoardId === null || tumorBoardId === undefined) {
+            throw new Error('Required parameter tumorBoardId was null or undefined when calling getAllMolecularTherapeuticRecommendationHistoryEvents.');
+        }
+        const recommendationId = requestParameters?.recommendationId;
+        if (recommendationId === null || recommendationId === undefined) {
+            throw new Error('Required parameter recommendationId was null or undefined when calling getAllMolecularTherapeuticRecommendationHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/${this.configuration.encodeParam({name: "recommendationId", value: recommendationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Tumor Board History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllTumorBoardHistoryEvents(requestParameters: GetAllTumorBoardHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllTumorBoardHistoryEvents(requestParameters: GetAllTumorBoardHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllTumorBoardHistoryEvents(requestParameters: GetAllTumorBoardHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllTumorBoardHistoryEvents(requestParameters: GetAllTumorBoardHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
+        if (tumorBoardId === null || tumorBoardId === undefined) {
+            throw new Error('Required parameter tumorBoardId was null or undefined when calling getAllTumorBoardHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get Molecular Tumor Board Therapeutic Recommendation By Id
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -361,6 +507,71 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
 
         let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/${this.configuration.encodeParam({name: "recommendationId", value: recommendationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<MolecularTherapeuticRecommendation>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Molecular Tumor Board Therapeutic History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getMolecularTherapeuticRecommendationHistoryEventById(requestParameters: GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getMolecularTherapeuticRecommendationHistoryEventById(requestParameters: GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getMolecularTherapeuticRecommendationHistoryEventById(requestParameters: GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getMolecularTherapeuticRecommendationHistoryEventById(requestParameters: GetMolecularTherapeuticRecommendationHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
+        if (tumorBoardId === null || tumorBoardId === undefined) {
+            throw new Error('Required parameter tumorBoardId was null or undefined when calling getMolecularTherapeuticRecommendationHistoryEventById.');
+        }
+        const recommendationId = requestParameters?.recommendationId;
+        if (recommendationId === null || recommendationId === undefined) {
+            throw new Error('Required parameter recommendationId was null or undefined when calling getMolecularTherapeuticRecommendationHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getMolecularTherapeuticRecommendationHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/${this.configuration.encodeParam({name: "recommendationId", value: recommendationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -475,6 +686,67 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
 
         let localVarPath = `/api/tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<AnyTumorBoard>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Tumor Board History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getTumorBoardHistoryEventById(requestParameters: GetTumorBoardHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getTumorBoardHistoryEventById(requestParameters: GetTumorBoardHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getTumorBoardHistoryEventById(requestParameters: GetTumorBoardHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getTumorBoardHistoryEventById(requestParameters: GetTumorBoardHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
+        if (tumorBoardId === null || tumorBoardId === undefined) {
+            throw new Error('Required parameter tumorBoardId was null or undefined when calling getTumorBoardHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getTumorBoardHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -668,6 +940,132 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Molecular Tumor Board Therapeutic To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertMolecularTherapeuticRecommendationToHistoryEvent(requestParameters: RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertMolecularTherapeuticRecommendationToHistoryEvent(requestParameters: RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertMolecularTherapeuticRecommendationToHistoryEvent(requestParameters: RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertMolecularTherapeuticRecommendationToHistoryEvent(requestParameters: RevertMolecularTherapeuticRecommendationToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
+        if (tumorBoardId === null || tumorBoardId === undefined) {
+            throw new Error('Required parameter tumorBoardId was null or undefined when calling revertMolecularTherapeuticRecommendationToHistoryEvent.');
+        }
+        const recommendationId = requestParameters?.recommendationId;
+        if (recommendationId === null || recommendationId === undefined) {
+            throw new Error('Required parameter recommendationId was null or undefined when calling revertMolecularTherapeuticRecommendationToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertMolecularTherapeuticRecommendationToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/molecular-tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/therapeutic-recommendations/${this.configuration.encodeParam({name: "recommendationId", value: recommendationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Tumor Board To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertTumorBoardToHistoryEvent(requestParameters: RevertTumorBoardToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertTumorBoardToHistoryEvent(requestParameters: RevertTumorBoardToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertTumorBoardToHistoryEvent(requestParameters: RevertTumorBoardToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertTumorBoardToHistoryEvent(requestParameters: RevertTumorBoardToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const tumorBoardId = requestParameters?.tumorBoardId;
+        if (tumorBoardId === null || tumorBoardId === undefined) {
+            throw new Error('Required parameter tumorBoardId was null or undefined when calling revertTumorBoardToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertTumorBoardToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/tumor-boards/${this.configuration.encodeParam({name: "tumorBoardId", value: tumorBoardId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

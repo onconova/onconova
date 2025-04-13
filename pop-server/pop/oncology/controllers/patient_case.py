@@ -1,4 +1,4 @@
-from enum import Enum
+import pghistory.models
 
 from ninja import Query
 from ninja.schema import Schema, Field
@@ -9,8 +9,9 @@ from ninja_extra import api_controller, ControllerBase, route
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
+
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,
@@ -101,11 +102,51 @@ class PatientCaseController(ControllerBase):
         instance.delete()
         return 204, None
     
+    @route.get(
+        path='/{caseId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllPatientCaseHistoryEvents',
+    )
+    @paginate()
+    def get_all_patient_case_history_events(self, caseId: str):
+        instance = get_object_or_404(PatientCase, id=caseId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{caseId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getPatientCaseHistoryEventById',
+    )
+    def get_patient_case_history_event_by_id(self, caseId: str, eventId: str):
+        instance = get_object_or_404(PatientCase, id=caseId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{caseId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertPatientCaseToHistoryEvent',
+    )
+    def revert_patient_case_to_history_event(self, caseId: str, eventId: str):
+        instance = get_object_or_404(PatientCase, id=caseId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path='/{caseId}/data-completion/{category}', 
         response={
             200: PatientCaseDataCompletionStatusSchema,
+            404: None,
         },
         permissions=[perms.CanViewCases],
         operation_id='getPatientCaseDataCompletionStatus',
@@ -114,7 +155,7 @@ class PatientCaseController(ControllerBase):
         category_completion = PatientCaseDataCompletion.objects.filter(case__id=caseId, category=category).first()
         return PatientCaseDataCompletionStatusSchema(
                 status=category_completion is not None,
-                username=category_completion.created_by.username if category_completion else None,
+                username=category_completion.created_by if category_completion else None,
                 timestamp=category_completion.created_at if category_completion else None,
         )
         
@@ -122,6 +163,7 @@ class PatientCaseController(ControllerBase):
         path='/{caseId}/data-completion/{category}', 
         response={
             201: ModifiedResourceSchema,
+            404: None,
         },
         permissions=[perms.CanManageCases],
         operation_id='createPatientCaseDataCompletion',
@@ -145,7 +187,7 @@ class PatientCaseController(ControllerBase):
 
 @api_controller(
     'others', 
-    # auth=[JWTAuth()], 
+    auth=[JWTAuth()], 
     tags=['Patient Cases'],  
 )
 class OthersController(ControllerBase):

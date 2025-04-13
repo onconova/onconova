@@ -1,16 +1,23 @@
+import pghistory
+import pghistory.models
 
 from django.test import TestCase
 from django.db.models import Model
+
 from pop.oncology import models, schemas
 from pop.tests import factories, common 
+from pop.core.schemas import HistoryEvent
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
+from copy import deepcopy
 from parameterized import parameterized
+import pytest 
 
 class ApiControllerTextMixin(common.ApiControllerTestMixin):
     FACTORY: factories.factory.django.DjangoModelFactory
     MODEL: Model
     SCHEMA: ModelGetSchema
     CREATE_SCHEMA: ModelCreateSchema      
+    history_tracked: bool = True 
 
     @classmethod
     def setUpTestData(cls):
@@ -21,8 +28,16 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
         cls.MODEL = [cls.MODEL]*cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
         cls.SCHEMA = [cls.SCHEMA]*cls.SUBTESTS if not isinstance(cls.SCHEMA, list) else cls.SCHEMA
         cls.CREATE_SCHEMA = [cls.CREATE_SCHEMA]*cls.SUBTESTS if not isinstance(cls.CREATE_SCHEMA, list) else cls.CREATE_SCHEMA        
-        cls.INSTANCES = [factory(created_by=cls.user) for factory in cls.FACTORY]      
-        cls.PAYLOADS = [schema.model_validate(instance).model_dump(mode='json') for schema, instance in zip(cls.CREATE_SCHEMA, cls.INSTANCES)]
+        cls.INSTANCE = []
+        cls.CREATE_PAYLOAD = []
+        cls.UPDATE_PAYLOAD = []
+        for factory, schema in zip(cls.FACTORY, cls.CREATE_SCHEMA):
+            with pghistory.context(username=cls.user.username):
+                instance1, instance2  = factory.create_batch(2)
+                cls.INSTANCE.append(instance1)
+                cls.CREATE_PAYLOAD.append(schema.model_validate(instance1).model_dump(mode='json'))
+                cls.UPDATE_PAYLOAD.append(schema.model_validate(instance2).model_dump(mode='json'))
+                instance2.delete()
         
     def _remove_key_recursive(self, dictionary, keys_to_remove):
         """
@@ -53,7 +68,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_all(self, scenario, config):            
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
+            instance = self.INSTANCE[i]
             # Call the API endpoint
             response = self.call_api_endpoint('GET', self.get_route_url(instance), **config)
             with self.subTest(i=i):
@@ -65,16 +80,18 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     else:
                         entry = response.json()[0]
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
+                    print(entry)
                     result = self.SCHEMA[i].model_validate(entry).model_dump()
-                    expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
-                    result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
+                    if self.history_tracked:
+                        expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
+                        result['createdAt'] = result['createdAt'].replace(microsecond=0)
                     self.assertEqual(expected, result)
                 self.MODEL[i].objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_by_id(self, scenario, config):              
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
+            instance = self.INSTANCE[i]
             # Call the API endpoint
             response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):
@@ -83,15 +100,16 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertEqual(response.status_code, 200)
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
                     result = self.SCHEMA[i].model_validate(response.json()).model_dump()
-                    expected = self._remove_key_recursive(expected, ['updatedAt', 'createdAt'])
-                    result = self._remove_key_recursive(result, ['updatedAt', 'createdAt'])
+                    if self.history_tracked:
+                        expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
+                        result['createdAt'] = result['createdAt'].replace(microsecond=0)
                     self.assertDictEqual(result, expected)
                 self.MODEL[i].objects.all().delete()
     
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_delete(self, scenario, config):            
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
+            instance = self.INSTANCE[i]
             # Call the API endpoint
             response = self.call_api_endpoint('DELETE', self.get_route_url_with_id(instance), **config)
             with self.subTest(i=i):       
@@ -99,13 +117,14 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 204)
                     self.assertFalse(self.MODEL[i].objects.filter(id=instance.id).exists())
+                    # Assert audit trail
+                    if self.history_tracked:
+                        self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='delete').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_create(self, scenario, config):                  
-        for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
-            payload = self.PAYLOADS[i]
+        for i,(instance, payload, model) in enumerate(zip(self.INSTANCE, self.CREATE_PAYLOAD, self.MODEL)):
             instance.delete()
             # Call the API endpoint.
             response = self.call_api_endpoint('POST', self.get_route_url(instance), data=payload, **config)
@@ -113,18 +132,19 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
                     created_id = response.json()['id']
-                    self.assertEqual(response.status_code, 201)
-                    created_instance = self.MODEL[i].objects.filter(id=created_id).first()
-                    self.assertIsNotNone(created_instance)
-                    self.assertEqual(self.user,created_instance.created_by)
-                    self.assertIn(self.user, created_instance.updated_by.all())
-                self.MODEL[i].objects.all().delete()
+                    created_instance = model.objects.filter(id=created_id).first()
+                    self.assertIsNotNone(created_instance, 'Resource has not been created')
+                    # Assert audit trail
+                    if self.history_tracked:
+                        self.assertEqual(self.user.username, created_instance.created_by, 'Unexpected creator user.')
+                        self.assertTrue(created_instance.events.filter(pgh_label='create').exists(), 'Event not properly registered')
+                model.objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update(self, scenario, config):              
         for i in range(self.SUBTESTS):
-            instance = self.INSTANCES[i]
-            payload = self.PAYLOADS[i]
+            instance = self.INSTANCE[i]
+            payload = self.UPDATE_PAYLOAD[i]
             with self.subTest(i=i):      
                 # Call the API endpoint
                 response = self.call_api_endpoint('PUT', self.get_route_url_with_id(instance), data=payload, **config)
@@ -134,12 +154,94 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     self.assertEqual(response.status_code, 200) 
                     updated_instance =self.MODEL[i].objects.filter(id=updated_id).first() 
                     self.assertIsNotNone(updated_instance, 'The updated instance does not exist') 
-                    self.assertEqual(instance.created_by, updated_instance.created_by) 
-                    self.assertIn(self.user, updated_instance.updated_by.all()) 
+                    self.assertNotEqual(
+                        [getattr(instance,field.name) for field in self.MODEL[i]._meta.concrete_fields],
+                        [getattr(updated_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields]
+                    )
+                    # Assert audit trail
+                    if self.history_tracked:
+                        self.assertIn(self.user.username, updated_instance.updated_by, 'The updating user is not registered') 
+                        self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='update').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete() 
                
-                
+
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_all_history_events(self, scenario, config):            
+        for i in range(self.SUBTESTS):
+            if not hasattr(self.MODEL[i],'pgh_event_model'):
+                pytest.skip("Non-tracked model")
+            instance = self.INSTANCE[i]
+            # Call the API endpoint
+            response = self.call_api_endpoint('GET', self.get_route_url_history(instance), **config)
+            with self.subTest(i=i):
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    self.assertEqual(response.status_code, 200)
+                    entry = next((item for item in response.json()['items']))
+                    print(entry)
+                    self.assertEqual(entry['category'], 'create')
+                    self.assertEqual(entry['user'], self.user.username)
+                    self.assertEqual(entry['snapshot']['id'], str(instance.id))                    
+                self.MODEL[i].objects.all().delete()
     
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_history_events_by_id(self, scenario, config):            
+        for i in range(self.SUBTESTS):
+            if not hasattr(self.MODEL[i],'pgh_event_model'):
+                pytest.skip("Non-tracked model")
+            instance = self.INSTANCE[i]
+            if hasattr(instance, 'parent_events'):
+                event = instance.parent_events.first()
+            else:
+                event = instance.events.first() 
+            # Call the API endpoint
+            response = self.call_api_endpoint('GET', self.get_route_url_history_with_id(instance, event), **config)
+            with self.subTest(i=i):
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    self.assertEqual(response.status_code, 200)
+                    entry = response.json()
+                    print(entry)
+                    self.assertEqual(entry['id'], event.pgh_id)
+                    self.assertEqual(entry['user'], event.pgh_context['username'])
+                    self.assertEqual(entry['snapshot']['id'], str(event.id))                    
+                self.MODEL[i].objects.all().delete()
+
+    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    def test_revert_changes(self, scenario, config):  
+        for i in range(self.SUBTESTS):  
+            if not hasattr(self.MODEL[i],'pgh_event_model'):
+                pytest.skip("Non-tracked model")
+            original_instance = self.INSTANCE[i]
+            original_instance =self.MODEL[i].objects.filter(pk=original_instance.pk).first() 
+            payload = self.UPDATE_PAYLOAD[i]
+            updated_instance = self.CREATE_SCHEMA[i].model_validate(payload).model_dump_django(instance=deepcopy(original_instance))
+            if hasattr(original_instance, 'parent_events'):
+                insert_event = original_instance.parent_events.filter(pgh_label='create').first()
+            else:
+                insert_event = original_instance.events.filter(pgh_label='create').first()
+            response = self.call_api_endpoint('PUT', self.get_route_url_history_revert(original_instance, insert_event), **config)
+            with self.subTest(i=i):
+                # Assert response content
+                if scenario == 'HTTPS Authenticated':
+                    updated_id = response.json()['id']
+                    reverted_instance =self.MODEL[i].objects.filter(id=updated_id).first() 
+                    self.assertIsNotNone(reverted_instance, 'The updated instance does not exist')
+                    self.assertNotEqual(
+                        [getattr(original_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields],
+                        [getattr(updated_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields]
+                    )
+                    self.assertNotEqual(
+                        [getattr(reverted_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields],
+                        [getattr(updated_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields]
+                    )
+                    self.assertEqual(
+                        [getattr(reverted_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields],
+                        [getattr(original_instance,field.name) for field in self.MODEL[i]._meta.concrete_fields]
+                    )
+                self.MODEL[i].objects.all().delete()
+
+
 class TestPatientCaseController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/patient-cases'
     FACTORY = factories.PatientCaseFactory
@@ -213,6 +315,16 @@ class TestSystemicTherapyMedicationController(ApiControllerTextMixin, TestCase):
     def get_route_url_with_id(self, instance):
         return f'/{instance.systemic_therapy.id}/medications/{instance.id}'
 
+    def get_route_url_history(self, instance):
+        return f'/{instance.systemic_therapy.id}/medications/{instance.id}/history/events'
+    
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.systemic_therapy.id}/medications/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.systemic_therapy.id}/medications/{instance.id}/history/events/{event.pgh_id}/reversion'
+    
+
 class TestSurgeryController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/surgeries'
     FACTORY = factories.SurgeryFactory
@@ -241,6 +353,15 @@ class TestRadiotherapyDosageController(ApiControllerTextMixin, TestCase):
     def get_route_url_with_id(self, instance):
         return f'/{instance.radiotherapy.id}/dosages/{instance.id}'
     
+    def get_route_url_history(self, instance):
+        return f'/{instance.radiotherapy.id}/dosages/{instance.id}/history/events'
+    
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.radiotherapy.id}/dosages/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.radiotherapy.id}/dosages/{instance.id}/history/events/{event.pgh_id}/reversion'
+
 
 class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/radiotherapies'
@@ -255,6 +376,14 @@ class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
     def get_route_url_with_id(self, instance):
         return f'/{instance.radiotherapy.id}/settings/{instance.id}'
     
+    def get_route_url_history(self, instance):
+        return f'/{instance.radiotherapy.id}/settings/{instance.id}/history/events'
+    
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.radiotherapy.id}/settings/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.radiotherapy.id}/settings/{instance.id}/history/events/{event.pgh_id}/reversion'
     
 class TestTreatmentResponseController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/treatment-responses'
@@ -283,7 +412,15 @@ class TestAdverseEventSuspectedCauseController(ApiControllerTextMixin, TestCase)
         
     def get_route_url_with_id(self, instance):
         return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}'
+
+    def get_route_url_history(self, instance):
+        return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}/history/events'
     
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.adverse_event.id}/suspected-causes/{instance.id}/history/events/{event.pgh_id}/reversion'
 
 class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/adverse-events'
@@ -298,6 +435,14 @@ class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
     def get_route_url_with_id(self, instance):
         return f'/{instance.adverse_event.id}/mitigations/{instance.id}'
     
+    def get_route_url_history(self, instance):
+        return f'/{instance.adverse_event.id}/mitigations/{instance.id}/history/events'
+    
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.adverse_event.id}/mitigations/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.adverse_event.id}/mitigations/{instance.id}/history/events/{event.pgh_id}/reversion'
         
 class TestGenomicVariantController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/genomic-variants'
@@ -339,6 +484,15 @@ class TestMolecularTherapeuticRecommendationController(ApiControllerTextMixin, T
     def get_route_url_with_id(self, instance):
         return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}'
     
+    def get_route_url_history(self, instance):
+        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}/history/events'
+    
+    def get_route_url_history_with_id(self, instance, event):
+        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}/history/events/{event.pgh_id}'
+    
+    def get_route_url_history_revert(self, instance, event):
+        return f'/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}/history/events/{event.pgh_id}/reversion'
+    
         
 class TestTherapyLineController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/therapy-lines'
@@ -346,7 +500,6 @@ class TestTherapyLineController(ApiControllerTextMixin, TestCase):
     MODEL = models.TherapyLine
     SCHEMA = schemas.TherapyLineSchema
     CREATE_SCHEMA = schemas.TherapyLineCreateSchema    
-
 
 class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/performance-status'

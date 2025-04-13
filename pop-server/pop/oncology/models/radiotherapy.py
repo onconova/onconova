@@ -1,3 +1,4 @@
+import pghistory
 
 from django.db import models
 from django.db.models import ExpressionWrapper, Value, Func, F
@@ -15,6 +16,7 @@ import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies 
 import pop.core.measures as measures
 
+@pghistory.track()
 class Radiotherapy(BaseModel):
 
     objects = QueryablePropertiesManager()
@@ -90,6 +92,7 @@ class Radiotherapy(BaseModel):
         self.refresh_from_db()
         return self
 
+@pghistory.track()
 class RadiotherapyDosage(BaseModel):
 
     radiotherapy = models.ForeignKey(
@@ -134,6 +137,7 @@ class RadiotherapyDosage(BaseModel):
         return f'{self.dose or "Unknown dose"}{fractions_text} to {self.irradiated_volume.display}'
 
 
+@pghistory.track()
 class RadiotherapySetting(BaseModel):
 
     radiotherapy = models.ForeignKey(

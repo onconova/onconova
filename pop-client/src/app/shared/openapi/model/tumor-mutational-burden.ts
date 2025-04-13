@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-status-choices';
 
 
@@ -17,15 +16,6 @@ export interface TumorMutationalBurden {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -37,10 +27,6 @@ export interface TumorMutationalBurden {
      */
     date: string;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * The actual tumor mutational burden (TMB) value in mutations/Mb
      */
     value: number;
@@ -49,6 +35,16 @@ export interface TumorMutationalBurden {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace TumorMutationalBurden {
     export type CategoryEnum = 'tumor_mutational_burden';

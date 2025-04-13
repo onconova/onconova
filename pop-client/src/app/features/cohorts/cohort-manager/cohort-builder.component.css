@@ -43,3 +43,17 @@ pop-case-search-item {
 .p-tabpanels, .p-tablist-tab-list {
     background: none !important;
 }
+
+.cohort-history.p-timeline .p-timeline-event-opposite { 
+    display: none;
+}
+.timeline-event-category {
+    list-style: none;
+}
+.timeline-event-category li > i {
+    margin-right: .25rem;
+}
+.timeline-event-date {
+    color: light-dark(var(--p-primary-900), var(--p-primary-100));
+
+}

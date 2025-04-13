@@ -5,6 +5,7 @@ from .others import (
     Range as RangeSchema,
     CodedConcept as CodedConceptSchema, 
     Paginated,
+    HistoryEvent,
 )
 from .user import (
     UserSchema, 
@@ -33,6 +34,7 @@ __all__ = (
     TokenRefresh, 
     TokenPair, 
     Paginated,
-    UserCredentials
+    UserCredentials,
+    HistoryEvent,
     
 )

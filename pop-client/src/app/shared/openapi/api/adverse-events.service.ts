@@ -29,9 +29,13 @@ import { AdverseEventSuspectedCause } from '../model/adverse-event-suspected-cau
 // @ts-ignore
 import { AdverseEventSuspectedCauseCreate } from '../model/adverse-event-suspected-cause-create';
 // @ts-ignore
+import { HistoryEvent } from '../model/history-event';
+// @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedAdverseEvent } from '../model/paginated-adverse-event';
+// @ts-ignore
+import { PaginatedHistoryEvent } from '../model/paginated-history-event';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -46,11 +50,20 @@ import {
     DeleteAdverseEventMitigationRequestParams,
     DeleteAdverseEventSuspectedCauseRequestParams,
     GetAdverseEventByIdRequestParams,
+    GetAdverseEventHistoryEventByIdRequestParams,
     GetAdverseEventMitigationByIdRequestParams,
+    GetAdverseEventMitigationHistoryEventByIdRequestParams,
     GetAdverseEventMitigationsRequestParams,
     GetAdverseEventSuspectedCauseByIdRequestParams,
+    GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams,
     GetAdverseEventSuspectedCausesRequestParams,
     GetAdverseEventsRequestParams,
+    GetAllAdverseEventHistoryEventsRequestParams,
+    GetAllAdverseEventMitigationHistoryEventsRequestParams,
+    GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams,
+    RevertAdverseEventMitigationToHistoryEventRequestParams,
+    RevertAdverseEventSuspectedCauseToHistoryEventRequestParams,
+    RevertAdverseEventToHistoryEventRequestParams,
     UpdateAdverseEventRequestParams,
     UpdateAdverseEventMitigationRequestParams,
     UpdateAdverseEventSuspectedCauseRequestParams
@@ -510,6 +523,67 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
     }
 
     /**
+     * Get Adverse Event History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling getAdverseEventHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getAdverseEventHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get Adverse Event Mitigation By Id
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -558,6 +632,71 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<AdverseEventMitigation>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Adverse Event Mitigation History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling getAdverseEventMitigationHistoryEventById.');
+        }
+        const mitigationId = requestParameters?.mitigationId;
+        if (mitigationId === null || mitigationId === undefined) {
+            throw new Error('Required parameter mitigationId was null or undefined when calling getAdverseEventMitigationHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getAdverseEventMitigationHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -676,6 +815,71 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<AdverseEventSuspectedCause>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Adverse Event Suspected Cause History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling getAdverseEventSuspectedCauseHistoryEventById.');
+        }
+        const causeId = requestParameters?.causeId;
+        if (causeId === null || causeId === undefined) {
+            throw new Error('Required parameter causeId was null or undefined when calling getAdverseEventSuspectedCauseHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getAdverseEventSuspectedCauseHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1299,6 +1503,403 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Adverse Event History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling getAllAdverseEventHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Adverse Event Mitigation History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling getAllAdverseEventMitigationHistoryEvents.');
+        }
+        const mitigationId = requestParameters?.mitigationId;
+        if (mitigationId === null || mitigationId === undefined) {
+            throw new Error('Required parameter mitigationId was null or undefined when calling getAllAdverseEventMitigationHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get All Adverse Event Suspected Cause History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling getAllAdverseEventSuspectedCauseHistoryEvents.');
+        }
+        const causeId = requestParameters?.causeId;
+        if (causeId === null || causeId === undefined) {
+            throw new Error('Required parameter causeId was null or undefined when calling getAllAdverseEventSuspectedCauseHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Adverse Event Mitigation To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertAdverseEventMitigationToHistoryEvent(requestParameters: RevertAdverseEventMitigationToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertAdverseEventMitigationToHistoryEvent(requestParameters: RevertAdverseEventMitigationToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertAdverseEventMitigationToHistoryEvent(requestParameters: RevertAdverseEventMitigationToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertAdverseEventMitigationToHistoryEvent(requestParameters: RevertAdverseEventMitigationToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling revertAdverseEventMitigationToHistoryEvent.');
+        }
+        const mitigationId = requestParameters?.mitigationId;
+        if (mitigationId === null || mitigationId === undefined) {
+            throw new Error('Required parameter mitigationId was null or undefined when calling revertAdverseEventMitigationToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertAdverseEventMitigationToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Adverse Event Suspected Cause To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertAdverseEventSuspectedCauseToHistoryEvent(requestParameters: RevertAdverseEventSuspectedCauseToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertAdverseEventSuspectedCauseToHistoryEvent(requestParameters: RevertAdverseEventSuspectedCauseToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertAdverseEventSuspectedCauseToHistoryEvent(requestParameters: RevertAdverseEventSuspectedCauseToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertAdverseEventSuspectedCauseToHistoryEvent(requestParameters: RevertAdverseEventSuspectedCauseToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling revertAdverseEventSuspectedCauseToHistoryEvent.');
+        }
+        const causeId = requestParameters?.causeId;
+        if (causeId === null || causeId === undefined) {
+            throw new Error('Required parameter causeId was null or undefined when calling revertAdverseEventSuspectedCauseToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertAdverseEventSuspectedCauseToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Adverse Event To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertAdverseEventToHistoryEvent(requestParameters: RevertAdverseEventToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertAdverseEventToHistoryEvent(requestParameters: RevertAdverseEventToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertAdverseEventToHistoryEvent(requestParameters: RevertAdverseEventToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertAdverseEventToHistoryEvent(requestParameters: RevertAdverseEventToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const adverseEventId = requestParameters?.adverseEventId;
+        if (adverseEventId === null || adverseEventId === undefined) {
+            throw new Error('Required parameter adverseEventId was null or undefined when calling revertAdverseEventToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertAdverseEventToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

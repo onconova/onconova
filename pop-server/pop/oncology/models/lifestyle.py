@@ -1,7 +1,7 @@
+import pghistory 
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 
 from pop.core.models import BaseModel 
 from pop.core.measures.fields import MeasurementField
@@ -11,6 +11,7 @@ import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies 
 
 
+@pghistory.track()
 class Lifestyle(BaseModel):
 
     case = models.ForeignKey(

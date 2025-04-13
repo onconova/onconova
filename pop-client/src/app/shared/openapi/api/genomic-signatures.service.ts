@@ -19,9 +19,13 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { AnyGenomicSignature } from '../model/any-genomic-signature';
 // @ts-ignore
+import { HistoryEvent } from '../model/history-event';
+// @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedAnyGenomicSignature } from '../model/paginated-any-genomic-signature';
+// @ts-ignore
+import { PaginatedHistoryEvent } from '../model/paginated-history-event';
 // @ts-ignore
 import { Payload2 } from '../model/payload2';
 
@@ -33,8 +37,11 @@ import {
     GenomicSignaturesServiceInterface,
     CreateGenomicSignatureRequestParams,
     DeleteGenomicSignatureByIdRequestParams,
+    GetAllGenomicSignatureHistoryEventsRequestParams,
     GetGenomicSignatureByIdRequestParams,
+    GetGenomicSignatureHistoryEventByIdRequestParams,
     GetGenomicSignaturesRequestParams,
+    RevertGenomicSignatureToHistoryEventRequestParams,
     UpdateGenomicSignatureByIdRequestParams
 } from './genomic-signatures.serviceInterface';
 
@@ -173,6 +180,72 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
     }
 
     /**
+     * Get All Genomic Signature History Events
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllGenomicSignatureHistoryEvents(requestParameters: GetAllGenomicSignatureHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
+    public getAllGenomicSignatureHistoryEvents(requestParameters: GetAllGenomicSignatureHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
+    public getAllGenomicSignatureHistoryEvents(requestParameters: GetAllGenomicSignatureHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllGenomicSignatureHistoryEvents(requestParameters: GetAllGenomicSignatureHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const genomicSignatureId = requestParameters?.genomicSignatureId;
+        if (genomicSignatureId === null || genomicSignatureId === undefined) {
+            throw new Error('Required parameter genomicSignatureId was null or undefined when calling getAllGenomicSignatureHistoryEvents.');
+        }
+        const limit = requestParameters?.limit;
+        const offset = requestParameters?.offset;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>offset, 'offset');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
+        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get Genomic Signature By Id
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -217,6 +290,67 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
 
         let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<AnyGenomicSignature>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get Genomic Signature History Event By Id
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getGenomicSignatureHistoryEventById(requestParameters: GetGenomicSignatureHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
+    public getGenomicSignatureHistoryEventById(requestParameters: GetGenomicSignatureHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
+    public getGenomicSignatureHistoryEventById(requestParameters: GetGenomicSignatureHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getGenomicSignatureHistoryEventById(requestParameters: GetGenomicSignatureHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const genomicSignatureId = requestParameters?.genomicSignatureId;
+        if (genomicSignatureId === null || genomicSignatureId === undefined) {
+            throw new Error('Required parameter genomicSignatureId was null or undefined when calling getGenomicSignatureHistoryEventById.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling getGenomicSignatureHistoryEventById.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -374,6 +508,67 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Revert Genomic Signature To History Event
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public revertGenomicSignatureToHistoryEvent(requestParameters: RevertGenomicSignatureToHistoryEventRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ModifiedResource>;
+    public revertGenomicSignatureToHistoryEvent(requestParameters: RevertGenomicSignatureToHistoryEventRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ModifiedResource>>;
+    public revertGenomicSignatureToHistoryEvent(requestParameters: RevertGenomicSignatureToHistoryEventRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ModifiedResource>>;
+    public revertGenomicSignatureToHistoryEvent(requestParameters: RevertGenomicSignatureToHistoryEventRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const genomicSignatureId = requestParameters?.genomicSignatureId;
+        if (genomicSignatureId === null || genomicSignatureId === undefined) {
+            throw new Error('Required parameter genomicSignatureId was null or undefined when calling revertGenomicSignatureToHistoryEvent.');
+        }
+        const eventId = requestParameters?.eventId;
+        if (eventId === null || eventId === undefined) {
+            throw new Error('Required parameter eventId was null or undefined when calling revertGenomicSignatureToHistoryEvent.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/genomic-signatures/${this.configuration.encodeParam({name: "genomicSignatureId", value: genomicSignatureId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/reversion`;
+        return this.httpClient.request<ModifiedResource>('put', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

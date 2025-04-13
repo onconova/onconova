@@ -13,8 +13,10 @@ import { Observable }                                        from 'rxjs';
 
 import { FamilyHistory } from '../model/models';
 import { FamilyHistoryCreate } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedFamilyHistory } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -26,6 +28,12 @@ export interface CreateFamilyHistoryRequestParams {
 
 export interface DeleteFamilyHistoryByIdRequestParams {
     familyHistoryId: string;
+}
+
+export interface GetAllFamilyHistoryHistoryEventsRequestParams {
+    familyHistoryId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetFamilyHistoriesRequestParams {
@@ -94,6 +102,16 @@ export interface GetFamilyHistoryByIdRequestParams {
     familyHistoryId: string;
 }
 
+export interface GetFamilyHistoryHistoryEventByIdRequestParams {
+    familyHistoryId: string;
+    eventId: string;
+}
+
+export interface RevertFamilyHistoryToHistoryEventRequestParams {
+    familyHistoryId: string;
+    eventId: string;
+}
+
 export interface UpdateFamilyHistoryRequestParams {
     familyHistoryId: string;
     familyHistoryCreate: FamilyHistoryCreate;
@@ -119,6 +137,13 @@ export interface FamilyHistoriesServiceInterface {
     deleteFamilyHistoryById(requestParameters: DeleteFamilyHistoryByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Family History History Events
+     * 
+* @param requestParameters
+     */
+    getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get All Family Member Histories Matching The Query
      * 
 * @param requestParameters
@@ -131,6 +156,20 @@ export interface FamilyHistoriesServiceInterface {
 * @param requestParameters
      */
     getFamilyHistoryById(requestParameters: GetFamilyHistoryByIdRequestParams, extraHttpRequestParams?: any): Observable<FamilyHistory>;
+
+    /**
+     * Get Family History History Event By Id
+     * 
+* @param requestParameters
+     */
+    getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
+     * Revert Family History To History Event
+     * 
+* @param requestParameters
+     */
+    revertFamilyHistoryToHistoryEvent(requestParameters: RevertFamilyHistoryToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Family History

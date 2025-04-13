@@ -58,6 +58,7 @@
 <pop-case-manager-drawer 
     [(visible)]="drawerVisible" 
     [data]="drawerData" 
+    [history$]="drawerHistory" 
     [icon]="icon"
     [editable]="!completed"
     (delete)="deleteEntry($event)"

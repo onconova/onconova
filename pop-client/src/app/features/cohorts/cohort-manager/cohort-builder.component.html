@@ -31,8 +31,9 @@
                         class="is-public-chip"/>
                 </div>
                 @if (cohort.createdBy) {
-                    <div class="my-auto text-muted">
-                        Author <pop-user-badge [user]="cohort.createdBy"/>
+                    <div class="my-auto text-muted flex">
+                        <div class="my-auto mr-2">Author</div>
+                        <pop-user-badge [username]="cohort.createdBy"/>
                     </div>
                 }
                 <p-divider layout="vertical" class="mx-3"></p-divider>
@@ -70,6 +71,16 @@
             <span class="font-bold text-lg">{{ cohortGenderStats.category }}</span> 
             @if (cohortGenderStats.percentage !== null) {
                 {{ cohortGenderStats.percentage | number:'1.0-1' }}
+            }%
+        }
+    </pop-cohort-trait-panel>
+
+    @let cohortTopographyStats = cohortTopographyStats$ | async;
+    <pop-cohort-trait-panel  title="Predominant site" [icon]="siteIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortTopographyStats) {
+            <span class="font-bold text-lg">{{ cohortTopographyStats.category }}</span> 
+            @if (cohortTopographyStats.percentage !== null) {
+                {{ cohortTopographyStats.percentage | number:'1.0-1' }}
             }%
         }
     </pop-cohort-trait-panel>
@@ -146,11 +157,11 @@
 
 <p-tabs value="0"  class="mt-5" >
     <p-tablist>
-        <p-tab value="0">Composition</p-tab>
-        <p-tab value="1">Analysis</p-tab>
-        <p-tab value="2">Datasets</p-tab>
-        <p-tab value="3">Contributors</p-tab>
-        <p-tab value="4">History</p-tab>
+        <p-tab value="0"><i class="pi pi-users"></i>Composition</p-tab>
+        <p-tab value="1"><i class="pi pi-chart-bar"></i>Analysis</p-tab>
+        <p-tab value="2"><i class="pi pi-cloud-download"></i>Datasets</p-tab>
+        <p-tab value="3"><i class="pi pi-user-plus"></i>Contributors</p-tab>
+        <p-tab value="4"><i class="pi pi-history"></i>History</p-tab>
     </p-tablist>
     @if (cohort) {
         <p-tabpanels>
@@ -210,13 +221,53 @@
                 <p-tabpanel value="3">
                     <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
                 </p-tabpanel>
-                <p-tabpanel value="4">            
-                </p-tabpanel>
             } @else { 
                 <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
                     No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
                 </p-message>
-            }            
+            }           
+            <p-tabpanel value="4">          
+                @let cohortHistory = cohortHistory$ | async;
+                @if (cohortHistory) {
+                    <p-card>
+                        <p-timeline [value]="cohortHistory" class="cohort-history mt-3">
+                            <ng-template pTemplate="content" let-event>
+                                <div class="flex mb-4" >
+                                    <div>
+                                        <div class="timeline-event-date mb-2">
+                                            {{ event.timestamp | date: 'MMM d, y, h:mm' }}
+                                        </div>
+                                        <pop-user-badge [username]="event.user" [showName]="true" class="my-auto"/>                              
+                                    </div>       
+                                    <p-divider layout="vertical"/>
+                                    <ul class="timeline-event-category my-auto pl-0">
+                                            @switch (event.category) {
+                                                @case ('create') {
+                                                    <li><i class="pi pi-sparkles"></i> Created new cohort "{{ event.snapshot.name }}".</li>
+                                                }
+                                                @case ('update') {
+                                                    
+                                                    @if (event.differential.name) {
+                                                        <li><i class="pi pi-tag"></i> Renamed cohort to "{{ event.snapshot.name }}". \</li>
+                                                    } 
+                                                    @if (event.differential.include_criteria) {
+                                                        <li><i class="pi pi-filter"></i> Updated inclusion criteria rules.</li>
+                                                    } 
+                                                    @if (event.differential.exclude_criteria) {
+                                                        <li><i class="pi pi-filter"></i> Updated exclusion criteria rules.</li>
+                                                    } 
+                                                }
+                                                @case ('export') {
+                                                    <i class="pi pi-file-export"></i> Exported resource
+                                                }
+                                            }
+                                    </ul>                               
+                                </div>                
+                            </ng-template>
+                        </p-timeline>
+                    </p-card>
+                }  
+            </p-tabpanel> 
         </p-tabpanels>
     } @else {
         <p-skeleton width='100%' height='50rem'/>

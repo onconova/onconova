@@ -12,8 +12,10 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnyGenomicSignature } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedAnyGenomicSignature } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { Payload2 } from '../model/models';
 
 
@@ -28,8 +30,19 @@ export interface DeleteGenomicSignatureByIdRequestParams {
     genomicSignatureId: string;
 }
 
+export interface GetAllGenomicSignatureHistoryEventsRequestParams {
+    genomicSignatureId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetGenomicSignatureByIdRequestParams {
     genomicSignatureId: string;
+}
+
+export interface GetGenomicSignatureHistoryEventByIdRequestParams {
+    genomicSignatureId: string;
+    eventId: string;
 }
 
 export interface GetGenomicSignaturesRequestParams {
@@ -64,6 +77,11 @@ export interface GetGenomicSignaturesRequestParams {
     offset?: number;
 }
 
+export interface RevertGenomicSignatureToHistoryEventRequestParams {
+    genomicSignatureId: string;
+    eventId: string;
+}
+
 export interface UpdateGenomicSignatureByIdRequestParams {
     genomicSignatureId: string;
     payload2: Payload2;
@@ -89,6 +107,13 @@ export interface GenomicSignaturesServiceInterface {
     deleteGenomicSignatureById(requestParameters: DeleteGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Genomic Signature History Events
+     * 
+* @param requestParameters
+     */
+    getAllGenomicSignatureHistoryEvents(requestParameters: GetAllGenomicSignatureHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Genomic Signature By Id
      * 
 * @param requestParameters
@@ -96,11 +121,25 @@ export interface GenomicSignaturesServiceInterface {
     getGenomicSignatureById(requestParameters: GetGenomicSignatureByIdRequestParams, extraHttpRequestParams?: any): Observable<AnyGenomicSignature>;
 
     /**
+     * Get Genomic Signature History Event By Id
+     * 
+* @param requestParameters
+     */
+    getGenomicSignatureHistoryEventById(requestParameters: GetGenomicSignatureHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Genomic Signatures Matching The Query
      * 
 * @param requestParameters
      */
     getGenomicSignatures(requestParameters: GetGenomicSignaturesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAnyGenomicSignature>;
+
+    /**
+     * Revert Genomic Signature To History Event
+     * 
+* @param requestParameters
+     */
+    revertGenomicSignatureToHistoryEvent(requestParameters: RevertGenomicSignatureToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Genomic Signature

@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { MolecularTherapeuticRecommendation } from './molecular-therapeutic-recommendation';
 
@@ -22,15 +21,6 @@ export interface MolecularTumorBoard {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -41,10 +31,6 @@ export interface MolecularTumorBoard {
      * Date at which the tumor board took place and/or when the board provided a recommendation.
      */
     date: string;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the tumor board.
      */
@@ -62,6 +48,16 @@ export interface MolecularTumorBoard {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace MolecularTumorBoard {
     export type CategoryEnum = 'molecular';

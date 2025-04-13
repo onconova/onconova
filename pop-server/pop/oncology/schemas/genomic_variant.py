@@ -17,7 +17,7 @@ class GenomicVariantSchema(ModelGetSchema):
         default=None,
         title='DNA HGVS RefSeq',
         description='DNA reference sequence identifier used as dna HGVS reference.',
-        pattern=HGVSRegex.RNA_REFSEQ,
+        pattern=fr"{HGVSRegex.RNA_REFSEQ}|{HGVSRegex.GENOMIC_REFSEQ}",
         alias='dna_reference_sequence',
         validation_alias=AliasChoices('dnaReferenceSequence','dna_reference_sequence'),        
     )

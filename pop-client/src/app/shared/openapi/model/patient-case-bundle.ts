@@ -10,7 +10,6 @@
 import { ComorbiditiesAssessment } from './comorbidities-assessment';
 import { RiskAssessment } from './risk-assessment';
 import { SystemicTherapy } from './systemic-therapy';
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { PatientCaseBundleGenomicSignaturesInner } from './patient-case-bundle-genomic-signatures-inner';
 import { PatientCaseBundleTumorBoardsInner } from './patient-case-bundle-tumor-boards-inner';
@@ -39,8 +38,8 @@ export interface PatientCaseBundle {
      * Approximate age of the patient in years
      */
     age: number;
-    overall_survival?: number | null;
-    age_at_diagnosis?: number | null;
+    overallSurvival?: number | null;
+    ageAtDiagnosis?: number | null;
     /**
      * Percentage indicating the completeness of a case in terms of its data.
      */
@@ -49,15 +48,6 @@ export interface PatientCaseBundle {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -94,30 +84,36 @@ export interface PatientCaseBundle {
     dateOfDeath?: string | null;
     causeOfDeath?: CodedConcept | null;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * Human-readable description
      */
     description: string;
-    neoplastic_entities?: Array<NeoplasticEntity>;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
+    neoplasticEntities?: Array<NeoplasticEntity>;
     stagings?: Array<PatientCaseBundleStagingsInner>;
-    tumor_markers?: Array<TumorMarker>;
-    risk_assessments?: Array<RiskAssessment>;
-    therapy_lines?: Array<TherapyLine>;
-    systemic_therapies?: Array<SystemicTherapy>;
+    tumorMarkers?: Array<TumorMarker>;
+    riskAssessments?: Array<RiskAssessment>;
+    therapyLines?: Array<TherapyLine>;
+    systemicTherapies?: Array<SystemicTherapy>;
     surgeries?: Array<Surgery>;
     radiotherapies?: Array<Radiotherapy>;
-    adverse_events?: Array<AdverseEvent>;
-    treatment_responses?: Array<TreatmentResponse>;
-    performance_status?: Array<PerformanceStatus>;
+    adverseEvents?: Array<AdverseEvent>;
+    treatmentResponses?: Array<TreatmentResponse>;
+    performanceStatus?: Array<PerformanceStatus>;
     comorbidities?: Array<ComorbiditiesAssessment>;
-    genomic_variants?: Array<GenomicVariant>;
+    genomicVariants?: Array<GenomicVariant>;
     genomicSignatures?: Array<PatientCaseBundleGenomicSignaturesInner>;
     vitals?: Array<Vitals>;
     lifestyles?: Array<Lifestyle>;
-    family_histories?: Array<FamilyHistory>;
+    familyHistory?: Array<FamilyHistory>;
     tumorBoards?: Array<PatientCaseBundleTumorBoardsInner>;
     completedDataCategories: { [key: string]: PatientCaseDataCompletionStatusSchema; };
 }

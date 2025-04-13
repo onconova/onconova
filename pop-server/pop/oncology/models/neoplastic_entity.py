@@ -1,6 +1,12 @@
+import pghistory
 
 from django.db import models
+from django.db.models import Q, F, Subquery, OuterRef
+from django.db.models.functions import Left
 from django.utils.translation import gettext_lazy as _
+
+from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
+from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel 
 from pop.oncology.models import PatientCase 
@@ -17,9 +23,12 @@ class NeoplasticEntityRelationship(models.TextChoices):
     METASTATIC = METASTATIC
     LOCAL_RECURRENCE = LOCAL_RECURRENCE
     REGIONAL_RECURRENCE = REGIONAL_RECURRENCE 
-    
+
+@pghistory.track()
 class NeoplasticEntity(BaseModel):
     
+    objects = QueryablePropertiesManager()
+
     case = models.ForeignKey(
         verbose_name = _('Patient case'),
         help_text = _("Indicates the case of the patient who's neoplasm(s) are recorded"),
@@ -54,6 +63,11 @@ class NeoplasticEntity(BaseModel):
         verbose_name = _('Morphology'),
         help_text = _("Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself"),
         terminology = terminologies.CancerMorphology,
+    )
+    topography_group = SubqueryObjectProperty(
+        model=terminologies.CancerTopographyGroup,
+        queryset=lambda: terminologies.CancerTopographyGroup.objects.filter(code=Left(OuterRef('topography__code'),3)),
+        cached=True,
     )
     differentitation = termfields.CodedConceptField(
         verbose_name = _('Differentiation'),

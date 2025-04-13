@@ -1,3 +1,5 @@
+import pghistory 
+
 from typing import Tuple
 from collections import OrderedDict, Counter
 
@@ -13,6 +15,7 @@ from pop.oncology.models import PatientCase
 from pop.core.models import BaseModel
 
 
+@pghistory.track()
 class Cohort(BaseModel):
 
     objects = QueryablePropertiesManager()

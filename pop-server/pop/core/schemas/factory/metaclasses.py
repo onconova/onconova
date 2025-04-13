@@ -1,7 +1,9 @@
 from typing import Any, List, Tuple, Dict, Optional, Union
 
+from datetime import datetime
 from ninja.schema import ResolverMetaclass, Field
 from pydantic.dataclasses import dataclass
+from pydantic import AliasChoices 
 
 from pop.core.models import BaseModel as OrmBaseModel
 
@@ -12,8 +14,6 @@ _is_modelschema_class_defined = False
 
 CREATE_IGNORED_FIELDS = (
     'id', 
-    'created_at', 'updated_at', 
-    'created_by', 'updated_by',
 )  
 
 @dataclass
@@ -43,7 +43,16 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                     
                 # If it is a get schema, add description field to the custom schema fields
                 if issubclass(base, ModelGetSchema) and issubclass(metaclass_config.model, OrmBaseModel):
-                    custom_fields.append(('description', str, Field(description='Human-readable description') ))
+                    custom_fields.append(
+                        ('description', str, Field(description='Human-readable description')),
+                    )
+                    if hasattr(metaclass_config.model, 'pgh_event_model'):
+                        custom_fields.extend((
+                            ('createdAt', datetime, Field(description='Date-time when the resource was created', alias='created_at', validation_alias=AliasChoices('createdAt','created_at'))),
+                            ('updatedAt', Optional[datetime], Field(default=None, description='Date-time when the resource was last updated', alias='updated_at', validation_alias=AliasChoices('updatedAt','updated_at'))),
+                            ('createdBy', Optional[str], Field(description='Username of the user who created the resource', alias='created_by', validation_alias=AliasChoices('createdBy','created_by'))),
+                            ('updatedBy', List[Optional[str]], Field(default=[],description='Usernames of the users who have updated the resource', alias='updated_by', validation_alias=AliasChoices('updatedBy','updated_by'))),
+                        ))
                 
                 # If it is a creation schema, add the ignored model fields to the exclude list
                 exclude = list(metaclass_config.exclude or [])

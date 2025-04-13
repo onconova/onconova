@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedTreatmentResponse } from '../model/models';
 import { TreatmentResponse } from '../model/models';
 import { TreatmentResponseCreate } from '../model/models';
@@ -28,8 +30,19 @@ export interface DeleteTreatmentResponseRequestParams {
     treatmentRresponseId: string;
 }
 
+export interface GetAllTreatmentResponseHistoryEventsRequestParams {
+    treatmentRresponseId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetTreatmentResponseByIdRequestParams {
     treatmentRresponseId: string;
+}
+
+export interface GetTreatmentResponseHistoryEventByIdRequestParams {
+    treatmentRresponseId: string;
+    eventId: string;
 }
 
 export interface GetTreatmentResponsesRequestParams {
@@ -85,6 +98,11 @@ export interface GetTreatmentResponsesRequestParams {
     offset?: number;
 }
 
+export interface RevertTreatmentResponseToHistoryEventRequestParams {
+    treatmentRresponseId: string;
+    eventId: string;
+}
+
 export interface UpdateTreatmentResponseRequestParams {
     treatmentRresponseId: string;
     treatmentResponseCreate: TreatmentResponseCreate;
@@ -110,6 +128,13 @@ export interface TreatmentResponsesServiceInterface {
     deleteTreatmentResponse(requestParameters: DeleteTreatmentResponseRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Treatment Response History Events
+     * 
+* @param requestParameters
+     */
+    getAllTreatmentResponseHistoryEvents(requestParameters: GetAllTreatmentResponseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Treatment Response By Id
      * 
 * @param requestParameters
@@ -117,11 +142,25 @@ export interface TreatmentResponsesServiceInterface {
     getTreatmentResponseById(requestParameters: GetTreatmentResponseByIdRequestParams, extraHttpRequestParams?: any): Observable<TreatmentResponse>;
 
     /**
+     * Get Treatment Response History Event By Id
+     * 
+* @param requestParameters
+     */
+    getTreatmentResponseHistoryEventById(requestParameters: GetTreatmentResponseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Treatment Responses Matching The Query
      * 
 * @param requestParameters
      */
     getTreatmentResponses(requestParameters: GetTreatmentResponsesRequestParams, extraHttpRequestParams?: any): Observable<PaginatedTreatmentResponse>;
+
+    /**
+     * Revert Treatment Response To History Event
+     * 
+* @param requestParameters
+     */
+    revertTreatmentResponseToHistoryEvent(requestParameters: RevertTreatmentResponseToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Treatment Response

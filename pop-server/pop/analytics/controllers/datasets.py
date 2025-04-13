@@ -1,3 +1,4 @@
+import pghistory
 from django.shortcuts import get_object_or_404
 
 
@@ -8,7 +9,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import Paginated, ModifiedResourceSchema
+from pop.core.schemas import Paginated, ModifiedResourceSchema, HistoryEvent
 
 from pop.analytics.models import Dataset
 from pop.analytics.schemas.datasets import (
@@ -85,5 +86,43 @@ class DatasetsController(ControllerBase):
     )
     def update_dataset(self, datasetId: str, payload: DatasetCreateSchema): # type: ignore
         return payload.model_dump_django(instance=get_object_or_404(Dataset, id=datasetId), user=self.context.request.user)
-        
 
+    @route.get(
+        path='/{datasetId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllDatasetHistoryEvents',
+    )
+    @paginate()
+    def get_all_dataset_history_events(self, datasetId: str):
+        instance = get_object_or_404(Dataset, id=datasetId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{datasetId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getDatasetHistoryEventById',
+    )
+    def get_dataset_history_event_by_id(self, datasetId: str, eventId: str):
+        instance = get_object_or_404(Dataset, id=datasetId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{datasetId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertDatasetToHistoryEvent',
+    )
+    def revert_dataset_to_history_event(self, datasetId: str, eventId: str):
+        instance = get_object_or_404(Dataset, id=datasetId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

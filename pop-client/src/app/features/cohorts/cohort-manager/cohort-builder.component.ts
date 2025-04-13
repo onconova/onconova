@@ -12,10 +12,10 @@ import { TabsModule } from 'primeng/tabs';
 import { Divider } from 'primeng/divider';
 
 // Icons
-import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars } from 'lucide-angular';
+import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts, HistoryEvent } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from '../cohort-query-builder/cohort-query-builder.component';
 import { catchError, first, map, Observable, of } from 'rxjs';
@@ -29,6 +29,8 @@ import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.
 import { Skeleton } from 'primeng/skeleton';
 import { Message } from 'primeng/message';
 import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-panel.component';
+import { Timeline, TimelineModule } from 'primeng/timeline';
+import { Card } from 'primeng/card';
 
 
 @Component({
@@ -53,10 +55,12 @@ import { CohortTraitPanel } from './components/cohort-trait-panel/cohort-trait-p
         Skeleton,
         InputText,
         UserBadgeComponent,
+        TimelineModule,
         Divider,
         TabsModule,
         DataView,
         Button,
+        Card,
         Chip,
     ]
 })
@@ -81,7 +85,9 @@ export class CohortBuilderComponent {
     public cohort!: Cohort; 
     public loading: boolean = false;
     public editCohortName: boolean = false;
+    public cohortHistory$!: Observable<HistoryEvent[]>
     public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
+    public cohortTopographyStats$: Observable<CohortTraitCounts | null> = of(null)
     public cohortGenderStats$: Observable<CohortTraitCounts | null> = of(null)
     public cohortOverallSurvivalStats$: Observable<CohortTraitMedian | null> = of(null)
     public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
@@ -92,6 +98,7 @@ export class CohortBuilderComponent {
     public readonly genderIcon = VenusAndMars;
     public readonly survivalIcon = Activity;
     public readonly ageIcon = CalendarClock;
+    public readonly siteIcon = Locate;
     public readonly completionIcon = ClipboardCheck;
 
 
@@ -115,6 +122,7 @@ export class CohortBuilderComponent {
             },
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
         })
+        this.cohortHistory$ = this.cohortsService.getAllCohortHistoryEvents({cohortId: this.cohortId}).pipe(map(response=>response.items))
     }
 
     refreshCohortStatistics() {
@@ -128,6 +136,12 @@ export class CohortBuilderComponent {
             }
         }
         this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
+        this.cohortTopographyStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'neoplasticEntities.topographyGroup.display'}).pipe(
+            map(
+            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+            ),
+            catchError(errorHandler),
+        )
         this.cohortGenderStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'gender.display'}).pipe(
             map(
             (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 

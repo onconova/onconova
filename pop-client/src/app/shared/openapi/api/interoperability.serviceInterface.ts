@@ -22,9 +22,17 @@ export interface ExportPatientCaseBundleRequestParams {
     caseId: string;
 }
 
+export interface ExportResourceRequestParams {
+    resourceId: string;
+}
+
 export interface ImportPatientCaseBundleRequestParams {
     patientCaseBundle: PatientCaseBundle;
     conflict?: string;
+}
+
+export interface ResolveResourceIdRequestParams {
+    resourceId: string;
 }
 
 
@@ -40,10 +48,24 @@ export interface InteroperabilityServiceInterface {
     exportPatientCaseBundle(requestParameters: ExportPatientCaseBundleRequestParams, extraHttpRequestParams?: any): Observable<PatientCaseBundle>;
 
     /**
+     * Export Resource
+     * 
+* @param requestParameters
+     */
+    exportResource(requestParameters: ExportResourceRequestParams, extraHttpRequestParams?: any): Observable<any>;
+
+    /**
      * Import Case Bundle
      * 
 * @param requestParameters
      */
     importPatientCaseBundle(requestParameters: ImportPatientCaseBundleRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Resolve Resource Id
+     * 
+* @param requestParameters
+     */
+    resolveResourceId(requestParameters: ResolveResourceIdRequestParams, extraHttpRequestParams?: any): Observable<string>;
 
 }

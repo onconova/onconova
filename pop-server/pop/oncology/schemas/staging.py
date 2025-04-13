@@ -7,8 +7,8 @@ from pop.core.schemas import CodedConceptSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
 class StagingSchema(ModelGetSchema):
-    stagingDomain: StagingDomain = Field(description='Staging domain')
-    stage: CodedConceptSchema = Field(description='Classificiation of the stage')
+    stagingDomain: StagingDomain = Field(title='Staging domain', description='Group or type of staging')
+    stage: CodedConceptSchema = Field(description='Classification of the stage')
     config = SchemaConfig(model=orm.Staging)
 
 

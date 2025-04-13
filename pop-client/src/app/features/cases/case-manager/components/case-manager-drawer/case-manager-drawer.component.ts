@@ -6,7 +6,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { DividerModule } from 'primeng/divider';
 import { Button } from 'primeng/button'
 import { SplitButton } from 'primeng/splitbutton';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 
@@ -15,11 +15,15 @@ import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 
-import { Observable } from 'rxjs';
+import { first, map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DrawerDataPropertiesComponent } from './components/drawer-data-properties.component';
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { OncologicalResource } from 'src/app/shared/models/resource.type';
+import { UserBadgeComponent } from "../../../../../shared/components/user-badge/user-badge.component";
+import { HistoryEvent, InteroperabilityService } from 'src/app/shared/openapi';
+import { ResourceTimelineComponent } from "../../../../../shared/components/resource-timeline/resource-timeline.component";
+import { Timeline } from 'primeng/timeline';
 
 
 @Component({
@@ -33,29 +37,33 @@ import { OncologicalResource } from 'src/app/shared/models/resource.type';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
-        LucideAngularModule,
-        DrawerModule,
-        AvatarModule,
-        DividerModule,
-        Button,
-        GetFullNamePipe,
-        SplitButton,
-        ConfirmDialog,
-        DrawerDataPropertiesComponent,
-    ]
+    CommonModule,
+    LucideAngularModule,
+    DrawerModule,
+    AvatarModule,
+    DividerModule,
+    Button,
+    SplitButton,
+    ConfirmDialog,
+    DrawerDataPropertiesComponent,
+    UserBadgeComponent,
+    Timeline,
+]
 })
 export class CaseManagerDrawerComponent {
 
-    public authService = inject(AuthService)
-    private confirmationService = inject(ConfirmationService)
-    private downloadService = inject(DownloadService)
+    public authService = inject(AuthService);
+    private confirmationService = inject(ConfirmationService);
+    private downloadService = inject(DownloadService);
+    private interoperabilityService = inject(InteroperabilityService);
+    private messageService = inject(MessageService);
 
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() delete = new EventEmitter<string>();
     @Output() update = new EventEmitter<any>();
 
     @Input() data!: OncologicalResource;
+    @Input() history$!: Observable<HistoryEvent[]>;
     @Input() icon!: LucideIconData;
     @Input() visible!: boolean;
     @Input() editable: boolean = true;
@@ -79,7 +87,11 @@ export class CaseManagerDrawerComponent {
                 disabled: !this.authService.user.canExportData,
                 icon: 'pi pi-file-export',
                 command: () => {
-                    this.downloadService.downloadAsJson(this.data, 'pop-resource-' + this.data.id)
+                    this.interoperabilityService.exportResource({resourceId: this.data.id}).pipe(first()).subscribe({
+                        next: (response) => this.downloadService.downloadAsJson(response, 'pop-resource-' + response.id),
+                        complete: () => this.messageService.add({ severity: 'success', summary: 'Successfully exported', detail: this.data.description }),
+                        error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error exporting resource', detail: error.error.detail })
+                    })
                 }
             },
         ]

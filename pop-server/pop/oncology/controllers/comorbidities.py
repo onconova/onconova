@@ -1,13 +1,13 @@
+import pghistory 
 from typing import List
 
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
 from pop.terminology.models import ICD10Condition
 
@@ -92,6 +92,48 @@ class ComorbiditiesAssessmentController(ControllerBase):
             return ComorbiditiesAssessmentCreateSchema\
                         .model_validate(payload.model_dump(exclude_unset=True))\
                         .model_dump_django(instance=instance, user=self.context.request.user)
+    
+    @route.get(
+        path='/{comorbiditiesAssessmentId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllComorbiditiesAssessmentHistoryEvents',
+    )
+    @paginate()
+    def get_all_comorbidities_assessment_history_events(self, comorbiditiesAssessmentId: str):
+        instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{comorbiditiesAssessmentId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getComorbiditiesAssessmentHistoryEventById',
+    )
+    def get_comorbidities_assessment_history_event_by_id(self, comorbiditiesAssessmentId: str, eventId: str):
+        instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{comorbiditiesAssessmentId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertComorbiditiesAssessmentToHistoryEvent',
+    )
+    def revert_comorbidities_assessment_to_history_event(self, comorbiditiesAssessmentId: str, eventId: str):
+        instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
+
+
 
 @api_controller(
     'comorbidities-panels', 

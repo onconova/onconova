@@ -18,14 +18,14 @@ class PatientCaseSchema(ModelGetSchema):
         title='Overall survival', 
         alias='overall_survival', 
         description='Overall survival of the patient since diagnosis',
-        validation_alias=AliasChoices('overall_survival','overallSurvival'),
+        validation_alias=AliasChoices('overallSurvival','overall_survival'),
     ) 
     ageAtDiagnosis: Optional[int] = Field(
         None,
         title='Age at diagnosis', 
         description='Approximate age of the patient in years at the time of the initial diagnosis',
         alias='age_at_diagnosis', 
-        validation_alias=AliasChoices('age_at_diagnosis','ageAtDiagnosis'),
+        validation_alias=AliasChoices('ageAtDiagnosis','age_at_diagnosis'),
     ) 
     dataCompletionRate: float = Field(
         title='Data completion rate',
@@ -48,7 +48,7 @@ class PatientCaseFilters(PatientCaseFiltersBase):
     manager: Optional[str] = Field(None, description='Filter for a particular case manager by its username')
 
     def filter_manager(self, value: str) -> Q:
-        return Q(created_by__username=self.manager) if value is not None else Q()
+        return Q(created_by=self.manager) if value is not None else Q()
 
 
 class PatientCaseDataCompletionStatusSchema(Schema):

@@ -138,6 +138,10 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
             ([propertyKey,property]): Field | Field[] => {
                 let title: string = property.title; 
                 let description: string = property.description; 
+                let extras: {[key: string]: string} = {};
+                if (property.hasOwnProperty('x-terminology')) {
+                    extras['terminology'] = property['x-terminology'];
+                }
                 
                 let isArray: boolean = false;
                 const nullable = property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null'
@@ -180,16 +184,12 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                 // Determine any selection options if the property has an enumeration
                 // @ts-ignore
                 let propertyEnum = property.enum || schemas[propertyType]?.enum;
-                let extras: {[key: string]: string} = {};
                 if (propertyEnum) {
                     extras['options'] = propertyEnum.map((option: any) => ({ value: option, label: option }));
                     propertyType = 'enum';
                 }
                 if (propertyType == 'string' && property.format) {
                     propertyType = property.format
-                }
-                if (propertyType == 'CodedConcept') {
-                    extras['terminology'] = property['x-terminology'];
                 }
                 if (propertyType == 'Measure') {
                     extras['measureType'] = property['x-measure'];

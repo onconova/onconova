@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 
 
@@ -17,15 +16,6 @@ export interface ISSStaging {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -36,10 +26,6 @@ export interface ISSStaging {
      * Clinically-relevant date at which the staging was performed and recorded.
      */
     date: string;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     /**
      * References to the neoplastic entities that were the focus of the staging.
      */
@@ -52,6 +38,16 @@ export interface ISSStaging {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace ISSStaging {
     export type StagingDomainEnum = 'iss';

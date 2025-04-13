@@ -6,6 +6,7 @@ from pathlib import Path
 import os 
 import environ
 import tomllib
+import pghistory
 import socket
 import datetime
 
@@ -52,6 +53,8 @@ INSTALLED_APPS = [
     'pop.oncology',
     'pop.interoperability',
     'pop.analytics',
+    'pgtrigger',
+    'pghistory',
     'ninja_extra',
     'corsheaders',
     'django.contrib.admin',
@@ -67,13 +70,13 @@ AUTH_USER_MODEL = 'core.User'
 
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',            # Provide several security enhancements to the request/response cycle
+    'django.middleware.security.SecurityMiddleware',           
     'corsheaders.middleware.CorsMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',     # Enable session functionality
-    # 'django.middleware.csrf.CsrfViewMiddleware',                # Add protection against Cross Site Request Forgeries by adding hidden form fields to POST forms and checking requests for the correct value
-    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Add the user attribute, representing the currently-logged-in user, to every incoming HttpRequest object
-    'django.contrib.messages.middleware.MessageMiddleware',     # Enable cookie- and session-based message support
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',   # Add simple clickjacking protection via the X-Frame-Options header 
+    'django.contrib.sessions.middleware.SessionMiddleware',          
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
+    'django.contrib.messages.middleware.MessageMiddleware',     
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+    'pop.core.middleware.HistoryMiddleware',
 ]
 
 NINJA_JWT = {
@@ -102,6 +105,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pop.wsgi.application'
 
+PGHISTORY_CONTEXT_FIELD = pghistory.ContextJSONField()
+PGHISTORY_DEFAULT_TRACKERS = (
+    pghistory.InsertEvent(label='create'), 
+    pghistory.UpdateEvent(label='update'), 
+    pghistory.DeleteEvent(label='delete'), 
+    pghistory.ManualEvent(label='import'), 
+    pghistory.ManualEvent(label='export'),
+)
 
 # Database(s)
 DATABASES = {

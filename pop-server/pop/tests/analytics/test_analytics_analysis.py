@@ -70,15 +70,15 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
     @staticmethod
     def _simulate_case():
         user = factories.UserFactory.create()
-        case = factories.PatientCaseFactory.create(created_by=user)
-        therapy_line_1 = factories.TherapyLineFactory.create(case=case, intent='curative', ordinal=1, created_by=user)
-        systemic_therapy_1 = factories.SystemicTherapyFactory.create(case=case, therapy_line=therapy_line_1,created_by=user)
-        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_1, created_by=user)
-        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_1, created_by=user)
-        therapy_line_2 = factories.TherapyLineFactory.create(case=case, intent='palliative', ordinal=1, created_by=user)
-        systemic_therapy_2 = factories.SystemicTherapyFactory.create(case=case, therapy_line=therapy_line_2, created_by=user)
-        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_2, created_by=user)
-        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_2, created_by=user)
+        case = factories.PatientCaseFactory.create()
+        therapy_line_1 = factories.TherapyLineFactory.create(case=case, intent='curative', ordinal=1)
+        systemic_therapy_1 = factories.SystemicTherapyFactory.create(case=case, therapy_line=therapy_line_1)
+        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_1)
+        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_1)
+        therapy_line_2 = factories.TherapyLineFactory.create(case=case, intent='palliative', ordinal=1)
+        systemic_therapy_2 = factories.SystemicTherapyFactory.create(case=case, therapy_line=therapy_line_2)
+        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_2)
+        factories.SystemicTherapyMedicationFactory.create(systemic_therapy=systemic_therapy_2)
         return case 
     
     @classmethod  

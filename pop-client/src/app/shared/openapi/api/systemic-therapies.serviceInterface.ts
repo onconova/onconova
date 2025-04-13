@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedSystemicTherapy } from '../model/models';
 import { SystemicTherapy } from '../model/models';
 import { SystemicTherapyCreate } from '../model/models';
@@ -38,6 +40,19 @@ export interface DeleteSystemicTherapyByIdRequestParams {
 export interface DeleteSystemicTherapyMedicationRequestParams {
     systemicTherapyId: string;
     medicationId: string;
+}
+
+export interface GetAllSystemicTherapyHistoryEventsRequestParams {
+    systemicTherapyId: string;
+    limit?: number;
+    offset?: number;
+}
+
+export interface GetAllSystemicTherapyMedicationHistoryEventsRequestParams {
+    systemicTherapyId: string;
+    medicationId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetSystemicTherapiesRequestParams {
@@ -188,7 +203,6 @@ export interface GetSystemicTherapiesRequestParams {
     intent?: string;
     intentNot?: string;
     intentAnyOf?: Array<'curative' | 'palliative'>;
-    isAdjunctive?: boolean;
     adjunctiveRoleNotExists?: boolean;
     adjunctiveRoleExists?: boolean;
     adjunctiveRole?: string;
@@ -196,6 +210,7 @@ export interface GetSystemicTherapiesRequestParams {
     adjunctiveRoleAnyOf?: Array<string>;
     adjunctiveRoleNotAnyOf?: Array<string>;
     adjunctiveRoleDescendantsOf?: string;
+    isAdjunctive?: boolean;
     terminationReasonNotExists?: boolean;
     terminationReasonExists?: boolean;
     terminationReason?: string;
@@ -223,13 +238,35 @@ export interface GetSystemicTherapyByIdRequestParams {
     systemicTherapyId: string;
 }
 
+export interface GetSystemicTherapyHistoryEventByIdRequestParams {
+    systemicTherapyId: string;
+    eventId: string;
+}
+
 export interface GetSystemicTherapyMedicationByIdRequestParams {
     systemicTherapyId: string;
     medicationId: string;
 }
 
+export interface GetSystemicTherapyMedicationHistoryEventByIdRequestParams {
+    systemicTherapyId: string;
+    medicationId: string;
+    eventId: string;
+}
+
 export interface GetSystemicTherapyMedicationsRequestParams {
     systemicTherapyId: string;
+}
+
+export interface RevertSystemicTherapyMedicationToHistoryEventRequestParams {
+    systemicTherapyId: string;
+    medicationId: string;
+    eventId: string;
+}
+
+export interface RevertSystemicTherapyToHistoryEventRequestParams {
+    systemicTherapyId: string;
+    eventId: string;
 }
 
 export interface UpdateSystemicTherapyRequestParams {
@@ -277,6 +314,20 @@ export interface SystemicTherapiesServiceInterface {
     deleteSystemicTherapyMedication(requestParameters: DeleteSystemicTherapyMedicationRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Systemic Therapy History Events
+     * 
+* @param requestParameters
+     */
+    getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
+     * Get All Systemic Therapy Medication History Events
+     * 
+* @param requestParameters
+     */
+    getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get All Systemic Therapies Matching The Query
      * 
 * @param requestParameters
@@ -291,6 +342,13 @@ export interface SystemicTherapiesServiceInterface {
     getSystemicTherapyById(requestParameters: GetSystemicTherapyByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapy>;
 
     /**
+     * Get Systemic Therapy History Event By Id
+     * 
+* @param requestParameters
+     */
+    getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get Systemic Therapy Medication By Id
      * 
 * @param requestParameters
@@ -298,11 +356,32 @@ export interface SystemicTherapiesServiceInterface {
     getSystemicTherapyMedicationById(requestParameters: GetSystemicTherapyMedicationByIdRequestParams, extraHttpRequestParams?: any): Observable<SystemicTherapyMedication>;
 
     /**
+     * Get Systemic Therapy Medication History Event By Id
+     * 
+* @param requestParameters
+     */
+    getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get Systemic Therapy Medications Matching The Query
      * 
 * @param requestParameters
      */
     getSystemicTherapyMedications(requestParameters: GetSystemicTherapyMedicationsRequestParams, extraHttpRequestParams?: any): Observable<Array<SystemicTherapyMedication>>;
+
+    /**
+     * Revert Systemic Therapy Medication To History Event
+     * 
+* @param requestParameters
+     */
+    revertSystemicTherapyMedicationToHistoryEvent(requestParameters: RevertSystemicTherapyMedicationToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revert Systemic Therapy To History Event
+     * 
+* @param requestParameters
+     */
+    revertSystemicTherapyToHistoryEvent(requestParameters: RevertSystemicTherapyToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Systemic Therapy

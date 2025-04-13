@@ -1,6 +1,7 @@
-from datetime import date
-from typing import Optional, List, Dict, Union
+from datetime import date, datetime
+from typing import Optional, List, Dict, Union, Any
 from uuid import UUID
+from enum import Enum
 from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
 from pydantic import Field, model_validator, AliasChoices
@@ -48,3 +49,70 @@ class Period(Schema):
             return {'start': period.lower, 'end': period.upper,}
         else:
             return obj
+
+
+class HistoryEventCategory(str, Enum):
+    CREATE = 'create'
+    UPDATE = 'update'
+    DELETE = 'delete'
+    EXPORT = 'export'
+    IMPORT = 'import'
+    DOWNLOAD = 'download'
+
+class HistoryEvent(Schema):
+
+    id: Any = Field(
+        title='Event ID',
+        description='The unique identifier of the history event',
+        alias='pgh_id',
+        validation_alias=AliasChoices('id','pgh_id'),
+    )
+    category: HistoryEventCategory = Field(
+        title='Category',
+        description='The type of history event',
+        alias='pgh_label',
+        validation_alias=AliasChoices('category','pgh_label'),
+    )
+    timestamp: datetime = Field(
+        title='Timestamp',
+        description='Timestamp of the history event',
+        alias='pgh_created_at',
+        validation_alias=AliasChoices('timestamp','pgh_created_at'),
+    )
+    user: Optional[str] = Field(
+        default=None,
+        title='User',
+        description='Username of the user that triggered the event, if applicable',
+    )
+    url: Optional[str] = Field(
+        default=None,
+        title='Endpoint',
+        description='Endpoint URL through which the event was triggered, if applicable',
+    )
+    snapshot: Dict = Field(
+        default_factory=dict,
+        title='Data snapshopt',
+        description='Data snapshopt at the time of the event',
+        alias='pgh_data',
+    )
+    differential: Optional[Dict] = Field(
+        default_factory=dict,
+        title='Data differential',
+        description='Data changes introduced by the event, if applicable',
+        alias='pgh_diff',
+    )
+
+    @staticmethod
+    def resolve_user(obj):
+        return obj.pgh_context['username']
+
+    @staticmethod 
+    def resolve_category(obj):
+        return {
+            'create': HistoryEventCategory.CREATE,
+            'update': HistoryEventCategory.UPDATE,
+            'delete': HistoryEventCategory.DELETE,
+            'export': HistoryEventCategory.EXPORT,
+            'import': HistoryEventCategory.IMPORT,
+            'download': HistoryEventCategory.DOWNLOAD,
+        }.get(obj.pgh_label)

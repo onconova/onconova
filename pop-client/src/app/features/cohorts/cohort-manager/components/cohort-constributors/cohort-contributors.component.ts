@@ -7,15 +7,17 @@ import { TableModule } from 'primeng/table';
 import { first, map } from 'rxjs';
 
 import { Cohort, CohortContribution, CohortsService } from 'src/app/shared/openapi';
+import { UserBadgeComponent } from "../../../../../shared/components/user-badge/user-badge.component";
 
 @Component({
     standalone: true,
     imports: [
-        CommonModule,
-        Card, 
-        Skeleton,
-        TableModule
-    ],
+    CommonModule,
+    Card,
+    Skeleton,
+    TableModule,
+    UserBadgeComponent
+],
     selector: 'pop-cohort-contributors',
     templateUrl: './cohort-contributors.component.html',
     styleUrls: ['./cohort-contributors.component.css']

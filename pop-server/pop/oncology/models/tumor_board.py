@@ -1,3 +1,5 @@
+import pghistory
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.fields import ArrayField
@@ -16,6 +18,12 @@ class TumorBoardSpecialties(models.TextChoices):
     UNSPECIFIED = 'unspecified'
     MOLECULAR = 'molecular'
     
+@pghistory.track(
+    obj_field=pghistory.ObjForeignKey(
+        related_name="parent_events",
+        related_query_name="parent_events",
+    )
+)
 class TumorBoard(BaseModel):
 
     case = models.ForeignKey(
@@ -65,6 +73,7 @@ class TumorBoard(BaseModel):
             return f'Tumor board with {self.recommendations.count()} recommendations'
     
     
+@pghistory.track()
 class UnspecifiedTumorBoard(TumorBoard):
 
     tumor_board = models.OneToOneField(
@@ -76,6 +85,7 @@ class UnspecifiedTumorBoard(TumorBoard):
     )
 
 
+@pghistory.track()
 class MolecularTumorBoard(TumorBoard):
         
     tumor_board = models.OneToOneField(
@@ -124,6 +134,7 @@ class MolecularTumorBoard(TumorBoard):
         return f'MTB review with {recommendations} recommendations'
 
 
+@pghistory.track()
 class MolecularTherapeuticRecommendation(BaseModel):     
 
     molecular_tumor_board = models.ForeignKey(

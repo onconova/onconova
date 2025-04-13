@@ -1,8 +1,10 @@
+import pghistory 
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from pop.core.models import BaseModel
 
-
+@pghistory.track()
 class Dataset(BaseModel):
 
     name = models.CharField(

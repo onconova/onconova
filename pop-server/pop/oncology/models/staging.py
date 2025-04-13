@@ -1,4 +1,5 @@
 import re
+import pghistory
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +8,7 @@ from pop.core.models import BaseModel
 from pop.oncology.models import PatientCase, NeoplasticEntity 
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
+
 
 class StagingDomain(models.TextChoices):
     TNM = 'tnm'
@@ -24,6 +26,13 @@ class StagingDomain(models.TextChoices):
     WILMS = 'wilms'
     LYMPHOMA = 'lymphoma'
 
+
+@pghistory.track(
+    obj_field=pghistory.ObjForeignKey(
+        related_name="parent_events",
+        related_query_name="parent_events",
+    )
+)
 class Staging(BaseModel):
 
     STAGING_DOMAINS = {
@@ -63,13 +72,15 @@ class Staging(BaseModel):
     
     @property
     def description(self):
-        staging = self.STAGING_DOMAINS[self.staging_domain]
+        staging = self.STAGING_DOMAINS.get(self.staging_domain)
 
         return f'{staging} {self.stage_value}'
     
     @property
     def stage_value(self):
         regex = r"(?i).+(?:Stage| Level| Group Stage| Group )\s*([a-z0-9]+)(?:.*)"
+        if not self.staging_domain:
+            return None
         stage_string = getattr(self, self.staging_domain).stage.display  
         matched =  re.match(regex, stage_string)
         if matched:
@@ -91,6 +102,7 @@ class Staging(BaseModel):
         return getattr(self, self.staging_domain)   
     
     
+@pghistory.track()
 class TNMStaging(Staging):
     
     staging = models.OneToOneField(
@@ -172,6 +184,7 @@ class TNMStaging(Staging):
     )
 
 
+@pghistory.track()
 class FIGOStaging(Staging):
     
     staging = models.OneToOneField(
@@ -194,6 +207,7 @@ class FIGOStaging(Staging):
     )
     
 
+@pghistory.track()
 class BinetStaging(Staging):
     
     staging = models.OneToOneField(
@@ -209,7 +223,7 @@ class BinetStaging(Staging):
         terminology = terminologies.BinetStage,
     )
     
-    
+@pghistory.track()
 class RaiStaging(Staging):
     
     staging = models.OneToOneField(
@@ -231,7 +245,7 @@ class RaiStaging(Staging):
         null = True, blank = True,
     )
     
-
+@pghistory.track()
 class BreslowDepth(Staging):
     
     staging = models.OneToOneField(
@@ -265,7 +279,7 @@ class BreslowDepth(Staging):
         return terminologies.BreslowDepthStage.objects.get(code=stage_code)
     
 
-    
+@pghistory.track()
 class ClarkStaging(Staging):
     
     staging = models.OneToOneField(
@@ -281,7 +295,7 @@ class ClarkStaging(Staging):
         terminology = terminologies.ClarkLevel,
     )
         
-        
+@pghistory.track()
 class ISSStaging(Staging):
     
     staging = models.OneToOneField(
@@ -297,7 +311,7 @@ class ISSStaging(Staging):
         terminology = terminologies.MyelomaISSStage,
     )
 
-        
+@pghistory.track()
 class RISSStaging(Staging):
     
     staging = models.OneToOneField(
@@ -313,7 +327,7 @@ class RISSStaging(Staging):
         terminology = terminologies.MyelomaRISSStage,
     )
 
-
+@pghistory.track()
 class INSSStage(Staging):
 
     staging = models.OneToOneField(
@@ -329,7 +343,7 @@ class INSSStage(Staging):
         terminology = terminologies.NeuroblastomaINSSStage,
     )
     
-    
+@pghistory.track()
 class INRGSSStage(Staging):
 
     staging = models.OneToOneField(
@@ -344,7 +358,9 @@ class INRGSSStage(Staging):
         help_text = _('The value of the INRGSS stage'),
         terminology = terminologies.NeuroblastomaINRGSSStage,
     )
+
     
+@pghistory.track()
 class GleasonGrade(Staging):
     
     staging = models.OneToOneField(
@@ -359,7 +375,8 @@ class GleasonGrade(Staging):
         help_text = _('The value of the Gleason grade stage'),
         terminology = terminologies.GleasonGradeGroupStage,
     )
-    
+
+@pghistory.track()
 class WilmsStage(Staging):
 
     staging = models.OneToOneField(
@@ -374,7 +391,8 @@ class WilmsStage(Staging):
         help_text = _('The value of the Wilms stage'),
         terminology = terminologies.WilmsTumorStage,
     )
-    
+
+@pghistory.track()
 class RhabdomyosarcomaClinicalGroup(Staging):
 
     staging = models.OneToOneField(
@@ -389,7 +407,8 @@ class RhabdomyosarcomaClinicalGroup(Staging):
         help_text = _('The value of the rhabdomyosarcoma clinical group'),
         terminology = terminologies.RhabdomyosarcomaClinicalGroup,
     )
-    
+
+@pghistory.track()
 class LymphomaStaging(Staging):
     
     staging = models.OneToOneField(

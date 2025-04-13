@@ -11,6 +11,34 @@
 
 export interface NeoplasticEntityFilters { 
     /**
+     * Topographical group - Filter for entries without a value
+     */
+    'topographyGroup.not.exists'?: boolean;
+    /**
+     * Topographical group - Filter for entries with a value
+     */
+    'topographyGroup.exists'?: boolean;
+    /**
+     * Topographical group - Filter for a matching concept code
+     */
+    topographyGroup?: string;
+    /**
+     * Topographical group - Filter for a mismatching concept code
+     */
+    'topographyGroup.not'?: string;
+    /**
+     * Topographical group - Filter for a matching set of concept codes
+     */
+    'topographyGroup.anyOf'?: Array<string>;
+    /**
+     * Topographical group - Filter for a mismmatching set of concept codes
+     */
+    'topographyGroup.not.anyOf'?: Array<string>;
+    /**
+     * Topographical group - Filter for all child concepts of a given concepts code
+     */
+    'topographyGroup.descendantsOf'?: string;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;

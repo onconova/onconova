@@ -13,8 +13,10 @@ import { Observable }                                        from 'rxjs';
 
 import { GenomicVariant } from '../model/models';
 import { GenomicVariantCreate } from '../model/models';
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedGenomicVariant } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -28,8 +30,19 @@ export interface DeleteGenomicVariantRequestParams {
     genomicVariantId: string;
 }
 
+export interface GetAllGenomicVariantHistoryEventsRequestParams {
+    genomicVariantId: string;
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetGenomicVariantByIdRequestParams {
     genomicVariantId: string;
+}
+
+export interface GetGenomicVariantHistoryEventByIdRequestParams {
+    genomicVariantId: string;
+    eventId: string;
 }
 
 export interface GetGenomicVariantsRequestParams {
@@ -294,6 +307,11 @@ export interface GetGenomicVariantsRequestParams {
     offset?: number;
 }
 
+export interface RevertGenomicVariantToHistoryEventRequestParams {
+    genomicVariantId: string;
+    eventId: string;
+}
+
 export interface UpdateGenomicVariantRequestParams {
     genomicVariantId: string;
     genomicVariantCreate: GenomicVariantCreate;
@@ -319,6 +337,13 @@ export interface GenomicVariantsServiceInterface {
     deleteGenomicVariant(requestParameters: DeleteGenomicVariantRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Genomic Variant History Events
+     * 
+* @param requestParameters
+     */
+    getAllGenomicVariantHistoryEvents(requestParameters: GetAllGenomicVariantHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get Genomic Variant By Id
      * 
 * @param requestParameters
@@ -326,11 +351,25 @@ export interface GenomicVariantsServiceInterface {
     getGenomicVariantById(requestParameters: GetGenomicVariantByIdRequestParams, extraHttpRequestParams?: any): Observable<GenomicVariant>;
 
     /**
+     * Get Genomic Variant History Event By Id
+     * 
+* @param requestParameters
+     */
+    getGenomicVariantHistoryEventById(requestParameters: GetGenomicVariantHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
      * Get All Genomic Variants Matching The Query
      * 
 * @param requestParameters
      */
     getGenomicVariants(requestParameters: GetGenomicVariantsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedGenomicVariant>;
+
+    /**
+     * Revert Genomic Variant To History Event
+     * 
+* @param requestParameters
+     */
+    revertGenomicVariantToHistoryEvent(requestParameters: RevertGenomicVariantToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Genomic Variant

@@ -15,10 +15,10 @@ import { style } from '@angular/animations';
     selector: 'pop-data-summay-counter',
     template: `
         <div class="data-statistic">
-            @if (count) {
+            @if (count || count==0) {
                 <div class="data-statistic-number" [ngxCountAnimation]="count" duration="1000"></div>
             } @else {
-                <p-skeleton/>
+                <p-skeleton height="2rem"/>
             }
             <div class="data-statistic-label text-muted"><small>{{title}}</small></div>
         </div>    

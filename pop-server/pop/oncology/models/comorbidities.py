@@ -1,4 +1,6 @@
 
+import pghistory
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -481,6 +483,7 @@ class NciPanelDetails(ComorbiditiesPanelDetails):
             
 
 
+@pghistory.track()
 class ComorbiditiesAssessment(BaseModel):
 
     COMORBIDITY_PANELS_DETAILS = {

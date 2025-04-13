@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 
 
@@ -16,25 +15,12 @@ export interface MolecularTherapeuticRecommendation {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     expectedEffect?: CodedConcept | null;
     clinicalTrial?: string | null;
     offLabelUse?: boolean | null;
     withinSoc?: boolean | null;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     drugs?: Array<CodedConcept> | null;
     supportingGenomicVariantsIds?: Array<string> | null;
     supportingGenomicSignaturesIds?: Array<string> | null;
@@ -43,5 +29,15 @@ export interface MolecularTherapeuticRecommendation {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 

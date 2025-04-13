@@ -131,7 +131,7 @@ class CohortFilters(create_filters_schema(schema=CohortSchema, name='CohortFilte
     createdBy: Optional[str] = Field(None, description='Filter for a particular cohort creator by its username')
 
     def filter_createdBy(self, value: str) -> Q:
-        return Q(created_by__username=self.createdBy) if value is not None else Q()
+        return Q(created_by=self.createdBy) if value is not None else Q()
 
 # ----------------------------------------------------
 # Cohort traits schemas
@@ -151,5 +151,5 @@ class CohortTraitCounts(Schema):
     percentage: float
 
 class CohortContribution(Schema):
-    contributor: UserSchema
+    contributor: str
     contributions: int

@@ -1,4 +1,5 @@
 from enum import Enum
+import pghistory 
 
 from ninja import Query
 from ninja.schema import Schema, Field
@@ -7,7 +8,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import NeoplasticEntity
 
 from django.shortcuts import get_object_or_404
@@ -85,3 +86,42 @@ class NeoplasticEntityController(ControllerBase):
         get_object_or_404(NeoplasticEntity, id=entityId).delete()
         return 204, None
     
+    @route.get(
+        path='/{entityId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllNeoplasticEntityHistoryEvents',
+    )
+    @paginate()
+    def get_all_neoplastic_entity_history_events(self, entityId: str):
+        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{entityId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getNeoplasticEntityHistoryEventById',
+    )
+    def get_neoplastic_entity_history_event_by_id(self, entityId: str, eventId: str):
+        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{entityId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertNeoplasticEntityToHistoryEvent',
+    )
+    def revert_neoplastic_entity_to_history_event(self, entityId: str, eventId: str):
+        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

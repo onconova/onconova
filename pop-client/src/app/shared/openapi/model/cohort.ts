@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 
 
 export interface Cohort { 
@@ -19,15 +18,6 @@ export interface Cohort {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -40,10 +30,6 @@ export interface Cohort {
      * Whether the cohort is public
      */
     isPublic?: boolean;
-    /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
     /**
      * Cases composing the cohort
      */
@@ -60,5 +46,15 @@ export interface Cohort {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 

@@ -9,9 +9,9 @@
  */
 import { CohortRule } from './cohort-rule';
 import { CohortQueryEntity } from './cohort-query-entity';
-import { CohortQueryFilter } from './cohort-query-filter';
 import { RulesetCondition } from './ruleset-condition';
 import { CohortRuleset } from './cohort-ruleset';
+import { CohortRuleFilter } from './cohort-rule-filter';
 
 
 export interface CohortRulesetRulesInner { 
@@ -20,14 +20,9 @@ export interface CohortRulesetRulesInner {
      */
     entity: CohortQueryEntity;
     /**
-     * Dot-separated path of the resource field (e.g. \'medications.drug\')
+     * List of filters to be applied to the resource
      */
-    field: string;
-    /**
-     * Name of the filter operator to be applied to the field
-     */
-    operator: CohortQueryFilter;
-    value: any | null;
+    filters: Array<CohortRuleFilter>;
     /**
      * Logical condition used to chain the rules within the ruleset
      */

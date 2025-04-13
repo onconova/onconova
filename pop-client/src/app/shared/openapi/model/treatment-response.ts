@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 
 
@@ -16,15 +15,6 @@ export interface TreatmentResponse {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -45,10 +35,6 @@ export interface TreatmentResponse {
      */
     methodology: CodedConcept;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * References to the neoplastic entities that were assesed for treatment response
      */
     assessedEntitiesIds?: Array<string>;
@@ -57,5 +43,15 @@ export interface TreatmentResponse {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 

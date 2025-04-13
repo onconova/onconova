@@ -25,7 +25,7 @@ class MolecularTumorBoardSchema(ModelGetSchema):
     therapeuticRecommendations: List[MolecularTherapeuticRecommendationSchema] = Field(
         description='Therapeutic recommendations of the molecular tumor board',
         alias='therapeutic_recommendations',
-        validation_aliases=AliasChoices('therapeutic_recommendations','therapeuticRecommendations')
+        validation_aliases=AliasChoices('therapeuticRecommendations','therapeutic_recommendations')
     ) 
     config = SchemaConfig(model=orm.MolecularTumorBoard, exclude=['tumor_board'])
 

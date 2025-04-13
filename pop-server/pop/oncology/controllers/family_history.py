@@ -1,13 +1,12 @@
-from typing import List
+import pghistory
 
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import FamilyHistory
 
 from django.shortcuts import get_object_or_404
@@ -84,3 +83,43 @@ class FamilyHistoryController(ControllerBase):
     def update_family_history(self, familyHistoryId: str, payload: FamilyHistoryCreateSchema): # type: ignore
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
         return payload.model_dump_django(instance=instance, user=self.context.request.user)
+
+    @route.get(
+        path='/{familyHistoryId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllFamilyHistoryHistoryEvents',
+    )
+    @paginate()
+    def get_all_family_history_history_events(self, familyHistoryId: str):
+        instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{familyHistoryId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getFamilyHistoryHistoryEventById',
+    )
+    def get_family_history_history_event_by_id(self, familyHistoryId: str, eventId: str):
+        instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{familyHistoryId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertFamilyHistoryToHistoryEvent',
+    )
+    def revert_family_history_to_history_event(self, familyHistoryId: str, eventId: str):
+        instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

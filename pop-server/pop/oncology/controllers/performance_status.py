@@ -1,4 +1,4 @@
-from enum import Enum
+import pghistory
 
 from ninja import Query
 from ninja.schema import Schema, Field
@@ -7,7 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import PerformanceStatus
 
 from django.shortcuts import get_object_or_404
@@ -82,5 +82,44 @@ class PerformanceStatusController(ControllerBase):
     )
     def delete_performance_status(self, performanceStatusId: str):
         get_object_or_404(PerformanceStatus, id=performanceStatusId).delete()
-        return 204, None
+        return 204, None    
     
+    @route.get(
+        path='/{performanceStatusId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllPerformanceStatusHistoryEvents',
+    )
+    @paginate()
+    def get_all_performance_status_history_events(self, performanceStatusId: str):
+        instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{performanceStatusId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getPerformanceStatusHistoryEventById',
+    )
+    def get_performance_status_history_event_by_id(self, performanceStatusId: str, eventId: str):
+        instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{performanceStatusId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertPerformanceStatusToHistoryEvent',
+    )
+    def revert_performance_status_to_history_event(self, performanceStatusId: str, eventId: str):
+        instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

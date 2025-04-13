@@ -26,6 +26,21 @@
     margin-left: -.25rem;
 }
 
+.history.p-timeline{
+    margin-top: 1rem;
+}
+.history.p-timeline .p-timeline-event{
+    min-height: fit-content;
+}
+.history.p-timeline .timeline-event-category i{
+    scale: .9;
+}
+.history.p-timeline .p-timeline-event-content{
+    padding-left: .5rem;
+}
+.history.p-timeline .p-timeline-event-opposite {
+    display: none;
+}
 .drawer-header lucide-angular {
     width: var(--p-avatar-lg-width); 
     text-align: center;

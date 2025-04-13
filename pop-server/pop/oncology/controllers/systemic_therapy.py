@@ -1,13 +1,13 @@
+import pghistory
 from typing import List
 
 from ninja import Query
-from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication, TherapyLine
 
 from django.shortcuts import get_object_or_404
@@ -89,6 +89,47 @@ class SystemicTherapyController(ControllerBase):
         instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
         return payload.model_dump_django(instance=instance, user=self.context.request.user).assign_therapy_line()
         
+    @route.get(
+        path='/{systemicTherapyId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllSystemicTherapyHistoryEvents',
+    )
+    @paginate()
+    def get_all_systemic_therapy_history_events(self, systemicTherapyId: str):
+        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{systemicTherapyId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getSystemicTherapyHistoryEventById',
+    )
+    def get_systemic_therapy_history_event_by_id(self, systemicTherapyId: str, eventId: str):
+        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{systemicTherapyId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertSystemicTherapyToHistoryEvent',
+    )
+    def revert_systemic_therapy_to_history_event(self, systemicTherapyId: str, eventId: str):
+        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()        
+
+
 
 
     @route.get(
@@ -158,4 +199,44 @@ class SystemicTherapyController(ControllerBase):
         instance.delete()
         TherapyLine.assign_therapy_lines(case)
         return 204, None
+    
+    @route.get(
+        path='/{systemicTherapyId}/medications/{medicationId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllSystemicTherapyMedicationHistoryEvents',
+    )
+    @paginate()
+    def get_all_systemic_therapy_medication_history_events(self, systemicTherapyId: str, medicationId: str):
+        instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getSystemicTherapyMedicationHistoryEventById',
+    )
+    def get_systemic_therapy_medication_history_event_by_id(self, systemicTherapyId: str, medicationId: str, eventId: str):
+        instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertSystemicTherapyMedicationToHistoryEvent',
+    )
+    def revert_systemic_therapy_medication_to_history_event(self, systemicTherapyId: str, medicationId: str, eventId: str):
+        instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
     

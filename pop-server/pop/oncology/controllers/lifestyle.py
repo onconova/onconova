@@ -1,3 +1,4 @@
+import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_jwt.authentication import JWTAuth
@@ -5,7 +6,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
-from pop.core.schemas import ModifiedResourceSchema, Paginated
+from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Lifestyle
 
 from django.shortcuts import get_object_or_404
@@ -85,3 +86,42 @@ class LifestyleController(ControllerBase):
         get_object_or_404(Lifestyle, id=lifestyleId).delete()
         return 204, None
     
+    @route.get(
+        path='/{lifestyleId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getAllLifestyleHistoryEvents',
+    )
+    @paginate()
+    def get_all_lifestyle_history_events(self, lifestyleId: str):
+        instance = get_object_or_404(Lifestyle, id=lifestyleId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{lifestyleId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent,
+            404: None,
+        },
+        permissions=[perms.CanViewCases],
+        operation_id='getLifestyleHistoryEventById',
+    )
+    def get_lifestyle_history_event_by_id(self, lifestyleId: str, eventId: str):
+        instance = get_object_or_404(Lifestyle, id=lifestyleId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{lifestyleId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None,
+        },
+        permissions=[perms.CanManageCases],
+        operation_id='revertLifestyleToHistoryEvent',
+    )
+    def revert_lifestyle_to_history_event(self, lifestyleId: str, eventId: str):
+        instance = get_object_or_404(Lifestyle, id=lifestyleId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

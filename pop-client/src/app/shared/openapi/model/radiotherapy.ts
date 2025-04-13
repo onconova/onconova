@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { CodedConcept } from './coded-concept';
 import { RadiotherapyDosage } from './radiotherapy-dosage';
 import { Period } from './period';
@@ -28,15 +27,6 @@ export interface Radiotherapy {
      * 
      */
     id: string;
-    /**
-     * 
-     */
-    createdAt: string;
-    /**
-     * 
-     */
-    updatedAt: string;
-    createdBy?: User | null;
     externalSource?: string | null;
     externalSourceId?: string | null;
     /**
@@ -58,10 +48,6 @@ export interface Radiotherapy {
     terminationReason?: CodedConcept | null;
     therapyLineId?: string | null;
     /**
-     * The user(s) who updated the data since its creation
-     */
-    updatedBy?: Array<User>;
-    /**
      * References to the neoplastic entities that were targeted by the radiotherapy
      */
     targetedEntitiesIds?: Array<string>;
@@ -69,6 +55,16 @@ export interface Radiotherapy {
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    /**
+     * Usernames of the users who have updated the resource
+     */
+    updatedBy?: Array<string | null>;
 }
 export namespace Radiotherapy {
 }

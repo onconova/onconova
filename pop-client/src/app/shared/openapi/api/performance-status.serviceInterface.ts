@@ -11,7 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
+import { HistoryEvent } from '../model/models';
 import { ModifiedResource } from '../model/models';
+import { PaginatedHistoryEvent } from '../model/models';
 import { PaginatedPerformanceStatus } from '../model/models';
 import { PerformanceStatus } from '../model/models';
 import { PerformanceStatusCreate } from '../model/models';
@@ -26,6 +28,12 @@ export interface CreatePerformanceStatusRequestParams {
 
 export interface DeletePerformanceStatusRequestParams {
     performanceStatusId: string;
+}
+
+export interface GetAllPerformanceStatusHistoryEventsRequestParams {
+    performanceStatusId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetPerformanceStatusRequestParams {
@@ -95,6 +103,16 @@ export interface GetPerformanceStatusByIdRequestParams {
     performanceStatusId: string;
 }
 
+export interface GetPerformanceStatusHistoryEventByIdRequestParams {
+    performanceStatusId: string;
+    eventId: string;
+}
+
+export interface RevertPerformanceStatusToHistoryEventRequestParams {
+    performanceStatusId: string;
+    eventId: string;
+}
+
 export interface UpdatePerformanceStatusByIdRequestParams {
     performanceStatusId: string;
     performanceStatusCreate: PerformanceStatusCreate;
@@ -120,6 +138,13 @@ export interface PerformanceStatusServiceInterface {
     deletePerformanceStatus(requestParameters: DeletePerformanceStatusRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Get All Performance Status History Events
+     * 
+* @param requestParameters
+     */
+    getAllPerformanceStatusHistoryEvents(requestParameters: GetAllPerformanceStatusHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+
+    /**
      * Get All Performance Status Matching The Query
      * 
 * @param requestParameters
@@ -132,6 +157,20 @@ export interface PerformanceStatusServiceInterface {
 * @param requestParameters
      */
     getPerformanceStatusById(requestParameters: GetPerformanceStatusByIdRequestParams, extraHttpRequestParams?: any): Observable<PerformanceStatus>;
+
+    /**
+     * Get Performance Status History Event By Id
+     * 
+* @param requestParameters
+     */
+    getPerformanceStatusHistoryEventById(requestParameters: GetPerformanceStatusHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+
+    /**
+     * Revert Performance Status To History Event
+     * 
+* @param requestParameters
+     */
+    revertPerformanceStatusToHistoryEvent(requestParameters: RevertPerformanceStatusToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Performance Status
