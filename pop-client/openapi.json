@@ -41195,7 +41195,8 @@
               }
             ],
             "description": "Broad anatomical location of the neoplastic entity",
-            "title": "Topographical group"
+            "title": "Topographical group",
+            "x-terminology": "CancerTopographyGroup"
           },
           "id": {
             "description": "",

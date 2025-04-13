@@ -13,6 +13,9 @@ class NeoplasticEntitySchema(ModelGetSchema):
         alias='topography_group', 
         description='Broad anatomical location of the neoplastic entity',
         validation_alias=AliasChoices('topographyGroup','topography_group'),
+        json_schema_extra={
+            'x-terminology': 'CancerTopographyGroup',
+        },
     ) 
     config = SchemaConfig(model=orm.NeoplasticEntity)
 
