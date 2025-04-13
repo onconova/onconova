@@ -42,7 +42,7 @@ class VitalsController(ControllerBase):
         operation_id='createVitals',
     )
     def create_vitals(self, payload: VitalsCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
         
         
     @route.get(
@@ -69,7 +69,7 @@ class VitalsController(ControllerBase):
     )
     def update_vitals(self, vitalsId: str, payload: VitalsCreateSchema): # type: ignore
         instance = get_object_or_404(Vitals, id=vitalsId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
         
     @route.delete(

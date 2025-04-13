@@ -43,7 +43,7 @@ class TherapyLineController(ControllerBase):
         operation_id='createTherapyLine',
     )
     def create_therapy_line(self, payload: TherapyLineCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
 
     @route.get(
         path='/{therapyLineId}', 
@@ -69,7 +69,7 @@ class TherapyLineController(ControllerBase):
     )
     def update_therapy_line(self, therapyLineId: str, payload: TherapyLineCreateSchema): # type: ignore
         instance = get_object_or_404(TherapyLine, id=therapyLineId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
     @route.delete(
         path='/{therapyLineId}', 

@@ -46,7 +46,7 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='createNeoplasticEntity',
     )
     def create_neoplastic_entity(self, payload: NeoplasticEntityCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
         
     @route.get(
         path='/{entityId}', 
@@ -71,7 +71,7 @@ class NeoplasticEntityController(ControllerBase):
     )
     def update_neoplastic_entity(self, entityId: str, payload: NeoplasticEntityCreateSchema): # type: ignore
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
     @route.delete(
         path='/{entityId}', 

@@ -61,7 +61,7 @@ class DatasetRuleProcessor:
     
     def _get_orm_model(self, schema):
         """Retrieves the corresponding schema for the resource."""
-        orm_model = schema.__orm_model__
+        orm_model = schema.get_orm_model()
         if not orm_model:
             raise DatasetRuleProcessingError(f'The schema "{schema.__name__}" has no associated ORM model.')
         return orm_model

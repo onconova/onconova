@@ -47,7 +47,7 @@ class PatientCaseController(ControllerBase):
         operation_id='createPatientCase',
     )
     def create_patient_case(self, payload: PatientCaseCreateSchema):
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
 
     @route.get(
         path='/{caseId}', 
@@ -86,7 +86,7 @@ class PatientCaseController(ControllerBase):
         instance = get_object_or_404(PatientCase, id=caseId)
         return PatientCaseCreateSchema\
                     .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
+                    .model_dump_django(instance=instance)
        
     @route.delete(
         path='/{caseId}', 

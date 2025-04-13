@@ -52,7 +52,7 @@ class AdverseEventController(ControllerBase):
     def create_adverse_event(self, payload: AdverseEventCreateSchema): # type: ignore
         return AdverseEventCreateSchema\
                     .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
+                    .model_dump_django()
     
     @route.get(
         path='/{adverseEventId}', 
@@ -91,7 +91,7 @@ class AdverseEventController(ControllerBase):
     )
     def update_adverse_event(self, adverseEventId: str, payload: AdverseEventCreateSchema): # type: ignore
         instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)    
+        return payload.model_dump_django(instance=instance)    
 
     @route.get(
         path='/{adverseEventId}/history/events', 
@@ -170,7 +170,7 @@ class AdverseEventController(ControllerBase):
     )
     def create_adverse_event_suspected_cause(self, adverseEventId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
         instance = AdverseEventSuspectedCause(adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId))
-        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
+        return payload.model_dump_django(instance=instance, create=True)
 
     @route.put(
         path='/{adverseEventId}/suspected-causes/{causeId}', 
@@ -183,7 +183,7 @@ class AdverseEventController(ControllerBase):
     )
     def update_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str, payload: AdverseEventSuspectedCauseCreateSchema): # type: ignore
         instance = get_object_or_404(AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
 
 
     @route.delete(
@@ -276,7 +276,7 @@ class AdverseEventController(ControllerBase):
     )
     def create_adverse_event_mitigation(self, adverseEventId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
         instance = AdverseEventMitigation(adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId))
-        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
+        return payload.model_dump_django(instance=instance, create=True)
 
     @route.put(
         path='/{adverseEventId}/mitigations/{mitigationId}', 
@@ -289,7 +289,7 @@ class AdverseEventController(ControllerBase):
     )
     def update_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str, payload: AdverseEventMitigationCreateSchema): # type: ignore
         instance = get_object_or_404(AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
     
 
     @route.delete(

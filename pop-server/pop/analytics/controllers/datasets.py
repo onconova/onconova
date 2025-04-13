@@ -45,7 +45,7 @@ class DatasetsController(ControllerBase):
         operation_id='createDataset',
     )
     def create_dataset(self, payload: DatasetCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
         
 
     @route.get(
@@ -85,7 +85,7 @@ class DatasetsController(ControllerBase):
         operation_id='updateDataset',
     )
     def update_dataset(self, datasetId: str, payload: DatasetCreateSchema): # type: ignore
-        return payload.model_dump_django(instance=get_object_or_404(Dataset, id=datasetId), user=self.context.request.user)
+        return payload.model_dump_django(instance=get_object_or_404(Dataset, id=datasetId))
 
     @route.get(
         path='/{datasetId}/history/events', 

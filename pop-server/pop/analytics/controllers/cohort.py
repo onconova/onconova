@@ -70,7 +70,7 @@ class CohortsController(ControllerBase):
         operation_id='createCohort',
     )
     def create_cohort(self, payload: CohortCreateSchema):
-        cohort = payload.model_dump_django(user=self.context.request.user)
+        cohort = payload.model_dump_django()
         cohort.update_cohort_cases()
         return cohort
         
@@ -113,7 +113,7 @@ class CohortsController(ControllerBase):
     )
     def update_cohort(self, cohortId: str, payload: CohortCreateSchema):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        cohort = payload.model_dump_django(instance=cohort, user=self.context.request.user)
+        cohort = payload.model_dump_django(instance=cohort)
         cohort.update_cohort_cases()
         return cohort
 

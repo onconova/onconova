@@ -49,7 +49,7 @@ class RadiotherapyController(ControllerBase):
         operation_id='createRadiotherapy',
     )
     def create_radiotherapy(self, payload: RadiotherapyCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user).assign_therapy_line()
+        return payload.model_dump_django().assign_therapy_line()
     
     @route.get(
         path='/{radiotherapyId}', 
@@ -92,7 +92,7 @@ class RadiotherapyController(ControllerBase):
     )
     def update_radiotherapy(self, radiotherapyId: str, payload: RadiotherapyCreateSchema): # type: ignore
         instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user).assign_therapy_line()
+        return payload.model_dump_django(instance=instance).assign_therapy_line()
 
     @route.get(
         path='/{radiotherapyId}/history/events', 
@@ -172,7 +172,7 @@ class RadiotherapyController(ControllerBase):
     )
     def create_radiotherapy_dosage(self, radiotherapyId: str, payload: RadiotherapyDosageCreateSchema): # type: ignore
         instance = RadiotherapyDosage(radiotherapy=get_object_or_404(Radiotherapy, id=radiotherapyId))
-        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
+        return payload.model_dump_django(instance=instance, create=True)
 
 
     @route.put(
@@ -186,7 +186,7 @@ class RadiotherapyController(ControllerBase):
     )
     def update_radiotherapy_dosage(self, radiotherapyId: str, dosageId: str, payload: RadiotherapyDosageCreateSchema): # type: ignore
         instance = get_object_or_404(RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
 
     @route.delete(
@@ -279,7 +279,7 @@ class RadiotherapyController(ControllerBase):
     )
     def create_radiotherapy_setting(self, radiotherapyId: str, payload: RadiotherapySettingCreateSchema): # type: ignore
         instance = RadiotherapySetting(radiotherapy=get_object_or_404(Radiotherapy, id=radiotherapyId))
-        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
+        return payload.model_dump_django(instance=instance, create=True)
 
     @route.put(
         path='/{radiotherapyId}/settings/{settingId}', 
@@ -292,7 +292,7 @@ class RadiotherapyController(ControllerBase):
     )
     def update_radiotherapy_setting(self, radiotherapyId: str, settingId: str, payload: RadiotherapySettingCreateSchema): # type: ignore
         instance = get_object_or_404(RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
 
     @route.delete(
         path='/{radiotherapyId}/settings/{settingId}', 

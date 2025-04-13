@@ -75,7 +75,7 @@ class TumorBoardController(ControllerBase):
         operation_id='createTumorBoard',
     )
     def create_tumor_board(self, payload: AnyPayloadSchemas): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
 
     @route.get(
         path='/{tumorBoardId}', 
@@ -103,7 +103,7 @@ class TumorBoardController(ControllerBase):
     )
     def update_tumor_board(self, tumorBoardId: str, payload: AnyPayloadSchemas): # type: ignore
         instance = get_object_or_404(TumorBoard, id=tumorBoardId).specialized_tumor_board
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
     @route.delete(
         path='/{tumorBoardId}', 
@@ -215,7 +215,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         instance = MolecularTherapeuticRecommendation(molecular_tumor_board=get_object_or_404(MolecularTumorBoard, id=tumorBoardId))
         return MolecularTherapeuticRecommendationCreateSchema\
                     .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user, create=True)
+                    .model_dump_django(instance=instance, create=True)
         
 
     @route.put(
@@ -231,7 +231,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         instance = get_object_or_404(MolecularTherapeuticRecommendation, id=recommendationId, molecular_tumor_board__id=tumorBoardId)
         return MolecularTherapeuticRecommendationCreateSchema\
                     .model_validate(payload)\
-                    .model_dump_django(instance=instance, user=self.context.request.user)
+                    .model_dump_django(instance=instance)
         
     @route.delete(
         path='/{tumorBoardId}/therapeutic-recommendations/{recommendationId}', 

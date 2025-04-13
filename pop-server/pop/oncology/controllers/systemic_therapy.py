@@ -45,7 +45,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id='createSystemicTherapy',
     )
     def create_systemic_therapy(self, payload: SystemicTherapyCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user).assign_therapy_line()
+        return payload.model_dump_django().assign_therapy_line()
      
     @route.get(
         path='/{systemicTherapyId}', 
@@ -87,7 +87,7 @@ class SystemicTherapyController(ControllerBase):
     )
     def update_systemic_therapy(self, systemicTherapyId: str, payload: SystemicTherapyCreateSchema): # type: ignore
         instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user).assign_therapy_line()
+        return payload.model_dump_django(instance=instance).assign_therapy_line()
         
     @route.get(
         path='/{systemicTherapyId}/history/events', 
@@ -167,7 +167,7 @@ class SystemicTherapyController(ControllerBase):
     )
     def create_systemic_therapy_medication(self, systemicTherapyId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
         instance = SystemicTherapyMedication(systemic_therapy=get_object_or_404(SystemicTherapy, id=systemicTherapyId))
-        return payload.model_dump_django(instance=instance, user=self.context.request.user, create=True)
+        return payload.model_dump_django(instance=instance, create=True)
         
 
     @route.put(
@@ -181,7 +181,7 @@ class SystemicTherapyController(ControllerBase):
     )
     def update_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str, payload: SystemicTherapyMedicationCreateSchema): # type: ignore
         instance = get_object_or_404(SystemicTherapyMedication, id=medicationId, systemic_therapy__id=systemicTherapyId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
 
     @route.delete(

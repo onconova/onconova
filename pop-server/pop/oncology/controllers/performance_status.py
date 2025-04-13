@@ -44,7 +44,7 @@ class PerformanceStatusController(ControllerBase):
         operation_id='createPerformanceStatus',
     )
     def create_performance_status(self, payload: PerformanceStatusCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
 
     @route.get(
         path='/{performanceStatusId}', 
@@ -69,7 +69,7 @@ class PerformanceStatusController(ControllerBase):
     )
     def update_performance_status(self, performanceStatusId: str, payload: PerformanceStatusCreateSchema): # type: ignore
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
 
     @route.delete(
         path='/{performanceStatusId}', 

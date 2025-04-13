@@ -41,7 +41,7 @@ class FamilyHistoryController(ControllerBase):
         operation_id='createFamilyHistory',
     )
     def create_family_history(self, payload: FamilyHistoryCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
         
 
     @route.get(
@@ -82,7 +82,7 @@ class FamilyHistoryController(ControllerBase):
     )
     def update_family_history(self, familyHistoryId: str, payload: FamilyHistoryCreateSchema): # type: ignore
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
 
     @route.get(
         path='/{familyHistoryId}/history/events', 

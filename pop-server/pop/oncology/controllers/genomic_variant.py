@@ -44,7 +44,7 @@ class GenomicVariantController(ControllerBase):
         operation_id='createGenomicVariant',
     )
     def create_genomic_variant(self, payload: GenomicVariantCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
         
 
     @route.get(
@@ -71,7 +71,7 @@ class GenomicVariantController(ControllerBase):
     )
     def update_genomic_variant(self, genomicVariantId: str, payload: GenomicVariantCreateSchema): # type: ignore
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
         
     @route.delete(

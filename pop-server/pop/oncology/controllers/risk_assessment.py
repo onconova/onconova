@@ -44,7 +44,7 @@ class RiskAssessmentController(ControllerBase):
         operation_id='createRiskAssessment',
     )
     def create_risk_assessment(self, payload: RiskAssessmentCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
 
     @route.get(
         path='/{riskAssessmentId}', 
@@ -69,7 +69,7 @@ class RiskAssessmentController(ControllerBase):
     )
     def update_risk_assessment(self, riskAssessmentId: str, payload: RiskAssessmentCreateSchema): # type: ignore
         instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
 
     @route.delete(
         path='/{riskAssessmentId}', 

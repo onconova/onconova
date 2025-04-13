@@ -44,7 +44,7 @@ class LifestyleController(ControllerBase):
         operation_id='createLifestyle',
     )
     def create_lifestyle(self, payload: LifestyleCreateSchema): # type: ignore
-        return payload.model_dump_django(user=self.context.request.user)
+        return payload.model_dump_django()
         
 
     @route.get(
@@ -71,7 +71,7 @@ class LifestyleController(ControllerBase):
     )
     def update_lifestyle(self, lifestyleId: str, payload: LifestyleCreateSchema): # type: ignore
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
-        return payload.model_dump_django(instance=instance, user=self.context.request.user)
+        return payload.model_dump_django(instance=instance)
         
     @route.delete(
         path='/{lifestyleId}', 

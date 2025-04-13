@@ -1,13 +1,14 @@
-from django.db.models import Model as DjangoModel, Field as DjangoField
-from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
-from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
 from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
 
 from ninja import Schema, FilterSchema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
-from django.db.models import Q, QuerySet
+from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
 from pydantic.fields import FieldInfo
+
+from django.db import transaction
+from django.db.models import Q, QuerySet, Model as DjangoModel, Field as DjangoField
+from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.terminology.models import CodedConcept
 from pop.core.measures.fields import MeasurementField
@@ -282,7 +283,11 @@ class BaseSchema(Schema):
         # Collect related objects and apply validation or get their IDs
         return [related_object.id for related_object in getattr(obj, orm_field_name).all()]
 
-    def model_dump_django(self, model: Optional[Type[DjangoModel]] = None, instance: Optional[DjangoModel] = None, user: Optional[DjangoModel] = None, create: Optional[bool] = None) -> DjangoModel:
+    def model_dump_django(self, 
+            model: Optional[Type[DjangoModel]] = None, 
+            instance: Optional[DjangoModel] = None, 
+            create: Optional[bool] = None
+        ) -> DjangoModel:
         """
         Converts a Pydantic model instance to a Django model instance, handling
         both relational and non-relational fields.
@@ -307,8 +312,7 @@ class BaseSchema(Schema):
         """
         model = model or self.get_orm_model()
         create = create if create is not None else instance is None 
-        m2m_relations = {}
-        o2m_relations = {}
+        m2m_relations, o2m_relations = {}, {}
         if create and instance is None:
             instance = model()
         serialized_data = super().model_dump()
@@ -370,17 +374,20 @@ class BaseSchema(Schema):
                 else:
                     # Otherwise simply handle all other non-relational fields
                     setattr(instance, orm_field.name, data)
-        # Save the model instance to the database    
-        instance.save()
-        # Set many-to-many
-        for orm_field_name, related_instances in m2m_relations.items():
-            getattr(instance, orm_field_name).set(related_instances)
-        # Set one-to-many
-        for orm_field, data in o2m_relations.items():
-            related_schema = data['schema']
-            for entry in data['entries']:               
-                related_instance = orm_field.related_model(**{f'{orm_field.field.name}': instance})
-                related_schema.model_validate(entry).model_dump_django(instance=related_instance, user=user)            
+
+        # Rollback changes if any exception occurs during the transaction
+        with transaction.atomic():
+            # Save the model instance to the database    
+            instance.save()
+            # Set many-to-many
+            for orm_field_name, related_instances in m2m_relations.items():
+                getattr(instance, orm_field_name).set(related_instances)
+            # Set one-to-many
+            for orm_field, data in o2m_relations.items():
+                related_schema = data['schema']
+                for entry in data['entries']:               
+                    related_instance = orm_field.related_model(**{f'{orm_field.field.name}': instance})
+                    related_schema.model_validate(entry).model_dump_django(instance=related_instance)            
         return instance
 
 

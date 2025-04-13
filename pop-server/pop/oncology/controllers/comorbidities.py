@@ -47,7 +47,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     def create_comorbidities_assessment(self, payload: ComorbiditiesAssessmentCreateSchema): # type: ignore
         return ComorbiditiesAssessmentCreateSchema\
                     .model_validate(payload)\
-                    .model_dump_django(user=self.context.request.user)
+                    .model_dump_django()
         
     @route.get(
         path='/{comorbiditiesAssessmentId}', 
@@ -91,7 +91,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
             instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
             return ComorbiditiesAssessmentCreateSchema\
                         .model_validate(payload.model_dump(exclude_unset=True))\
-                        .model_dump_django(instance=instance, user=self.context.request.user)
+                        .model_dump_django(instance=instance)
     
     @route.get(
         path='/{comorbiditiesAssessmentId}/history/events', 
