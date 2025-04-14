@@ -1,55 +1,57 @@
 <p-card styleClass="h-[65rem]">
-    <p-toolbar styleClass="mb-3">
-        <ng-template #start>
-            @let userDatasets = userDatasets$ | async;
-            @if (userDatasets) {
-                <p-autocomplete 
-                    [(ngModel)]="selectedDataset" 
-                    [dropdown]="true" 
-                    [suggestions]="userDatasetOptions" 
-                    placeholder="Enter new or existing dataset name"
+    <div class="flex mb-3">
+        <p-toolbar styleClass="my-auto">
+            <ng-template #start>
+                @let userDatasets = userDatasets$ | async;
+                @if (userDatasets) {
+                    <p-autocomplete 
+                        [(ngModel)]="selectedDataset" 
+                        [dropdown]="true" 
+                        [suggestions]="userDatasetOptions" 
+                        placeholder="Enter new or existing dataset name"
+                        class="mr-2" 
+                        optionLabel="name"
+                        (completeMethod)="searchUserDatasets($event)"/>
+                }
+                <p-button 
+                    icon="pi pi-eraser" 
+                    label='Clear' 
                     class="mr-2" 
-                    optionLabel="name"
-                    (completeMethod)="searchUserDatasets($event)"/>
-            }
-            <p-button 
-                icon="pi pi-eraser" 
-                label='Clear' 
-                class="mr-2" 
-                severity="secondary" 
-                (onClick)="clearDatasetRules()"/>
-            <p-button 
-                icon="pi pi-sync" 
-                class="mr-2" 
-                label="Load" 
-                (onClick)="loadUserDataset()"
-                [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-                severity="secondary" />
-            <p-button 
-                icon="pi pi-trash" 
-                label='Delete' 
-                class="mr-2" 
-                severity="secondary" 
-                [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-                (onClick)="deleteUserDataset()"/>
-            <p-button 
-                icon="pi pi-cloud-upload" 
-                class="mr-2" 
-                [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' " 
-                (onClick)="createUserDataset()"
-                [disabled]="!selectedDataset || !datasetRules"
-                severity="primary"/>
-        </ng-template>
-        <ng-template #end>
-            <p-menu #downloadMenu [model]="items" [popup]="true" />
-            <p-button 
-                [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
-                label="Download Dataset" 
-                (onClick)="downloadMenu.toggle($event)"
-                [disabled]="!authService.user.canExportData"/>
-        </ng-template>
-    </p-toolbar>
-
+                    severity="secondary" 
+                    (onClick)="clearDatasetRules()"/>
+                <p-button 
+                    icon="pi pi-sync" 
+                    class="mr-2" 
+                    label="Load" 
+                    (onClick)="loadUserDataset()"
+                    [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
+                    severity="secondary" />
+                <p-button 
+                    icon="pi pi-trash" 
+                    label='Delete' 
+                    class="mr-2" 
+                    severity="secondary" 
+                    [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
+                    (onClick)="deleteUserDataset()"/>
+                <p-button 
+                    icon="pi pi-cloud-upload" 
+                    class="mr-2" 
+                    [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' " 
+                    (onClick)="createUserDataset()"
+                    [disabled]="!selectedDataset || !datasetRules"
+                    severity="secondary"/>
+            </ng-template>
+            <ng-template #end>
+            </ng-template>
+        </p-toolbar>
+        <p-menu #downloadMenu [model]="items" [popup]="true" />
+        <p-button 
+            [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
+            label="Download Dataset" 
+            class="my-auto ml-auto"
+            (onClick)="downloadMenu.toggle($event)"
+            [disabled]="!authService.user.canExportData"/>
+    </div>
     <div class="flex gap-4">
 
         <div>

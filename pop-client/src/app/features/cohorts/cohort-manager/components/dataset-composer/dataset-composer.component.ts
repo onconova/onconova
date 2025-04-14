@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject, Input, SimpleChanges, ViewE
 import { FormsModule } from "@angular/forms";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
-import { catchError, forkJoin, map, Observable, of, take } from "rxjs";
+import { catchError, first, forkJoin, map, Observable, of, take } from "rxjs";
 
 
 import { Menu } from "primeng/menu";
@@ -299,7 +299,7 @@ export class DatasetComposerComponent {
 
 
     public searchUserDatasets(event: any) {
-        this.userDatasets$ = this.datasetService.getDatasets({nameContains: event.query}).pipe(map((response: PaginatedDataset) => this.userDatasetOptions = response.items), catchError(() => []))
+        this.datasetService.getDatasets({nameContains: event.query}).pipe(first(), map((response: PaginatedDataset) => this.userDatasetOptions = response.items), catchError(() => [])).subscribe()
     }
     private refreshUserDatasets() {
         this.userDatasets$ = this.datasetService.getDatasets().pipe(map(response => this.userDatasetOptions = response.items), catchError(() => []))

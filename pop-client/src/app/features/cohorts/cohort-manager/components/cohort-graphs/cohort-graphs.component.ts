@@ -16,6 +16,7 @@ import { DistributionGraphComponent } from './components/distribution-graph/dist
 import { BoxPlotComponent } from './components/box-plot/box-plot.component';
 import { Skeleton } from 'primeng/skeleton';
 import { OncoplotComponent } from './components/oncoplot/oncoplot.component';
+import { MessageModule } from 'primeng/message';
 
 @Component({
     standalone: true,
@@ -30,6 +31,7 @@ import { OncoplotComponent } from './components/oncoplot/oncoplot.component';
         Skeleton,
         BoxPlotComponent,
         DistributionGraphComponent,
+        MessageModule,
         Card, 
         SplitterModule,
         SelectButtonModule
@@ -52,6 +54,7 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
     public ageCount$!: Observable<CohortTraitCounts[]>;
     public ageAtDiagnosisCount$!: Observable<CohortTraitCounts[]>;
     public genderCount$!: Observable<CohortTraitCounts[]>;
+    public neoplasticSites$!: Observable<CohortTraitCounts[]>;
     public vitalStatusCount$!: Observable<CohortTraitCounts[]>;
     public therapyLinesCount$!: Observable<CohortTraitCounts[]>
 
@@ -75,12 +78,13 @@ export class CohortGraphsComponent implements OnInit, OnChanges{
         this.overallSurvivalCurve$ = this.cohortService.getCohortOverallSurvivalCurve({cohortId: this.cohort.id})
         this.therapyLinesCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'therapyLines.label'}).pipe(
             map((response: CohortTraitCounts[])  => {
-                this.therapyLineOptions = response.map(item=>item.category).sort((a, b) => a.localeCompare(b));
+                this.therapyLineOptions = response.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b));
                 return response
             }),
         )
         this.genomicsData$ = this.cohortService.getCohortGenomics({cohortId: this.cohort.id})
         this.ageCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'age'})
+        this.neoplasticSites$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'neoplasticEntities.topographyGroup.display'})
         this.ageAtDiagnosisCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'ageAtDiagnosis'})
         this.vitalStatusCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'isDeceased'}).pipe(map((response: CohortTraitCounts[]) => response.map(
             (item: CohortTraitCounts) => {

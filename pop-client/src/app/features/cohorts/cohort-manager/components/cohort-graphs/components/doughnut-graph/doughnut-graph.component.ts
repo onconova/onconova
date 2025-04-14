@@ -13,7 +13,7 @@ import { CohortTraitCounts } from 'src/app/shared/openapi';
     ],
     selector: 'pop-doughnut-graph',
     template: `
-    <div class="chart-container" style="height: 12rem; width: 15rem">
+    <div class="chart-container" style="height: {{height}}; width: {{width}}">
         <canvas #doughnutCanvas ></canvas>
         @if (chart) {
             <pop-cohort-graph-context-menu [target]="doughnutCanvas" [chart]="chart" [data]="countData"/>
@@ -24,7 +24,10 @@ export class DoughnutGraphComponent {
 
     constructor(private cdr: ChangeDetectorRef) { }
 
-    @Input() countData!: CohortTraitCounts[];
+    @Input({required: true}) countData!: CohortTraitCounts[];
+    @Input() height: string = '12rem';
+    @Input() width: string = '15rem';
+    @Input() legendPosition: "left" | "right" | "bottom" | "top" | "center" | "chartArea" = 'top';
 
     @ViewChild('doughnutCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
     public chart!: Chart;
@@ -67,6 +70,7 @@ export class DoughnutGraphComponent {
                 aspectRatio: 0.6,
                 plugins: {
                     legend: {
+                        position: this.legendPosition,
                         labels: {
                             color: textColor
                         }

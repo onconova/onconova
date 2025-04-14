@@ -50,80 +50,118 @@
                         <p-skeleton height="15rem"/>
                     }
                 </div>
+                <div class="font-semibold">Neoplastic sites</div>
+                <div class="text-muted mb-2">
+                    Distribution of general topographical sites of the neoplastic entities in the cohort. 
+                </div>
+                @let neoplasticSites = neoplasticSites$ | async;
+                <div class="mt-3 mr-4">
+                    @if (!loading && neoplasticSites) {
+                        <pop-doughnut-graph [countData]="neoplasticSites" legendPosition="right" width="30rem"/>
+                    } @else {
+                        <p-skeleton height="15rem"/>
+                    }
+                </div>
             </div>
         </div>    
     
     </p-panel>
     
 
-    <p-panel header="Cohort Characteristics" [toggleable]="true" styleClass="mt-4">        
-        @let overallSurvivalCurve = overallSurvivalCurve$ | async;
+    <p-panel header="Cohort Characteristics" [toggleable]="true" styleClass="mt-4">      
         <div class="font-semibold">Overall survival (OS)</div>
         <div class="text-muted mb-2">
             Kaplan-Meier survival analysis of the overall survival of the patients in the cohort since the initial diagnosis. 
-        </div>
-        @if (!loading && overallSurvivalCurve) { 
-            <pop-kappler-meier-curve [survivalData]="overallSurvivalCurve"/>    
-        } @else { 
-            <p-skeleton height="30rem" width="60%"/>
-        }
+        </div>  
+        @if (cohort.population < 10) {
+            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
+        } @else {
+            @let overallSurvivalCurve = overallSurvivalCurve$ | async;
+            @if (!loading && overallSurvivalCurve) { 
+                <pop-kappler-meier-curve [survivalData]="overallSurvivalCurve"/>    
+            } @else { 
+                <p-skeleton height="30rem" width="60%"/>
+            }
+        } 
 
-        @let genomicsData = genomicsData$ | async;
         <div class="font-semibold">Genomic variants (Oncoplot)</div>
         <div class="text-muted mb-2">
             A summary of the genomics of the cohort
         </div>
-        @if (!loading && genomicsData) { 
-            <pop-oncoplot [genomicsData]="genomicsData"/>    
-        } @else { 
-            <p-skeleton height="30rem" width="100%"/>
+        @if (cohort.population < 10) {
+            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Oncoplot analysis requires at least 10 cases.</p-message>
+        } @else {
+            @let genomicsData = genomicsData$ | async;
+            @if (!loading && genomicsData) { 
+                <pop-oncoplot [genomicsData]="genomicsData"/>    
+            } @else { 
+                <p-skeleton height="30rem" width="100%"/>
+            }
         }
     </p-panel>
 
     <p-panel header="Therapy lines" [toggleable]="true" styleClass="mt-4">
         
         @let therapyLinesCount = therapyLinesCount$ | async;
-        <div class="text-muted mb-1">
-            Select the therapy line to analyze
-        </div>
-        @if (therapyLinesCount) {
+        @if (therapyLinesCount && therapyLineOptions.length>0) {
+            <div class="text-muted mb-1">
+                Select the therapy line to analyze
+            </div>
             <p-selectbutton 
-            [options]="therapyLineOptions || []" 
+            [options]="therapyLineOptions" 
             [(ngModel)]="selectedTherapyLine" 
             (onChange)="updateTherapyLineGraphs($event)"/>
         }
 
-        @let therapyLineSurvivalCurve = therapyLineSurvivalCurve$ | async;
         <div class="font-semibold mt-4">Progression-free survival (PFS)</div>
         <div class="text-muted mb-2">
             Kaplan-Meier survival analysis of the progression-free survival of the patients in the cohort during the therapy line. 
         </div>    
-        @if (!loading && therapyLineSurvivalCurve) { 
-           <pop-kappler-meier-curve [survivalData]="therapyLineSurvivalCurve"/>    
-        } @else { 
-           <p-skeleton height="30rem" width="60%"/>
+        @if (therapyLineOptions.length==0) {
+            <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
+        }@else if (cohort.population < 10) {
+            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
+        } @else {
+            @let therapyLineSurvivalCurve = therapyLineSurvivalCurve$ | async;
+            @if (!loading && therapyLineSurvivalCurve) { 
+                <pop-kappler-meier-curve [survivalData]="therapyLineSurvivalCurve"/>    
+            } @else { 
+                <p-skeleton height="30rem" width="60%"/>
+            }
         }
 
-        @let therapyLineTherapyClassifications = therapyLineTherapyClassifications$ | async;
         <div class="font-semibold mt-4">Performance of therapeutic approaches </div>
         <div class="text-muted mb-2">
             A comparison of the progression-free survival (PFS) under the most common therapy approaches for this cohort.
         </div>    
-        @if (!loading && therapyLineTherapyClassifications) { 
-            <pop-box-plot [boxData]="therapyLineTherapyClassifications"/>    
-        } @else { 
-            <p-skeleton height="15rem"/>
+        @if (therapyLineOptions.length==0) {
+            <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
+        }@else if (cohort.population < 10) {
+            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
+        } @else {
+            @let therapyLineTherapyClassifications = therapyLineTherapyClassifications$ | async;
+            @if (!loading && therapyLineTherapyClassifications) { 
+                <pop-box-plot [boxData]="therapyLineTherapyClassifications"/>    
+            } @else { 
+                <p-skeleton height="15rem"/>
+            }
         }
 
-        @let therapyLineDrugCombinations = therapyLineDrugCombinations$ | async;
         <div class="font-semibold mt-4">Performance of combination therapies</div>
         <div class="text-muted mb-2">
             A comparison of the progression-free survival (PFS) under the most common drug combinations for this cohort.
         </div>    
-        @if (!loading && therapyLineDrugCombinations) { 
-            <pop-box-plot [boxData]="therapyLineDrugCombinations"/>    
-        } @else { 
-            <p-skeleton height="15rem"/>
+        @if (therapyLineOptions.length==0) {
+            <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
+        }@else if (cohort.population < 10) {
+            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
+        } @else {
+            @let therapyLineDrugCombinations = therapyLineDrugCombinations$ | async;
+            @if (!loading && therapyLineDrugCombinations) { 
+                <pop-box-plot [boxData]="therapyLineDrugCombinations"/>    
+            } @else { 
+                <p-skeleton height="15rem"/>
+            }
         }
     </p-panel>
 
