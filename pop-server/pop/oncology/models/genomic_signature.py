@@ -108,6 +108,9 @@ class LossOfHeterozygosity(GenomicSignature):
         validators = [MinValueValidator(0), MaxValueValidator(100)],
     )
     
+    class Meta:
+        verbose_name_plural = 'Losses of Heterozygosity'
+    
     @property
     def description(self):
         return f'LOH: {self.value} %'
@@ -129,6 +132,9 @@ class MicrosatelliteInstability(GenomicSignature):
         terminology = terminologies.MicrosatelliteInstabilityState,
     )
 
+    class Meta:
+        verbose_name_plural = 'Microsatellite Instabilities'
+        
     @property
     def description(self):
         return f'MSI: {self.value.display}'
@@ -162,6 +168,9 @@ class HomologousRecombinationDeficiency(GenomicSignature):
         null = True, blank = True,
     )
     
+    class Meta:
+        verbose_name_plural = 'Homologous Recombination Deficiencies'
+            
     @property
     def description(self):
         return f'HRD: {self.value or self.interpretation}'

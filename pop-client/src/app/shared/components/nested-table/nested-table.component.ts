@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-case.pipe";
+import { TypeCheckService } from '../../services/type-check.service';
 
 @Component({
   standalone: true,
@@ -14,6 +15,10 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
   ]
 })
 export class NestedTableComponent {
+
+  private typeCheckService = inject(TypeCheckService); 
+  public isArray = this.typeCheckService.isArray;
+
   @Input() nestedData!: any[];
   public nestedDataColumn!: any[];
 
@@ -28,6 +33,6 @@ export class NestedTableComponent {
   }
 
   isNested(value: any): boolean {
-    return typeof value === 'object' && value !== null;
+    return value !== null && typeof value === 'object' && typeof value[0] === 'object';
   }
 }

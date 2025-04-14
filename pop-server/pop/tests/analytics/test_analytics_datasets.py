@@ -79,7 +79,6 @@ class TestConstructDataset(TestCase):
         self.assertEqual(len(dataset), 1)
         self.assertIn('pseudoidentifier', dataset[0])
         self.assertEqual(self.case.pseudoidentifier, dataset[0].get('pseudoidentifier'))
-
         
     def test_nested_resources(self):
         therapy = factories.SystemicTherapyFactory.create(case=self.case)
@@ -96,8 +95,7 @@ class TestConstructDataset(TestCase):
         drugs = [d['Drug.text'] for d in dataset['SystemicTherapies'][0]['Medications']]
         self.assertIn(medication1.drug.display, drugs)
         self.assertIn(medication2.drug.display, drugs)
-
-
+        
     def test_nested_resources_without_intermediate(self):
         therapy = factories.SystemicTherapyFactory.create(case=self.case)
         medication1 = factories.SystemicTherapyMedicationFactory.create(systemic_therapy=therapy)
@@ -113,6 +111,35 @@ class TestConstructDataset(TestCase):
         self.assertIn(medication1.drug.display, drugs)
         self.assertIn(medication2.drug.display, drugs)
 
+    def test_concrete_inherited_resources(self):
+        staging = factories.TNMStagingFactory.create(case=self.case)
+        rules = [
+            DatasetRule(resource='TNMStaging', field='date'),
+            DatasetRule(resource='TNMStaging', field='stage', transform='GetCodedConceptDisplay'),
+        ]
+        dataset = construct_dataset(self.cohort, rules)[0]
+        self.assertIn('TnmStagings', dataset)
+        self.assertEqual(1, len(dataset['TnmStagings']))
+        self.assertEqual(staging.date, dataset['TnmStagings'][0]['Date'])
+        self.assertEqual(staging.stage.display, dataset['TnmStagings'][0]['Stage.text'])
+
+
+    def test_concrete_inherited_resources_mixed(self):
+        tnm_staging = factories.TNMStagingFactory.create(case=self.case)
+        figo_staging = factories.FIGOStagingFactory.create(case=self.case)
+        rules = [
+            DatasetRule(resource='TNMStaging', field='stage', transform='GetCodedConceptDisplay'),
+            DatasetRule(resource='FIGOStaging', field='stage', transform='GetCodedConceptDisplay'),
+        ]
+        dataset = construct_dataset(self.cohort, rules)[0]
+        self.assertIn('TnmStagings', dataset)
+        self.assertEqual(1, len(dataset['TnmStagings']))
+        self.assertEqual(tnm_staging.stage.display, dataset['TnmStagings'][0]['Stage.text'])
+        self.assertIn('FigoStagings', dataset)
+        self.assertEqual(1, len(dataset['FigoStagings']))
+        self.assertEqual(figo_staging.stage.display, dataset['FigoStagings'][0]['Stage.text'])
+        
+        
     def test_raises_error_non_existing_schema(self):
         with self.assertRaises(ValidationError):
             rule = DatasetRule(resource='DoesNotExist', field='id')

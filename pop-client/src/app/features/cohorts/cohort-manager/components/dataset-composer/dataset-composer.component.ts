@@ -29,6 +29,7 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { Skeleton } from "primeng/skeleton";
+import { TypeCheckService } from "src/app/shared/services/type-check.service";
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -77,15 +78,13 @@ export class DatasetComposerComponent {
     getColumns(data: any[]): string[] {
         const allKeys = new Set<string>();
         data.forEach(item => Object.entries(item).forEach(([key,value]) => {
-            if (value !== null) {
-                allKeys.add(key);
-            }
+            allKeys.add(key);
         }))
         return Array.from(allKeys);
     }
 
     isNested(value: any): boolean {
-        return typeof value === 'object' && value !== null;
+        return value !== null && typeof value === 'object' && typeof value[0] === 'object';
     }
     // ==========================================
 
@@ -95,7 +94,10 @@ export class DatasetComposerComponent {
     private cohortService = inject(CohortsService);
     private downloadService = inject(DownloadService);
     private messageService = inject(MessageService);
-    
+    private typeCheckService = inject(TypeCheckService); 
+
+    public isArray = this.typeCheckService.isArray;
+
     @Input({required: true}) cohortId!: string;
     @Input() loading: boolean = false;
 

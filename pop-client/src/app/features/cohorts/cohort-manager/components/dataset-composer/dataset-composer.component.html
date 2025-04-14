@@ -116,23 +116,19 @@
                                         @if (isNested(rowData[col])) {
                                             <!-- Check if the value is an object/array (nested structure) -->
                                             <div class="flex">
-                                                @if (rowData[col][0] === null) {
-                                                    0 entries
-                                                } @else {
-                                                    <p-button 
-                                                        [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
-                                                        [rounded]="true" 
-                                                        [outlined]="true"
-                                                        (onClick)="rowData[col].expanded = !rowData[col].expanded"
-                                                        class="expand-nested-table-button"/>
-                                                    <div>
-                                                        @if (rowData[col].expanded) {
-                                                            <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
-                                                        } @else {
-                                                            {{ rowData[col].length }} entries
-                                                        }
-                                                    </div>
-                                                }
+                                                <p-button 
+                                                    [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
+                                                    [rounded]="true" 
+                                                    [outlined]="true"
+                                                    (onClick)="rowData[col].expanded = !rowData[col].expanded"
+                                                    class="expand-nested-table-button"/>
+                                                <div>
+                                                    @if (rowData[col].expanded) {
+                                                        <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                                                    } @else {
+                                                        {{ rowData[col].length }} entries
+                                                    }
+                                                </div>
                                             </div>
                                         } @else {
                                             <!-- If it's a simple value, display normally -->
@@ -145,6 +141,12 @@
                                                         {{ rowData[col] }}
                                                     </div>
                                                 </div>
+                                            } @else if (isArray(rowData[col])) {
+                                                <ul>
+                                                    @for (val of rowData[col]; track $index;) {
+                                                        <li>{{ rowData[col] || '-' }}</li>
+                                                    }
+                                                </ul>
                                              } @else {
                                                 {{ rowData[col] || '-' }}
                                              }

@@ -28,8 +28,14 @@
                                 }
                             </div>
                         </div>  
+                    } @else if (isArray(rowData[column])) {
+                       <ul>
+                           @for (val of rowData[column]; track $index;) {
+                               <li>{{ rowData[column] || '-' }}</li>
+                           }
+                       </ul>
                     } @else {
-                        {{ rowData[column] || '-' }}
+                       {{ rowData[column] || '-' }}
                     }
                 </td>
             }

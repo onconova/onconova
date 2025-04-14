@@ -1,12 +1,13 @@
 from typing import List, Dict, Tuple, Optional,  Union, Set
 
-from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, When, Case
+from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, Exists, Case
 from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg
 
 from queryable_properties.properties.base import QueryablePropertyDescriptor
 
 from pop.core.utils import get_related_model_from_field, to_pascal_case
+from pop.core.models import BaseModel
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
@@ -98,7 +99,11 @@ class DatasetRuleProcessor:
         if self.resource_model._meta.model_name.lower() == "patientcase":
             return ""  
         if self.parent_model:
-            return self.resource_model._meta.verbose_name_plural.replace(' ','_')
+            if not self.resource_model.__bases__[0] == BaseModel:
+                return self.resource_model._meta.verbose_name_plural.replace(' ','_')
+            else:
+                return self.parent_related_name
+
         return self.resource_model._meta.get_field("case").related_query_name()
 
     @property
@@ -168,8 +173,8 @@ class AggregationNode:
         """
         return self._extract_annotations()
 
-    @property
-    def aggregated_subquery(self) -> Subquery:
+    @property 
+    def subquery(self) -> Subquery: 
         """
         Returns a subquery that can be used to create a Django ORM expression
         which will annotate a queryset with the aggregated results of the
@@ -196,6 +201,7 @@ class AggregationNode:
             AttributeError: If the aggregation node's subquery cannot be
                 constructed without annotations.
         """
+
         if not self.aggregated_model or not self.aggregated_model_parent_related_name:
             raise AttributeError("The aggregation node's subquery cannot be constructed without an aggregated model and its related name.")
         annotations = self.annotations
@@ -203,13 +209,17 @@ class AggregationNode:
             annotations.update({'id': F('id')})
         if not annotations:
             raise AttributeError("The aggregation node's subquery cannot be constructed without annotations.")
-        return ArrayAgg(Subquery(
+        return Subquery(
             self.aggregated_model.objects.filter(
                 id=OuterRef(f'{self.aggregated_model_parent_related_name}__id'),
             ).annotate(
                 related_json_object=JSONObject(**annotations)
             ).filter(related_json_object__isnull=False).values('related_json_object')[:1]
-        ), distinct=True)
+        )
+        
+    @property
+    def aggregated_subquery(self) -> ArrayAgg:
+        return ArrayAgg(self.subquery, distinct=True, filter=Exists(self.subquery))
 
     def add_annotation_node(self, key: str, expression: Expression) -> None:
         """
