@@ -8,7 +8,7 @@ from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaCo
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):
     config = SchemaConfig(model=orm.ComorbiditiesAssessment)    
-    index: Optional[int | float] = Field(default=None, alias='score', validation_alias=AliasChoices('index', 'score'), description='Comorbidity score')
+    score: Optional[int | float] = Field(default=None, alias='score', description='Comorbidity score')
     
 class ComorbiditiesAssessmentCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.ComorbiditiesAssessment)    

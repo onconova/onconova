@@ -2,7 +2,7 @@
 import pghistory
 
 from django.db import models
-from django.db.models import When, Case, F, Q
+from django.db.models import When, Case, Sum
 from django.utils.translation import gettext_lazy as _
 
 from dataclasses import dataclass
@@ -212,34 +212,40 @@ class ElixhauserPanelDetails:
     
     @classmethod
     def get_score_annotation(self):
-        return Case(When(present_conditions__code__in=self.chf.codes, then=self.chf.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.carit.codes, then=self.carit.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.valv.codes, then=self.valv.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.pcd.codes, then=self.pcd.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.hypunc.codes, then=self.hypunc.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.hypc.codes, then=self.hypc.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.para.codes, then=self.para.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.ond.codes, then=self.ond.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.cpd.codes, then=self.cpd.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.diabunc.codes, then=self.diabunc.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.diabc.codes, then=self.diabc.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.hypothy.codes, then=self.hypothy.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.rf.codes, then=self.rf.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.ld.codes, then=self.ld.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.pud.codes, then=self.pud.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.aids.codes, then=self.aids.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.rheumd.codes, then=self.rheumd.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.coag.codes, then=self.coag.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.obes.codes, then=self.obes.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.wloss.codes, then=self.wloss.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.fed.codes, then=self.fed.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.blane.codes, then=self.blane.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.dane.codes, then=self.dane.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.alcohol.codes, then=self.alcohol.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.drug.codes, then=self.drug.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.psycho.codes, then=self.psycho.weight), default=0) \
-            + Case(When(present_conditions__code__in=self.depre.codes, then=self.depre.weight), default=0) \
+        return Sum(
+            Case(
+                When(present_conditions__code__in=self.chf.codes, then=self.chf.weight) ,
+                When(present_conditions__code__in=self.carit.codes, then=self.carit.weight) ,
+                When(present_conditions__code__in=self.valv.codes, then=self.valv.weight) ,
+                When(present_conditions__code__in=self.pcd.codes, then=self.pcd.weight) ,
+                When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight) ,
+                When(present_conditions__code__in=self.hypunc.codes, then=self.hypunc.weight) ,
+                When(present_conditions__code__in=self.hypc.codes, then=self.hypc.weight) ,
+                When(present_conditions__code__in=self.para.codes, then=self.para.weight) ,
+                When(present_conditions__code__in=self.ond.codes, then=self.ond.weight) ,
+                When(present_conditions__code__in=self.cpd.codes, then=self.cpd.weight) ,
+                When(present_conditions__code__in=self.diabunc.codes, then=self.diabunc.weight) ,
+                When(present_conditions__code__in=self.diabc.codes, then=self.diabc.weight) ,
+                When(present_conditions__code__in=self.hypothy.codes, then=self.hypothy.weight) ,
+                When(present_conditions__code__in=self.rf.codes, then=self.rf.weight) ,
+                When(present_conditions__code__in=self.ld.codes, then=self.ld.weight) ,
+                When(present_conditions__code__in=self.pud.codes, then=self.pud.weight) ,
+                When(present_conditions__code__in=self.aids.codes, then=self.aids.weight) ,
+                When(present_conditions__code__in=self.rheumd.codes, then=self.rheumd.weight) ,
+                When(present_conditions__code__in=self.coag.codes, then=self.coag.weight) ,
+                When(present_conditions__code__in=self.obes.codes, then=self.obes.weight) ,
+                When(present_conditions__code__in=self.wloss.codes, then=self.wloss.weight) ,
+                When(present_conditions__code__in=self.fed.codes, then=self.fed.weight) ,
+                When(present_conditions__code__in=self.blane.codes, then=self.blane.weight) ,
+                When(present_conditions__code__in=self.dane.codes, then=self.dane.weight) ,
+                When(present_conditions__code__in=self.alcohol.codes, then=self.alcohol.weight) ,
+                When(present_conditions__code__in=self.drug.codes, then=self.drug.weight) ,
+                When(present_conditions__code__in=self.psycho.codes, then=self.psycho.weight) ,
+                When(present_conditions__code__in=self.depre.codes, then=self.depre.weight),
+                default=0,
+                output_field=models.FloatField()
+            ) 
+        )
                 
                 
 #-------------------------------------
@@ -366,24 +372,33 @@ class CharlsonPanelDetails:
     
     @classmethod
     def get_score_annotation(self):
-        return Case(When(present_conditions__code__in=self.acute_mi.codes, then=self.acute_mi.weight),
+        return Sum(
+            Case(
+                When(present_conditions__code__in=self.acute_mi.codes+self.history_mi.codes, then=Case(
+                    When(present_conditions__code__in=self.acute_mi.codes, then=self.acute_mi.weight),
                     When(present_conditions__code__in=self.history_mi.codes, then=self.history_mi.weight),
-                    default=0) \
-                 + Case(When(present_conditions__code__in=self.chf.codes, then=self.chf.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.cvd.codes, then=self.cvd.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.dementia.codes, then=self.dementia.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.paralysis.codes, then=self.paralysis.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.diabetes.codes, then=self.diabetes.weight), 
-                        When(present_conditions__code__in=self.diabates_complications.codes, then=self.diabates_complications.weight),
-                        default=0) \
-                 + Case(When(present_conditions__code__in=self.renal_disease.codes, then=self.renal_disease.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.mild_liver_disease.codes, then=self.mild_liver_disease.weight),
-                        When(present_conditions__code__in=self.liver_disease.codes, then=self.liver_disease.weight),
-                        default=0) \
-                 + Case(When(present_conditions__code__in=self.ulcers.codes, then=self.ulcers.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.rheumatic_disease.codes, then=self.rheumatic_disease.weight), default=0) \
-                 + Case(When(present_conditions__code__in=self.aids.codes, then=self.aids.weight), default=0) \
+                    default=0)),
+                When(present_conditions__code__in=self.chf.codes, then=self.chf.weight),
+                When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight),
+                When(present_conditions__code__in=self.cvd.codes, then=self.cvd.weight),
+                When(present_conditions__code__in=self.dementia.codes, then=self.dementia.weight),
+                When(present_conditions__code__in=self.paralysis.codes, then=self.paralysis.weight),
+                When(present_conditions__code__in=self.diabetes.codes+self.diabates_complications.codes, then=Case(
+                    When(present_conditions__code__in=self.diabetes.codes, then=self.diabetes.weight), 
+                    When(present_conditions__code__in=self.diabates_complications.codes, then=self.diabates_complications.weight),
+                    default=0)),
+                When(present_conditions__code__in=self.renal_disease.codes, then=self.renal_disease.weight),
+                When(present_conditions__code__in=self.mild_liver_disease.codes+self.liver_disease.codes, then=Case(
+                    When(present_conditions__code__in=self.mild_liver_disease.codes, then=self.mild_liver_disease.weight),
+                    When(present_conditions__code__in=self.liver_disease.codes, then=self.liver_disease.weight),   
+                    default=0)),             
+                When(present_conditions__code__in=self.ulcers.codes, then=self.ulcers.weight),
+                When(present_conditions__code__in=self.rheumatic_disease.codes, then=self.rheumatic_disease.weight),
+                When(present_conditions__code__in=self.aids.codes, then=self.aids.weight),
+                default=0,
+                output_field=models.FloatField()
+            )
+        )
     
 #-------------------------------------
 # References:
@@ -509,23 +524,31 @@ class NciPanelDetails:
          
     @classmethod
     def get_score_annotation(self):
-        return Case(When(present_conditions__code__in=self.acute_mi.codes, then=self.acute_mi.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.history_mi.codes, then=self.history_mi.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.chf.codes, then=self.chf.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.cvd.codes, then=self.cvd.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.dementia.codes, then=self.dementia.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.paralysis.codes, then=self.paralysis.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.diabetes.codes, then=self.diabetes.weight), 
-                   When(present_conditions__code__in=self.diabates_complications.codes, then=self.diabates_complications.weight),
-                   default=0.0) \
-            + Case(When(present_conditions__code__in=self.renal_disease.codes, then=self.renal_disease.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.mild_liver_disease.codes, then=self.mild_liver_disease.weight),
-                   When(present_conditions__code__in=self.liver_disease.codes, then=self.liver_disease.weight),
-                   default=0.0) \
-            + Case(When(present_conditions__code__in=self.ulcers.codes, then=self.ulcers.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.rheumatic_disease.codes, then=self.rheumatic_disease.weight), default=0.0) \
-            + Case(When(present_conditions__code__in=self.aids.codes, then=self.aids.weight), default=0.0) \
+        return Sum(
+            Case(
+                When(present_conditions__code__in=self.acute_mi.codes, then=self.acute_mi.weight),
+                When(present_conditions__code__in=self.history_mi.codes, then=self.history_mi.weight),
+                When(present_conditions__code__in=self.chf.codes, then=self.chf.weight),
+                When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight),
+                When(present_conditions__code__in=self.cvd.codes, then=self.cvd.weight),
+                When(present_conditions__code__in=self.dementia.codes, then=self.dementia.weight),
+                When(present_conditions__code__in=self.paralysis.codes, then=self.paralysis.weight),
+                When(present_conditions__code__in=self.diabetes.codes+self.diabates_complications.codes, then=Case(
+                    When(present_conditions__code__in=self.diabetes.codes, then=self.diabetes.weight), 
+                    When(present_conditions__code__in=self.diabates_complications.codes, then=self.diabates_complications.weight),
+                    default=0.0)),
+                When(present_conditions__code__in=self.renal_disease.codes, then=self.renal_disease.weight),
+                When(present_conditions__code__in=self.mild_liver_disease.codes+self.liver_disease.codes, then=Case(
+                    When(present_conditions__code__in=self.mild_liver_disease.codes, then=self.mild_liver_disease.weight),
+                    When(present_conditions__code__in=self.liver_disease.codes, then=self.liver_disease.weight),   
+                    default=0.0)),             
+                When(present_conditions__code__in=self.ulcers.codes, then=self.ulcers.weight),
+                When(present_conditions__code__in=self.rheumatic_disease.codes, then=self.rheumatic_disease.weight),
+                When(present_conditions__code__in=self.aids.codes, then=self.aids.weight),
+                default=0.0,
+                output_field=models.FloatField(),
+            )
+        )
 
 
 @pghistory.track()
