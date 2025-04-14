@@ -99,7 +99,9 @@
                         [totalRecords]="totalEntries"
                         (onLazyLoad)="setPaginationAndRefresh($event)"
                         [rowsPerPageOptions]="[10, 25, 50]"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        scrollHeight="flex"
+                        showGridlines>
 
                         <ng-template pTemplate="header">
                             <tr>
@@ -142,7 +144,7 @@
                                                     </div>
                                                 </div>
                                             } @else if (isArray(rowData[col])) {
-                                                <ul class="list-none pl-0  overflow-y-scroll max-h-15rem">
+                                                <ul class="list-none pl-0  overflow-y-auto max-h-15rem">
                                                     @for (value of rowData[col]; track $index;) {
                                                         <li class="mb-2">🞄 {{ value || '-' }}</li>
                                                     }
@@ -157,7 +159,7 @@
                         </ng-template>
                     </p-table>
                 } @else {
-                    <p-skeleton height="40rem"/>
+                    <p-skeleton height="100%"/>
                 }
             </div>
         }

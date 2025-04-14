@@ -29,7 +29,7 @@
                             </div>
                         </div>  
                     } @else if (isArray(rowData[column])) {
-                       <ul class="list-none	pl-0 overflow-y-scroll max-h-15rem">
+                       <ul class="list-none	pl-0 overflow-y-auto max-h-15rem">
                            @for (value of rowData[column]; track $index;) {
                                <li class="mb-2">🞄 {{ value || '-' }}</li>
                            }

@@ -12,6 +12,9 @@
     flex-grow: 1; 
     overflow-x: auto;
 }
+.dataset-table-container td, .dataset-table-container th {
+    white-space: nowrap;
+}
 /* Make table header not overlap with menu items when expanded */
 thead.p-datatable-thead {
     position: static !important;
