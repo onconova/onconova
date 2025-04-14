@@ -48,9 +48,6 @@ export interface PatientCaseBundleGenomicSignaturesInner {
     createdAt: string;
     updatedAt?: string;
     createdBy: string;
-    /**
-     * Usernames of the users who have updated the resource
-     */
     updatedBy?: Array<string>;
     interpretation?: HomologousRecombinationDeficiencyInterpretationChoices;
 }

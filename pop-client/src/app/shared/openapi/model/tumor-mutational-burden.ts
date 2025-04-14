@@ -41,10 +41,7 @@ export interface TumorMutationalBurden {
     createdAt: string;
     updatedAt?: string | null;
     createdBy: string | null;
-    /**
-     * Usernames of the users who have updated the resource
-     */
-    updatedBy?: Array<string | null>;
+    updatedBy?: Array<string> | null;
 }
 export namespace TumorMutationalBurden {
     export type CategoryEnum = 'tumor_mutational_burden';

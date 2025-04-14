@@ -38,10 +38,7 @@ export interface HomologousRecombinationDeficiency {
     createdAt: string;
     updatedAt?: string | null;
     createdBy: string | null;
-    /**
-     * Usernames of the users who have updated the resource
-     */
-    updatedBy?: Array<string | null>;
+    updatedBy?: Array<string> | null;
 }
 export namespace HomologousRecombinationDeficiency {
     export type CategoryEnum = 'homologous_recombination_deficiency';

@@ -15,10 +15,7 @@ export interface ComorbidityPanelCategory {
      * Label of the comorbidity panel category
      */
     label: string;
-    /**
-     * Default choice for category
-     */
-    'default': CodedConcept;
+    'default'?: CodedConcept | null;
     /**
      * List of conditions included in the panel category
      */

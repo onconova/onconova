@@ -713,7 +713,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
             }
         }
 
-        let localVarPath = `/api/comorbidities-panels`;
+        let localVarPath = `/api/comorbidities-assessments/meta/panels`;
         return this.httpClient.request<Array<ComorbiditiesPanel>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -770,7 +770,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
             }
         }
 
-        let localVarPath = `/api/comorbidities-panels/${this.configuration.encodeParam({name: "panel", value: panel, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/comorbidities-assessments/meta/panels/${this.configuration.encodeParam({name: "panel", value: panel, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<ComorbiditiesPanel>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

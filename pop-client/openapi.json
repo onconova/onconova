@@ -32575,7 +32575,7 @@
         ]
       }
     },
-    "/api/comorbidities-panels": {
+    "/api/comorbidities-assessments/meta/panels": {
       "get": {
         "operationId": "getComorbiditiesPanels",
         "summary": "Get All Comorbidities Panels",
@@ -32612,7 +32612,7 @@
         ]
       }
     },
-    "/api/comorbidities-panels/{panel}": {
+    "/api/comorbidities-assessments/meta/panels/{panel}": {
       "get": {
         "operationId": "getComorbiditiesPanelsByName",
         "summary": "Get Comorbidities Panel By Name",
@@ -38488,20 +38488,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -38655,20 +38654,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -38844,20 +38842,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -38979,20 +38976,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -39117,20 +39113,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -39270,20 +39265,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -39409,20 +39403,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -39665,20 +39658,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -39845,20 +39837,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -40026,20 +40017,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -40514,20 +40504,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -40683,20 +40672,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -40829,20 +40817,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -40975,20 +40962,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -41113,20 +41099,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -41251,20 +41236,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -41470,20 +41454,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -41595,20 +41578,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -41784,20 +41766,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -41930,20 +41911,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -42152,20 +42132,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -42368,20 +42347,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -42559,20 +42537,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -42829,20 +42806,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           },
           "neoplasticEntities": {
             "default": [],
@@ -43292,20 +43268,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -43478,20 +43453,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -43673,20 +43647,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -43839,20 +43812,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -43959,20 +43931,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -44110,20 +44081,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -44248,20 +44218,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -44400,20 +44369,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -44610,20 +44578,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -44817,20 +44784,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -45096,20 +45062,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -45385,20 +45350,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -45548,20 +45512,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -45726,20 +45689,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -46019,20 +45981,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -46207,20 +46168,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -46343,20 +46303,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -46491,20 +46450,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -46690,20 +46648,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -46827,20 +46784,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -47943,20 +47899,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -63060,7 +63015,14 @@
             "type": "string"
           },
           "default": {
-            "$ref": "#/components/schemas/CodedConcept",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CodedConcept"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Default choice for category"
           },
           "conditions": {
@@ -63074,7 +63036,6 @@
         },
         "required": [
           "label",
-          "default",
           "conditions"
         ],
         "title": "ComorbidityPanelCategory",
@@ -64227,20 +64188,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [
@@ -65414,20 +65374,19 @@
             "title": "Createdby"
           },
           "updatedBy": {
-            "default": [],
-            "description": "Usernames of the users who have updated the resource",
-            "items": {
-              "anyOf": [
-                {
+            "anyOf": [
+              {
+                "items": {
                   "type": "string"
                 },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "title": "Updatedby",
-            "type": "array"
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Usernames of the users who have updated the resource",
+            "title": "Updatedby"
           }
         },
         "required": [

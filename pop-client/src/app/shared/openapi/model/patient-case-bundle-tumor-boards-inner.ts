@@ -44,9 +44,6 @@ export interface PatientCaseBundleTumorBoardsInner {
     createdAt: string;
     updatedAt?: string;
     createdBy: string;
-    /**
-     * Usernames of the users who have updated the resource
-     */
     updatedBy?: Array<string>;
     /**
      * Therapeutic recommendations of the molecular tumor board

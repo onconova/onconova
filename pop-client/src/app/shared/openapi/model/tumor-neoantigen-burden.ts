@@ -39,10 +39,7 @@ export interface TumorNeoantigenBurden {
     createdAt: string;
     updatedAt?: string | null;
     createdBy: string | null;
-    /**
-     * Usernames of the users who have updated the resource
-     */
-    updatedBy?: Array<string | null>;
+    updatedBy?: Array<string> | null;
 }
 export namespace TumorNeoantigenBurden {
     export type CategoryEnum = 'tumor_neoantigen_burden';

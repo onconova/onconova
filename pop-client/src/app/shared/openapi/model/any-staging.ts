@@ -69,9 +69,6 @@ export interface AnyStaging {
     createdAt: string;
     updatedAt?: string;
     createdBy: string;
-    /**
-     * Usernames of the users who have updated the resource
-     */
     updatedBy?: Array<string>;
     /**
      * Breslow depth given in milimeters

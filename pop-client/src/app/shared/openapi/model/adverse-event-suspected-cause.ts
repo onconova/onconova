@@ -32,10 +32,7 @@ export interface AdverseEventSuspectedCause {
     createdAt: string;
     updatedAt?: string | null;
     createdBy: string | null;
-    /**
-     * Usernames of the users who have updated the resource
-     */
-    updatedBy?: Array<string | null>;
+    updatedBy?: Array<string> | null;
 }
 export namespace AdverseEventSuspectedCause {
 }
