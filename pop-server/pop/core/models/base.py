@@ -78,10 +78,10 @@ class BaseModel(UntrackedBaseModel):
         annotation=Max(f'events__pgh_created_at', filter=Q(events__pgh_label='update')),
     )
     created_by = AnnotationProperty(
-        annotation=Min(KeyTextTransform('username', 'events__pgh_context', filter=Q(events__pgh_label='create')))
+        annotation=Min(KeyTextTransform('username', 'events__pgh_context'), filter=Q(events__pgh_label='create'))
     )
     updated_by = AnnotationProperty(
-        annotation=ArrayAgg(KeyTextTransform('username', 'events__pgh_context', filter=Q(events__pgh_label='create')), distinct=True)
+        annotation=ArrayAgg(KeyTextTransform('username', 'events__pgh_context'), filter=Q(events__pgh_label='update'), distinct=True)
     )
 
     class Meta:

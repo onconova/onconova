@@ -51,7 +51,7 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                             ('createdAt', datetime, Field(description='Date-time when the resource was created', alias='created_at', validation_alias=AliasChoices('createdAt','created_at'))),
                             ('updatedAt', Optional[datetime], Field(default=None, description='Date-time when the resource was last updated', alias='updated_at', validation_alias=AliasChoices('updatedAt','updated_at'))),
                             ('createdBy', Optional[str], Field(description='Username of the user who created the resource', alias='created_by', validation_alias=AliasChoices('createdBy','created_by'))),
-                            ('updatedBy', List[Optional[str]], Field(default=[],description='Usernames of the users who have updated the resource', alias='updated_by', validation_alias=AliasChoices('updatedBy','updated_by'))),
+                            ('updatedBy', Optional[List[str]], Field(default=None,description='Usernames of the users who have updated the resource', alias='updated_by', validation_alias=AliasChoices('updatedBy','updated_by'))),
                         ))
                 
                 # If it is a creation schema, add the ignored model fields to the exclude list
