@@ -1,4 +1,5 @@
 import pghistory 
+import dataclasses
 from typing import List
 
 from ninja import Query
@@ -9,6 +10,7 @@ from ninja_extra import api_controller, ControllerBase, route
 from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
+from pop.oncology.models.comorbidities import ComorbidityPanelCategory as ComorbidityPanelCategoryType
 from pop.terminology.models import ICD10Condition
 
 from django.shortcuts import get_object_or_404
@@ -132,16 +134,8 @@ class ComorbiditiesAssessmentController(ControllerBase):
         instance = get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
-
-
-@api_controller(
-    'comorbidities-panels', 
-    auth=[JWTAuth()], 
-    tags=['Comorbidities Assessments'],  
-)
-class ComorbiditiesPanelsController(ControllerBase):
     @route.get(
-        path='', 
+        path='/meta/panels', 
         response={
             200: List[ComorbiditiesPanel], 
             401: None, 403: None,
@@ -154,15 +148,15 @@ class ComorbiditiesPanelsController(ControllerBase):
             ComorbiditiesPanel(name=name, categories=[
                 ComorbidityPanelCategory(
                     label=category.label,
-                    conditions=list(ICD10Condition.objects.filter(codes__in=category.codes))
+                    conditions=list(ICD10Condition.objects.filter(code__in=category.codes))
                 )
-                for category in panel.categories.values()
+                for category in  [category for category in panel.__dict__.values() if isinstance(category, ComorbidityPanelCategoryType)]
             ])
             for name, panel in ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.items()
         ]
     
     @route.get(
-        path='/{panel}', 
+        path='/meta/panels/{panel}', 
         response={
             200: ComorbiditiesPanel, 
             404: None, 401: None, 403: None,
@@ -174,13 +168,14 @@ class ComorbiditiesPanelsController(ControllerBase):
         panel_details = ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.get(panel)
         if not panel_details:
             return 404
+        panel_categories = [category for category in panel_details.__dict__.values() if isinstance(category, ComorbidityPanelCategoryType)]
         return 200, ComorbiditiesPanel(name=panel, categories=[
                 ComorbidityPanelCategory(
                     label=category.label,
                     default=ICD10Condition.objects.filter(code=category.default).first(),
                     conditions=list(ICD10Condition.objects.filter(code__in=category.codes))
                 )
-                for category in panel_details.categories.values()
+                for category in panel_categories
             ]
         )
 

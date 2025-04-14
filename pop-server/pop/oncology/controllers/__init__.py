@@ -10,7 +10,7 @@ from .surgery import SurgeryController
 from .radiotherapy import RadiotherapyController
 from .lifestyle import LifestyleController
 from .family_history import FamilyHistoryController
-from .comorbidities import ComorbiditiesAssessmentController, ComorbiditiesPanelsController
+from .comorbidities import ComorbiditiesAssessmentController
 from .vitals import VitalsController
 from .adverse_event import AdverseEventController
 from .treatment_response import TreatmentResponseController
@@ -34,7 +34,6 @@ __all__ = (
     GenomicSignatureController,
     TherapyLineController,
     ComorbiditiesAssessmentController,
-    ComorbiditiesPanelsController,
     VitalsController,
     TreatmentResponseController,
     AdverseEventController,

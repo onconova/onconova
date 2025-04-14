@@ -80,7 +80,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     else:
                         entry = response.json()[0]
                     expected = self.SCHEMA[i].model_validate(instance).model_dump()
-                    print(entry)
                     result = self.SCHEMA[i].model_validate(entry).model_dump()
                     if self.history_tracked:
                         expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
@@ -178,7 +177,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
                     entry = next((item for item in response.json()['items']))
-                    print(entry)
                     self.assertEqual(entry['category'], 'create')
                     self.assertEqual(entry['user'], self.user.username)
                     self.assertEqual(entry['snapshot']['id'], str(instance.id))                    
@@ -201,7 +199,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 if scenario == 'HTTPS Authenticated':
                     self.assertEqual(response.status_code, 200)
                     entry = response.json()
-                    print(entry)
                     self.assertEqual(entry['id'], event.pgh_id)
                     self.assertEqual(entry['user'], event.pgh_context['username'])
                     self.assertEqual(entry['snapshot']['id'], str(event.id))                    
@@ -539,8 +536,22 @@ class TestComorbiditiesAssessmentController(ApiControllerTextMixin, TestCase):
     MODEL = models.ComorbiditiesAssessment
     SCHEMA = schemas.ComorbiditiesAssessmentSchema
     CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreateSchema    
+    
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_all_comorbidities_panels(self, scenario, config):       
+        response = self.call_api_endpoint('GET', '/meta/panels', **config)
+        if scenario == 'HTTPS Authenticated':
+            self.assertEqual(response.status_code, 200)
 
-
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_comorbidities_panel_by_name(self, scenario, config):    
+        panel = 'Charlson'
+        response = self.call_api_endpoint('GET', f'/meta/panels/{panel}', **config)
+        if scenario == 'HTTPS Authenticated':
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json()['name'], panel)
+            self.assertEqual(len(response.json()['categories']), 16)
+            
 class TestGenomicSignatureController(ApiControllerTextMixin, TestCase):
     controller_path = '/api/genomic-signatures'
     FACTORY = [

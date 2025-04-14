@@ -241,12 +241,11 @@ class BaseSchema(Schema):
             # Inspect class attributes to handle properties
             for attr_name in dir(obj.__class__):
                 # Skip attributes not defined in the model fields
-                if not to_camel_case(attr_name) in cls.model_fields:
+                if not to_camel_case(attr_name) in cls.model_fields and not to_camel_case(attr_name) in [field.alias for field in cls.model_fields.values()]:
                     continue
 
                 # Get the attribute from the class
                 attr = getattr(obj.__class__, attr_name, None)
-
                 # If the attribute is a property, get its value
                 if isinstance(attr, property):
                     data[attr_name] = getattr(obj, attr_name)
