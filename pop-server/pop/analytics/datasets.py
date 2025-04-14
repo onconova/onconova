@@ -117,7 +117,7 @@ class DatasetRuleProcessor:
         if self.value_transformer:
             return self.value_transformer.generate_annotation_expression(self.query_lookup_path)
         elif getattr(self.model_field, 'is_relation', None) and (self.model_field.one_to_many or self.model_field.many_to_many):
-            return ArrayAgg(self.query_lookup_path)
+            return ArrayAgg(self.query_lookup_path, distinct=True)
         else:
             return F(self.query_lookup_path)
 
