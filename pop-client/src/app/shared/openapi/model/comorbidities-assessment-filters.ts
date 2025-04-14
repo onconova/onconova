@@ -13,43 +13,43 @@ export interface ComorbiditiesAssessmentFilters {
     /**
      * None - Filter for entries without a value
      */
-    'index.not.exists'?: boolean;
+    'score.not.exists'?: boolean;
     /**
      * None - Filter for entries with a value
      */
-    'index.exists'?: boolean;
+    'score.exists'?: boolean;
     /**
      * None - Filter for entries with values less than the specified value
      */
-    'index.lessThan'?: number;
+    'score.lessThan'?: number;
     /**
      * None - Filter for entries with values less than or equal to the specified value
      */
-    'index.lessThanOrEqual'?: number;
+    'score.lessThanOrEqual'?: number;
     /**
      * None - Filter for entries with values greater than the specified value
      */
-    'index.greaterThan'?: number;
+    'score.greaterThan'?: number;
     /**
      * None - Filter for entries with values greater than or equal to the specified value
      */
-    'index.greaterThanOrEqual'?: number;
+    'score.greaterThanOrEqual'?: number;
     /**
      * None - Filter for entries with values exactly equal to the specified value
      */
-    'index.equal'?: number;
+    'score.equal'?: number;
     /**
      * None - Filter for entries with values not equal to the specified value
      */
-    'index.not.equal'?: number;
+    'score.not.equal'?: number;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'index.between'?: Array<any>;
+    'score.between'?: Array<any>;
     /**
      * None - Filter for entries with values between two specified values (inclusive)
      */
-    'index.not.between'?: Array<any>;
+    'score.not.between'?: Array<any>;
     /**
      * Id - Filter for full text matches
      */

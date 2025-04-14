@@ -12,6 +12,6 @@
 /**
  * Comorbidity score
  */
-export interface Index { 
+export interface Score { 
 }
 

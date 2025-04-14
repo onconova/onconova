@@ -29,9 +29,9 @@
                             </div>
                         </div>  
                     } @else if (isArray(rowData[column])) {
-                       <ul class="list-none	pl-0">
-                           @for (val of rowData[column]; track $index;) {
-                               <li class="mb-2">{{ rowData[column] || '-' }}</li>
+                       <ul class="list-none	pl-0 overflow-y-scroll max-h-15rem">
+                           @for (value of rowData[column]; track $index;) {
+                               <li class="mb-2">🞄 {{ value || '-' }}</li>
                            }
                        </ul>
                     } @else {

@@ -31360,10 +31360,10 @@
         "parameters": [
           {
             "in": "query",
-            "name": "index.not.exists",
+            "name": "score.not.exists",
             "schema": {
               "description": "None - Filter for entries without a value",
-              "title": "Index.Not.Exists",
+              "title": "Score.Not.Exists",
               "type": "boolean"
             },
             "required": false,
@@ -31371,10 +31371,10 @@
           },
           {
             "in": "query",
-            "name": "index.exists",
+            "name": "score.exists",
             "schema": {
               "description": "None - Filter for entries with a value",
-              "title": "Index.Exists",
+              "title": "Score.Exists",
               "type": "boolean"
             },
             "required": false,
@@ -31382,10 +31382,10 @@
           },
           {
             "in": "query",
-            "name": "index.lessThan",
+            "name": "score.lessThan",
             "schema": {
               "description": "None - Filter for entries with values less than the specified value",
-              "title": "Index.Lessthan",
+              "title": "Score.Lessthan",
               "type": "integer"
             },
             "required": false,
@@ -31393,10 +31393,10 @@
           },
           {
             "in": "query",
-            "name": "index.lessThanOrEqual",
+            "name": "score.lessThanOrEqual",
             "schema": {
               "description": "None - Filter for entries with values less than or equal to the specified value",
-              "title": "Index.Lessthanorequal",
+              "title": "Score.Lessthanorequal",
               "type": "integer"
             },
             "required": false,
@@ -31404,10 +31404,10 @@
           },
           {
             "in": "query",
-            "name": "index.greaterThan",
+            "name": "score.greaterThan",
             "schema": {
               "description": "None - Filter for entries with values greater than the specified value",
-              "title": "Index.Greaterthan",
+              "title": "Score.Greaterthan",
               "type": "integer"
             },
             "required": false,
@@ -31415,10 +31415,10 @@
           },
           {
             "in": "query",
-            "name": "index.greaterThanOrEqual",
+            "name": "score.greaterThanOrEqual",
             "schema": {
               "description": "None - Filter for entries with values greater than or equal to the specified value",
-              "title": "Index.Greaterthanorequal",
+              "title": "Score.Greaterthanorequal",
               "type": "integer"
             },
             "required": false,
@@ -31426,10 +31426,10 @@
           },
           {
             "in": "query",
-            "name": "index.equal",
+            "name": "score.equal",
             "schema": {
               "description": "None - Filter for entries with values exactly equal to the specified value",
-              "title": "Index.Equal",
+              "title": "Score.Equal",
               "type": "integer"
             },
             "required": false,
@@ -31437,10 +31437,10 @@
           },
           {
             "in": "query",
-            "name": "index.not.equal",
+            "name": "score.not.equal",
             "schema": {
               "description": "None - Filter for entries with values not equal to the specified value",
-              "title": "Index.Not.Equal",
+              "title": "Score.Not.Equal",
               "type": "integer"
             },
             "required": false,
@@ -31448,7 +31448,7 @@
           },
           {
             "in": "query",
-            "name": "index.between",
+            "name": "score.between",
             "schema": {
               "description": "None - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
@@ -31461,7 +31461,7 @@
                   "type": "integer"
                 }
               ],
-              "title": "Index.Between",
+              "title": "Score.Between",
               "type": "array"
             },
             "required": false,
@@ -31469,7 +31469,7 @@
           },
           {
             "in": "query",
-            "name": "index.not.between",
+            "name": "score.not.between",
             "schema": {
               "description": "None - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
@@ -31482,7 +31482,7 @@
                   "type": "integer"
                 }
               ],
-              "title": "Index.Not.Between",
+              "title": "Score.Not.Between",
               "type": "array"
             },
             "required": false,
@@ -39504,7 +39504,7 @@
       },
       "ComorbiditiesAssessment": {
         "properties": {
-          "index": {
+          "score": {
             "anyOf": [
               {
                 "type": "integer"
@@ -39517,7 +39517,7 @@
               }
             ],
             "description": "Comorbidity score",
-            "title": "Index"
+            "title": "Score"
           },
           "id": {
             "description": "",
@@ -62428,47 +62428,47 @@
       },
       "ComorbiditiesAssessmentFilters": {
         "properties": {
-          "index.not.exists": {
+          "score.not.exists": {
             "description": "None - Filter for entries without a value",
-            "title": "Index.Not.Exists",
+            "title": "Score.Not.Exists",
             "type": "boolean"
           },
-          "index.exists": {
+          "score.exists": {
             "description": "None - Filter for entries with a value",
-            "title": "Index.Exists",
+            "title": "Score.Exists",
             "type": "boolean"
           },
-          "index.lessThan": {
+          "score.lessThan": {
             "description": "None - Filter for entries with values less than the specified value",
-            "title": "Index.Lessthan",
+            "title": "Score.Lessthan",
             "type": "integer"
           },
-          "index.lessThanOrEqual": {
+          "score.lessThanOrEqual": {
             "description": "None - Filter for entries with values less than or equal to the specified value",
-            "title": "Index.Lessthanorequal",
+            "title": "Score.Lessthanorequal",
             "type": "integer"
           },
-          "index.greaterThan": {
+          "score.greaterThan": {
             "description": "None - Filter for entries with values greater than the specified value",
-            "title": "Index.Greaterthan",
+            "title": "Score.Greaterthan",
             "type": "integer"
           },
-          "index.greaterThanOrEqual": {
+          "score.greaterThanOrEqual": {
             "description": "None - Filter for entries with values greater than or equal to the specified value",
-            "title": "Index.Greaterthanorequal",
+            "title": "Score.Greaterthanorequal",
             "type": "integer"
           },
-          "index.equal": {
+          "score.equal": {
             "description": "None - Filter for entries with values exactly equal to the specified value",
-            "title": "Index.Equal",
+            "title": "Score.Equal",
             "type": "integer"
           },
-          "index.not.equal": {
+          "score.not.equal": {
             "description": "None - Filter for entries with values not equal to the specified value",
-            "title": "Index.Not.Equal",
+            "title": "Score.Not.Equal",
             "type": "integer"
           },
-          "index.between": {
+          "score.between": {
             "description": "None - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
@@ -62480,10 +62480,10 @@
                 "type": "integer"
               }
             ],
-            "title": "Index.Between",
+            "title": "Score.Between",
             "type": "array"
           },
-          "index.not.between": {
+          "score.not.between": {
             "description": "None - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
@@ -62495,7 +62495,7 @@
                 "type": "integer"
               }
             ],
-            "title": "Index.Not.Between",
+            "title": "Score.Not.Between",
             "type": "array"
           },
           "id": {

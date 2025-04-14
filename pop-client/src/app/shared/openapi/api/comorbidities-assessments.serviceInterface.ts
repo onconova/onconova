@@ -47,16 +47,16 @@ export interface GetComorbiditiesAssessmentHistoryEventByIdRequestParams {
 }
 
 export interface GetComorbiditiesAssessmentsRequestParams {
-    indexNotExists?: boolean;
-    indexExists?: boolean;
-    indexLessThan?: number;
-    indexLessThanOrEqual?: number;
-    indexGreaterThan?: number;
-    indexGreaterThanOrEqual?: number;
-    indexEqual?: number;
-    indexNotEqual?: number;
-    indexBetween?: Array<any>;
-    indexNotBetween?: Array<any>;
+    scoreNotExists?: boolean;
+    scoreExists?: boolean;
+    scoreLessThan?: number;
+    scoreLessThanOrEqual?: number;
+    scoreGreaterThan?: number;
+    scoreGreaterThanOrEqual?: number;
+    scoreEqual?: number;
+    scoreNotEqual?: number;
+    scoreBetween?: Array<any>;
+    scoreNotBetween?: Array<any>;
     id?: string;
     idNot?: string;
     idContains?: string;

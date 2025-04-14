@@ -7,13 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Score } from './score';
 import { CodedConcept } from './coded-concept';
 import { ComorbiditiesAssessmentPanelChoices } from './comorbidities-assessment-panel-choices';
-import { Index } from './index';
 
 
 export interface ComorbiditiesAssessment { 
-    index?: Index | null;
+    score?: Score | null;
     /**
      * 
      */

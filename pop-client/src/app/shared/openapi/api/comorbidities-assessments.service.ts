@@ -376,16 +376,16 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
     public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedComorbiditiesAssessment>>;
     public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedComorbiditiesAssessment>>;
     public getComorbiditiesAssessments(requestParameters?: GetComorbiditiesAssessmentsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const indexNotExists = requestParameters?.indexNotExists;
-        const indexExists = requestParameters?.indexExists;
-        const indexLessThan = requestParameters?.indexLessThan;
-        const indexLessThanOrEqual = requestParameters?.indexLessThanOrEqual;
-        const indexGreaterThan = requestParameters?.indexGreaterThan;
-        const indexGreaterThanOrEqual = requestParameters?.indexGreaterThanOrEqual;
-        const indexEqual = requestParameters?.indexEqual;
-        const indexNotEqual = requestParameters?.indexNotEqual;
-        const indexBetween = requestParameters?.indexBetween;
-        const indexNotBetween = requestParameters?.indexNotBetween;
+        const scoreNotExists = requestParameters?.scoreNotExists;
+        const scoreExists = requestParameters?.scoreExists;
+        const scoreLessThan = requestParameters?.scoreLessThan;
+        const scoreLessThanOrEqual = requestParameters?.scoreLessThanOrEqual;
+        const scoreGreaterThan = requestParameters?.scoreGreaterThan;
+        const scoreGreaterThanOrEqual = requestParameters?.scoreGreaterThanOrEqual;
+        const scoreEqual = requestParameters?.scoreEqual;
+        const scoreNotEqual = requestParameters?.scoreNotEqual;
+        const scoreBetween = requestParameters?.scoreBetween;
+        const scoreNotBetween = requestParameters?.scoreNotBetween;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -446,31 +446,31 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexNotExists, 'index.not.exists');
+          <any>scoreNotExists, 'score.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexExists, 'index.exists');
+          <any>scoreExists, 'score.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexLessThan, 'index.lessThan');
+          <any>scoreLessThan, 'score.lessThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexLessThanOrEqual, 'index.lessThanOrEqual');
+          <any>scoreLessThanOrEqual, 'score.lessThanOrEqual');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexGreaterThan, 'index.greaterThan');
+          <any>scoreGreaterThan, 'score.greaterThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexGreaterThanOrEqual, 'index.greaterThanOrEqual');
+          <any>scoreGreaterThanOrEqual, 'score.greaterThanOrEqual');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexEqual, 'index.equal');
+          <any>scoreEqual, 'score.equal');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>indexNotEqual, 'index.not.equal');
-        if (indexBetween) {
-            indexBetween.forEach((element) => {
+          <any>scoreNotEqual, 'score.not.equal');
+        if (scoreBetween) {
+            scoreBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'index.between');
+                  <any>element, 'score.between');
             })
         }
-        if (indexNotBetween) {
-            indexNotBetween.forEach((element) => {
+        if (scoreNotBetween) {
+            scoreNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'index.not.between');
+                  <any>element, 'score.not.between');
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

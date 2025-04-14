@@ -150,8 +150,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                 } else if (property.items) {
                     property = property.items;                    
                     isArray = true;
-                } else {
-                    property = property;
                 }
                 let propertyType: string;
                 if (property.type === undefined && property.$ref) {

@@ -2,7 +2,7 @@ from typing import List, Dict, Tuple, Optional,  Union, Set
 
 from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, Exists, Case
 from django.db.models.functions import JSONObject
-from django.contrib.postgres.aggregates import ArrayAgg
+from django.contrib.postgres.aggregates import ArrayAgg, JSONBAgg
 
 from queryable_properties.properties.base import QueryablePropertyDescriptor
 
@@ -115,12 +115,13 @@ class DatasetRuleProcessor:
     def field_annotation(self):
         """Returns the Django ORM annotation for this dataset field."""
         if self.value_transformer:
-            return self.value_transformer.generate_annotation_expression(self.query_lookup_path)
-        elif getattr(self.model_field, 'is_relation', None) and (self.model_field.one_to_many or self.model_field.many_to_many):
-            return ArrayAgg(self.query_lookup_path, distinct=True)
+            query_expression = self.value_transformer.generate_annotation_expression(self.query_lookup_path)
+        else: 
+            query_expression = F(self.query_lookup_path)
+        if getattr(self.model_field, 'is_relation', None) and (self.model_field.one_to_many or self.model_field.many_to_many):
+            return ArrayAgg(query_expression, distinct=True)
         else:
-            return F(self.query_lookup_path)
-
+            return query_expression
 
 
 @dataclass
@@ -205,8 +206,8 @@ class AggregationNode:
         if not self.aggregated_model or not self.aggregated_model_parent_related_name:
             raise AttributeError("The aggregation node's subquery cannot be constructed without an aggregated model and its related name.")
         annotations = self.annotations
-        if 'id' not in annotations:
-            annotations.update({'id': F('id')})
+        if 'Id' not in annotations:
+            annotations.update({'Id': F('id')})
         if not annotations:
             raise AttributeError("The aggregation node's subquery cannot be constructed without annotations.")
         return Subquery(

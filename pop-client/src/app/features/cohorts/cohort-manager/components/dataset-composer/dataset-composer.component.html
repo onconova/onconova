@@ -142,9 +142,9 @@
                                                     </div>
                                                 </div>
                                             } @else if (isArray(rowData[col])) {
-                                                <ul class="list-none	pl-0">
-                                                    @for (val of rowData[col]; track $index;) {
-                                                        <li class="mb-2">{{ rowData[col] || '-' }}</li>
+                                                <ul class="list-none pl-0  overflow-y-scroll max-h-15rem">
+                                                    @for (value of rowData[col]; track $index;) {
+                                                        <li class="mb-2">{{ value || '-' }}</li>
                                                     }
                                                 </ul>
                                              } @else {

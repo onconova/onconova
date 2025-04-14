@@ -19,7 +19,7 @@ import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
 
-import openApiSchema from "../../../../../../../openapi.json";
+import OpenAPISpecification from "../../../../../../../openapi.json";
 import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource } from "src/app/shared/openapi";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
@@ -118,28 +118,6 @@ export class DatasetComposerComponent {
     public selectedNodes!: TreeNode[];
 
 
-    // Extract keys from OpenAPI schema
-    private apiSchemaKeys = Object.fromEntries(
-      Object.entries(openApiSchema.components.schemas).map(([key, schema]: any) => [
-        key,
-        Object.keys(schema.properties || {}).filter(property => !this.createMetadataItems('').map(item => item['field']).includes(property) && !['caseId', 'description'].includes(property))
-          .map(propertyName => {
-            let propertyType;
-            const property = schema.properties[propertyName]
-            if (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null') {
-                propertyType = property.anyOf[0];
-            } else {
-                propertyType = property;
-            }
-            if (propertyType.type === undefined && propertyType.$ref) {
-              propertyType = propertyType.$ref.split('/').pop();
-            } else {
-                propertyType = propertyType.type;
-            }
-            return this.createTreeNode(key, property.title, propertyName, propertyType, property.description);
-          })
-      ])
-    )  
     public resourceItems: TreeNode<any>[] = [
         this.constructResourceTreeNode(DataResource.PatientCase, 'Patient case', {exclude: ['pseudoidentifier']}),
         this.constructResourceTreeNode(DataResource.NeoplasticEntity, 'Neoplastic Entities'),
@@ -219,19 +197,45 @@ export class DatasetComposerComponent {
     }
 
     public constructResourceTreeNode(resource: DataResource, label: string, options: {children?: any[], exclude?: string[], isRoot?: boolean} = {children: [], exclude: [], isRoot: true}){
-        if (!this.apiSchemaKeys.hasOwnProperty(resource)) {
-            console.error(`Schema "${resource}" does not exist.`)
-        }
+        // Get the schema definition of the entity from the OpenAPISpecification object
+        const schemas = OpenAPISpecification.components.schemas
+        // Get a list of all fields/properties in that resource
+        const properties = schemas[resource].properties || {};
+        const propertyNodes = Object.entries(properties)
+            .filter(
+                ([propertyKey,_]) => !this.createMetadataItems('').map(
+                    item => item['field']).includes(propertyKey) && !['caseId', 'description'].includes(propertyKey)
+            ).flatMap(
+                ([propertyKey,property]:[string, any]) => {
+                    const title: string = property.title
+                    const description: string = property.description
+                    if (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null') {
+                        property = property.anyOf[0];
+                    }
+                    if (property.items) {
+                        property = property.items;       
+                    }
+
+                    let propertyType: string;
+                    if (property.type === undefined && property.$ref) {
+                        propertyType = property.$ref.split('/').pop();
+                    } else {
+                        propertyType = property.type;
+                    }     
+                    return this.createTreeNode(resource, title, propertyKey, propertyType, description);
+                }
+            )
+                
         const isRoot =  options?.isRoot ?? true
         const treeNode = {
             key: resource, 
             label: label, 
             children: isRoot ? [
-                {key: `${resource}-properties`, label: "Properties", children: this.apiSchemaKeys[resource].filter(
+                {key: `${resource}-properties`, label: "Properties", children: propertyNodes.filter(
                     ((item: any) => !resource.includes(item.field) && !options?.exclude?.includes(item.field))
                 )},
                 {key: `${resource}-metadata`, label: "Metadata", children: this.createMetadataItems(resource)},
-            ] : this.apiSchemaKeys[resource]
+            ] : propertyNodes
         }
         treeNode.children = isRoot ? [treeNode.children[0], ...(options?.children || []), treeNode.children[1]] : treeNode.children
         return treeNode
@@ -288,7 +292,6 @@ export class DatasetComposerComponent {
         this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.datasetRules, limit: this.pageSize, offset: this.currentOffset}).pipe(
             map(response => {
                 this.totalEntries = response.count;
-                console.log(response.items)
                 return response.items
             })
         )

@@ -134,7 +134,6 @@ model/history-event.ts
 model/homologous-recombination-deficiency-create.ts
 model/homologous-recombination-deficiency-interpretation-choices.ts
 model/homologous-recombination-deficiency.ts
-model/index.ts
 model/input.ts
 model/inrgss-stage-create.ts
 model/inrgss-stage.ts
@@ -227,6 +226,7 @@ model/riss-staging-create.ts
 model/riss-staging.ts
 model/rna-change-type.ts
 model/ruleset-condition.ts
+model/score.ts
 model/staging-domain.ts
 model/staging-filters.ts
 model/surgery-create.ts
