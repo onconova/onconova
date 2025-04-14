@@ -1,5 +1,5 @@
 from typing import List, Dict, Tuple, Optional,  Union, Set
-
+import inspect 
 from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, Exists, Case
 from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg, JSONBAgg
@@ -34,11 +34,10 @@ class DatasetRuleProcessor:
         elif hasattr(self.resource_model, 'case'):
             self.parent_model = PatientCase
         else:
-            # TODO: Currently uses name-convention, must be improved/changed
             self.parent_model = next((
                 field.related_model for field in self.resource_model._meta.get_fields() 
-                    if field.related_model and field.related_model.__name__ in self.resource_model.__name__
-            ))                                
+                    if field.related_model and hasattr(field.related_model,'case')
+            ))                               
         # Get other values
         self.model_field_name = self._get_model_field_name(schema)
         self.model_field = self._get_model_field(self.resource_model, self.model_field_name)
@@ -91,7 +90,7 @@ class DatasetRuleProcessor:
 
     @property 
     def parent_related_name(self):
-        return next((field.name for field in self.parent_model._meta.get_fields() if issubclass(self.resource_model, field.related_model))) if self.parent_model else None
+        return next((field.name for field in self.parent_model._meta.get_fields() if inspect.isclass(field.related_model) and issubclass(self.resource_model, field.related_model))) if self.parent_model else None
 
     @property
     def related_model_lookup(self) -> str:

@@ -151,7 +151,7 @@ export class DatasetComposerComponent {
         ]}),
         {key: 'TumorBoards', label: 'Tumor Boards', children: [
             this.constructResourceTreeNode(DataResource.UnspecifiedTumorBoard, 'Unspecified Tumor Boards', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.MolecularTumorBoard, 'Molecular Tumor Boards', {exclude: ['category'], children: [
+            this.constructResourceTreeNode(DataResource.MolecularTumorBoard, 'Molecular Tumor Boards', {exclude: ['category', 'therapeuticRecommendations'], children: [
                 this.constructResourceTreeNode(DataResource.MolecularTherapeuticRecommendation, 'Therapeutic Recommendations', {isRoot: false}),
             ]}),
         ]},
