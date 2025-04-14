@@ -29,9 +29,9 @@
                             </div>
                         </div>  
                     } @else if (isArray(rowData[column])) {
-                       <ul>
+                       <ul class="list-none	pl-0">
                            @for (val of rowData[column]; track $index;) {
-                               <li>{{ rowData[column] || '-' }}</li>
+                               <li class="mb-2">{{ rowData[column] || '-' }}</li>
                            }
                        </ul>
                     } @else {
