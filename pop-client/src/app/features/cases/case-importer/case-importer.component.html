@@ -179,7 +179,7 @@
                     </div>
                     <div class="flex pt-4 justify-start gap-2">
                         <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />
-                        <p-button label="Import case" styleClass="w-15rem" [disabled]="!consentValid"  icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>
+                        <p-button label="Import case" styleClass="w-15rem" [disabled]="!consentValid || importLoading"  icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>
                     </div>
                 </ng-template>
             </p-step-panel>

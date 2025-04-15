@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { InteroperabilityService, PatientCaseBundle, PatientCasesService } from 'src/app/shared/openapi';
+import { InteroperabilityService, PatientCaseBundle, PatientCasesService, PatientCase } from 'src/app/shared/openapi';
 
 import { MessageService, TreeNode } from 'primeng/api';
 import { Button } from 'primeng/button';
@@ -21,6 +21,7 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { CaseImporterBundleViewerComponent } from './components/case-importer-bundle-viewer/case-importer-bundle-viewer.component';
 import { first, mergeMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
     standalone: true,
@@ -52,6 +53,7 @@ export class CaseImporterComponent {
     private readonly casesService: PatientCasesService = inject(PatientCasesService);
     private readonly interoperabilityService: InteroperabilityService = inject(InteroperabilityService);
     public readonly authService: AuthService = inject(AuthService);
+    private readonly router: Router = inject(Router);
 
 
     public readonly consentIllustration = 'assets/images/accessioning/consent.svg';
@@ -59,6 +61,7 @@ export class CaseImporterComponent {
     public importFormat: string = 'pop+json' 
     public uploadedLoading: boolean = false;
     public uploadedFile: File | null = null;
+    public importLoading: boolean = false;
     public readonly importOptions: any[] = [
         { label: 'POP JSON', value: 'pop+json' },
         { label: 'FHIR JSON', value: 'fhir+json'  }
@@ -111,11 +114,20 @@ export class CaseImporterComponent {
     }
 
     onImportBundle() {
-        this.interoperabilityService.importPatientCaseBundle({patientCaseBundle: this.bundle!}).subscribe({
-            next: () => {
+        this.importLoading = true
+        this.interoperabilityService.importPatientCaseBundle({patientCaseBundle: this.bundle!, conflict: this.conflictResolution}).subscribe({
+            next: (response) => {
                 this.messageService.add({ severity: 'success', summary: 'Import', detail: 'Succesfully imported the file' });
+                this.casesService.getPatientCaseById({caseId: response.id}).pipe(first()).subscribe({
+                    next: (response: PatientCase) => {
+                        this.router.navigate(['cases/management',response.pseudoidentifier])
+                    }
+                });
             },
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail }),
+            error: (error: any) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+                this.importLoading = false;
+            },
         })    
     }
 
