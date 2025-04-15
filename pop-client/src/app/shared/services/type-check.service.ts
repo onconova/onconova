@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-
-import JSZip from 'jszip';
 import { CodedConcept, Measure, Period } from '../openapi';
 
 @Injectable({
