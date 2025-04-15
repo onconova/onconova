@@ -11,6 +11,11 @@
     }
 }
 
+.pop-svg-illustration {
+    color: var(--p-primary-color);
+    display: flex;   
+}
+
 .p-toast {
     &.p-toast-top-right,
     &.p-toast-top-left,

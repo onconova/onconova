@@ -8,7 +8,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     imports: [FormsModule, InputNumberModule],
     selector: 'pop-range-input',
     template: `
-        <div class="p-fluid p-grid align-items-center">
+        <div class="p-fluid p-grid flex gap-3 align-items-center">
         <div class="p-col">
             <span class="p-float-label">
             <p-inputnumber 
@@ -40,14 +40,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
         </div>
         </div>
     `,
-    styles: [
-        `
-        .p-grid {
-        display: flex;
-        gap: 1rem;
-        }
-        `
-    ]
 })
 export class RangeInputComponent {
   @Input() range !: number[];

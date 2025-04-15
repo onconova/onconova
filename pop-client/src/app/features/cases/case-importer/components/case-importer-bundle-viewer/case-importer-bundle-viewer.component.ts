@@ -22,27 +22,20 @@ import { ModalFormComponent } from "../../../../../shared/components/identicon/i
     standalone: true,
     selector: 'pop-case-importer-bundle-viewer',
     templateUrl: 'case-importer-bundle-viewer.component.html',
-    styles: `
-        .illustration {
-        color: var(--p-primary-color);
-        display: flex;   
-        height: 15rem;
-        }
-    `,
     imports: [
-    CommonModule,
-    FormsModule,
-    NgxJsonViewerModule,
-    InlineSVGModule,
-    AvatarModule,
-    Badge,
-    Divider,
-    SelectButtonModule,
-    StepperModule,
-    TabsModule,
-    TreeModule,
-    ModalFormComponent
-],
+        CommonModule,
+        FormsModule,
+        NgxJsonViewerModule,
+        InlineSVGModule,
+        AvatarModule,
+        Badge,
+        Divider,
+        SelectButtonModule,
+        StepperModule,
+        TabsModule,
+        TreeModule,
+        ModalFormComponent
+    ],
 })
 export class CaseImporterBundleViewerComponent {
     @Input({required: true}) bundle!: PatientCaseBundle;

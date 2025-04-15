@@ -11,17 +11,6 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     standalone: true,
     selector: 'pop-settings-dialog',
     templateUrl: './app.settings.component.html',
-    styles: `
-    .p-button.color-button {
-        border-radius: 50% !important;
-        border: none !important;
-        margin-right: .25rem !important;
-        margin-bottom: .25rem !important;
-        aspect-ratio: 1;
-        opacity: .9;
-    }
-    `,
-    encapsulation: ViewEncapsulation.None,
     imports: [CommonModule, FormsModule, ToggleSwitchModule, Dialog, ButtonModule ]
 })
 export class SettingsDialogComponent {

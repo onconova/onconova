@@ -20,19 +20,12 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { CaseImporterBundleViewerComponent } from './components/case-importer-bundle-viewer/case-importer-bundle-viewer.component';
-import { first, flatMap, mergeMap } from 'rxjs';
+import { first, mergeMap } from 'rxjs';
 
 @Component({
     standalone: true,
     selector: 'pop-case-importer',
     templateUrl: 'case-importer.component.html',
-    styles: `
-        .illustration {
-        color: var(--p-primary-color);
-        display: flex;   
-        height: 15rem;
-        }
-    `,
     imports:  [
         CommonModule,
         FormsModule,

@@ -26,31 +26,25 @@ import { ModalFormComponent } from "../../../../../shared/components/identicon/i
     standalone: true,
     selector: 'pop-case-search-item',
     templateUrl: './case-search-item.component.html',
-    styles: `
-        text.p-knob-text::after {
-            content: '%' !important;
-        }
-    `,
     providers: [
         ConfirmationService,
     ],
     imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    AvatarModule,
-    AvatarGroupModule,
-    DividerModule,
-    SplitButtonModule,
-    ConfirmDialogModule,
-    ChipModule,
-    Knob,
-    SkeletonModule,
-    CancerIconComponent,
-    UserBadgeComponent,
-    ModalFormComponent
-],
-    encapsulation: ViewEncapsulation.None,
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        AvatarModule,
+        AvatarGroupModule,
+        DividerModule,
+        SplitButtonModule,
+        ConfirmDialogModule,
+        ChipModule,
+        Knob,
+        SkeletonModule,
+        CancerIconComponent,
+        UserBadgeComponent,
+        ModalFormComponent
+    ],
 })
 export class CaseBrowserCardComponent {
 

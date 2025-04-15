@@ -8,7 +8,7 @@ import { Skeleton } from 'primeng/skeleton';
     selector: 'pop-cancer-icon',
     template:`
     <div [inlineSVG]="icon" 
-        class="cancer-icon" 
+        class="pop-cancer-icon" 
         [setSVGAttributes]="{style: 'margin: auto; display: block;', height: height, width: width}"
         (onSVGInserted)="loadingSVG=false; cdref.detectChanges()" 
         style="display: {{loadingSVG ? 'none' : 'block'}}">
@@ -17,17 +17,6 @@ import { Skeleton } from 'primeng/skeleton';
         <p-skeleton [height]="height" [width]="width"/>
     }
     `,
-    styles: `
-    .cancer-icon {
-        display: flex;
-        width: fit-content;
-        aspect-ratio: 1;
-        padding: .2rem;
-        border-radius: var(--p-avatar-border-radius);
-        color: var(--p-primary-500);
-        background: color-mix(in srgb, var(--p-primary-500), transparent 80%);
-    }`,
-    encapsulation: ViewEncapsulation.None,
     imports: [
         InlineSVGModule, Skeleton
     ]

@@ -12,7 +12,7 @@ import { style } from '@angular/animations';
 
 @Component({
     standalone: true,
-    selector: 'pop-data-summay-counter',
+    selector: 'pop-data-summary-counter',
     template: `
         <div class="data-statistic">
             @if (count || count==0) {
@@ -23,20 +23,6 @@ import { style } from '@angular/animations';
             <div class="data-statistic-label text-muted"><small>{{title}}</small></div>
         </div>    
     `,
-    styles: `
-        .data-statistic {
-            border-left: solid 4px var(--p-primary-color); 
-            padding-left: .5rem;
-        }
-        .data-statistic-number {
-            font-size: 2rem;
-            font-weight: 500;
-        }
-        .data-statistic-label {
-            text-transform: uppercase;
-        }
-    `,
-    encapsulation: ViewEncapsulation.None,
     imports: [
         CommonModule,
         SkeletonModule,

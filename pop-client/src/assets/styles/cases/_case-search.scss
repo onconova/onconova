@@ -30,4 +30,9 @@
     &.placeholder {
         border-left: none;
     }
+
+
+    & .p-knob-text::after {
+        content: '%' !important;
+    }
 }

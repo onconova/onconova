@@ -21,12 +21,12 @@ import { DataSummaryCounterComponent } from "./data-summary-counter.component";
     template: `
     @let statistics = statistics$ | async;
     <div class="flex flex-wrap gap-5 mx-4">
-        <pop-data-summay-counter [count]="statistics?.cases" title="Patient cases"/>
-        <pop-data-summay-counter [count]="statistics?.entries" title="Data entries"/>
-        <pop-data-summay-counter [count]="statistics?.primarySites" title="Primary Sites"/>
-        <pop-data-summay-counter [count]="statistics?.mutations" title="Mutations"/>
-        <pop-data-summay-counter [count]="statistics?.contributors" title="Contributors"/>
-        <pop-data-summay-counter [count]="statistics?.clinicalCenters" title="Clinical Centers"/>
+        <pop-data-summary-counter [count]="statistics?.cases" title="Patient cases"/>
+        <pop-data-summary-counter [count]="statistics?.entries" title="Data entries"/>
+        <pop-data-summary-counter [count]="statistics?.primarySites" title="Primary Sites"/>
+        <pop-data-summary-counter [count]="statistics?.mutations" title="Mutations"/>
+        <pop-data-summary-counter [count]="statistics?.contributors" title="Contributors"/>
+        <pop-data-summary-counter [count]="statistics?.clinicalCenters" title="Clinical Centers"/>
     </div>
     <div class="mt-4 mb-2">
         <h6 class="mb-0 font-semibold">Growth over time</h6>

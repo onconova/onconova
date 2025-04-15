@@ -27,13 +27,6 @@ import { first, map } from 'rxjs';
   standalone: true,
   selector: 'patient-form',
   templateUrl: './patient-case-form.component.html',
-  styles: `
-    .illustration {
-      color: var(--p-primary-color);
-      display: flex;   
-      height: 15rem;
-    }
-  `,
   imports: [
     CommonModule,
     FormsModule, 

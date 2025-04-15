@@ -18,14 +18,6 @@ import { InputIconModule } from 'primeng/inputicon';
     standalone: true,
     selector: 'pop-login',
     templateUrl: './login.component.html',
-    styles: [`
-        :host ::ng-deep .pi-eye,
-        :host ::ng-deep .pi-eye-slash {
-            transform:scale(1.6);
-            margin-right: 1rem;
-            color: var(--primary-color) !important;
-        }
-    `],
     imports:[
         CommonModule,
         FormsModule,

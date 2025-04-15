@@ -16,7 +16,7 @@
         <div class="field-themes mt-2">
             @for (theme of themes; track theme.color;) {
                 <p-button 
-                styleClass="color-button"
+                styleClass="theme-config-color-button "
                 (onClick)="layoutService.config.theme.set(theme.color)"
                 [style]="{background: 'var(--p-' + theme.color + '-500)'}" />
             }

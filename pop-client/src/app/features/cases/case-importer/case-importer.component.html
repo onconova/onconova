@@ -6,7 +6,7 @@
 </div>
 
 
-<div class="card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color)">
+<div class="pop-case-importer card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color)">
     <p-stepper [value]="1" [linear]="true">
         <p-step-item [value]="1">
             <p-step><span class="text-lg font-semibold">Select the data format</span></p-step>
@@ -163,7 +163,7 @@
                 <ng-template #content let-activateCallback="activateCallback">
                     <div class="flex flex-column" style="max-width:55rem">
                         <div class="flex">
-                            <div [inlineSVG]="consentIllustration" class="illustration mr-3"></div>
+                            <div [inlineSVG]="consentIllustration" class="consent-illustration"></div>
                             <div class="flex flex-column my-auto">
                                 <p>Have you checked for consent/permission?</p>
                                 <small class="text-muted">
