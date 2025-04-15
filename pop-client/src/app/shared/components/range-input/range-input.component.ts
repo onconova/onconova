@@ -8,7 +8,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     imports: [FormsModule, InputNumberModule],
     selector: 'pop-range-input',
     template: `
-        <div class="p-fluid p-grid"  style="align-items: center;">
+        <div class="p-fluid p-grid align-items-center">
         <div class="p-col">
             <span class="p-float-label">
             <p-inputnumber 

@@ -17,7 +17,7 @@
             @if (loadingCases) {
                 <p-skeleton width="4rem" height="2rem"/>
             } @else {
-                <div class="text-center font-semibold" style="font-size: 2rem;" [ngxCountAnimation]="totalCases" duration="500"></div>
+                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalCases" duration="500"></div>
             }
         </div>        
     </ng-template>
@@ -51,33 +51,12 @@
 </p-toolbar>
     
 
-<!-- Skeleton loader -->
-@if (loadingCases) {
-    <div class="grid gap-5 mt-5">
-        @for (_ of [].constructor(15); track $index; let first = $first;) { 
-            <div class="loading-card card flex-column p-3 gap-3 mb-3" style="width: 30rem; height: 20rem;">
-                <div class="flex my-3">
-                    <p-skeleton width="5rem" height="5rem"/>
-                    <div class="flex flex-column mx-3">
-                        <p-skeleton class="mb-2 mt-3" width="10rem" height="1.5rem"/>    
-                        <p-skeleton width="20rem" height="1.5rem"/>      
-                    </div>
-                </div>
-                <div class="mb-3 mt-4">
-                    <p-skeleton width="100%" height="2rem"/>
-                </div>
-                <div class="my-3 mb-5">
-                    <p-skeleton width="100%" height="2rem"/>
-                </div>
-                <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
-            </div>
-        }
-    </div>
-}
+
 
 @let cases = cases$ | async;
-<p-dataView 
-    [value]="cases || undefined"
+<p-dataView
+    styleClass="pop-case-search-dataview"
+    [value]="cases || []"
     [paginator]="true" 
     [rows]="pageSize" 
     layout="grid"
@@ -89,10 +68,11 @@
     class="no-background">
 
     <ng-template #grid let-cases>
-        <div class="grid mt-3">
+        <div class="grid mt-3" >
             @for (case of cases; track case.id; let first = $first) {
                 <div class="col p-2">
                     <pop-case-search-item 
+                    @fadeAnimation
                     [case]="case"
                     (delete)="deleteCase($event)"/>
                 </div>
@@ -100,3 +80,29 @@
         </div>
     </ng-template>
 </p-dataView>
+
+<!-- Skeleton loader -->
+@if (loadingCases) {
+    <div class="grid mt-3">
+        @for (_ of [].constructor(15); track $index; let first = $first;) { 
+            <div class="col p-2">
+                <div class="pop-case-search-item-card placeholder" @fadeAnimation>
+                    <div class="flex my-3">
+                        <p-skeleton width="5rem" height="5rem"/>
+                        <div class="flex flex-column mx-3">
+                            <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                            <p-skeleton width="20rem" height="1.5rem"/>      
+                        </div>
+                    </div>
+                    <div class="mb-3 mt-4">
+                        <p-skeleton width="100%" height="2rem"/>
+                    </div>
+                    <div class="my-3 mb-5">
+                        <p-skeleton width="100%" height="2rem"/>
+                    </div>
+                    <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
+                </div>
+            </div>
+        }
+    </div>
+}

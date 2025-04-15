@@ -7,7 +7,7 @@
         @if (loadingCohorts) {
             <p-skeleton width="4rem" height="2rem"/>
         } @else {
-            <span class="font-bold text-2xl">{{totalCohorts}}</span> <span class="ml-2 ">(Cohorts)</span>
+            <span class="font-bold text-2xl mr-2">{{totalCohorts}}</span> (Cohorts)
         }
     </div>        
     <div class="flex ml-auto">
@@ -31,18 +31,18 @@
 @if (loadingCohorts) {
     <div class="grid mt-3 gap-3">
         @for (_ of [].constructor(15); track $index; let first = $first;) {
-            <div class="flex-column p-3 gap-3 mb-3 mx-2" style="display: block !important; background: var(--p-dataview-content-background);">
+            <div class="pop-cohort-search-item-card placeholder">
                 <div class="flex my-3 gap-3">
-                    <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
-                    <p-skeleton [style]="{ width: '40rem', height: '2rem'}"></p-skeleton>    
-                    <p-skeleton [style]="{ width: '5rem', height: '2rem'}"></p-skeleton>    
+                    <p-skeleton width='4rem' height='2rem'/>
+                    <p-skeleton width='40rem' height='2rem'/>    
+                    <p-skeleton width='5rem' height='2rem'/>    
                 </div>
                 <div class="flex my-3 gap-3">
-                    <p-skeleton [style]="{ width: '4rem', height: '2rem'}"></p-skeleton>
-                    <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
-                    <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
-                    <p-skeleton [style]="{ width: '6rem', height: '2rem'}"></p-skeleton>
-                    <p-skeleton class="ml-auto" [style]="{ width: '9rem', height: '2rem'}"></p-skeleton>    
+                    <p-skeleton width='4rem' height='2rem'/>
+                    <p-skeleton width='6rem' height='2rem'/>
+                    <p-skeleton width='6rem' height='2rem'/>
+                    <p-skeleton width='6rem' height='2rem'/>
+                    <p-skeleton width='9rem' height='2rem' class="ml-auto"/>    
                 </div>
             </div>        
         }
@@ -51,6 +51,7 @@
 
 @let cohorts = cohorts$ | async;
 <p-dataView 
+    styleClass="pop-cohort-search-dataview"
     [value]="cohorts || undefined"
     [paginator]="true" 
     [rows]="pageSize" 

@@ -1,14 +1,9 @@
-<p-drawer [(visible)]="visible" position="right" (onHide)="visibleChange.emit(false)" >
+<p-drawer [(visible)]="visible" position="right" (onHide)="visibleChange.emit(false)" [styleClass]="styleClass" >
     <ng-template #header>
-        <div class="drawer-header flex items-center gap-2">
-            <p-avatar 
-                size="large" 
-                shape="square" 
-                [style]="{ 'background': 'color-mix(in srgb, var(--p-primary-500), transparent 75%)', color: 'var(--p-primary-500)' }">
-                <lucide-angular [img]="icon"></lucide-angular>
-            </p-avatar>
-            <div class="font-bold my-auto">{{data.description || 'Unknown'}}</div>
-        </div>
+        <p-avatar size="large" shape="square">
+            <lucide-angular [img]="icon"></lucide-angular>
+        </p-avatar>
+        <div class="font-bold my-auto">{{data.description || 'Unknown'}}</div>
     </ng-template>
 
     <div class="property">
@@ -23,34 +18,32 @@
     <p-divider/>
 
     <div>
-        History
+        <i class="pi pi-history"></i> History
         @let history = history$ | async;
         @if (history) {
-        <p-timeline [value]="history" class="history">
+        <p-timeline [value]="history" class="pop-case-manager-drawer-history">
             <ng-template pTemplate="content" let-event>
-                <div class="flex mb-4" style="margin-top: -0.5rem;">
-                    <pop-user-badge [username]="event.user" class="my-auto mr-2" style="scale: .9;"/>
-                    <div>
-                        <div class="case-manager-panel-timeline-date">
-                            <small>{{ event.timestamp | date: 'MMM d, y, h:mm' }}</small>
-                        </div>
-                        <div class="timeline-event-category">
-                            <small>
-                                @switch (event.category) {
-                                    @case ('create') {
-                                        <i class="pi pi-sparkles"></i> Created resource
-                                    }
-                                    @case ('update') {
-                                        <i class="pi pi-pencil"></i> Updated {{ (event.differential | keyvalue).length }} {{ event.differential.length > 1 ? 'properties' : 'property'}}
-                                    }
-                                    @case ('export') {
-                                        <i class="pi pi-file-export"></i> Exported resource
-                                    }
+                <pop-user-badge [username]="event.user"/>
+                <div>
+                    <div class="timeline-event-date">
+                        <small>{{ event.timestamp | date: 'MMM d, y, h:mm' }}</small>
+                    </div>
+                    <div class="timeline-event-category">
+                        <small>
+                            @switch (event.category) {
+                                @case ('create') {
+                                    <i class="pi pi-sparkles"></i> Created resource
                                 }
-                            </small>
-                        </div>                                                
-                    </div>                    
-                </div>                
+                                @case ('update') {
+                                    <i class="pi pi-pencil"></i> Updated {{ (event.differential | keyvalue).length }} {{ event.differential.length > 1 ? 'properties' : 'property'}}
+                                }
+                                @case ('export') {
+                                    <i class="pi pi-file-export"></i> Exported resource
+                                }
+                            }
+                        </small>
+                    </div>                                                
+                </div>              
             </ng-template>
         </p-timeline>
         }

@@ -10,8 +10,6 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 
-import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
-
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 
@@ -22,7 +20,6 @@ import { DownloadService } from 'src/app/shared/services/download.service';
 import { OncologicalResource } from 'src/app/shared/models/resource.type';
 import { UserBadgeComponent } from "../../../../../shared/components/user-badge/user-badge.component";
 import { HistoryEvent, InteroperabilityService } from 'src/app/shared/openapi';
-import { ResourceTimelineComponent } from "../../../../../shared/components/resource-timeline/resource-timeline.component";
 import { Timeline } from 'primeng/timeline';
 
 
@@ -30,8 +27,6 @@ import { Timeline } from 'primeng/timeline';
     standalone: true,
     selector: 'pop-case-manager-drawer',
     templateUrl: './case-manager-drawer.component.html',
-    styleUrl: './case-manager-drawer.component.css',
-    encapsulation: ViewEncapsulation.None,
     providers: [
         ConfirmationService,
     ],
@@ -67,6 +62,7 @@ export class CaseManagerDrawerComponent {
     @Input() icon!: LucideIconData;
     @Input() visible!: boolean;
     @Input() editable: boolean = true;
+    @Input() styleClass: string = '';
     public createdBy$!: Observable<string>
     public lastUpdatedBy$!: Observable<string>
     public actionItems!: MenuItem[];

@@ -19,17 +19,16 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 // Project dependencies
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
-import { CaseBrowserCardComponent } from './components/case-card/case-search-item.component';
+import { CaseBrowserCardComponent } from './components/case-search-item/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/forms';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   standalone: true,
   templateUrl: './case-search.component.html',
-  styleUrl: './case-search.component.css',
-  encapsulation: ViewEncapsulation.None,
   imports: [
     CaseBrowserCardComponent,
     NgxCountAnimationDirective,
@@ -45,6 +44,13 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
     SkeletonModule,
     DividerModule,
     ToolbarModule,
+  ],
+  animations: [
+    trigger('fadeAnimation', [
+      state('void', style({ opacity: 0 })),  // Initial state (not visible)
+      transition(':enter', [animate('500ms ease-in')]),  // Fade-in effect
+      transition(':leave', [animate('500ms ease-out')])  // Fade-out effect
+    ])
   ],
 })
 
@@ -79,12 +85,12 @@ export class CaseBrowserComponent implements OnInit {
     this.cases$ = this.patientCasesService
     .getPatientCases({pseudoidentifierContains: this.searchQuery || undefined, manager: this.manager, limit: this.pageSize, offset: this.currentOffset})
     .pipe(
+      first(),
       map(page => {
         this.loadingCases=false;
         this.totalCases = page.count;
         return page.items
       }),
-      first(),
       catchError((error: any) => {
         // Report any problems
         this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error.error.detail });

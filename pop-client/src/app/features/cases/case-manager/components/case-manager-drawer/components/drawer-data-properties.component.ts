@@ -72,21 +72,6 @@ import { Skeleton } from 'primeng/skeleton';
             }
         }
     `,
-    styles: `
-        ul.list-property {
-            padding-left: .25rem;
-            margin-top: .25rem;
-        }
-        ul.list-property > li {
-            list-style: none;
-        }
-        .nested-properties {
-            margin-left: .45rem;
-            padding-left: .5rem;
-            padding-top: .5rem;
-            border-left: .1rem solid color-mix(in srgb, var(--p-content-color), transparent 55%);
-        }
-    `,
     encapsulation: ViewEncapsulation.None,
     imports: [
         CommonModule, 

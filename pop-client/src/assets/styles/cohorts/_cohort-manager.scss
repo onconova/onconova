@@ -1,0 +1,108 @@
+
+
+.pop-cohort-manager-header {
+    margin: 1rem 0;
+    margin-bottom: 2rem;
+    & .p-chip{
+        background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
+    }
+    & .p-chip,.p-chip-icon {
+        color: light-dark(var(--p-primary-700), var(--p-primary-300)) !important;
+    }
+}
+
+pop-cohort-trait-panel {
+    & p-avatar {
+        line-height: 0 !important;
+        padding: 1rem;
+        background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
+        color: var(--p-primary-500) !important;
+    }
+}
+
+.pop-cohort-criteria-panel {
+    & .p-panel {
+        border: none !important;        
+    }
+}
+
+.pop-cohort-manager-tabs {
+    margin-top: 2.5rem;
+    & .p-tabpanels, .p-tablist-tab-list {
+        background: none !important;
+    }
+
+    pop-cohort-contributors {
+        & .top-rank-1 {
+            font-weight: bold;
+            font-size: 1.2rem;
+            background-color: color-mix(in srgb, var(--p-primary-500), transparent 50%); 
+        }
+        & .top-rank-2 {
+            font-weight: bold;
+            font-size: 1.1rem;
+            background-color: color-mix(in srgb, var(--p-primary-500), transparent 70%); 
+        }
+        & .top-rank-3 {
+            font-weight: semibold;
+            background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%); 
+        }
+    }
+
+    pop-dataset-composer {
+        & .expand-nested-table-button {
+            margin: auto 0;
+            margin-right: .5rem !important;
+        }
+        & .expand-nested-table-button .p-button{
+            padding: .15rem;
+            width: fit-content;
+            height: fit-content;
+        }
+        & .pop-dataset-table {
+            flex-grow: 1; 
+            overflow-x: auto;
+            & td, th {
+                white-space: nowrap  !important;
+            }
+            & thead {
+                position: static !important;
+            }
+        }
+        
+        & .pop-data-selector-tree {
+            width: 100%;
+            padding-top: 0 !important;
+            & span.p-tree-node-label {
+                white-space: nowrap !important;
+            }
+            & span.p-menu-item-label.ng-star-inserted {
+                white-space: nowrap !important;
+            }
+            & .p-checkbox.p-variant-filled:not(.p-checkbox-checked):has(minusicon) .p-checkbox-box {
+                background-color: color-mix(in srgb, var(--p-primary-color), transparent 50%) !important;
+            }
+            & .p-iconfield {
+                margin-bottom: .5rem !important;
+            }
+        }
+    }
+
+    .pop-cohort-manager-history {
+        margin-top: 1rem;
+        & .p-timeline-event-opposite { 
+            display: none !important;
+        }
+        & .timeline-event-category {
+            list-style: none;
+        }
+        & .timeline-event-category li > i {
+            margin-right: .25rem;
+        }
+        & .timeline-event-date {
+            margin-bottom: .25rem;
+            color: var(--p-primary-faded-color) !important;
+        }
+    }
+
+}

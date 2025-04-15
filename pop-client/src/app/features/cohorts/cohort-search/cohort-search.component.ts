@@ -24,11 +24,6 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 @Component({
   standalone: true,
   templateUrl: './cohort-search.component.html',
-  styles: `
-  .p-dataview .p-dataview-content{
-    background: none !important;
-  }`,
-  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     FormsModule,

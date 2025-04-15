@@ -40,7 +40,7 @@
             <small class="text-muted">Clinical Identifier</small>
             <div>
                 @if (!authService.user.canAccessSensitiveData){
-                    <span style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>                    
+                    <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>                    
                 } @else {
                     {{ bundle.clinicalIdentifier}}
                 }

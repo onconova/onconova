@@ -75,8 +75,6 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
 @Component({
     standalone: true,
     templateUrl: './case-manager.component.html',
-    styleUrl: './case-manager.component.css',
-    encapsulation: ViewEncapsulation.None,
     imports: [
     CommonModule,
     FormsModule,

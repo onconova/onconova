@@ -45,7 +45,7 @@ export class LayoutService {
         
     };
 
-    public readonly logo: string = 'assets/layout/images/logo-dark.svg';
+    public readonly logo: string = 'assets/images/logo-dark.svg';
 
     private configUpdate = new Subject<AppConfig>();
     private overlayOpen = new Subject<any>();

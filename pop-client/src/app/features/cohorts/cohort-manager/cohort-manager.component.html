@@ -1,0 +1,270 @@
+
+
+<div class="mb-3">
+    <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
+</div>
+
+<form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
+
+<div class="pop-cohort-manager-header">
+    <div class="mb-1 text-muted">Cohort</div>
+    @if (!loading && cohort) {
+        <div>
+            <div class="text-4xl">
+                @if (editCohortName) { 
+                    <input type="text" pInputText formControlName="name" class="mr-2"/>
+                    <i class="pi pi-check" (click)="editCohortName = false"></i>
+                } @else {
+                    {{ cohortControl.value.name }}
+                    @if (authService.user.canManageCohorts) {
+                        <i class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>   
+                    }
+                }
+            </div>
+        </div>
+        <div class="flex mt-2">
+            <div class="text-md mr-2">
+                <p-chip 
+                    [label]="cohort.isPublic ? 'Public' : 'Private'" 
+                    [icon]="cohort.isPublic ? 'pi pi-lock-open' : 'pi pi-unlock'"/>
+            </div>
+            @if (cohort.createdBy) {
+                <div class="my-auto text-muted flex">
+                    <div class="my-auto mr-2">Author</div>
+                    <pop-user-badge [username]="cohort.createdBy"/>
+                </div>
+            }
+            <p-divider layout="vertical" class="mx-3"></p-divider>
+            <div class="my-auto text-muted">
+                <i class="pi pi-history"></i> Last updated: {{cohort.updatedAt | date }}
+            </div>            
+        </div>
+    } @else {
+        <p-skeleton width="40rem" height="5rem"/>
+    }
+</div>
+
+<div class="flex flex-wrap gap-4 mb-3">
+
+    <pop-cohort-trait-panel  title="Population" [icon]="populationIcon" [loading]="loading || !cohort">
+        @if (cohort) {
+            <span class="font-bold text-lg">{{ cohort.population }}</span> cases
+        }
+    </pop-cohort-trait-panel>
+
+    @let cohortAgeStats = cohortAgeStats$ | async;
+    <pop-cohort-trait-panel  title="Median age" [icon]="ageIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortAgeStats) {
+            <span class="font-bold text-lg">{{ cohortAgeStats.median }} </span> 
+            @if (cohortAgeStats.interQuartalRange !== null) {
+                ({{ cohortAgeStats.interQuartalRange[0] }}, {{ cohortAgeStats.interQuartalRange[1] }})
+            } years
+        }
+    </pop-cohort-trait-panel>
+
+    @let cohortGenderStats = cohortGenderStats$ | async;
+    <pop-cohort-trait-panel  title="Predominant gender" [icon]="genderIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortGenderStats) {
+            <span class="font-bold text-lg">{{ cohortGenderStats.category }}</span> 
+            @if (cohortGenderStats.percentage !== null) {
+                {{ cohortGenderStats.percentage | number:'1.0-1' }}
+            }%
+        }
+    </pop-cohort-trait-panel>
+
+    @let cohortTopographyStats = cohortTopographyStats$ | async;
+    <pop-cohort-trait-panel  title="Predominant site" [icon]="siteIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortTopographyStats) {
+            <span class="font-bold text-lg">{{ cohortTopographyStats.category }}</span> 
+            @if (cohortTopographyStats.percentage !== null) {
+                {{ cohortTopographyStats.percentage | number:'1.0-1' }}
+            }%
+        }
+    </pop-cohort-trait-panel>
+
+    @let cohortOverallSurvivalStats = cohortOverallSurvivalStats$ | async;
+    <pop-cohort-trait-panel  title="Median overall survival" [icon]="survivalIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortOverallSurvivalStats) {
+            <span class="font-bold text-lg">{{ cohortOverallSurvivalStats.median | number:'1.0-0' }}</span> 
+            @if (cohortOverallSurvivalStats.interQuartalRange !== null) {
+                    ({{ cohortOverallSurvivalStats.interQuartalRange[0] | number:'1.0-0' }}, {{ cohortOverallSurvivalStats.interQuartalRange[1] | number:'1.0-0' }})
+            } months
+        }
+    </pop-cohort-trait-panel>
+
+    @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
+    <pop-cohort-trait-panel  title="Median data completion" [icon]="completionIcon" [loading]="loading" [valid]="cohort && cohort.population > 0">
+        @if (cohortDataCompletionStats) {
+            <span class="font-bold text-lg">{{ cohortDataCompletionStats.median}}%</span>
+            @if (cohortDataCompletionStats.interQuartalRange !== null) {
+                ({{ cohortDataCompletionStats.interQuartalRange[0] }}, {{ cohortDataCompletionStats.interQuartalRange[1] }})
+             } categories
+        }
+    </pop-cohort-trait-panel>
+</div>
+
+<div class="flex flex-column gap-3 mt-4">
+    @if (cohortControl && cohort) {
+        <p-panel class="pop-cohort-criteria-panel" [toggleable]="true">    
+            <ng-template #header>
+                <div class="flex gap-2 align-items-center">
+                    <i class="pi pi-thumbs-up"></i>
+                    <div class="font-semibold">Inclusion criteria</div>
+                    <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
+                </div>
+            </ng-template>
+            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true"/>
+        </p-panel>
+    
+        <p-panel class="pop-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
+            <ng-template #header>
+                <div class="flex gap-2 align-items-center">
+                    <i class="pi pi-thumbs-down"></i>
+                    <div class="font-semibold">Exclusion criteria</div>
+                    <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
+                </div>
+            </ng-template>
+            <pop-cohort-query-builder formControlName="excludeCriteria"/>
+        </p-panel>  
+    }
+</div>
+
+
+<div class="flex gap-3 mt-4">
+    <p-button 
+    type="submit" 
+    [icon]="authService.user.canViewCohorts ? 'pi pi-sync' : 'pi pi-lock'"
+    label="Update Cohort" 
+    styleClass="p-2"  
+    severity="secondary"
+    [loading]="loading"
+    [disabled]="!authService.user.canViewCohorts || !cohortControl || cohortControl.invalid" />
+    <p-button 
+    type="submit" 
+    [icon]="authService.user.canManageCohorts ? 'pi pi-sync' : 'pi pi-lock'"
+    label="Save & Update Cohort" 
+    styleClass="p-2"  
+    [loading]="loading"
+    [disabled]="!authService.user.canManageCohorts || !cohortControl || cohortControl.invalid" />
+</div>
+
+
+<p-tabs value="0"  class="pop-cohort-manager-tabs">
+    <p-tablist>
+        <p-tab value="0"><i class="pi pi-users"></i>Composition</p-tab>
+        <p-tab value="1"><i class="pi pi-chart-bar"></i>Analysis</p-tab>
+        <p-tab value="2"><i class="pi pi-cloud-download"></i>Datasets</p-tab>
+        <p-tab value="3"><i class="pi pi-user-plus"></i>Contributors</p-tab>
+        <p-tab value="4"><i class="pi pi-history"></i>History</p-tab>
+    </p-tablist>
+    @if (cohort) {
+        <p-tabpanels>
+            @if (cohort.population) {
+                <p-tabpanel value="0">
+                    @if (!loading && cohortCases) {
+                        <p-dataView 
+                        styleClass="pop-case-search-dataview"
+                        [value]="cohortCases"
+                        [paginator]="true" 
+                        [rows]="pageSize" 
+                        layout="grid"
+                        sortField="createdAt"
+                        lazy="true"
+                        [totalRecords]="cohort.population"
+                        (onLazyLoad)="setPaginationAndRefresh($event)"
+                        class="no-background">
+                            <ng-template #grid let-cases>
+                                <div class="grid mt-3">
+                                    @for (case of cases; track case.id; let first = $first;) { 
+                                        <div class="col p-2">
+                                            <pop-case-search-item [case]="case"/>
+                                        </div>    
+                                    }
+                                </div>
+                            </ng-template>
+                        </p-dataView>
+                    } @else { 
+                        <!-- Skeleton loader -->
+                        <div class="grid gap-5 mt-5">
+                            @for (_ of [].constructor(15); track $index; let first = $first;) { 
+                                <div class="pop-case-search-item-card">
+                                    <div class="flex my-3">
+                                        <p-skeleton width="5rem" height="5rem"/>
+                                        <div class="flex flex-column mx-3">
+                                            <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                            <p-skeleton width="20rem" height="1.5rem"/>      
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 mt-4">
+                                        <p-skeleton width="100%" height="2rem"/>
+                                    </div>
+                                    <div class="my-3 mb-5">
+                                        <p-skeleton width="100%" height="2rem"/>
+                                    </div>
+                                    <p-skeleton width="20rem" height="2rem" class="my-3 ml-auto"  />      
+                                </div>
+                            }
+                        </div>
+                    }    
+                </p-tabpanel>
+                <p-tabpanel value="1">
+                    <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
+                </p-tabpanel>
+                <p-tabpanel value="2">
+                    <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
+                </p-tabpanel>
+                <p-tabpanel value="3">
+                    <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
+                </p-tabpanel>
+            } @else { 
+                <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
+                    No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
+                </p-message>
+            }           
+            <p-tabpanel value="4">          
+                @let cohortHistory = cohortHistory$ | async;
+                @if (cohortHistory) {
+                    <p-card>
+                        <p-timeline [value]="cohortHistory" class="pop-cohort-manager-history">
+                            <ng-template pTemplate="content" let-event>
+                                <div class="flex mb-4" >
+                                    <div>
+                                        <div class="timeline-event-date">
+                                            {{ event.timestamp | date: 'MMM d, y, h:mm' }}
+                                        </div>
+                                        <pop-user-badge [username]="event.user" [showName]="true" class="my-auto"/>                              
+                                    </div>       
+                                    <p-divider layout="vertical"/>
+                                    <ul class="timeline-event-category my-auto pl-0">
+                                            @switch (event.category) {
+                                                @case ('create') {
+                                                    <li><i class="pi pi-sparkles"></i> Created new cohort "{{ event.snapshot.name }}"</li>
+                                                }
+                                                @case ('update') {
+                                                    
+                                                    @if (event.differential.name) {
+                                                        <li><i class="pi pi-tag"></i> Renamed cohort to "{{ event.snapshot.name }}"</li>
+                                                    } 
+                                                    @if (event.differential.include_criteria) {
+                                                        <li><i class="pi pi-filter"></i> Updated inclusion criteria rules</li>
+                                                    } 
+                                                    @if (event.differential.exclude_criteria) {
+                                                        <li><i class="pi pi-filter"></i> Updated exclusion criteria rules</li>
+                                                    } 
+                                                }
+                                                @case ('export') {
+                                                    <i class="pi pi-file-export"></i> Exported resource
+                                                }
+                                            }
+                                    </ul>                               
+                                </div>                
+                            </ng-template>
+                        </p-timeline>
+                    </p-card>
+                }  
+            </p-tabpanel> 
+        </p-tabpanels>
+    } @else {
+        <p-skeleton width='100%' height='50rem'/>
+    }
+</p-tabs>

@@ -1,5 +1,5 @@
 <p-panel 
-    class="case-manager-panel"
+    class="pop-case-manager-panel"
     [toggleable]="true" 
     [collapsed]="false" 
     collapseIcon="pi pi-angle-down" 
@@ -7,28 +7,24 @@
     styleClass="mb-3">
     <ng-template #header>
         <div class="flex align-items-center gap-2">
-            <p-avatar 
-                size="normal" 
-                shape="square" 
-                [style]="{ 'background-color': 'color-mix(in srgb, var(--p-primary-500), transparent 80%)', color: 'var(--p-primary-500)' }">
+            <p-avatar size="normal" shape="square">
                 <lucide-angular [img]="icon" ></lucide-angular>
             </p-avatar>
-            <span class="case-manager-panel-title" >
+            <span class="pop-case-manager-header-title" >
                 {{ title }}
             </span>
-            <p-badge 
+            <p-badge styleClass="pop-case-manager-counter-badge" 
                 [value]="loadingData ? '-' : entries.length" 
-                [severity]="entries.length ? 'primary' : 'secondary'" />
+                [severity]="entries.length ? 'primary' : 'secondary'"/>
             @if (completed) {
-                <i class="pi pi-star-fill" style="color: var(--p-primary-color)"></i>                
+                <i class="pi pi-star-fill"></i>                
             }
         </div>
         
         @if (!loadingData) {
             @let menuItems = menuItems$ | async;
             @if (authService.user.canManageCases) {
-                <i class="pi pi-cog cursor-pointer ml-auto my-auto" 
-                style="color: var(--p-button-text-secondary-color)" 
+                <i class="pop-case-manager-menu-button pi pi-cog" 
                 (click)="menu.toggle($event)"></i>
             }
             <p-confirmdialog />
@@ -38,24 +34,22 @@
         }
     </ng-template>
     
-
-    <div>
-        @if (loadingData) {
-            <div>
-                <p-skeleton width="100%" styleClass="mb-2" />
-                <p-skeleton width="100%" styleClass="mb-2" />
-            </div>
-        } @else if (entries.length == 0) {
-            <div class="text-muted">
-                No entries associated with this case
-            </div>
-        } @else {
-            <pop-resource-timeline [entries]="entries" [onEventClick]="showDrawer.bind(this)"></pop-resource-timeline>
-        }
-    </div>
+    @if (loadingData) {
+        <div>
+            <p-skeleton width="100%" styleClass="mb-2" />
+            <p-skeleton width="100%" styleClass="mb-2" />
+        </div>
+    } @else if (entries.length == 0) {
+        <div class="text-muted">
+            No entries associated with this case
+        </div>
+    } @else {
+        <pop-case-manager-panel-timeline [entries]="entries" [onEventClick]="showDrawer.bind(this)"></pop-case-manager-panel-timeline>
+    }
 </p-panel>
 
 <pop-case-manager-drawer 
+    styleClass="pop-case-manager-drawer"
     [(visible)]="drawerVisible" 
     [data]="drawerData" 
     [history$]="drawerHistory" 

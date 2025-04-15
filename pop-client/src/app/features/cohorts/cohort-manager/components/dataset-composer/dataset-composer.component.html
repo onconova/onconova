@@ -13,33 +13,21 @@
                         optionLabel="name"
                         (completeMethod)="searchUserDatasets($event)"/>
                 }
-                <p-button 
-                    icon="pi pi-eraser" 
-                    label='Clear' 
-                    class="mr-2" 
-                    severity="secondary" 
-                    (onClick)="clearDatasetRules()"/>
-                <p-button 
-                    icon="pi pi-sync" 
-                    class="mr-2" 
-                    label="Load" 
+                <p-button icon="pi pi-eraser" label='Clear' 
+                    (onClick)="clearDatasetRules()"
+                    class="mr-2" severity="secondary"/>
+                <p-button icon="pi pi-sync" label="Load" 
                     (onClick)="loadUserDataset()"
                     [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-                    severity="secondary" />
-                <p-button 
-                    icon="pi pi-trash" 
-                    label='Delete' 
-                    class="mr-2" 
-                    severity="secondary" 
+                    class="mr-2" severity="secondary"/>
+                <p-button icon="pi pi-trash" label='Delete'
+                    (onClick)="deleteUserDataset()" 
                     [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-                    (onClick)="deleteUserDataset()"/>
-                <p-button 
-                    icon="pi pi-cloud-upload" 
-                    class="mr-2" 
-                    [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' " 
+                    class="mr-2" severity="secondary"/>
+                <p-button icon="pi pi-cloud-upload" [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' "  
                     (onClick)="createUserDataset()"
                     [disabled]="!selectedDataset || !datasetRules"
-                    severity="secondary"/>
+                    class="mr-2" severity="secondary"/>
             </ng-template>
             <ng-template #end>
             </ng-template>
@@ -61,7 +49,7 @@
                     selectionMode="checkbox" 
                     [(selection)]="selectedNodes"
                     (selectionChange)="updateDataset($event)"
-                    styleClass="w-full md:w-[30rem]"
+                    styleClass="pop-data-selector-tree md:w-[30rem]"
                     [filter]="true" 
                     filterPlaceholder="Search and select">
 
@@ -88,7 +76,7 @@
         </div>
         @if (dataset$) {
             @let dataset = dataset$ | async;
-            <div class="dataset-table-container">            
+            <div class="pop-dataset-table">            
                 @if (dataset) {
                     <p-table 
                         [value]="dataset || []" 

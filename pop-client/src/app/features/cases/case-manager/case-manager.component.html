@@ -12,8 +12,8 @@
 </div>
 
 <!-- Case summary -->
-<div class="card flex py-3 header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">
-    <pop-identicon [value]="pseudoidentifier"/>
+<div class="case-manager-header card">
+    <pop-identicon [value]="pseudoidentifier" class="m-auto"/>
     <div class="ml-3 my-auto">
         <small class="text-muted">Patient case</small>
         <h2 class="text-monospace my-0">
@@ -146,7 +146,7 @@
                     @if (authService.user.canAccessSensitiveData) {
                         {{ case.clinicalIdentifier}}
                     } @else {
-                        <span style="opacity: 0.45;">🞸🞸🞸🞸🞸🞸🞸</span>
+                        <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
                     }
                 } @else {
                     <p-skeleton width="12rem" height="1.5rem" />
@@ -218,7 +218,7 @@
     <div class="grid"> 
         <div class="col-12 md:col-6 lg:col-4">
 
-            <p-fieldset legend="Cancer Characterization">
+            <p-fieldset legend="Cancer Characterization" class="pop-case-manager-group-panel">
 
                 <pop-case-manager-panel
                     title="Neoplastic Entities"
@@ -265,7 +265,7 @@
             </p-fieldset>
 
 
-            <p-fieldset legend="Genomics">
+            <p-fieldset legend="Genomics" class="pop-case-manager-group-panel">
 
                 <pop-case-manager-panel
                     title="Genomic Variants"
@@ -293,7 +293,8 @@
 
         <div class="col-12 md:col-6 lg:col-4 px-3">
 
-            <p-fieldset legend="Therapy">
+            <p-fieldset legend="Therapy" class="pop-case-manager-group-panel">
+
                 <pop-case-manager-panel
                     title="Systemic Treatments"
                     [icon]="icons.systemicTherapies"
@@ -327,7 +328,7 @@
             </p-fieldset>
 
 
-            <p-fieldset legend="Profile">
+            <p-fieldset legend="Profile" class="pop-case-manager-group-panel">
                 <pop-case-manager-panel
                     title="Lifestyle"
                     [icon]="icons.lifestyle"
@@ -375,7 +376,7 @@
 
         <div class="col-12 md:col-6 lg:col-4">
  
-            <p-fieldset legend="Clinical Observations">
+            <p-fieldset legend="Clinical Observations"  class="pop-case-manager-group-panel">
 
                 <pop-case-manager-panel
                     title="Tumor Boards"

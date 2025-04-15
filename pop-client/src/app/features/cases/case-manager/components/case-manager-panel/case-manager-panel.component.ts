@@ -22,7 +22,7 @@ import { PatientCasesService, PatientCaseDataCategories, PatientCaseDataCompleti
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
-import { ResourceTimelineComponent } from "../../../../../shared/components/resource-timeline/resource-timeline.component";
+import { CaseManagerPanelTimelineComponent } from "./components/case-manager-panel-timeline.component";
 
 
 export interface DataService {
@@ -35,8 +35,6 @@ export interface DataService {
     standalone: true,
     selector: 'pop-case-manager-panel',
     templateUrl: './case-manager-panel.component.html',
-    styleUrl: './case-manager-panel.component.css',
-    encapsulation: ViewEncapsulation.None,
     imports: [
     CaseManagerDrawerComponent,
     CommonModule,
@@ -47,7 +45,7 @@ export interface DataService {
     BadgeModule,
     Skeleton,
     ConfirmDialog,
-    ResourceTimelineComponent
+    CaseManagerPanelTimelineComponent
 ],
     providers: [ConfirmationService],
 })
