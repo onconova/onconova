@@ -229,7 +229,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
       errors['rules'] = ruleErrorStore;
       hasErrors = true;
     }
-    console.log(this.data, 'hasErrors', hasErrors)
     return hasErrors ? errors : null;
   }
 
@@ -258,7 +257,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    console.log(obj)
     if (obj) {
         let data =  {...obj}
         data.rules = this.convertRule(data.rules, true) 
@@ -434,7 +432,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
   }
 
   addRuleFilter(parent: Rule): void {
-    console.log('ADD RULE FILTER', parent)
     if (this.disabled) {
       return;
     }
@@ -442,7 +439,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     if (this.config.addRuleFilter) {
       this.config.addRuleFilter(parent);
     } else {
-        console.log('this.entities',this.entities)
       const entity: Entity = this.entities.find((e) => e.value === parent.entity) as Entity;
       const field = this.getDefaultField(entity) as Field;
       parent.filters = (parent.filters || []).concat([
@@ -685,7 +681,14 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
       ruleset.rules.forEach((item) => {
         if ((item as RuleSet).rules) {
           return this.validateRulesInRuleset(item as RuleSet, errorStore);
-        } else if ((item as RuleFilter).field) {
+        } else if ((item as Rule).filters) {
+          item.filters.forEach(
+            (filter: RuleFilter) => {
+              if (!filter.operator || !filter.value) {
+                errorStore.push(new Error());
+              }
+            }
+          )
           const field = this.config.fields[(item as RuleFilter).field];
           if (field && field.validator) {
             const error = field.validator(item as Rule, ruleset);

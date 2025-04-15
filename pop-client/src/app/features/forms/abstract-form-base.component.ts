@@ -20,7 +20,7 @@ interface ResourceCreate {
 })
 export abstract class AbstractFormBase {
 
-  private readonly messageService = inject(MessageService)
+  private messageService = inject(MessageService)
   public readonly destroyRef = inject(DestroyRef);
 
   @Output() public save = new EventEmitter<void>();
@@ -94,7 +94,7 @@ export abstract class AbstractFormBase {
         takeUntilDestroyed(this.destroyRef)
       ).subscribe({
           next: (response: ModifiedResource[]) => {
-          // Report the successful creation of the resource
+              // Report the successful creation of the resource
               this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + response[0].description });
               this.loading = false;  
               this.save.emit();
