@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Chart, ChartConfiguration, ChartType } from 'chart.js';
 
-import JSZip from 'jszip';
+import { zipSync, strToU8 } from 'fflate';
 
 @Injectable({
   providedIn: 'root'
@@ -29,51 +29,55 @@ export class DownloadService {
       }
 
     public downloadAsZip(data: any[], zipFilename: string = 'data.zip'): void {
-        const zip = new JSZip();
-        
+        const zipContents: { [filename: string]: Uint8Array } = {};
+      
         const mainData: any[] = [];
         const nestedDataMap: { [key: string]: any[] } = {};
-        
+      
         data.forEach(item => {
-        const flatObj: any = {};
-        const pseudoIdentifier = item.pseudoidentifier || '';
-        
-        Object.entries(item).forEach(([key, value]) => {
+          const flatObj: any = {};
+          const pseudoIdentifier = item.pseudoidentifier || '';
+      
+          Object.entries(item).forEach(([key, value]) => {
             if (Array.isArray(value)) {
-            if (!nestedDataMap[key]) nestedDataMap[key] = [];
-            value.forEach(subItem => {
+              if (!nestedDataMap[key]) nestedDataMap[key] = [];
+              value.forEach(subItem => {
                 const nestedRow = { pseudoidentifier: pseudoIdentifier, ...this.flattenObject(subItem)[0] };
                 nestedDataMap[key].push(nestedRow);
-            });
+              });
             } else if (typeof value === 'object' && value !== null) {
-            if (!nestedDataMap[key]) nestedDataMap[key] = [];
-            const nestedRow = { pseudoidentifier: pseudoIdentifier, ...this.flattenObject(value)[0] };
-            nestedDataMap[key].push(nestedRow);
+              if (!nestedDataMap[key]) nestedDataMap[key] = [];
+              const nestedRow = { pseudoidentifier: pseudoIdentifier, ...this.flattenObject(value)[0] };
+              nestedDataMap[key].push(nestedRow);
             } else {
-            flatObj[key] = value;
+              flatObj[key] = value;
             }
+          });
+      
+          mainData.push(flatObj);
         });
-        mainData.push(flatObj);
-        });
-        
-        this.addCsvToZip(zip, 'main.csv', mainData);
-        
+      
+        this.addCsvToZip(zipContents, 'main.csv', mainData);
+      
         Object.entries(nestedDataMap).forEach(([key, nestedData]) => {
-        this.addCsvToZip(zip, `${key}.csv`, nestedData);
+          this.addCsvToZip(zipContents, `${key}.csv`, nestedData);
         });
+      
+        const zipped = zipSync(zipContents);
+        const blob = new Blob([zipped], { type: 'application/zip' });
+        const url = window.URL.createObjectURL(blob);
+        this.download(zipFilename, url);
+      }
         
-        zip.generateAsync({ type: 'blob' }).then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            this.download(zipFilename, url);
-        })
-    }
-        
-    private addCsvToZip(zip: JSZip, filename: string, data: any[]): void {
+    private addCsvToZip(zipContents: { [filename: string]: Uint8Array }, filename: string, data: any[]): void {
         if (data.length === 0) return;
+    
         const headers = Array.from(new Set(data.flatMap(row => Object.keys(row))));
-        const csvRows = data.map(row => headers.map(header => JSON.stringify(row[header] || '')).join(','));
+        const csvRows = data.map(row => headers.map(header => JSON.stringify(row[header] ?? '')).join(','));
         csvRows.unshift(headers.join(','));
-        zip.file(filename, csvRows.join('\n'));
+    
+        const csvString = csvRows.join('\n');
+        zipContents[filename] = strToU8(csvString);
     }
 
     private flattenObject(obj: any, parentKey = ''): any[] {
