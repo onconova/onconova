@@ -78,6 +78,19 @@ download_hgnc() {
   echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
 }
 
+download_ensembl() {
+	# Local variables
+	DOWNLOAD_FILE=${DATA_DIR}/ensemble_data.tsv
+	PROCESSED_FILE=${DATA_DIR}/ensembl_exons.tsv
+  echo ""
+	echo "Downloading ENSEMBL BioMart files"
+	echo "-----------------------------------"
+	wget $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE 'http://www.ensembl.org/biomart/martservice?query=<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE Query><Query  virtualSchemaName = "default" formatter = "TSV" header = "0" uniqueRows = "0" count = "" datasetConfigVersion = "0.6" ><Dataset name = "hsapiens_gene_ensembl" interface = "default" ><Filter name = "with_hgnc" excluded = "0"/><Filter name = "mane_select" excluded = "0"/><Attribute name = "external_gene_name" /><Attribute name = "rank" /><Attribute name = "cdna_coding_start" /><Attribute name = "cdna_coding_end" /><Attribute name = "genomic_coding_start" /><Attribute name = "genomic_coding_end" /></Dataset></Query>'
+  printf "gene\\texon_rank\\tcdna_coding_start\\tcdna_coding_end\\tgenomic_coding_start\\tgenomic_coding_end\\n" > $PROCESSED_FILE
+  cat $DOWNLOAD_FILE >> $PROCESSED_FILE
+  rm $DOWNLOAD_FILE
+  echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
+}
 
 download_so() {
 	# Local variables
@@ -148,9 +161,9 @@ download_icd10() {
 	echo "Downloading ICD-10 files"
 	echo "-----------------------------------"
 	wget $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE $DOWNLOAD_URL
-    printf "code\\tdisplay\\n" > $PROCESSED_FILE
-    cat $DOWNLOAD_FILE >> $PROCESSED_FILE
-    rm $DOWNLOAD_FILE
+  printf "code\\tdisplay\\n" > $PROCESSED_FILE
+  cat $DOWNLOAD_FILE >> $PROCESSED_FILE
+  rm $DOWNLOAD_FILE
   echo -e "\n✓ Download complete. Saved data to $DOWNLOAD_FILE.\n"
 }
 
@@ -382,6 +395,7 @@ case "$TERMINOLOGY" in
   cvx) download_cvx;;
   hgnc) download_hgnc;;
   hgnc-group) download_hgnc;;
+  ensembl) download_ensembl;;
   so) download_so;;
   icdo3topo) download_icdo3topo;;
   icdo3morph) download_icdo3morph;;

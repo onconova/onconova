@@ -7,7 +7,9 @@ import environ
 import subprocess
 import json 
 import sys
+from pydantic import BaseModel
 from datetime import datetime 
+from typing import Optional
 from tqdm import tqdm 
 from pop.terminology.utils import get_file_location, get_dictreader_and_size, ensure_within_string_limits, ensure_list, CodedConcept
 
@@ -390,6 +392,11 @@ class HGNCGenesDigestor(TerminologyDigestor):
     LABEL = 'hgnc'
     FILENAME = 'hgnc.tsv'
     CANONICAL_URL='http://www.genenames.org/geneId'
+    
+    def digest(self):
+        self.exons = EnsemblExonsDigestor().digest()
+        return super().digest()
+        
     def _digest_concept_row(self, row):
         # Get core coding elements
         code = row['hgnc_id']
@@ -406,7 +413,17 @@ class HGNCGenesDigestor(TerminologyDigestor):
                 'locus_group': row['locus_group'],
                 'locus_type': row['locus_type'],
                 'location': row['location'],
-                'refseq_accession': row['refseq_accession']
+                'refseq_accession': row['refseq_accession'],
+                'exons': [
+                    {
+                        'rank': exon.rank,
+                        'coding_dna_start': exon.coding_dna_start,
+                        'coding_dna_end': exon.coding_dna_end,
+                        'coding_genomic_start': exon.coding_genomic_start,
+                        'coding_genomic_end': exon.coding_genomic_end,
+                        
+                    } for exon in self.exons.get(row['symbol'], [])
+                ]
             },
             synonyms=synonyms+olds,
             system=self.CANONICAL_URL,
@@ -433,6 +450,48 @@ class HGNCGroupDigestor(TerminologyDigestor):
             # Add the concept
             self.concepts[code] = concept
 
+
+class EnsemblExonsDigestor(TerminologyDigestor):
+    LABEL = 'ensembl'
+    FILENAME = 'ensembl_exons.tsv'
+    
+    class GeneExon(BaseModel):
+        rank: int 
+        coding_dna_start: Optional[int] = None
+        coding_dna_end: Optional[int] = None
+        coding_genomic_start: Optional[int] = None 
+        coding_genomic_end: Optional[int] = None
+            
+    def __init__(self, verbose = True):
+        super().__init__(verbose)
+        self.exons = defaultdict(list) 
+    
+    def digest(self):
+        super().digest() 
+        for gene, exons in self.exons.items():
+            # Adjust the the cDNA position from the position in the gene reference sequence to position in the cDNA 
+            gene_coding_dna_region_start = min([exon.coding_dna_start for exon in exons if exon.coding_dna_start] or 0)
+            if gene_coding_dna_region_start:
+                for exon in exons:
+                    if exon.coding_dna_start:
+                        exon.coding_dna_start = exon.coding_dna_start - gene_coding_dna_region_start + 1
+                    if exon.coding_dna_end:
+                        exon.coding_dna_end = exon.coding_dna_end - gene_coding_dna_region_start + 1         
+        return self.exons
+    
+    def _digest_concept_row(self, row):
+        gene = row['gene']
+        # Add the concept
+        self.exons[gene].append(
+            self.GeneExon(
+            rank=row['exon_rank'],
+            coding_dna_start=row['cdna_coding_start'] or None,
+            coding_dna_end=row['cdna_coding_end'] or None,
+            coding_genomic_start=row['genomic_coding_start'] or None,
+            coding_genomic_end=row['genomic_coding_end'] or None,
+            )
+        )
+        
                   
 class SequenceOntologyDigestor(TerminologyDigestor):
     LABEL = 'so'
