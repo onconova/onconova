@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres import fields as postgres
+from django.contrib.postgres.fields import IntegerRangeField
 from django.utils.translation import gettext_lazy as _    
 
 from pop.core.models import BaseModel
@@ -579,6 +580,19 @@ class StructuralVariantAnalysisMethod(CodedConcept):
 class Gene(CodedConcept):
     valueset =  'http://hl7.org/fhir/uv/genomics-reporting/ValueSet/hgnc-vs'
     description = 'HUGO Gene Nomenclature Committee Gene Names (HGNC)'
+
+
+class GeneExon(BaseModel):
+    description = 'Exon definitions for genes'
+    gene = models.ForeignKey(
+        to=Gene,
+        on_delete=models.CASCADE,
+        related_name='exons',
+    )
+    rank = models.IntegerField()
+    coding_dna_region = IntegerRangeField()
+    coding_genomic_region = IntegerRangeField()
+    
 
 
 class ReferenceGenomeBuild(CodedConcept):

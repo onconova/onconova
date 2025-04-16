@@ -3,14 +3,17 @@ import pghistory
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
-import enum 
+from django.db.backends.postgresql.psycopg_any import NumericRange
+
 from typing import Union
-from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Q, F, Func, CheckConstraint, When, Case, Value
+from django.contrib.postgres.aggregates import StringAgg, ArrayAgg
+from django.db.models import Q, F, Func, CheckConstraint, When, Case, Value, Subquery, OuterRef
+from django.db.models.expressions import RawSQL
+
 from django.db.models.functions import Cast, Coalesce
 from django.db.models.fields.json import KeyTextTransform
 
-from queryable_properties.properties import AnnotationProperty, MappingProperty
+from queryable_properties.properties import AnnotationProperty, SubqueryFieldProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel 
@@ -312,10 +315,57 @@ class GenomicVariant(BaseModel):
             RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.GENOMIC_REFSEQ})'),
         ),
     )
+    dna_change_position_range_start = AnnotationProperty(
+        annotation=Case(
+            When(
+                Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
+                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?(?:_\d+)?\D*_{HGVSRegex.NUCLEOTIDE_POSITION}'), output_field=models.IntegerField())
+            ),
+            default=None, output_field=models.IntegerField(),
+        ),
+    )
+    dna_change_position_range_end = AnnotationProperty(
+        annotation=Case(
+            When(
+                Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
+                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(?:\d+_)?(\d+)(?:_\?)?\D*'), output_field=models.IntegerField())
+            ),
+            default=None, output_field=models.IntegerField(),
+        ),
+    )
     dna_change_position = AnnotationProperty(
         verbose_name = _('DNA change position'),
-        annotation = RegexpMatchSubstring(F('dna_hgvs'), fr":[cg]\.({HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE})"),
+        annotation =Case(
+            When(
+                ~Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*') & Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}.*'),
+                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?\D*.*'), output_field=models.IntegerField())
+            ),
+            default=None, output_field=models.IntegerField(),
+        ),
     )    
+    exons = AnnotationProperty(
+        annotation=Case(
+            When(dna_hgvs__regex=r'.*:c\..*', then=ArrayAgg(
+                F('genes__exons__rank'), 
+                filter=
+                    Q(genes__exons__coding_dna_region__contains=F('dna_change_position'))
+                    |                    
+                    Q(genes__exons__coding_dna_region__contains=F('dna_change_position_range_start'))
+                    |                    
+                    Q(genes__exons__coding_dna_region__contains=F('dna_change_position_range_end'))
+            )),
+            When(dna_hgvs__regex=r'.*:g\..*', then=ArrayAgg(
+                F('genes__exons__rank'), 
+                filter=
+                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position'))
+                    |                    
+                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_start'))
+                    |                    
+                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_end'))
+            )),
+            default=None,
+        )            
+    )
     dna_change_type = AnnotationProperty(
         verbose_name = _('DNA change type'),
         annotation = Case(
@@ -397,32 +447,11 @@ class GenomicVariant(BaseModel):
         verbose_name = _('Total affected nucleotides (estimated if uncertain)'),
         annotation = Case(
             When(
-                Q(dna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$') |
-                Q(rna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_RANGE}$'), 
-                then=
-                    Cast(
-                        RegexpMatchSubstring(
-                            Coalesce('dna_change_position', 'rna_change_position'), 
-                            rf'^{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(\d+)'
-                        ), 
-                        output_field=models.IntegerField()
-                    )
-                    -
-                    Cast(
-                        RegexpMatchSubstring(
-                            Coalesce('dna_change_position', 'rna_change_position'), 
-                            rf'(\d+)\D*_{HGVSRegex.NUCLEOTIDE_POSITION}$'
-                        ), 
-                        output_field=models.IntegerField()
-                    )
+                Q(dna_change_position_range_start__isnull=False) & Q(dna_change_position_range_end__isnull=False), 
+                then=F('dna_change_position_range_end') - F('dna_change_position_range_start') + Value(1)
             ),
-            When(
-                  Q(dna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$') |
-                  Q(rna_change_position__regex=rf'^{HGVSRegex.NUCLEOTIDE_POSITION}$'), 
-                then=Value(1),
-            ),
-            default=None,
-            output_field=models.IntegerField(),
+            When(Q(dna_change_position__isnull=False), then=Value(1)),
+            default=None, output_field=models.IntegerField(),
         ),
     )    
     molecular_consequence = termfields.CodedConceptField(

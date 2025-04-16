@@ -1,8 +1,9 @@
-from pop.terminology.digestors import TerminologyDigestor, NCITDigestor
+from pop.terminology.digestors import TerminologyDigestor, NCITDigestor, EnsemblExonsDigestor
 from pop.terminology.utils import CodedConcept
 from pop.terminology.utils import parent_to_children, request_http_get, ensure_within_string_limits
-from pop.terminology.models import AntineoplasticAgent
+from pop.terminology.models import AntineoplasticAgent, Gene, GeneExon
 from typing import List, Optional
+from tqdm import tqdm
 
 class DrugCodedConcept(CodedConcept):
     therapy_category: Optional[str] = None 
@@ -116,3 +117,19 @@ class CTCAETermsDigestor(TerminologyDigestor):
 
 def expand_ctcae_terms() -> List[CodedConcept]:
     return CTCAETermsDigestor().digest().values()
+
+def add_gene_exons():
+    exons_map = EnsemblExonsDigestor().digest()
+    for gene_symbol in  tqdm(exons_map, total=len(exons_map), desc='• Updating gene exons'):
+        gene = Gene.objects.filter(display=gene_symbol).first()
+        if gene:
+            for exon in exons_map[gene_symbol]:
+                GeneExon.objects.get_or_create(
+                    gene=gene,
+                    rank = exon.rank,
+                    defaults=dict(
+                        coding_dna_region = (exon.coding_dna_start, exon.coding_dna_end),
+                        coding_genomic_region = (exon.coding_genomic_start, exon.coding_genomic_end),                   
+                    )
+                )
+        

@@ -11,7 +11,7 @@ from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.terminology.digestors import DIGESTORS
 from pop.terminology.utils import CodedConcept, request_http_get, parent_to_children, printYellow, printGreen, printRed
 from pop.terminology.resolver import resolve_canonical_url
-from pop.terminology.special import expand_AntineoplasticAgent_with_NCTPOT_mappings, expand_ctcae_terms
+from pop.terminology.special import expand_AntineoplasticAgent_with_NCTPOT_mappings, expand_ctcae_terms, add_gene_exons
 from enum import Enum
 from typing import List, Type
 from tqdm import tqdm 
@@ -367,6 +367,15 @@ def collect_codedconcept_terminology(
                 deleted_dangling_concepts += 1
             except:
                 printRed(f'❌ - Dangling concept <{concept.code} - {concept.display}> could not be deleted as it is referenced in the database by another object. \t\t\t')
+
+
+    special_post_composer_function = {
+        'Gene': add_gene_exons,
+    }
+    if CodedConcept_name in special_post_composer_function:
+        print(f'- Performing post-collection routine for <{CodedConcept_name}>.\t\t\t')
+        special_post_composer_function[CodedConcept_name]()
+
     # Notify successful operation
     if new_concepts > 0:
         printGreen(f'✓ - Succesfully synchronized {new_concepts} concepts in the <{CodedConcept_name}> model table. \t\t\t')

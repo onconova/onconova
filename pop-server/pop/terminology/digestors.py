@@ -392,10 +392,6 @@ class HGNCGenesDigestor(TerminologyDigestor):
     LABEL = 'hgnc'
     FILENAME = 'hgnc.tsv'
     CANONICAL_URL='http://www.genenames.org/geneId'
-    
-    def digest(self):
-        self.exons = EnsemblExonsDigestor().digest()
-        return super().digest()
         
     def _digest_concept_row(self, row):
         # Get core coding elements
@@ -414,16 +410,6 @@ class HGNCGenesDigestor(TerminologyDigestor):
                 'locus_type': row['locus_type'],
                 'location': row['location'],
                 'refseq_accession': row['refseq_accession'],
-                'exons': [
-                    {
-                        'rank': exon.rank,
-                        'coding_dna_start': exon.coding_dna_start,
-                        'coding_dna_end': exon.coding_dna_end,
-                        'coding_genomic_start': exon.coding_genomic_start,
-                        'coding_genomic_end': exon.coding_genomic_end,
-                        
-                    } for exon in self.exons.get(row['symbol'], [])
-                ]
             },
             synonyms=synonyms+olds,
             system=self.CANONICAL_URL,
