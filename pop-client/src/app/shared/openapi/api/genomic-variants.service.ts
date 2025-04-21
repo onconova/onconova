@@ -395,14 +395,14 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const dnaReferenceSequenceNotEndsWith = requestParameters?.dnaReferenceSequenceNotEndsWith;
         const dnaChangePositionNotExists = requestParameters?.dnaChangePositionNotExists;
         const dnaChangePositionExists = requestParameters?.dnaChangePositionExists;
-        const dnaChangePosition = requestParameters?.dnaChangePosition;
-        const dnaChangePositionNot = requestParameters?.dnaChangePositionNot;
-        const dnaChangePositionContains = requestParameters?.dnaChangePositionContains;
-        const dnaChangePositionNotContains = requestParameters?.dnaChangePositionNotContains;
-        const dnaChangePositionBeginsWith = requestParameters?.dnaChangePositionBeginsWith;
-        const dnaChangePositionNotBeginsWith = requestParameters?.dnaChangePositionNotBeginsWith;
-        const dnaChangePositionEndsWith = requestParameters?.dnaChangePositionEndsWith;
-        const dnaChangePositionNotEndsWith = requestParameters?.dnaChangePositionNotEndsWith;
+        const dnaChangePositionLessThan = requestParameters?.dnaChangePositionLessThan;
+        const dnaChangePositionLessThanOrEqual = requestParameters?.dnaChangePositionLessThanOrEqual;
+        const dnaChangePositionGreaterThan = requestParameters?.dnaChangePositionGreaterThan;
+        const dnaChangePositionGreaterThanOrEqual = requestParameters?.dnaChangePositionGreaterThanOrEqual;
+        const dnaChangePositionEqual = requestParameters?.dnaChangePositionEqual;
+        const dnaChangePositionNotEqual = requestParameters?.dnaChangePositionNotEqual;
+        const dnaChangePositionBetween = requestParameters?.dnaChangePositionBetween;
+        const dnaChangePositionNotBetween = requestParameters?.dnaChangePositionNotBetween;
         const dnaChangeTypeNotExists = requestParameters?.dnaChangeTypeNotExists;
         const dnaChangeTypeExists = requestParameters?.dnaChangeTypeExists;
         const dnaChangeType = requestParameters?.dnaChangeType;
@@ -478,6 +478,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const nucleotidesLengthNotEqual = requestParameters?.nucleotidesLengthNotEqual;
         const nucleotidesLengthBetween = requestParameters?.nucleotidesLengthBetween;
         const nucleotidesLengthNotBetween = requestParameters?.nucleotidesLengthNotBetween;
+        const exonsNotExists = requestParameters?.exonsNotExists;
+        const exonsExists = requestParameters?.exonsExists;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -669,21 +671,29 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaChangePositionExists, 'dnaChangePosition.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePosition, 'dnaChangePosition');
+          <any>dnaChangePositionLessThan, 'dnaChangePosition.lessThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionNot, 'dnaChangePosition.not');
+          <any>dnaChangePositionLessThanOrEqual, 'dnaChangePosition.lessThanOrEqual');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionContains, 'dnaChangePosition.contains');
+          <any>dnaChangePositionGreaterThan, 'dnaChangePosition.greaterThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionNotContains, 'dnaChangePosition.not.contains');
+          <any>dnaChangePositionGreaterThanOrEqual, 'dnaChangePosition.greaterThanOrEqual');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionBeginsWith, 'dnaChangePosition.beginsWith');
+          <any>dnaChangePositionEqual, 'dnaChangePosition.equal');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionNotBeginsWith, 'dnaChangePosition.not.beginsWith');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionEndsWith, 'dnaChangePosition.endsWith');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dnaChangePositionNotEndsWith, 'dnaChangePosition.not.endsWith');
+          <any>dnaChangePositionNotEqual, 'dnaChangePosition.not.equal');
+        if (dnaChangePositionBetween) {
+            dnaChangePositionBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaChangePosition.between');
+            })
+        }
+        if (dnaChangePositionNotBetween) {
+            dnaChangePositionNotBetween.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaChangePosition.not.between');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaChangeTypeNotExists, 'dnaChangeType.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -854,6 +864,10 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
                   <any>element, 'nucleotidesLength.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exonsNotExists, 'exons.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>exonsExists, 'exons.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

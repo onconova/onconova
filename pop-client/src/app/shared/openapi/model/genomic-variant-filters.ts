@@ -99,37 +99,37 @@ export interface GenomicVariantFilters {
      */
     'dnaChangePosition.exists'?: boolean;
     /**
-     * DNA change position - Filter for full text matches
+     * DNA change position - Filter for entries with values less than the specified value
      */
-    dnaChangePosition?: string;
+    'dnaChangePosition.lessThan'?: number;
     /**
-     * DNA change position - Filter for full text mismatches
+     * DNA change position - Filter for entries with values less than or equal to the specified value
      */
-    'dnaChangePosition.not'?: string;
+    'dnaChangePosition.lessThanOrEqual'?: number;
     /**
-     * DNA change position - Filter for partial text matches
+     * DNA change position - Filter for entries with values greater than the specified value
      */
-    'dnaChangePosition.contains'?: string;
+    'dnaChangePosition.greaterThan'?: number;
     /**
-     * DNA change position - Filter for partial text mismatches
+     * DNA change position - Filter for entries with values greater than or equal to the specified value
      */
-    'dnaChangePosition.not.contains'?: string;
+    'dnaChangePosition.greaterThanOrEqual'?: number;
     /**
-     * DNA change position - Filter for entries starting with the text
+     * DNA change position - Filter for entries with values exactly equal to the specified value
      */
-    'dnaChangePosition.beginsWith'?: string;
+    'dnaChangePosition.equal'?: number;
     /**
-     * DNA change position - Filter for entries not starting with the text
+     * DNA change position - Filter for entries with values not equal to the specified value
      */
-    'dnaChangePosition.not.beginsWith'?: string;
+    'dnaChangePosition.not.equal'?: number;
     /**
-     * DNA change position - Filter for entries ending with the text
+     * DNA change position - Filter for entries with values between two specified values (inclusive)
      */
-    'dnaChangePosition.endsWith'?: string;
+    'dnaChangePosition.between'?: Array<any>;
     /**
-     * DNA change position - Filter for entries not ending with the text
+     * DNA change position - Filter for entries with values between two specified values (inclusive)
      */
-    'dnaChangePosition.not.endsWith'?: string;
+    'dnaChangePosition.not.between'?: Array<any>;
     /**
      * DNA change type - Filter for entries without a value
      */
@@ -412,6 +412,14 @@ export interface GenomicVariantFilters {
      * Variant length - Filter for entries with values between two specified values (inclusive)
      */
     'nucleotidesLength.not.between'?: Array<any>;
+    /**
+     * Exons - Filter for entries without a value
+     */
+    'exons.not.exists'?: boolean;
+    /**
+     * Exons - Filter for entries with a value
+     */
+    'exons.exists'?: boolean;
     /**
      * Id - Filter for full text matches
      */

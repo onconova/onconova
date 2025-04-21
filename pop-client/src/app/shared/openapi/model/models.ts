@@ -64,6 +64,7 @@ export * from './genomic-variant-assessment-choices';
 export * from './genomic-variant-clinical-relevance-choices';
 export * from './genomic-variant-confidence-choices';
 export * from './genomic-variant-create';
+export * from './genomic-variant-exons-inner';
 export * from './genomic-variant-filters';
 export * from './gleason-grade';
 export * from './gleason-grade-create';

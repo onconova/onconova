@@ -346,7 +346,7 @@ class GenomicVariant(BaseModel):
     exons = AnnotationProperty(
         annotation=Case(
             When(dna_hgvs__regex=r'.*:c\..*', then=ArrayAgg(
-                F('genes__exons__rank'), 
+                F('genes__exons__name'), 
                 filter=
                     Q(genes__exons__coding_dna_region__contains=F('dna_change_position'))
                     |                    
@@ -355,13 +355,13 @@ class GenomicVariant(BaseModel):
                     Q(genes__exons__coding_dna_region__contains=F('dna_change_position_range_end'))
             )),
             When(dna_hgvs__regex=r'.*:g\..*', then=ArrayAgg(
-                F('genes__exons__rank'), 
+                F('genes__exons__name'), 
                 filter=
                     Q(genes__exons__coding_genomic_region__contains=F('dna_change_position'))
                     |                    
                     Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_start'))
                     |                    
-                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_end'))
+                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_end')),
             )),
             default=None,
         )            

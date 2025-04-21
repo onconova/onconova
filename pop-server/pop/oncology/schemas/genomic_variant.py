@@ -2,7 +2,7 @@ from pop.oncology import models as orm
 from pop.oncology.models.genomic_variant import HGVSRegex
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pydantic import AliasChoices, Field
-from typing import Optional
+from typing import Optional, List
 
 class GenomicVariantSchema(ModelGetSchema):
     dnaHgvs: Optional[str] = Field(
@@ -21,11 +21,10 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='dna_reference_sequence',
         validation_alias=AliasChoices('dnaReferenceSequence','dna_reference_sequence'),        
     )
-    dnaChangePosition: Optional[str] = Field(
+    dnaChangePosition: Optional[int] = Field(
         default=None,
         title='DNA change position',
         description='DNA-level nucleotide position/range where the variant was found.',
-        pattern=HGVSRegex.NUCLEOTIDE_POSITION_OR_RANGE,
         alias='dna_change_position',
         validation_alias=AliasChoices('dnaChangePosition','dna_change_position'),        
     )
@@ -97,7 +96,7 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='nucleotides_length',
         validation_alias=AliasChoices('nucleotidesLength','nucleotides_length'),        
     )
-    exons: Optional[str | int] = Field(
+    exons: Optional[List[str | int]] = Field(
         default=None,
         title='Exons',
         description='Gene exons affected by the variant. Estimated from MANE reference sequences.',

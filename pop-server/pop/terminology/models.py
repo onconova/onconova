@@ -1,7 +1,11 @@
 from django.db import models
+from django.db.models.functions import Concat
 from django.contrib.postgres import fields as postgres
 from django.contrib.postgres.fields import IntegerRangeField
-from django.utils.translation import gettext_lazy as _    
+from django.utils.translation import gettext_lazy as _  
+
+from queryable_properties.properties import AnnotationProperty
+from queryable_properties.managers import QueryablePropertiesManager  
 
 from pop.core.models import BaseModel
 from pop.terminology.utils import CodedConcept as CodedConceptSchema
@@ -583,11 +587,16 @@ class Gene(CodedConcept):
 
 
 class GeneExon(BaseModel):
+    objects = QueryablePropertiesManager()
     description = 'Exon definitions for genes'
     gene = models.ForeignKey(
         to=Gene,
         on_delete=models.CASCADE,
         related_name='exons',
+    )
+    name = AnnotationProperty(
+        verbose_name=_('Exon name'),
+        annotation=Concat('gene__display', models.Value(' exon '), 'rank', output_field=models.CharField()),
     )
     rank = models.IntegerField()
     coding_dna_region = IntegerRangeField()

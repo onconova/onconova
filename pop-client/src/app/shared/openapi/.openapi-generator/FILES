@@ -125,6 +125,7 @@ model/genomic-variant-assessment-choices.ts
 model/genomic-variant-clinical-relevance-choices.ts
 model/genomic-variant-confidence-choices.ts
 model/genomic-variant-create.ts
+model/genomic-variant-exons-inner.ts
 model/genomic-variant-filters.ts
 model/genomic-variant.ts
 model/gleason-grade-create.ts

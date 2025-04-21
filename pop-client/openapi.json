@@ -24696,91 +24696,111 @@
           },
           {
             "in": "query",
-            "name": "dnaChangePosition",
+            "name": "dnaChangePosition.lessThan",
             "schema": {
-              "description": "DNA change position - Filter for full text matches",
-              "title": "Dnachangeposition",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values less than the specified value",
+              "title": "Dnachangeposition.Lessthan",
+              "type": "integer"
             },
             "required": false,
-            "description": "DNA change position - Filter for full text matches"
+            "description": "DNA change position - Filter for entries with values less than the specified value"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.not",
+            "name": "dnaChangePosition.lessThanOrEqual",
             "schema": {
-              "description": "DNA change position - Filter for full text mismatches",
-              "title": "Dnachangeposition.Not",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values less than or equal to the specified value",
+              "title": "Dnachangeposition.Lessthanorequal",
+              "type": "integer"
             },
             "required": false,
-            "description": "DNA change position - Filter for full text mismatches"
+            "description": "DNA change position - Filter for entries with values less than or equal to the specified value"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.contains",
+            "name": "dnaChangePosition.greaterThan",
             "schema": {
-              "description": "DNA change position - Filter for partial text matches",
-              "title": "Dnachangeposition.Contains",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values greater than the specified value",
+              "title": "Dnachangeposition.Greaterthan",
+              "type": "integer"
             },
             "required": false,
-            "description": "DNA change position - Filter for partial text matches"
+            "description": "DNA change position - Filter for entries with values greater than the specified value"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.not.contains",
+            "name": "dnaChangePosition.greaterThanOrEqual",
             "schema": {
-              "description": "DNA change position - Filter for partial text mismatches",
-              "title": "Dnachangeposition.Not.Contains",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values greater than or equal to the specified value",
+              "title": "Dnachangeposition.Greaterthanorequal",
+              "type": "integer"
             },
             "required": false,
-            "description": "DNA change position - Filter for partial text mismatches"
+            "description": "DNA change position - Filter for entries with values greater than or equal to the specified value"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.beginsWith",
+            "name": "dnaChangePosition.equal",
             "schema": {
-              "description": "DNA change position - Filter for entries starting with the text",
-              "title": "Dnachangeposition.Beginswith",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values exactly equal to the specified value",
+              "title": "Dnachangeposition.Equal",
+              "type": "integer"
             },
             "required": false,
-            "description": "DNA change position - Filter for entries starting with the text"
+            "description": "DNA change position - Filter for entries with values exactly equal to the specified value"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.not.beginsWith",
+            "name": "dnaChangePosition.not.equal",
             "schema": {
-              "description": "DNA change position - Filter for entries not starting with the text",
-              "title": "Dnachangeposition.Not.Beginswith",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values not equal to the specified value",
+              "title": "Dnachangeposition.Not.Equal",
+              "type": "integer"
             },
             "required": false,
-            "description": "DNA change position - Filter for entries not starting with the text"
+            "description": "DNA change position - Filter for entries with values not equal to the specified value"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.endsWith",
+            "name": "dnaChangePosition.between",
             "schema": {
-              "description": "DNA change position - Filter for entries ending with the text",
-              "title": "Dnachangeposition.Endswith",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "Dnachangeposition.Between",
+              "type": "array"
             },
             "required": false,
-            "description": "DNA change position - Filter for entries ending with the text"
+            "description": "DNA change position - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
-            "name": "dnaChangePosition.not.endsWith",
+            "name": "dnaChangePosition.not.between",
             "schema": {
-              "description": "DNA change position - Filter for entries not ending with the text",
-              "title": "Dnachangeposition.Not.Endswith",
-              "type": "string"
+              "description": "DNA change position - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "Dnachangeposition.Not.Between",
+              "type": "array"
             },
             "required": false,
-            "description": "DNA change position - Filter for entries not ending with the text"
+            "description": "DNA change position - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
@@ -25776,6 +25796,28 @@
             },
             "required": false,
             "description": "Variant length - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "exons.not.exists",
+            "schema": {
+              "description": "Exons - Filter for entries without a value",
+              "title": "Exons.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Exons - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "exons.exists",
+            "schema": {
+              "description": "Exons - Filter for entries with a value",
+              "title": "Exons.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Exons - Filter for entries with a value"
           },
           {
             "in": "query",
@@ -40076,8 +40118,7 @@
           "dnaChangePosition": {
             "anyOf": [
               {
-                "pattern": "(?:(?:(?:(?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)|\\((?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)_(?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)\\))_(?:(?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)|\\((?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)_(?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)\\)))|(?:(?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)|\\((?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)_(?:\\?|\\*|(?:\\+|-)?\\d+(?:(?:\\+|-)?\\d+)?)\\)))",
-                "type": "string"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -40198,6 +40239,28 @@
             ],
             "description": "Length of the variant in nucleotides",
             "title": "Variant length"
+          },
+          "exons": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Gene exons affected by the variant. Estimated from MANE reference sequences.",
+            "title": "Exons"
           },
           "id": {
             "description": "",
@@ -58674,45 +58737,65 @@
             "title": "Dnachangeposition.Exists",
             "type": "boolean"
           },
-          "dnaChangePosition": {
-            "description": "DNA change position - Filter for full text matches",
-            "title": "Dnachangeposition",
-            "type": "string"
+          "dnaChangePosition.lessThan": {
+            "description": "DNA change position - Filter for entries with values less than the specified value",
+            "title": "Dnachangeposition.Lessthan",
+            "type": "integer"
           },
-          "dnaChangePosition.not": {
-            "description": "DNA change position - Filter for full text mismatches",
-            "title": "Dnachangeposition.Not",
-            "type": "string"
+          "dnaChangePosition.lessThanOrEqual": {
+            "description": "DNA change position - Filter for entries with values less than or equal to the specified value",
+            "title": "Dnachangeposition.Lessthanorequal",
+            "type": "integer"
           },
-          "dnaChangePosition.contains": {
-            "description": "DNA change position - Filter for partial text matches",
-            "title": "Dnachangeposition.Contains",
-            "type": "string"
+          "dnaChangePosition.greaterThan": {
+            "description": "DNA change position - Filter for entries with values greater than the specified value",
+            "title": "Dnachangeposition.Greaterthan",
+            "type": "integer"
           },
-          "dnaChangePosition.not.contains": {
-            "description": "DNA change position - Filter for partial text mismatches",
-            "title": "Dnachangeposition.Not.Contains",
-            "type": "string"
+          "dnaChangePosition.greaterThanOrEqual": {
+            "description": "DNA change position - Filter for entries with values greater than or equal to the specified value",
+            "title": "Dnachangeposition.Greaterthanorequal",
+            "type": "integer"
           },
-          "dnaChangePosition.beginsWith": {
-            "description": "DNA change position - Filter for entries starting with the text",
-            "title": "Dnachangeposition.Beginswith",
-            "type": "string"
+          "dnaChangePosition.equal": {
+            "description": "DNA change position - Filter for entries with values exactly equal to the specified value",
+            "title": "Dnachangeposition.Equal",
+            "type": "integer"
           },
-          "dnaChangePosition.not.beginsWith": {
-            "description": "DNA change position - Filter for entries not starting with the text",
-            "title": "Dnachangeposition.Not.Beginswith",
-            "type": "string"
+          "dnaChangePosition.not.equal": {
+            "description": "DNA change position - Filter for entries with values not equal to the specified value",
+            "title": "Dnachangeposition.Not.Equal",
+            "type": "integer"
           },
-          "dnaChangePosition.endsWith": {
-            "description": "DNA change position - Filter for entries ending with the text",
-            "title": "Dnachangeposition.Endswith",
-            "type": "string"
+          "dnaChangePosition.between": {
+            "description": "DNA change position - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Dnachangeposition.Between",
+            "type": "array"
           },
-          "dnaChangePosition.not.endsWith": {
-            "description": "DNA change position - Filter for entries not ending with the text",
-            "title": "Dnachangeposition.Not.Endswith",
-            "type": "string"
+          "dnaChangePosition.not.between": {
+            "description": "DNA change position - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Dnachangeposition.Not.Between",
+            "type": "array"
           },
           "dnaChangeType.not.exists": {
             "description": "DNA change type - Filter for entries without a value",
@@ -59258,6 +59341,16 @@
             ],
             "title": "Nucleotideslength.Not.Between",
             "type": "array"
+          },
+          "exons.not.exists": {
+            "description": "Exons - Filter for entries without a value",
+            "title": "Exons.Not.Exists",
+            "type": "boolean"
+          },
+          "exons.exists": {
+            "description": "Exons - Filter for entries with a value",
+            "title": "Exons.Exists",
+            "type": "boolean"
           },
           "id": {
             "description": "Id - Filter for full text matches",
