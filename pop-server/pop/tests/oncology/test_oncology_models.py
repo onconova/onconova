@@ -498,33 +498,36 @@ class GenomicVariantModelTest(TestCase):
     @parameterized.expand(
         [
             # Sequences (genomic DNA coordinate)
-           ('NC_12345:g.12345_45678del', 12345),
-           ('NC_12345:g.(12345_?)_45678del', 12345),
-           ('NC_12345:g.12345_(45678_?)del', 12345),
-           ('NC_12345:g.(12345_?)_(45678_?)del', 12345),
+           ('NC_12345:g.12345_45678del', (12345, 45678)),
+           ('NC_12345:g.(12345_?)_45678del', (12345, 45678)),
+           ('NC_12345:g.12345_(45678_?)del', (12345, 45678)),
+           ('NC_12345:g.(12345_?)_(45678_?)del', (12345, 45678)),
             # Sequences (coding DNA coordinate)
-           ('NM_12345.0:c.123_456del', 123),
-           ('NM_12345.0:c.(123_124)_456del',123),
-           ('NM_12345.0:c.(123_?)_456del',123),
-           ('NM_12345.0:c.(?_123)_456del',123),
-           ('NM_12345.0:c.123_(456_457)del', 123),
-           ('NM_12345.0:c.123_(456_?)del', 123),
-           ('NM_12345.0:c.123_(?_456)del', 123),
-           ('NM_12345.0:c.(123_?)_(456_?)del', 123),
-           ('NM_12345.0:c.(123_?)_(?_456)del', 123),
-           ('NM_12345.0:c.(?_123)_(456_?)del', 123),
-           ('NM_12345.0:c.(?_123)_(?_456)del', 123),
-           ('NM_12345.0:c.123_?del', 123),
-           ('NM_12345.0:c.?_456del', None),
-           ('NM_12345.0:c.?_(456_?)del', None),
-           ('NM_12345.0:c.(123_?)_?del', 123),
+           ('NM_12345.0:c.123_456del', (123, 456)),
+           ('NM_12345.0:c.(123_124)_456del',(123, 456)),
+           ('NM_12345.0:c.(123_?)_456del',(123, 456)),
+           ('NM_12345.0:c.(?_123)_456del',(123, 456)),
+           ('NM_12345.0:c.123_(455_456)del', (123, 456)),
+           ('NM_12345.0:c.123_(456_?)del', (123, 456)),
+           ('NM_12345.0:c.123_(?_456)del', (123, 456)),
+           ('NM_12345.0:c.(123_?)_(456_?)del', (123, 456)),
+           ('NM_12345.0:c.(123_?)_(?_456)del', (123, 456)),
+           ('NM_12345.0:c.(?_123)_(456_?)del', (123, 456)),
+           ('NM_12345.0:c.(?_123)_(?_456)del', (123, 456)),
+           ('NM_12345.0:c.123_?del', (123, None)),
+           ('NM_12345.0:c.?_456del', (None, 456)),
+           ('NM_12345.0:c.?_(456_?)del', (None, 456)),
+           ('NM_12345.0:c.(123_?)_?del', (123, None)),
         ],
         name_func = dynamic_test_name
     )
-    def test_dna_change_position_range_start(self, hgvs, expected):
+    def test_dna_change_position_range(self, hgvs, expected):
         self.variant.dna_hgvs = hgvs
         self.variant.save()
-        self.assertEqual(self.variant.dna_change_position_range_start, expected)
+        self.assertEqual((
+            self.variant.dna_change_position_range.lower, 
+            self.variant.dna_change_position_range.upper
+            ), expected)
 
     @parameterized.expand(
         [
@@ -532,13 +535,13 @@ class GenomicVariantModelTest(TestCase):
            ('NC_12345:g.111111del', ['gene-1 exon 1']),
            ('NC_12345:g.(111111_?)_122222del', ['gene-1 exon 1']),
            ('NC_12345:g.222222_(222223_?)del', ['gene-1 exon 2']),
-           ('NC_12345:g.(222222_?)_(222222_?)del', ['gene-1 exon 2']),
+           ('NC_12345:g.(222222_?)_(222223_?)del', ['gene-1 exon 2']),
             # Sequences (coding DNA coordinate)
            ('NM_12345.0:c.105del', ['gene-1 exon 1']),
            ('NM_12345.0:c.105_106del', ['gene-1 exon 1']),
-           ('NM_12345.0:c.(106_107)_456del',['gene-1 exon 1']),
-           ('NM_12345.0:c.(108_?)_456del',['gene-1 exon 1']),
-           ('NM_12345.0:c.(?_109)_456del',['gene-1 exon 1']),
+           ('NM_12345.0:c.(106_107)_109del',['gene-1 exon 1']),
+           ('NM_12345.0:c.(108_?)_109del',['gene-1 exon 1']),
+           ('NM_12345.0:c.(?_109)_110del',['gene-1 exon 1']),
            ('NM_12345.0:c.110_(111_112)del', ['gene-1 exon 1']),
            ('NM_12345.0:c.113_(114_?)del', ['gene-1 exon 1']),
            ('NM_12345.0:c.205_(?_208)del', ['gene-1 exon 2']),
@@ -546,10 +549,10 @@ class GenomicVariantModelTest(TestCase):
            ('NM_12345.0:c.(200_?)_(?_206)del', ['gene-1 exon 2']),
            ('NM_12345.0:c.(?_123)_(156_?)del', ['gene-1 exon 1']),
            ('NM_12345.0:c.(?_101)_(?_201)del', ['gene-1 exon 1','gene-1 exon 2']),
-           ('NM_12345.0:c.123_?del', ['gene-1 exon 1']),
-           ('NM_12345.0:c.?_256del', ['gene-1 exon 2']),
-           ('NM_12345.0:c.?_(202_?)del', ['gene-1 exon 2']),
-           ('NM_12345.0:c.(123_?)_?del', ['gene-1 exon 1']),
+           ('NM_12345.0:c.123_?del', ['gene-1 exon 1', 'gene-1 exon 2']),
+           ('NM_12345.0:c.?_109del', ['gene-1 exon 1']),
+           ('NM_12345.0:c.?_(102_?)del', ['gene-1 exon 1']),
+           ('NM_12345.0:c.(123_?)_?del', ['gene-1 exon 1', 'gene-1 exon 2']),
         ],
         name_func = dynamic_test_name
     )
@@ -557,38 +560,7 @@ class GenomicVariantModelTest(TestCase):
         self.variant.dna_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.exons, expected)
-        
-    @parameterized.expand(
-        [
-            # Sequences (genomic DNA coordinate)
-           ('NC_12345:g.12345_45678del', 45678),
-           ('NC_12345:g.(12345_?)_45678del', 45678),
-           ('NC_12345:g.12345_(45678_?)del', 45678),
-           ('NC_12345:g.(12345_?)_(45678_?)del', 45678),
-            # Sequences (coding DNA coordinate)
-           ('NM_12345.0:c.123_456del', 456),
-           ('NM_12345.0:c.(123_124)_456del',456),
-           ('NM_12345.0:c.(123_?)_456del',456),
-           ('NM_12345.0:c.(?_123)_456del',456),
-           ('NM_12345.0:c.123_(455_456)del', 456),
-           ('NM_12345.0:c.123_(456_?)del', 456),
-           ('NM_12345.0:c.123_(?_456)del', 456),
-           ('NM_12345.0:c.(123_?)_(456_?)del', 456),
-           ('NM_12345.0:c.(123_?)_(?_456)del', 456),
-           ('NM_12345.0:c.(?_123)_(456_?)del', 456),
-           ('NM_12345.0:c.(?_123)_(?_456)del', 456),
-           ('NM_12345.0:c.123_?del', None),
-           ('NM_12345.0:c.?_456del', 456),
-           ('NM_12345.0:c.?_(456_?)del', 456),
-           ('NM_12345.0:c.(123_?)_?del', None),
-        ],
-        name_func = dynamic_test_name
-    )
-    def test_dna_change_position_range_end(self, hgvs, expected):
-        self.variant.dna_hgvs = hgvs
-        self.variant.save()
-        self.assertEqual(self.variant.dna_change_position_range_end, expected)
-        
+    
     @parameterized.expand(
         [
             # Sequences (genomic DNA coordinate)

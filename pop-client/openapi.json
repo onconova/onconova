@@ -24804,6 +24804,28 @@
           },
           {
             "in": "query",
+            "name": "dnaChangeRange.not.exists",
+            "schema": {
+              "description": "DNA change position range - Filter for entries without a value",
+              "title": "Dnachangerange.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "DNA change position range - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "dnaChangeRange.exists",
+            "schema": {
+              "description": "DNA change position range - Filter for entries with a value",
+              "title": "Dnachangerange.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "DNA change position range - Filter for entries with a value"
+          },
+          {
+            "in": "query",
             "name": "dnaChangeType.not.exists",
             "schema": {
               "description": "DNA change type - Filter for entries without a value",
@@ -40124,8 +40146,20 @@
                 "type": "null"
               }
             ],
-            "description": "DNA-level nucleotide position/range where the variant was found.",
+            "description": "DNA-level single-nucleotide position where the variant was found.",
             "title": "DNA change position"
+          },
+          "dnaChangeRange": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Range"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "DNA-level multi-nucleotide range where the variant was found.",
+            "title": "DNA change position range"
           },
           "dnaChangeType": {
             "anyOf": [
@@ -40244,14 +40278,7 @@
             "anyOf": [
               {
                 "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "integer"
-                    }
-                  ]
+                  "type": "string"
                 },
                 "type": "array"
               },
@@ -44169,6 +44196,42 @@
           "createdBy"
         ],
         "title": "RaiStaging",
+        "type": "object"
+      },
+      "Range": {
+        "properties": {
+          "start": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "description": "The lower bound of the range",
+            "title": "Start"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The upper bound of the range, if not exists, assumed to be unbounded",
+            "title": "End"
+          }
+        },
+        "required": [
+          "start"
+        ],
+        "title": "Range",
         "type": "object"
       },
       "RhabdomyosarcomaClinicalGroup": {
@@ -58796,6 +58859,16 @@
             ],
             "title": "Dnachangeposition.Not.Between",
             "type": "array"
+          },
+          "dnaChangeRange.not.exists": {
+            "description": "DNA change position range - Filter for entries without a value",
+            "title": "Dnachangerange.Not.Exists",
+            "type": "boolean"
+          },
+          "dnaChangeRange.exists": {
+            "description": "DNA change position range - Filter for entries with a value",
+            "title": "Dnachangerange.Exists",
+            "type": "boolean"
           },
           "dnaChangeType.not.exists": {
             "description": "DNA change type - Filter for entries without a value",

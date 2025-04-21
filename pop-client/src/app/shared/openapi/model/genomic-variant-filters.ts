@@ -131,6 +131,14 @@ export interface GenomicVariantFilters {
      */
     'dnaChangePosition.not.between'?: Array<any>;
     /**
+     * DNA change position range - Filter for entries without a value
+     */
+    'dnaChangeRange.not.exists'?: boolean;
+    /**
+     * DNA change position range - Filter for entries with a value
+     */
+    'dnaChangeRange.exists'?: boolean;
+    /**
      * DNA change type - Filter for entries without a value
      */
     'dnaChangeType.not.exists'?: boolean;

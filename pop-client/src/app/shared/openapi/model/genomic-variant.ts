@@ -7,13 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GenomicVariantExonsInner } from './genomic-variant-exons-inner';
 import { ProteinChangeType } from './protein-change-type';
 import { CodedConcept } from './coded-concept';
 import { RNAChangeType } from './rna-change-type';
 import { GenomicVariantAssessmentChoices } from './genomic-variant-assessment-choices';
 import { GenomicVariantConfidenceChoices } from './genomic-variant-confidence-choices';
 import { GenomicVariantClinicalRelevanceChoices } from './genomic-variant-clinical-relevance-choices';
+import { Range } from './range';
 import { DNAChangeType } from './dna-change-type';
 
 
@@ -21,6 +21,7 @@ export interface GenomicVariant {
     dnaHgvs?: string | null;
     dnaReferenceSequence?: string | null;
     dnaChangePosition?: number | null;
+    dnaChangeRange?: Range | null;
     dnaChangeType?: DNAChangeType | null;
     rnaHgvs?: string | null;
     rnaReferenceSequence?: string | null;
@@ -30,7 +31,7 @@ export interface GenomicVariant {
     proteinReferenceSequence?: string | null;
     proteinChangeType?: ProteinChangeType | null;
     nucleotidesLength?: number | null;
-    exons?: Array<GenomicVariantExonsInner> | null;
+    exons?: Array<string> | null;
     /**
      * 
      */

@@ -403,6 +403,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const dnaChangePositionNotEqual = requestParameters?.dnaChangePositionNotEqual;
         const dnaChangePositionBetween = requestParameters?.dnaChangePositionBetween;
         const dnaChangePositionNotBetween = requestParameters?.dnaChangePositionNotBetween;
+        const dnaChangeRangeNotExists = requestParameters?.dnaChangeRangeNotExists;
+        const dnaChangeRangeExists = requestParameters?.dnaChangeRangeExists;
         const dnaChangeTypeNotExists = requestParameters?.dnaChangeTypeNotExists;
         const dnaChangeTypeExists = requestParameters?.dnaChangeTypeExists;
         const dnaChangeType = requestParameters?.dnaChangeType;
@@ -694,6 +696,10 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
                   <any>element, 'dnaChangePosition.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangeRangeNotExists, 'dnaChangeRange.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dnaChangeRangeExists, 'dnaChangeRange.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaChangeTypeNotExists, 'dnaChangeType.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

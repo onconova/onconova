@@ -3,7 +3,7 @@ import pghistory
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
-from django.db.backends.postgresql.psycopg_any import NumericRange
+from django.contrib.postgres.fields import IntegerRangeField
 
 from typing import Union
 from django.contrib.postgres.aggregates import StringAgg, ArrayAgg
@@ -315,22 +315,17 @@ class GenomicVariant(BaseModel):
             RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.GENOMIC_REFSEQ})'),
         ),
     )
-    dna_change_position_range_start = AnnotationProperty(
+    dna_change_position_range = AnnotationProperty(
         annotation=Case(
             When(
                 Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
-                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?(?:_\d+)?\D*_{HGVSRegex.NUCLEOTIDE_POSITION}'), output_field=models.IntegerField())
+                then=Func(
+                    Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?(?:_\d+)?\D*_{HGVSRegex.NUCLEOTIDE_POSITION}'), output_field=models.IntegerField()),
+                    Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(?:\d+_)?(\d+)(?:_\?)?\D*'), output_field=models.IntegerField()),
+                    function='int4range', output_field=IntegerRangeField()
+                )
             ),
-            default=None, output_field=models.IntegerField(),
-        ),
-    )
-    dna_change_position_range_end = AnnotationProperty(
-        annotation=Case(
-            When(
-                Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
-                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(?:\d+_)?(\d+)(?:_\?)?\D*'), output_field=models.IntegerField())
-            ),
-            default=None, output_field=models.IntegerField(),
+            default=None,
         ),
     )
     dna_change_position = AnnotationProperty(
@@ -350,18 +345,14 @@ class GenomicVariant(BaseModel):
                 filter=
                     Q(genes__exons__coding_dna_region__contains=F('dna_change_position'))
                     |                    
-                    Q(genes__exons__coding_dna_region__contains=F('dna_change_position_range_start'))
-                    |                    
-                    Q(genes__exons__coding_dna_region__contains=F('dna_change_position_range_end'))
+                    Q(genes__exons__coding_dna_region__overlap=F('dna_change_position_range')),
             )),
             When(dna_hgvs__regex=r'.*:g\..*', then=ArrayAgg(
                 F('genes__exons__name'), 
                 filter=
                     Q(genes__exons__coding_genomic_region__contains=F('dna_change_position'))
                     |                    
-                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_start'))
-                    |                    
-                    Q(genes__exons__coding_genomic_region__contains=F('dna_change_position_range_end')),
+                    Q(genes__exons__coding_genomic_region__overlap=F('dna_change_position_range')),
             )),
             default=None,
         )            
@@ -447,8 +438,10 @@ class GenomicVariant(BaseModel):
         verbose_name = _('Total affected nucleotides (estimated if uncertain)'),
         annotation = Case(
             When(
-                Q(dna_change_position_range_start__isnull=False) & Q(dna_change_position_range_end__isnull=False), 
-                then=F('dna_change_position_range_end') - F('dna_change_position_range_start') + Value(1)
+                Q(dna_change_position_range__lower_inf=False) & Q(dna_change_position_range__upper_inf=False), 
+                then= Value(1) +
+                    Func(F('dna_change_position_range'), function='upper', output_field=models.IntegerField()) -
+                    Func(F('dna_change_position_range'), function='lower', output_field=models.IntegerField()),
             ),
             When(Q(dna_change_position__isnull=False), then=Value(1)),
             default=None, output_field=models.IntegerField(),

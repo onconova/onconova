@@ -9,6 +9,9 @@
  */
 
 
-export interface GenomicVariantExonsInner { 
+/**
+ * The lower bound of the range
+ */
+export interface Start { 
 }
 

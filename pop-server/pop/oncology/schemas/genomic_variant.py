@@ -1,5 +1,6 @@
 from pop.oncology import models as orm
 from pop.oncology.models.genomic_variant import HGVSRegex
+from pop.core.schemas import RangeSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pydantic import AliasChoices, Field
 from typing import Optional, List
@@ -24,9 +25,16 @@ class GenomicVariantSchema(ModelGetSchema):
     dnaChangePosition: Optional[int] = Field(
         default=None,
         title='DNA change position',
-        description='DNA-level nucleotide position/range where the variant was found.',
+        description='DNA-level single-nucleotide position where the variant was found.',
         alias='dna_change_position',
         validation_alias=AliasChoices('dnaChangePosition','dna_change_position'),        
+    )
+    dnaChangeRange: Optional[RangeSchema] = Field(
+        default=None,
+        title='DNA change position range',
+        description='DNA-level multi-nucleotide range where the variant was found.',
+        alias='dna_change_range',
+        validation_alias=AliasChoices('dnaChangeRange','dna_change_range'),        
     )
     dnaChangeType: Optional[orm.GenomicVariant.DNAChangeType] = Field(
         default=None,
@@ -96,7 +104,7 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='nucleotides_length',
         validation_alias=AliasChoices('nucleotidesLength','nucleotides_length'),        
     )
-    exons: Optional[List[str | int]] = Field(
+    exons: Optional[List[str]] = Field(
         default=None,
         title='Exons',
         description='Gene exons affected by the variant. Estimated from MANE reference sequences.',

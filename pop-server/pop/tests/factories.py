@@ -287,17 +287,17 @@ def _random_aminoacid():
 def _random_code_mutation():
     return [
         f'{random.randint(10,1000)}{_random_nucbase()}>{_random_nucbase()}',
-        f'{random.randint(10,10000)}del',
-        f'{random.randint(10,10000)}_{random.randint(10,10000)}ins{_random_nucbase()}{_random_nucbase()}',
-        f'{random.randint(10,10000)}dup'
+        f'{random.randint(10,1000)}del',
+        f'{random.randint(10,400)}_{random.randint(401,1000)}ins{_random_nucbase()}{_random_nucbase()}',
+        f'{random.randint(10,1000)}dup'
     ][random.randint(0,3)] 
 
 def _random_aminoacid_mutation():
     return [
-        f'{_random_aminoacid()}{random.randint(10,10000)}{_random_aminoacid()}',
-        f'{_random_aminoacid()}{random.randint(10,10000)}del',
-        f'{_random_aminoacid()}{random.randint(10,10000)}_{_random_aminoacid()}{random.randint(10,10000)}ins{_random_aminoacid()}{_random_aminoacid()}',
-        f'{_random_aminoacid()}{random.randint(10,10000)}dup',
+        f'{_random_aminoacid()}{random.randint(10,1000)}{_random_aminoacid()}',
+        f'{_random_aminoacid()}{random.randint(10,1000)}del',
+        f'{_random_aminoacid()}{random.randint(10,400)}_{_random_aminoacid()}{random.randint(401,1000)}ins{_random_aminoacid()}{_random_aminoacid()}',
+        f'{_random_aminoacid()}{random.randint(10,1000)}dup',
     ][random.randint(0,3)] 
 
 
