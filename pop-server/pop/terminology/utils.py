@@ -4,11 +4,6 @@ import csv
 import requests
 from typing import List, Optional, TextIO, Tuple, Union
 from pydantic import BaseModel, Field
-import environ 
-
-# Load environmental variables
-env = environ.Env()
-environ.Env.read_env('.env', overwrite=True)
 
 _cache = {}
 
@@ -251,23 +246,23 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
     """
     # Define the API endpoint basic authentication credentials
     if 'loinc.org' in api_url:
-        api_username = env('LOINC_USER', default=None)
-        api_password = env('LOINC_PASSWORD', default=None)
+        api_username = os.environ.get('LOINC_USER', default=None)
+        api_password = os.environ.get('LOINC_PASSWORD', default=None)
     elif 'nlm.nih.gov' in api_url:
-        api_username = env('UMLS_API_USER', default=None)
-        api_password = env('UMLS_API_KEY', default=None)
+        api_username = os.environ.get('UMLS_API_USER', default=None)
+        api_password = os.environ.get('UMLS_API_KEY', default=None)
     else: 
         api_username, api_password = None, None
 
     # Define the path to the certificate bundle file
-    certificate_bundle_path = env('ROOT_CA_CERTIFICATES', default=None) or None 
+    certificate_bundle_path = os.environ.get('ROOT_CA_CERTIFICATES', default=None) or None 
     # Create a session for making the request
     session = requests.Session()
 
     # Set up the proxy with authentication
     proxies = {
-        'http': env('http_proxy', default=None),
-        'https': env('https_proxy', default=None),
+        'http': os.environ.get('http_proxy', default=None),
+        'https': os.environ.get('https_proxy', default=None),
     }
     session.proxies = proxies
     # Set up the basic authentication for the API

@@ -20,9 +20,6 @@ from tqdm import tqdm
 from pop.settings import BASE_DIR
 artifacts_path = os.path.join(BASE_DIR, 'pop/apps/valuesets/artifacts/')
 
-# Load environmental variables
-env = environ.Env()
-environ.Env.read_env('.env', overwrite=True)
 
 class FilterOperator(str, Enum):
     EQUALS = "="

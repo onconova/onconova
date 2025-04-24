@@ -3,7 +3,6 @@ from django.conf import settings
 import re 
 import os 
 import csv
-import environ 
 import subprocess
 import json 
 import sys
@@ -12,11 +11,6 @@ from datetime import datetime
 from typing import Optional
 from tqdm import tqdm 
 from pop.terminology.utils import get_file_location, get_dictreader_and_size, ensure_within_string_limits, ensure_list, CodedConcept
-
- 
-# Read .env file
-env = environ.Env()
-environ.Env.read_env(os.path.join(settings.BASE_DIR, '.env'), overwrite=True)
 
 # Expand size limit to load heavy CSV files 
 csv.field_size_limit(sys.maxsize)
@@ -46,7 +40,7 @@ class TerminologyDigestor:
             Processes a single row from the concepts file.
     """
 
-    PATH: str = os.path.join(settings.BASE_DIR, env('EXTERNAL_DATA_DIR')) 
+    PATH: str = os.path.join(settings.BASE_DIR, os.environ.get('EXTERNAL_DATA_DIR')) 
     FILENAME: str
     CANONICAL_URL: str 
     OTHER_URLS: list[str] = []
