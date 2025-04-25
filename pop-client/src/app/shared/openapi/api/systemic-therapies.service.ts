@@ -17,11 +17,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 // @ts-ignore
 import { PaginatedSystemicTherapy } from '../model/paginated-systemic-therapy';
 // @ts-ignore
@@ -328,9 +328,9 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const systemicTherapyId = requestParameters?.systemicTherapyId;
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
@@ -374,7 +374,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         }
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -394,9 +394,9 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const systemicTherapyId = requestParameters?.systemicTherapyId;
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
@@ -444,7 +444,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         }
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/${this.configuration.encodeParam({name: "medicationId", value: medicationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1245,9 +1245,9 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const systemicTherapyId = requestParameters?.systemicTherapyId;
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
@@ -1287,7 +1287,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         }
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1367,9 +1367,9 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const systemicTherapyId = requestParameters?.systemicTherapyId;
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
@@ -1413,7 +1413,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         }
 
         let localVarPath = `/api/systemic-therapies/${this.configuration.encodeParam({name: "systemicTherapyId", value: systemicTherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/medications/${this.configuration.encodeParam({name: "medicationId", value: medicationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

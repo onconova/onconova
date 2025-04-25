@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedSystemicTherapy } from '../model/models';
 import { SystemicTherapy } from '../model/models';
 import { SystemicTherapyCreate } from '../model/models';
@@ -318,14 +318,14 @@ export interface SystemicTherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllSystemicTherapyHistoryEvents(requestParameters: GetAllSystemicTherapyHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Systemic Therapy Medication History Events
      * 
 * @param requestParameters
      */
-    getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllSystemicTherapyMedicationHistoryEvents(requestParameters: GetAllSystemicTherapyMedicationHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Systemic Therapies Matching The Query
@@ -346,7 +346,7 @@ export interface SystemicTherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getSystemicTherapyHistoryEventById(requestParameters: GetSystemicTherapyHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get Systemic Therapy Medication By Id
@@ -360,7 +360,7 @@ export interface SystemicTherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getSystemicTherapyMedicationHistoryEventById(requestParameters: GetSystemicTherapyMedicationHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get Systemic Therapy Medications Matching The Query

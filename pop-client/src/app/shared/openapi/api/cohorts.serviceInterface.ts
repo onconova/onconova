@@ -18,12 +18,12 @@ import { CohortTraitAverage } from '../model/models';
 import { CohortTraitCounts } from '../model/models';
 import { CohortTraitMedian } from '../model/models';
 import { DatasetRule } from '../model/models';
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { KapplerMeierCurve } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedAny } from '../model/models';
 import { PaginatedCohort } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 
 
@@ -36,6 +36,11 @@ export interface CreateCohortRequestParams {
 
 export interface DeleteCohortByIdRequestParams {
     cohortId: string;
+}
+
+export interface ExportCohortDatasetRequestParams {
+    cohortId: string;
+    datasetRule: Array<DatasetRule>;
 }
 
 export interface GetAllCohortHistoryEventsRequestParams {
@@ -188,11 +193,18 @@ export interface CohortsServiceInterface {
     deleteCohortById(requestParameters: DeleteCohortByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
+     * Export Cohort Dataset
+     * 
+* @param requestParameters
+     */
+    exportCohortDataset(requestParameters: ExportCohortDatasetRequestParams, extraHttpRequestParams?: any): Observable<any>;
+
+    /**
      * Get All Cohort History Events
      * 
 * @param requestParameters
      */
-    getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Cohort By Id
@@ -223,7 +235,7 @@ export interface CohortsServiceInterface {
     getCohortDataset(requestParameters: GetCohortDatasetRequestParams, extraHttpRequestParams?: any): Observable<PaginatedAny>;
 
     /**
-     * Get Cohort Dataset Dynamically
+     * Construct Cohort Dataset
      * 
 * @param requestParameters
      */
@@ -241,7 +253,7 @@ export interface CohortsServiceInterface {
      * 
 * @param requestParameters
      */
-    getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get Cohort Overall Survival Curve

@@ -14,10 +14,10 @@ import { Observable }                                        from 'rxjs';
 import { ComorbiditiesAssessment } from '../model/models';
 import { ComorbiditiesAssessmentCreate } from '../model/models';
 import { ComorbiditiesPanel } from '../model/models';
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedComorbiditiesAssessment } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -154,7 +154,7 @@ export interface ComorbiditiesAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Comorbidities Assessment By Id
@@ -168,7 +168,7 @@ export interface ComorbiditiesAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Comorbidities Assessments Matching The Query

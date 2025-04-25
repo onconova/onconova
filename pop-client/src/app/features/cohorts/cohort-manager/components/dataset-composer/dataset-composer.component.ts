@@ -356,37 +356,23 @@ export class DatasetComposerComponent {
         this.refreshDatasetObservable()
     }
 
-    private fetchFullDataset(): Observable<any[]> {
-        const pageSize = 100;
-        const totalPages = Math.ceil(this.totalEntries / pageSize);
-        const requests: Observable<any>[] = [];
-    
-        for (let page = 0; page < totalPages; page++) {
-          const request = this.cohortService.getCohortDatasetDynamically({
+    public downloadDataset(mode: 'tree' | 'split' | 'flat') {
+        this.messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
+        this.cohortService.exportCohortDataset({
             cohortId: this.cohortId,
             datasetRule: this.datasetRules,
-            limit: pageSize,
-            offset: page * pageSize,
-          }).pipe(map(response => response.items));
-          requests.push(request);
-        }    
-        return forkJoin(requests).pipe(
-          map((responses) => responses.flat()), // Flatten results into a single array
-        );
-    }
-
-    public downloadDataset(mode: 'tree' | 'split' | 'flat') {
-        this.fetchFullDataset().pipe(take(1)).subscribe({
-            next: data => {
+          }).pipe(first()).subscribe({
+            next: (data: any) => {
+                console.log('data', data)
                 switch (mode) {
                     case 'tree':
                         this.downloadService.downloadAsJson(data);
                         break;
                     case 'split':
-                        this.downloadService.downloadAsZip(data);
+                        this.downloadService.downloadAsZip(data.dataset);
                         break;
                     case 'flat':
-                        this.downloadService.downloadAsFlatCsv(data);
+                        this.downloadService.downloadAsFlatCsv(data.dataset);
                         break;
                 }
             },

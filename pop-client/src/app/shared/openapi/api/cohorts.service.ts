@@ -31,7 +31,7 @@ import { CohortTraitMedian } from '../model/cohort-trait-median';
 // @ts-ignore
 import { DatasetRule } from '../model/dataset-rule';
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { KapplerMeierCurve } from '../model/kappler-meier-curve';
 // @ts-ignore
@@ -41,7 +41,7 @@ import { PaginatedAny } from '../model/paginated-any';
 // @ts-ignore
 import { PaginatedCohort } from '../model/paginated-cohort';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 // @ts-ignore
 import { PaginatedPatientCase } from '../model/paginated-patient-case';
 
@@ -53,6 +53,7 @@ import {
     CohortsServiceInterface,
     CreateCohortRequestParams,
     DeleteCohortByIdRequestParams,
+    ExportCohortDatasetRequestParams,
     GetAllCohortHistoryEventsRequestParams,
     GetCohortByIdRequestParams,
     GetCohortCasesRequestParams,
@@ -208,14 +209,85 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
     }
 
     /**
+     * Export Cohort Dataset
+     * @param requestParameters
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public exportCohortDataset(requestParameters: ExportCohortDatasetRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public exportCohortDataset(requestParameters: ExportCohortDatasetRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public exportCohortDataset(requestParameters: ExportCohortDatasetRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public exportCohortDataset(requestParameters: ExportCohortDatasetRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const cohortId = requestParameters?.cohortId;
+        if (cohortId === null || cohortId === undefined) {
+            throw new Error('Required parameter cohortId was null or undefined when calling exportCohortDataset.');
+        }
+        const datasetRule = requestParameters?.datasetRule;
+        if (datasetRule === null || datasetRule === undefined) {
+            throw new Error('Required parameter datasetRule was null or undefined when calling exportCohortDataset.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (JWTAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dataset/export`;
+        return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: datasetRule,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get All Cohort History Events
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllCohortHistoryEvents(requestParameters: GetAllCohortHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
@@ -259,7 +331,7 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -533,7 +605,7 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
     }
 
     /**
-     * Get Cohort Dataset Dynamically
+     * Construct Cohort Dataset
      * @param requestParameters
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -596,7 +668,7 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
             }
         }
 
-        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dynamic-dataset`;
+        let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dataset`;
         return this.httpClient.request<PaginatedAny>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -675,9 +747,9 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getCohortHistoryEventById(requestParameters: GetCohortHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const cohortId = requestParameters?.cohortId;
         if (cohortId === null || cohortId === undefined) {
@@ -717,7 +789,7 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         }
 
         let localVarPath = `/api/cohorts/${this.configuration.encodeParam({name: "cohortId", value: cohortId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

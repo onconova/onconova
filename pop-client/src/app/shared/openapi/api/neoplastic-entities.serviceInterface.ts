@@ -11,11 +11,11 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { NeoplasticEntity } from '../model/models';
 import { NeoplasticEntityCreate } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedNeoplasticEntity } from '../model/models';
 
 
@@ -152,7 +152,7 @@ export interface NeoplasticEntitiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllNeoplasticEntityHistoryEvents(requestParameters: GetAllNeoplasticEntityHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllNeoplasticEntityHistoryEvents(requestParameters: GetAllNeoplasticEntityHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Neoplastic Entities Matching The Query
@@ -173,7 +173,7 @@ export interface NeoplasticEntitiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getNeoplasticEntityHistoryEventById(requestParameters: GetNeoplasticEntityHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getNeoplasticEntityHistoryEventById(requestParameters: GetNeoplasticEntityHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Revert Neoplastic Entity To History Event

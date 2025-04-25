@@ -31,6 +31,7 @@ import { Message } from 'primeng/message';
 import { CohortTraitPanel } from './components/cohort-trait-panel.component';
 import { Timeline, TimelineModule } from 'primeng/timeline';
 import { Card } from 'primeng/card';
+import { Fieldset } from 'primeng/fieldset';
 
 
 @Component({
@@ -49,6 +50,7 @@ import { Card } from 'primeng/card';
         DatasetComposerComponent,
         CohortTraitPanel,
         Panel,
+        Fieldset,
         Message,
         Skeleton,
         InputText,
@@ -63,16 +65,16 @@ import { Card } from 'primeng/card';
     ]
 })
 export class CohortBuilderComponent {
-
+    
     @Input() cohortId!: string;
-
+    
     private readonly cohortsService = inject(CohortsService);
     private readonly messageService = inject(MessageService);
     public readonly formBuilder = inject(FormBuilder);
     public readonly location = inject(Location);
     public readonly authService = inject(AuthService)
-
-
+    
+    
     public cohortControl: FormGroup = this.formBuilder.group({
         name: [null,Validators.required],
         isPublic: [null,Validators.required],
@@ -92,23 +94,23 @@ export class CohortBuilderComponent {
     public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
     public currentOffset: number = 0
     public pageSize: number = 15
-
+    
     public readonly populationIcon = Users;
     public readonly genderIcon = VenusAndMars;
     public readonly survivalIcon = Activity;
     public readonly ageIcon = CalendarClock;
     public readonly siteIcon = Locate;
     public readonly completionIcon = ClipboardCheck;
-
-
-
+    
+    
+    
     ngAfterViewInit() {
         this.refreshCohortData()
         this.refreshCohortCases()
         this.refreshCohortStatistics()
     }    
     
-
+    
     refreshCohortData() {
         this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(first()).subscribe({
             next: (cohort: Cohort) => {
@@ -126,7 +128,7 @@ export class CohortBuilderComponent {
         })
         this.cohortHistory$ = this.cohortsService.getAllCohortHistoryEvents({cohortId: this.cohortId}).pipe(map(response=>response.items))
     }
-
+    
     revertCohortDefinition(old: Cohort, timestamp: string) {
         try {
             this.cohortControl.controls['name'].setValue(old.name);
@@ -139,7 +141,7 @@ export class CohortBuilderComponent {
         }
         this.cohortControl.updateValueAndValidity();
     }
-
+    
     refreshCohortStatistics() {
         const errorHandler = (error: any) => {
             if (error.status == 422) {
@@ -153,20 +155,20 @@ export class CohortBuilderComponent {
         this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
         this.cohortTopographyStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'neoplasticEntities.topographyGroup.display'}).pipe(
             map(
-            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+                (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
             ),
             catchError(errorHandler),
         )
         this.cohortGenderStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'gender.display'}).pipe(
             map(
-            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+                (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
             ),
             catchError(errorHandler),
         )
         this.cohortOverallSurvivalStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'overallSurvival'}).pipe(catchError(errorHandler))
         this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'dataCompletionRate'}).pipe(catchError(errorHandler))
     }
-
+    
     refreshCohortCases() {
         this.cohortsService.getCohortCases({cohortId: this.cohortId, offset: this.currentOffset, limit: this.pageSize}).pipe(
             map(
@@ -179,7 +181,7 @@ export class CohortBuilderComponent {
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort cases', detail: error.error.detail })
         })
     }
-
+    
     submitCohort() {
         this.editCohortName = false;
         this.loading = true;
@@ -201,11 +203,81 @@ export class CohortBuilderComponent {
             complete: () => this.loading = false
         });
     }
-
+    
     setPaginationAndRefresh(event: any) {
         this.currentOffset = event.first;
         this.pageSize = event.rows;
         this.refreshCohortCases()
-     }
-
+    }
+    
+    
+    //  describeChanges(oldObj: any, newObj: any): string {
+    //     const changes = this.getChanges(oldObj, newObj);
+    //     const changeDescription = changes.map(change => {
+    //       if (change.type === 'added') {
+    //         return `Added property '${change.key}' with value ${this.formatValue(change.value)}`;
+    //       } else if (change.type === 'removed') {
+    //         return `Removed property ${change.key}=${this.formatValue(change.oldValue)}`;
+    //       } else if (change.type === 'updated') {
+    //         return `Updated property '${change.key}' from ${this.formatValue(change.oldValue)} to ${this.formatValue(change.value)}`;
+    //       } return ''
+    //     }).join('\n');
+    //     return changeDescription;
+    //   }
+    
+    public getAllChanges(differential: any): any[] {
+        return Object.entries(differential).flatMap(([key, value]) => {
+            const oldObj =  (value as any[])[0]
+            const newObj =  (value as any[])[1]
+            if (oldObj && newObj) {
+                return this.getChanges(key,oldObj,newObj)                
+            } else {
+                return []
+            }
+        });
+    }
+    
+    private formatValue(value: any): string {
+        if (typeof value === 'object') {
+            return JSON.stringify(value, null, 2);
+        } else {
+            return `'${value}'`;
+        }
+    }
+    
+    private getChanges(field: string, oldObj: any, newObj: any, path = ''): any[] {
+        const changes: any[] = [];
+        if (typeof newObj === 'object') {
+            Object.keys(oldObj).forEach(key => {
+                const newPath = path ? `${path}.${key}` : key;
+                if (typeof oldObj[key] === 'object' && typeof newObj[key] === 'object') {
+                    const nestedChanges = this.getChanges(
+                        field, 
+                        typeof oldObj[key] === 'object' ? oldObj[key] : oldObj, 
+                        typeof newObj[key] === 'object' ? newObj[key] : oldObj, 
+                        newPath
+                    );
+                    changes.push(...nestedChanges);
+                } else if (!(key in newObj)) {
+                    changes.push({ field: field, type: 'removed', key: newPath, oldValue: oldObj[key] });
+                }  else if (oldObj[key] !== newObj[key]) {
+                    changes.push({ field: field, type: 'updated', key: newPath, oldValue: oldObj[key], value: newObj[key] });
+                }
+                
+            })
+        } else if (oldObj !== newObj) {
+            changes.push({ field: field, type: 'updated', key: '', oldValue: oldObj, value: newObj });
+        };
+        if (typeof oldObj === 'object') {
+            Object.keys(newObj).forEach(key => {
+                const newPath = path ? `${path}.${key}` : key;
+                if (!(key in oldObj)) {
+                    changes.push({ field: field, type: 'added', key: newPath, value: newObj[key] });
+                }
+            }
+        )};
+        return changes;
+    }
+    
+    
 }

@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedVitals } from '../model/models';
 import { Vitals } from '../model/models';
 import { VitalsCreate } from '../model/models';
@@ -168,7 +168,7 @@ export interface VitalsServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllVitalsHistoryEvents(requestParameters: GetAllVitalsHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllVitalsHistoryEvents(requestParameters: GetAllVitalsHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Vitals Matching The Query
@@ -189,7 +189,7 @@ export interface VitalsServiceInterface {
      * 
 * @param requestParameters
      */
-    getVitalsHistoryEventById(requestParameters: GetVitalsHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getVitalsHistoryEventById(requestParameters: GetVitalsHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Revert Vitals To History Event

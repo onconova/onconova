@@ -11,11 +11,11 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { Lifestyle } from '../model/models';
 import { LifestyleCreate } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedLifestyle } from '../model/models';
 
 
@@ -170,7 +170,7 @@ export interface LifestylesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllLifestyleHistoryEvents(requestParameters: GetAllLifestyleHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllLifestyleHistoryEvents(requestParameters: GetAllLifestyleHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Lifestyle By Id
@@ -184,7 +184,7 @@ export interface LifestylesServiceInterface {
      * 
 * @param requestParameters
      */
-    getLifestyleHistoryEventById(requestParameters: GetLifestyleHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getLifestyleHistoryEventById(requestParameters: GetLifestyleHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Lifestyles Matching The Query

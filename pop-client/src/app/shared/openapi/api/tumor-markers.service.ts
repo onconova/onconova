@@ -19,11 +19,11 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { AnalyteDetails } from '../model/analyte-details';
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 // @ts-ignore
 import { PaginatedTumorMarker } from '../model/paginated-tumor-marker';
 // @ts-ignore
@@ -188,9 +188,9 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const tumorMarkerId = requestParameters?.tumorMarkerId;
         if (tumorMarkerId === null || tumorMarkerId === undefined) {
@@ -234,7 +234,7 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
         }
 
         let localVarPath = `/api/tumor-markers/${this.configuration.encodeParam({name: "tumorMarkerId", value: tumorMarkerId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -368,9 +368,9 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const tumorMarkerId = requestParameters?.tumorMarkerId;
         if (tumorMarkerId === null || tumorMarkerId === undefined) {
@@ -410,7 +410,7 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
         }
 
         let localVarPath = `/api/tumor-markers/${this.configuration.encodeParam({name: "tumorMarkerId", value: tumorMarkerId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

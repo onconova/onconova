@@ -98,6 +98,12 @@ class HistoryEvent(Schema):
         title='Data differential',
         description='Data changes introduced by the event, if applicable',
     )
+    context: Optional[Dict] = Field(
+        title='Context',
+        description='Context sorrounding the event',
+        alias='pgh_context',
+        validation_alias=AliasChoices('context','pgh_context'),
+    )
 
     @staticmethod
     def resolve_user(obj):
@@ -128,12 +134,12 @@ class HistoryEvent(Schema):
             @staticmethod
             def resolve_snapshot(obj):
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
-                instance = schema.get_orm_model()(**obj.pgh_data)
+                instance = schema.get_orm_model()(**{key: val for key, val in obj.pgh_data.items() if key != 'id'})
                 # Cast to model schema
-                return schema.model_validate(instance).model_dump() | {'id': instance.id}
+                return schema.model_validate(instance).model_dump(exclude_unset=True) | {'id': instance.id}
             
             @staticmethod 
             def resolve_differential(obj):
                 if obj.pgh_diff:
-                    return schema.model_construct(**obj.pgh_diff).model_dump()
+                    return schema.model_construct(**obj.pgh_diff).model_dump(exclude_defaults=True)
         return HistoryEventWithSchema

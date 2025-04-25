@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedSurgery } from '../model/models';
 import { Surgery } from '../model/models';
 import { SurgeryCreate } from '../model/models';
@@ -156,7 +156,7 @@ export interface SurgeriesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllSurgeryHistoryEvents(requestParameters: GetAllSurgeryHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllSurgeryHistoryEvents(requestParameters: GetAllSurgeryHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Surgeries Matching The Query
@@ -177,7 +177,7 @@ export interface SurgeriesServiceInterface {
      * 
 * @param requestParameters
      */
-    getSurgeryHistoryEventById(requestParameters: GetSurgeryHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getSurgeryHistoryEventById(requestParameters: GetSurgeryHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Revert Surgery To History Event

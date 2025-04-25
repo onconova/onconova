@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedTreatmentResponse } from '../model/models';
 import { TreatmentResponse } from '../model/models';
 import { TreatmentResponseCreate } from '../model/models';
@@ -132,7 +132,7 @@ export interface TreatmentResponsesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllTreatmentResponseHistoryEvents(requestParameters: GetAllTreatmentResponseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllTreatmentResponseHistoryEvents(requestParameters: GetAllTreatmentResponseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Treatment Response By Id
@@ -146,7 +146,7 @@ export interface TreatmentResponsesServiceInterface {
      * 
 * @param requestParameters
      */
-    getTreatmentResponseHistoryEventById(requestParameters: GetTreatmentResponseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getTreatmentResponseHistoryEventById(requestParameters: GetTreatmentResponseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Treatment Responses Matching The Query

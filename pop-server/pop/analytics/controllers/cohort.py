@@ -1,5 +1,9 @@
 import pghistory
+import json 
+import hashlib
+from datetime import datetime
 from django.shortcuts import get_object_or_404
+from django.conf import settings 
 
 from collections import Counter
 from typing import List, Any
@@ -13,9 +17,9 @@ from ninja_extra.exceptions import APIException
 
 from pop.core import permissions as perms
 from pop.core.utils import camel_to_snake
-from pop.core.models import User
 from pop.core.schemas import Paginated, ModifiedResourceSchema, HistoryEvent
 from pop.oncology import schemas as oncological_schemas
+from pop.interoperability.schemas import ExportMetadata
 
 from pop.analytics.datasets import construct_dataset
 from pop.analytics.models import Cohort, Dataset
@@ -191,9 +195,35 @@ class CohortsController(ControllerBase):
         instance = get_object_or_404(Cohort, id=cohortId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
     
+    @route.post(
+        path='/{cohortId}/dataset/export', 
+        response={
+            200: Any,
+            404: None, 401: None, 403: None,
+        },
+        permissions=[perms.CanExportData],
+        operation_id='exportCohortDataset',
+    )
+    def export_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        dataset = list(construct_dataset(cohort=cohort, rules=rules))
+        checksum = hashlib.md5(json.dumps(dataset, sort_keys=True, default=str).encode('utf-8')).hexdigest()
+        export = {
+            **ExportMetadata(
+                exportedAt=datetime.now(),
+                exportedBy=self.context.request.user.username,
+                exportVersion=settings.VERSION,
+                checksum=checksum,
+            ).model_dump(mode='json'),
+            'dataset': dataset,
+        }
+        with pghistory.context(dataset=[rule.model_dump(mode='json') for rule in rules], checksum=checksum, version=settings.VERSION):
+            pghistory.create_event(cohort, label="export")
+        return 200, export
+
     
     @route.post(
-        path='/{cohortId}/dynamic-dataset', 
+        path='/{cohortId}/dataset', 
         response={
             200: Paginated[Any],
             404: None, 401: None, 403: None,
@@ -202,7 +232,7 @@ class CohortsController(ControllerBase):
         operation_id='getCohortDatasetDynamically',
     )
     @paginate()
-    def get_cohort_dataset_dynamically(self, cohortId: str, rules: List[DatasetRule]):
+    def construct_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
         return construct_dataset(cohort=get_object_or_404(Cohort, id=cohortId), rules=rules)
 
     @route.get(

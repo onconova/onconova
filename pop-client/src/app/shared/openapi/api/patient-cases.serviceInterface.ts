@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedPatientCase } from '../model/models';
 import { PatientCase } from '../model/models';
 import { PatientCaseCreate } from '../model/models';
@@ -242,7 +242,7 @@ export interface PatientCasesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllPatientCaseHistoryEvents(requestParameters: GetAllPatientCaseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllPatientCaseHistoryEvents(requestParameters: GetAllPatientCaseHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Default Clinical Center
@@ -276,7 +276,7 @@ export interface PatientCasesServiceInterface {
      * 
 * @param requestParameters
      */
-    getPatientCaseHistoryEventById(requestParameters: GetPatientCaseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getPatientCaseHistoryEventById(requestParameters: GetPatientCaseHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Patient Cases Matching The Query

@@ -21,13 +21,13 @@ import { FamilyHistory } from '../model/family-history';
 // @ts-ignore
 import { FamilyHistoryCreate } from '../model/family-history-create';
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedFamilyHistory } from '../model/paginated-family-history';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -185,9 +185,9 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const familyHistoryId = requestParameters?.familyHistoryId;
         if (familyHistoryId === null || familyHistoryId === undefined) {
@@ -231,7 +231,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         }
 
         let localVarPath = `/api/family-histories/${this.configuration.encodeParam({name: "familyHistoryId", value: familyHistoryId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -581,9 +581,9 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const familyHistoryId = requestParameters?.familyHistoryId;
         if (familyHistoryId === null || familyHistoryId === undefined) {
@@ -623,7 +623,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         }
 
         let localVarPath = `/api/family-histories/${this.configuration.encodeParam({name: "familyHistoryId", value: familyHistoryId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

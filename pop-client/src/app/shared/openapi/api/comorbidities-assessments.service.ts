@@ -23,13 +23,13 @@ import { ComorbiditiesAssessmentCreate } from '../model/comorbidities-assessment
 // @ts-ignore
 import { ComorbiditiesPanel } from '../model/comorbidities-panel';
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedComorbiditiesAssessment } from '../model/paginated-comorbidities-assessment';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -188,9 +188,9 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllComorbiditiesAssessmentHistoryEvents(requestParameters: GetAllComorbiditiesAssessmentHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const comorbiditiesAssessmentId = requestParameters?.comorbiditiesAssessmentId;
         if (comorbiditiesAssessmentId === null || comorbiditiesAssessmentId === undefined) {
@@ -234,7 +234,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         }
 
         let localVarPath = `/api/comorbidities-assessments/${this.configuration.encodeParam({name: "comorbiditiesAssessmentId", value: comorbiditiesAssessmentId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -311,9 +311,9 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getComorbiditiesAssessmentHistoryEventById(requestParameters: GetComorbiditiesAssessmentHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const comorbiditiesAssessmentId = requestParameters?.comorbiditiesAssessmentId;
         if (comorbiditiesAssessmentId === null || comorbiditiesAssessmentId === undefined) {
@@ -353,7 +353,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         }
 
         let localVarPath = `/api/comorbidities-assessments/${this.configuration.encodeParam({name: "comorbiditiesAssessmentId", value: comorbiditiesAssessmentId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

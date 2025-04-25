@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedPerformanceStatus } from '../model/models';
 import { PerformanceStatus } from '../model/models';
 import { PerformanceStatusCreate } from '../model/models';
@@ -142,7 +142,7 @@ export interface PerformanceStatusServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllPerformanceStatusHistoryEvents(requestParameters: GetAllPerformanceStatusHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllPerformanceStatusHistoryEvents(requestParameters: GetAllPerformanceStatusHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Performance Status Matching The Query
@@ -163,7 +163,7 @@ export interface PerformanceStatusServiceInterface {
      * 
 * @param requestParameters
      */
-    getPerformanceStatusHistoryEventById(requestParameters: GetPerformanceStatusHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getPerformanceStatusHistoryEventById(requestParameters: GetPerformanceStatusHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Revert Performance Status To History Event

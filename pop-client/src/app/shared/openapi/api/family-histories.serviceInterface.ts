@@ -13,10 +13,10 @@ import { Observable }                                        from 'rxjs';
 
 import { FamilyHistory } from '../model/models';
 import { FamilyHistoryCreate } from '../model/models';
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedFamilyHistory } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -141,7 +141,7 @@ export interface FamilyHistoriesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllFamilyHistoryHistoryEvents(requestParameters: GetAllFamilyHistoryHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Family Member Histories Matching The Query
@@ -162,7 +162,7 @@ export interface FamilyHistoriesServiceInterface {
      * 
 * @param requestParameters
      */
-    getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getFamilyHistoryHistoryEventById(requestParameters: GetFamilyHistoryHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Revert Family History To History Event

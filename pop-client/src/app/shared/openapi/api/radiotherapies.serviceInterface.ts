@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedRadiotherapy } from '../model/models';
 import { Radiotherapy } from '../model/models';
 import { RadiotherapyCreate } from '../model/models';
@@ -321,21 +321,21 @@ export interface RadiotherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Radiotherapy History Events
      * 
 * @param requestParameters
      */
-    getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Radiotherapy Setting History Events
      * 
 * @param requestParameters
      */
-    getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Radiotherapies Matching The Query
@@ -363,7 +363,7 @@ export interface RadiotherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get Radiotherapy Dosages Matching The Query
@@ -377,7 +377,7 @@ export interface RadiotherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get Radiotherapy Setting By Id
@@ -391,7 +391,7 @@ export interface RadiotherapiesServiceInterface {
      * 
 * @param requestParameters
      */
-    getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get Radiotherapy Settings Matching The Query

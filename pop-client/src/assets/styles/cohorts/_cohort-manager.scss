@@ -95,6 +95,10 @@ pop-cohort-trait-panel {
         }
         & .timeline-event-category {
             list-style: none;
+            & code {
+                color: var(--p-primary-faded-color);
+                font-size: .8rem;
+            }
         }
         & .timeline-event-category li > i {
             margin-right: .25rem;
@@ -105,4 +109,42 @@ pop-cohort-trait-panel {
         }
     }
 
+    .pop-dataset-table {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+    }
+
+    .pop-cohort-history-collapsable {
+        & .p-fieldset {
+            border: none !important;
+            padding: 0 !important;
+            font-size: smaller;
+            display: inline-flex;
+            .p-fieldset-content {
+                margin-left: -13rem;
+                & ul > li > ul {
+                    list-style: none;
+                    padding-left: 0.5rem !important;
+                }
+            }
+        }
+        & .p-fieldset-toggle-button {
+            font-size: var(--p-button-sm-font-size);
+            padding-block: var(--p-button-sm-padding-y);
+            border-radius: var(--p-button-border-radius);
+            padding-inline: var(--p-button-sm-padding-x);
+            background: transparent;
+            border-color: var(--p-button-outlined-secondary-border-color);
+            color: var(--p-button-outlined-secondary-color);
+            border: 1px solid var(--p-button-secondary-border-color);
+            transition: background var(--p-button-transition-duration), color var(--p-button-transition-duration), border-color var(--p-button-transition-duration), outline-color var(--p-button-transition-duration), box-shadow var(--p-button-transition-duration);
+            svg  {
+                scale: .8;
+            }
+        }
+    }
 }

@@ -17,11 +17,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 // @ts-ignore
 import { PaginatedRadiotherapy } from '../model/paginated-radiotherapy';
 // @ts-ignore
@@ -471,9 +471,9 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllRadiotherapyDosageHistoryEvents(requestParameters: GetAllRadiotherapyDosageHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
@@ -521,7 +521,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages/${this.configuration.encodeParam({name: "dosageId", value: dosageId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -541,9 +541,9 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllRadiotherapyHistoryEvents(requestParameters: GetAllRadiotherapyHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
@@ -587,7 +587,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -607,9 +607,9 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllRadiotherapySettingHistoryEvents(requestParameters: GetAllRadiotherapySettingHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
@@ -657,7 +657,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings/${this.configuration.encodeParam({name: "settingId", value: settingId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1308,9 +1308,9 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getRadiotherapyDosageHistoryEventById(requestParameters: GetRadiotherapyDosageHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
@@ -1354,7 +1354,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/dosages/${this.configuration.encodeParam({name: "dosageId", value: dosageId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1430,9 +1430,9 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getRadiotherapyHistoryEventById(requestParameters: GetRadiotherapyHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
@@ -1472,7 +1472,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1552,9 +1552,9 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getRadiotherapySettingHistoryEventById(requestParameters: GetRadiotherapySettingHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const radiotherapyId = requestParameters?.radiotherapyId;
         if (radiotherapyId === null || radiotherapyId === undefined) {
@@ -1598,7 +1598,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
 
         let localVarPath = `/api/radiotherapies/${this.configuration.encodeParam({name: "radiotherapyId", value: radiotherapyId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/settings/${this.configuration.encodeParam({name: "settingId", value: settingId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

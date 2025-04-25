@@ -29,13 +29,13 @@ import { AdverseEventSuspectedCause } from '../model/adverse-event-suspected-cau
 // @ts-ignore
 import { AdverseEventSuspectedCauseCreate } from '../model/adverse-event-suspected-cause-create';
 // @ts-ignore
-import { HistoryEvent } from '../model/history-event';
+import { HistoryEventWithSchema } from '../model/history-event-with-schema';
 // @ts-ignore
 import { ModifiedResource } from '../model/modified-resource';
 // @ts-ignore
 import { PaginatedAdverseEvent } from '../model/paginated-adverse-event';
 // @ts-ignore
-import { PaginatedHistoryEvent } from '../model/paginated-history-event';
+import { PaginatedHistoryEventWithSchema } from '../model/paginated-history-event-with-schema';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -528,9 +528,9 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getAdverseEventHistoryEventById(requestParameters: GetAdverseEventHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const adverseEventId = requestParameters?.adverseEventId;
         if (adverseEventId === null || adverseEventId === undefined) {
@@ -570,7 +570,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -650,9 +650,9 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getAdverseEventMitigationHistoryEventById(requestParameters: GetAdverseEventMitigationHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const adverseEventId = requestParameters?.adverseEventId;
         if (adverseEventId === null || adverseEventId === undefined) {
@@ -696,7 +696,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -833,9 +833,9 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEvent>;
-    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEvent>>;
-    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEvent>>;
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HistoryEventWithSchema>;
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<HistoryEventWithSchema>>;
+    public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<HistoryEventWithSchema>>;
     public getAdverseEventSuspectedCauseHistoryEventById(requestParameters: GetAdverseEventSuspectedCauseHistoryEventByIdRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const adverseEventId = requestParameters?.adverseEventId;
         if (adverseEventId === null || adverseEventId === undefined) {
@@ -879,7 +879,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events/${this.configuration.encodeParam({name: "eventId", value: eventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<HistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<HistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -1519,9 +1519,9 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllAdverseEventHistoryEvents(requestParameters: GetAllAdverseEventHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const adverseEventId = requestParameters?.adverseEventId;
         if (adverseEventId === null || adverseEventId === undefined) {
@@ -1565,7 +1565,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1585,9 +1585,9 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllAdverseEventMitigationHistoryEvents(requestParameters: GetAllAdverseEventMitigationHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const adverseEventId = requestParameters?.adverseEventId;
         if (adverseEventId === null || adverseEventId === undefined) {
@@ -1635,7 +1635,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/mitigations/${this.configuration.encodeParam({name: "mitigationId", value: mitigationId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -1655,9 +1655,9 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEvent>;
-    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEvent>>;
-    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEvent>>;
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<PaginatedHistoryEventWithSchema>;
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedHistoryEventWithSchema>>;
+    public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedHistoryEventWithSchema>>;
     public getAllAdverseEventSuspectedCauseHistoryEvents(requestParameters: GetAllAdverseEventSuspectedCauseHistoryEventsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         const adverseEventId = requestParameters?.adverseEventId;
         if (adverseEventId === null || adverseEventId === undefined) {
@@ -1705,7 +1705,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
 
         let localVarPath = `/api/adverse-events/${this.configuration.encodeParam({name: "adverseEventId", value: adverseEventId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/suspected-causes/${this.configuration.encodeParam({name: "causeId", value: causeId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/history/events`;
-        return this.httpClient.request<PaginatedHistoryEvent>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<PaginatedHistoryEventWithSchema>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

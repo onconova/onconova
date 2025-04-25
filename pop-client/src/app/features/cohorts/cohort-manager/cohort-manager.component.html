@@ -240,25 +240,51 @@
                                                     <li><i class="pi pi-sparkles"></i> Created new cohort "{{ event.snapshot.name }}"</li>
                                                 }
                                                 @case ('update') {
-                                                    @if (event.differential.name) {
-                                                        <li><i class="pi pi-tag"></i> Renamed cohort to "{{ event.snapshot.name }}"</li>
-                                                    } 
-                                                    @if (event.differential.includeCriteria) {
-                                                        <li><i class="pi pi-filter"></i> Updated inclusion criteria rules</li>
-                                                    } 
-                                                    @if (event.differential.excludeCriteria) {
-                                                        <li><i class="pi pi-filter"></i> Updated exclusion criteria rules</li>
-                                                    } 
-                                                    <li>
-                                                        <p-button label="Set as current definition" 
-                                                                [outlined]="true" 
-                                                                size="small" 
-                                                                styleClass="mt-2 ml-3"
-                                                                (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>
-                                                    </li>
+                                                    @let changes = getAllChanges(event.differential);
+                                                    <li><i class="pi pi-pencil"></i> Updated cohort with {{changes.length}} changes: 
+                                                    <ul>
+                                                        @for (change of changes; track $index;) {
+                                                            <li class="text-sm">
+                                                                @if (change.type === 'added') {
+                                                                    Added <code>{{ change.field }}</code> property <code>{{change.key}}</code>
+                                                                } @else if (change.type === 'removed') {
+                                                                    Removed <code>{{ change.field }}</code> property <code>{{change.key}}</code>
+                                                                } @else if (change.type === 'updated') {
+                                                                    Changed <code>{{ change.field }}</code> property <code>{{change.key}}</code> from <code>{{change.oldValue | json}}</code> to <code>{{change.value | json}}</code>
+                                                                }
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                
+                                                    <p-button label="Set snapshot as current definition" 
+                                                            [outlined]="true" 
+                                                            size="small" 
+                                                            styleClass="mt-2"
+                                                            (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>
+                                                </li>
                                                 }
                                                 @case ('export') {
-                                                    <i class="pi pi-file-export"></i> Exported resource
+                                                    <div class="flex"> 
+                                                        <div class="mb-auto mt-2 mr-2"><i class="pi pi-file-export"></i> Exported {{event.context.dataset.length}} data points</div>
+                                                        <p-fieldset legend="Details" [toggleable]="true" [collapsed]="true" class="pop-cohort-history-collapsable">
+                                                                <ul>
+                                                                    <li>Export checksum: <code>{{ event.context.checksum }}</code></li>
+                                                                    <li>Server version: <code>{{ event.context.version }}</code></li>
+                                                                    <li>
+                                                                        Exported data points:
+                                                                        <ul>
+                                                                            @for (rule of event.context.dataset; track $index;) {
+                                                                                <li><code>{{ rule.resource }} - {{ rule.field }}</code></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                        </p-fieldset>
+                                                    </div>
+                                                <p-button label="Set exported cohort as current definition" 
+                                                        [outlined]="true" 
+                                                        size="small" 
+                                                        (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>
                                                 }
                                             }
                                     </ul>                               

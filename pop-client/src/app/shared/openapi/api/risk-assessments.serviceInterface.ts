@@ -11,9 +11,9 @@ import { HttpHeaders }                                       from '@angular/comm
 
 import { Observable }                                        from 'rxjs';
 
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedRiskAssessment } from '../model/models';
 import { RiskAssessment } from '../model/models';
 import { RiskAssessmentCreate } from '../model/models';
@@ -130,7 +130,7 @@ export interface RiskAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllRiskAssessmentHistoryEvents(requestParameters: GetAllRiskAssessmentHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllRiskAssessmentHistoryEvents(requestParameters: GetAllRiskAssessmentHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Risk Assessment By Id
@@ -144,7 +144,7 @@ export interface RiskAssessmentsServiceInterface {
      * 
 * @param requestParameters
      */
-    getRiskAssessmentHistoryEventById(requestParameters: GetRiskAssessmentHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getRiskAssessmentHistoryEventById(requestParameters: GetRiskAssessmentHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Risk Assessments Matching The Query

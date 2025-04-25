@@ -13,10 +13,10 @@ import { Observable }                                        from 'rxjs';
 
 import { GenomicVariant } from '../model/models';
 import { GenomicVariantCreate } from '../model/models';
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedGenomicVariant } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -335,7 +335,7 @@ export interface GenomicVariantsServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllGenomicVariantHistoryEvents(requestParameters: GetAllGenomicVariantHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllGenomicVariantHistoryEvents(requestParameters: GetAllGenomicVariantHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Genomic Variant By Id
@@ -349,7 +349,7 @@ export interface GenomicVariantsServiceInterface {
      * 
 * @param requestParameters
      */
-    getGenomicVariantHistoryEventById(requestParameters: GetGenomicVariantHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getGenomicVariantHistoryEventById(requestParameters: GetGenomicVariantHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Genomic Variants Matching The Query

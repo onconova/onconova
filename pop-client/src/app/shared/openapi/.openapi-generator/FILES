@@ -131,6 +131,7 @@ model/genomic-variant.ts
 model/gleason-grade-create.ts
 model/gleason-grade.ts
 model/history-event-category.ts
+model/history-event-with-schema.ts
 model/history-event.ts
 model/homologous-recombination-deficiency-create.ts
 model/homologous-recombination-deficiency-interpretation-choices.ts
@@ -175,6 +176,7 @@ model/paginated-comorbidities-assessment.ts
 model/paginated-dataset.ts
 model/paginated-family-history.ts
 model/paginated-genomic-variant.ts
+model/paginated-history-event-with-schema.ts
 model/paginated-history-event.ts
 model/paginated-lifestyle.ts
 model/paginated-neoplastic-entity.ts

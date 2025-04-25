@@ -10,7 +10,7 @@
 import { HistoryEventCategory } from './history-event-category';
 
 
-export interface HistoryEvent { 
+export interface HistoryEventWithSchema { 
     id: any | null;
     /**
      * The type of history event
@@ -28,7 +28,7 @@ export interface HistoryEvent {
     snapshot: { [key: string]: any; };
     differential: { [key: string]: any; } | null;
 }
-export namespace HistoryEvent {
+export namespace HistoryEventWithSchema {
 }
 
 

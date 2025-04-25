@@ -13,10 +13,10 @@ import { Observable }                                        from 'rxjs';
 
 import { Dataset } from '../model/models';
 import { DatasetCreate } from '../model/models';
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
 import { PaginatedDataset } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 
 
 import { Configuration }                                     from '../configuration';
@@ -123,7 +123,7 @@ export interface DatasetsServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllDatasetHistoryEvents(requestParameters: GetAllDatasetHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllDatasetHistoryEvents(requestParameters: GetAllDatasetHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Dataset By Id
@@ -137,7 +137,7 @@ export interface DatasetsServiceInterface {
      * 
 * @param requestParameters
      */
-    getDatasetHistoryEventById(requestParameters: GetDatasetHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getDatasetHistoryEventById(requestParameters: GetDatasetHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Datasets Matching The Query

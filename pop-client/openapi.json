@@ -3815,7 +3815,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -3870,7 +3870,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -5273,7 +5273,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -5328,7 +5328,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -7205,7 +7205,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -7260,7 +7260,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -9190,7 +9190,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -9245,7 +9245,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -11876,7 +11876,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -11931,7 +11931,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -12328,7 +12328,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -12392,7 +12392,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -13628,7 +13628,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -13683,7 +13683,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -15513,7 +15513,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -15568,7 +15568,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -15965,7 +15965,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -16029,7 +16029,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -16435,7 +16435,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -16499,7 +16499,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -17718,7 +17718,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -17773,7 +17773,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -19951,7 +19951,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -20006,7 +20006,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -20403,7 +20403,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -20467,7 +20467,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -20873,7 +20873,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -20937,7 +20937,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -21879,7 +21879,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -21934,7 +21934,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -24312,7 +24312,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -24367,7 +24367,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -27900,7 +27900,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -27955,7 +27955,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -30181,7 +30181,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -30236,7 +30236,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -31282,7 +31282,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -31337,7 +31337,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -32504,7 +32504,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -32559,7 +32559,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -34067,7 +34067,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -34122,7 +34122,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -35263,7 +35263,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -35318,7 +35318,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -35398,10 +35398,70 @@
         ]
       }
     },
-    "/api/cohorts/{cohortId}/dynamic-dataset": {
+    "/api/cohorts/{cohortId}/dataset/export": {
+      "post": {
+        "operationId": "exportCohortDataset",
+        "summary": "Export Cohort Dataset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohortId",
+            "schema": {
+              "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "Cohorts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/DatasetRule"
+                },
+                "title": "Rules",
+                "type": "array"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "JWTAuth": []
+          }
+        ]
+      }
+    },
+    "/api/cohorts/{cohortId}/dataset": {
       "post": {
         "operationId": "getCohortDatasetDynamically",
-        "summary": "Get Cohort Dataset Dynamically",
+        "summary": "Construct Cohort Dataset",
         "parameters": [
           {
             "in": "path",
@@ -36983,7 +37043,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                  "$ref": "#/components/schemas/Paginated_HistoryEventWithSchema_"
                 }
               }
             }
@@ -37038,7 +37098,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HistoryEvent"
+                  "$ref": "#/components/schemas/HistoryEventWithSchema"
                 }
               }
             }
@@ -48205,7 +48265,19 @@
         "title": "PatientCaseCreate",
         "type": "object"
       },
-      "HistoryEvent": {
+      "HistoryEventCategory": {
+        "enum": [
+          "create",
+          "update",
+          "delete",
+          "export",
+          "import",
+          "download"
+        ],
+        "title": "HistoryEventCategory",
+        "type": "string"
+      },
+      "HistoryEventWithSchema": {
         "properties": {
           "id": {
             "description": "The unique identifier of the history event",
@@ -48269,24 +48341,14 @@
         "required": [
           "id",
           "category",
-          "timestamp"
+          "timestamp",
+          "snapshot",
+          "differential"
         ],
-        "title": "HistoryEvent",
+        "title": "HistoryEventWithSchema",
         "type": "object"
       },
-      "HistoryEventCategory": {
-        "enum": [
-          "create",
-          "update",
-          "delete",
-          "export",
-          "import",
-          "download"
-        ],
-        "title": "HistoryEventCategory",
-        "type": "string"
-      },
-      "Paginated_HistoryEvent_": {
+      "Paginated_HistoryEventWithSchema_": {
         "properties": {
           "count": {
             "title": "Count",
@@ -48294,7 +48356,7 @@
           },
           "items": {
             "items": {
-              "$ref": "#/components/schemas/HistoryEvent"
+              "$ref": "#/components/schemas/HistoryEventWithSchema"
             },
             "title": "Items",
             "type": "array"
@@ -48304,7 +48366,7 @@
           "count",
           "items"
         ],
-        "title": "Paginated[HistoryEvent]",
+        "title": "Paginated[HistoryEvent.bind_schema.\u003Clocals\u003E.HistoryEventWithSchema]",
         "type": "object"
       },
       "NeoplasticEntityFilters": {
@@ -50531,6 +50593,98 @@
           "stage"
         ],
         "title": "WilmsStageCreate",
+        "type": "object"
+      },
+      "HistoryEvent": {
+        "properties": {
+          "id": {
+            "description": "The unique identifier of the history event",
+            "title": "Event ID"
+          },
+          "category": {
+            "$ref": "#/components/schemas/HistoryEventCategory",
+            "description": "The type of history event",
+            "title": "Category"
+          },
+          "timestamp": {
+            "description": "Timestamp of the history event",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Username of the user that triggered the event, if applicable",
+            "title": "User"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Endpoint URL through which the event was triggered, if applicable",
+            "title": "Endpoint"
+          },
+          "snapshot": {
+            "additionalProperties": true,
+            "description": "Data snapshopt at the time of the event",
+            "title": "Data snapshopt",
+            "type": "object"
+          },
+          "differential": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Data changes introduced by the event, if applicable",
+            "title": "Data differential"
+          }
+        },
+        "required": [
+          "id",
+          "category",
+          "timestamp",
+          "snapshot",
+          "differential"
+        ],
+        "title": "HistoryEvent",
+        "type": "object"
+      },
+      "Paginated_HistoryEvent_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/HistoryEvent"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[HistoryEvent]",
         "type": "object"
       },
       "RiskAssessmentFilters": {
@@ -64733,27 +64887,6 @@
         "title": "CohortContribution",
         "type": "object"
       },
-      "Paginated_Any_": {
-        "properties": {
-          "count": {
-            "title": "Count",
-            "type": "integer"
-          },
-          "items": {
-            "items": {
-
-            },
-            "title": "Items",
-            "type": "array"
-          }
-        },
-        "required": [
-          "count",
-          "items"
-        ],
-        "title": "Paginated[Any]",
-        "type": "object"
-      },
       "DataResource": {
         "enum": [
           "PatientCase",
@@ -64843,6 +64976,27 @@
           "field"
         ],
         "title": "DatasetRule",
+        "type": "object"
+      },
+      "Paginated_Any_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[Any]",
         "type": "object"
       },
       "CohortTraitAverage": {

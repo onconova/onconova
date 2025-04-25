@@ -12,9 +12,9 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { AnalyteDetails } from '../model/models';
-import { HistoryEvent } from '../model/models';
+import { HistoryEventWithSchema } from '../model/models';
 import { ModifiedResource } from '../model/models';
-import { PaginatedHistoryEvent } from '../model/models';
+import { PaginatedHistoryEventWithSchema } from '../model/models';
 import { PaginatedTumorMarker } from '../model/models';
 import { TumorMarker } from '../model/models';
 import { TumorMarkerCreate } from '../model/models';
@@ -205,7 +205,7 @@ export interface TumorMarkersServiceInterface {
      * 
 * @param requestParameters
      */
-    getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEvent>;
+    getAllTumorMarkerHistoryEvents(requestParameters: GetAllTumorMarkerHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get Tumor Marker Analyte Details By Code
@@ -226,7 +226,7 @@ export interface TumorMarkersServiceInterface {
      * 
 * @param requestParameters
      */
-    getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEvent>;
+    getTumorMarkerHistoryEventById(requestParameters: GetTumorMarkerHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Tumor Markers Matching The Query
