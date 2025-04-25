@@ -8,7 +8,7 @@ export class TypeCheckService {
 
     public readonly isCodeableConcept = (value: CodedConcept): value is CodedConcept => !!value?.code;
     public readonly isPeriod = (value: Period): value is Period => !!value?.start;
-    public readonly isMeasure = (value: Measure): value is Measure => !!value?.value;
+    public readonly isMeasure = (value: Measure): value is Measure => !!value?.value && !!value?.unit;
     public readonly isObject = (x: any) => typeof x === 'object' && !Array.isArray(x) && x !== null
     public readonly isArray = (x: any) => x instanceof Array
     public readonly isDateString = (value: any): boolean => typeof value === 'string' && !isNaN(Date.parse(value)) && value.length === 10;
