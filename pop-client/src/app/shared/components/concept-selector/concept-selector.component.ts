@@ -42,6 +42,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, O
     @Input() showSynonyms: boolean = true;
     @Input() showCodes: boolean = false;
     @Input() multiple: boolean = false;
+    @Input() disabled: boolean = false;
     @Input() placeholder: string = 'Select or search an option';
     @Input() conceptsLimit: number = 100;
     @Input() widget: 'autocomplete' | 'radio' | 'selectbutton' = 'autocomplete';

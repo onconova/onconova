@@ -16,7 +16,7 @@
                     <i class="pi pi-check" (click)="editCohortName = false"></i>
                 } @else {
                     {{ cohortControl.value.name }}
-                    @if (authService.user.canManageCohorts) {
+                    @if (userCanEdit) {
                         <i class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>   
                     }
                 }
@@ -113,7 +113,7 @@
                     <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
-            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true"/>
+            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [disabled]="!userCanEdit"/>
         </p-panel>
     
         <p-panel class="pop-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
@@ -124,7 +124,7 @@
                     <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
-            <pop-cohort-query-builder formControlName="excludeCriteria"/>
+            <pop-cohort-query-builder formControlName="excludeCriteria" [disabled]="!userCanEdit"/>
         </p-panel>  
     }
 </div>
@@ -138,14 +138,14 @@
     styleClass="p-2"  
     severity="secondary"
     [loading]="loading"
-    [disabled]="!authService.user.canViewCohorts || !cohortControl || cohortControl.invalid" />
+    [disabled]="!userCanEdit || !authService.user.canViewCohorts || !cohortControl || cohortControl.invalid" />
     <p-button 
     type="submit" 
-    [icon]="authService.user.canManageCohorts ? 'pi pi-sync' : 'pi pi-lock'"
+    [icon]="userCanEdit ? 'pi pi-sync' : 'pi pi-lock'"
     label="Save & Update Cohort" 
     styleClass="p-2"  
     [loading]="loading"
-    [disabled]="!authService.user.canManageCohorts || !cohortControl || cohortControl.invalid" />
+    [disabled]="!userCanEdit || !cohortControl || cohortControl.invalid" />
 </div>
 
 

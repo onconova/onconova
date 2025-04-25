@@ -2,18 +2,19 @@
     <form  [formGroup]="form" (ngSubmit)="onSave()" >
 
         <div class="field">
-            <label class="form-label required">Cohort name</label>
+            <label class="form-label required">Cohort title</label>
             <input type="text" pInputText formControlName="name" />
             <pop-form-control-error controlName="name"></pop-form-control-error>
         </div>
 
-        <div class="field flex">
-            <p-toggleswitch formControlName="isPublic" />
-            <label class="form-label ml-2 my-auto required">Make cohort publicly available</label>
-            <pop-form-control-error controlName="isPublic"></pop-form-control-error>
+        <div class="field">
+            <div class="flex">
+                <p-toggleswitch formControlName="isPublic" />
+                <label class="form-label ml-2 my-auto required">Make cohort publicly available</label>
+                <pop-form-control-error controlName="isPublic"></pop-form-control-error>
+            </div>
+            <small>Public cohorts can be updated by other users collaboratively. Private cohorts can only be updated by the user who created them. All cohorts are visible and accessible to all users.</small>
         </div>
-        <small>By making a cohort public, everyone will be able to see and use the cohort. As a trade-off you will have access to the full database.</small>
-
 
         <p-button 
             type="submit" 

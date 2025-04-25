@@ -82,6 +82,7 @@ export class CohortBuilderComponent {
     public cohortCases: PatientCase[] = [];
     public cohort!: Cohort; 
     public loading: boolean = false;
+    public userCanEdit: boolean = false;
     public editCohortName: boolean = false;
     public cohortHistory$!: Observable<HistoryEvent[]>
     public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
@@ -100,6 +101,7 @@ export class CohortBuilderComponent {
     public readonly completionIcon = ClipboardCheck;
 
 
+
     ngAfterViewInit() {
         this.refreshCohortData()
         this.refreshCohortCases()
@@ -111,6 +113,7 @@ export class CohortBuilderComponent {
         this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(first()).subscribe({
             next: (cohort: Cohort) => {
                 this.cohort = cohort;
+                this.userCanEdit = (cohort.isPublic || (!cohort.isPublic && cohort.createdBy == this.authService.user.username)) && this.authService.user.canManageCohorts 
                 if (!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
                     this.cohortControl.controls['name'].setValue(cohort.name) ;
                     this.cohortControl.controls['isPublic'].setValue(cohort.isPublic);

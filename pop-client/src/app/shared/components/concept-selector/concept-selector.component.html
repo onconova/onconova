@@ -4,6 +4,7 @@
     [formControl]="formControl"
     [dropdown]="true"
     [showClear]="true"
+    [disabled]="disabled"
     [forceSelection]="true"
     [suggestions]="concepts || []"
     (completeMethod)="updateConcepts($event)"
@@ -55,6 +56,7 @@
       <p-radiobutton 
           [inputId]="concept.code" 
           [value]="concept" 
+          [disabled]="disabled"
           [formControl]="formControl"/>
       <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
     </div>    
@@ -63,6 +65,7 @@
     <p-selectbutton 
         [options]="concepts || []"
         optionLabel="display"
+        [disabled]="disabled"
         [formControl]="formControl"/>
 }
 

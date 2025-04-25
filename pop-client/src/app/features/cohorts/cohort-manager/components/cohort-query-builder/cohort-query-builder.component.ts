@@ -272,10 +272,6 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouchedCallback = () => fn(this.value);
   }
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-    this.changeDetectorRef.detectChanges();
-  }
 
 
   private convertRule(rules: any, toInternal: boolean = true) {

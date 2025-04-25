@@ -14,7 +14,7 @@ import {
   FormControlErrorComponent 
 } from '../../../shared/components';
 
-import { Group } from 'lucide-angular';
+import { Users } from 'lucide-angular';
 
 @Component({
   standalone: true,
@@ -43,7 +43,7 @@ export class CohortFormComponent extends AbstractFormBase implements OnInit {
 
   public readonly title: string = 'Cohort'
   public readonly subtitle: string = 'New cohort'
-  public readonly icon = Group;
+  public readonly icon = Users;
 
   ngOnInit() {
     this.constructForm();

@@ -84,15 +84,15 @@ export class CohortSearchItemComponent {
                 console.log('export', this.cohort.id)
             },
         },
-        {
-            label: 'Delete',
-            icon: 'pi pi-trash',
-            styleClass: 'delete-action',
-            command: (event: any) => {
-                console.log('delete', this.cohort.id)
-                // this.confirmDelete(event);
-            },
-        },
+        // {
+        //     label: 'Delete',
+        //     icon: 'pi pi-trash',
+        //     styleClass: 'delete-action',
+        //     command: (event: any) => {
+        //         console.log('delete', this.cohort.id)
+        //         // this.confirmDelete(event);
+        //     },
+        // },
     ];
     
     openCohortManagement() {

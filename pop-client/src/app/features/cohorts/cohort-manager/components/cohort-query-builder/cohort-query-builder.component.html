@@ -1,3 +1,4 @@
+{{disabled}}
 <div>
     @if (allowCollapse) {
       <a (click)="toggleCollapse()"
@@ -145,6 +146,7 @@
                             <pop-measure-input
                               [(ngModel)]="filter.value" 
                               (ngModelChange)="changeInput()"
+                              [disabled]="disabled" 
                               [measure]="field.measureType || ''"
                               [defaultUnit]="field.defaultUnit || ''"/>
                           }
@@ -162,6 +164,7 @@
                                     [options]="field.options" 
                                     [(ngModel)]="filter.value" 
                                     (ngModelChange)="changeInput()"
+                                    [disabled]="disabled" 
                                     optionLabel="value" 
                                     optionValue="value"
                                     placeholder="Select one or more options" 
