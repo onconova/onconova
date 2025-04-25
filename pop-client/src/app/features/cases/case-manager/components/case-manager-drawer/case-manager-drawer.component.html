@@ -3,7 +3,7 @@
         <p-avatar size="large" shape="square">
             <lucide-angular [img]="icon"></lucide-angular>
         </p-avatar>
-        <div class="font-bold my-auto">{{data.description || 'Unknown'}}</div>
+        <div class="font-bold my-auto ml-3">{{data.description || 'Unknown'}}</div>
     </ng-template>
 
     <div class="property">
@@ -12,7 +12,6 @@
     </div>
 
     <p-divider/>
-
     <pop-drawer-properties [data]="data"/>
 
     <p-divider/>

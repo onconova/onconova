@@ -99,6 +99,7 @@ pop-case-manager-panel {
     min-width: 25% !important;
 
     & .p-drawer-header {
+        justify-content: flex-start;
         display: flex !important;
         align-items: center;
         gap: .5rem;
