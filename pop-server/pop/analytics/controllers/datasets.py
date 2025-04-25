@@ -92,7 +92,7 @@ class DatasetsController(ControllerBase):
     @route.get(
         path='/{datasetId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(DatasetCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -106,7 +106,7 @@ class DatasetsController(ControllerBase):
     @route.get(
         path='/{datasetId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(DatasetCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

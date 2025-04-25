@@ -97,7 +97,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @route.get(
         path='/{comorbiditiesAssessmentId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(ComorbiditiesAssessmentCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -111,7 +111,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @route.get(
         path='/{comorbiditiesAssessmentId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(ComorbiditiesAssessmentCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

@@ -48,7 +48,7 @@ def get_schema_field(
         resolver_fcn, python_type, serialization_alias, default, extras = process_relation_field(field, exclude_related_fields, expand)
      
     else:
-        python_type, serialization_alias, default, default_factory, extras = process_non_relation_field(field)        
+        resolver_fcn, python_type, serialization_alias, default, default_factory, extras = process_non_relation_field(field)        
         if is_array_field:
             python_type = List[python_type]
     extras.update({'x-expanded': expand})
@@ -60,11 +60,14 @@ def get_schema_field(
 
 
 def process_non_relation_field(field):
+    from .base import BaseSchema
     extras = {}
+    resolver_fcn = None
     serialization_alias = to_camel_case(field.name)
     internal_type = field.get_internal_type()
     if isinstance(field, MeasurementField):
         python_type = Measure
+        resolver_fcn = partial(BaseSchema._resolve_measure, orm_field_name=field.name)
         extras['x-measure'] = field.measurement.__name__
         extras['x-default-unit'] = field.get_default_unit().replace('__','/') 
 
@@ -87,7 +90,7 @@ def process_non_relation_field(field):
     else:
         default, default_factory = PydanticUndefined, None
         
-    return python_type, serialization_alias, default, default_factory, extras
+    return resolver_fcn, python_type, serialization_alias, default, default_factory, extras
 
 
 

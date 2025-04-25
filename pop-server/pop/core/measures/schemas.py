@@ -12,7 +12,6 @@ class Measure(Schema):
     value: float
     unit: str
 
-
 class MeasureConversion(Schema):
     """
     Represents a measure value to be converted to another unit.
@@ -26,4 +25,3 @@ class MeasureConversion(Schema):
     value: float
     unit: str
     new_unit: str
-

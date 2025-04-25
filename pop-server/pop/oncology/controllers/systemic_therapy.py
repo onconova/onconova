@@ -93,7 +93,7 @@ class SystemicTherapyController(ControllerBase):
     @route.get(
         path='/{systemicTherapyId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(SystemicTherapyCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -107,7 +107,7 @@ class SystemicTherapyController(ControllerBase):
     @route.get(
         path='/{systemicTherapyId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(SystemicTherapyCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -205,7 +205,7 @@ class SystemicTherapyController(ControllerBase):
     @route.get(
         path='/{systemicTherapyId}/medications/{medicationId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(SystemicTherapyMedicationCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -219,7 +219,7 @@ class SystemicTherapyController(ControllerBase):
     @route.get(
         path='/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(SystemicTherapyMedicationCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

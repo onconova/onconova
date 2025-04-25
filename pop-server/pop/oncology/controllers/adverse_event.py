@@ -98,7 +98,7 @@ class AdverseEventController(ControllerBase):
     @route.get(
         path='/{adverseEventId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(AdverseEventCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -112,7 +112,7 @@ class AdverseEventController(ControllerBase):
     @route.get(
         path='/{adverseEventId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(AdverseEventCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -206,7 +206,7 @@ class AdverseEventController(ControllerBase):
     @route.get(
         path='/{adverseEventId}/suspected-causes/{causeId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(AdverseEventSuspectedCauseCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -220,7 +220,7 @@ class AdverseEventController(ControllerBase):
     @route.get(
         path='/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(AdverseEventSuspectedCauseCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -313,7 +313,7 @@ class AdverseEventController(ControllerBase):
     @route.get(
         path='/{adverseEventId}/mitigations/{mitigationId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(AdverseEventMitigationCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -327,7 +327,7 @@ class AdverseEventController(ControllerBase):
     @route.get(
         path='/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(AdverseEventMitigationCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

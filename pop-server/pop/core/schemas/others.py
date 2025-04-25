@@ -7,6 +7,7 @@ from psycopg.types.range import Range as PostgresRange
 from pydantic import Field, model_validator, AliasChoices
 from ninja_extra.schemas import NinjaPaginationResponseSchema
 
+
 class Paginated(NinjaPaginationResponseSchema):
     pass
     
@@ -90,16 +91,12 @@ class HistoryEvent(Schema):
         description='Endpoint URL through which the event was triggered, if applicable',
     )
     snapshot: Dict = Field(
-        default_factory=dict,
         title='Data snapshopt',
         description='Data snapshopt at the time of the event',
-        alias='pgh_data',
     )
     differential: Optional[Dict] = Field(
-        default_factory=dict,
         title='Data differential',
         description='Data changes introduced by the event, if applicable',
-        alias='pgh_diff',
     )
 
     @staticmethod
@@ -116,3 +113,27 @@ class HistoryEvent(Schema):
             'import': HistoryEventCategory.IMPORT,
             'download': HistoryEventCategory.DOWNLOAD,
         }.get(obj.pgh_label)
+    
+    @staticmethod 
+    def resolve_snapshot(obj):
+        return obj.pgh_data
+
+    @staticmethod 
+    def resolve_differential(obj):
+        return obj.pgh_diff
+
+    @staticmethod
+    def bind_schema(schema: Schema):
+        class HistoryEventWithSchema(HistoryEvent):
+            @staticmethod
+            def resolve_snapshot(obj):
+                # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
+                instance = schema.get_orm_model()(**obj.pgh_data)
+                # Cast to model schema
+                return schema.model_validate(instance).model_dump() | {'id': instance.id}
+            
+            @staticmethod 
+            def resolve_differential(obj):
+                if obj.pgh_diff:
+                    return schema.model_construct(**obj.pgh_diff).model_dump()
+        return HistoryEventWithSchema

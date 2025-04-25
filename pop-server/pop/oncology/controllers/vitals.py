@@ -89,7 +89,7 @@ class VitalsController(ControllerBase):
     @route.get(
         path='/{vitalsId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(VitalsCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -103,7 +103,7 @@ class VitalsController(ControllerBase):
     @route.get(
         path='/{vitalsId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(VitalsCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

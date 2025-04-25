@@ -88,7 +88,7 @@ class TherapyLineController(ControllerBase):
     @route.get(
         path='/{therapyLineId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(TherapyLineCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -102,7 +102,7 @@ class TherapyLineController(ControllerBase):
     @route.get(
         path='/{therapyLineId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(TherapyLineCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

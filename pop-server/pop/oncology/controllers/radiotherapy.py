@@ -98,7 +98,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path='/{radiotherapyId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(RadiotherapyCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -112,7 +112,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path='/{radiotherapyId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(RadiotherapyCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -207,7 +207,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path='/{radiotherapyId}/dosages/{dosageId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(RadiotherapyDosageCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -221,7 +221,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path='/{radiotherapyId}/dosages/{dosageId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(RadiotherapyDosageCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -313,7 +313,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path='/{radiotherapyId}/settings/{settingId}/history/events', 
         response={
-            200: Paginated[HistoryEvent],
+            200: Paginated[HistoryEvent.bind_schema(RadiotherapySettingCreateSchema)],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],
@@ -327,7 +327,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path='/{radiotherapyId}/settings/{settingId}/history/events/{eventId}', 
         response={
-            200: HistoryEvent,
+            200: HistoryEvent.bind_schema(RadiotherapySettingCreateSchema),
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCases],

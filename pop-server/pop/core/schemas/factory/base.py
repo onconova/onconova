@@ -235,8 +235,12 @@ class BaseSchema(Schema):
                                 # Otherwise, just get the ID of the related object
                                 data[orm_field_name] = cls._resolve_foreign_key(obj, orm_field_name)
                 else:
-                    # For non-relation fields, simply get the attribute value
-                    data[orm_field_name] = getattr(obj, orm_field_name)
+                    # For measurement fields, add the measure with the provided unit and value
+                    if isinstance(field, MeasurementField):
+                        data[orm_field_name] = cls._resolve_measure(obj, orm_field_name)
+                    else:
+                        # For non-relation fields, simply get the attribute value
+                        data[orm_field_name] = getattr(obj, orm_field_name)
 
             # Inspect class attributes to handle properties
             for attr_name in dir(obj.__class__):
@@ -252,14 +256,13 @@ class BaseSchema(Schema):
 
             # Replace obj with the constructed data dictionary
             obj = data
-
         # Call the superclass model_validate method with the constructed data
         return super().model_validate(obj=obj, *args, **kwargs)
 
     @staticmethod
     def _resolve_foreign_key(obj, orm_field_name):
         if not getattr(obj, orm_field_name, None):
-            return None 
+            return None         
         return getattr(obj, orm_field_name).id
 
     @staticmethod
@@ -281,6 +284,20 @@ class BaseSchema(Schema):
             return [] 
         # Collect related objects and apply validation or get their IDs
         return [related_object.id for related_object in getattr(obj, orm_field_name).all()]
+
+    @staticmethod
+    def _resolve_measure(obj, orm_field_name):
+        from pop.core.measures.schemas import Measure
+        if not getattr(obj, orm_field_name, None):
+            return None
+        
+        measure = getattr(obj, orm_field_name)
+        default_unit = obj._meta.get_field(orm_field_name).get_default_unit()
+        print('RESOLVE MEASURE', getattr(obj, orm_field_name, None),  isinstance(measure, (float, int)) )
+        return Measure(
+            value=measure if isinstance(measure, (float, int)) else getattr(measure, default_unit),
+            unit=default_unit
+        )
 
     def model_dump_django(self, 
             model: Optional[Type[DjangoModel]] = None, 
