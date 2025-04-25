@@ -1,4 +1,3 @@
-{{disabled}}
 <div>
     @if (allowCollapse) {
       <a (click)="toggleCollapse()"
@@ -21,12 +20,15 @@
     </div>
   
     <!-- Ruleset chain condition -->
-    <p-select 
+    @if (data.rules && data.rules.length > 0) {
+      <p-select 
       styleClass="q-condition-select"
       [options]="[{label: 'All of the following are correct', value: 'and'}, {label: 'One of the following are correct', value: 'or'}]" 
       [disabled]="disabled"
       (ngModelChange)="changeCondition($event)"
-      [(ngModel)]="data.condition"/>
+      [(ngModel)]="data.condition"/>      
+    }
+
   </div>
   
   <!-- Query tree -->

@@ -119,11 +119,25 @@ export class CohortBuilderComponent {
                     this.cohortControl.controls['isPublic'].setValue(cohort.isPublic);
                     this.cohortControl.controls['includeCriteria'].setValue(cohort.includeCriteria);
                     this.cohortControl.controls['excludeCriteria'].setValue(cohort.excludeCriteria);    
+                    this.cohortControl.updateValueAndValidity();
                 }
             },
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
         })
         this.cohortHistory$ = this.cohortsService.getAllCohortHistoryEvents({cohortId: this.cohortId}).pipe(map(response=>response.items))
+    }
+
+    revertCohortDefinition(old: Cohort, timestamp: string) {
+        try {
+            this.cohortControl.controls['name'].setValue(old.name);
+            this.cohortControl.controls['isPublic'].setValue(old.isPublic);
+            this.cohortControl.controls['includeCriteria'].setValue(old.includeCriteria);
+            this.cohortControl.controls['excludeCriteria'].setValue(old.excludeCriteria);    
+            this.messageService.add({ severity: 'success', summary: 'Changes applied', detail: 'Applied previous cohort defintion snapshot changes from ' + timestamp })
+        } catch (error) {
+            this.messageService.add({ severity: 'error', summary: 'Error reverting cohort definition', detail: 'Cohort definition might be invalid due to updates and/or recent changes.' })
+        }
+        this.cohortControl.updateValueAndValidity();
     }
 
     refreshCohortStatistics() {
