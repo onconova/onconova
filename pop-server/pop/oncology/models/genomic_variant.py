@@ -33,7 +33,7 @@ class HGVSRegex:
     
     # NCBI RefSeq Prefixes
     # (https://www.ncbi.nlm.nih.gov/books/NBK21091/table/ch18.T.refseq_accession_numbers_and_mole/?report=objectonly)
-    GENOMIC_REFSEQ_PREFIX = r"(?:NC_|AC_|NG_|NT_|NW_|NZ_)"
+    GENOMIC_REFSEQ_PREFIX = r"(?:NC_|AC_|NG_|NT_|NW_|NZ_|GCF_)"
     GENOMIC_NCIB_REFSEQ = rf"{GENOMIC_REFSEQ_PREFIX}{VERSIONED_NUMBER}"
     RNA_REFSEQ_PREFIX = r"(?:NM_|NR_|XM_|XR_)"
     RNA_NCIB_REFSEQ = rf"{RNA_REFSEQ_PREFIX}{VERSIONED_NUMBER}"

@@ -5,7 +5,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/luisfabib/pop">
-        <img src="pop-client/src/assets/layout/images/logo-white.svg" width="10%">
+        <img src="pop-client/src/assets/images/logo-white.svg" width="10%">
     </a>
     <h1 style="border-bottom: none;">Precision Oncology Platform</h1>
 
@@ -103,7 +103,7 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
         ...
         -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
         -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
-        -e ROOT_CA_CERTIFICATES='/etc/certs/root_ca_certificates.pem' \
+        -e ROOT_CA_CERTIFICATES='./etc/certs/root_ca_certificates.pem' \
         pop-server python manage.py termsynch
     ```
 
@@ -123,7 +123,7 @@ To ensure that the images are built properly
     docker compose build \
         --build-arg http_proxy='http://<username>:<password>@<hostname>:<port>' \
         --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \
-        --build-arg ROOT_CA_CERTIFICATES='/etc/certs/root_ca_certificates.pem'
+        --build-arg ROOT_CA_CERTIFICATES='./etc/certs/root_ca_certificates.pem'
     ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
