@@ -24,7 +24,7 @@ class User(AbstractUser):
     def construct_GeneratedField_from_access_level(min_access_level, action):
         return AnnotationProperty(
             verbose_name = _(f'Can {action}'),
-            annotation = Case(When(access_level__gte=min_access_level, then=True), default=False, output_field=models.BooleanField()),
+            annotation = Case(When(Q(access_level__gte=min_access_level) | Q(is_superuser=True), then=True), default=False, output_field=models.BooleanField()),
         )
     
     id = models.UUIDField(
@@ -93,6 +93,11 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
     
+    def save(self):
+        if self.is_superuser:
+            self.access_level = 6
+        super().save()
+
     class Meta:
         constraints = [
             models.CheckConstraint(
