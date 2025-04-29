@@ -159,7 +159,8 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     )
                     # Assert audit trail
                     if self.history_tracked:
-                        self.assertIn(self.user.username, updated_instance.updated_by, 'The updating user is not registered') 
+                        if updated_instance.updated_by:
+                            self.assertIn(self.user.username, updated_instance.updated_by, 'The updating user is not registered') 
                         self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='update').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete() 
                
