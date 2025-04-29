@@ -34,7 +34,7 @@ import { DataSummaryCounterComponent } from "./data-summary-counter.component";
     <div class="w-full" >
         @let casesOverTimeData = casesOverTimeData$ | async;
         @if (casesOverTimeData && chartData) {
-            <p-chart type="line" [data]="chartData" [options]="chartOptions" class="w-full h-10rem"/>
+            <p-chart type="line" [data]="chartData" [options]="chartOptions" [responsive]="true" height="23rem"/>
         } @else {
             <p-skeleton height="15rem" class="w-full"/>
         }
@@ -93,6 +93,8 @@ export class DataSummaryComponent {
         }
     
         this.chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
             elements: {
                 point: {radius: 0}
             },
