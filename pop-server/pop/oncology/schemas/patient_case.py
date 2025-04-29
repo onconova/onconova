@@ -36,7 +36,13 @@ class PatientCaseSchema(ModelGetSchema):
     config = SchemaConfig(model = orm.PatientCase)
 
     @staticmethod
-    def resolve_clinicalIdentifier(obj, context):
+    def resolve_clinicalIdentifier(obj, context) -> str:
+        if isinstance(obj, dict):
+            return obj.get('clinicalIdentifier')
+        elif isinstance(obj, Schema):   
+            return obj.clinicalIdentifier
+        if not context:
+            return obj.clinical_identifier
         request = context["request"]
         if request.user.is_authenticated and request.user.can_access_sensitive_data:
             return obj.clinical_identifier

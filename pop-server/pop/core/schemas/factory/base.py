@@ -1,4 +1,5 @@
 
+import inspect
 from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
 
 from ninja import Schema, FilterSchema
@@ -108,11 +109,11 @@ class DjangoGetter(BaseDjangoGetter):
     def __getattr__(self, key: str) -> Any:
         resolver = getattr(self._schema_cls, f'resolve_{key}', None)
         if resolver and isinstance(self._obj, DjangoModel):
-            try:
+            params = inspect.signature(resolver).parameters
+            if 'context' in params:
+                value = resolver(self._obj, context=self._context)
+            else:
                 value = resolver(self._obj)
-            except: 
-                value = resolver(self._obj, self._context)
-                
             return self._convert_result(value)
         else:
             return super().__getattr__(key)
@@ -208,14 +209,23 @@ class BaseSchema(Schema):
         if isinstance(obj, DjangoModel):
             data = {}  # Initialize an empty dictionary to hold field data
 
+
+            for name, method in inspect.getmembers(cls, predicate=inspect.isfunction):
+                if name.startswith('resolve_'):
+                    key = name.removeprefix('resolve_')
+                    # Check if a custmom resolver has been defined for the field
+                    params = inspect.signature(method).parameters
+                    if 'context' in params:
+                        data[key] = method(obj, context=kwargs.get('context'))
+                    else:
+                        data[key] = method(obj)
+
             # Loop over all fields in the Django model's meta options
             for field in obj._meta.get_fields():
                 orm_field_name = field.name
                 if orm_field_name in ['events', 'parent_events']:
                     continue
-                # Check if a custmom resolver has been defined for the field
-                if hasattr(cls, f'resolve_{orm_field_name}'):
-                    data[orm_field_name] = getattr(cls, f'resolve_{orm_field_name}')(obj)
+                if orm_field_name in data or to_camel_case(orm_field_name) in data:
                     continue
                 # Check if the field is a relation (foreign key, many-to-many, etc.)
                 if field.is_relation:
@@ -297,7 +307,6 @@ class BaseSchema(Schema):
         
         measure = getattr(obj, orm_field_name)
         default_unit = obj._meta.get_field(orm_field_name).get_default_unit()
-        print('RESOLVE MEASURE', getattr(obj, orm_field_name, None),  isinstance(measure, (float, int)) )
         return Measure(
             value=measure if isinstance(measure, (float, int)) else getattr(measure, default_unit),
             unit=default_unit

@@ -134,7 +134,7 @@ class HistoryEvent(Schema):
             @staticmethod
             def resolve_snapshot(obj):
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
-                instance = schema.get_orm_model()(**{key: val for key, val in obj.pgh_data.items() if key != 'id'})
+                instance = schema.get_orm_model()(**{key: val for key, val in obj.pgh_data.items() })
                 # Cast to model schema
                 return schema.model_validate(instance).model_dump(exclude_unset=True) | {'id': instance.id}
             

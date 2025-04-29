@@ -93,10 +93,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
     
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.is_superuser:
             self.access_level = 6
-        super().save()
+        super().save(*args, **kwargs)
 
     class Meta:
         constraints = [

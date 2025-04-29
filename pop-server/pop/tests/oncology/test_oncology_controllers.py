@@ -201,7 +201,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     entry = response.json()
                     self.assertEqual(entry['id'], event.pgh_id)
                     self.assertEqual(entry['user'], event.pgh_context['username'])
-                    self.assertEqual(entry['snapshot']['id'], str(event.id))                    
+                    self.assertEqual(entry['snapshot']['id'], str(instance.id))                    
                 self.MODEL[i].objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
