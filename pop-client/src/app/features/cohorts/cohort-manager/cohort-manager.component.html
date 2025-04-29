@@ -6,6 +6,7 @@
 
 <form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
 
+@let cohort = cohort$ | async;    
 <div class="pop-cohort-manager-header">
     <div class="mb-1 text-muted">Cohort</div>
     @if (!loading && cohort) {
@@ -104,7 +105,7 @@
 </div>
 
 <div class="flex flex-column gap-3 mt-4">
-    @if (cohortControl && cohort) {
+    @if (cohortControl && cohort$) {
         <p-panel class="pop-cohort-criteria-panel" [toggleable]="true">    
             <ng-template #header>
                 <div class="flex gap-2 align-items-center">
@@ -156,70 +157,72 @@
         <p-tab value="3"><i class="pi pi-user-plus"></i>Contributors</p-tab>
         <p-tab value="4"><i class="pi pi-history"></i>History</p-tab>
     </p-tablist>
-    @if (cohort) {
+    @if (cohort$) {
         <p-tabpanels>
-            @if (cohort.population) {
-                <p-tabpanel value="0">
-                    @if (!loading && cohortCases) {
-                        <p-dataView 
-                        styleClass="pop-case-search-dataview"
-                        [value]="cohortCases"
-                        [paginator]="true" 
-                        [rows]="pageSize" 
-                        layout="grid"
-                        sortField="createdAt"
-                        lazy="true"
-                        [totalRecords]="cohort.population"
-                        (onLazyLoad)="setPaginationAndRefresh($event)"
-                        class="no-background">
-                            <ng-template #grid let-cases>
-                                <div class="grid mt-3">
-                                    @for (case of cases; track case.id; let first = $first;) { 
-                                        <div class="col p-2">
-                                            <pop-case-search-item [case]="case"/>
-                                        </div>    
-                                    }
-                                </div>
-                            </ng-template>
-                        </p-dataView>
-                    } @else { 
-                        <!-- Skeleton loader -->
-                        <div class="grid gap-5 mt-5">
-                            @for (_ of [].constructor(15); track $index; let first = $first;) { 
-                                <div class="pop-case-search-item-card">
-                                    <div class="flex my-3">
-                                        <p-skeleton width="5rem" height="5rem"/>
-                                        <div class="flex flex-column mx-3">
-                                            <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
-                                            <p-skeleton width="20rem" height="1.5rem"/>      
+            @if (cohort) {
+                @if (cohort.population) {
+                    <p-tabpanel value="0">
+                        @if (!loading && cohortCases) {
+                            <p-dataView 
+                            styleClass="pop-case-search-dataview"
+                            [value]="cohortCases"
+                            [paginator]="true" 
+                            [rows]="pageSize" 
+                            layout="grid"
+                            sortField="createdAt"
+                            lazy="true"
+                            [totalRecords]="cohort.population"
+                            (onLazyLoad)="setPaginationAndRefresh($event)"
+                            class="no-background">
+                                <ng-template #grid let-cases>
+                                    <div class="grid mt-3">
+                                        @for (case of cases; track case.id; let first = $first;) { 
+                                            <div class="col p-2">
+                                                <pop-case-search-item [case]="case"/>
+                                            </div>    
+                                        }
+                                    </div>
+                                </ng-template>
+                            </p-dataView>
+                        } @else { 
+                            <!-- Skeleton loader -->
+                            <div class="grid gap-5 mt-5">
+                                @for (_ of [].constructor(15); track $index; let first = $first;) { 
+                                    <div class="pop-case-search-item-card">
+                                        <div class="flex my-3">
+                                            <p-skeleton width="5rem" height="5rem"/>
+                                            <div class="flex flex-column mx-3">
+                                                <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                                <p-skeleton width="20rem" height="1.5rem"/>      
+                                            </div>
                                         </div>
+                                        <div class="mb-3 mt-4">
+                                            <p-skeleton width="100%" height="2rem"/>
+                                        </div>
+                                        <div class="my-3 mb-5">
+                                            <p-skeleton width="100%" height="2rem"/>
+                                        </div>
+                                        <p-skeleton width="20rem" height="2rem" class="my-3 ml-auto"  />      
                                     </div>
-                                    <div class="mb-3 mt-4">
-                                        <p-skeleton width="100%" height="2rem"/>
-                                    </div>
-                                    <div class="my-3 mb-5">
-                                        <p-skeleton width="100%" height="2rem"/>
-                                    </div>
-                                    <p-skeleton width="20rem" height="2rem" class="my-3 ml-auto"  />      
-                                </div>
-                            }
-                        </div>
-                    }    
-                </p-tabpanel>
-                <p-tabpanel value="1">
-                    <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
-                </p-tabpanel>
-                <p-tabpanel value="2">
-                    <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
-                </p-tabpanel>
-                <p-tabpanel value="3">
-                    <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
-                </p-tabpanel>
-            } @else { 
-                <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
-                    No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
-                </p-message>
-            }         
+                                }
+                            </div>
+                        }    
+                    </p-tabpanel>
+                    <p-tabpanel value="1">
+                        <pop-cohort-graphs [cohort]="cohort" [loading]="loading"/>
+                    </p-tabpanel>
+                    <p-tabpanel value="2">
+                        <pop-dataset-composer [cohortId]="cohort.id" [loading]="loading"/>
+                    </p-tabpanel>
+                    <p-tabpanel value="3">
+                        <pop-cohort-contributors [cohort]="cohort" [loading]="loading"/>
+                    </p-tabpanel>
+                } @else { 
+                    <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
+                        No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
+                    </p-message>
+                }         
+            }
             <p-tabpanel value="4">          
                 @let cohortHistory = cohortHistory$ | async;
                 @if (cohortHistory) {

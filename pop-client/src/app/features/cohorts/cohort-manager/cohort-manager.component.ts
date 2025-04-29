@@ -18,7 +18,7 @@ import { LucideAngularModule } from 'lucide-angular';
 import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts, HistoryEvent } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
-import { catchError, first, map, Observable, of } from 'rxjs';
+import { catchError, first, map, Observable, of, throwError } from 'rxjs';
 
 import { CaseBrowserCardComponent } from '../../cases/case-search/components/case-search-item/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
@@ -82,7 +82,7 @@ export class CohortBuilderComponent {
         excludeCriteria: [null],
     });  
     public cohortCases: PatientCase[] = [];
-    public cohort!: Cohort; 
+    public cohort$!: Observable<Cohort>; 
     public loading: boolean = false;
     public userCanEdit: boolean = false;
     public editCohortName: boolean = false;
@@ -112,9 +112,16 @@ export class CohortBuilderComponent {
     
     
     refreshCohortData() {
-        this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(first()).subscribe({
-            next: (cohort: Cohort) => {
-                this.cohort = cohort;
+        this.cohort$ = this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(
+            first(), 
+            catchError(
+                (error: any, caught: any) => {
+                    this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail})
+                    return throwError(() => new Error(error));
+                }
+            ),
+            map(
+            (cohort: Cohort) => {
                 this.userCanEdit = (cohort.isPublic || (!cohort.isPublic && cohort.createdBy == this.authService.user.username)) && this.authService.user.canManageCohorts 
                 if (!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
                     this.cohortControl.controls['name'].setValue(cohort.name) ;
@@ -123,9 +130,10 @@ export class CohortBuilderComponent {
                     this.cohortControl.controls['excludeCriteria'].setValue(cohort.excludeCriteria);    
                     this.cohortControl.updateValueAndValidity();
                 }
-            },
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail })
-        })
+                this.loading = false;
+                return cohort
+            })
+        )
         this.cohortHistory$ = this.cohortsService.getAllCohortHistoryEvents({cohortId: this.cohortId}).pipe(map(response=>response.items))
     }
     
@@ -200,7 +208,6 @@ export class CohortBuilderComponent {
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
             },
             error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.error.detail }),
-            complete: () => this.loading = false
         });
     }
     

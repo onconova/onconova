@@ -53,6 +53,6 @@ export class CohortTraitPanel{
     @Input({required: true}) icon!: LucideIconData;
     @Input({required: true}) title!: string;
     @Input() loading: boolean = false;
-    @Input() valid: boolean = true;
+    @Input() valid: boolean | null = true;
 
 }
