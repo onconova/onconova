@@ -35,6 +35,13 @@ class PatientCaseSchema(ModelGetSchema):
     ) 
     config = SchemaConfig(model = orm.PatientCase)
 
+    @staticmethod
+    def resolve_clinicalIdentifier(obj, context):
+        request = context["request"]
+        if request.user.is_authenticated and request.user.can_access_sensitive_data:
+            return obj.clinical_identifier
+        return '*************'
+
 
 class PatientCaseCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model = orm.PatientCase, exclude=('pseudoidentifier','is_deceased'))

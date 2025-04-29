@@ -108,7 +108,11 @@ class DjangoGetter(BaseDjangoGetter):
     def __getattr__(self, key: str) -> Any:
         resolver = getattr(self._schema_cls, f'resolve_{key}', None)
         if resolver and isinstance(self._obj, DjangoModel):
-            value = resolver(self._obj)
+            try:
+                value = resolver(self._obj)
+            except: 
+                value = resolver(self._obj, self._context)
+                
             return self._convert_result(value)
         else:
             return super().__getattr__(key)

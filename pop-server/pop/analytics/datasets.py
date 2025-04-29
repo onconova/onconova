@@ -1,6 +1,6 @@
 from typing import List, Dict, Tuple, Optional,  Union, Set
 import inspect 
-from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, Exists, Case
+from django.db.models import Expression, F, Subquery, OuterRef, QuerySet, Model as DjangoModel, Exists, Value
 from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg, JSONBAgg
 
@@ -113,7 +113,9 @@ class DatasetRuleProcessor:
     @property
     def field_annotation(self):
         """Returns the Django ORM annotation for this dataset field."""
-        if self.value_transformer:
+        if self.model_field_name == 'clinical_identifier':
+            query_expression = Value('***********')
+        elif self.value_transformer:
             query_expression = self.value_transformer.generate_annotation_expression(self.query_lookup_path)
         else: 
             query_expression = F(self.query_lookup_path)
