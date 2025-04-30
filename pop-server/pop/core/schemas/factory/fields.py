@@ -4,7 +4,7 @@ import warnings
 from uuid import UUID
 from datetime import date, datetime
 from functools import partial 
-from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
+from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField, IntegerRangeField
 from django.db.models.fields import Field as DjangoField
 from django.db.models import CharField
 from django.contrib.auth import get_user_model
@@ -73,7 +73,7 @@ def process_non_relation_field(field):
 
     elif isinstance(field, DateRangeField):
         python_type = PeriodSchema
-    elif isinstance(field, BigIntegerRangeField):
+    elif isinstance(field, (BigIntegerRangeField, IntegerRangeField)):
         python_type = RangeSchema
     elif isinstance(field, CharField) and field.choices is not None:
         python_type = enum.Enum(

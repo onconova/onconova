@@ -315,17 +315,35 @@ class GenomicVariant(BaseModel):
             RegexpMatchSubstring(F('dna_hgvs'), fr'({HGVSRegex.GENOMIC_REFSEQ})'),
         ),
     )
-    dna_change_position_range = AnnotationProperty(
+    dna_change_position_range_start = AnnotationProperty(
         annotation=Case(
             When(
                 Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
-                then=Func(
-                    Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?(?:_\d+)?\D*_{HGVSRegex.NUCLEOTIDE_POSITION}'), output_field=models.IntegerField()),
-                    Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(?:\d+_)?(\d+)(?:_\?)?\D*'), output_field=models.IntegerField()),
-                    function='int4range', output_field=IntegerRangeField()
-                )
+                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?(?:_\d+)?\D*_{HGVSRegex.NUCLEOTIDE_POSITION}'), output_field=models.IntegerField())
             ),
             default=None,
+        ),
+    )
+    dna_change_position_range_end = AnnotationProperty(
+        annotation=Case(
+            When(
+                Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
+                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}_\D*(?:\d+_)?(\d+)(?:_\?)?\D*'), output_field=models.IntegerField()),
+            ),
+            default=None,
+        ),
+    )
+    dna_change_position_range = AnnotationProperty(
+        annotation=Case(
+            When(
+                ~Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*'),
+                then=None
+            ),
+            When(
+                Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*') & Q(dna_change_position_range_start__gt=F('dna_change_position_range_end')),
+                then=Func(F('dna_change_position_range_end'), F('dna_change_position_range_start'), function='int4range', output_field=IntegerRangeField())
+            ),
+            default=Func(F('dna_change_position_range_start'), F('dna_change_position_range_end'), function='int4range', output_field=IntegerRangeField()),
         ),
     )
     dna_change_position = AnnotationProperty(
@@ -438,10 +456,8 @@ class GenomicVariant(BaseModel):
         verbose_name = _('Total affected nucleotides (estimated if uncertain)'),
         annotation = Case(
             When(
-                Q(dna_change_position_range__lower_inf=False) & Q(dna_change_position_range__upper_inf=False), 
-                then= Value(1) +
-                    Func(F('dna_change_position_range'), function='upper', output_field=models.IntegerField()) -
-                    Func(F('dna_change_position_range'), function='lower', output_field=models.IntegerField()),
+                Q(dna_change_position_range_start__isnull=False) & Q(dna_change_position_range_end__isnull=False), 
+                then= Value(1) + F('dna_change_position_range_end') - F('dna_change_position_range_start')
             ),
             When(Q(dna_change_position__isnull=False), then=Value(1)),
             default=None, output_field=models.IntegerField(),

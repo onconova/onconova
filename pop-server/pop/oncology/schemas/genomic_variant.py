@@ -29,12 +29,12 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='dna_change_position',
         validation_alias=AliasChoices('dnaChangePosition','dna_change_position'),        
     )
-    dnaChangeRange: Optional[RangeSchema] = Field(
+    dnaChangePositionRange: Optional[RangeSchema] = Field(
         default=None,
-        title='DNA change position range',
-        description='DNA-level multi-nucleotide range where the variant was found.',
-        alias='dna_change_range',
-        validation_alias=AliasChoices('dnaChangeRange','dna_change_range'),        
+        title='DNA change range',
+        description='DNA-level single-nucleotide position where the variant was found.',
+        alias='dna_change_position_range',
+        validation_alias=AliasChoices('dnaChangePositionRange','dna_change_position_range'),        
     )
     dnaChangeType: Optional[orm.GenomicVariant.DNAChangeType] = Field(
         default=None,
@@ -111,7 +111,6 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='exons',
     )
     config = SchemaConfig(model=orm.GenomicVariant, GenomicVariantexclude=('is_vus', 'is_pathogenic'))
-
 
 
 class GenomicVariantCreateSchema(ModelCreateSchema):
