@@ -17,7 +17,10 @@ import { Skeleton } from 'primeng/skeleton';
                 <div class="text-muted">-</div> 
             }
             @case ('Period') {
-                <div>{{ data.start | date }} - {{ data.end | date }}</div> 
+                <div>{{ data.start | date }} - {{ (data.end | date) ?? 'ongoing' }}</div> 
+            }
+            @case ('Range') {
+                <div>{{ data.start || 'Unknown' }} - {{ data.end || 'Unknown' }}</div> 
             }
             @case ('Measure') {
                 <div>{{ data.value | number: '1.0-4' }} {{ data.unit | replace:'__':'/' }}</div> 
@@ -106,8 +109,8 @@ export class DrawerDataPropertiesComponent {
                 this.dataType = 'Period';                
             } else if (this.typeCheckService.isMeasure(this.data)) {
                 this.dataType = 'Measure';                
-            } else if (this.typeCheckService.isPeriod(this.data)) {
-                this.dataType = 'Period';                                   
+            } else if (this.typeCheckService.isRange(this.data)) {
+                this.dataType = 'Range';                                   
             } else {
                 this.dataType = 'object';     
                 this.subProperties = Object.entries(this.data).map(

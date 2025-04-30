@@ -7,7 +7,8 @@ import { CodedConcept, Measure, Period } from '../openapi';
 export class TypeCheckService {
 
     public readonly isCodeableConcept = (value: CodedConcept): value is CodedConcept => !!value?.code;
-    public readonly isPeriod = (value: Period): value is Period => !!value?.start;
+    public readonly isRange = (value: Period): value is Period => value.hasOwnProperty('start') && !!value.hasOwnProperty('end');
+    public readonly isPeriod = (value: Period): value is Period => value.hasOwnProperty('start') && !!value.hasOwnProperty('end') && Object.prototype.toString.call(value?.start) === '[object Date]';
     public readonly isMeasure = (value: Measure): value is Measure => !!value?.value && !!value?.unit;
     public readonly isObject = (x: any) => typeof x === 'object' && !Array.isArray(x) && x !== null
     public readonly isArray = (x: any) => x instanceof Array
