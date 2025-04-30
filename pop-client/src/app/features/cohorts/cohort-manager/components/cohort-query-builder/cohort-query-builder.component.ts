@@ -146,7 +146,8 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                 const nullable = property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null'
                 if (nullable) {
                     property = property.anyOf[0];
-                } else if (property.items) {
+                } 
+                if (property.items) {
                     property = property.items;                    
                     isArray = true;
                 }
@@ -719,6 +720,17 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     private getTypeFilterOperators(type: string): CohortQueryFilter[]  {
         switch (type) {
             case 'string':
+                return [ 
+                    CohortQueryFilter.ExactStringFilter,
+                    CohortQueryFilter.NotExactStringFilter,
+                    CohortQueryFilter.ContainsStringFilter, 
+                    CohortQueryFilter.NotContainsStringFilter, 
+                    CohortQueryFilter.BeginsWithStringFilter, 
+                    CohortQueryFilter.NotBeginsWithStringFilter, 
+                    CohortQueryFilter.EndsWithStringFilter, 
+                    CohortQueryFilter.NotEndsWithStringFilter
+                ]
+            case 'Multistring':
                 return [ 
                     CohortQueryFilter.ExactStringFilter,
                     CohortQueryFilter.NotExactStringFilter,

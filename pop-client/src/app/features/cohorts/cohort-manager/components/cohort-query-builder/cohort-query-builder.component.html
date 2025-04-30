@@ -118,10 +118,19 @@
                           optionValue="value" 
                           optionLabel="name"  
                           appendTo="body"/>
-                        
+                          
                         <!-- Filter value input -->
                         @switch (field.type) {
                           @case ('string') {
+                            <input 
+                              type="text" 
+                              pInputText 
+                              [(ngModel)]="filter.value" 
+                              (ngModelChange)="changeInput()"
+                              [disabled]="disabled"
+                              placeholder="Enter a query"/>
+                          }
+                          @case ('Multistring') {
                             <input 
                               type="text" 
                               pInputText 
