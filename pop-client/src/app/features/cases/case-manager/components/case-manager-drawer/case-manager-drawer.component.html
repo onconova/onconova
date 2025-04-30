@@ -10,6 +10,16 @@
         <small class="property-label">Database ID</small>
         <div class="monospace"><small>{{ data.id }}</small></div>
     </div>
+    @if (data.externalSource) {    
+        <div class="property">
+            <small class="property-label">External Source</small>
+            <div class="monospace"><small>{{ data.externalSource }}</small></div>
+        </div>
+        <div class="property">
+            <small class="property-label">External Source ID</small>
+            <div class="monospace"><small>{{ data.externalSourceId }}</small></div>
+        </div>
+    }
 
     <p-divider/>
     <pop-drawer-properties [data]="data"/>
