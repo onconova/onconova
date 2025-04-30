@@ -44267,6 +44267,9 @@
               },
               {
                 "type": "number"
+              },
+              {
+                "type": "null"
               }
             ],
             "description": "The lower bound of the range",

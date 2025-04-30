@@ -24,7 +24,7 @@ class CodedConcept(Schema):
     properties: Optional[Dict] = Field(default=None, description='Other properties associated to the concept by the code system or otherwise')
 
 class Range(Schema):  
-    start: Union[int, float] = Field(description='The lower bound of the range')
+    start: Optional[Union[int, float]] = Field(description='The lower bound of the range')
     end: Optional[Union[int, float]] = Field(default=None, description='The upper bound of the range, if not exists, assumed to be unbounded')
 
     @model_validator(mode='before')
