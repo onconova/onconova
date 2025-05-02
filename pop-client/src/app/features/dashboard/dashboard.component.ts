@@ -26,7 +26,7 @@ import { DisclaimerBannerComponent } from "./components/disclaimer-banner.compon
         GetFullNamePipe,
     ],
     template: `
-    <h3 class="mb-5 font-semibold">Good {{ greet.toLowerCase() }}, {{ authService.user | fullname }}!</h3>
+    <h3 class="mb-5 font-semibold">Good {{ greet.toLowerCase() }}, {{ authService.user() | fullname }}!</h3>
     <div class="grid grid-nested">
         <div class=" col-12 md:col-7 lg:col-7">
             <div class="grid">

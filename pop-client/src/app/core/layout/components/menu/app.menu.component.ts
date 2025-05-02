@@ -33,7 +33,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Cases',
                 items: [
                     { label: 'Search Cases', icon: 'pi pi-fw pi-search', routerLink: ['/cases/search'] },
-                    { label: 'My Cases', icon: 'pi pi-fw pi-search-plus', routerLink: ['/cases/search/', this.authService.getUsername()] },
+                    { label: 'My Cases', icon: 'pi pi-fw pi-search-plus', routerLink: ['/cases/search/', this.authService.username()] },
                     { label: 'Import', icon: 'pi pi-fw pi-file-import', routerLink: ['/cases/import'] },
                 ]
             },
@@ -41,7 +41,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Cohorts',
                 items: [
                     { label: 'Search Cohorts', icon: 'pi pi-fw pi-users', routerLink: ['/cohorts/search'] },
-                    { label: 'My Cohorts', icon: 'pi pi-fw pi-user', routerLink: ['/cohorts/search/', , this.authService.getUsername()] },
+                    { label: 'My Cohorts', icon: 'pi pi-fw pi-user', routerLink: ['/cohorts/search/', , this.authService.username()] },
                 ]
             },
             {
@@ -52,12 +52,12 @@ export class AppMenuComponent implements OnInit {
                 ]
             }
         ];
-        if (this.authService.user.accessLevel && this.authService.user.accessLevel>=5) {
+        if (this.authService.user().accessLevel && (this.authService.user().accessLevel || 0)>=5) {
             this.model = [...this.model, 
                 {
                     label: 'Administration',
                     items: [
-                        { label: 'Users', icon: 'pi pi-fw pi-users', disabled:!this.authService.user.canManageUsers, routerLink: ['/admin/users'] },
+                        { label: 'Users', icon: 'pi pi-fw pi-users', disabled:!this.authService.user().canManageUsers, routerLink: ['/admin/users'] },
                     ]
                 }
             ]

@@ -4,7 +4,7 @@
         collapseIcon="pi pi-angle-down" 
         expandIcon="pi pi-angle-up" 
         styleClass="mb-3">
-        
+
     <ng-template #header>
         <div class="flex align-items-center gap-2">
             <p-avatar size="normal" shape="square">
@@ -22,7 +22,7 @@
         </div>
         
         @if (!data.isLoading()) {
-            @if (authService.user.canManageCases) {
+            @if (authService.user().canManageCases) {
                 <i class="pop-case-manager-menu-button pi pi-cog" 
                 (click)="menu.toggle($event)"></i>
             }

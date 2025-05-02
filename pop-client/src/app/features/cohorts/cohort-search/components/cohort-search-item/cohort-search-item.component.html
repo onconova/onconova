@@ -97,8 +97,8 @@
             <p-splitbutton
                 label="Open cohort"
                 class="mt-auto"
-                [menuButtonDisabled]="!authService.user.canManageCohorts"
-                [dropdownIcon]="authService.user.canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
+                [menuButtonDisabled]="!authService.user().canManageCohorts"
+                [dropdownIcon]="authService.user().canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
                 [model]="actionItems"
                 (onClick)="openCohortManagement()" />
         </div>

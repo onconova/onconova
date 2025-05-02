@@ -134,12 +134,12 @@
 <div class="flex gap-3 mt-4">
     <p-button 
     type="submit" 
-    [icon]="authService.user.canViewCohorts ? 'pi pi-sync' : 'pi pi-lock'"
+    [icon]="authService.user().canViewCohorts ? 'pi pi-sync' : 'pi pi-lock'"
     label="Update Cohort" 
     styleClass="p-2"  
     severity="secondary"
     [loading]="loading"
-    [disabled]="!userCanEdit || !authService.user.canViewCohorts || !cohortControl || cohortControl.invalid" />
+    [disabled]="!userCanEdit || !authService.user().canViewCohorts || !cohortControl || cohortControl.invalid" />
     <p-button 
     type="submit" 
     [icon]="userCanEdit ? 'pi pi-sync' : 'pi pi-lock'"

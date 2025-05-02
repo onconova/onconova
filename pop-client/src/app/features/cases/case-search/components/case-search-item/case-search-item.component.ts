@@ -80,7 +80,7 @@ export class CaseSearchItemCardComponent {
     public readonly actionItems: MenuItem[] = [
         {
             label: 'Export',
-            disabled: !this.authService.user.canExportData,
+            disabled: !this.authService.user().canExportData,
             icon: 'pi pi-file-export',
             command: () => this.exportCaseBundle,
         },

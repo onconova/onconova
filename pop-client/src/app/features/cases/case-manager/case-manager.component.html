@@ -7,8 +7,8 @@
         <p-button
             label="Export case"
             [style]="{'float': 'right'}"
-            [disabled]="!authService.user.canExportData"
-            [icon]="authService.user.canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
+            [disabled]="!authService.user().canExportData"
+            [icon]="authService.user().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
             [loading]="exportLoading"
             (click)="downloadCaseBundle(case$.value()?.id || '')"/>
     </div>
@@ -143,7 +143,7 @@
                 <small class="text-muted">Clinical Identifier</small>
                 <div>
                     @if (case$.value(); as case) {
-                        @if (authService.user.canAccessSensitiveData) {
+                        @if (authService.user().canAccessSensitiveData) {
                             {{ case.clinicalIdentifier}}
                         } @else {
                             <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>

@@ -34,11 +34,11 @@
         </p-toolbar>
         <p-menu #downloadMenu [model]="items" [popup]="true" />
         <p-button 
-            [icon]="authService.user.canExportData ? 'pi pi-download' : 'pi pi-lock'" 
+            [icon]="authService.user().canExportData ? 'pi pi-download' : 'pi pi-lock'" 
             label="Download Dataset" 
             class="my-auto ml-auto"
             (onClick)="downloadMenu.toggle($event)"
-            [disabled]="!authService.user.canExportData"/>
+            [disabled]="!authService.user().canExportData"/>
     </div>
     <div class="flex gap-4">
 

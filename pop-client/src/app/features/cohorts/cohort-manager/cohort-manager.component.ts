@@ -121,7 +121,7 @@ export class CohortBuilderComponent {
             ),
             map(
             (cohort: Cohort) => {
-                this.userCanEdit = (cohort.isPublic || (!cohort.isPublic && cohort.createdBy == this.authService.user.username)) && this.authService.user.canManageCohorts 
+                this.userCanEdit = (cohort.isPublic || (!cohort.isPublic && cohort.createdBy == this.authService.user().username)) && this.authService.user().canManageCohorts 
                 if (!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
                     this.cohortControl.controls['name'].setValue(cohort.name) ;
                     this.cohortControl.controls['isPublic'].setValue(cohort.isPublic);

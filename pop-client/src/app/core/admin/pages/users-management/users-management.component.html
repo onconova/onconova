@@ -83,11 +83,11 @@
                         <p-button icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
                         <p-button icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
                     </td>
-                    <td class="text-monospace">{{ user.username }}</td>
-                    <td>{{ user.lastName }}, {{ user.firstName }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.lastLogin }}</td>
-                    <td>{{ user.accessLevel }} - {{ user.role }}</td>
+                    <td class="text-monospace">{{ user().username }}</td>
+                    <td>{{ user().lastName }}, {{ user().firstName }}</td>
+                    <td>{{ user().email }}</td>
+                    <td>{{ user().lastLogin }}</td>
+                    <td>{{ user().accessLevel }} - {{ user().role }}</td>
                 }
             </tr>
         </ng-template>

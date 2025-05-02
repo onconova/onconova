@@ -79,7 +79,7 @@ export class CaseManagerDrawerComponent {
             },
             {
                 label: 'Export',
-                disabled: !this.authService.user.canExportData,
+                disabled: !this.authService.user().canExportData,
                 icon: 'pi pi-file-export',
                 command: () => {
                     this.interoperabilityService.exportResource({resourceId: this.data.id}).pipe(first()).subscribe({
