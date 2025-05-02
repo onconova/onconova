@@ -6,13 +6,12 @@ import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 
 @Component({
-    standalone: true,
     selector: 'pop-disclaimer-banner',
     imports: [
         InlineSVGModule, CommonModule,
         Card, Dialog, Button
     ],
-    template:`
+    template: `
         <p-card styleClass="pop-disclaimer-banner-card">
             <h5 class="mb-3 font-semibold">Remember · Research-use only</h5>
             <div class="pop-disclaimer-banner-content">

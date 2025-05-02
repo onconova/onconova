@@ -22,21 +22,20 @@ import { CohortFormComponent } from 'src/app/features/forms/cohort-form/cohort-f
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
-  standalone: true,
-  templateUrl: './cohort-search.component.html',
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    ButtonModule,
-    DataViewModule,
-    SkeletonModule,
-    DividerModule,
-    CohortSearchItemComponent,
-  ],
+    templateUrl: './cohort-search.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        ButtonModule,
+        DataViewModule,
+        SkeletonModule,
+        DividerModule,
+        CohortSearchItemComponent,
+    ]
 })
 
 export class CohortSearchComponent implements OnInit {

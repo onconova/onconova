@@ -39,7 +39,6 @@ export class IsStringPipe implements PipeTransform {
 }
 
 @Component({
-    standalone: true,
     selector: 'pop-dataset-composer',
     templateUrl: './dataset-composer.component.html',
     providers: [],
@@ -62,13 +61,13 @@ export class IsStringPipe implements PipeTransform {
         IsStringPipe,
     ],
     animations: [
-      trigger('fadeAnimation', [
-        state('void', style({ opacity: 0 })),  // Initial state (not visible)
-        transition(':enter', [animate('500ms ease-in')]),  // Fade-in effect
-        transition(':leave', [animate('500ms ease-out')])  // Fade-out effect
-      ])
+        trigger('fadeAnimation', [
+            state('void', style({ opacity: 0 })), // Initial state (not visible)
+            transition(':enter', [animate('500ms ease-in')]), // Fade-in effect
+            transition(':leave', [animate('500ms ease-out')]) // Fade-out effect
+        ])
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatasetComposerComponent {
 

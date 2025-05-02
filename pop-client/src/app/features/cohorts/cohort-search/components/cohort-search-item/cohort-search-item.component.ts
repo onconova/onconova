@@ -23,7 +23,6 @@ import { NgxJdenticonModule } from "ngx-jdenticon";
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
-    standalone: true,
     selector: 'pop-cohort-search-item',
     templateUrl: './cohort-search-item.component.html',
     providers: [
@@ -42,7 +41,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
         ConfirmDialogModule,
         ChipModule,
         SkeletonModule,
-    ],
+    ]
 })
 export class CohortSearchItemComponent {
 

@@ -26,7 +26,6 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
 });
 
 @Component({
-    standalone: true,
     selector: 'pop-form-control-error',
     imports: [AsyncPipe],
     template: `
@@ -35,8 +34,8 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
         <div class="text-danger mt-2" style="color:#e24c4c">{{ message }}</div>
       }
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-  })
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class FormControlErrorComponent implements OnInit, OnDestroy {
 
   /**

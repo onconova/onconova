@@ -12,7 +12,6 @@ import { AsyncPipe } from '@angular/common';
 import { Skeleton } from 'primeng/skeleton';
 
 @Component({
-    standalone: true,
     selector: 'pop-user-badge',
     styleUrl: 'user-badge.component.css',
     templateUrl: 'user-badge.component.html',

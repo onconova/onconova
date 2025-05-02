@@ -4,9 +4,8 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { Skeleton } from 'primeng/skeleton';
 
 @Component({
-    standalone: true,
     selector: 'pop-cancer-icon',
-    template:`
+    template: `
     <div [inlineSVG]="icon" 
         class="pop-cancer-icon" 
         [setSVGAttributes]="{style: 'margin: auto; display: block;', height: height, width: width}"

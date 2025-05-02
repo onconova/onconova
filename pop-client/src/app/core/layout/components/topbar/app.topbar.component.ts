@@ -21,7 +21,6 @@ import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-f
 import { environment } from 'src/environments/environment';
 
 @Component({
-    standalone: true,
     selector: 'pop-topbar',
     templateUrl: './app.topbar.component.html',
     providers: [

@@ -6,7 +6,6 @@ import { CodedConcept } from 'src/app/shared/openapi';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    standalone: true,
     selector: 'pop-coded-concept-tree',
     template: `
     <p-tree class="drawer-property-tree" [value]="nodes">

@@ -8,7 +8,6 @@ import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-men
 Chart.register(MatrixController, MatrixElement);
 
 @Component({
-    standalone: true,
     imports: [
         CohortGraphsContextMenu,
         ChartModule,
@@ -30,7 +29,7 @@ Chart.register(MatrixController, MatrixElement);
         @if (chart) {
             <pop-cohort-graph-context-menu [target]="oncoplot" [chart]="chart" [data]="genomicsData"/>
         }
-    </div>`,
+    </div>`
 })
 export class OncoplotComponent {
 

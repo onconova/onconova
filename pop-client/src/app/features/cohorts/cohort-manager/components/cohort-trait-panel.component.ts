@@ -8,7 +8,6 @@ import { Skeleton } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         Card,
@@ -18,7 +17,7 @@ import { TableModule } from 'primeng/table';
         TableModule,
     ],
     selector: 'pop-cohort-trait-panel',
-    template:`
+    template: `
     <p-card class="flex" styleClass="border border-surface shadow-none">
         <div class="flex justify-between gap-8">
             <div class="flex flex gap-2">

@@ -39,25 +39,24 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'radiotherapy-form',
-  templateUrl: './radiotherapy-form.component.html',
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    InputNumber,
-    ButtonModule,
-    Fieldset,
-    MeasureInputComponent,
-    ConceptSelectorComponent,
-    MultiReferenceSelectComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'radiotherapy-form',
+    templateUrl: './radiotherapy-form.component.html',
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        InputNumber,
+        ButtonModule,
+        Fieldset,
+        MeasureInputComponent,
+        ConceptSelectorComponent,
+        MultiReferenceSelectComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class RadiotherapyFormComponent extends AbstractFormBase implements OnInit {
 

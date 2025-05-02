@@ -9,7 +9,6 @@ import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe'
 import { Skeleton } from 'primeng/skeleton';
 
 @Component({
-    standalone: true,
     selector: 'pop-drawer-properties',
     template: `
         @switch (dataType) {
@@ -77,10 +76,10 @@ import { Skeleton } from 'primeng/skeleton';
     `,
     encapsulation: ViewEncapsulation.None,
     imports: [
-        CommonModule, 
+        CommonModule,
         Skeleton,
-        CodedConceptTreeComponent, 
-        ReplacePipe, 
+        CodedConceptTreeComponent,
+        ReplacePipe,
         ResolveResourcePipe
     ]
 })

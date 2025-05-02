@@ -6,7 +6,6 @@ import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-men
 import { Chart } from 'chart.js';
 
 @Component({
-    standalone: true,
     imports: [
         ChartModule,
         CohortGraphsContextMenu,
@@ -18,7 +17,7 @@ import { Chart } from 'chart.js';
         @if (chart) {
             <pop-cohort-graph-context-menu [target]="KapplerMeierCurve" [chart]="chart" [data]="survivalData"/>
         }
-    </div>`,
+    </div>`
 })
 export class KapplerMeierCurveComponent {
 

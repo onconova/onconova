@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DateMaskDirective } from '../../directives/date-mask-directive';
 
 @Component({
-    standalone: true,
     selector: 'pop-datepicker',
     template: `
         <p-datepicker 
@@ -33,7 +32,7 @@ import { DateMaskDirective } from '../../directives/date-mask-directive';
     ],
     imports: [
         CommonModule,
-        FormsModule, 
+        FormsModule,
         ReactiveFormsModule,
         DatePicker,
         DateMaskDirective,

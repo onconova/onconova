@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { DataSummaryCounterComponent } from "./data-summary-counter.component";
 
 @Component({
-    standalone: true,
     selector: 'pop-data-summary',
     imports: [
         CommonModule,

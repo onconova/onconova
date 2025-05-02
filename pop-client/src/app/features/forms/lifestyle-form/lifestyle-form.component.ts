@@ -26,21 +26,20 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'lifestyle-form',
-  templateUrl: './lifestyle-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    DatePickerComponent,
-    Fluid,
-    ButtonModule,
-    ConceptSelectorComponent,
-    MeasureInputComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'lifestyle-form',
+    templateUrl: './lifestyle-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        DatePickerComponent,
+        Fluid,
+        ButtonModule,
+        ConceptSelectorComponent,
+        MeasureInputComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
 

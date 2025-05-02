@@ -24,7 +24,6 @@ import { Timeline } from 'primeng/timeline';
 
 
 @Component({
-    standalone: true,
     selector: 'pop-case-manager-drawer',
     templateUrl: './case-manager-drawer.component.html',
     providers: [
@@ -32,18 +31,18 @@ import { Timeline } from 'primeng/timeline';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-    CommonModule,
-    LucideAngularModule,
-    DrawerModule,
-    AvatarModule,
-    DividerModule,
-    Button,
-    SplitButton,
-    ConfirmDialog,
-    DrawerDataPropertiesComponent,
-    UserBadgeComponent,
-    Timeline,
-]
+        CommonModule,
+        LucideAngularModule,
+        DrawerModule,
+        AvatarModule,
+        DividerModule,
+        Button,
+        SplitButton,
+        ConfirmDialog,
+        DrawerDataPropertiesComponent,
+        UserBadgeComponent,
+        Timeline,
+    ]
 })
 export class CaseManagerDrawerComponent {
 

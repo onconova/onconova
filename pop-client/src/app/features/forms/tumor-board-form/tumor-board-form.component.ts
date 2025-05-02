@@ -49,25 +49,24 @@ const TumorBoardSpecialties = {
 export type AnyTumorBoardCreate = UnspecifiedTumorBoardCreate | MolecularTherapeuticRecommendationCreate;
 
 @Component({
-  standalone: true,
-  selector: 'tumor-board-form',
-  templateUrl: './tumor-board-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    MultiSelectModule,
-    DatePickerComponent,
-    Fluid,
-    Fieldset,
-    MultiReferenceSelectComponent,
-    InputMaskModule,
-    ButtonModule,
-    ConceptSelectorComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'tumor-board-form',
+    templateUrl: './tumor-board-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        MultiSelectModule,
+        DatePickerComponent,
+        Fluid,
+        Fieldset,
+        MultiReferenceSelectComponent,
+        InputMaskModule,
+        ButtonModule,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class TumorBoardFormComponent extends AbstractFormBase implements OnInit {
 

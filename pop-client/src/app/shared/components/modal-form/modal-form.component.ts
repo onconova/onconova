@@ -13,19 +13,18 @@ import { LucideAngularModule } from 'lucide-angular';
 import { ModalFormService } from './modal-form.service'
 
 @Component({
-  standalone: true,
-  selector: 'pop-dynamic-modal-form',
-  templateUrl: './modal-form.component.html',
-  styleUrl: './modal-form.component.css',
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    LucideAngularModule,
-    CommonModule,
-    AvatarModule,
-    DialogModule,
-    ButtonModule,
-    DividerModule,
-  ],
+    selector: 'pop-dynamic-modal-form',
+    templateUrl: './modal-form.component.html',
+    styleUrl: './modal-form.component.css',
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        LucideAngularModule,
+        CommonModule,
+        AvatarModule,
+        DialogModule,
+        ButtonModule,
+        DividerModule,
+    ]
 })
 export class ModalFormComponent {
   @ViewChild("formContent", { read: ViewContainerRef, static: true}) content!: ViewContainerRef;

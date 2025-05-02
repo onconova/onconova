@@ -11,7 +11,6 @@ interface Reference {
 }
 
 @Component({
-    standalone: true,
     selector: 'pop-multi-reference-select',
     template: `
     <p-multiselect 
@@ -35,7 +34,7 @@ interface Reference {
     ],
     imports: [
         CommonModule,
-        FormsModule, 
+        FormsModule,
         ReactiveFormsModule,
         MultiSelectModule,
     ]

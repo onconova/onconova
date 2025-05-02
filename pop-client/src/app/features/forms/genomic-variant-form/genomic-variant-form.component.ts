@@ -35,26 +35,25 @@ import { Fieldset } from 'primeng/fieldset';
 import { Divider } from 'primeng/divider';
 
 @Component({
-  standalone: true,
-  selector: 'genomic-variant-form',
-  templateUrl: './genomic-variant-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    DatePickerComponent,
-    SelectButton,
-    Fluid,
-    Fieldset,
-    Divider,
-    InputNumber,
-    InputTextModule,
-    ButtonModule,
-    ConceptSelectorComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'genomic-variant-form',
+    templateUrl: './genomic-variant-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        DatePickerComponent,
+        SelectButton,
+        Fluid,
+        Fieldset,
+        Divider,
+        InputNumber,
+        InputTextModule,
+        ButtonModule,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class GenomicVariantFormComponent extends AbstractFormBase implements OnInit {
 

@@ -7,12 +7,11 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
 import { TypeCheckService } from '../../services/type-check.service';
 
 @Component({
-  standalone: true,
-  selector: 'pop-nested-table',
-  templateUrl: './nested-table.component.html',
-  imports: [
-    TableModule, CommonModule, Button, CamelCaseToTitleCasePipe
-  ]
+    selector: 'pop-nested-table',
+    templateUrl: './nested-table.component.html',
+    imports: [
+        TableModule, CommonModule, Button, CamelCaseToTitleCasePipe
+    ]
 })
 export class NestedTableComponent {
 

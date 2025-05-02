@@ -11,7 +11,6 @@ import { AppFooterComponent } from './components/footer/app.footer.component';
 import { AppSidebarComponent } from "./components/sidebar/app.sidebar.component";
 
 @Component({
-    standalone: true,
     selector: 'pop-layout',
     templateUrl: './app.layout.component.html',
     imports: [

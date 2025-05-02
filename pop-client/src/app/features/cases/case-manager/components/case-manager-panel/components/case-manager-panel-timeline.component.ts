@@ -10,7 +10,6 @@ export interface RadioChoice {
 }
 
 @Component({
-    standalone: true,
     selector: 'pop-case-manager-panel-timeline',
     template: `
         <p-timeline [value]="events" class="case-manager-panel-timeline">
@@ -45,7 +44,7 @@ export interface RadioChoice {
     `,
     imports: [
         CommonModule,
-        TimelineModule,        
+        TimelineModule,
     ]
 })
 export class CaseManagerPanelTimelineComponent {

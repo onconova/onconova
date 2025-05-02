@@ -6,7 +6,6 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DownloadService } from 'src/app/shared/services/download.service';
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         ContextMenuModule

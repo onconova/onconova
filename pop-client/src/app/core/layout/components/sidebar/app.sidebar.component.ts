@@ -5,14 +5,12 @@ import { CommonModule } from '@angular/common';
 import { AppMenuComponent } from '../menu/app.menu.component';
 
 @Component({
-    standalone: true,
     selector: 'pop-sidebar',
     templateUrl: './app.sidebar.component.html',
     imports: [
         CommonModule,
         AppMenuComponent,
-
-    ],
+    ]
 })
 export class AppSidebarComponent {
     constructor(public layoutService: LayoutService, public el: ElementRef) { }

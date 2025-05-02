@@ -73,24 +73,23 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
 
 
 @Component({
-    standalone: true,
     templateUrl: './case-manager.component.html',
     imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    CaseManagerPanelComponent,
-    AvatarModule,
-    Button,
-    Fieldset,
-    UserBadgeComponent,
-    CancerIconComponent,
-    KnobModule,
-    Divider,
-    Knob,
-    SkeletonModule,
-    IdenticonComponent
-],
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        CaseManagerPanelComponent,
+        AvatarModule,
+        Button,
+        Fieldset,
+        UserBadgeComponent,
+        CancerIconComponent,
+        KnobModule,
+        Divider,
+        Knob,
+        SkeletonModule,
+        IdenticonComponent
+    ]
 })
 export class CaseManagerComponent implements OnInit {
 

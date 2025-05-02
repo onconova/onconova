@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
-    standalone: true,
     selector: 'pop-primary-entities-table',
     imports: [
         CommonModule,
@@ -29,19 +28,38 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
         TableModule,
         SkeletonModule,
     ],
-    template:`
+    template: `
         @let entityStatistics = entityStatistics$ | async;
-        <p-table [value]="entityStatistics || [1,2,3,4,5,6,7,8]" [paginator]="true" [rows]="8">
-            <ng-template #header>
-                <tr>
-                    <th>Primary site</th>
-                    <th>Cases</th>
-                    <th>Completion</th>
-                    <th>Contributors</th>
-                </tr>
-            </ng-template>
-            <ng-template #body let-entity>
-                @if (entityStatistics) {
+        @if (!entityStatistics) {
+            <p-table [value]="[1,2,3,4,5,6,7,8]" [paginator]="true" [rows]="8">
+                <ng-template #header>
+                    <tr>
+                        <th>Primary site</th>
+                        <th>Cases</th>
+                        <th>Completion</th>
+                        <th>Contributors</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-entity>
+                        <tr>
+                            <td><p-skeleton /></td>
+                            <td><p-skeleton /></td>
+                            <td><p-skeleton /></td>
+                            <td><p-skeleton /></td>
+                        </tr>
+                </ng-template>
+            </p-table>
+        } @else {
+            <p-table [value]="entityStatistics" [paginator]="true" [rows]="8">
+                <ng-template #header>
+                    <tr>
+                        <th>Primary site</th>
+                        <th>Cases</th>
+                        <th>Completion</th>
+                        <th>Contributors</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-entity>
                     <tr>
                         <td class="flex">
                             <pop-cancer-icon [topography]="entity.topographyCode"/>
@@ -66,16 +84,9 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
                             </p-avatar-group>
                         </td>
                     </tr>
-                } @else {
-                    <tr>
-                        <td><p-skeleton /></td>
-                        <td><p-skeleton /></td>
-                        <td><p-skeleton /></td>
-                        <td><p-skeleton /></td>
-                    </tr>
-                }
-            </ng-template>
-        </p-table>
+                </ng-template>
+            </p-table>
+        }
     `
 })
 export class PrimaryEntitiesTableComponent {

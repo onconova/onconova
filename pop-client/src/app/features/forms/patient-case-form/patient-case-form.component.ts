@@ -24,23 +24,22 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { first, map } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'patient-form',
-  templateUrl: './patient-case-form.component.html',
-  imports: [
-    CommonModule,
-    FormsModule, 
-    InlineSVGModule,
-    ReactiveFormsModule,
-    ConceptSelectorComponent,
-    DatePickerComponent,
-    AutoCompleteModule,
-    InputTextModule,
-    StepperModule,
-    ButtonModule,
-    ToggleSwitch,
-    Fluid,
-  ]
+    selector: 'patient-form',
+    templateUrl: './patient-case-form.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        InlineSVGModule,
+        ReactiveFormsModule,
+        ConceptSelectorComponent,
+        DatePickerComponent,
+        AutoCompleteModule,
+        InputTextModule,
+        StepperModule,
+        ButtonModule,
+        ToggleSwitch,
+        Fluid,
+    ]
 })
 export class PatientFormComponent extends AbstractFormBase implements OnInit {
 

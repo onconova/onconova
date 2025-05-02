@@ -8,7 +8,6 @@ import { MenuService } from '../../app.menu.service';
 import { LayoutService } from '../../../../app.layout.service';
 
 @Component({
-    standalone: true,
     // eslint-disable-next-line @angular-eslint/component-selector
     selector: '[pop-menuitem]',
     imports: [

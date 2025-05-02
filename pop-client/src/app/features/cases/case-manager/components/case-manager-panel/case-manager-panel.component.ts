@@ -32,22 +32,21 @@ export interface DataService {
 }
 
 @Component({
-    standalone: true,
     selector: 'pop-case-manager-panel',
     templateUrl: './case-manager-panel.component.html',
     imports: [
-    CaseManagerDrawerComponent,
-    CommonModule,
-    LucideAngularModule,
-    Panel,
-    AvatarModule,
-    Menu,
-    BadgeModule,
-    Skeleton,
-    ConfirmDialog,
-    CaseManagerPanelTimelineComponent
-],
-    providers: [ConfirmationService],
+        CaseManagerDrawerComponent,
+        CommonModule,
+        LucideAngularModule,
+        Panel,
+        AvatarModule,
+        Menu,
+        BadgeModule,
+        Skeleton,
+        ConfirmDialog,
+        CaseManagerPanelTimelineComponent
+    ],
+    providers: [ConfirmationService]
 })
 export class CaseManagerPanelComponent implements OnInit {
 

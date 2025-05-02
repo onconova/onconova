@@ -26,20 +26,19 @@ import { AbstractFormBase } from '../abstract-form-base.component';
 import { EmptyObject } from 'chart.js/dist/types/basic';
 
 @Component({
-  standalone: true,
-  selector: 'neoplastic-entity-form',
-  templateUrl: './neoplastic-entity-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    Select,
-    ButtonModule,
-    ConceptSelectorComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'neoplastic-entity-form',
+    templateUrl: './neoplastic-entity-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        Select,
+        ButtonModule,
+        ConceptSelectorComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class NeoplasticEntityFormComponent extends AbstractFormBase implements OnInit{
 

@@ -29,20 +29,19 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'performance-status-form',
-  templateUrl: './performance-status-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    DatePickerComponent,
-    Fluid,
-    ButtonModule,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'performance-status-form',
+    templateUrl: './performance-status-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        DatePickerComponent,
+        Fluid,
+        ButtonModule,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class PerformanceStatusFormComponent extends AbstractFormBase implements OnInit {
 

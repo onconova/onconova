@@ -15,10 +15,9 @@ import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-f
 import { PasswordResetFormComponent } from '../../forms/passwrd-reset-form/password-reset-form.component';
 
 @Component({
-    standalone: true,
     selector: 'pop-users-management',
     templateUrl: './users-management.component.html',
-    imports:[
+    imports: [
         CommonModule,
         FormsModule,
         TableModule,

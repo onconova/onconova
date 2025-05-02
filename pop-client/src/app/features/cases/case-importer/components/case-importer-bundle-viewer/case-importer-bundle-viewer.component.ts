@@ -19,7 +19,6 @@ import { Badge } from 'primeng/badge';
 import { IdenticonComponent } from "../../../../../shared/components/identicon/identicon.component";
 
 @Component({
-    standalone: true,
     selector: 'pop-case-importer-bundle-viewer',
     templateUrl: 'case-importer-bundle-viewer.component.html',
     imports: [
@@ -35,7 +34,7 @@ import { IdenticonComponent } from "../../../../../shared/components/identicon/i
         TabsModule,
         TreeModule,
         IdenticonComponent
-    ],
+    ]
 })
 export class CaseImporterBundleViewerComponent {
     @Input({required: true}) bundle!: PatientCaseBundle;

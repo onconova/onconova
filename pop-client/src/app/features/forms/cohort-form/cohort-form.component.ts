@@ -17,19 +17,18 @@ import {
 import { Users } from 'lucide-angular';
 
 @Component({
-  standalone: true,
-  selector: 'cohort-form',
-  templateUrl: './cohort-form.component.html',
-  imports: [
-    CommonModule,
-    FormsModule, 
-    ReactiveFormsModule,
-    FormControlErrorComponent,
-    ButtonModule,
-    ToggleSwitch,
-    Fluid,
-    InputText,
-  ]
+    selector: 'cohort-form',
+    templateUrl: './cohort-form.component.html',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormControlErrorComponent,
+        ButtonModule,
+        ToggleSwitch,
+        Fluid,
+        InputText,
+    ]
 })
 export class CohortFormComponent extends AbstractFormBase implements OnInit {
 

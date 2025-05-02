@@ -24,20 +24,19 @@ import { AbstractFormBase } from '../abstract-form-base.component';
 
 
 @Component({
-  standalone: true,
-  selector: 'vitals-form',
-  templateUrl: './vitals-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    DatePickerComponent,
-    Fluid,
-    ButtonModule,
-    MeasureInputComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'vitals-form',
+    templateUrl: './vitals-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        DatePickerComponent,
+        Fluid,
+        ButtonModule,
+        MeasureInputComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class VitalsFormComponent extends AbstractFormBase implements OnInit {
 

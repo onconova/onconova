@@ -74,24 +74,22 @@ type StagingCreate = TNMStagingCreate
 
 
 @Component({
-  standalone: true,
-  selector: 'staging-form',
-  templateUrl: './staging-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    Select,
-    InputNumber,
-    RadioButton,
-    MultiReferenceSelectComponent,
-    ButtonModule,
-    ConceptSelectorComponent,
-    FormControlErrorComponent,
-    
-  ],  
+    selector: 'staging-form',
+    templateUrl: './staging-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        Select,
+        InputNumber,
+        RadioButton,
+        MultiReferenceSelectComponent,
+        ButtonModule,
+        ConceptSelectorComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class StagingFormComponent extends AbstractFormBase implements OnInit{
 

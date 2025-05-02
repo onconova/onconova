@@ -6,7 +6,6 @@ import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-men
 import { CohortTraitCounts } from 'src/app/shared/openapi';
 
 @Component({
-    standalone: true,
     imports: [
         CohortGraphsContextMenu,
         ChartModule,
@@ -18,7 +17,7 @@ import { CohortTraitCounts } from 'src/app/shared/openapi';
         @if (chart) {
             <pop-cohort-graph-context-menu [target]="doughnutCanvas" [chart]="chart" [data]="countData"/>
         }
-    </div>`,
+    </div>`
 })
 export class DoughnutGraphComponent {
 

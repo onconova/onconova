@@ -48,8 +48,8 @@ pop-case-manager-panel {
         & .pi-star-fill {
             color: var(--p-primary-color) !important;
         }
-        & .pop-case-manager-header-counter-badge {
-            color: light-dark(var(--p-primary-600), var(--p-primary-400));
+        & .pop-case-manager-counter-badge {
+            color: light-dark(var(--p-primary-600), var(--p-primary-400)) !important;
             background-color: color-mix(in srgb, var(--p-primary-400), transparent 80%) !important;
         }
         & .pop-case-manager-menu-button {

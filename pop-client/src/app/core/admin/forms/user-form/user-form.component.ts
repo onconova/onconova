@@ -14,20 +14,19 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 
 
 @Component({
-  standalone: true,
-  selector: 'pop-user-form',
-  templateUrl: './user-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    Fluid,
-    Button,
-    PasswordModule,
-    InputTextModule,
-    RadioButtonModule,
-    FormControlErrorComponent,
-  ],
+    selector: 'pop-user-form',
+    templateUrl: './user-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        Fluid,
+        Button,
+        PasswordModule,
+        InputTextModule,
+        RadioButtonModule,
+        FormControlErrorComponent,
+    ]
 })
 export class UserFormComponent extends AbstractFormBase implements OnInit {
 

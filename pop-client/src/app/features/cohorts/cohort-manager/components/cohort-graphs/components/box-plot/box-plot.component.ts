@@ -8,7 +8,6 @@ import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-men
 Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers);
 
 @Component({
-    standalone: true,
     imports: [
         CohortGraphsContextMenu,
         ChartModule,
@@ -20,7 +19,7 @@ Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers)
         @if (chart) {
             <pop-cohort-graph-context-menu [target]="boxPlotCanvas" [chart]="chart" [data]="boxData"/>
         }
-    </div>`,
+    </div>`
 })
 export class BoxPlotComponent {
 

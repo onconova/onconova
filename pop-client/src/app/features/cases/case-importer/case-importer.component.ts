@@ -24,10 +24,9 @@ import { first, mergeMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-    standalone: true,
     selector: 'pop-case-importer',
     templateUrl: 'case-importer.component.html',
-    imports:  [
+    imports: [
         CommonModule,
         FormsModule,
         NgxJsonViewerModule,
@@ -43,7 +42,7 @@ import { Router } from '@angular/router';
         StepperModule,
         TabsModule,
         CaseImporterBundleViewerComponent,
-    ],
+    ]
 })
 export class CaseImporterComponent {
     public bundle: PatientCaseBundle | null = null;

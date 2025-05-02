@@ -35,7 +35,6 @@ import { Fieldset } from 'primeng/fieldset';
 
 
 @Component({
-    standalone: true,
     selector: 'pop-cohort-manager',
     templateUrl: './cohort-manager.component.html',
     imports: [

@@ -8,10 +8,9 @@ import { Skeleton } from 'primeng/skeleton';
 import { Button } from 'primeng/button';
 
 @Component({
-    standalone: true,
-  selector: 'pop-random-paper',
-  imports: [CommonModule, Button, Skeleton, InlineSVGModule],
-  template: `
+    selector: 'pop-random-paper',
+    imports: [CommonModule, Button, Skeleton, InlineSVGModule],
+    template: `
     @let paper = paper$ | async;
     @if (errorMessage) {
         <div class="paper-error-message">

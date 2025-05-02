@@ -71,7 +71,7 @@
 <p-tree [value]="bundleTreeNodes" styleClass="py-0 pl-0">
     <ng-template let-node pTemplate="category">                        
         <div class="flex gap-2">
-            <div>{{ node.label }}</div> <p-badge badgeSize="small" [value]="node.children.length" [severity]="node.children.length ? 'primary' : 'secondary'"/>
+            <div>{{ node.label }}</div> <p-badge badgeSize="small" [value]="node.children.length" [severity]="node.children.length ? 'success' : 'secondary'"/>
         </div>
     </ng-template>
     <ng-template let-node pTemplate="resource">                        

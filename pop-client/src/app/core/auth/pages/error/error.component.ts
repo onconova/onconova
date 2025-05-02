@@ -7,7 +7,6 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 @Component({
-    standalone: true,
     selector: 'pop-error',
     templateUrl: './error.component.html',
     imports: [

@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
 import { style } from '@angular/animations';
 
 @Component({
-    standalone: true,
     selector: 'pop-data-summary-counter',
     template: `
         <div class="data-statistic">
@@ -28,7 +27,7 @@ import { style } from '@angular/animations';
         SkeletonModule,
         NgxCountAnimationDirective,
         ChartModule,
-    ],
+    ]
 })
 export class DataSummaryCounterComponent {
     @Input({required: true}) public count!: number | undefined;    

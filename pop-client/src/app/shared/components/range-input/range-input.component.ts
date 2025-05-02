@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
-    standalone: true,
     imports: [FormsModule, InputNumberModule],
     selector: 'pop-range-input',
     template: `
@@ -39,7 +38,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
             </span>
         </div>
         </div>
-    `,
+    `
 })
 export class RangeInputComponent {
   @Input() range !: number[];

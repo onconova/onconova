@@ -11,7 +11,6 @@ import { UserBadgeComponent } from "../../../../shared/components/user-badge/use
 
 @Component({
     selector: 'pop-cohort-contributors',
-    standalone: true,
     imports: [
         CommonModule,
         Card,

@@ -27,31 +27,30 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 
 @Component({
-  standalone: true,
-  templateUrl: './case-search.component.html',
-  imports: [
-    CaseBrowserCardComponent,
-    NgxCountAnimationDirective,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IconFieldModule,
-    OverlayBadgeModule,
-    InputIconModule,
-    InputTextModule,
-    ButtonModule,
-    DataViewModule,
-    SkeletonModule,
-    DividerModule,
-    ToolbarModule,
-  ],
-  animations: [
-    trigger('fadeAnimation', [
-      state('void', style({ opacity: 0 })),  // Initial state (not visible)
-      transition(':enter', [animate('500ms ease-in')]),  // Fade-in effect
-      transition(':leave', [animate('500ms ease-out')])  // Fade-out effect
-    ])
-  ],
+    templateUrl: './case-search.component.html',
+    imports: [
+        CaseBrowserCardComponent,
+        NgxCountAnimationDirective,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IconFieldModule,
+        OverlayBadgeModule,
+        InputIconModule,
+        InputTextModule,
+        ButtonModule,
+        DataViewModule,
+        SkeletonModule,
+        DividerModule,
+        ToolbarModule,
+    ],
+    animations: [
+        trigger('fadeAnimation', [
+            state('void', style({ opacity: 0 })), // Initial state (not visible)
+            transition(':enter', [animate('500ms ease-in')]), // Fade-in effect
+            transition(':leave', [animate('500ms ease-out')]) // Fade-out effect
+        ])
+    ]
 })
 
 export class CaseBrowserComponent implements OnInit {

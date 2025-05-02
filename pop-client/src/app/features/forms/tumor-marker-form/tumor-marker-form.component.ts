@@ -40,26 +40,25 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'tumor-marker-form',
-  styleUrl: './tumor-marker-form.component.css',
-  templateUrl: './tumor-marker-form.component.html',
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    RadioButton,
-    SelectButton,
-    Tooltip,
-    ButtonModule,
-    RadioSelectComponent,
-    MeasureInputComponent,
-    MultiReferenceSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'tumor-marker-form',
+    styleUrl: './tumor-marker-form.component.css',
+    templateUrl: './tumor-marker-form.component.html',
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        RadioButton,
+        SelectButton,
+        Tooltip,
+        ButtonModule,
+        RadioSelectComponent,
+        MeasureInputComponent,
+        MultiReferenceSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit {
 

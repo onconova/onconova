@@ -34,7 +34,6 @@ export const VALIDATOR: any = {
 
 
 @Component({
-    standalone: true,
     selector: 'pop-cohort-query-builder',
     templateUrl: './cohort-query-builder.component.html',
     providers: [CONTROL_VALUE_ACCESSOR, VALIDATOR],

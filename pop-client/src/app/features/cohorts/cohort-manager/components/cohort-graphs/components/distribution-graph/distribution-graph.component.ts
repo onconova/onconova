@@ -6,7 +6,6 @@ import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-men
 import { Chart } from 'chart.js';
 
 @Component({
-    standalone: true,
     imports: [
         CohortGraphsContextMenu,
         ChartModule,
@@ -18,7 +17,7 @@ import { Chart } from 'chart.js';
         @if (chart) {
             <pop-cohort-graph-context-menu [target]="histogramCanvas" [chart]="chart" [data]="countData"/>
         }
-    </div>`,
+    </div>`
 })
 export class DistributionGraphComponent {
     

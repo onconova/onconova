@@ -19,7 +19,6 @@ import { OncoplotComponent } from './components/oncoplot/oncoplot.component';
 import { MessageModule } from 'primeng/message';
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         FormsModule,
@@ -32,12 +31,12 @@ import { MessageModule } from 'primeng/message';
         BoxPlotComponent,
         DistributionGraphComponent,
         MessageModule,
-        Card, 
+        Card,
         SplitterModule,
         SelectButtonModule
     ],
     selector: 'pop-cohort-graphs',
-    templateUrl: './cohort-graphs.component.html',
+    templateUrl: './cohort-graphs.component.html'
 })
 export class CohortGraphsComponent implements OnInit, OnChanges{
 

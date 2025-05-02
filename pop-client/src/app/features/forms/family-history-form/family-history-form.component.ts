@@ -28,22 +28,21 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'family-history-form',
-  templateUrl: './family-history-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    InputNumber,
-    ButtonModule,
-    ToggleSwitchModule,
-    ConceptSelectorComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'family-history-form',
+    templateUrl: './family-history-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        InputNumber,
+        ButtonModule,
+        ToggleSwitchModule,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class FamilyHistoryFormComponent extends AbstractFormBase implements OnInit {
 

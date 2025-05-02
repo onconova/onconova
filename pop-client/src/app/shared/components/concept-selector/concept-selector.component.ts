@@ -13,7 +13,6 @@ import { TerminologyService } from '../../openapi/api/terminology.service';
 import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
 
 @Component({
-    standalone: true,
     selector: 'pop-concept-selector',
     styleUrl: './concept-selector.component.css',
     templateUrl: './concept-selector.component.html',
@@ -26,7 +25,7 @@ import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
     ],
     imports: [
         CommonModule,
-        FormsModule, 
+        FormsModule,
         ReactiveFormsModule,
         AutoCompleteModule,
         RadioButton,

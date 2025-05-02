@@ -14,9 +14,8 @@ import { Fluid } from 'primeng/fluid';
 
 
 @Component({
-  standalone: true,
-  selector: 'pop-password-reset-dialog',
-  template: `  
+    selector: 'pop-password-reset-dialog',
+    template: `  
     <p-fluid>
         <form  [formGroup]="form" (ngSubmit)="onSave()">
             
@@ -48,17 +47,17 @@ import { Fluid } from 'primeng/fluid';
         </form>
     </p-fluid>
     `,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    Button,
-    Fluid,
-    PasswordModule,
-    InputTextModule,
-    FormControlErrorComponent,
-    RadioButtonModule,
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        Button,
+        Fluid,
+        PasswordModule,
+        InputTextModule,
+        FormControlErrorComponent,
+        RadioButtonModule,
+    ]
 })
 export class PasswordResetFormComponent extends AbstractFormBase implements OnInit {
 

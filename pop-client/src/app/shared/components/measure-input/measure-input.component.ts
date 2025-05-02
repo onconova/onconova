@@ -15,7 +15,6 @@ export interface MeasureUnit {
 }
 
 @Component({
-    standalone: true,
     selector: 'pop-measure-input',
     templateUrl: './measure-input.component.html',
     providers: [
@@ -27,12 +26,12 @@ export interface MeasureUnit {
     ],
     imports: [
         CommonModule,
-        FormsModule, 
+        FormsModule,
         ReactiveFormsModule,
         InputNumber,
         InputGroup,
         Select,
-    ],
+    ]
 })
 export class MeasureInputComponent implements ControlValueAccessor {
     

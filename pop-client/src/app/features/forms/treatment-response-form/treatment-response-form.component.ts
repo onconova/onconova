@@ -28,21 +28,20 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'treatment-response-form',
-  templateUrl: './treatment-response-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    ButtonModule,
-    ConceptSelectorComponent,
-    MultiReferenceSelectComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'treatment-response-form',
+    templateUrl: './treatment-response-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        ButtonModule,
+        ConceptSelectorComponent,
+        MultiReferenceSelectComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class TreatmentResponseFormComponent extends AbstractFormBase implements OnInit {
 

@@ -15,10 +15,9 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 
 @Component({
-    standalone: true,
     selector: 'pop-login',
     templateUrl: './login.component.html',
-    imports:[
+    imports: [
         CommonModule,
         FormsModule,
         InlineSVGModule,

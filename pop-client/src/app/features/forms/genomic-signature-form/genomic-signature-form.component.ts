@@ -36,22 +36,21 @@ import { AbstractFormBase } from '../abstract-form-base.component';
 export type AnyGenomicSignatureCreate = TumorMutationalBurdenCreate | MicrosatelliteInstabilityCreate |TumorNeoantigenBurdenCreate | LossOfHeterozygosityCreate;
 
 @Component({
-  standalone: true,
-  selector: 'genomic-signature-form',
-  templateUrl: './genomic-signature-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    DatePickerComponent,
-    Fluid,
-    InputNumber,
-    ButtonModule,
-    ConceptSelectorComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'genomic-signature-form',
+    templateUrl: './genomic-signature-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        DatePickerComponent,
+        Fluid,
+        InputNumber,
+        ButtonModule,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class GenomicSignatureFormComponent extends AbstractFormBase implements OnInit {
 

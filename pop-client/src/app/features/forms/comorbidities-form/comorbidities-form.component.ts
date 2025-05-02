@@ -32,21 +32,20 @@ import { AbstractFormBase } from '../abstract-form-base.component';
 import { Observable } from 'rxjs';
 
 @Component({
-  standalone: true,
-  selector: 'comorbidities-form',
-  templateUrl: './comorbidities-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    Select,
-    ToggleSwitchModule,
-    ButtonModule,
-    ConceptSelectorComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'comorbidities-form',
+    templateUrl: './comorbidities-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        Select,
+        ToggleSwitchModule,
+        ButtonModule,
+        ConceptSelectorComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase implements OnInit {
 

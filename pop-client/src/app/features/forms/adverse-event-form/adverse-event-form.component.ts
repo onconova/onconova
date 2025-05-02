@@ -69,26 +69,25 @@ export class getEventGradesPipe implements PipeTransform {
 
 
 @Component({
-  standalone: true,
-  selector: 'adverse-event-form',
-  templateUrl: './adverse-event-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SelectModule,
-    MultiSelectModule,
-    RadioButton,
-    DatePickerComponent,
-    Fluid,
-    Fieldset,
-    InputMaskModule,
-    ButtonModule,
-    getEventGradesPipe,
-    ConceptSelectorComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'adverse-event-form',
+    templateUrl: './adverse-event-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        MultiSelectModule,
+        RadioButton,
+        DatePickerComponent,
+        Fluid,
+        Fieldset,
+        InputMaskModule,
+        ButtonModule,
+        getEventGradesPipe,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class AdverseEventFormComponent extends AbstractFormBase implements OnInit {
 

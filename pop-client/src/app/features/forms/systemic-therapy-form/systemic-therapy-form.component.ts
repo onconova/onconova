@@ -36,24 +36,23 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 
 @Component({
-  standalone: true,
-  selector: 'systemic-therapy-form',
-  templateUrl: './systemic-therapy-form.component.html',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    DatePickerComponent,
-    Fluid,
-    InputNumber,
-    ButtonModule,
-    Fieldset,
-    MeasureInputComponent,
-    ConceptSelectorComponent,
-    MultiReferenceSelectComponent,
-    RadioSelectComponent,
-    FormControlErrorComponent,
-  ],
+    selector: 'systemic-therapy-form',
+    templateUrl: './systemic-therapy-form.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        InputNumber,
+        ButtonModule,
+        Fieldset,
+        MeasureInputComponent,
+        ConceptSelectorComponent,
+        MultiReferenceSelectComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
 })
 export class SystemicTherapyFormComponent extends AbstractFormBase implements OnInit {
 

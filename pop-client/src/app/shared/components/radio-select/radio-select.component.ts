@@ -10,7 +10,6 @@ export interface RadioChoice {
 }
 
 @Component({
-    standalone: true,
     selector: 'pop-radio-select',
     template: `
         <div [ngClass]="class">
@@ -34,7 +33,7 @@ export interface RadioChoice {
     ],
     imports: [
         CommonModule,
-        FormsModule, 
+        FormsModule,
         ReactiveFormsModule,
         RadioButton
     ]

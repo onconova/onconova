@@ -8,10 +8,9 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 
 @Component({
-    standalone: true,
     selector: 'pop-settings-dialog',
     templateUrl: './app.settings.component.html',
-    imports: [CommonModule, FormsModule, ToggleSwitchModule, Dialog, ButtonModule ]
+    imports: [CommonModule, FormsModule, ToggleSwitchModule, Dialog, ButtonModule]
 })
 export class SettingsDialogComponent {
 

@@ -8,13 +8,12 @@ import { AppMenuitemComponent } from './components/menuitem/app.menuitem.compone
 import { MenuItem } from 'primeng/api';
 
 @Component({
-    standalone: true,
     selector: 'pop-menu',
     templateUrl: './app.menu.component.html',
     imports: [
         CommonModule,
         AppMenuitemComponent
-    ],
+    ]
 })
 export class AppMenuComponent implements OnInit {
 

@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
 import { DisclaimerBannerComponent } from "./components/disclaimer-banner.component";
 
 @Component({
-    standalone: true,
     selector: 'pop-dashboard',
     imports: [
         CommonModule,

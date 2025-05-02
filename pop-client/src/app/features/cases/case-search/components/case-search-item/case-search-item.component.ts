@@ -23,7 +23,6 @@ import { DownloadService } from 'src/app/shared/services/download.service';
 import { IdenticonComponent } from "../../../../../shared/components/identicon/identicon.component";
 
 @Component({
-    standalone: true,
     selector: 'pop-case-search-item',
     templateUrl: './case-search-item.component.html',
     providers: [
@@ -44,7 +43,7 @@ import { IdenticonComponent } from "../../../../../shared/components/identicon/i
         CancerIconComponent,
         UserBadgeComponent,
         IdenticonComponent
-    ],
+    ]
 })
 export class CaseBrowserCardComponent {
 
