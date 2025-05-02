@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 
 import { AppThemePreset } from './app.preset';
+import { MessageService } from 'primeng/api';
 
 import { httpCacheInterceptor } from './core/interceptors/cache.interceptor';
 import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
@@ -18,6 +19,7 @@ import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        MessageService,
         provideZoneChangeDetection({ 
             eventCoalescing: true 
         }), 

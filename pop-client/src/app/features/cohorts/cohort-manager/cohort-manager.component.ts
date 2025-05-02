@@ -20,7 +20,7 @@ import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, Co
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
 import { catchError, first, map, Observable, of, throwError } from 'rxjs';
 
-import { CaseBrowserCardComponent } from '../../cases/case-search/components/case-search-item/case-search-item.component';
+import { CaseSearchItemCardComponent } from '../../cases/case-search/components/case-search-item/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { DatasetComposerComponent } from 'src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component';
@@ -45,7 +45,7 @@ import { Fieldset } from 'primeng/fieldset';
         CohortGraphsComponent,
         CohortContributorsComponent,
         CohortQueryBuilderComponent,
-        CaseBrowserCardComponent,
+        CaseSearchItemCardComponent,
         DatasetComposerComponent,
         CohortTraitPanel,
         Panel,

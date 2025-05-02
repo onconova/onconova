@@ -38,8 +38,8 @@ const appRoutes: Routes = [
             { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'cases', 
                 children: [
-                    { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
-                    { path: 'search/:manager', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
+                    { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent) },
+                    { path: 'search/:manager', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent) },
                     { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/cases/case-manager/case-manager.component').then(m => m.CaseManagerComponent) },
                     { path: 'import', loadComponent: () => import('./features/cases/case-importer/case-importer.component').then(m => m.CaseImporterComponent) },
                 ]

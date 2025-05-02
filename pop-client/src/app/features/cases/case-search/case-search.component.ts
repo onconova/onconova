@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, Input, ViewEncapsulation  } from '@angular/core';
+import { Component, inject, input, computed, signal, Resource  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { map, first, of, Observable, catchError } from 'rxjs';
+import { map, first, of, catchError, tap } from 'rxjs';
 
 import { NgxCountAnimationDirective } from "ngx-count-animation";
 
@@ -19,41 +19,42 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 // Project dependencies
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
-import { CaseBrowserCardComponent } from './components/case-search-item/case-search-item.component';
+import { CaseSearchItemCardComponent } from './components/case-search-item/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/forms';
 import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 
 @Component({
-    templateUrl: './case-search.component.html',
-    imports: [
-        CaseBrowserCardComponent,
-        NgxCountAnimationDirective,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        IconFieldModule,
-        OverlayBadgeModule,
-        InputIconModule,
-        InputTextModule,
-        ButtonModule,
-        DataViewModule,
-        SkeletonModule,
-        DividerModule,
-        ToolbarModule,
-    ],
-    animations: [
-        trigger('fadeAnimation', [
-            state('void', style({ opacity: 0 })), // Initial state (not visible)
-            transition(':enter', [animate('500ms ease-in')]), // Fade-in effect
-            transition(':leave', [animate('500ms ease-out')]) // Fade-out effect
-        ])
-    ]
+  templateUrl: './case-search.component.html',
+  imports: [
+      CaseSearchItemCardComponent,
+      NgxCountAnimationDirective,
+      CommonModule,
+      FormsModule,
+      ReactiveFormsModule,
+      IconFieldModule,
+      OverlayBadgeModule,
+      InputIconModule,
+      InputTextModule,
+      ButtonModule,
+      DataViewModule,
+      SkeletonModule,
+      DividerModule,
+      ToolbarModule,
+  ],
+  animations: [
+      trigger('fadeAnimation', [
+          state('void', style({ opacity: 0 })), // Initial state (not visible)
+          transition(':enter', [animate('500ms ease-in')]), // Fade-in effect
+          transition(':leave', [animate('500ms ease-out')]) // Fade-out effect
+      ])
+  ]
 })
 
-export class CaseBrowserComponent implements OnInit {
+export class CaseSearchComponent {
   
   // Injected services  
   private readonly patientCasesService = inject(PatientCasesService)
@@ -62,57 +63,35 @@ export class CaseBrowserComponent implements OnInit {
   private readonly messageService = inject(MessageService) 
 
 
-  @Input() public manager: string | undefined;
+  readonly manager = input<string>();
+  public readonly isUserPage = computed(() => this.manager() !== undefined);
 
-  // Pagination settings
-  public pageSizeChoices: number[] = [15, 30, 45, 60];
-  public pageSize: number = this.pageSizeChoices[0];
-  public totalCases: number = 0;
-  public currentOffset: number = 0;
-  public loadingCases: boolean = true;
-  public searchQuery: string = "";
+  public readonly pageSizeChoices: number[] = [15, 30, 45, 60];
+  public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
+  public totalCases= signal(0);
+  public searchQuery = signal('');
 
-  // Observables
-  public cases$!: Observable<PatientCase[]> 
 
-  ngOnInit() {
-    this.refreshCases();
-  }
-
-  refreshCases() {
-    this.loadingCases=true;
-    this.cases$ = this.patientCasesService
-    .getPatientCases({pseudoidentifierContains: this.searchQuery || undefined, manager: this.manager, limit: this.pageSize, offset: this.currentOffset})
-    .pipe(
-      first(),
-      map(page => {
-        this.loadingCases=false;
-        this.totalCases = page.count;
-        return page.items
-      }),
+  public cases: Resource<PatientCase[] | undefined> = rxResource({
+    request: () => ({pseudoidentifierContains: this.searchQuery() || undefined, manager: this.manager(), limit: this.pagination().limit, offset: this.pagination().offset}),
+    loader: ({request}) => this.patientCasesService.getPatientCases(request).pipe(
+      tap(page => this.totalCases.set(page.count)),
+      map(page => page.items),
       catchError((error: any) => {
-        // Report any problems
-        this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error.error.detail });
-        return of(error)
+        this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error?.error?.detail });
+        return of([] as PatientCase[]) 
       })
     )
-   }
+  })
 
-   setPaginationAndRefresh(event: any) {
-      this.currentOffset = event.first;
-      this.pageSize = event.rows;
-      this.refreshCases()
-   }
-   
   openNewCaseForm() {    
-    this.modalFormService.open(PatientFormComponent, {}, this.refreshCases.bind(this));
+    this.modalFormService.open(PatientFormComponent, {}, this.cases.reload.bind(this));
   }
-
 
   deleteCase(id: string) {
     this.patientCasesService.deletePatientCaseById({caseId:id}).pipe(first()).subscribe({
         complete: () => {
-            this.refreshCases()
+            this.cases.reload()
             this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
         },
         error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })

@@ -1,12 +1,19 @@
 
 <div class="flex flex-column">
-    @if (manager) {
-        <h2 class="mb-0 font-semibold">My Cases</h2>
-        <div class="text-muted">Welcome to your personal case search page. You can find all patient cases managed by you.</div>
-    } @else {
-        <h2 class="mb-0 font-semibold">Cases</h2>
-        <div class="text-muted">Welcome to the case search page. You can find all existing patient cases here.</div>
-    }
+    <h2 class="mb-0 font-semibold">
+        @if (isUserPage()) {
+            My Cases
+        } @else {
+            Cases
+        }
+    </h2>
+    <div class="text-muted">
+        @if (isUserPage()) {
+            Welcome to your personal case search page. You can find all patient cases managed by you.
+        } @else {
+            Welcome to the case search page. You can find all existing patient cases here.
+        }
+    </div>    
 </div>
 
 <p-toolbar styleClass="my-3 border-transparent">
@@ -14,10 +21,10 @@
     <ng-template #start>
         <div class="mt-auto ml-3">
             <div class="text-muted"><small>Total cases</small></div>
-            @if (loadingCases) {
+            @if (cases.isLoading()) {
                 <p-skeleton width="4rem" height="2rem"/>
             } @else {
-                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalCases" duration="500"></div>
+                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalCases()" duration="500"></div>
             }
         </div>        
     </ng-template>
@@ -26,13 +33,13 @@
         <div class="flex">
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search"/>
-                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery" (ngModelChange)="refreshCases()" />
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
             </p-iconfield>
             <p-button 
                 icon="pi pi-sync"
                 title="Refresh cases"
                 severity="secondary"
-                (onClick)="refreshCases()"/>
+                (onClick)="cases.reload()"/>
             <!-- <p-button 
                 label="Filters" 
                 icon="pi pi-filter"
@@ -53,18 +60,17 @@
 
 
 
-@let cases = cases$ | async;
 <p-dataView
     styleClass="pop-case-search-dataview"
-    [value]="cases || []"
+    [value]="cases.value()"
     [paginator]="true" 
-    [rows]="pageSize" 
+    [rows]="pagination().limit" 
     layout="grid"
     sortField="createdAt"
     lazy="true"
     [rowsPerPageOptions]="pageSizeChoices"
-    [totalRecords]="totalCases"
-    (onLazyLoad)="setPaginationAndRefresh($event)"
+    [totalRecords]="totalCases()"
+    (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
     class="no-background">
 
     <ng-template #grid let-cases>
@@ -74,7 +80,7 @@
                     <pop-case-search-item 
                     @fadeAnimation
                     [case]="case"
-                    (delete)="deleteCase($event)"/>
+                    (onDelete)="cases.reload()"/>
                 </div>
             }
         </div>
@@ -82,7 +88,7 @@
 </p-dataView>
 
 <!-- Skeleton loader -->
-@if (loadingCases) {
+@if (cases.isLoading()) {
     <div class="grid mt-3">
         @for (_ of [].constructor(15); track $index; let first = $first;) { 
             <div class="col p-2">
