@@ -20,7 +20,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
-import { ModalFormComponent } from "../../../../../shared/components/identicon/identicon.component";
+import { IdenticonComponent } from "../../../../../shared/components/identicon/identicon.component";
 
 @Component({
     standalone: true,
@@ -43,7 +43,7 @@ import { ModalFormComponent } from "../../../../../shared/components/identicon/i
         SkeletonModule,
         CancerIconComponent,
         UserBadgeComponent,
-        ModalFormComponent
+        IdenticonComponent
     ],
 })
 export class CaseBrowserCardComponent {

@@ -18,7 +18,7 @@ import { Avatar } from 'primeng/avatar';
     NgxJdenticonModule,
   ],
 })
-export class ModalFormComponent {
+export class IdenticonComponent {
     @Input({required: true}) value!: string | number;
     @Input() height: string = '5rem';
     @Input() width: string = '5rem';

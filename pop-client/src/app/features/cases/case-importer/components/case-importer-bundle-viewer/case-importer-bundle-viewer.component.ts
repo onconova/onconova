@@ -16,7 +16,7 @@ import { Divider } from 'primeng/divider';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { Badge } from 'primeng/badge';
-import { ModalFormComponent } from "../../../../../shared/components/identicon/identicon.component";
+import { IdenticonComponent } from "../../../../../shared/components/identicon/identicon.component";
 
 @Component({
     standalone: true,
@@ -34,7 +34,7 @@ import { ModalFormComponent } from "../../../../../shared/components/identicon/i
         StepperModule,
         TabsModule,
         TreeModule,
-        ModalFormComponent
+        IdenticonComponent
     ],
 })
 export class CaseImporterBundleViewerComponent {

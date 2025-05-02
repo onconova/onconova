@@ -66,7 +66,7 @@ import {
 import { CaseManagerPanelComponent,DataService } from './components/case-manager-panel/case-manager-panel.component'
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
-import { ModalFormComponent } from "../../../shared/components/identicon/identicon.component";
+import { IdenticonComponent } from "../../../shared/components/identicon/identicon.component";
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 
@@ -89,7 +89,7 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
     Divider,
     Knob,
     SkeletonModule,
-    ModalFormComponent
+    IdenticonComponent
 ],
 })
 export class CaseManagerComponent implements OnInit {
