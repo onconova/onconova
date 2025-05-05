@@ -22,6 +22,8 @@ services:
             context: pop-client
             dockerfile: Dockerfile
             target: production
+        volumes:
+            - ${CLIENT_PLUGINS_PATH}:/app/src/plugins
 
     pop-nginx:
         image: nginx:1.23        
