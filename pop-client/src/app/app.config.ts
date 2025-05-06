@@ -7,6 +7,7 @@ import { providePrimeNG } from 'primeng/config';
 
 import { AppThemePreset } from './app.preset';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 import { httpCacheInterceptor } from './core/interceptors/cache.interceptor';
 import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
@@ -20,6 +21,7 @@ import { environment } from 'src/environments/environment';
 export const appConfig: ApplicationConfig = {
     providers: [
         MessageService,
+        DialogService,
         provideZoneChangeDetection({ 
             eventCoalescing: true 
         }), 

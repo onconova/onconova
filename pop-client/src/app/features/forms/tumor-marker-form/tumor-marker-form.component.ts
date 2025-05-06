@@ -1,4 +1,4 @@
-import { Component, inject, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -121,7 +121,8 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
     { name: 'TC3', value: TumorMarkerTumorProportionScoreChoices.Tc3 }
   ]
 
-  private caseId!: string;
+  destroyRef = inject(DestroyRef);
+
   public initialData: TumorMarkerCreate | any = {};
   public relatedEntities: NeoplasticEntity[] = []; 
   public resultsType: string[] = [];
@@ -187,7 +188,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
 
   constructAPIPayload(data: any): TumorMarkerCreate {    
     return {
-      caseId: this.caseId,
+      caseId: this.caseId(),
       relatedEntitiesIds: data.stagedEntities,
       date: data.date,
       analyte: data.analyte,
@@ -205,7 +206,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
   }
 
   private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(
       (response) => {

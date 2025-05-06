@@ -1,4 +1,4 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, DestroyRef} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -56,11 +56,11 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   public readonly subtitle: string = 'Add new risk assessment'
   public readonly icon = HeartPulse;
 
-  private caseId!: string;
   public initialData: RiskAssessmentCreate | any = {};
   public relatedEntities: NeoplasticEntity[] = []; 
   public resultsType: string[] = [];
 
+  destroyRef = inject(DestroyRef);
 
   ngOnInit() {
     // Construct the form 
@@ -82,7 +82,7 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
 
   constructAPIPayload(data: any): RiskAssessmentCreate {    
     return {
-      caseId: this.caseId,
+      caseId: this.caseId(),
       assessedEntitiesIds: data.assessedEntities,
       date: data.date,
       methodology: data.methodology,
@@ -92,7 +92,7 @@ export class RiskAssessmentFormComponent extends AbstractFormBase implements OnI
   }
 
   private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
     .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(
       (response) => {

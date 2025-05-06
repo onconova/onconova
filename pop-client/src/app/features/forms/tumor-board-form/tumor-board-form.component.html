@@ -182,7 +182,7 @@
             type="submit" 
             label="Save" 
             styleClass="w-full p-3 mt-4"  
-            [loading]="loading"
+            [loading]="isSaving()"
             [disabled]="form.invalid" />
             
     </form>

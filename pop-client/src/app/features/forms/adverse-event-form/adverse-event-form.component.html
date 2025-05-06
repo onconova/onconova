@@ -68,11 +68,10 @@
                 <p-fieldset legend="Suspected cause" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
                     <p-button icon="pi pi-times" (click)="removeSuspectedCause(i)" class="subform-remove-button"/>
 
-                    @let relatedSuspectedCauses = relatedSuspectedCauses$ | async;
                     <div class="field">
                         <label class="form-label required">Suspect</label>
                         <p-select 
-                        [options]="relatedSuspectedCauses || []" 
+                        [options]="relatedSuspectedCauses.value() || []" 
                         formControlName="cause"
                         optionLabel="description" 
                         optionValue="id"
@@ -153,7 +152,7 @@
             type="submit" 
             label="Save" 
             styleClass="w-full p-3 mt-4"  
-            [loading]="loading"
+            [loading]="isSaving()"
             [disabled]="form.invalid" />
             
     </form>

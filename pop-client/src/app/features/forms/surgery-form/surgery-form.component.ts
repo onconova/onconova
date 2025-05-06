@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -59,9 +59,10 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
     public readonly subtitle: string = 'Add new surgery';
     public readonly icon = Slice;
 
-    private caseId!: string;
     public initialData: SurgeryCreate | any = {};
     public relatedEntities: NeoplasticEntity[] = []; 
+
+    destroyRef = inject(DestroyRef);
 
     public readonly intentChoices: RadioChoice[] = [
         {name: 'Curative', value: SurgeryIntentChoices.Curative},
@@ -91,7 +92,7 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
 
     constructAPIPayload(data: any): SurgeryCreate {    
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             date: data.date,
             targetedEntitiesIds: data.targetedEntities,
             procedure: data.procedure,
@@ -104,7 +105,7 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
     }
 
     private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
             (response) => {

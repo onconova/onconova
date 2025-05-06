@@ -12,7 +12,7 @@
         <div class="field">
             <label class="form-label required">Index condition</label>
             <p-select 
-                [options]="relatedEntities" 
+                [options]="relatedEntities.value() || []" 
                 formControlName="indexCondition"
                 optionLabel="description" 
                 optionValue="id"
@@ -54,7 +54,7 @@
     </form>
 
     @if (form.value.panel) {
-        @for (category of panelForm; track category.label) {
+        @for (category of panelForm(); track category.label) {
             <div class="field flex">                    
                 <p-toggleswitch [(ngModel)]="category.checked"/>
                 <label class="form-label ml-2 my-auto">{{category.label}}</label>
@@ -80,7 +80,7 @@
         label="Save" 
         form="comorbidities-form"
         styleClass="w-full p-3 mt-2"  
-        [loading]="loading"
+        [loading]="isSaving()"
         [disabled]="form.invalid">
     </button>
             

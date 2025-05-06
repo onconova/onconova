@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices } from '../../../shared/openapi'
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -54,6 +54,7 @@ export class PatientFormComponent extends AbstractFormBase implements OnInit {
   public readonly centerIllustration = 'assets/images/accessioning/hospital.svg';
   public readonly consentIllustration = 'assets/images/accessioning/consent.svg';
 
+  destroyRef = inject(DestroyRef);
   public readonly title: string = 'Accessioning'
   public readonly subtitle: string = 'Register a new patient case'
   public readonly icon = UserPlus;

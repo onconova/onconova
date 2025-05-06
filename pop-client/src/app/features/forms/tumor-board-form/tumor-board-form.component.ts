@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -95,7 +95,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     public readonly subtitle: string = 'Add new tumor board';
     public readonly icon = Presentation;
 
-    private caseId!: string;
+    destroyRef = inject(DestroyRef);
     public molecularTherapeuticRecommendationsFormArray!: FormArray;
     public initialData: AnyTumorBoard | any = {};
     public relatedEntities$!: Observable<NeoplasticEntity[]>;
@@ -127,18 +127,18 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
     ngOnInit() {
         // Construct the form 
         this.constructForm()
-        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId}).pipe(map((response) => response.items))
-        this.relatedPrimaryEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId, relationship: 'primary'}).pipe(map((response) => response.items))
-        this.relatedReports$ = this.genomicVariantsService.getGenomicVariants({caseId:this.caseId}).pipe(map( (response) => {
+        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId()}).pipe(map((response) => response.items))
+        this.relatedPrimaryEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId(), relationship: 'primary'}).pipe(map((response) => response.items))
+        this.relatedReports$ = this.genomicVariantsService.getGenomicVariants({caseId:this.caseId()}).pipe(map( (response) => {
             return Array.from(new Set(response.items.map((variant: GenomicVariant) => {
                 const entry = `${variant.genePanel || 'Unknown test'} (${variant.date})`;
                 return {name: entry, value: entry}
             })))
         }));
         this.relatedEvidence$ = forkJoin(
-            this.genomicVariantsService.getGenomicVariants({caseId:this.caseId}).pipe(map((response) => response.items)),
-            this.genomicSignaturesService.getGenomicSignatures({caseId:this.caseId}).pipe(map((response) => response.items)),
-            this.tumorMarkersService.getTumorMarkers({caseId:this.caseId}).pipe(map((response) => response.items)),
+            this.genomicVariantsService.getGenomicVariants({caseId:this.caseId()}).pipe(map((response) => response.items)),
+            this.genomicSignaturesService.getGenomicSignatures({caseId:this.caseId()}).pipe(map((response) => response.items)),
+            this.tumorMarkersService.getTumorMarkers({caseId:this.caseId()}).pipe(map((response) => response.items)),
         ).pipe(
             map(([genomicVariants, genomicSignatures, tumorMarkers]) => {
                 return [...genomicVariants, ...genomicSignatures, ...tumorMarkers];
@@ -230,7 +230,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
                 break;
         } 
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             category: data.category,
             date: data.date,
             relatedEntitiesIds: data.relatedEntities,
@@ -239,7 +239,7 @@ export class TumorBoardFormComponent extends AbstractFormBase implements OnInit 
         };
     }
 
-    private constructMolecularTherapeuticRecommendationPayloads(data: any): MolecularTherapeuticRecommendationCreate {
+    private constructMolecularTherapeuticRecommendationPayloads(data: any): MolecularTherapeuticRecommendationCreate[] {
         return data.therapeuticRecommendations.map((subformData: any) => {return {
             id: subformData.id,
             expectedEffect: subformData.expectedEffect,

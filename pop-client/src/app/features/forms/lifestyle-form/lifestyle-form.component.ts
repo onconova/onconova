@@ -53,7 +53,6 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
     public readonly subtitle: string = 'Add new lifestyle details';
     public readonly icon = Cigarette;
 
-    private caseId!: string;
     public initialData: LifestyleCreate | any = {};
 
     public readonly smokingStatusCodeClassification = {
@@ -82,7 +81,7 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
 
     constructAPIPayload(data: any): LifestyleCreate {    
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             date: data.date,
             smokingStatus: data.smokingStatus,
             smokingPackyears: data.smokingPackyears,

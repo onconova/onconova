@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, FormGroupDirective } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -104,7 +104,6 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
     public readonly subtitle: string = 'Add new staging'
     public readonly icon = Tags;
 
-    private caseId!: string;
     public initialData: any | EmptyObject = {};
 
     public currentStagingForm!: string;
@@ -130,7 +129,9 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
         {value: true, label: 'Yes'},
         {value: false, label: 'No'},
     ]
-    
+
+    destroyRef = inject(DestroyRef);
+        
     ngOnInit() {
         this.currentStagingForm = this.initialData?.stagingDomain || 'tnm'
         // Construct the form 
@@ -276,7 +277,7 @@ export class StagingFormComponent extends AbstractFormBase implements OnInit{
 
 
     private getRelatedEntities() {
-        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
           (response) => {

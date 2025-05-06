@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -56,7 +56,7 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
     public readonly subtitle: string = 'Add new risk assessment'
     public readonly icon = HeartPulse;
 
-    private caseId!: string;
+    destroyRef = inject(DestroyRef);
     public initialData: TreatmentResponseCreate | any = {};
     public relatedEntities$!: Observable<NeoplasticEntity[]>; 
     public resultsType: string[] = [];
@@ -69,7 +69,7 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
         // Construct the form 
         this.constructForm();
         // Fetch any primary neoplastic entities that could be related to a new entry 
-        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId}).pipe(map(response => response.items));
+        this.relatedEntities$ = this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()}).pipe(map(response => response.items));
     }
 
     constructForm(): void {
@@ -86,7 +86,7 @@ export class TreatmentResponseFormComponent extends AbstractFormBase implements 
 
     constructAPIPayload(data: any): TreatmentResponseCreate {    
         return {
-        caseId: this.caseId,
+        caseId: this.caseId(),
         assessedEntitiesIds: data.assessedEntities,
         date: data.date,
         recist: data.recist,

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -64,7 +64,8 @@ export class GenomicSignatureFormComponent extends AbstractFormBase implements O
     public readonly subtitle: string = 'Add new genomic signature';
     public readonly icon = Fingerprint;
 
-    private caseId!: string;
+    destroyRef = inject(DestroyRef);
+
     public initialData: AnyGenomicSignature | any = {};
 
     public readonly genomicSignatureTypes = GenomicSignatureTypes;
@@ -178,7 +179,7 @@ export class GenomicSignatureFormComponent extends AbstractFormBase implements O
                 break;                          
         } 
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             category: data.category,
             date: data.date,
             value: signatureValue,

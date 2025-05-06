@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -49,6 +49,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
     private readonly terminologyService: TerminologyService = inject(TerminologyService);
     public readonly formBuilder = inject(FormBuilder);
     
+    destroyRef = inject(DestroyRef);
     public readonly createService = (payload: PerformanceStatusCreate) => this.performanceStatusService.createPerformanceStatus({performanceStatusCreate: payload});
     public readonly updateService = (id: string, payload: PerformanceStatusCreate) => this.performanceStatusService.updatePerformanceStatusById({performanceStatusId: id, performanceStatusCreate: payload});
 
@@ -56,7 +57,6 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
     public readonly subtitle: string = 'Add new performance status';
     public readonly icon = CircleGauge;
 
-    private caseId!: string;
     public initialData: PerformanceStatusCreate | any = {};
 
     public ecogScores = [
@@ -136,7 +136,7 @@ export class PerformanceStatusFormComponent extends AbstractFormBase implements 
 
     constructAPIPayload(data: any): PerformanceStatusCreate {    
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             date: data.date,
             ecogScore: data.ecogScore,
             karnofskyScore: data.karnofskyScore,

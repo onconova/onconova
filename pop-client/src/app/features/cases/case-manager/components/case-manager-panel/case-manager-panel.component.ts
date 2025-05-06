@@ -21,6 +21,9 @@ import { PatientCasesService, PatientCaseDataCategories } from 'src/app/shared/o
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { CaseManagerPanelTimelineComponent } from "./components/case-manager-panel-timeline.component";
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
+import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
 
 
 export interface DataService {
@@ -55,8 +58,10 @@ export class CaseManagerPanelComponent {
     private readonly messageService = inject(MessageService);
     public readonly authService = inject(AuthService)
     private readonly confirmationService = inject(ConfirmationService)
+    #dialogservice = inject(DialogService)
 
     @Input() formComponent!: any;
+
 
     public caseId = input.required<string>();
     public category = input.required<PatientCaseDataCategories>();
@@ -74,6 +79,26 @@ export class CaseManagerPanelComponent {
         loader: ({request}) => this.service().get(request.caseId).pipe(map(response => response.items)),
     })
 
+    #modalFormConfig = computed( () => ({
+        data: {
+            title: this.title(),
+            subtitle: 'Add a new entry',
+            icon: this.icon(),
+        },
+        templates: {
+            header: ModalFormHeaderComponent,
+        },   
+        modal: true,
+        closable: true,
+        width: '35vw',
+        styleClass: 'pop-modal-form',
+        breakpoints: {
+            '1300px': '50vw',
+            '960px': '75vw',
+            '640px': '90vw'
+        },
+    }))
+    #modalFormRef: DynamicDialogRef | undefined;
 
     public drawerVisible: boolean = false;
     public drawerData: any = {};
@@ -114,17 +139,39 @@ export class CaseManagerPanelComponent {
     })
 
     addNewEntry() {    
-        this.modalFormService.open(this.formComponent, {}, this.data.reload.bind(this), this.caseId());
+        this.#modalFormRef = this.#dialogservice.open(this.formComponent, {
+            inputValues: {
+                caseId: this.caseId(),
+            },
+            ...this.#modalFormConfig()
+        })
+        this.reloadDataIfClosedAndSaved(this.#modalFormRef)
+    }
+
+    updateEntry(data: any) {
+        this.#modalFormRef = this.#dialogservice.open(this.formComponent, {
+            inputValues: {
+                caseId: this.caseId(),
+                resourceId: data.id,
+                initialData: data
+            },
+            ...this.#modalFormConfig()
+        })
+        this.reloadDataIfClosedAndSaved(this.#modalFormRef)
+    }
+
+    reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
+        modalFormRef.onClose.subscribe((data: any) => {
+            if (data?.saved) {
+                this.data.reload()
+            }
+        })    
     }
 
     showDrawer(data: any) {
         this.drawerVisible = true;
         this.drawerData = data;
         this.drawerHistory = this.service().history(data.id).pipe(map((response: any) => response.items));
-    }
-
-    updateEntry(data: any) {
-        this.modalFormService.open(this.formComponent, data, this.data.reload.bind(this), this.caseId());
     }
 
     deleteEntry(id: string) {

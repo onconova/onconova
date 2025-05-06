@@ -50,7 +50,6 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
     public readonly subtitle: string = 'Add new vitals';
     public readonly icon = Activity;
 
-    private caseId!: string;
     public initialData: VitalsCreate | any = {};
 
     ngOnInit() {
@@ -72,7 +71,7 @@ export class VitalsFormComponent extends AbstractFormBase implements OnInit {
 
     constructAPIPayload(data: any): VitalsCreate {    
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             date: data.date,
             height: data.height,
             weight: data.weight,

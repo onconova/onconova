@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit} from '@angular/core';
+import { Component, inject, input, Input, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,7 +19,7 @@ import { Fluid } from 'primeng/fluid';
     <p-fluid>
         <form  [formGroup]="form" (ngSubmit)="onSave()">
             
-            @if (!initialData.isAdmin) {
+            @if (!initialData()?.isAdmin) {
                 <div class="field">
                     <label class="form-label required">Old Password</label>
                     <input type="password" pInputText formControlName="oldPassword" />
@@ -41,7 +41,7 @@ import { Fluid } from 'primeng/fluid';
                 type="submit" 
                 label="Submit" 
                 styleClass="w-full p-3 mt-2"  
-                [loading]="loading"
+                [loading]="isSaving()"
                 [disabled]="form.invalid  || form.value.newPassword !== form.value.newPasswordCheck" />
                 
         </form>
@@ -70,22 +70,22 @@ export class PasswordResetFormComponent extends AbstractFormBase implements OnIn
     public readonly title: string = 'Reset password';
     public readonly subtitle: string = '';
     public readonly icon = KeyIcon;
-    public initialData!: {isAdmin: boolean, user: User};
+    public initialData = input<{isAdmin: boolean, user: User}>();
 
     ngOnInit() {
         // Construct the form 
         this.constructForm()
         // Dynamically set the corresponding service
-        if (this.initialData.isAdmin) {
-            this.createService = (payload: any) => this.authService.resetUserPassword({userId: this.initialData.user.id, password: payload});
+        if (this.initialData()?.isAdmin) {
+            this.createService = (payload: any) => this.authService.resetUserPassword({userId: this.initialData()?.user.id as string, password: payload});
         } else {
-            this.createService = (payload: any) => this.authService.updateUserPassword({userId: this.initialData.user.id, userPasswordReset: payload});
+            this.createService = (payload: any) => this.authService.updateUserPassword({userId: this.initialData()?.user.id as string, userPasswordReset: payload});
         }
         this.updateService = () => {null}; 
     }
 
     constructForm(): void {
-        if (this.initialData.isAdmin) {
+        if (this.initialData()?.isAdmin) {
             this.form = this.formBuilder.group({
                 newPassword: [null,Validators.required],
                 newPasswordCheck: [null,Validators.required],
@@ -102,7 +102,7 @@ export class PasswordResetFormComponent extends AbstractFormBase implements OnIn
 
 
     constructAPIPayload(data: any): UserPasswordReset | string {    
-        if (this.initialData.isAdmin) {
+        if (this.initialData()?.isAdmin) {
             return data.newPassword
         } else {
             return {

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, DestroyRef} from '@angular/core';
 import { Form, FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -66,7 +66,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
 
     public readonly createService = (payload: RadiotherapyCreate) => this.radiotherapiesService.createRadiotherapy({radiotherapyCreate: payload});
     public readonly updateService = (id: string, payload: RadiotherapyCreate) => this.radiotherapiesService.updateRadiotherapy({radiotherapyId: id, radiotherapyCreate: payload})
-    override readonly subformsServices = [
+    override subformsServices = [
         {
             payloads: this.constructDosagePayloads.bind(this),
             deletedEntries: this.getDeletedDosages.bind(this),
@@ -87,7 +87,6 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
     public readonly subtitle: string = 'Add new radiotherapy'
     public readonly icon = Radiation;
 
-    private caseId!: string;
     public dosageFormArray!: FormArray;
     public settingsFormArray!: FormArray;
     public initialData: Radiotherapy | any = {};
@@ -107,6 +106,8 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
         // Construct the form 
         this.constructForm()
     }
+
+    destroyRef = inject(DestroyRef);
 
     constructForm(): void {
 
@@ -153,7 +154,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
 
     constructAPIPayload(data: any): RadiotherapyCreate {    
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             targetedEntitiesIds: data.targetedEntities,
             period: {
                 start: data.period.start? data.period.start: data.period.split(' - ')[0],
@@ -165,7 +166,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
         };
     }
 
-    private constructDosagePayloads(data: any): RadiotherapyDosageCreate {
+    private constructDosagePayloads(data: any): RadiotherapyDosageCreate[] {
         return data.dosages.map((subformData: any) => {return {
             id: subformData.id,
             fractions: subformData.fractions,
@@ -176,7 +177,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
         }})
     }
 
-    private constructSettingsPayloads(data: any): RadiotherapyDosageCreate {
+    private constructSettingsPayloads(data: any): RadiotherapyDosageCreate[] {
         return data.settings.map((subformData: any) => {return {
             id: subformData.id,
             modality: subformData.modality,
@@ -217,7 +218,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase implements OnIni
     }
 
     private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
             (response) => {

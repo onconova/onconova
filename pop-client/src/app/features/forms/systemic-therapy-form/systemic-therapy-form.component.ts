@@ -1,4 +1,4 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -74,7 +74,8 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     public readonly subtitle: string = 'Add new systemic therapy'
     public readonly icon = Tablets;
 
-    private caseId!: string;
+
+    destroyRef = inject(DestroyRef);
     public medicationFormArray!: FormArray;
     public initialData: SystemicTherapy | any = {};
     public relatedEntities: NeoplasticEntity[] = []; 
@@ -195,7 +196,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
 
     constructAPIPayload(data: any): SystemicTherapyCreate {    
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             targetedEntitiesIds: data.targetedEntities,
             period: {
                 start: data.period.start? data.period.start: data.period.split(' - ')[0],
@@ -208,7 +209,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         };
     }
 
-    private constructMedicationPayloads(data: any): SystemicTherapyMedicationCreate {
+    private constructMedicationPayloads(data: any): SystemicTherapyMedicationCreate[] {
         return data.medications.map((subformData: any) => {return {
             id: subformData.id,
             drug: subformData.drug,
@@ -229,7 +230,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
     }
 
     private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
+        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(
             (response) => {

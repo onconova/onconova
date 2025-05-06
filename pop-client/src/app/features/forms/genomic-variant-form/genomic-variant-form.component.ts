@@ -67,7 +67,6 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
     public readonly subtitle: string = 'Add new genomic variant';
     public readonly icon = Dna;
 
-    private caseId!: string;
     public initialData: GenomicVariantCreate | any = {};
     
 
@@ -123,7 +122,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
 
     constructAPIPayload(data: any): GenomicVariantCreate {   
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             date: data.date,
             genes: data.genes,
             genePanel: data.genePanel,            

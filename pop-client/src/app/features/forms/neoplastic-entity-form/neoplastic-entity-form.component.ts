@@ -54,7 +54,6 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   public readonly subtitle: string = 'Add new neoplastic entity'
   public readonly icon = Ribbon;
 
-  private caseId!: string;
   public initialData: any = {};
   public requiresPrimary!: boolean;
   public morphologyTerminology!: string;
@@ -94,7 +93,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
 
   constructAPIPayload(data: any): NeoplasticEntityCreate {    
     return {
-      caseId: this.caseId,
+      caseId: this.caseId(),
       relationship: data.relationship,
       topography: data.topography,
       relatedPrimaryId: data.relatedPrimary,
@@ -124,7 +123,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase implements O
   };
 
   private getRelatedPrimaries() {
-    this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId, relationship: NeoplasticEntityRelationshipChoices.Primary}).subscribe(
+    this.neoplasticEntitiesService.getNeoplasticEntities({caseId: this.caseId(), relationship: NeoplasticEntityRelationshipChoices.Primary}).subscribe(
       (response) => {
           this.relatedPrimaries = response.items
       }
