@@ -1,5 +1,5 @@
-import { Component, effect, inject, input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, computed, effect, inject, input } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -13,6 +13,7 @@ import {
     FamilyHistory,
     FamilyHistoryCreate,
     FamilyHistoriesService,
+    CodedConcept,
 } from '../../../shared/openapi'
 
 import { 
@@ -49,34 +50,60 @@ export class FamilyHistoryFormComponent extends AbstractFormBase {
 
   // Service injections using Angular's `inject()` API
   readonly #familyHistoriesService: FamilyHistoriesService = inject(FamilyHistoriesService)
-  readonly #formBuilder = inject(FormBuilder)
+  readonly #fb = inject(FormBuilder)
 
     // Create and update service methods for the form data
   public readonly createService = (payload: FamilyHistoryCreate) => this.#familyHistoriesService.createFamilyHistory({familyHistoryCreate: payload});
   public readonly updateService = (id: string, payload: FamilyHistoryCreate) => this.#familyHistoriesService.updateFamilyHistory({familyHistoryId: id, familyHistoryCreate: payload})
 
   // Reactive form definition
-  override form: FormGroup = this.#formBuilder.group({
-    date: [Validators.required],
-    relationship: [Validators.required],
-    hadCancer: [Validators.required],
-    contributedToDeath: [],
-    onsetAge: [],
-    topography: [],
-    morphology: [],
-  })
+  public form = this.#fb.group({
+    date: this.#fb.control<string | null>(null, Validators.required),
+    relationship: this.#fb.control<CodedConcept | null>(null, Validators.required),
+    hadCancer: this.#fb.control<boolean>(false, Validators.required),
+    contributedToDeath: this.#fb.control<boolean | null>(null),
+    onsetAge: this.#fb.control<number | null>(null),
+    topography: this.#fb.control<CodedConcept | null>(null),
+    morphology: this.#fb.control<CodedConcept | null>(null),
+  });
 
-  // Effect to initialize form data when input changes
-  readonly #initializeFormEffect = effect(() => this.initializeFormData(this.initialData()));
+  readonly #onInitialDataChangeEffect = effect((): void => {
+    const data = this.initialData();
+    if (!data) return;
+  
+    this.form.patchValue({
+      date: data.date ?? null,
+      relationship: data.relationship ?? null,
+      hadCancer: data.hadCancer ?? false,
+      contributedToDeath: data.contributedToDeath ?? null,
+      onsetAge: data.onsetAge ?? null,
+      topography: data.topography ?? null,
+      morphology: data.morphology ?? null,
+    });
+  });
+
+  payload = (): FamilyHistoryCreate => {    
+    const data = this.form.value
+    return {
+      caseId: this.caseId(),
+      date: data.date!,
+      relationship: data.relationship!,
+      hadCancer: data.hadCancer!,
+      contributedToDeath: data.contributedToDeath,
+      onsetAge: data.onsetAge,
+      topography: data.topography,
+      morphology: data.morphology,
+    };
+  }
 
   // Signal to track the had cancer flag from form changes
-  #hadCancer = toSignal(this.form.controls['hadCancer'].valueChanges, { initialValue: this.initialData()?.hadCancer })
+  #hadCancer = toSignal(this.form.controls['hadCancer'].valueChanges, { initialValue: this.initialData()?.hadCancer! })
   // Effect to reset condition selections when the hadCancer value changes
   #hadCancerChanged = effect(() => {
     if (!this.#hadCancer()) {
       ['contributedToDeath', 'onsetAge', 'topography', 'morphology'].forEach(
         (field: string) => {
-            this.form.controls[field]!.setValue(null)
+            this.form.get(field)!.setValue(null)
         })
     }
   })
@@ -86,32 +113,6 @@ export class FamilyHistoryFormComponent extends AbstractFormBase {
       {name: 'Yes', value: true},
       {name: 'False', value: false},
   ]
-
-  // Populate form controls with initial data
-  initializeFormData(data: FamilyHistory | undefined) {
-    this.form.patchValue({
-      date: data?.date,
-      relationship: data?.relationship,
-      hadCancer: data?.hadCancer,
-      contributedToDeath: data?.contributedToDeath,
-      onsetAge: data?.onsetAge,
-      topography: data?.topography,
-      morphology: data?.morphology,
-    })
-  }
-
-  constructAPIPayload(data: any): FamilyHistoryCreate {    
-    return {
-      caseId: this.caseId(),
-      date: data.date,
-      relationship: data.relationship,
-      hadCancer: data.hadCancer,
-      contributedToDeath: data.contributedToDeath,
-      onsetAge: data.onsetAge,
-      topography: data.topography,
-      morphology: data.morphology,
-    };
-  }
 
 
 }

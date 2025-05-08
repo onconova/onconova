@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="date" class="form-label required">Date of the event</label>
@@ -21,8 +21,8 @@
         <div class="field">
             <label class="form-label required">Grade</label>
             <div>
-                @if (form.value.event) {
-                    @for (option of form.value.event | getEventGrades; track option.grade;) {
+                @if (form.value.event; as event) {
+                    @for (option of event | getEventGrades; track option.grade;) {
                         <div class="field-checkbox">
                             <p-radiobutton 
                                 [inputId]="option.description" 
@@ -64,7 +64,7 @@
         }
 
         <div formArrayName="suspectedCauses">
-            @for (control of suspectedCausesFormArray.controls; track $index; let i = $index) {
+            @for (control of form.controls['suspectedCauses'].controls; track $index; let i = $index) {
                 <p-fieldset legend="Suspected cause" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
                     <p-button icon="pi pi-times" (click)="removeSuspectedCause(i)" class="subform-remove-button"/>
 
@@ -97,7 +97,7 @@
         
 
         <div formArrayName="mitigations">
-            @for (control of mitigationsFormArray.controls; track $index; let i = $index) {
+            @for (control of form.controls['mitigations'].controls; track $index; let i = $index) {
                 <p-fieldset  legend="Mitigation" [toggleable]="false" [formGroupName]="i" [collapsed]="false">
                     <p-button icon="pi pi-times" (click)="removeMitigation(i)" class="subform-remove-button"/>
 

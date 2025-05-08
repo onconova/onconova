@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, first, of, catchError, tap } from 'rxjs';
 
 import { NgxCountAnimationDirective } from "ngx-count-animation";
+import { UserPlus } from 'lucide-angular';
 
 // PrimeNG dependencies
 import { MessageService } from 'primeng/api';
@@ -25,6 +26,8 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
 
 
 @Component({
@@ -61,6 +64,8 @@ export class CaseSearchComponent {
   private readonly modalFormService = inject(ModalFormService)
   public readonly authService = inject(AuthService)
   private readonly messageService = inject(MessageService) 
+  #dialogservice = inject(DialogService)
+  #modalFormRef: DynamicDialogRef | undefined;
 
 
   readonly manager = input<string>();
@@ -85,7 +90,34 @@ export class CaseSearchComponent {
   })
 
   openNewCaseForm() {    
-    this.modalFormService.open(PatientFormComponent, {}, this.cases.reload.bind(this));
+    this.#modalFormRef = this.#dialogservice.open(PatientFormComponent, {
+      data: {
+          title: 'Patient case registration',
+          subtitle: 'Add a new patient case',
+          icon: UserPlus,
+      },
+      templates: {
+          header: ModalFormHeaderComponent,
+      },   
+      modal: true,
+      closable: true,
+      width: '45vw',
+      styleClass: 'pop-modal-form',
+      breakpoints: {
+          '1700px': '50vw',
+          '960px': '75vw',
+          '640px': '90vw'
+      },
+    })
+    this.reloadDataIfClosedAndSaved(this.#modalFormRef)
+  }
+
+  reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
+    modalFormRef.onClose.subscribe((data: any) => {
+        if (data?.saved) {
+            this.cases.reload()
+        }
+      })    
   }
 
   deleteCase(id: string) {

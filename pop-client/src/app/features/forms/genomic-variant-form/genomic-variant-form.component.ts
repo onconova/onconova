@@ -1,9 +1,7 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, computed, effect, inject, input} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-import { Dna } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
@@ -19,6 +17,8 @@ import {
     GenomicVariantClinicalRelevanceChoices,
     GenomicVariantConfidenceChoices,
     GenomicVariantAssessmentChoices,
+    GenomicVariant,
+    CodedConcept,
 } from '../../../shared/openapi'
 
 import { 
@@ -26,8 +26,6 @@ import {
   DatePickerComponent,
   FormControlErrorComponent,
   RadioChoice,
-  RadioSelectComponent,
-  MultiReferenceSelectComponent,
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
@@ -51,24 +49,92 @@ import { Divider } from 'primeng/divider';
         InputTextModule,
         ButtonModule,
         ConceptSelectorComponent,
-        RadioSelectComponent,
         FormControlErrorComponent,
     ]
 })
-export class GenomicVariantFormComponent extends AbstractFormBase implements OnInit {
+export class GenomicVariantFormComponent extends AbstractFormBase {
 
-    private readonly genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
-    public readonly formBuilder = inject(FormBuilder);
+    // Input signal for initial data passed to the form
+    initialData = input<GenomicVariant>();
+
+    // Service injections using Angular's `inject()` API
+    readonly #genomicVariantsService: GenomicVariantsService = inject(GenomicVariantsService);
+    readonly #fb = inject(FormBuilder);
     
-    public readonly createService = (payload: GenomicVariantCreate) => this.genomicVariantsService.createGenomicVariant({genomicVariantCreate: payload});
-    public readonly updateService = (id: string, payload: GenomicVariantCreate) => this.genomicVariantsService.updateGenomicVariant({genomicVariantId: id, genomicVariantCreate: payload});
-
-    public readonly title: string = 'Genomic variant';
-    public readonly subtitle: string = 'Add new genomic variant';
-    public readonly icon = Dna;
-
-    public initialData: GenomicVariantCreate | any = {};
+    // Create and update service methods for the form data
+    public readonly createService = (payload: GenomicVariantCreate) => this.#genomicVariantsService.createGenomicVariant({genomicVariantCreate: payload});
+    public readonly updateService = (id: string, payload: GenomicVariantCreate) => this.#genomicVariantsService.updateGenomicVariant({genomicVariantId: id, genomicVariantCreate: payload});
+   
+    // Define the form
+    public form = this.#fb.group({
+      date: this.#fb.control<string | null>(null, Validators.required),
+      genePanel: this.#fb.control<string | null>(null),
+      assessment: this.#fb.control<GenomicVariantAssessmentChoices | null>(null),
+      confidence: this.#fb.control<GenomicVariantConfidenceChoices | null>(null),
+      analysisMethod: this.#fb.control<CodedConcept | null>(null, Validators.required),
+      clinicalRelevance: this.#fb.control<GenomicVariantClinicalRelevanceChoices | null>(null),
+      genes: this.#fb.control<CodedConcept[] | null>(null, Validators.required),
+      dnaHgvs: this.#fb.control<string | null>(null, [Validators.required, Validators.pattern(this.extractRegexPattern('dnaHgvs'))]),
+      rnaHgvs: this.#fb.control<string | null>(null, Validators.pattern(this.extractRegexPattern('rnaHgvs'))),
+      proteinHgvs: this.#fb.control<string | null>(null, Validators.pattern(this.extractRegexPattern('proteinHgvs'))),
+      copyNumber: this.#fb.control<number | null>(null),
+      molecularConsequence: this.#fb.control<CodedConcept | null>(null),
+      alleleFrequency: this.#fb.control<number | null>(null),
+      alleleDepth: this.#fb.control<number | null>(null),
+      zygosity: this.#fb.control<CodedConcept | null>(null),
+      inheritance: this.#fb.control<CodedConcept | null>(null),
+      clinvar: this.#fb.control<string | null>(null),
+    });
     
+    // API Payload construction function
+    payload = (): GenomicVariantCreate => {   
+        const data = this.form.value;
+        return {
+            caseId: this.caseId(),
+            date: data.date!,
+            genes: data.genes!,
+            genePanel: data.genePanel!,            
+            assessment: data.assessment,            
+            confidence: data.confidence,            
+            analysisMethod: data.analysisMethod!,   
+            clinicalRelevance: data.clinicalRelevance,   
+            dnaHgvs: data.dnaHgvs,   
+            rnaHgvs: data.rnaHgvs,   
+            proteinHgvs: data.proteinHgvs,   
+            molecularConsequence: data.molecularConsequence,   
+            clinvar: data.clinvar,    
+            alleleFrequency: data.alleleFrequency,   
+            copyNumber: data.copyNumber,   
+            alleleDepth: data.alleleDepth,   
+            zygosity: data.zygosity,   
+            inheritance: data.inheritance        
+        };
+    }
+    
+    readonly #onInitialDataChangeEffect = effect((): void => {
+      const data = this.initialData();
+      if (!data) return;
+    
+      this.form.patchValue({
+        date: data.date ?? null,
+        genePanel: data.genePanel ?? null,
+        assessment: data.assessment ?? null,
+        confidence: data.confidence ?? null,
+        analysisMethod: data.analysisMethod ?? null,
+        clinicalRelevance: data.clinicalRelevance ?? null,
+        genes: data.genes ?? null,
+        dnaHgvs: data.dnaHgvs ?? null,
+        rnaHgvs: data.rnaHgvs ?? null,
+        proteinHgvs: data.proteinHgvs ?? null,
+        copyNumber: data.copyNumber ?? null,
+        molecularConsequence: data.molecularConsequence ?? null,
+        alleleFrequency: data.alleleFrequency ?? null,
+        alleleDepth: data.alleleDepth ?? null,
+        zygosity: data.zygosity ?? null,
+        inheritance: data.inheritance ?? null,
+        clinvar: data.clinvar ?? null,
+      });
+    });
 
     public confidenceChoices: RadioChoice[] = [
         {name: 'Low', value: GenomicVariantConfidenceChoices.Low},
@@ -92,56 +158,6 @@ export class GenomicVariantFormComponent extends AbstractFormBase implements OnI
         {name: 'Uncertain significance', value: GenomicVariantClinicalRelevanceChoices.UncertainSignificance},
     ]
 
-    ngOnInit() {
-        // Construct the form 
-        this.constructForm();
-    }
-
-    constructForm(): void {
-        this.form = this.formBuilder.group({
-            date: [this.initialData?.date, Validators.required],
-            genePanel: [this.initialData?.genePanel],      
-            assessment: [this.initialData?.assessment],      
-            confidence: [this.initialData?.confidence],      
-            analysisMethod: [this.initialData?.analysisMethod, Validators.required],  
-            clinicalRelevance: [this.initialData?.clinicalRelevance], 
-            genes: [this.initialData?.genes,Validators.required],     
-            dnaHgvs: [this.initialData?.dnaHgsv, [Validators.required, Validators.pattern(this.extractRegexPattern('dnaHgvs'))]],         
-            rnaHgvs: [this.initialData?.rnaHgsv, Validators.pattern(this.extractRegexPattern('rnaHgvs'))],         
-            proteinHgvs: [this.initialData?.proteinHgvs, Validators.pattern(this.extractRegexPattern('proteinHgvs'))],         
-            copyNumber: [this.initialData?.copyNumber],       
-            molecularConsequence: [this.initialData?.molecularConsequence],        
-            alleleFrequency: [this.initialData?.alleleFrequency],  
-            alleleDepth: [this.initialData?.alleleDepth],       
-            zygosity: [this.initialData?.zygosity],        
-            inheritance: [this.initialData?.inheritance],        
-            clinvar: [this.initialData?.clinvar],             
-        });
-    }
-
-
-    constructAPIPayload(data: any): GenomicVariantCreate {   
-        return {
-            caseId: this.caseId(),
-            date: data.date,
-            genes: data.genes,
-            genePanel: data.genePanel,            
-            assessment: data.assessment,            
-            confidence: data.confidence,            
-            analysisMethod: data.analysisMethod,   
-            clinicalRelevance: data.clinicalRelevance,   
-            dnaHgvs: data.dnaHgvs,   
-            rnaHgvs: data.rnaHgvs,   
-            proteinHgvs: data.proteinHgvs,   
-            molecularConsequence: data.molecularConsequence,   
-            clinvar: data.clinvar,    
-            alleleFrequency: data.alleleFrequency,   
-            copyNumber: data.copyNumber,   
-            alleleDepth: data.alleleDepth,   
-            zygosity: data.zygosity,   
-            inheritance: data.inheritance        
-        };
-    }
 
     private extractRegexPattern(propertyName: string): string {
         const schema = openApiSchema.components.schemas.GenomicVariantCreate;

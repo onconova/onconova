@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, first, of, Observable, catchError } from 'rxjs';
 
+import { Users } from 'lucide-angular';
+
 // PrimeNG dependencies
 import { MessageService } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -20,6 +22,8 @@ import { ModalFormService } from 'src/app/shared/components/modal-form/modal-for
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
 import { CohortFormComponent } from 'src/app/features/forms/cohort-form/cohort-form.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -45,6 +49,8 @@ export class CohortSearchComponent implements OnInit {
   private cohortsService = inject(CohortsService)
   private modalFormService = inject(ModalFormService)
   private messageService = inject(MessageService) 
+  #dialogservice = inject(DialogService)
+  #modalFormRef: DynamicDialogRef | undefined;
 
 
   @Input() public currentUser: string | undefined;
@@ -90,7 +96,35 @@ export class CohortSearchComponent implements OnInit {
    }
    
   openNewCohortForm() {    
-    this.modalFormService.open(CohortFormComponent, {}, this.refreshCohorts.bind(this));
+      this.#modalFormRef = this.#dialogservice.open(CohortFormComponent, {
+        data: {
+            title: 'Patient case registration',
+            subtitle: 'Add a new patient case',
+            icon: Users,
+        },
+        templates: {
+            header: ModalFormHeaderComponent,
+        },   
+        modal: true,
+        closable: true,
+        width: '45vw',
+        styleClass: 'pop-modal-form',
+        breakpoints: {
+            '1700px': '50vw',
+            '960px': '75vw',
+            '640px': '90vw'
+        },
+      })
+      this.reloadDataIfClosedAndSaved(this.#modalFormRef)
+  }
+
+
+  reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
+    modalFormRef.onClose.subscribe((data: any) => {
+        if (data?.saved) {
+          this.refreshCohorts()
+        }
+      })    
   }
 
 

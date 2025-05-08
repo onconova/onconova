@@ -35,7 +35,6 @@ import { environment } from 'src/environments/environment';
         SettingsDialogComponent,
         GetFullNamePipe,
         GetNameAcronymPipe,
-        ModalFormComponent,
     ]
 })
 export class AppTopBarComponent {

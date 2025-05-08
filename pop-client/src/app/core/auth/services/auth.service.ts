@@ -12,24 +12,26 @@ import { rxResource } from '@angular/core/rxjs-interop';
 })
 export class AuthService {
 
-  private apiAuth = inject(APIAuthService);
-  private jwtHelper = new JwtHelperService();
+  #apiAuth = inject(APIAuthService);
+  #jwtHelper = new JwtHelperService();
+  #refreshInProgress: Promise<void> | null = null;
+
   // Signals initialized from localStorage
   public username = signal(this.getStoredUsername());
   public accessToken = signal(this.getStoredAccessToken());
   public refreshToken = signal(this.getStoredRefreshToken());
 
   // Computed: validity status for access/refresh tokens
-  public isAccessTokenValid = computed(() => !this.jwtHelper.isTokenExpired(this.accessToken()));
-  public isRefreshTokenValid = computed(() => !this.jwtHelper.isTokenExpired(this.refreshToken()));
+  public isAccessTokenValid = () => !this.#jwtHelper.isTokenExpired(this.accessToken());
+  public isRefreshTokenValid = () => !this.#jwtHelper.isTokenExpired(this.refreshToken());
   
   // Computed: isAuthenticated (reactive, based on access token validity)
-  public isAuthenticated = computed(() => this.isAccessTokenValid() && this.isRefreshTokenValid());
+  public isAuthenticated = () => this.isAccessTokenValid() && this.isRefreshTokenValid();
 
   // Reactive user resource (refetches on username change)
   public userResource = rxResource({
     request: () => ({username: this.username()}),
-    loader: ({request}) => this.apiAuth.getUsers(request).pipe(
+    loader: ({request}) => this.#apiAuth.getUsers(request).pipe(
       map(data => data.items[0])
     )
   });  
@@ -38,7 +40,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<void> {
     const userCredentials: UserCredentials = { username, password };
-    return this.apiAuth.getTokenPair({ userCredentials }).pipe(
+    return this.#apiAuth.getTokenPair({ userCredentials }).pipe(
       map((response: TokenPair) => {
         this.storeAccessToken(response.access);
         this.storeRefreshToken(response.refresh);
@@ -84,22 +86,32 @@ export class AuthService {
   // Manual token check and refresh (to be called by guards/resolvers)
   async ensureAuthenticated(): Promise<boolean> {
     if (!this.isAccessTokenValid() && this.isRefreshTokenValid()) {
+      // If refresh is in progress, wait to avoid race conditions
+      if (this.#refreshInProgress) {
+        await this.#refreshInProgress;
+        return this.isAuthenticated();
+      }
+      // Refresh the JWT tokens 
       const refreshToken = this.refreshToken();
       if (refreshToken) {
         await firstValueFrom(
-          this.apiAuth.refreshTokenPair({ tokenRefresh: { refresh: refreshToken } }).pipe(
+          this.#apiAuth.refreshTokenPair({ tokenRefresh: { refresh: refreshToken } }).pipe(
             map((tokenPair: RefreshedTokenPair) => {
               this.accessToken.set(tokenPair.access);
               this.refreshToken.set(tokenPair.refresh);
+              this.storeRefreshToken(tokenPair.refresh);
               if (tokenPair.access) {
                 this.storeAccessToken(tokenPair.access);
               } else {
                 localStorage.removeItem('pop_access_token');
               }
-              this.storeRefreshToken(tokenPair.refresh);
             })
           )
-        );
+        ).then(() => {
+          this.#refreshInProgress = null;
+        }).catch(() => {
+          this.#refreshInProgress = null;
+        });
       }
     }
     return this.isAuthenticated();

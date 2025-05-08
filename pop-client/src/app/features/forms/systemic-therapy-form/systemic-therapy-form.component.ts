@@ -1,10 +1,7 @@
-import { Component, DestroyRef, inject, OnInit} from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { Component, computed, effect, inject, input} from '@angular/core';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormArray, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { Tablets } from 'lucide-angular';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
@@ -13,14 +10,15 @@ import { Fieldset } from 'primeng/fieldset';
 
 import { 
     CodedConcept,
-    NeoplasticEntity, 
     NeoplasticEntitiesService, 
     SystemicTherapyCreate,
     SystemicTherapyMedication,
     SystemicTherapyMedicationCreate,
     SystemicTherapiesService,
     SystemicTherapy,
-    SystemicTherapyIntentChoices
+    SystemicTherapyIntentChoices,
+    Period,
+    Measure
 } from '../../../shared/openapi'
 
 import { 
@@ -34,6 +32,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'systemic-therapy-form',
@@ -54,163 +53,122 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         FormControlErrorComponent,
     ]
 })
-export class SystemicTherapyFormComponent extends AbstractFormBase implements OnInit {
+export class SystemicTherapyFormComponent extends AbstractFormBase {
 
-    private readonly systemicTherapiesService: SystemicTherapiesService = inject(SystemicTherapiesService)
-    private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
-    public readonly formBuilder = inject(FormBuilder)
+    // Input signal for initial data passed to the form
+    initialData = input<SystemicTherapy>();
 
-    public readonly createService = (payload: SystemicTherapyCreate) => this.systemicTherapiesService.createSystemicTherapy({systemicTherapyCreate: payload});
-    public readonly updateService = (id: string, payload: SystemicTherapyCreate) => this.systemicTherapiesService.updateSystemicTherapy({systemicTherapyId: id, systemicTherapyCreate: payload})
+    // Service injections
+    readonly #systemicTherapiesService = inject(SystemicTherapiesService);
+    readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService);
+    readonly #fb = inject(FormBuilder);
+
+  // Create and update service methods for the form data
+    public readonly createService = (payload: SystemicTherapyCreate) => this.#systemicTherapiesService.createSystemicTherapy({systemicTherapyCreate: payload});
+    public readonly updateService = (id: string, payload: SystemicTherapyCreate) => this.#systemicTherapiesService.updateSystemicTherapy({systemicTherapyId: id, systemicTherapyCreate: payload})
     override readonly subformsServices = [{
         payloads: this.constructMedicationPayloads.bind(this),
         deletedEntries: this.getDeletedMedications.bind(this),
-        delete: (parentId: string, id: string) => this.systemicTherapiesService.deleteSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id}),
-        create: (parentId: string, payload: SystemicTherapyMedicationCreate) => this.systemicTherapiesService.createSystemicTherapyMedication({systemicTherapyId: parentId, systemicTherapyMedicationCreate: payload}),
-        update: (parentId: string, id: string, payload: SystemicTherapyMedicationCreate) => this.systemicTherapiesService.updateSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id, systemicTherapyMedicationCreate: payload}),
+        delete: (parentId: string, id: string) => this.#systemicTherapiesService.deleteSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id}),
+        create: (parentId: string, payload: SystemicTherapyMedicationCreate) => this.#systemicTherapiesService.createSystemicTherapyMedication({systemicTherapyId: parentId, systemicTherapyMedicationCreate: payload}),
+        update: (parentId: string, id: string, payload: SystemicTherapyMedicationCreate) => this.#systemicTherapiesService.updateSystemicTherapyMedication({systemicTherapyId: parentId, medicationId: id, systemicTherapyMedicationCreate: payload}),
     }]
+    #deletedMedications: string[] = [];
 
-    public readonly title: string = 'Systemic Therapy'
-    public readonly subtitle: string = 'Add new systemic therapy'
-    public readonly icon = Tablets;
+    // Define the main form
+    public form = this.#fb.group({
+        period: this.#fb.control<Period | string | null>(null, Validators.required),
+        targetedEntities: this.#fb.control<string[] | null>(null, Validators.required),
+        drugs: this.#fb.nonNullable.control<CodedConcept[]>([], Validators.required),
+        cycles: this.#fb.control<number | null>(null, Validators.required),
+        intent: this.#fb.control<SystemicTherapyIntentChoices | null>(null, Validators.required),
+        isAdjunctive: this.#fb.control<boolean>(false, Validators.required),
+        adjunctiveRole: this.#fb.control<CodedConcept | null>(null),
+        terminationReason: this.#fb.control<CodedConcept | null>(null),
+        medications: this.#fb.array<FormGroup>([]),
+      });
 
-
-    destroyRef = inject(DestroyRef);
-    public medicationFormArray!: FormArray;
-    public initialData: SystemicTherapy | any = {};
-    public relatedEntities: NeoplasticEntity[] = []; 
-
-    public readonly intentChoices: RadioChoice[] = [
-        {name: 'Curative', value: SystemicTherapyIntentChoices.Curative},
-        {name: 'Palliative', value: SystemicTherapyIntentChoices.Palliative},
-    ]
-
-    public readonly roleChoices: RadioChoice[] = [
-        {name: 'Primary', value: false},
-        {name: 'Adjunctive', value: true},
-    ]
-    public readonly dosageTypeChoices: RadioChoice[] = [
-        {name: 'Mass', value: 'Mass'},
-        {name: 'Volume', value: 'Volume'},
-        {name: 'Mass Concentration', value: 'MassConcentration'},
-        {name: 'Mass per surface', value: 'MassPerSurface'},
-    ]
-
-
-    private deletedMedications: string[] = [];
-
-    ngOnInit() {
-        // Fetch any neoplastic entities that could be related to a new entry 
-        this.getRelatedEntities()
-        // Construct the form 
-        this.constructForm()
-    }
-
-    ngAfterViewInit() {
-        this.form.get('drugs')?.valueChanges.subscribe((drugs: CodedConcept[]) => {
-            // Add subforms for new drugs
-            drugs.forEach((drug: CodedConcept) => {
-                if (!this.medicationFormArray.value.map( (medication: SystemicTherapyMedication) => medication.drug ).includes(drug) ){
-                    this.medicationFormArray.push(this.constructMedicationSubform({drug: drug} as SystemicTherapyMedication));    
-                }
-            });
-            // Remove subforms for drugs that are no longer selected
-            this.medicationFormArray.value.forEach((medication: SystemicTherapyMedication, index: number) => {
-                if (!drugs.includes(medication.drug)) {
-                    if (medication.id) {
-                        this.deletedMedications.push(medication.id);
-                    }
-                    this.medicationFormArray.removeAt(index);
-                }
-            })
-        })
-
-        this.form.get('isAdjunctive')?.valueChanges.subscribe((isAdjunctive: boolean) => {
-            if (isAdjunctive) {
-                this.form.get('adjunctiveRole')?.addValidators(Validators.required);
-            } else {
-                this.form.get('adjunctiveRole')?.removeValidators(Validators.required);
-                this.form.get('adjunctiveRole')?.setValue(null)
-            }
-            this.form.get('adjunctiveRole')?.updateValueAndValidity();
-        })
-    }
-
-    constructForm(): void {
-
-        this.medicationFormArray = this.formBuilder.array((this.initialData?.medications || [])?.map(
-            (initialMedication: SystemicTherapyMedication) => {
-                return this.constructMedicationSubform(initialMedication)
-            }
-        ))
-        this.form = this.formBuilder.group({
-            period: [this.initialData?.period, Validators.required],
-            targetedEntities: [this.initialData?.targetedEntitiesIds, Validators.required],
-            cycles: [this.initialData?.cycles,Validators.required],
-            intent: [this.initialData?.intent,Validators.required],
-            isAdjunctive: [this.initialData?.adjunctiveRole ? true : false, Validators.required],
-            adjunctiveRole: [this.initialData?.adjunctiveRole],
-            terminationReason: [this.initialData?.terminationReason],
-            drugs: [this.initialData?.medications?.map((med:any) => med.drug),Validators.required],
-            medications: this.medicationFormArray,
+    readonly #onInitialDataChangeEffect = effect((): void => {
+            const data = this.initialData();
+            if (!data) return;
+            
+            this.form.patchValue({
+                period: data.period ?? null,
+                targetedEntities: data.targetedEntitiesIds ?? null,
+                drugs: data.medications?.map((med: any) => med.drug) ?? [],
+                cycles: data.cycles ?? null,
+                intent: data.intent ?? null,
+                isAdjunctive: data.adjunctiveRole ? true : false,
+                adjunctiveRole: data.adjunctiveRole ?? null,
+                terminationReason: data.terminationReason ?? null,
         });
-    }
+        (data.medications ?? []).forEach((initialData: SystemicTherapyMedication) => {
+            this.form.controls.medications.push(this.#medicationForm(initialData));
+        });
+    });
 
-    constructMedicationSubform(initalData: SystemicTherapyMedication) {
-        return this.formBuilder.group({
-            id: [initalData.id],
-            drug: [initalData.drug, Validators.required],
-            route: [initalData.route],
-            dosageType: [this.getInitialDosageType(initalData)],
-            dosageMass: [initalData.dosageMass],
-            dosageMassConcentration: [initalData.dosageMassConcentration],
-            dosageVolume: [initalData.dosageVolume],
-            dosageMassSurface: [initalData.dosageRateMassSurface],
-            dosageRateMass: [initalData.dosageRateMass],
-            dosageRateMassConcentration: [initalData.dosageRateMassConcentration],
-            dosageRateVolume: [initalData.dosageRateVolume],
-            dosageRateMassSurface: [initalData.dosageRateMassSurface],
-        })
-    }
+    //Definition for the dynamic subform constructor
+    #medicationForm = (initialData: SystemicTherapyMedication) => this.#fb.group({
+        id: this.#fb.control<string | null>(
+            initialData.id || null
+        ),
+        drug: this.#fb.control<CodedConcept | null>(
+            initialData.drug || null, 
+            Validators.required
+        ),
+        route: this.#fb.control<CodedConcept | null>(
+            initialData.route || null
+        ),
+        dosageType: this.#fb.control<string | null>(
+            this.getInitialDosageType(initialData)
+        ),
+        dosageMass: this.#fb.control<Measure | null>(
+            initialData.dosageMass || null
+        ),
+        dosageMassConcentration: this.#fb.control<Measure | null>(
+            initialData.dosageMassConcentration || null
+        ),
+        dosageVolume: this.#fb.control<Measure | null>(
+            initialData.dosageVolume || null
+        ),
+        dosageMassSurface: this.#fb.control<Measure | null>(
+            initialData.dosageRateMassSurface || null
+        ),
+        dosageRateMass: this.#fb.control<Measure | null>(
+            initialData.dosageRateMass || null
+        ),
+        dosageRateMassConcentration: this.#fb.control<Measure | null>(
+            initialData.dosageRateMassConcentration || null
+        ),
+        dosageRateVolume: this.#fb.control<Measure | null>(
+            initialData.dosageRateVolume || null
+        ),
+        dosageRateMassSurface: this.#fb.control<Measure | null>(
+            initialData.dosageRateMassSurface || null
+        ),
+    })
 
-    getInitialDosageType(data: SystemicTherapyMedication) {
-        if (data.dosageMass || data.dosageRateMass) {
-            return 'Mass'
-        } else if (data.dosageMassConcentration || data.dosageRateMassConcentration) {
-            return 'MassConcentration'
-        }  else if (data.dosageMassSurface || data.dosageRateMassSurface) {
-            return 'MassPerSurface'
-        }  else if (data.dosageVolume || data.dosageRateVolume) {
-            return 'Volume'
-        }
-        return null
-    }
 
-    meditcationSubforms(): any[] {
-        const formarray: FormArray = this.form.get('medications') as FormArray;
-        if (formarray){
-            return formarray.controls;
-        }
-        return [];
-    }
 
-    constructAPIPayload(data: any): SystemicTherapyCreate {    
+    // API Payload construction functions
+    readonly payload = (): SystemicTherapyCreate => {    
+        const data = this.form.value;
         return {
             caseId: this.caseId(),
-            targetedEntitiesIds: data.targetedEntities,
+            targetedEntitiesIds: data.targetedEntities!,
             period: {
-                start: data.period.start? data.period.start: data.period.split(' - ')[0],
-                end: data.period.end? data.period.end: data.period.split(' - ')[1],
+                start: typeof data.period == 'string' ? data.period.split(' - ')[0] : data.period!.start,
+                end: typeof data.period == 'string' ? data.period.split(' - ')[1] : data.period!.end,
             },
             adjunctiveRole: data.isAdjunctive ? data.adjunctiveRole : null,
-            cycles: data.cycles,
-            intent: data.intent,
+            cycles: data.cycles!,
+            intent: data.intent!,
             terminationReason: data.terminationReason,
         };
     }
-
-    private constructMedicationPayloads(data: any): SystemicTherapyMedicationCreate[] {
-        return data.medications.map((subformData: any) => {return {
+    private constructMedicationPayloads(): SystemicTherapyMedicationCreate[] {
+        const data = this.form.value;
+        return data.medications!.map((subformData: any) => {return {
             id: subformData.id,
             drug: subformData.drug,
             route: subformData.route,
@@ -225,19 +183,77 @@ export class SystemicTherapyFormComponent extends AbstractFormBase implements On
         }})
     }
 
-    private getDeletedMedications(): string[] {
-        return this.deletedMedications;
-    }
+    // All neoplastic entities related to this patient case
+    public relatedEntities = rxResource({
+        request: () => ({caseId: this.caseId()}),
+        loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(response => response.items)),
+    }) 
 
-    private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-            (response) => {
-                this.relatedEntities = response.items
+    // Human readable choices for UI elements
+    public readonly intentChoices: RadioChoice[] = [
+        {name: 'Curative', value: SystemicTherapyIntentChoices.Curative},
+        {name: 'Palliative', value: SystemicTherapyIntentChoices.Palliative},
+    ]
+    public readonly roleChoices: RadioChoice[] = [
+        {name: 'Primary', value: false},
+        {name: 'Adjunctive', value: true},
+    ]
+    public readonly dosageTypeChoices: RadioChoice[] = [
+        {name: 'Mass', value: 'Mass'},
+        {name: 'Volume', value: 'Volume'},
+        {name: 'Mass Concentration', value: 'MassConcentration'},
+        {name: 'Mass per surface', value: 'MassPerSurface'},
+    ]
+
+    // Subform update effect
+    #selectedDrugs = toSignal(this.form.controls['drugs']!.valueChanges, {initialValue: []});
+    #updateDosagesFormArrayEffect = effect(() => {
+        const medicationFormArray = this.form.controls['medications'] as FormArray;
+        // Add subforms for new drugs
+        this.#selectedDrugs()!.forEach((drug: CodedConcept) => {
+            if (!medicationFormArray.value.map( (medication: SystemicTherapyMedication) => medication.drug ).includes(drug) ){
+                medicationFormArray.push(this.#medicationForm({drug: drug} as SystemicTherapyMedication));    
             }
-        )
+        });
+        // Remove subforms for drugs that are no longer selected
+        medicationFormArray.value.forEach((medication: SystemicTherapyMedication, index: number) => {
+            if (!this.#selectedDrugs()!.includes(medication.drug)) {
+                if (medication.id) {
+                    this.#deletedMedications.push(medication.id);
+                }
+                medicationFormArray.removeAt(index);
+            }
+        })        
+    })
+
+    // Adjunctive role effect
+    #isAdjunctive = toSignal(this.form.controls['isAdjunctive']!.valueChanges);
+    #updateAdjunctiveRoleEffect = effect(() => {
+        if (this.#isAdjunctive()) {
+            this.form.get('adjunctiveRole')?.addValidators(Validators.required);
+        } else {
+            this.form.get('adjunctiveRole')?.removeValidators(Validators.required);
+            this.form.get('adjunctiveRole')?.setValue(null)
+        }
+        this.form.get('adjunctiveRole')?.updateValueAndValidity();
+
+    })
+
+    getInitialDosageType(data: SystemicTherapyMedication) {
+        if (data.dosageMass || data.dosageRateMass) {
+            return 'Mass'
+        } else if (data.dosageMassConcentration || data.dosageRateMassConcentration) {
+            return 'MassConcentration'
+        }  else if (data.dosageMassSurface || data.dosageRateMassSurface) {
+            return 'MassPerSurface'
+        }  else if (data.dosageVolume || data.dosageRateVolume) {
+            return 'Volume'
+        }
+        return null
     }
 
+    private getDeletedMedications(): string[] {
+        return this.#deletedMedications;
+    }
 
 }

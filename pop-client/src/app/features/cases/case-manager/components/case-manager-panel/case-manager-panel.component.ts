@@ -1,8 +1,7 @@
-import { Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef,ChangeDetectionStrategy, Output, EventEmitter, Signal, signal, input, computed } from '@angular/core';
+import { Component, Input,inject, Output, EventEmitter, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, first, of, map, startWith} from 'rxjs';
-import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
+import { Observable, first, map} from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 import { Panel } from 'primeng/panel';
 import { AvatarModule } from 'primeng/avatar';
@@ -22,7 +21,6 @@ import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { CaseManagerPanelTimelineComponent } from "./components/case-manager-panel-timeline.component";
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
 
 
@@ -54,7 +52,6 @@ export class CaseManagerPanelComponent {
     @Output() onCompletionChange = new EventEmitter<boolean>; 
 
     private readonly patienCaseService = inject(PatientCasesService);
-    private readonly modalFormService = inject(ModalFormService);
     private readonly messageService = inject(MessageService);
     public readonly authService = inject(AuthService)
     private readonly confirmationService = inject(ConfirmationService)
@@ -90,10 +87,10 @@ export class CaseManagerPanelComponent {
         },   
         modal: true,
         closable: true,
-        width: '35vw',
+        width: '45vw',
         styleClass: 'pop-modal-form',
         breakpoints: {
-            '1300px': '50vw',
+            '1700px': '50vw',
             '960px': '75vw',
             '640px': '90vw'
         },

@@ -1,21 +1,20 @@
-import { Component, DestroyRef, inject, OnInit} from '@angular/core';
+import { Component, computed, effect, inject, input} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { Slice } from 'lucide-angular';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { SelectModule } from 'primeng/select';
 
 import { 
-    NeoplasticEntity, 
     NeoplasticEntitiesService, 
     SurgeryCreate,
     SurgeriesService,
-    SurgeryIntentChoices
+    SurgeryIntentChoices,
+    Surgery,
+    CodedConcept
 } from '../../../shared/openapi'
 
 import { 
@@ -28,6 +27,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'surgery-form',
@@ -46,57 +46,56 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         FormControlErrorComponent,
     ]
 })
-export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
+export class SurgeryFormComponent extends AbstractFormBase {
 
-    private readonly surgeriesService: SurgeriesService = inject(SurgeriesService);
-    private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
-    public readonly formBuilder = inject(FormBuilder);
+    // Input signal for initial data passed to the form
+    initialData = input<Surgery>();
+
+    // Service injections
+    readonly #surgeriesService: SurgeriesService = inject(SurgeriesService);
+    readonly #neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
+    readonly #fb = inject(FormBuilder);
     
-    public readonly createService = (payload: SurgeryCreate) => this.surgeriesService.createSurgery({surgeryCreate: payload});
-    public readonly updateService = (id: string, payload: SurgeryCreate) => this.surgeriesService.updateSurgeryById({surgeryId: id, surgeryCreate: payload});
+    // Create and update service methods for the form data
+    public readonly createService = (payload: SurgeryCreate) => this.#surgeriesService.createSurgery({surgeryCreate: payload});
+    public readonly updateService = (id: string, payload: SurgeryCreate) => this.#surgeriesService.updateSurgeryById({surgeryId: id, surgeryCreate: payload});
 
-    public readonly title: string = 'Surgery';
-    public readonly subtitle: string = 'Add new surgery';
-    public readonly icon = Slice;
+    // Define the form
+    public form = this.#fb.group({
+        date: this.#fb.control<string | null>(null, Validators.required),
+        targetedEntities: this.#fb.control<string[]>([], Validators.required),
+        procedure: this.#fb.control<CodedConcept | null>(null, Validators.required),
+        intent: this.#fb.control<SurgeryIntentChoices | null>(null, Validators.required),
+        bodysite: this.#fb.control<CodedConcept | null>(null),
+        bodysiteQualifier: this.#fb.control<CodedConcept | null>(null),
+        bodysiteLaterality: this.#fb.control<CodedConcept | null>(null),
+        outcome: this.#fb.control<CodedConcept | null>(null),
+      });
 
-    public initialData: SurgeryCreate | any = {};
-    public relatedEntities: NeoplasticEntity[] = []; 
-
-    destroyRef = inject(DestroyRef);
-
-    public readonly intentChoices: RadioChoice[] = [
-        {name: 'Curative', value: SurgeryIntentChoices.Curative},
-        {name: 'Palliative', value: SurgeryIntentChoices.Palliative},
-    ]
-
-    ngOnInit() {
-        // Fetch any neoplastic entities that could be related to a new entry 
-        this.getRelatedEntities();
-        // Construct the form 
-        this.constructForm();
-    }
-
-    constructForm(): void {
-        this.form = this.formBuilder.group({
-            date: [this.initialData?.date, Validators.required],
-            targetedEntities: [this.initialData?.targetedEntitiesIds, Validators.required],
-            procedure: [this.initialData?.procedure,Validators.required],
-            intent: [this.initialData?.intent,Validators.required],
-            bodysite: [this.initialData?.bodysite],
-            bodysiteQualifier: [this.initialData?.bodysiteQualifier], 
-            bodysiteLaterality: [this.initialData?.bodysiteLaterality],
-            outcome: [this.initialData?.outcome],           
-        });
-    }
-
-
-    constructAPIPayload(data: any): SurgeryCreate {    
+    readonly #onInitialDataChangeEffect = effect((): void => {
+    const data = this.initialData();
+    if (!data) return;
+    
+    this.form.patchValue({
+        date: data.date ?? null,
+        targetedEntities: data.targetedEntitiesIds ?? [],
+        procedure: data.procedure ?? null,
+        intent: data.intent ?? null,
+        bodysite: data.bodysite ?? null,
+        bodysiteQualifier: data.bodysiteQualifier ?? null,
+        bodysiteLaterality: data.bodysiteLaterality ?? null,
+        outcome: data.outcome ?? null,
+    });
+    });
+    // API Payload construction function
+    payload = (): SurgeryCreate => {    
+        const data = this.form.value;
         return {
             caseId: this.caseId(),
-            date: data.date,
-            targetedEntitiesIds: data.targetedEntities,
-            procedure: data.procedure,
-            intent: data.intent,
+            date: data.date!,
+            targetedEntitiesIds: data.targetedEntities!,
+            procedure: data.procedure!,
+            intent: data.intent!,
             bodysite: data.bodysite,
             bodysiteQualifier: data.bodysiteQualifier,
             bodysiteLaterality: data.bodysiteLaterality,
@@ -104,13 +103,15 @@ export class SurgeryFormComponent extends AbstractFormBase implements OnInit {
         };
     }
 
-    private getRelatedEntities(): void {
-        this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId()})
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(
-            (response) => {
-                this.relatedEntities = response.items
-            }
-        )
-    }
+    // All neoplastic entities related to this patient case
+    public relatedEntities = rxResource({
+        request: () => ({caseId: this.caseId()}),
+        loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(response => response.items)),
+    }) 
+
+    // Human readable choices for UI elements
+    public readonly intentChoices: RadioChoice[] = [
+        {name: 'Curative', value: SurgeryIntentChoices.Curative},
+        {name: 'Palliative', value: SurgeryIntentChoices.Palliative},
+    ]
 }

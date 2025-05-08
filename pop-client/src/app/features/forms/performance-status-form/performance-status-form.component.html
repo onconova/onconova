@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="date" class="form-label required">Date</label>
@@ -23,7 +23,7 @@
                 <div class="field">
                     <label class="form-label required">ECOG Score</label>
                     <p-select 
-                        [options]="ecogScores" 
+                        [options]="ecogScores.value() || []" 
                         formControlName="ecogScore" 
                         optionLabel="label" 
                         optionValue="value" 
@@ -37,7 +37,7 @@
                 <div class="field">
                     <label class="form-label required">Karnofsky score</label>
                     <p-select                 
-                        [options]="karnofskyScores" 
+                        [options]="karnofskyScores.value() || []" 
                         formControlName="karnofskyScore" 
                         optionLabel="label" 
                         optionValue="value" 

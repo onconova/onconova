@@ -1,29 +1,29 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, computed, effect, inject, input} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { Cigarette } from 'lucide-angular';
-
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
-import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 
 import { 
+    CodedConcept,
+    Lifestyle,
     LifestyleCreate,
     LifestylesService,
+    Measure,
 } from '../../../shared/openapi'
 
 import { 
   ConceptSelectorComponent, 
   DatePickerComponent,
   FormControlErrorComponent,
-  RadioSelectComponent,
   MeasureInputComponent,
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { InputNumber } from 'primeng/inputnumber';
 
 @Component({
     selector: 'lifestyle-form',
@@ -38,51 +38,57 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         ButtonModule,
         ConceptSelectorComponent,
         MeasureInputComponent,
+        InputNumber,
         FormControlErrorComponent,
     ]
 })
-export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
+export class LifestyleFormComponent extends AbstractFormBase {
 
-    private readonly lifestyleService: LifestylesService = inject(LifestylesService);
-    public readonly formBuilder = inject(FormBuilder);
+    // Input signal for initial data passed to the form
+    initialData = input<Lifestyle>();
+
+    // Service injections
+    readonly #lifestyleService: LifestylesService = inject(LifestylesService);
+    readonly #fb = inject(FormBuilder);
     
-    public readonly createService = (payload: LifestyleCreate) => this.lifestyleService.createLifestyle({lifestyleCreate: payload});
-    public readonly updateService = (id: string, payload: LifestyleCreate) => this.lifestyleService.updateLifestyleById({lifestyleId: id, lifestyleCreate: payload});
+    // Create and update service methods for the form data
+    public readonly createService = (payload: LifestyleCreate) => this.#lifestyleService.createLifestyle({lifestyleCreate: payload});
+    public readonly updateService = (id: string, payload: LifestyleCreate) => this.#lifestyleService.updateLifestyleById({lifestyleId: id, lifestyleCreate: payload});
 
-    public readonly title: string = 'Lifestyle';
-    public readonly subtitle: string = 'Add new lifestyle details';
-    public readonly icon = Cigarette;
+    // Define the form
+    public form = this.#fb.group({
+      date: this.#fb.control<string | null>(null, Validators.required),
+      smokingStatus: this.#fb.control<CodedConcept | null>(null),
+      smokingPackyears: this.#fb.control<number | null>(null),
+      smokingQuited: this.#fb.control<Measure | null>(null),
+      alcoholConsumption: this.#fb.control<CodedConcept | null>(null),
+      nightSleep: this.#fb.control<Measure | null>(null),
+      recreationalDrugs: this.#fb.control<CodedConcept[] | null>(null),
+      exposures: this.#fb.control<CodedConcept[] | null>(null),
+    });
 
-    public initialData: LifestyleCreate | any = {};
+    readonly #onInitialDataChangeEffect = effect((): void => {
+      const data = this.initialData();
+      if (!data) return;
+    
+      this.form.patchValue({
+        date: data.date ?? null,
+        smokingStatus: data.smokingStatus ?? null,
+        smokingPackyears: data.smokingPackyears ?? null,
+        smokingQuited: data.smokingQuited ?? null,
+        alcoholConsumption: data.alcoholConsumption ?? null,
+        nightSleep: data.nightSleep ?? null,
+        recreationalDrugs: data.recreationalDrugs ?? null,
+        exposures: data.exposures ?? null,
+      });
+    });
 
-    public readonly smokingStatusCodeClassification = {
-        neverSmoker: '266919005',
-        exSmoker: '8517006', 
-    }
-
-    ngOnInit() {
-        // Construct the form 
-        this.constructForm()
-    }
-
-    constructForm(): void {
-        this.form = this.formBuilder.group({
-            date: [this.initialData?.date, Validators.required],
-            smokingStatus: [this.initialData?.smokingStatus],
-            smokingPackyears: [this.initialData?.smokingPackyears],
-            smokingQuited: [this.initialData?.smokingQuited],
-            alcoholConsumption: [this.initialData?.alcoholConsumption],
-            nightSleep: [this.initialData?.nightSleep],
-            recreationalDrugs: [this.initialData?.recreationalDrugs],
-            exposures: [this.initialData?.exposures],
-        });
-    }
-
-
-    constructAPIPayload(data: any): LifestyleCreate {    
+    // API Payload construction function
+    payload = (): LifestyleCreate => {    
+        const data = this.form.value;
         return {
             caseId: this.caseId(),
-            date: data.date,
+            date: data.date!,
             smokingStatus: data.smokingStatus,
             smokingPackyears: data.smokingPackyears,
             smokingQuited: data.smokingQuited,
@@ -92,5 +98,12 @@ export class LifestyleFormComponent extends AbstractFormBase implements OnInit {
             exposures: data.exposures,
         };
     }
+
+    public readonly smokingStatusCodeClassification = {
+        neverSmoker: '266919005',
+        exSmoker: '8517006', 
+    }
+
+
 
 }

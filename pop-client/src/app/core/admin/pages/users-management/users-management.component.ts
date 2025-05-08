@@ -24,8 +24,6 @@ import { PasswordResetFormComponent } from '../../forms/passwrd-reset-form/passw
         ButtonModule,
         Skeleton,
         CardModule,
-        ModalFormComponent,
-        PasswordResetFormComponent,
     ]
 })
 export class UsersManagementCompnent implements OnInit {

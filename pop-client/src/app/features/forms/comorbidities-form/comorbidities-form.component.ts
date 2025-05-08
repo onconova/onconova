@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { map } from 'rxjs';
@@ -49,41 +49,67 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase {
   // Input signal for initial data passed to the form
   initialData = input<ComorbiditiesAssessment>();
 
-  // Service injections using Angular's `inject()` API
+  // Service injections
   readonly #comorbiditiesService: ComorbiditiesAssessmentsService = inject(ComorbiditiesAssessmentsService);
   readonly #neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
-  readonly #formBuilder = inject(FormBuilder);
+  readonly #fb = inject(FormBuilder);
 
   // Create and update service methods for the form data
   readonly createService = (payload: ComorbiditiesAssessmentCreate) => this.#comorbiditiesService.createComorbiditiesAssessment({comorbiditiesAssessmentCreate: payload});
   readonly updateService = (id: string, payload: ComorbiditiesAssessmentCreate) => this.#comorbiditiesService.updateComorbiditiesAssessment({comorbiditiesAssessmentId: id, comorbiditiesAssessmentCreate: payload});
 
   // Reactive form definition
-  override form: FormGroup = this.#formBuilder.group({
-    date: [Validators.required],
-    indexCondition: [Validators.required],
-    panel: [],
-    presentConditions: [],
-    absentConditions: [],
-  })
+  public form = this.#fb.group({
+    date: this.#fb.nonNullable.control<string | null>(null, Validators.required),
+    indexCondition: this.#fb.control<string | null>(null, Validators.required),
+    panel: this.#fb.control<ComorbiditiesAssessmentPanelChoices | null>(null),
+    presentConditions: this.#fb.control<CodedConcept[]>([]),
+    absentConditions: this.#fb.control<CodedConcept[]>([]),
+  });
 
-  // Effect to initialize form data when input changes
-  readonly #initializeFormEffect = effect(() => this.initializeFormData(this.initialData()));
+  readonly #onInitialDataChangeEffect = effect((): void => {
+    const data = this.initialData();
+    if (!data) return;
+  
+    this.form.patchValue({
+      date: data.date ?? null,
+      indexCondition: data.indexConditionId ?? null,
+      panel: data.panel ?? null,
+      presentConditions: data.presentConditions ?? [],
+      absentConditions: data.absentConditions ?? [],
+    });
+  });
+
+  // Build the final API payload based on form data and selected panel state
+  payload = (): ComorbiditiesAssessmentCreate => {    
+    const data = this.form.value;
+    const panelData = this.comorbiditiesPanelToPayload()
+    return {
+      caseId: this.caseId(),
+      indexConditionId: data.indexCondition!,
+      date: data.date!,
+      panel: data.panel,
+      // Use panel form state if present; fallback to form control values
+      presentConditions: panelData ? panelData.present : data.presentConditions,
+      absentConditions: panelData ? panelData.absent : data.absentConditions,
+    };
+  }
 
   // Signal to track the selected panel name from form changes
-  #selectedPanelName = toSignal(this.form.controls['panel'].valueChanges, { initialValue: this.initialData()?.panel })
+  #selectedPanelName = toSignal(this.form.controls['panel'].valueChanges, { initialValue: this.initialData()?.panel! })
 
   // Resource to load comorbidity panels based on selected panel name
   #selectedPanel = rxResource({
-    request: () => ({panel: this.#selectedPanelName()}),
+    request: () => ({panel: this.#selectedPanelName()!}),
     loader: ({request}) => this.#comorbiditiesService.getComorbiditiesPanelsByName(request)
   })
 
   // Effect to reset condition selections when the selected panel name changes
   readonly #resetPanelConditions = effect( () => {
-    this.#selectedPanelName()
-    this.form.get('presentConditions')?.setValue(null)
-    this.form.get('absentConditions')?.setValue(null)
+    if (this.#selectedPanelName()) {
+      this.form.get('presentConditions')!.setValue(null)
+      this.form.get('absentConditions')!.setValue(null)  
+    }
   })
 
   // Computed property transforming panel categories into a UI-friendly structure
@@ -111,17 +137,6 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase {
       {name: 'Elixhauser', value: ComorbiditiesAssessmentPanelChoices.Elixhauser},
   ]
 
-  // Populate form controls with initial data
-  initializeFormData(data: ComorbiditiesAssessment | undefined) {
-    this.form.patchValue({
-      date: data?.date,
-      indexCondition: data?.indexConditionId,
-      panel: data?.panel,
-      presentConditions: data?.presentConditions,
-      absentConditions: data?.absentConditions,
-    })
-  }
-
   // Transform panel form selections into a payload for API submission
   comorbiditiesPanelToPayload() {
     const presentConditions: CodedConcept[] = [];
@@ -141,17 +156,4 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase {
     return {present: presentConditions, absent: absentConditions}
   }
 
-  // Build the final API payload based on form data and selected panel state
-  constructAPIPayload(data: any): ComorbiditiesAssessmentCreate {    
-    const panelData = this.comorbiditiesPanelToPayload()
-    return {
-      caseId: this.caseId(),
-      indexConditionId: data.indexCondition,
-      date: data.date,
-      panel: data.panel,
-      // Use panel form state if present; fallback to form control values
-      presentConditions: panelData ? panelData.present : data.presentConditions,
-      absentConditions: panelData ? panelData.absent : data.absentConditions,
-    };
-  }
 }

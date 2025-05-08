@@ -236,13 +236,16 @@ class TherapyLine(BaseModel):
                 surgery.save()
 
         for therapy_line in case.therapy_lines.all():
-            progression = TreatmentResponse.objects.filter(
-                    case=case,
-                    recist__code=PD,
-                    date__gte=therapy_line.period.lower,
-            )
-            if progression.exists():
-                therapy_line.progression_date = progression.earliest('date').date
+            if therapy_line.period.lower:
+                progression = TreatmentResponse.objects.filter(
+                        case=case,
+                        recist__code=PD,
+                        date__gte=therapy_line.period.lower,
+                )
+                if progression.exists():
+                    therapy_line.progression_date = progression.earliest('date').date
+                else:
+                    therapy_line.progression_date = None
             else:
                 therapy_line.progression_date = None
             therapy_line.save()

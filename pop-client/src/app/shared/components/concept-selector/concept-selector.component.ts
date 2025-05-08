@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, inject, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, forwardRef, inject, OnInit, OnChanges, SimpleChanges, input, computed, signal, effect } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 
 import { TerminologyService } from '../../openapi/api/terminology.service';
 import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'pop-concept-selector',
@@ -32,108 +33,85 @@ import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
         SelectButton,
     ]
 })
-export class ConceptSelectorComponent implements ControlValueAccessor, OnInit, OnChanges {
-    
-    private readonly terminologyService: TerminologyService = inject(TerminologyService);
-    private readonly messageService: MessageService = inject(MessageService);
+export class ConceptSelectorComponent implements ControlValueAccessor {
 
-    @Input({required: true}) terminology!: string;
-    @Input() showSynonyms: boolean = true;
-    @Input() showCodes: boolean = false;
-    @Input() multiple: boolean = false;
-    @Input() disabled: boolean = false;
-    @Input() placeholder: string = 'Select or search an option';
-    @Input() conceptsLimit: number = 100;
-    @Input() widget: 'autocomplete' | 'radio' | 'selectbutton' = 'autocomplete';
-    @Input() returnCode: boolean = false;
+    terminology = input.required<string>();
+    showSynonyms = input<boolean>(true);
+    showCodes = input<boolean>(false);
+    multiple = input<boolean>(false);
+    disabled = input<boolean>(false);
+    placeholder = input<string>('Select or search an option');
+    conceptsLimit = input<number>(100);
+    widget = input<'autocomplete' | 'radio' | 'selectbutton'>('autocomplete');
+    returnCode = input<boolean>(false);
+
+    readonly #terminologyService = inject(TerminologyService);
+    readonly #messageService = inject(MessageService);
 
     public formControl: FormControl = new FormControl();
-    public concepts$: Observable<CodedConcept[]> = new Observable<CodedConcept[]>();
-    public concepts: CodedConcept[] = [];
-    public terminologySize!: number;
-    public subsetSize!: number;
-    public conceptsCount!: number;
     
-    ngOnInit() {
-        this.loadConcepts();
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['terminology']) {
-            this.loadConcepts();
-        }
-        if (changes['multiple']) {
-            this.writeValue(null);
-        }
-    }
-
-    loadConcepts() {
-        this.concepts$ = this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology}).pipe(map(
-            (response: PaginatedCodedConcept) => {
-                this.terminologySize = response.count;
-                this.subsetSize = response.items.length;
-                this.concepts = response.items;
-                return response.items
-            }
-        )),        
-        catchError(error => {
-            console.error('Error loading terminology concepts:', error);
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error loading terminology concepts:' + error});
-            return of([]); // Return empty array as fallback
-        })
-    }
-
-    updateConcepts(event: {originalEvent: Event, query: string}) {
-        this.concepts$ = this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology, query: event.query}).pipe(
+    public query = signal<string>('');
+    
+    public terminologySize = rxResource({
+        request: () => ({terminologyName: this.terminology()}),
+        loader: ({request}) => this.#terminologyService.getTerminologyConcepts(request).pipe(
+            map((response) => response.count)
+        )   
+    })
+    public subsetSize = computed( () => this.concepts.value()?.length || 0);
+    public concepts = rxResource({
+        request: () => ({terminologyName: this.terminology(), query: this.query()}),
+        loader: ({request}) => this.#terminologyService.getTerminologyConcepts(request).pipe(                   
+            catchError(error => {
+                console.error('Error loading terminology concepts:', error);
+                this.#messageService.add({ severity: 'error', summary: 'Error', detail: 'Error loading terminology concepts:' + error});
+                return of({items:[], count: 0} as PaginatedCodedConcept); // Return empty array as fallback
+            }),
             map((response: PaginatedCodedConcept) => {
-                this.subsetSize = response.items.length;
-                this.concepts = response.items;
+                this.terminologySize.set(response.count);
                 return response.items
             }
-        )),        
-        catchError(error => {
-            console.error('Error loading terminology concepts:', error);
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error loading terminology concepts:' + error});
-            return of([]); // Return empty array as fallback
-        })
-    }
+        )), 
+    }) 
 
-writeValue(value: any): void {
-    if (this.returnCode) {
-        if (value) {
-            // Find the concept by code
-            this.terminologyService.getTerminologyConcepts({terminologyName: this.terminology, codes: this.multiple ? value : [value]}).pipe(first()).subscribe({
-                next: (response) => {
-                    if (this.multiple) {
-                        this.formControl.patchValue(
-                            value.map((val: string) => response.items.find(c => c.code === val))
-                        );
-                    } else {
-                        this.formControl.patchValue(response.items.find(c => c.code === value));
-                    }
-                },
-            })
+
+
+    writeValue(value: any): void {
+        if (this.returnCode()) {
+            if (value) {
+                // Find the concept by code
+                this.#terminologyService.getTerminologyConcepts({terminologyName: this.terminology(), codes: this.multiple() ? value : [value]}).pipe(first()).subscribe({
+                    next: (response) => {
+                        if (this.multiple()) {
+                            this.formControl.patchValue(
+                                value.map((val: string) => response.items.find(c => c.code === val))
+                            );
+                        } else {
+                            this.formControl.patchValue(response.items.find(c => c.code === value));
+                        }
+                    },
+                })
+            } else {
+                this.formControl.patchValue(value);
+            }
         } else {
             this.formControl.patchValue(value);
         }
-    } else {
-        this.formControl.patchValue(value);
     }
-}
 
-registerOnChange(fn: any): void {
-    this.formControl.valueChanges.subscribe((val) => {
-        if (this.returnCode) {
-            if (this.multiple) {
-                fn(val ? val.map((c: CodedConcept) => c.code) : []);
+    registerOnChange(fn: any): void {
+        this.formControl.valueChanges.subscribe((val) => {
+            if (this.returnCode()) {
+                if (this.multiple()) {
+                    fn(val ? val.map((c: CodedConcept) => c.code) : []);
+                } else {
+                    fn(val ? val.code : null);
+                }
             } else {
-                fn(val ? val.code : null);
+                fn(val);
             }
-        } else {
-            fn(val);
-        }
-    });
-}
+        });
+    }
 
     registerOnTouched(fn: any): void {
         this.formControl.valueChanges.subscribe(val => fn(val));

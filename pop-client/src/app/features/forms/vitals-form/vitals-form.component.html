@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="date" class="form-label">Date</label>
@@ -52,7 +52,6 @@
                 defaultUnit="celsius"/>
             <pop-form-control-error controlName="temperature"></pop-form-control-error>
         </div>
-
 
         <p-button 
             type="submit" 

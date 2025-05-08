@@ -2,7 +2,7 @@ import { inject, Input, Component, OnInit, OnDestroy, ChangeDetectionStrategy} f
 import { NgIf } from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { ValidationErrors, FormGroupDirective, AbstractControl } from '@angular/forms';
+import { ValidationErrors, FormGroupDirective, AbstractControl, FormGroupName, ControlContainer } from '@angular/forms';
 import { BehaviorSubject, Subscription, distinctUntilChanged, merge } from 'rxjs';
 
 export const defaultErrors = {
@@ -38,34 +38,12 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
 })
 export class FormControlErrorComponent implements OnInit, OnDestroy {
 
-  /**
-   * The name of the control in the form group to display the errors for.
-   */
   @Input({required: true}) controlName!: string;
-
-  /**
-   * Custom error messages to use for the control. If provided, will override the default error messages.
-   */
   @Input() customErrors?: ValidationErrors;
 
-  /**
-   * The form group directive this component is used within.
-   */
-  public formGroupDirective = inject(FormGroupDirective);
-
-  /**
-   * Subscription to the form group directive's ngSubmit event and the control's value changes.
-   */
+  public controlContainer = inject(ControlContainer);
   private subscription = new Subscription();
-
-  /**
-   * The default error messages to use if custom error messages are not provided.
-   */
   private errors: any = inject(FORM_ERRORS);
-
-  /**
-   * The error message to display. Will be an empty string if there are no errors.
-   */
   public message$ = new BehaviorSubject<string>('');
 
   ngOnInit(): void {
@@ -73,14 +51,11 @@ export class FormControlErrorComponent implements OnInit, OnDestroy {
     this.initializeControlErrorHandling();
   }
 
-  /**
-   * Initialize the control error handling.
-   */
   private initializeControlErrorHandling() {
     // Check if the controlName is provided and the form group directive is available
-    if (this.formGroupDirective && this.controlName) {
+    if (this.controlContainer && this.controlName) {
         // Get the control from the form group directive
-        const control = this.formGroupDirective.control.get(this.controlName);
+        const control = this.controlContainer.control?.get(this.controlName);
 
         if (control) {
             // Subscribe to the control's errors and the form group directive's ngSubmit event
@@ -93,33 +68,20 @@ export class FormControlErrorComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Subscribe to the control's errors and the form group directive's ngSubmit event.
-   * @param control The control to subscribe to
-   */
+
   private subscribeToControlErrors(control: AbstractControl) {
-    // Unsubscribe from any previous subscriptions to avoid memory leaks
     this.subscription.unsubscribe();
-    
-    // Subscribe to the control's value changes and the form group directive's ngSubmit event
-    this.subscription = merge(control.valueChanges, this.formGroupDirective.ngSubmit)
-        .pipe(distinctUntilChanged())
-        .subscribe(() => {
-            // Get the control errors
-            const controlErrors = control.errors;
+    const formSubmit$ = 'ngSubmit' in this.controlContainer ? (this.controlContainer as any).ngSubmit : [];
 
-            // Get the error message
-            const errorMessage = this.getErrorMessage(controlErrors);
-
-            // Set the error message
-            this.setError(errorMessage);
-        });
+    this.subscription = merge(control.valueChanges, formSubmit$)
+      .pipe(distinctUntilChanged())
+      .subscribe(() => {
+        const controlErrors = control.errors;
+        const errorMessage = this.getErrorMessage(controlErrors);
+        this.setError(errorMessage);
+      });
   }
 
-  /**
-   * Get the error message for the control errors.
-   * @param errors The control errors
-   */
   private getErrorMessage(errors: ValidationErrors | null): string {
     if (!errors) {
         // Return an empty string if there are no errors
@@ -137,10 +99,7 @@ export class FormControlErrorComponent implements OnInit, OnDestroy {
     return errorText;
   }
 
-  /**
-   * Set the error message to display.
-   * @param message The error message to display
-   */
+
   private setError(message: string): void {
     this.message$.next(message);
   }

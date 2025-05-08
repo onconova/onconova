@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="date" class="form-label required">Date of the analysis</label>
@@ -13,15 +13,14 @@
         <div class="field">
             <label class="form-label required">Neoplastic entities assessed</label>
             <pop-multi-reference-select 
-            [options]="relatedEntities" 
+            [options]="relatedEntities.value() || []" 
             formControlName="stagedEntities"/>
             <pop-form-control-error controlName="stagedEntities"></pop-form-control-error>
         </div>
 
         <div class="field">
             <label class="form-label required">Analyte</label>
-            @let analytes = analytes$ | async ;
-            <p-selectbutton [options]="analytes || []" formControlName="analyte" optionLabel="justify" class="tumor-markers">
+            <p-selectbutton [options]="analytes.value() || []" formControlName="analyte" class="tumor-markers">
                 <ng-template #item let-analyte>
                     <span pTooltip="{{ analyte.properties.display }}" tooltipPosition="bottom">{{ analyte.properties.acronym }}</span>
                 </ng-template>
@@ -31,13 +30,13 @@
         
         <div class="field">
             <label class="form-label required">Result type</label>
-            @if (resultsType.length > 0) {
+            @if (allowedResultTypes().length > 0) {
                 <div class="flex flex-wrap gap-4">
-                    @for (analyteResultType of analyteResultTypeChoices; track analyteResultType.value) {
-                        @if (resultsType.includes(analyteResultType.value)) {
+                    @for (type of analyteResultTypeChoices; track $index;) {
+                        @if (allowedResultTypes().includes(type.value)) {
                             <div class="flex items-center">
-                                <p-radiobutton [inputId]="analyteResultType.value" [value]="analyteResultType.value" formControlName="valueType" />
-                                <label [for]="analyteResultType.value" class="ml-2">{{ analyteResultType.name }}</label>
+                                <p-radiobutton [inputId]="type.value" [value]="type.value" formControlName="valueType" />
+                                <label [for]="type.value" class="ml-2">{{ type.name }}</label>
                             </div>    
                         }
                     }
