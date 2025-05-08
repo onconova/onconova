@@ -51,11 +51,11 @@ export class CaseManagerPanelComponent {
 
     @Output() onCompletionChange = new EventEmitter<boolean>; 
 
-    private readonly patienCaseService = inject(PatientCasesService);
-    private readonly messageService = inject(MessageService);
-    public readonly authService = inject(AuthService)
-    private readonly confirmationService = inject(ConfirmationService)
-    #dialogservice = inject(DialogService)
+    readonly #patienCaseService = inject(PatientCasesService);
+    readonly #messageService = inject(MessageService);
+    readonly #authService = inject(AuthService);
+    readonly #confirmationService = inject(ConfirmationService)
+    readonly #dialogservice = inject(DialogService);
 
     @Input() formComponent!: any;
 
@@ -68,13 +68,14 @@ export class CaseManagerPanelComponent {
 
     private dataCompletionStatus = rxResource({
         request: () => ({caseId: this.caseId(), category: this.category()}),
-        loader: ({request}) => this.patienCaseService.getPatientCaseDataCompletionStatus(request),
-    })
-    public isCompleted = computed(() => this.dataCompletionStatus.value()?.status)
+        loader: ({request}) => this.#patienCaseService.getPatientCaseDataCompletionStatus(request),
+    });
+    public currentUser = computed(() => this.#authService.user());
+    public isCompleted = computed(() => this.dataCompletionStatus.value()?.status);
     public data = rxResource({
         request: () => ({caseId: this.caseId()}),
         loader: ({request}) => this.service().get(request.caseId).pipe(map(response => response.items)),
-    })
+    });
 
     #modalFormConfig = computed( () => ({
         data: {
@@ -175,14 +176,14 @@ export class CaseManagerPanelComponent {
         this.service().delete(id).pipe(first()).subscribe({
             complete: () => {
                 this.data.reload()
-                this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
+                this.#messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
             },
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
+            error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
         })
     }
 
     confirmDataComplete(event: any) {
-        this.confirmationService.confirm({
+        this.#confirmationService.confirm({
             target: event.target as EventTarget,
             header: 'Close data category',
             icon: 'pi pi-question-circle',
@@ -201,11 +202,11 @@ export class CaseManagerPanelComponent {
             rejectButtonProps: {label: 'Cancel', severity: 'secondary', outlined: true},
             acceptButtonProps: {label: 'Confirm complete', severity: 'primary',},
             accept: () => {
-                this.patienCaseService.createPatientCaseDataCompletion({caseId:this.caseId(), category: this.category()})
+                this.#patienCaseService.createPatientCaseDataCompletion({caseId:this.caseId(), category: this.category()})
                     .pipe(first()).subscribe({
                         complete: () => {
                             this.dataCompletionStatus.reload();
-                            this.messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category()} marked as complete.`})
+                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category()} marked as complete.`})
                             this.onCompletionChange.emit(true)
                         }
                     })
@@ -214,7 +215,7 @@ export class CaseManagerPanelComponent {
     }
 
     confirmDataIncomplete(event: any) {
-        this.confirmationService.confirm({
+        this.#confirmationService.confirm({
             target: event.target as EventTarget,
             header: 'Open data category',
             icon: 'pi pi-question-circle',
@@ -239,11 +240,11 @@ export class CaseManagerPanelComponent {
             rejectButtonProps: {label: 'Cancel', severity: 'secondary', outlined: true},
             acceptButtonProps: {label: 'Confirm & Open category', severity: 'primary'},
             accept: () => {
-                this.patienCaseService.deletePatientCaseDataCompletion({caseId: this.caseId(), category: this.category()})
+                this.#patienCaseService.deletePatientCaseDataCompletion({caseId: this.caseId(), category: this.category()})
                     .pipe(first()).subscribe({
                         complete: () => {
                             this.dataCompletionStatus.reload();
-                            this.messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category} marked as incomplete.`})
+                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category} marked as incomplete.`})
                             this.onCompletionChange.emit(false)
                         }
                     })

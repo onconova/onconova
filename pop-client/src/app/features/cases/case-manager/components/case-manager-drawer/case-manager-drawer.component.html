@@ -1,36 +1,35 @@
-<p-drawer [(visible)]="visible" position="right" (onHide)="visibleChange.emit(false)" [styleClass]="styleClass" >
+<p-drawer [(visible)]="visible" position="right" (onHide)="visibleChange.emit(false)" [styleClass]="styleClass()" >
     <ng-template #header>
         <p-avatar size="large" shape="square">
-            <lucide-angular [img]="icon"></lucide-angular>
+            <lucide-angular [img]="icon()"></lucide-angular>
         </p-avatar>
-        <div class="font-bold my-auto ml-3">{{data.description || 'Unknown'}}</div>
+        <div class="font-bold my-auto ml-3">{{data().description || 'Unknown'}}</div>
     </ng-template>
 
     <div class="property">
         <small class="property-label">Database ID</small>
-        <div class="monospace"><small>{{ data.id }}</small></div>
+        <div class="monospace"><small>{{ data().id }}</small></div>
     </div>
-    @if (data.externalSource) {    
+    @if (data().externalSource) {    
         <div class="property">
             <small class="property-label">External Source</small>
-            <div class="monospace"><small>{{ data.externalSource }}</small></div>
+            <div class="monospace"><small>{{ data().externalSource }}</small></div>
         </div>
         <div class="property">
             <small class="property-label">External Source ID</small>
-            <div class="monospace"><small>{{ data.externalSourceId }}</small></div>
+            <div class="monospace"><small>{{ data().externalSourceId }}</small></div>
         </div>
     }
 
     <p-divider/>
-    <pop-drawer-properties [data]="data"/>
+    <pop-drawer-properties [data]="data()"/>
 
     <p-divider/>
 
     <div>
         <i class="pi pi-history"></i> History
-        @let history = history$ | async;
-        @if (history) {
-        <p-timeline [value]="history" class="pop-case-manager-drawer-history">
+        @if (history.hasValue()) {
+        <p-timeline [value]="history.value()" class="pop-case-manager-drawer-history">
             <ng-template pTemplate="content" let-event>
                 <pop-user-badge [username]="event.user"/>
                 <div>
@@ -55,6 +54,8 @@
                 </div>              
             </ng-template>
         </p-timeline>
+        } @else if (history.isLoading()) {
+            <p-skeleton height="4rem"></p-skeleton>
         }
     </div>
 
@@ -72,12 +73,12 @@
             <p-confirmdialog />
             <p-splitbutton 
                 label="Edit" 
-                [disabled]="!authService.user().canManageCases"
-                [buttonDisabled]="!editable"
-                [icon]="authService.user().canManageCases? 'pi pi-pencil' : 'pi pi-lock'" 
+                [disabled]="!currentUser().canManageCases"
+                [buttonDisabled]="!editable()"
+                [icon]="currentUser().canManageCases? 'pi pi-pencil' : 'pi pi-lock'" 
                 dropdownIcon="pi pi-cog" 
                 (onClick)="visibleChange.emit(false); update.emit(data)"
-                [model]="actionItems" 
+                [model]="actionItems()" 
                 outlined/>
         </div>
 

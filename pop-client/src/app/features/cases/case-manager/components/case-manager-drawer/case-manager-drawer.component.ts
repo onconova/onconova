@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ViewEncapsulation, inject, ChangeDetectionStrategy, Pipe,PipeTransform, SimpleChanges  } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewEncapsulation, inject, ChangeDetectionStrategy, Pipe,PipeTransform, SimpleChanges, computed, input, model  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DrawerModule } from 'primeng/drawer';
@@ -19,8 +19,10 @@ import { DrawerDataPropertiesComponent } from './components/drawer-data-properti
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { OncologicalResource } from 'src/app/shared/models/resource.type';
 import { UserBadgeComponent } from "../../../../../shared/components/user-badge/user-badge.component";
-import { HistoryEvent, InteroperabilityService } from 'src/app/shared/openapi';
+import { HistoryEvent, InteroperabilityService, PaginatedHistoryEvent, User } from 'src/app/shared/openapi';
 import { Timeline } from 'primeng/timeline';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { Skeleton } from 'primeng/skeleton';
 
 
 @Component({
@@ -37,6 +39,7 @@ import { Timeline } from 'primeng/timeline';
         AvatarModule,
         DividerModule,
         Button,
+        Skeleton,
         SplitButton,
         ConfirmDialog,
         DrawerDataPropertiesComponent,
@@ -45,60 +48,63 @@ import { Timeline } from 'primeng/timeline';
     ]
 })
 export class CaseManagerDrawerComponent {
+    // Component inputs
+    public data = input.required<OncologicalResource>();
+    public history$!: Observable<HistoryEvent[]>;
+    public icon = input.required<LucideIconData>();
+    public visible = model<boolean>(false);
+    public editable = input<boolean>(true);
+    public styleClass = input<string>('');
+    public historyService = input.required<(resourceId: string) => Observable<PaginatedHistoryEvent>>();
 
-    public authService = inject(AuthService);
-    private confirmationService = inject(ConfirmationService);
-    private downloadService = inject(DownloadService);
-    private interoperabilityService = inject(InteroperabilityService);
-    private messageService = inject(MessageService);
+    // Service injections
+    readonly #authService = inject(AuthService);
+    readonly #confirmationService = inject(ConfirmationService);
+    readonly #downloadService = inject(DownloadService);
+    readonly #interoperabilityService = inject(InteroperabilityService);
+    readonly #messageService = inject(MessageService);
 
+    // Service injections
     @Output() visibleChange = new EventEmitter<boolean>();
     @Output() delete = new EventEmitter<string>();
     @Output() update = new EventEmitter<any>();
 
-    @Input() data!: OncologicalResource;
-    @Input() history$!: Observable<HistoryEvent[]>;
-    @Input() icon!: LucideIconData;
-    @Input() visible!: boolean;
-    @Input() editable: boolean = true;
-    @Input() styleClass: string = '';
-    public createdBy$!: Observable<string>
-    public lastUpdatedBy$!: Observable<string>
-    public actionItems!: MenuItem[];
-    
-    ngOnChanges(changes:SimpleChanges){
-        this.actionItems =  [
-            {
-                label: 'Delete',
-                icon: 'pi pi-trash',
-                disabled: !this.editable,
-                styleClass: 'delete-action',
-                command: (event) => {
-                    this.confirmDelete(event);
-                }
-            },
-            {
-                label: 'Export',
-                disabled: !this.authService.user().canExportData,
-                icon: 'pi pi-file-export',
-                command: () => {
-                    this.interoperabilityService.exportResource({resourceId: this.data.id}).pipe(first()).subscribe({
-                        next: (response) => this.downloadService.downloadAsJson(response, 'pop-resource-' + response.id),
-                        complete: () => this.messageService.add({ severity: 'success', summary: 'Successfully exported', detail: this.data.description }),
-                        error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error exporting resource', detail: error.error.detail })
-                    })
-                }
-            },
-        ]
-    }
+    public history = rxResource({
+        request: () => this.data().id,
+        loader: ({request}) => this.historyService()(request).pipe(map(response => response.items))
+    })
+
+    // Component properties for the UI 
+    public currentUser = computed((): User => this.#authService.user())
+    public actionItems = computed((): MenuItem[] => [
+        {
+            label: 'Delete',
+            icon: 'pi pi-trash',
+            disabled: !this.editable(),
+            styleClass: 'delete-action',
+            command: (event: any) => this.confirmDelete(event),
+        },
+        {
+            label: 'Export',
+            disabled: !this.currentUser().canExportData,
+            icon: 'pi pi-file-export',
+            command: () => {
+                this.#interoperabilityService.exportResource({resourceId: this.data().id}).pipe(first()).subscribe({
+                    next: (response) => this.#downloadService.downloadAsJson(response, 'pop-resource-' + response.id),
+                    complete: () => this.#messageService.add({ severity: 'success', summary: 'Successfully exported', detail: this.data().description }),
+                    error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error exporting resource', detail: error.error.detail })
+                })
+            }
+        },
+    ]);
 
     confirmDelete(event: any) {
-        this.confirmationService.confirm({
+        this.#confirmationService.confirm({
             target: event.target as EventTarget,
             header: 'Danger Zone',
             message: `Are you sure you want to delete this entry? 
             <div class="mt-1 font-bold text-secondary">
-            <small>${this.data.description}</small>
+            <small>${this.data().description}</small>
             </div>
             `,
             icon: 'pi pi-exclamation-triangle',
@@ -112,7 +118,7 @@ export class CaseManagerDrawerComponent {
                 severity: 'danger',
             },
             accept: () => {
-                this.delete.emit(this.data.id);
+                this.delete.emit(this.data().id);
                 this.visibleChange.emit(false);
             }
         });

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Output, inject, EventEmitter, input, Resource} from '@angular/core';
+import { Component, Output, inject, EventEmitter, input, Resource, computed} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService, InteroperabilityService} from 'src/app/shared/openapi';
@@ -51,36 +51,36 @@ export class CaseSearchItemCardComponent {
     @Output() public onDelete = new EventEmitter();
 
     // Injected services
-    public readonly authService: AuthService = inject(AuthService);
-    private readonly caseService: PatientCasesService = inject(PatientCasesService);
-    private readonly therapyLinesService: TherapyLinesService = inject(TherapyLinesService);
-    private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
-    private readonly stagingsService: StagingsService = inject(StagingsService);
-    private readonly confirmationService: ConfirmationService = inject(ConfirmationService)
-    private readonly router: Router = inject(Router);
-    private readonly downloadService: DownloadService = inject(DownloadService)
-    private readonly messageService: MessageService = inject(MessageService)
-    private readonly interoperabilityService: InteroperabilityService = inject(InteroperabilityService);
+    readonly #authService = inject(AuthService);
+    readonly #caseService = inject(PatientCasesService);
+    readonly #therapyLinesService = inject(TherapyLinesService);
+    readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService);
+    readonly #stagingsService = inject(StagingsService);
+    readonly #confirmationService = inject(ConfirmationService);
+    readonly #router = inject(Router);
+    readonly #downloadService = inject(DownloadService);
+    readonly #messageService = inject(MessageService);
+    readonly #interoperabilityService = inject(InteroperabilityService);
 
     // Properties
-    public readonly case = input.required<PatientCase>()
+    public readonly case = input.required<PatientCase>();
+    public readonly currentUser = computed(() => this.#authService.user());
     public primaryEntity: Resource<NeoplasticEntity | undefined> = rxResource({
         request: () => ({caseId: this.case().id, relationship: 'primary', limit: 1}),
-        loader: ({request}) => this.neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(data => data.items[0])),
-    })
+        loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(data => data.items[0])),
+    });
     public latestStaging: Resource<AnyStaging | undefined> = rxResource({
         request: () => ({caseId: this.case().id, limit: 1}),
-        loader: ({request}) => this.stagingsService.getStagings(request).pipe(map(data => data.items[0])),
-    })
+        loader: ({request}) => this.#stagingsService.getStagings(request).pipe(map(data => data.items[0])),
+    });
     public latestTherapyLine: Resource<TherapyLine | undefined> = rxResource({
         request: () => ({caseId: this.case().id, limit: 1}),
-        loader: ({request}) => this.therapyLinesService.getTherapyLines(request).pipe(map(data => data.items[0])),
-    })
-
+        loader: ({request}) => this.#therapyLinesService.getTherapyLines(request).pipe(map(data => data.items[0])),
+    });
     public readonly actionItems: MenuItem[] = [
         {
             label: 'Export',
-            disabled: !this.authService.user().canExportData,
+            disabled: !this.#authService.user().canExportData,
             icon: 'pi pi-file-export',
             command: () => this.exportCaseBundle,
         },
@@ -93,21 +93,21 @@ export class CaseSearchItemCardComponent {
     ];
 
     openCaseManagement() {
-        this.router.navigate(['cases/management',this.case().pseudoidentifier])
+        this.#router.navigate(['cases/management',this.case().pseudoidentifier])
     }
 
     exportCaseBundle() {
         const filename = `POP-case-${this.case().pseudoidentifier}-bundle.json`;
-        this.messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
-        this.interoperabilityService.exportPatientCaseBundle({caseId: this.case().id}).pipe(first()).subscribe({
-            next: response => this.downloadService.downloadAsJson(response, filename),
-            complete: () => this.messageService.add({ severity: 'success', summary: 'Successfully exported', detail: filename }),
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error exporting case', detail: error?.error?.detail })
+        this.#messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
+        this.#interoperabilityService.exportPatientCaseBundle({caseId: this.case().id}).pipe(first()).subscribe({
+            next: response => this.#downloadService.downloadAsJson(response, filename),
+            complete: () => this.#messageService.add({ severity: 'success', summary: 'Successfully exported', detail: filename }),
+            error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error exporting case', detail: error?.error?.detail })
         })
     }
 
     confirmDelete(event: any) {
-        this.confirmationService.confirm({
+        this.#confirmationService.confirm({
             target: event.target as EventTarget,
             header: 'Danger Zone',
             message: `
@@ -121,12 +121,12 @@ export class CaseSearchItemCardComponent {
             rejectButtonProps: {label: 'Cancel', severity: 'secondary', outlined: true},
             acceptButtonProps: {label: 'Delete', severity: 'danger'},
             accept: () => {
-                this.caseService.deletePatientCaseById({caseId: this.case().id}).pipe(first()).subscribe({
+                this.#caseService.deletePatientCaseById({caseId: this.case().id}).pipe(first()).subscribe({
                     complete: () => {
                         this.onDelete.emit();
-                        this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: this.case().pseudoidentifier })
+                        this.#messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: this.case().pseudoidentifier })
                     },
-                    error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error?.error?.detail })
+                    error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error?.error?.detail })
                 })
             }
         });

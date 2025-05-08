@@ -22,7 +22,6 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
 import { CaseSearchItemCardComponent } from './components/case-search-item/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/forms';
-import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -60,17 +59,15 @@ import { ModalFormHeaderComponent } from '../../forms/modal-form-header.componen
 export class CaseSearchComponent {
   
   // Injected services  
-  private readonly patientCasesService = inject(PatientCasesService)
-  private readonly modalFormService = inject(ModalFormService)
-  public readonly authService = inject(AuthService)
-  private readonly messageService = inject(MessageService) 
-  #dialogservice = inject(DialogService)
+  readonly #patientCasesService = inject(PatientCasesService)
+  readonly #authService = inject(AuthService)
+  readonly #messageService = inject(MessageService) 
+  readonly #dialogservice = inject(DialogService)
   #modalFormRef: DynamicDialogRef | undefined;
 
-
-  readonly manager = input<string>();
+  public readonly manager = input<string>();
   public readonly isUserPage = computed(() => this.manager() !== undefined);
-
+  public readonly currentUser = computed(() => this.#authService.user());
   public readonly pageSizeChoices: number[] = [15, 30, 45, 60];
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
   public totalCases= signal(0);
@@ -79,11 +76,11 @@ export class CaseSearchComponent {
 
   public cases: Resource<PatientCase[] | undefined> = rxResource({
     request: () => ({pseudoidentifierContains: this.searchQuery() || undefined, manager: this.manager(), limit: this.pagination().limit, offset: this.pagination().offset}),
-    loader: ({request}) => this.patientCasesService.getPatientCases(request).pipe(
+    loader: ({request}) => this.#patientCasesService.getPatientCases(request).pipe(
       tap(page => this.totalCases.set(page.count)),
       map(page => page.items),
       catchError((error: any) => {
-        this.messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error?.error?.detail });
+        this.#messageService.add({ severity: 'error', summary: 'Error loading cases', detail: error?.error?.detail });
         return of([] as PatientCase[]) 
       })
     )
@@ -121,12 +118,12 @@ export class CaseSearchComponent {
   }
 
   deleteCase(id: string) {
-    this.patientCasesService.deletePatientCaseById({caseId:id}).pipe(first()).subscribe({
+    this.#patientCasesService.deletePatientCaseById({caseId:id}).pipe(first()).subscribe({
         complete: () => {
             this.cases.reload()
-            this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
+            this.#messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
         },
-        error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
+        error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
     })
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, inject, input  } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, inject, input, computed  } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -95,116 +95,116 @@ import { rxResource } from '@angular/core/rxjs-interop';
 export class CaseManagerComponent {
 
     // Injected dependencies
-    public authService: AuthService = inject(AuthService);
-    private downloadService: DownloadService = inject(DownloadService);
     public location: Location = inject(Location);
+    readonly #authService: AuthService = inject(AuthService);
+    readonly #downloadService: DownloadService = inject(DownloadService);
 
     // Domain-specific dependencies
-    private interoperabilityService = inject(InteroperabilityService);
-    private caseService = inject(PatientCasesService);
-    private neoplasticEntitiesService = inject(NeoplasticEntitiesService);
-    private stagingsService = inject(StagingsService);
-    private tumorMarkersService = inject(TumorMarkersService);
-    private riskAssessmentsService = inject(RiskAssessmentsService);
-    private systemicTherapiesService = inject(SystemicTherapiesService);
-    private performanceStatiiService = inject(PerformanceStatusService);
-    private surgeriesService = inject(SurgeriesService);
-    private lifestylesService = inject(LifestylesService);
-    private comorbiditiesAssessmentsService = inject(ComorbiditiesAssessmentsService);
-    private familyHistoriesService = inject(FamilyHistoriesService);
-    private radiotherapiesService = inject(RadiotherapiesService);
-    private genomicVariantsService = inject(GenomicVariantsService);
-    private genomicSignaturesService = inject(GenomicSignaturesService);
-    private vitalsCoreService = inject(VitalsService);
-    private adverseEventsService = inject(AdverseEventsService);
-    private tumorBoardsService = inject(TumorBoardsService);
-    private treatmentResponsesService = inject(TreatmentResponsesService);
+    readonly #interoperabilityService = inject(InteroperabilityService);
+    readonly #caseService = inject(PatientCasesService);
+    readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService);
+    readonly #stagingsService = inject(StagingsService);
+    readonly #tumorMarkersService = inject(TumorMarkersService);
+    readonly #riskAssessmentsService = inject(RiskAssessmentsService);
+    readonly #systemicTherapiesService = inject(SystemicTherapiesService);
+    readonly #performanceStatiiService = inject(PerformanceStatusService);
+    readonly #surgeriesService = inject(SurgeriesService);
+    readonly #lifestylesService = inject(LifestylesService);
+    readonly #comorbiditiesAssessmentsService = inject(ComorbiditiesAssessmentsService);
+    readonly #familyHistoriesService = inject(FamilyHistoriesService);
+    readonly #radiotherapiesService = inject(RadiotherapiesService);
+    readonly #genomicVariantsService = inject(GenomicVariantsService);
+    readonly #genomicSignaturesService = inject(GenomicSignaturesService);
+    readonly #vitalsCoreService = inject(VitalsService);
+    readonly #adverseEventsService = inject(AdverseEventsService);
+    readonly #tumorBoardsService = inject(TumorBoardsService);
+    readonly #treatmentResponsesService = inject(TreatmentResponsesService);
 
 
     public neoplasticEntityService: DataService = {
-        get: (caseId) => this.neoplasticEntitiesService.getNeoplasticEntities({caseId: caseId}),
-        delete: (id) => this.neoplasticEntitiesService.deleteNeoplasticEntityById({entityId: id}),
-        history: (id) => this.neoplasticEntitiesService.getAllNeoplasticEntityHistoryEvents({entityId: id}),
+        get: (caseId) => this.#neoplasticEntitiesService.getNeoplasticEntities({caseId: caseId}),
+        delete: (id) => this.#neoplasticEntitiesService.deleteNeoplasticEntityById({entityId: id}),
+        history: (id) => this.#neoplasticEntitiesService.getAllNeoplasticEntityHistoryEvents({entityId: id}),
     };
     public stagingService: DataService = {
-        get: (caseId) => this.stagingsService.getStagings({caseId: caseId}),
-        delete: (id) => this.stagingsService.deleteStagingById({stagingId: id}),
-        history: (id) => this.stagingsService.getAllStagingHistoryEvents({stagingId: id}),
+        get: (caseId) => this.#stagingsService.getStagings({caseId: caseId}),
+        delete: (id) => this.#stagingsService.deleteStagingById({stagingId: id}),
+        history: (id) => this.#stagingsService.getAllStagingHistoryEvents({stagingId: id}),
     };
     public tumorMarkerService: DataService = {
-        get: (caseId) => this.tumorMarkersService.getTumorMarkers({caseId: caseId}),
-        delete: (id) => this.tumorMarkersService.deleteTumorMarkerById({tumorMarkerId: id}),
-        history: (id) => this.tumorMarkersService.getAllTumorMarkerHistoryEvents({tumorMarkerId: id}),
+        get: (caseId) => this.#tumorMarkersService.getTumorMarkers({caseId: caseId}),
+        delete: (id) => this.#tumorMarkersService.deleteTumorMarkerById({tumorMarkerId: id}),
+        history: (id) => this.#tumorMarkersService.getAllTumorMarkerHistoryEvents({tumorMarkerId: id}),
     };
     public riskAssessmentService: DataService = {
-        get: (caseId) => this.riskAssessmentsService.getRiskAssessments({caseId: caseId}),
-        delete: (id) => this.riskAssessmentsService.deleteRiskAssessmentById({riskAssessmentId: id}),
-        history: (id) => this.riskAssessmentsService.getAllRiskAssessmentHistoryEvents({riskAssessmentId: id}),
+        get: (caseId) => this.#riskAssessmentsService.getRiskAssessments({caseId: caseId}),
+        delete: (id) => this.#riskAssessmentsService.deleteRiskAssessmentById({riskAssessmentId: id}),
+        history: (id) => this.#riskAssessmentsService.getAllRiskAssessmentHistoryEvents({riskAssessmentId: id}),
     };
     public systemicTherapyService: DataService = {
-        get: (caseId) => this.systemicTherapiesService.getSystemicTherapies({caseId: caseId}),
-        delete: (id) => this.systemicTherapiesService.deleteSystemicTherapyById({systemicTherapyId: id}),
-        history: (id) => this.systemicTherapiesService.getAllSystemicTherapyHistoryEvents({systemicTherapyId: id}),
+        get: (caseId) => this.#systemicTherapiesService.getSystemicTherapies({caseId: caseId}),
+        delete: (id) => this.#systemicTherapiesService.deleteSystemicTherapyById({systemicTherapyId: id}),
+        history: (id) => this.#systemicTherapiesService.getAllSystemicTherapyHistoryEvents({systemicTherapyId: id}),
     };
     public performanceStatusService: DataService = {
-        get: (caseId) => this.performanceStatiiService.getPerformanceStatus({caseId: caseId}),
-        delete: (id) => this.performanceStatiiService.deletePerformanceStatus({performanceStatusId: id}),
-        history: (id) => this.performanceStatiiService.getAllPerformanceStatusHistoryEvents({performanceStatusId: id}),
+        get: (caseId) => this.#performanceStatiiService.getPerformanceStatus({caseId: caseId}),
+        delete: (id) => this.#performanceStatiiService.deletePerformanceStatus({performanceStatusId: id}),
+        history: (id) => this.#performanceStatiiService.getAllPerformanceStatusHistoryEvents({performanceStatusId: id}),
     };
     public surgeryService: DataService = {
-        get: (caseId) => this.surgeriesService.getSurgeries({caseId: caseId}),
-        delete: (id) => this.surgeriesService.deleteSurgeryById({surgeryId: id}),
-        history: (id) => this.surgeriesService.getAllSurgeryHistoryEvents({surgeryId: id}),
+        get: (caseId) => this.#surgeriesService.getSurgeries({caseId: caseId}),
+        delete: (id) => this.#surgeriesService.deleteSurgeryById({surgeryId: id}),
+        history: (id) => this.#surgeriesService.getAllSurgeryHistoryEvents({surgeryId: id}),
     };
     public radiotherapyService: DataService = {
-        get: (caseId) => this.radiotherapiesService.getRadiotherapies({caseId: caseId}),
-        delete: (id) => this.radiotherapiesService.deleteRadiotherapyById({radiotherapyId: id}),
-        history: (id) => this.radiotherapiesService.getAllRadiotherapyHistoryEvents({radiotherapyId: id}),
+        get: (caseId) => this.#radiotherapiesService.getRadiotherapies({caseId: caseId}),
+        delete: (id) => this.#radiotherapiesService.deleteRadiotherapyById({radiotherapyId: id}),
+        history: (id) => this.#radiotherapiesService.getAllRadiotherapyHistoryEvents({radiotherapyId: id}),
     };
     public lifestyleService: DataService = {
-        get: (caseId) => this.lifestylesService.getLifestyles({caseId: caseId}),
-        delete: (id) => this.lifestylesService.deleteLifestyleById({lifestyleId: id}),
-        history: (id) => this.lifestylesService.getAllLifestyleHistoryEvents({lifestyleId: id}),
+        get: (caseId) => this.#lifestylesService.getLifestyles({caseId: caseId}),
+        delete: (id) => this.#lifestylesService.deleteLifestyleById({lifestyleId: id}),
+        history: (id) => this.#lifestylesService.getAllLifestyleHistoryEvents({lifestyleId: id}),
     };
     public familyHistoryService: DataService = {
-        get: (caseId) => this.familyHistoriesService.getFamilyHistories({caseId: caseId}),
-        delete: (id) => this.familyHistoriesService.deleteFamilyHistoryById({familyHistoryId: id}),
-        history: (id) => this.familyHistoriesService.getAllFamilyHistoryHistoryEvents({familyHistoryId: id}),
+        get: (caseId) => this.#familyHistoriesService.getFamilyHistories({caseId: caseId}),
+        delete: (id) => this.#familyHistoriesService.deleteFamilyHistoryById({familyHistoryId: id}),
+        history: (id) => this.#familyHistoriesService.getAllFamilyHistoryHistoryEvents({familyHistoryId: id}),
     };
     public comorbiditiesAssessmentService: DataService = {
-        get: (caseId) => this.comorbiditiesAssessmentsService.getComorbiditiesAssessments({caseId: caseId}),
-        delete: (id) => this.comorbiditiesAssessmentsService.deleteComorbiditiesAssessment({comorbiditiesAssessmentId: id}),
-        history: (id) => this.comorbiditiesAssessmentsService.getAllComorbiditiesAssessmentHistoryEvents({comorbiditiesAssessmentId: id}),
+        get: (caseId) => this.#comorbiditiesAssessmentsService.getComorbiditiesAssessments({caseId: caseId}),
+        delete: (id) => this.#comorbiditiesAssessmentsService.deleteComorbiditiesAssessment({comorbiditiesAssessmentId: id}),
+        history: (id) => this.#comorbiditiesAssessmentsService.getAllComorbiditiesAssessmentHistoryEvents({comorbiditiesAssessmentId: id}),
     };
     public genomicVariantService: DataService = {
-        get: (caseId) => this.genomicVariantsService.getGenomicVariants({caseId: caseId}),
-        delete: (id) => this.genomicVariantsService.deleteGenomicVariant({genomicVariantId: id}),
-        history: (id) => this.genomicVariantsService.getAllGenomicVariantHistoryEvents({genomicVariantId: id}),
+        get: (caseId) => this.#genomicVariantsService.getGenomicVariants({caseId: caseId}),
+        delete: (id) => this.#genomicVariantsService.deleteGenomicVariant({genomicVariantId: id}),
+        history: (id) => this.#genomicVariantsService.getAllGenomicVariantHistoryEvents({genomicVariantId: id}),
     };
     public genomicSignatureService: DataService = {
-        get: (caseId) => this.genomicSignaturesService.getGenomicSignatures({caseId: caseId}),
-        delete: (id) => this.genomicSignaturesService.deleteGenomicSignatureById({genomicSignatureId: id}),
-        history: (id) => this.genomicSignaturesService.getAllGenomicSignatureHistoryEvents({genomicSignatureId: id}),
+        get: (caseId) => this.#genomicSignaturesService.getGenomicSignatures({caseId: caseId}),
+        delete: (id) => this.#genomicSignaturesService.deleteGenomicSignatureById({genomicSignatureId: id}),
+        history: (id) => this.#genomicSignaturesService.getAllGenomicSignatureHistoryEvents({genomicSignatureId: id}),
     };
     public vitalsService: DataService = {
-        get: (caseId) => this.vitalsCoreService.getVitals({caseId: caseId}),
-        delete: (id) => this.vitalsCoreService.deleteVitalsById({vitalsId: id}),
-        history: (id) => this.vitalsCoreService.getAllVitalsHistoryEvents({vitalsId: id}),
+        get: (caseId) => this.#vitalsCoreService.getVitals({caseId: caseId}),
+        delete: (id) => this.#vitalsCoreService.deleteVitalsById({vitalsId: id}),
+        history: (id) => this.#vitalsCoreService.getAllVitalsHistoryEvents({vitalsId: id}),
     };
     public adverseEventService: DataService = {
-        get: (caseId) => this.adverseEventsService.getAdverseEvents({caseId: caseId}),
-        delete: (id) => this.adverseEventsService.deleteAdverseEventById({adverseEventId: id}),
-        history: (id) => this.adverseEventsService.getAllAdverseEventHistoryEvents({adverseEventId: id}),
+        get: (caseId) => this.#adverseEventsService.getAdverseEvents({caseId: caseId}),
+        delete: (id) => this.#adverseEventsService.deleteAdverseEventById({adverseEventId: id}),
+        history: (id) => this.#adverseEventsService.getAllAdverseEventHistoryEvents({adverseEventId: id}),
     };
     public tumorBoardService: DataService = {
-        get: (caseId) => this.tumorBoardsService.getTumorBoards({caseId: caseId}),
-        delete: (id) => this.tumorBoardsService.deleteTumorBoardById({tumorBoardId: id}),
-        history: (id) => this.tumorBoardsService.getAllTumorBoardHistoryEvents({tumorBoardId: id}),
+        get: (caseId) => this.#tumorBoardsService.getTumorBoards({caseId: caseId}),
+        delete: (id) => this.#tumorBoardsService.deleteTumorBoardById({tumorBoardId: id}),
+        history: (id) => this.#tumorBoardsService.getAllTumorBoardHistoryEvents({tumorBoardId: id}),
     };
     public treatmentResponseService: DataService = {
-        get: (caseId) => this.treatmentResponsesService.getTreatmentResponses({caseId: caseId}),
-        delete: (id) => this.treatmentResponsesService.deleteTreatmentResponse({treatmentRresponseId: id}),
-        history: (id) => this.treatmentResponsesService.getAllTreatmentResponseHistoryEvents({treatmentRresponseId: id}),
+        get: (caseId) => this.#treatmentResponsesService.getTreatmentResponses({caseId: caseId}),
+        delete: (id) => this.#treatmentResponsesService.deleteTreatmentResponse({treatmentRresponseId: id}),
+        history: (id) => this.#treatmentResponsesService.getAllTreatmentResponseHistoryEvents({treatmentRresponseId: id}),
     };
 
     // Form components
@@ -250,33 +250,34 @@ export class CaseManagerComponent {
 
     public exportLoading: boolean = false;
     public totalCompletion!: number; 
-
+    readonly currentUser = computed(() => this.#authService.user());
+    
     // Case properties
     public pseudoidentifier = input.required<string>();
     public case$ = rxResource({
         request: () => ({pseudoidentifier: this.pseudoidentifier()}),
-        loader: ({request}) => this.caseService.getPatientCaseByPseudoidentifier(request).pipe(
+        loader: ({request}) => this.#caseService.getPatientCaseByPseudoidentifier(request).pipe(
             tap(response => this.totalCompletion = response.dataCompletionRate)
         )
     })
     public primaryEntity$ = rxResource({
         request: () => ({caseId: this.case$.value()?.id, relationship: 'primary', limit: 1}),
-        loader: ({request}) => this.neoplasticEntitiesService.getNeoplasticEntities(request).pipe(
+        loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(
             map(data => data.items.length ? data.items[0] : null)
         )
     })
     public latestStaging$ = rxResource({
         request: () => ({caseId: this.case$.value()?.id, limit: 1}),
-        loader: ({request}) => this.stagingsService.getStagings(request).pipe(
+        loader: ({request}) => this.#stagingsService.getStagings(request).pipe(
             map(data => data.items.length ? data.items[0] : null)
         )
     })
     
     downloadCaseBundle(caseId: string) {
         this.exportLoading = true;
-        this.interoperabilityService.exportPatientCaseBundle({caseId:caseId}).subscribe({
+        this.#interoperabilityService.exportPatientCaseBundle({caseId:caseId}).subscribe({
             next: (response) => {
-                this.downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier}.json`)
+                this.#downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier}.json`)
             },
             complete: () => {
                 this.exportLoading = false;

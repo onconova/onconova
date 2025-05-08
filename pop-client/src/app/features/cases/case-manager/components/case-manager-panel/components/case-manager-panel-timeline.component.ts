@@ -50,7 +50,7 @@ export interface RadioChoice {
 })
 export class CaseManagerPanelTimelineComponent {
 
-    public readonly typeCheck = inject(TypeCheckService)
+    public readonly typeCheck = inject(TypeCheckService);
 
     @Output() public onEventClick = new EventEmitter<any>();
     public events = input.required<any[]>()

@@ -22,7 +22,7 @@
         </div>
         
         @if (!data.isLoading()) {
-            @if (authService.user().canManageCases) {
+            @if (currentUser().canManageCases) {
                 <i class="pop-case-manager-menu-button pi pi-cog" 
                 (click)="menu.toggle($event)"></i>
             }
@@ -59,7 +59,7 @@
     styleClass="pop-case-manager-drawer"
     [(visible)]="drawerVisible" 
     [data]="drawerData" 
-    [history$]="drawerHistory" 
+    [historyService]="service().history" 
     [icon]="icon()"
     [editable]="!isCompleted()"
     (delete)="deleteEntry($event)"
