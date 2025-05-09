@@ -6,6 +6,20 @@ from pydantic import AliasChoices, Field
 from typing import Optional, List
 
 class GenomicVariantSchema(ModelGetSchema):
+    isPathogenic: Optional[bool] = Field(
+        default=None,
+        title='Is Pathogenic',
+        description='Whether the genomic variant is considered pathogenic in a clinical setting',
+        alias='is_pathogenic',
+        validation_alias=AliasChoices('isPathogenic','is_pathogenic'),        
+    )
+    isVUS: Optional[bool] = Field(
+        default=None,
+        title='Is VUS',
+        description='Whether the genomic variant is considered a variant of unknown signifiance (VUS)',
+        alias='is_vus',
+        validation_alias=AliasChoices('isVUS','is_vus'),        
+    )
     dnaHgvs: Optional[str] = Field(
         default=None,
         title='DNA HGVS',
@@ -110,7 +124,7 @@ class GenomicVariantSchema(ModelGetSchema):
         description='Gene exons affected by the variant. Estimated from MANE reference sequences.',
         alias='exons',
     )
-    config = SchemaConfig(model=orm.GenomicVariant, GenomicVariantexclude=('is_vus', 'is_pathogenic'))
+    config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'))
 
 
 class GenomicVariantCreateSchema(ModelCreateSchema):

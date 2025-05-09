@@ -1061,7 +1061,7 @@ export namespace GenomicVariantFilters {
         Unchanged: 'unchanged' as RnaChangeTypeAnyOfEnum,
         Repetition: 'repetition' as RnaChangeTypeAnyOfEnum
     };
-    export type ProteinChangeTypeEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+    export type ProteinChangeTypeEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'unknown' | 'repetition';
     export const ProteinChangeTypeEnum = {
         Missense: 'missense' as ProteinChangeTypeEnum,
         Nonsense: 'nonsense' as ProteinChangeTypeEnum,
@@ -1073,9 +1073,10 @@ export namespace GenomicVariantFilters {
         Extension: 'extension' as ProteinChangeTypeEnum,
         Silent: 'silent' as ProteinChangeTypeEnum,
         NoProtein: 'no-protein' as ProteinChangeTypeEnum,
+        Unknown: 'unknown' as ProteinChangeTypeEnum,
         Repetition: 'repetition' as ProteinChangeTypeEnum
     };
-    export type ProteinChangeTypeNotEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+    export type ProteinChangeTypeNotEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'unknown' | 'repetition';
     export const ProteinChangeTypeNotEnum = {
         Missense: 'missense' as ProteinChangeTypeNotEnum,
         Nonsense: 'nonsense' as ProteinChangeTypeNotEnum,
@@ -1087,9 +1088,10 @@ export namespace GenomicVariantFilters {
         Extension: 'extension' as ProteinChangeTypeNotEnum,
         Silent: 'silent' as ProteinChangeTypeNotEnum,
         NoProtein: 'no-protein' as ProteinChangeTypeNotEnum,
+        Unknown: 'unknown' as ProteinChangeTypeNotEnum,
         Repetition: 'repetition' as ProteinChangeTypeNotEnum
     };
-    export type ProteinChangeTypeAnyOfEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+    export type ProteinChangeTypeAnyOfEnum = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'unknown' | 'repetition';
     export const ProteinChangeTypeAnyOfEnum = {
         Missense: 'missense' as ProteinChangeTypeAnyOfEnum,
         Nonsense: 'nonsense' as ProteinChangeTypeAnyOfEnum,
@@ -1101,6 +1103,7 @@ export namespace GenomicVariantFilters {
         Extension: 'extension' as ProteinChangeTypeAnyOfEnum,
         Silent: 'silent' as ProteinChangeTypeAnyOfEnum,
         NoProtein: 'no-protein' as ProteinChangeTypeAnyOfEnum,
+        Unknown: 'unknown' as ProteinChangeTypeAnyOfEnum,
         Repetition: 'repetition' as ProteinChangeTypeAnyOfEnum
     };
     export type AssessmentEnum = 'present' | 'absent' | 'no-call' | 'indeterminate';

@@ -369,7 +369,7 @@ class TherapyLineModelTest(TestCase):
 
 
 class GenomicVariantModelTest(TestCase):
-    dynamic_test_name = lambda fcn,idx,param: f'{fcn.__name__}_#{idx}_' + (re.split(r":", list(param)[0][0])[1] if ':' in param else 'None')
+    dynamic_test_name = lambda fcn,idx,param: f'{fcn.__name__}_#{idx}_' + str(list(param)[0][0])
     
     @classmethod
     def setUpTestData(cls):
@@ -655,19 +655,19 @@ class GenomicVariantModelTest(TestCase):
     @parameterized.expand(
         [
             # NCIB Sequences
-           ('NP_12345:p.Trp24del', 'NP_12345'),
-           ('NP_12345.1:p.Trp24del', 'NP_12345.1'),
-           ('AP_12345.2:p.Trp24del', 'AP_12345.2'),
-           ('YP_12345.3:p.Trp24del', 'YP_12345.3'),
-           ('XP_12345.4:p.Trp24del', 'XP_12345.4'),
-           ('WP_12345.5:p.Trp24del', 'WP_12345.5'),
+           ('NP_12345:p.(Trp24del)', 'NP_12345'),
+           ('NP_12345.1:p.(Trp24del)', 'NP_12345.1'),
+           ('AP_12345.2:p.(Trp24del)', 'AP_12345.2'),
+           ('YP_12345.3:p.(Trp24del)', 'YP_12345.3'),
+           ('XP_12345.4:p.(Trp24del)', 'XP_12345.4'),
+           ('WP_12345.5:p.(Trp24del)', 'WP_12345.5'),
            # ENSEMBL Sequences
-           ('ENSP12345:p.Trp24del', 'ENSP12345'),
-           ('ENSP12345.0:p.Trp24del', 'ENSP12345.0'),
+           ('ENSP12345:p.(Trp24del)', 'ENSP12345'),
+           ('ENSP12345.0:p.(Trp24del)', 'ENSP12345.0'),
            # LRG Sequences
-           ('LRG_123p4:p.Trp24del', 'LRG_123p4'),
+           ('LRG_123p4:p.(Trp24del)', 'LRG_123p4'),
            # Unspecified
-           ('p.Trp24del', None),
+           ('p.(Trp24del)', None),
         ],
         name_func = dynamic_test_name
     )
@@ -680,8 +680,11 @@ class GenomicVariantModelTest(TestCase):
         [
             # Examples from HGVS documentation 
             # (https://hgvs-nomenclature.org/stable/recommendations/summary/)
+           ('NP_003997.1:p.?', 'unknown'),
+           ('NP_003997.1:p.(?)', 'unknown'),
            ('NP_003997.1:p.Cys188=', 'silent'),
            ('LRG_199p1:p.0', 'no-protein'),
+           ('LRG_199p1:p.0?', 'no-protein'),
            ('NP_003997.1:p.Trp24Cys', 'missense'),
            ('NP_003997.1:p.Trp24Ter', 'nonsense'),
            ('NP_003997.1:p.Tyr24*', 'nonsense'),

@@ -87,8 +87,8 @@ class HGVSRegex:
     DNA_METHYLATION_GAIN = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|gom'
     DNA_METHYLATION_LOSS = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|lom'
     DNA_METHYLATION_EQUAL = rf'{NUCLEOTIDE_POSITION_OR_RANGE}\|met='
-    DNA_TRANSLOCATION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}delins\[{GENOMIC_REFSEQ}:g\.{NUCLEOTIDE_POSITION_OR_RANGE}\]'
-    DNA_TRANSPOSITION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}ins\[{GENOMIC_REFSEQ}:g\.{NUCLEOTIDE_POSITION_OR_RANGE}\]\sand\s{GENOMIC_REFSEQ}:g\.{NUCLEOTIDE_POSITION_OR_RANGE}del'
+    DNA_TRANSLOCATION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}delins\[(?:(?:{GENOMIC_REFSEQ}):)?g\.{NUCLEOTIDE_POSITION_OR_RANGE}\]'
+    DNA_TRANSPOSITION = rf'{NUCLEOTIDE_POSITION_OR_RANGE}ins\[(?:(?:{GENOMIC_REFSEQ}):)?g\.{NUCLEOTIDE_POSITION_OR_RANGE}\]\sand\s(?:(?:{GENOMIC_REFSEQ}):)?g\.{NUCLEOTIDE_POSITION_OR_RANGE}del'
     DNA_CHANGE_DESCRIPTION = rf'{DNA_UNCHANGED}|{DNA_SUBSTITUTION}|{DNA_TRANSLOCATION}|{DNA_TRANSPOSITION}|{DNA_DELETION_INSERTION}|{DNA_INSERTION}|{DNA_DELETION}|{DNA_DUPLICATION}|{DNA_INVERSION}|{DNA_REPETITION}|{DNA_METHYLATION_GAIN}|{DNA_METHYLATION_LOSS}|{DNA_METHYLATION_EQUAL}'
 
     # RNA HGVS scenarios
@@ -106,7 +106,8 @@ class HGVSRegex:
     RNA_CHANGE_DESCRIPTION = rf'{RNA_UNCHANGED}|{RNA_SUBSTITUTION}|{RNA_DELETION_INSERTION}|{RNA_INSERTION}|{RNA_DELETION}|{RNA_DUPLICATION}|{RNA_INVERSION}|{RNA_REPETITION}'
 
     # Protein HGVS scenarios
-    PROTEIN_NOTHING = rf'0$'
+    PROTEIN_UNKNOWN = r'\?'
+    PROTEIN_NOTHING = r'0\??'
     PROTEIN_SILENT = rf'{AMINOACID_POSITION}='
     PROTEIN_MISSENSE = rf'{AMINOACID_POSITION}{PROTEIN_SEQUENCE}'
     PROTEIN_DELETION_INSERTION = rf'{AMINOACID_POSITION_OR_RANGE}delins{PROTEIN_SEQUENCE}'
@@ -117,10 +118,10 @@ class HGVSRegex:
     PROTEIN_REPETITION = rf'\(?{AMINOACID_POSITION_OR_RANGE}\)?{REPETITION_COPIES}'
     PROTEIN_FRAMESHIFT = rf'{AMINOACID_POSITION_OR_RANGE}{PROTEIN_SEQUENCE}?fs(?:Ter)?(?:{POSITION})*'
     PROTEIN_EXTENSION = rf'(?:(?:Met1ext-\d+)|(?:Ter\d+{PROTEIN_SEQUENCE}extTer\d+))'
-    PROTEIN_CHANGE_DESCRIPTION = rf'{PROTEIN_NOTHING}|{PROTEIN_DELETION_INSERTION}|{PROTEIN_DELETION}|{PROTEIN_INSERTION}|{PROTEIN_DUPLICATION}|{PROTEIN_NONSENSE}|{PROTEIN_FRAMESHIFT}|{PROTEIN_EXTENSION}|{PROTEIN_REPETITION}|{PROTEIN_MISSENSE}|{PROTEIN_SILENT}'
+    PROTEIN_CHANGE_DESCRIPTION = rf'{PROTEIN_NOTHING}|{PROTEIN_UNKNOWN}|{PROTEIN_DELETION_INSERTION}|{PROTEIN_DELETION}|{PROTEIN_INSERTION}|{PROTEIN_DUPLICATION}|{PROTEIN_NONSENSE}|{PROTEIN_FRAMESHIFT}|{PROTEIN_EXTENSION}|{PROTEIN_REPETITION}|{PROTEIN_MISSENSE}|{PROTEIN_SILENT}'
 
     # Complete HGVS regexes for each scenario
-    DNA_HGVS = rf'(?:(?:{GENOMIC_REFSEQ}:)?g)|(?:(?:(?:{GENOMIC_REFSEQ})?\(?({RNA_REFSEQ})\)?:)?c)\.({DNA_CHANGE_DESCRIPTION})'
+    DNA_HGVS = rf'(?:(?:(?:(?:{GENOMIC_REFSEQ}):)?g)|(?:(?:(?:{GENOMIC_REFSEQ})?\(?({RNA_REFSEQ})\)?:)?c))\.({DNA_CHANGE_DESCRIPTION})'
     RNA_HGVS = rf'(?:({RNA_REFSEQ}):)?r\.\(?({RNA_CHANGE_DESCRIPTION})\)?'
     PROTEIN_HGVS = rf'(?:({PROTEIN_REFSEQ}):)?p\.\(?({PROTEIN_CHANGE_DESCRIPTION})\)?'
 
@@ -204,6 +205,7 @@ class GenomicVariant(BaseModel):
         EXTENSION = 'extension'
         SILENT = 'silent'
         NO_PROTEIN = 'no-protein'
+        UNKNOWN = 'unknown'
         REPETITION = 'repetition'
 
     case = models.ForeignKey(
@@ -446,8 +448,9 @@ class GenomicVariant(BaseModel):
             When(protein_hgvs__regex=HGVSRegex.PROTEIN_EXTENSION, then=Value(ProteinChangeType.EXTENSION)),
             When(protein_hgvs__regex=HGVSRegex.PROTEIN_REPETITION, then=Value(ProteinChangeType.REPETITION)),
             When(protein_hgvs__regex=HGVSRegex.PROTEIN_SILENT, then=Value(ProteinChangeType.SILENT)),
-            When(protein_hgvs__regex=HGVSRegex.PROTEIN_NOTHING, then=Value(ProteinChangeType.NO_PROTEIN)),
             When(protein_hgvs__regex=HGVSRegex.PROTEIN_MISSENSE, then=Value(ProteinChangeType.MISSENSE)),
+            When(protein_hgvs__regex=rf'p.\(?{HGVSRegex.PROTEIN_NOTHING}\)?', then=Value(ProteinChangeType.NO_PROTEIN)),
+            When(protein_hgvs__regex=rf'p.\(?{HGVSRegex.PROTEIN_UNKNOWN}\)?', then=Value(ProteinChangeType.UNKNOWN)),
             default=None,
             output_field=models.CharField(choices=ProteinChangeType)
         ),
@@ -558,10 +561,13 @@ class GenomicVariant(BaseModel):
     @property
     def aminoacid_change(self):
         if self.protein_hgvs:
-            protein_change = ' ' + self.protein_hgvs.split(':p.')[-1]
+            protein_change = self.protein_hgvs.split('p.')[-1]
             if "?" in protein_change: 
                 return None
-            return protein_change
+            if protein_change[0] == '(' and protein_change[-1] == ')':
+                return protein_change[1:-1]
+            else:
+                return protein_change
         return None
         
     @property

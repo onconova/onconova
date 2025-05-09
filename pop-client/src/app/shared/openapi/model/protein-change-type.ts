@@ -9,7 +9,7 @@
  */
 
 
-export type ProteinChangeType = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition';
+export type ProteinChangeType = 'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'unknown' | 'repetition';
 
 export const ProteinChangeType = {
 
@@ -32,6 +32,8 @@ export const ProteinChangeType = {
     Silent: 'silent' as ProteinChangeType,
 
     NoProtein: 'no-protein' as ProteinChangeType,
+
+    Unknown: 'unknown' as ProteinChangeType,
 
     Repetition: 'repetition' as ProteinChangeType
 };
