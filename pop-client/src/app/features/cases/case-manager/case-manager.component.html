@@ -2,13 +2,15 @@
 
 <div class="mb-3">
     <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
-    <p-button
-        label="Export case"
-        [style]="{'float': 'right'}"
-        [disabled]="!authService.user.canExportData"
-        [icon]="authService.user.canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
-        [loading]="exportLoading"
-        (click)="downloadCaseBundle(case?.id || '')"/>
+    <div class="flex gap-3" style="float: right;">
+        <p-button
+            label="Export case"
+            [disabled]="!authService.user.canExportData"
+            [icon]="authService.user.canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
+            [loading]="exportLoading"
+            (click)="downloadCaseBundle(case?.id || '')"/>
+        <ng-container *ngTemplateOutlet="additionalCaseActionButtons"></ng-container>
+    </div>
 </div>
 
 <!-- Case summary -->

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, inject  } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, inject, TemplateRef, ContentChild  } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -74,6 +74,7 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
 
 @Component({
     templateUrl: './case-manager.component.html',
+    selector: 'pop-case-manager',
     imports: [
         CommonModule,
         FormsModule,
@@ -92,6 +93,8 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
     ]
 })
 export class CaseManagerComponent implements OnInit {
+
+    @ContentChild('additionalCaseActionButtons', { descendants: false }) additionalCaseActionButtons!: TemplateRef<any> | null;
 
     // Injected dependencies
     public authService: AuthService = inject(AuthService);
