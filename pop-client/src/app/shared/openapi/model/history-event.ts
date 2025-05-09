@@ -27,6 +27,7 @@ export interface HistoryEvent {
      */
     snapshot: { [key: string]: any; };
     differential: { [key: string]: any; } | null;
+    context: { [key: string]: any; } | null;
 }
 export namespace HistoryEvent {
 }

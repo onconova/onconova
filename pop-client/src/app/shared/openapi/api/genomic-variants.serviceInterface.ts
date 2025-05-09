@@ -76,8 +76,8 @@ export interface GetGenomicVariantsRequestParams {
     dnaChangePositionNotEqual?: number;
     dnaChangePositionBetween?: Array<any>;
     dnaChangePositionNotBetween?: Array<any>;
-    dnaChangeRangeNotExists?: boolean;
-    dnaChangeRangeExists?: boolean;
+    dnaChangePositionRangeNotExists?: boolean;
+    dnaChangePositionRangeExists?: boolean;
     dnaChangeTypeNotExists?: boolean;
     dnaChangeTypeExists?: boolean;
     dnaChangeType?: string;

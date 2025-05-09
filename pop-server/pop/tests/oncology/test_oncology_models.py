@@ -369,7 +369,7 @@ class TherapyLineModelTest(TestCase):
 
 
 class GenomicVariantModelTest(TestCase):
-    dynamic_test_name = lambda fcn,idx,param: f'{fcn.__name__}_#{idx}_' + re.split(r":", list(param)[0][0])[1]
+    dynamic_test_name = lambda fcn,idx,param: f'{fcn.__name__}_#{idx}_' + (re.split(r":", list(param)[0][0])[1] if ':' in param else 'None')
     
     @classmethod
     def setUpTestData(cls):
@@ -423,6 +423,8 @@ class GenomicVariantModelTest(TestCase):
            ('LRG_123:g.123456C>A', 'LRG_123'),
            # LRG Sequences (coding DNA coordinate)
            ('LRG_123t4:c.123C>A', 'LRG_123t4'),
+           # Unspecified
+           ('c.123C>A', None),
         ],
         name_func = dynamic_test_name
     )
@@ -603,6 +605,8 @@ class GenomicVariantModelTest(TestCase):
            ('ENST12345.0:r.123c>a', 'ENST12345.0'),
            # LRG Sequences
            ('LRG_123t4:r.123c>a', 'LRG_123t4'),
+           # Unspecified
+           ('r.123c>a', None),
         ],
         name_func = dynamic_test_name
     )
@@ -662,6 +666,8 @@ class GenomicVariantModelTest(TestCase):
            ('ENSP12345.0:p.Trp24del', 'ENSP12345.0'),
            # LRG Sequences
            ('LRG_123p4:p.Trp24del', 'LRG_123p4'),
+           # Unspecified
+           ('p.Trp24del', None),
         ],
         name_func = dynamic_test_name
     )

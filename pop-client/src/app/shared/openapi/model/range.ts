@@ -12,7 +12,7 @@ import { End } from './end';
 
 
 export interface Range { 
-    start: Start;
+    start: Start | null;
     end?: End | null;
 }
 
