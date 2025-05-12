@@ -1,19 +1,16 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { RatingModule } from 'primeng/rating';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SkeletonModule } from 'primeng/skeleton';
-
 import { EntityStatisticsSchema, DashboardService } from 'src/app/shared/openapi';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
-
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'pop-primary-entities-table',
@@ -29,8 +26,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
         SkeletonModule,
     ],
     template: `
-        @let entityStatistics = entityStatistics$ | async;
-        @if (!entityStatistics) {
+        @if (entityStatistics.isLoading()) {
             <p-table [value]="[1,2,3,4,5,6,7,8]" [paginator]="true" [rows]="8">
                 <ng-template #header>
                     <tr>
@@ -50,7 +46,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
                 </ng-template>
             </p-table>
         } @else {
-            <p-table [value]="entityStatistics" [paginator]="true" [rows]="8">
+            <p-table [value]="entityStatistics.value() || []" [paginator]="true" [rows]="8">
                 <ng-template #header>
                     <tr>
                         <th>Primary site</th>
@@ -90,7 +86,9 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
     `
 })
 export class PrimaryEntitiesTableComponent {
-    public readonly authService = inject(AuthService)
-    public readonly dashboardService = inject(DashboardService);
-    public entityStatistics$: Observable<EntityStatisticsSchema[]> = this.dashboardService.getPrimarySiteStatistics()    
+    readonly #dashboardService = inject(DashboardService);
+    public entityStatistics = rxResource({
+        request: () => ({}),
+        loader: () => this.#dashboardService.getPrimarySiteStatistics()
+    });
 }

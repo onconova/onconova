@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, signal} from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { CommonModule } from '@angular/common';
 import { Card } from 'primeng/card';
@@ -22,7 +22,7 @@ import { Button } from 'primeng/button';
                     <div class="mt-2">
                         The information and resources presented here are <b>not intended for use in diagnosing or treating health problems or diseases</b> under any circumstances.
                     </div>
-                    <p-button icon="pi pi-info-circle" styleClass="my-3" (click)="disclaimerDialogVisible = true" label="View disclaimer" />
+                    <p-button icon="pi pi-info-circle" styleClass="my-3" (click)="isDisclaimerVisible.set(true)" label="View disclaimer" />
                     <div style="max-width: 35rem;">
                         <small class="text-muted"> 
                         *By using this platform, you are agreeing to comply with and be bound by the terms and conditions of use.    
@@ -31,7 +31,7 @@ import { Button } from 'primeng/button';
                     <p-dialog 
                         header="Terms and Conditions of Use" 
                         [modal]="true" 
-                        [(visible)]="disclaimerDialogVisible" 
+                        [(visible)]="isDisclaimerVisible" 
                         [style]="{ width: '40rem' }">
                         <div class="flex items-center gap-4 mb-4">
                             By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this platform is intended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make any express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.
@@ -41,7 +41,7 @@ import { Button } from 'primeng/button';
                             These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.
                         </div>
                         <div class="flex justify-end gap-2">
-                            <p-button label="Close" (click)="disclaimerDialogVisible = false" />
+                            <p-button label="Close" (click)="isDisclaimerVisible.set(false)" />
                         </div>
                     </p-dialog>
                 </div>
@@ -51,8 +51,7 @@ import { Button } from 'primeng/button';
     `
 })
 export class DisclaimerBannerComponent {
-    
     public readonly illustration: string = 'assets/images/landing/researcher.svg';
-    public disclaimerDialogVisible: boolean = false;
+    public isDisclaimerVisible = signal<boolean>(false);
 
 }
