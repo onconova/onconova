@@ -1,8 +1,8 @@
-<p-table [value]="nestedData" >
+<p-table [value]="nestedData()" >
   
     <ng-template pTemplate="header">
       <tr>
-        @for (column of nestedDataColumn; track $index) {
+        @for (column of nestedDataColumn(); track $index) {
             <th>{{ column | camelCaseToTitleCase }}</th>
         }
       </tr>
@@ -10,7 +10,7 @@
   
     <ng-template pTemplate="body" let-rowData>
         <tr>
-            @for (column of nestedDataColumn; track $index) {
+            @for (column of nestedDataColumn(); track $index) {
                 <td>
                     @if (isNested(rowData[column])) {
                         <div class="flex">

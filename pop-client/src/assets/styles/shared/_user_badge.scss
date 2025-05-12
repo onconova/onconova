@@ -1,0 +1,34 @@
+pop-user-badge {
+    & .user-avatar {
+        color: var(--p-primary-500) !important;
+        background: color-mix(in srgb, var(--p-primary-500), transparent 80%)  !important;
+        white-space: pre !important;
+    }
+}
+
+.user-tooltip-content{
+    display: flex;
+    width: 15rem !important;
+    text-align: left;
+    & .user-avatar{
+        margin: auto 0;
+        margin-right: .5rem;
+        color: var(--p-primary-500) !important;
+        background: color-mix(in srgb, var(--p-primary-500), transparent 80%)  !important;
+        white-space: pre !important;
+    }
+    & .user-tooltip-content-name{
+        color: var(--p-text-color) !important;
+    }
+    & .user-tooltip-content-role {
+        white-space: nowrap !important;
+        font-size: .85rem !important;
+    }
+}
+.p-tooltip > .p-tooltip-text {
+    width: fit-content !important;
+    background: light-dark(var(--p-surface-50), var(--p-surface-800)) !important;
+}
+.p-tooltip > .p-tooltip-arrow{
+    border-right-color: light-dark(var(--p-surface-50), var(--p-surface-800)) !important
+}

@@ -1,18 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { AuthService, User, UserCreate } from 'src/app/shared/openapi';
-import { first, map, Observable, of } from 'rxjs';
+import { first, map } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { Skeleton } from 'primeng/skeleton';
-import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
 import { UserFormComponent } from '../../forms/user-form/user-form.component';
-import { ModalFormComponent } from 'src/app/shared/components/modal-form/modal-form.component';
 import { PasswordResetFormComponent } from '../../forms/passwrd-reset-form/password-reset-form.component';
+import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Key, User as UserIcon } from 'lucide-angular';
 
 @Component({
     selector: 'pop-users-management',
@@ -30,7 +29,7 @@ export class UsersManagementCompnent implements OnInit {
 
     // Inject services
     private authService = inject(AuthService);
-    private modalFormService = inject(ModalFormService)
+    readonly #dialogservice = inject(DialogService);
 
     // Properties
     public paginatedUsers!: User[];
@@ -45,14 +44,50 @@ export class UsersManagementCompnent implements OnInit {
         this.refreshUsers()
     }
 
+    #modalFormConfig = computed( () => ({
+        templates: {
+            header: ModalFormHeaderComponent,
+        },   
+        modal: true,
+        closable: true,
+        width: '45vw',
+        styleClass: 'pop-modal-form',
+        breakpoints: {
+            '1700px': '50vw',
+            '960px': '75vw',
+            '640px': '90vw'
+        },
+    }))
+    #modalFormRef: DynamicDialogRef | undefined;
 
     public openUserForm(initialData: UserCreate | {}) {    
-        this.modalFormService.open(UserFormComponent, initialData, this.refreshUsers.bind(this));
+        this.#modalFormRef = this.#dialogservice.open(UserFormComponent, {
+            inputValues: {
+                initialData: initialData,
+            },
+            data: {
+                title: 'User information',
+                subtitle: "Update a user's data",
+                icon: UserIcon,
+            },
+            ...this.#modalFormConfig()
+        })
+        this.reloadDataIfClosedAndSaved(this.#modalFormRef)
     }
     public openPasswordResetForm(isAdmin: boolean, user: User) {
-        this.modalFormService.open(PasswordResetFormComponent, {isAdmin: isAdmin, user: user}, this.refreshUsers.bind(this));
+        this.#modalFormRef = this.#dialogservice.open(PasswordResetFormComponent, {
+            inputValues: {
+                initialData: {isAdmin: isAdmin, user: user},
+            },
+            data: {
+                title: 'User Password',
+                subtitle: "Reset a user's password",
+                icon: Key,
+            },
+            ...this.#modalFormConfig()
+        })
+        this.reloadDataIfClosedAndSaved(this.#modalFormRef)
     }
-
     applyFilters(event: any) {
         const filtersMap = new Map(Object.entries(event.filters).map(([field, filter]) => {
             // @ts-ignore
@@ -74,6 +109,14 @@ export class UsersManagementCompnent implements OnInit {
                 this.loading = false;
             }),
         ).subscribe()
+    }
+
+    reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
+        modalFormRef.onClose.subscribe((data: any) => {
+            if (data?.saved) {
+                this.refreshUsers()
+            }
+        })    
     }
 
     public setPaginationAndRefresh(event: TableLazyLoadEvent) {

@@ -17,8 +17,6 @@ import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
 import { Cohort, CohortsService} from 'src/app/shared/openapi';
-import { ModalFormService } from 'src/app/shared/components/modal-form/modal-form.service';
-
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
 import { CohortFormComponent } from 'src/app/features/forms/cohort-form/cohort-form.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
@@ -47,7 +45,6 @@ export class CohortSearchComponent implements OnInit {
   // Injected services  
   public authService = inject(AuthService)
   private cohortsService = inject(CohortsService)
-  private modalFormService = inject(ModalFormService)
   private messageService = inject(MessageService) 
   #dialogservice = inject(DialogService)
   #modalFormRef: DynamicDialogRef | undefined;

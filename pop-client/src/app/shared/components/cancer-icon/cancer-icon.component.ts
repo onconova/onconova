@@ -1,19 +1,18 @@
-import { ChangeDetectorRef, inject } from '@angular/core';
-import { Component, Input, SimpleChange, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { Skeleton } from 'primeng/skeleton';
 
 @Component({
     selector: 'pop-cancer-icon',
     template: `
-    <div [inlineSVG]="icon" 
+    <div [inlineSVG]="icon()" 
         class="pop-cancer-icon" 
-        [setSVGAttributes]="{style: 'margin: auto; display: block;', height: height, width: width}"
-        (onSVGInserted)="loadingSVG=false; cdref.detectChanges()" 
-        style="display: {{loadingSVG ? 'none' : 'block'}}">
+        [setSVGAttributes]="{style: 'margin: auto; display: block;', height: height(), width: width()}"
+        (onSVGInserted)="loadingSVG.set(false)" 
+        style="display: {{loadingSVG() ? 'none' : 'block'}}">
     </div>
-    @if (loadingSVG) {
-        <p-skeleton [height]="height" [width]="width"/>
+    @if (loadingSVG()) {
+        <p-skeleton [height]="height()" [width]="width()"/>
     }
     `,
     imports: [
@@ -22,17 +21,13 @@ import { Skeleton } from 'primeng/skeleton';
 })
 export class CancerIconComponent {
 
-    public cdref = inject(ChangeDetectorRef)
+    // Component inputs
+    public topography = input.required<string>();
+    public height = input<string>('2rem');
+    public width = input<string>('2rem');
 
-    @Input() topography!: string;
-    @Input() height: string = '2rem';
-    @Input() width: string = '2rem';
-
-    public defaultIcon : string = 'assets/images/body/unknown.svg';
-    public icon: string = this.defaultIcon;
-    public loadingSVG: boolean = true;
-    public iconDisplay: boolean = false;
-    private icons = {
+    readonly #defaultIcon : string = 'assets/images/body/unknown.svg';
+    readonly #icons = {
         'mouth.svg': ['C00', 'C01', 'C02', 'C03', 'C04', 'C06'],
         'head.svg': ['C07', 'C08', 'C09', 'C10', 'C11', 'C12', 'C13', 'C14',],
         'stomach.svg': ['C16'],
@@ -68,20 +63,18 @@ export class CancerIconComponent {
         'lymph_nodes.svg': ['C77'],
     }
 
-    ngOnInit() {
-        if (!this.topography) {
-            this.icon = this.defaultIcon
-        } else {
-            Object.entries(this.icons).forEach(
-                icon => {
-                    const topographies = icon[1];
-                    if (topographies.includes(this.topography.split('.')[0])) {
-                        this.icon = `assets/images/body/${icon[0]}`
-                        return
-                    }
-                }
-            )
-        }
-    }
+    public loadingSVG = signal<boolean>(true);
+    public icon = computed(() => {
+        if (!this.topography()) {
+            return this.#defaultIcon
+        } 
+        let icon = Object.entries(this.#icons).find(
+            ([filename, topographies]) => topographies.includes(this.topography().split('.')[0])
+        )       
+        if (!icon) {
+            return this.#defaultIcon
+        }                 
+        return `assets/images/body/${icon[0]}`
+    });
 
 }

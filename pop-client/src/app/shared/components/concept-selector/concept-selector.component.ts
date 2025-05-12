@@ -15,7 +15,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'pop-concept-selector',
-    styleUrl: './concept-selector.component.css',
     templateUrl: './concept-selector.component.html',
     providers: [
         {
