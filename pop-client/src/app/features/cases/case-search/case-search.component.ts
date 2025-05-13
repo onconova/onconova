@@ -58,6 +58,9 @@ import { ModalFormHeaderComponent } from '../../forms/modal-form-header.componen
 
 export class CaseSearchComponent {
   
+  // Reactive input properties
+  public readonly manager = input<string>();
+  
   // Injected services  
   readonly #patientCasesService = inject(PatientCasesService)
   readonly #authService = inject(AuthService)
@@ -65,15 +68,17 @@ export class CaseSearchComponent {
   readonly #dialogservice = inject(DialogService)
   #modalFormRef: DynamicDialogRef | undefined;
 
-  public readonly manager = input<string>();
+  // Computed properties
   public readonly isUserPage = computed(() => this.manager() !== undefined);
   public readonly currentUser = computed(() => this.#authService.user());
+
+  // Pagination and search settings
   public readonly pageSizeChoices: number[] = [15, 30, 45, 60];
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
   public totalCases= signal(0);
   public searchQuery = signal('');
 
-
+  // Resources
   public cases: Resource<PatientCase[] | undefined> = rxResource({
     request: () => ({pseudoidentifierContains: this.searchQuery() || undefined, manager: this.manager(), limit: this.pagination().limit, offset: this.pagination().offset}),
     loader: ({request}) => this.#patientCasesService.getPatientCases(request).pipe(

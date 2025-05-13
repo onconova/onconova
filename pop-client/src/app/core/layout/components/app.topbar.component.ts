@@ -61,7 +61,7 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
                 <p-button [icon]="darkMode() ? 'pi pi-moon' : 'pi pi-sun'" [rounded]="true" [outlined]="true" (onClick)="toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
 
                 <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
-                <p-menu #profile class="pop-profile-menu" [model]="profileItems" [popup]="true" appendTo="topbar">
+                <p-menu #profile class="pop-profile-menu" [model]="profileItems" [popup]="true">
                     <ng-template #start>
                         <div class="flex flex-column m-3 text-center">
                             <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
@@ -148,7 +148,7 @@ export class AppTopBarComponent {
     }
 
     openPasswordResetForm() {
-        this.#dialogService.open(PasswordResetFormComponent, {
+        this.#modalFormRef = this.#dialogService.open(PasswordResetFormComponent, {
             inputValues: {
                 initialData: {isAdmin: false, user: this.#authService.user()}
             },
@@ -170,7 +170,7 @@ export class AppTopBarComponent {
                 '640px': '90vw'
             },
         })
-        this.#modalFormRef!.onClose.subscribe((data: any) => {
+        this.#modalFormRef.onClose.subscribe((data: any) => {
             if (data?.saved) {
                 this.logout
             }

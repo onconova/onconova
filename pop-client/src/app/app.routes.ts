@@ -59,7 +59,7 @@ const appRoutes: Routes = [
     { 
         path: 'notfound', 
         canActivate: [AuthGuard],
-        loadComponent: () => import('./core/auth/pages/error/error.component').then(m => m.ErrorComponent) 
+        loadComponent: () => import('./core/auth/components/auth.error.component').then(m => m.ErrorComponent) 
     },
     { path: '**', redirectTo: '/notfound' },
 ];

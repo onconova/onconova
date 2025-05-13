@@ -81,17 +81,18 @@ export class AppMenuitemComponent {
     public key = computed<string>(() => this.parentKey ? this.parentKey + '-' + this.index : String(this.index))
     public submenuAnimation = computed(() => this.root() ? 'expanded' : (this.active() ? 'expanded' : 'collapsed'));
 
-    ngOnInit() {
-        // reactive effect: watch route changes and update active state
-        this.#router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(event => {
-        this.routerSignal.set(event as NavigationEnd);
-        });
 
-        effect(() => {
+    #activeRouteEffect = effect(() => {
         if (this.item().routerLink && this.routerSignal()) {
             const isActive = this.#router.isActive(this.item().routerLink[0], { paths: 'exact', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' });
             this.active.set(isActive);
         }
+    });
+
+    ngOnInit() {
+        // reactive effect: watch route changes and update active state
+        this.#router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(event => {
+            this.routerSignal.set(event as NavigationEnd);
         });
     }
 

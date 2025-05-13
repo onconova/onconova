@@ -18,21 +18,22 @@ import { Fluid } from 'primeng/fluid';
     <p-fluid>
         <form  [formGroup]="form" (ngSubmit)="submitFormData()">
             
+            <input type="text" name="username" [value]="this.initialData()?.user?.username" hidden autocomplete="username" />
             @if (!initialData()?.isAdmin) {
                 <div class="field">
                     <label class="form-label required">Old Password</label>
-                    <input type="password" pInputText formControlName="oldPassword" />
+                    <input type="password" pInputText formControlName="oldPassword" autocomplete="current-password" />
                     <pop-form-control-error controlName="oldPassword"/>
                 </div>
             }
             <div class="field">
                 <label class="form-label required">New Password</label>
-                <input type="password" pInputText formControlName="newPassword" />
+                <input type="password" pInputText formControlName="newPassword" autocomplete="new-password" />
                 <pop-form-control-error controlName="newPassword"/>
             </div>
             <div class="field">
                 <label class="form-label required">Confirm the new password</label>
-                <input type="password" pInputText formControlName="newPasswordCheck" />
+                <input type="password" pInputText formControlName="newPasswordCheck" autocomplete="new-password" />
                 <pop-form-control-error controlName="newPasswordCheck"/>
             </div>
 

@@ -114,9 +114,9 @@
                 Select the therapy line to analyze
             </div>
             <p-selectbutton 
-            [options]="therapyLineOptions()" 
-            [(ngModel)]="selectedTherapyLine" 
-            (onChange)="selectedTherapyLine.set($event.value)"/>
+                [options]="therapyLineOptions()" 
+                [(ngModel)]="selectedTherapyLine" 
+                [allowEmpty]="false"/>
         }
 
         <div class="font-semibold mt-4">Progression-free survival (PFS)</div>

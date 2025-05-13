@@ -80,7 +80,7 @@ export class CaseSearchItemCardComponent {
     public readonly actionItems: MenuItem[] = [
         {
             label: 'Export',
-            disabled: !this.#authService.user().canExportData,
+            disabled: !this.currentUser().canExportData,
             icon: 'pi pi-file-export',
             command: () => this.exportCaseBundle,
         },
@@ -88,6 +88,7 @@ export class CaseSearchItemCardComponent {
             label: 'Delete',
             icon: 'pi pi-trash',
             styleClass: 'delete-action',
+            disabled: !this.currentUser().canManageCases,
             command: (event: any) => this.confirmDelete(event),
         },
     ];

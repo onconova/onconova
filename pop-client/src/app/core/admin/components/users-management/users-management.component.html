@@ -1,33 +1,33 @@
 <h3 class="mb-1">User Administration</h3>
 <div class="text-muted">In this page you can manage the platform's users and add/authorize new users.</div>
-
+{{ queryFilters | json}}
 <p-card styleClass="mt-4">
     <div class="flex mb-2">
-        <p-button label="Add new user" icon="pi pi-plus" (onClick)="openUserForm({})" severity="primary"/>
     </div>
     <p-table             
-        [value]="paginatedUsers" 
+        [value]="users.value() || []"
         [paginator]="true" 
         [showCurrentPageReport]="true"
         lazy="true"
-        [rows]="pageSize" 
+        [rows]="pagination().limit" 
         [rowsPerPageOptions]="pageSizeChoices"
-        [totalRecords]="totalEntries"
-        (onLazyLoad)="setPaginationAndRefresh($event)"
+        [totalRecords]="totalUsers()"
+        (onLazyLoad)="pagination.set({limit: $event.rows || 10, offset: $event.first || 0})"
         (onFilter)="applyFilters($event)"
-        [rowsPerPageOptions]="[10, 25, 50]"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">>
         <ng-template #header>
             <tr>
                 <th class="w-5rem"></th>
                 <th>Username</th>
                 <th>Name</th>
+                <th>Access level & Role</th>
                 <th>Email</th>
                 <th>Last login</th>
-                <th>Access level & Role</th>
             </tr>
             <tr>
-                <th></th>
+                <th>
+                    <p-button label="Add user" icon="pi pi-plus" (onClick)="openUserForm({})" severity="primary" [style]="{'white-space': 'nowrap'}"/>
+                </th>
                 <th>
                     <p-columnFilter
                         type="text"
@@ -50,6 +50,15 @@
                 <th>
                     <p-columnFilter
                         type="text"
+                        field="role"
+                        matchMode="contains"
+                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
+                        placeholder="Search by role"
+                    ></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter
+                        type="text"
                         field="email"
                         matchMode="contains"
                         [matchModeOptions]="[{label:'contains', value:'contains'}]"
@@ -57,19 +66,10 @@
                     ></p-columnFilter>
                 </th>
                 <th></th>
-                <th>
-                    <p-columnFilter
-                        type="text"
-                        field="role"
-                        matchMode="contains"
-                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
-                        placeholder="Search by role"
-                    ></p-columnFilter>
-                </th>
         </ng-template>
         <ng-template #body let-user>
             <tr>
-                @if (loading) {
+                @if (users.isLoading()) {
                     <td><p-skeleton height="2rem" width="100%"/></td>
                     <td><p-skeleton height="2rem" width="100%"/></td>
                     <td><p-skeleton height="2rem" width="100%"/></td>
@@ -79,15 +79,15 @@
                     <td><p-skeleton height="2rem" width="100%"/></td>
                     <td><p-skeleton height="2rem" width="100%"/></td>
                 } @else {
-                    <td>
-                        <p-button icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
-                        <p-button icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
+                    <td class="flex gap-2">
+                        <p-button title="Update user information" icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
+                        <p-button title="Reset user password" icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
                     </td>
-                    <td class="text-monospace">{{ user().username }}</td>
-                    <td>{{ user().lastName }}, {{ user().firstName }}</td>
-                    <td>{{ user().email }}</td>
-                    <td>{{ user().lastLogin }}</td>
-                    <td>{{ user().accessLevel }} - {{ user().role }}</td>
+                    <td class="text-monospace">{{ user.username }}</td>
+                    <td>{{ user.lastName }}, {{ user.firstName }}</td>
+                    <td>{{ user.accessLevel }} - {{ user.role }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.lastLogin }}</td>
                 }
             </tr>
         </ng-template>
