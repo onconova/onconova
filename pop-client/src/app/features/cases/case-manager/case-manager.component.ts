@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, ViewEncapsulation, inject, input, computed, contentChild  } from '@angular/core';
+import { Component, inject, input, computed, contentChild, TemplateRef  } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { Observable, catchError, delay, map, tap } from 'rxjs'; 
+import { map, tap } from 'rxjs'; 
 
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -95,7 +95,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 })
 export class CaseManagerComponent {
 
-    public additionalCaseActionButtons = contentChild<TemplateRef<any> | null>('additionalCaseActionButtons', { descendants: false });
+    public additionalCaseActionButtons = contentChild<TemplateRef<any> >('additionalCaseActionButtons', { descendants: false });
   
     // Injected dependencies
     public location: Location = inject(Location);
