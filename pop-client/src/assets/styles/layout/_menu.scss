@@ -19,15 +19,15 @@
     padding: 0;
     list-style-type: none;
 
-    .layout-root-menuitem {
-        >.layout-menuitem-root-text {
-            font-size: .857rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--p-text-muted-color);
-            margin: .75rem 0;
-        }
+    .layout-menuitem-root-text {
+        font-size: .857rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--p-text-muted-color);
+        margin: .75rem 0;
+    }
 
+    .layout-root-menuitem {
         >a {
             display: none;
         }

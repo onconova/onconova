@@ -1,9 +1,0 @@
-<ul class="layout-menu">
-    @for (item of model; track item.label; let i = $index;) {
-        @if (item.separator) {
-            <li class="menu-separator"></li>
-        } @else {
-            <li pop-menuitem [item]="item" [index]="i" [root]="true"></li>
-        }
-    }
-</ul>
