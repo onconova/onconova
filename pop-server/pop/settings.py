@@ -55,6 +55,11 @@ INSTALLED_APPS = [
     'pop.analytics',
     'pgtrigger',
     'pghistory',
+
+    'allauth',
+    'allauth.account',
+    'allauth.headless',
+
     'ninja_extra',
     'corsheaders',
     'django.contrib.admin',
@@ -67,7 +72,23 @@ INSTALLED_APPS = [
 
 # Register the custom user (do not change)
 AUTH_USER_MODEL = 'core.User'
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+HEADLESS_ONLY = True
+HEADLESS_CLIENTS = ('browser',)
+HEADLESS_SERVE_SPECIFICATION = True
+HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html" 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',           
@@ -75,6 +96,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',          
     'django.contrib.auth.middleware.AuthenticationMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',     
+    "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
     'pop.core.middleware.HistoryMiddleware',
 ]
@@ -192,3 +214,9 @@ LOGGING = {
         }, 
     }
 }
+
+
+try:
+    from .local_settings import *  # noqa
+except ImportError:
+    pass

@@ -8,6 +8,9 @@ services:
           target: development     
         volumes:
           - ./pop-server:/app/src
+          - pop_dev_static_volume:/app/static
+          - pop_dev_media_volume:/app/media
+          - pop_dev_logs_volume:/app/logs
 
 
     pop-client:
