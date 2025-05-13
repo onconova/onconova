@@ -21,7 +21,7 @@ export interface GenomicVariant {
     dnaHgvs?: string | null;
     dnaReferenceSequence?: string | null;
     dnaChangePosition?: number | null;
-    dnaChangeRange?: Range | null;
+    dnaChangePositionRange?: Range | null;
     dnaChangeType?: DNAChangeType | null;
     rnaHgvs?: string | null;
     rnaReferenceSequence?: string | null;

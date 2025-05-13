@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, inject, input, computed  } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, inject, input, computed, contentChild  } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -75,6 +75,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     templateUrl: './case-manager.component.html',
+    selector: 'pop-case-manager',
     imports: [
         CommonModule,
         FormsModule,
@@ -94,6 +95,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
 })
 export class CaseManagerComponent {
 
+    public additionalCaseActionButtons = contentChild<TemplateRef<any> | null>('additionalCaseActionButtons', { descendants: false });
+  
     // Injected dependencies
     public location: Location = inject(Location);
     readonly #authService: AuthService = inject(AuthService);

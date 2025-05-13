@@ -76,8 +76,8 @@ export interface GetGenomicVariantsRequestParams {
     dnaChangePositionNotEqual?: number;
     dnaChangePositionBetween?: Array<any>;
     dnaChangePositionNotBetween?: Array<any>;
-    dnaChangeRangeNotExists?: boolean;
-    dnaChangeRangeExists?: boolean;
+    dnaChangePositionRangeNotExists?: boolean;
+    dnaChangePositionRangeExists?: boolean;
     dnaChangeTypeNotExists?: boolean;
     dnaChangeTypeExists?: boolean;
     dnaChangeType?: string;
@@ -142,7 +142,7 @@ export interface GetGenomicVariantsRequestParams {
     proteinChangeTypeExists?: boolean;
     proteinChangeType?: string;
     proteinChangeTypeNot?: string;
-    proteinChangeTypeAnyOf?: Array<'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'repetition'>;
+    proteinChangeTypeAnyOf?: Array<'missense' | 'nonsense' | 'deletion-insertion' | 'insertion' | 'deletion' | 'duplication' | 'frameshift' | 'extension' | 'silent' | 'no-protein' | 'unknown' | 'repetition'>;
     nucleotidesLengthNotExists?: boolean;
     nucleotidesLengthExists?: boolean;
     nucleotidesLengthLessThan?: number;

@@ -11,6 +11,7 @@
             [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
             [loading]="exportLoading"
             (click)="downloadCaseBundle(case$.value()?.id || '')"/>
+        <ng-container *ngTemplateOutlet="additionalCaseActionButtons"></ng-container>
     </div>
     
     <!-- Case summary -->

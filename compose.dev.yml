@@ -20,6 +20,7 @@ services:
         volumes:
           - ./pop-client/src:/app/src
           - ./pop-client/openapi.json:/app/openapi.json
+          - ${CLIENT_PLUGINS_PATH}:/app/src/plugins
 
     pop-nginx:
         image: nginx:1.23        
