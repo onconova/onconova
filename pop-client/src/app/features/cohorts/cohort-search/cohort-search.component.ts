@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, Input, ViewEncapsulation  } from '@angular/core';
+import { Component, inject, input, computed, signal, Resource  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { map, first, of, Observable, catchError } from 'rxjs';
+import { map, first, of, catchError, tap } from 'rxjs';
 
 import { Users } from 'lucide-angular';
 
@@ -22,6 +22,7 @@ import { CohortFormComponent } from 'src/app/features/forms/cohort-form/cohort-f
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -40,63 +41,44 @@ import { ModalFormHeaderComponent } from '../../forms/modal-form-header.componen
     ]
 })
 
-export class CohortSearchComponent implements OnInit {
+export class CohortSearchComponent {
   
   // Injected services  
-  public authService = inject(AuthService)
-  private cohortsService = inject(CohortsService)
-  private messageService = inject(MessageService) 
-  #dialogservice = inject(DialogService)
+  readonly #cohortsService = inject(CohortsService);
+  readonly #authService = inject(AuthService);
+  readonly #messageService = inject(MessageService); 
+  readonly #dialogservice = inject(DialogService);
   #modalFormRef: DynamicDialogRef | undefined;
 
 
-  @Input() public currentUser: string | undefined;
+  public readonly author = input<string>();
+  public readonly isUserPage = computed(() => this.author() !== undefined);
+  public readonly currentUser = computed(() => this.#authService.user());
 
   // Pagination settings
-  public pageSizeChoices: number[] = [15, 30, 45, 60];
-  public pageSize: number = this.pageSizeChoices[0];
-  public totalCohorts: number = 0;
-  public currentOffset: number = 0;
-  public loadingCohorts: boolean = true;
-  public searchQuery: string = "";
+  public readonly pageSizeChoices: number[] = [15, 30, 45, 60];
+  public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
+  public totalCohorts= signal(0);
+  public searchQuery = signal('');
 
-  // Observables
-  public cohorts$!: Observable<Cohort[]> 
-
-  ngOnInit() {
-    this.refreshCohorts();
-  }
-
-  refreshCohorts() {
-    this.loadingCohorts=true;
-    this.cohorts$ = this.cohortsService
-    .getCohorts({createdBy: this.currentUser, limit: this.pageSize, offset: this.currentOffset})
-    .pipe(
-      map(page => {
-        this.loadingCohorts=false;
-        this.totalCohorts = page.count;
-        return page.items
-      }),
-      first(),
-      catchError(error => {
-        // Report any problems
-        this.messageService.add({ severity: 'error', summary: 'Error loading cohorts', detail: error.error.detail });
-        return of(error)
+  // Resources
+  public cohorts: Resource<Cohort[] | undefined> = rxResource({
+    request: () => ({createdBy: this.author(), limit: this.pagination().limit, offset: this.pagination().offset, nameContains: this.searchQuery() || undefined}),
+    loader: ({request}) => this.#cohortsService.getCohorts(request).pipe(
+      tap(page => this.totalCohorts.set(page.count)),
+      map(page => page.items),
+      catchError((error: any) => {
+        this.#messageService.add({ severity: 'error', summary: 'Error loading cohorts', detail: error?.error?.detail });
+        return of([] as Cohort[]) 
       })
     )
-   }
+  })
 
-   setPaginationAndRefresh(event: any) {
-      this.currentOffset = event.first;
-      this.pageSize = event.rows;
-      this.refreshCohorts()
-   }
-   
   openNewCohortForm() {    
       this.#modalFormRef = this.#dialogservice.open(CohortFormComponent, {
         data: {
-            title: 'Patient case registration',
-            subtitle: 'Add a new patient case',
+            title: 'Cohort registration',
+            subtitle: 'Add a new cohort',
             icon: Users,
         },
         templates: {
@@ -119,20 +101,9 @@ export class CohortSearchComponent implements OnInit {
   reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
     modalFormRef.onClose.subscribe((data: any) => {
         if (data?.saved) {
-          this.refreshCohorts()
+            this.cohorts.reload()
         }
       })    
   }
-
-
-  deleteCohort(id: string) {
-    this.cohortsService.deleteCohortById({cohortId:id}).pipe(first()).subscribe({
-        complete: () => {
-            this.refreshCohorts()
-            this.messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
-        },
-        error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error deleting cohort', detail: error.error.detail })
-    })
-}
 
 }

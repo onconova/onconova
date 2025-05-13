@@ -1,8 +1,9 @@
-import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, inject, input, viewChild, effect} from '@angular/core';
 import { Chart } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { ChartModule } from 'primeng/chart';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 // Register Chart.js modules and BoxPlot plugin
 Chart.register(MatrixController, MatrixElement);
@@ -27,41 +28,38 @@ Chart.register(MatrixController, MatrixElement);
             </div>
         </div>    
         @if (chart) {
-            <pop-cohort-graph-context-menu [target]="oncoplot" [chart]="chart" [data]="genomicsData"/>
+            <pop-cohort-graph-context-menu [target]="oncoplot" [chart]="chart" [data]="data()"/>
         }
     </div>`
 })
 export class OncoplotComponent {
 
-    constructor(private cdr: ChangeDetectorRef) { }
+    readonly #layoutService = inject(LayoutService);
 
-    @Input() genomicsData!: any;
+    public data = input.required<any>()
 
-    @ViewChild('oncoplotCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
-    @ViewChild('oncoplotSideCanvas') private sideChartRef!: ElementRef<HTMLCanvasElement>;
-    @ViewChild('oncoplotTopCanvas') private topChartRef!: ElementRef<HTMLCanvasElement>;
+    public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotCanvas');
+    public sideChartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotSideCanvas');
+    public topChartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotTopCanvas');
     public chart!: Chart;
     public sideChart!: Chart;
     public topChart!: Chart;
 
-    ngAfterViewInit() {
-        if (this.chartRef && this.sideChartRef && this.topChartRef) {
-            this.initChart();
-            this.cdr.detectChanges();
-        }
-    }
 
+    #initChart = effect(() => {
+        // React to changes in the overall theme settings
+        this.#layoutService.config.darkMode();
+        this.#layoutService.config.theme();
 
-    initChart() {
-        if (!this.genomicsData) return;
+        if (!this.data()) return;
 
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--p-text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
         
-        const reversedGenes = [...this.genomicsData['genes']].reverse()
-        const genomicsData = this.genomicsData;
+        const reversedGenes = [...this.data()['genes']].reverse()
+        const genomicsData = this.data();
 
         const chartAreaBorder = {
             id: 'chartAreaBorder',
@@ -75,12 +73,15 @@ export class OncoplotComponent {
             }
           };
 
-        this.chart = new Chart(this.chartRef.nativeElement, {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(this.chartRef()!.nativeElement, {
             type: 'matrix',
             data: {
                 datasets: [
                     {
-                        data: this.genomicsData['variants'].map( (entry: any) => ({
+                        data: this.data()['variants'].map( (entry: any) => ({
                             x: entry.pseudoidentifier, y: entry.gene, variant: entry.variant, isPathogenic: entry.is_pathogenic ? 1 : 0,
                         })),
                         backgroundColor(context: any) {
@@ -98,8 +99,8 @@ export class OncoplotComponent {
                           }
                         },
                         borderWidth: 0,
-                        height: ({chart}) =>(chart.chartArea || {}).height / this.genomicsData['genes'].length - 1,
-                        width: ({chart}) =>(chart.chartArea || {}).width / this.genomicsData['cases'].length - 1
+                        height: ({chart}) =>(chart.chartArea || {}).height / this.data()['genes'].length - 1,
+                        width: ({chart}) =>(chart.chartArea || {}).width / this.data()['cases'].length - 1
                     },
                 ]
             },
@@ -137,7 +138,7 @@ export class OncoplotComponent {
                 scales: {
                     x: {
                         type: 'category',
-                        labels: this.genomicsData['cases'],
+                        labels: this.data()['cases'],
                         offset: true,
                         title: {
                             display: true,
@@ -150,7 +151,7 @@ export class OncoplotComponent {
                             display: false,
                         },
                         grid: {
-                            display: this.genomicsData['cases'].length > 100 ? false : true,
+                            display: this.data()['cases'].length > 100 ? false : true,
                             offset: true,
                             color: surfaceBorder,
                             drawTicks: false,
@@ -176,7 +177,7 @@ export class OncoplotComponent {
                             }
                         },
                         grid: {
-                            display: this.genomicsData['cases'].length > 100 ? false : true,
+                            display: this.data()['cases'].length > 100 ? false : true,
                             offset: true,
                             color: surfaceBorder,
                             drawOnChartArea: true,
@@ -189,20 +190,23 @@ export class OncoplotComponent {
         });
 
 
-        this.sideChart = new Chart(this.sideChartRef.nativeElement, {
+        if (this.sideChart) {
+            this.sideChart.destroy();
+        }
+        this.sideChart = new Chart(this.sideChartRef()!.nativeElement, {
             type: 'bar',
             data: {
-                labels: this.genomicsData['genes'],
+                labels: this.data()['genes'],
                 datasets: [
                     {
                         label: 'Pathogenic',
-                        data: this.genomicsData['genes'].map((gene:string) => this.genomicsData['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
+                        data: this.data()['genes'].map((gene:string) => this.data()['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
                         barPercentage: 1,
                     },
                     {
                         label: 'VUS',
-                        data: this.genomicsData['genes'].map((gene:string) => this.genomicsData['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
+                        data: this.data()['genes'].map((gene:string) => this.data()['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-transparent'),
                         barPercentage: 1,
                     },
@@ -244,7 +248,7 @@ export class OncoplotComponent {
                     y: {
                         type: 'category',
                         stacked: true,
-                        labels: this.genomicsData['genes'],
+                        labels: this.data()['genes'],
                         title: {
                             display: false,
                         },
@@ -260,21 +264,23 @@ export class OncoplotComponent {
             }
         });
 
-
-        this.topChart = new Chart(this.topChartRef.nativeElement, {
+        if (this.topChart) {
+            this.topChart.destroy();
+        }
+        this.topChart = new Chart(this.topChartRef()!.nativeElement, {
             type: 'bar',
             data: {
-                labels: this.genomicsData['cases'],
+                labels: this.data()['cases'],
                 datasets: [
                     {
                         label: 'Pathogenic',
-                        data: this.genomicsData['cases'].map((pseudoidentifier:string) => this.genomicsData['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
+                        data: this.data()['cases'].map((pseudoidentifier:string) => this.data()['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
                         barPercentage: 1,
                     },
                     {
                         label: 'VUS',
-                        data: this.genomicsData['cases'].map((pseudoidentifier:string) => this.genomicsData['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
+                        data: this.data()['cases'].map((pseudoidentifier:string) => this.data()['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-transparent'),
                         barPercentage: 1,
                     },
@@ -315,7 +321,7 @@ export class OncoplotComponent {
                     x: {
                         type: 'category',
                         stacked: true,
-                        labels: this.genomicsData['cases'],
+                        labels: this.data()['cases'],
                         title: {
                             display: false,
                         },
@@ -329,6 +335,6 @@ export class OncoplotComponent {
                 }
             }
         });
-    }
+    })
 
 }

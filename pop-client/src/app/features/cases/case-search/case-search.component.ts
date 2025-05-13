@@ -116,15 +116,4 @@ export class CaseSearchComponent {
         }
       })    
   }
-
-  deleteCase(id: string) {
-    this.#patientCasesService.deletePatientCaseById({caseId:id}).pipe(first()).subscribe({
-        complete: () => {
-            this.cases.reload()
-            this.#messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: id })
-        },
-        error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error.error.detail })
-    })
-}
-
 }

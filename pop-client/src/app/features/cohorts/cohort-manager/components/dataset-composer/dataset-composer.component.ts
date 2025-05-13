@@ -1,10 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject, Input, SimpleChanges, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, signal } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { trigger, state, style, transition, animate } from '@angular/animations';
-
-import { catchError, first, forkJoin, map, Observable, of, take } from "rxjs";
-
+import { catchError, first, map, Observable, of, take, tap } from "rxjs";
 
 import { Menu } from "primeng/menu";
 import { MenuItem } from "primeng/api";
@@ -18,9 +16,8 @@ import { MessageService, TreeNode } from "primeng/api";
 import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
-
 import OpenAPISpecification from "../../../../../../../openapi.json";
-import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource } from "src/app/shared/openapi";
+import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource, Cohort } from "src/app/shared/openapi";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
 import { AuthService } from "src/app/core/auth/services/auth.service";
@@ -28,8 +25,8 @@ import { DownloadService } from "src/app/shared/services/download.service";
 import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-case.pipe";
 
 import { Pipe, PipeTransform } from '@angular/core';
-import { Skeleton } from "primeng/skeleton";
 import { TypeCheckService } from "src/app/shared/services/type-check.service";
+import { rxResource } from "@angular/core/rxjs-interop";
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -37,6 +34,16 @@ export class IsStringPipe implements PipeTransform {
     return typeof value === 'string';
   }
 }
+
+
+function getColumns(data: any[]): string[] {
+    const allKeys = new Set<string>();
+    data.forEach(item => Object.entries(item).forEach(([key,value]) => {
+        allKeys.add(key);
+    }))
+    return Array.from(allKeys);
+}
+
 
 @Component({
     selector: 'pop-dataset-composer',
@@ -50,7 +57,6 @@ export class IsStringPipe implements PipeTransform {
         Toolbar,
         Card,
         Menu,
-        Skeleton,
         ContextMenuModule,
         AutoComplete,
         TreeModule,
@@ -71,49 +77,44 @@ export class IsStringPipe implements PipeTransform {
 })
 export class DatasetComposerComponent {
 
-
-    getColumns(data: any[]): string[] {
-        const allKeys = new Set<string>();
-        data.forEach(item => Object.entries(item).forEach(([key,value]) => {
-            allKeys.add(key);
-        }))
-        return Array.from(allKeys);
-    }
-
-    isNested(value: any): boolean {
-        return value !== null && typeof value === 'object' && typeof value[0] === 'object';
-    }
-    // ==========================================
+    // Input properties
+    cohort = input.required<Cohort>();
+    loading = input<boolean>(false);
 
     // Injected services
-    public authService = inject(AuthService);
-    private datasetService = inject(DatasetsService);
-    private cohortService = inject(CohortsService);
-    private downloadService = inject(DownloadService);
-    private messageService = inject(MessageService);
-    private typeCheckService = inject(TypeCheckService); 
+    readonly #authService = inject(AuthService);
+    readonly #datasetService = inject(DatasetsService);
+    readonly #cohortService = inject(CohortsService);
+    readonly #downloadService = inject(DownloadService);
+    readonly #messageService = inject(MessageService);
+    readonly #typeCheckService = inject(TypeCheckService); 
 
-    public isArray = this.typeCheckService.isArray;
-
-    @Input({required: true}) cohortId!: string;
-    @Input() loading: boolean = false;
-
+    public isArray = this.#typeCheckService.isArray;
+    public user = computed(() => this.#authService.user());
+    
     // User datasets properties
+    public selectedDataset!: Dataset | string;
     public userDatasets$: Observable<Dataset[]> = of([])
     public userDatasetOptions: Dataset[] = []
 
-    // Dataset table properties
-    public dataset$!: Observable<any[]>;
-    public datasetRules: any[] = []
-    public pageSizeChoices: number[] = [10, 20, 50, 100];
-    public pageSize: number = this.pageSizeChoices[0];
-    public totalEntries: number = 0;
-    public currentOffset: number = 0;
+    // Dataset properties
+    public dataset = rxResource({
+        request: () => ({cohortId: this.cohort().id, datasetRule: this.datasetRules(), limit: this.pagination().limit, offset: this.pagination().offset}),
+        loader: ({request}) => this.#cohortService.getCohortDatasetDynamically(request).pipe(
+            tap(response => this.datasetSize.set(response.count)),
+            map(response => response.items)
+        )
+    });
+    public datasetColumns = computed(() => this.dataset.value() ? getColumns(this.dataset.value()!) : [])
+    public datasetSize = signal<number>(0)
+
+    // Table pagination
+    readonly pageSizeChoices: number[] = [10, 20, 50, 100];
+    public pagination = signal({limit: this.pageSizeChoices[0], offset: 0})
 
     // Dataset selection tree properties
-    public selectedDataset!: Dataset | string;
-    public selectedNodes!: TreeNode[];
-
+    public selectedRules = signal<TreeNode[]>([]);
+    public datasetRules = linkedSignal<any[]>(() => this.selectedRules().map((node: TreeNode) => ({key: node.key, data: node.data})).filter(node => node.data).map(node => node.data))
 
     public resourceItems: TreeNode<any>[] = [
         this.constructResourceTreeNode(DataResource.PatientCase, 'Patient case', {exclude: ['pseudoidentifier']}),
@@ -159,7 +160,7 @@ export class DatasetComposerComponent {
         this.constructResourceTreeNode(DataResource.Vitals, 'Vitals'),
     ]
 
-    public items: MenuItem[] = [
+    public downloadMenuItems: MenuItem[] = [
         {
             label: 'Download dataset as...',
             items: [
@@ -187,11 +188,6 @@ export class DatasetComposerComponent {
         this.refreshUserDatasets()
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['loading'] && !this.loading) {
-            this.refreshDatasetObservable()         
-        }
-    }
 
     public constructResourceTreeNode(resource: DataResource, label: string, options: {children?: any[], exclude?: string[], isRoot?: boolean} = {children: [], exclude: [], isRoot: true}){
         // Get the schema definition of the entity from the OpenAPISpecification object
@@ -250,8 +246,7 @@ export class DatasetComposerComponent {
             default:
                 defaultTransform = null;
                 break
-        }
-        
+        }        
         return {
             key: `${resource}-${field}`, 
             label: label, 
@@ -279,105 +274,79 @@ export class DatasetComposerComponent {
     }
 
 
-    public updateDataset(selectedNodes: any) {
-        this.selectedNodes = selectedNodes.map((node: TreeNode) => ({key: node.key, data: node.data}))
-        this.datasetRules = this.selectedNodes.filter(node => node.data).map(node => node.data)
-        this.refreshDatasetObservable()    
-    }
-
-    private refreshDatasetObservable() {
-        this.dataset$ = this.cohortService.getCohortDatasetDynamically({cohortId: this.cohortId, datasetRule: this.datasetRules, limit: this.pageSize, offset: this.currentOffset}).pipe(
-            map(response => {
-                this.totalEntries = response.count;
-                return response.items
-            })
-        )
-    }
-
-
     public searchUserDatasets(event: any) {
-        this.datasetService.getDatasets({nameContains: event.query}).pipe(first(), map((response: PaginatedDataset) => this.userDatasetOptions = response.items), catchError(() => [])).subscribe()
+        this.#datasetService.getDatasets({nameContains: event.query}).pipe(first(), map((response: PaginatedDataset) => this.userDatasetOptions = response.items), catchError(() => [])).subscribe()
     }
     private refreshUserDatasets() {
-        this.userDatasets$ = this.datasetService.getDatasets().pipe(map(response => this.userDatasetOptions = response.items), catchError(() => []))
+        this.userDatasets$ = this.#datasetService.getDatasets().pipe(map(response => this.userDatasetOptions = response.items), catchError(() => []))
     }
     public deleteUserDataset() {
         if (typeof this.selectedDataset !== 'string'  && this.selectedDataset.id) {
-            this.datasetService.deleteDatasetById({datasetId: this.selectedDataset.id}).pipe(take(1)).subscribe({
+            this.#datasetService.deleteDatasetById({datasetId: this.selectedDataset.id}).pipe(take(1)).subscribe({
                 complete: () => {
                     const datasetName = (typeof this.selectedDataset !== 'string') ? this.selectedDataset.name : 'Unknown';
                     this.selectedDataset = ''
-                    this.messageService.add({ severity: 'success', summary: 'Dataset deleted', detail: `Succesfully deleted dataset "${datasetName}"` })
+                    this.#messageService.add({ severity: 'success', summary: 'Dataset deleted', detail: `Succesfully deleted dataset "${datasetName}"` })
                 },
-                error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset could not be deleted', detail: error.error.detail }),
+                error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset could not be deleted', detail: error.error.detail }),
             })
         }
     }
     public loadUserDataset() {
         if (typeof this.selectedDataset !== 'string'  && this.selectedDataset.rules) {
-            this.datasetRules = this.selectedDataset.rules;
-            this.selectedNodes = [
+            this.datasetRules.set(this.selectedDataset.rules);
+            this.selectedRules.set([
                 ...this.selectedDataset.rules.map(rule => ({key: `${rule.resource}-${rule.field}`, data: rule})),
                 ...this.selectedDataset.rules.map(rule => ({key: `${rule.resource}-properties`, partialSelected: true , checked: false})),
                 ...this.selectedDataset.rules.map(rule => ({key: `${rule.resource}`, partialSelected: true, checked: false })),
-            ]
-            this.refreshDatasetObservable()    
+            ])
+            this.dataset.reload()    
         }
     }
     public createUserDataset() {
         let datasetName = (typeof this.selectedDataset == 'string') ? this.selectedDataset : this.selectedDataset.name;
-        this.datasetService.createDataset({
+        this.#datasetService.createDataset({
             datasetCreate: {
                 name: datasetName,
-                rules: this.datasetRules,
+                rules: this.datasetRules(),
             }
         }).pipe(take(1)).subscribe({
             complete: () => {
                 this.refreshUserDatasets()
-                this.messageService.add({ severity: 'success', summary: 'Dataset update', detail: `Succesfully updated dataset "${datasetName}"` })
+                this.#messageService.add({ severity: 'success', summary: 'Dataset update', detail: `Succesfully updated dataset "${datasetName}"` })
             },
-            error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset could not be saved', detail: error.error.detail }),
+            error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset could not be saved', detail: error.error.detail }),
         })
     }
-
-
-    public setPaginationAndRefresh(event: any) {
-        if (this.currentOffset === event.first && this.pageSize === event.rows) return
-        this.currentOffset = event.first;
-        this.pageSize = event.rows;
-        this.refreshDatasetObservable()
-     }
      
-    public clearDatasetRules() {
-        this.datasetRules = [];
-        this.selectedNodes = []
-        this.selectedDataset = '';
-        this.refreshDatasetObservable()
-    }
-
-    public downloadDataset(mode: 'tree' | 'split' | 'flat') {
-        this.messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
-        this.cohortService.exportCohortDataset({
-            cohortId: this.cohortId,
-            datasetRule: this.datasetRules,
+    downloadDataset(mode: 'tree' | 'split' | 'flat') {
+        this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
+        this.#cohortService.exportCohortDataset({
+            cohortId: this.cohort().id,
+            datasetRule: this.datasetRules(),
           }).pipe(first()).subscribe({
             next: (data: any) => {
                 console.log('data', data)
                 switch (mode) {
                     case 'tree':
-                        this.downloadService.downloadAsJson(data);
+                        this.#downloadService.downloadAsJson(data);
                         break;
                     case 'split':
-                        this.downloadService.downloadAsZip(data.dataset);
+                        this.#downloadService.downloadAsZip(data.dataset);
                         break;
                     case 'flat':
-                        this.downloadService.downloadAsFlatCsv(data.dataset);
+                        this.#downloadService.downloadAsFlatCsv(data.dataset);
                         break;
                 }
             },
-            complete: () => this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' }),
-            error: (error) => this.messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail }),
+            complete: () => this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' }),
+            error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail }),
         });
+    }
+
+
+    isNested(value: any): boolean {
+        return value !== null && typeof value === 'object' && typeof value[0] === 'object';
     }
 
 }   
