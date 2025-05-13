@@ -4,19 +4,19 @@
     <!-- Cartd header -->
     <div class="flex gap-3">
         <!-- Identicon -->
-         <pop-identicon [value]="case.pseudoidentifier" width="4rem" height="4rem"/>
+         <pop-identicon [value]="case().pseudoidentifier" width="4rem" height="4rem"/>
 
         <!-- Case info -->
         <div class="flex flex-column my-auto mr-auto" >
-            <div class="text-xl font-bold monospace">{{case.pseudoidentifier}}</div>
+            <div class="text-xl font-bold monospace">{{case().pseudoidentifier}}</div>
             <div class="text-muted font-medium">
-                {{ case.gender.display }}, {{case.age}} years@if(case.isDeceased){, †}
+                {{ case().gender.display }}, {{case().age}} years@if(case().isDeceased){, †}
             </div>
         </div>
 
         <!-- Case data collection progress -->
         <p-knob 
-            [ngModel]="case.dataCompletionRate" 
+            [ngModel]="case().dataCompletionRate" 
             [readonly]="true" 
             valueTemplate="{value}%"
             [size]="55"/>
@@ -26,15 +26,14 @@
 
     <!-- Diagnosis information -->
     <div class="flex flex-column mb-3 ">
-        @let primaryEntity = primaryEntity$ | async;
         <small class="text-muted mb-1">Diagnosis</small>
-        @if (loadingDiagnosis) {
+        @if (primaryEntity.isLoading()) {
             <p-skeleton width="20rem" height="2rem"></p-skeleton>      
         } @else {
             <div class="flex gap-2">
-                @if (primaryEntity) {
-                    <pop-cancer-icon class="my-auto" [topography]="primaryEntity.topography.code"></pop-cancer-icon>
-                    <div class="my-auto">{{ primaryEntity.description }}</div>
+                @if (primaryEntity.value(); as entity) {
+                    <pop-cancer-icon class="my-auto" [topography]="entity.topography.code"></pop-cancer-icon>
+                    <div class="my-auto">{{ entity.description }}</div>
                 } @else {
                     <div>-</div>
                 }
@@ -45,14 +44,13 @@
     <!-- Staging information -->
     <div class="flex gap-4">
         <div class="flex flex-column mb-3 ">
-            @let latestStaging = latestStaging$ | async;
             <small class="text-muted mb-1">Staging</small>
-            @if (loadingStaging) {
+            @if (latestStaging.isLoading()) {
                 <p-skeleton width="10rem" height="1rem"></p-skeleton>    
             } @else {
                 <div class="my-auto">
-                    @if (latestStaging) {
-                        {{ latestStaging.description }}
+                    @if (latestStaging.value(); as staging) {
+                        {{ staging.description }}
                     } @else {
                         -
                     }
@@ -62,14 +60,13 @@
 
     <!-- Therapy line information -->
         <div class="flex flex-column mb-3 ">
-            @let latestTherapyLine = latestTherapyLine$ | async;
             <small class="text-muted mb-1">Therapy Line</small>
-            @if (loadingTherapyLine) {
+            @if (latestTherapyLine.isLoading()) {
                 <p-skeleton width="10rem" height="1rem"></p-skeleton>    
             } @else {
                 <div class="my-auto">
-                    @if (latestTherapyLine) {
-                        {{ latestTherapyLine.label }}
+                    @if (latestTherapyLine.value(); as line) {
+                        {{ line.label }}
                     } @else {
                         -
                     }
@@ -80,10 +77,10 @@
 
     <div class="flex gap-5">        
         <!-- Metadata -->
-        @if (this.case.createdBy) {
+        @if (this.case().createdBy) {
             <div class="flex flex-column align-items-center	gap-1">
                 <small class="text-muted">Manager</small>
-                    <pop-user-badge [username]="case.createdBy"/>
+                    <pop-user-badge [username]="case().createdBy || ''"/>
             </div>    
         }
         <div class="flex-column align-items-center  my-auto">
@@ -91,16 +88,16 @@
                 <small>Created</small>
             </div>
             <div class="text-center">
-                <small>{{ case.createdAt | date:'d. MMM' }}</small>
+                <small>{{ case().createdAt | date:'d. MMM' }}</small>
             </div> 
             <div class="text-center">
-                <small>{{ case.createdAt | date:'yyyy' }}</small>
+                <small>{{ case().createdAt | date:'yyyy' }}</small>
             </div> 
         </div>
         <div class="flex-column align-items-center  mb-auto">
             <small class="text-muted mb-1">Consent</small>
                 <div>
-                    @switch (case.consentStatus) {
+                    @switch (case().consentStatus) {
                         @case ('valid') {
                             Valid
                         }
@@ -120,8 +117,8 @@
         <p-splitbutton
             label="Open case"
             class="mt-auto ml-auto"
-            [menuButtonDisabled]="!authService.user.canManageCases"
-            [dropdownIcon]="authService.user.canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
+            [menuButtonDisabled]="!currentUser().canManageCases"
+            [dropdownIcon]="currentUser().canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
             [model]="actionItems"
             (onClick)="openCaseManagement()" />
     </div>

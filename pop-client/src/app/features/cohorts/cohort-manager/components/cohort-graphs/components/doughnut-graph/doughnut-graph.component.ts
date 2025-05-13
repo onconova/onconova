@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, ElementRef, inject, input, Input, viewChild, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { CohortTraitCounts } from 'src/app/shared/openapi';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 @Component({
     imports: [
@@ -12,43 +13,41 @@ import { CohortTraitCounts } from 'src/app/shared/openapi';
     ],
     selector: 'pop-doughnut-graph',
     template: `
-    <div class="chart-container" style="height: {{height}}; width: {{width}}">
+    <div class="chart-container" style="height: {{ height() }}; width: {{ width() }}">
         <canvas #doughnutCanvas ></canvas>
         @if (chart) {
-            <pop-cohort-graph-context-menu [target]="doughnutCanvas" [chart]="chart" [data]="countData"/>
+            <pop-cohort-graph-context-menu [target]="doughnutCanvas" [chart]="chart" [data]="data()"/>
         }
     </div>`
 })
 export class DoughnutGraphComponent {
 
-    constructor(private cdr: ChangeDetectorRef) { }
+    readonly #layoutService = inject(LayoutService);
 
-    @Input({required: true}) countData!: CohortTraitCounts[];
-    @Input() height: string = '12rem';
-    @Input() width: string = '15rem';
-    @Input() legendPosition: "left" | "right" | "bottom" | "top" | "center" | "chartArea" = 'top';
+    public data = input.required<CohortTraitCounts[]>()
+    public height = input<string>('12rem')
+    public width = input<string>('15rem')
+    public legendPosition = input<"left" | "right" | "bottom" | "top" | "center" | "chartArea">('top')
 
-    @ViewChild('doughnutCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
+    public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('doughnutCanvas');
     public chart!: Chart;
 
-    ngAfterViewInit() {
-        if (this.chartRef) {
-            this.initChart();
-            this.cdr.detectChanges();
-        }
-    }
-
-    initChart() {
+    #initChart = effect(() => {
+        // React to changes in the overall theme settings
+        this.#layoutService.config.darkMode();
+        this.#layoutService.config.theme();
+        
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--p-text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-        const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
-        const categories = this.countData.map(entry => entry.category)
-        const values = this.countData.map(entry => entry.counts)
+        const categories = this.data().map(entry => entry.category)
+        const values = this.data().map(entry => entry.counts)
 
         // @ts-ignore
-        this.chart = new Chart(this.chartRef.nativeElement, {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(this.chartRef()!.nativeElement, {
             type: 'doughnut',
             data: {
                 labels: categories,
@@ -69,7 +68,7 @@ export class DoughnutGraphComponent {
                 aspectRatio: 0.6,
                 plugins: {
                     legend: {
-                        position: this.legendPosition,
+                        position: this.legendPosition(),
                         labels: {
                             color: textColor
                         }
@@ -77,6 +76,6 @@ export class DoughnutGraphComponent {
                 },
             }
         });
-    }
+    })
 
 }

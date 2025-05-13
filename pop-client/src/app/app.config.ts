@@ -6,8 +6,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 
 import { AppThemePreset } from './app.preset';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
-import { httpCacheInterceptor } from './core/interceptors/cache.interceptor';
 import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
@@ -18,6 +19,8 @@ import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        MessageService,
+        DialogService,
         provideZoneChangeDetection({ 
             eventCoalescing: true 
         }), 
@@ -35,7 +38,6 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(
             withInterceptors([
                 authInterceptor, 
-                httpCacheInterceptor
             ]),
         ),
         { provide: BASE_PATH, useValue: `${window.location.protocol}//${window.location.host}`},

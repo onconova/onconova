@@ -38,8 +38,8 @@ const appRoutes: Routes = [
             { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
             { path: 'cases', 
                 children: [
-                    { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
-                    { path: 'search/:manager', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseBrowserComponent) },
+                    { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent) },
+                    { path: 'search/:manager', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent) },
                     { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/cases/case-manager/case-manager.component').then(m => m.CaseManagerComponent) },
                     { path: 'import', loadComponent: () => import('./features/cases/case-importer/case-importer.component').then(m => m.CaseImporterComponent) },
                 ]
@@ -48,7 +48,7 @@ const appRoutes: Routes = [
                 children: [
                     { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-manager/cohort-manager.component').then(m => m.CohortBuilderComponent) },
                     { path: 'search', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
-                    { path: 'search/:currentUser', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
+                    { path: 'search/:author', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent) },
                 ]
             },
             { path: 'admin', 
@@ -59,7 +59,7 @@ const appRoutes: Routes = [
     { 
         path: 'notfound', 
         canActivate: [AuthGuard],
-        loadComponent: () => import('./core/auth/pages/error/error.component').then(m => m.ErrorComponent) 
+        loadComponent: () => import('./core/auth/components/auth.error.component').then(m => m.ErrorComponent) 
     },
     { path: '**', redirectTo: '/notfound' },
 ];

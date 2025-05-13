@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, inject, EventEmitter, ViewEncapsulation} from '@angular/core';
+import { Component, computed, inject, input, output} from '@angular/core';
 
-import { CohortsService, CohortTraitCounts, CohortTraitMedian } from 'src/app/shared/openapi';
+import { Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian } from 'src/app/shared/openapi';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
@@ -11,7 +11,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ChipModule } from 'primeng/chip';
 import { AvatarModule } from 'primeng/avatar';
 import { SplitButtonModule } from 'primeng/splitbutton';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 
@@ -21,6 +21,8 @@ import { LucideAngularModule } from 'lucide-angular';
 import { NgxJdenticonModule } from "ngx-jdenticon";
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { DownloadService } from 'src/app/shared/services/download.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'pop-cohort-search-item',
@@ -45,58 +47,92 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 })
 export class CohortSearchItemComponent {
 
-    public authService = inject(AuthService)
-    private readonly router = inject(Router);
-    private readonly cohortsService = inject(CohortsService);
+    // Component input/output signals
+    public cohort = input.required<Cohort>();    
+    public onDelete = output<void>();
 
-    @Input() cohort: any;
-    @Output() delete = new EventEmitter<string>();
-    public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
-    public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
-    public cohortPredominantSite$: Observable<CohortTraitCounts | null> = of(null)
-    public cohortPredominantGender$: Observable<CohortTraitCounts | null> = of(null)
+    // Injected services
+    readonly #authService = inject(AuthService);
+    readonly #router = inject(Router);
+    readonly #confirmationService = inject(ConfirmationService);
+    readonly #downloadService = inject(DownloadService);
+    readonly #messageService = inject(MessageService);
+    readonly #cohortsService = inject(CohortsService);
+
+    // Resources
+    public ageStats = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'age'}),
+        loader: ({request}) => this.#cohortsService.getCohortTraitMedian(request)
+    })
+    public dataCompletionStats = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'dataCompletionRate'}),
+        loader: ({request}) => this.#cohortsService.getCohortTraitMedian(request)
+    })
+    public predominantSite = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'neoplasticEntities.topographyGroup.display'}),
+        loader: ({request}) => this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+            (response) => response.sort((a,b) => b.counts - a.counts)[0]
+        ))
+    })
+    public predominantGender = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'gender'}),
+        loader: ({request}) => this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+            (response) => response.sort((a,b) => b.counts - a.counts)[0]
+        ))
+    })
+
+
+    // Other properties
+    public readonly currentUser = computed(() => this.#authService.user());
     public readonly populationIcon = Users;
-
-    ngOnInit() {
-        if (this.cohort.population) {
-            this.cohortPredominantGender$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'gender'}).pipe(
-                first(),
-                map((response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0]),
-                catchError(() => of(null))
-            )
-            this.cohortPredominantSite$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'neoplasticEntities.topographyGroup.display'}).pipe(
-                first(),
-                map((response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0]),
-                catchError(() => of(null))
-            )
-            this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'age'}).pipe(first(),catchError(() => of(null)))
-            this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohort.id, trait: 'dataCompletionRate'}).pipe(first(),catchError(() => of(null)))    
-        }
-    }
-
-
-    actionItems = [
-        {
-            label: 'Export',
-            icon: 'pi pi-file-export',
-            command: (event: any) => {
-                console.log('export', this.cohort.id)
-            },
-        },
+    public readonly actionItems = [
         // {
-        //     label: 'Delete',
-        //     icon: 'pi pi-trash',
-        //     styleClass: 'delete-action',
+        //     label: 'Export',
+        //     icon: 'pi pi-file-export',
+        //     disabled: !this.currentUser().canExportData,
         //     command: (event: any) => {
-        //         console.log('delete', this.cohort.id)
-        //         // this.confirmDelete(event);
+        //         console.log('export', this.cohort().id)
         //     },
         // },
+        {
+            label: 'Delete',
+            icon: 'pi pi-trash',
+            styleClass: 'delete-action',
+            disabled: !this.currentUser().canManageCases,
+            command: (event: any) => {
+                console.log('delete', this.cohort().id)
+                // this.confirmDelete(event);
+            },
+        },
     ];
     
     openCohortManagement() {
-        this.router.navigate(['cohorts/',this.cohort.id, 'management'])
+        this.#router.navigate(['cohorts/',this.cohort().id, 'management'])
     }
 
+    confirmDelete(event: any) {
+        this.#confirmationService.confirm({
+            target: event.target as EventTarget,
+            header: 'Danger Zone',
+            message: `
+                Are you sure you want to delete this cohort? 
+                <div class="mt-2 font-bold text-secondary">
+                    <small>${this.cohort().name}</small><br>
+                </div>
+            `,
+            icon: 'pi pi-exclamation-triangle',
+            rejectButtonProps: {label: 'Cancel', severity: 'secondary', outlined: true},
+            acceptButtonProps: {label: 'Delete', severity: 'danger'},
+            accept: () => {
+                this.#cohortsService.deleteCohortById({cohortId: this.cohort().id}).pipe(first()).subscribe({
+                    complete: () => {
+                        this.onDelete.emit();
+                        this.#messageService.add({ severity: 'success', summary: 'Successfully deleted', detail: this.cohort().name })
+                    },
+                    error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error deleting case', detail: error?.error?.detail })
+                })
+            }
+        });
+    }
 
 }

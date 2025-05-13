@@ -1,8 +1,9 @@
-import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, viewChild, input, effect, inject} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { BoxPlotChart, BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import { ChartModule } from 'primeng/chart';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 // Register Chart.js modules and BoxPlot plugin
 Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers);
@@ -14,43 +15,44 @@ Chart.register(...registerables, BoxPlotController, BoxPlotChart, BoxAndWiskers)
     ],
     selector: 'pop-box-plot',
     template: `
-    <div class="chart-container" style="height: 20rem; width: 80%">
+    <div class="chart-container" style="height: {{height()}}; width: {{width()}}">
         <canvas #boxPlotCanvas ></canvas>
         @if (chart) {
-            <pop-cohort-graph-context-menu [target]="boxPlotCanvas" [chart]="chart" [data]="boxData"/>
+            <pop-cohort-graph-context-menu [target]="boxPlotCanvas" [chart]="chart" [data]="data()"/>
         }
     </div>`
 })
 export class BoxPlotComponent {
 
-    constructor(private cdr: ChangeDetectorRef) { }
+    readonly #layoutService = inject(LayoutService);
 
-    @Input() boxData!: any;
+    public data = input.required<any>()
+    public height = input<string>('20rem')
+    public width = input<string>('80%')
+    public legendPosition = input<"left" | "right" | "bottom" | "top" | "center" | "chartArea">('top')
 
-    @ViewChild('boxPlotCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
+    public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('boxPlotCanvas');
     public chart!: Chart;
 
-    ngAfterViewInit() {
-        if (this.chartRef) {
-            this.initChart();
-            this.cdr.detectChanges();
-        }
-    }
+    #initChart = effect(() => {
+        // React to changes in the overall theme settings
+        this.#layoutService.config.darkMode();
+        this.#layoutService.config.theme();
 
-
-    initChart() {
-        if (!this.boxData) return;
+        if (!this.data()) return;
 
         const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--p-text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
         // Extract sorted categories and values
-        const categories: string[] = Object.keys(this.boxData);
-        const values: number[][] = Object.values(this.boxData);
+        const categories: string[] = Object.keys(this.data());
+        const values: number[][] = Object.values(this.data());
 
-        this.chart = new Chart(this.chartRef.nativeElement, {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(this.chartRef()!.nativeElement, {
             type: 'boxplot',
             data: {
                 labels: categories,
@@ -59,8 +61,8 @@ export class BoxPlotComponent {
                         data: values,
                         // backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
 
-                        backgroundColor:   documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
-                        borderColor:  documentStyle.getPropertyValue('--p-primary-color'),
+                        backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
+                        borderColor: documentStyle.getPropertyValue('--p-primary-color'),
                         borderWidth: 1,
                     },
                 ]
@@ -70,7 +72,8 @@ export class BoxPlotComponent {
                 responsive: true,
                 plugins: {
                     legend: {
-                        display: false
+                        display: false,
+                        position: this.legendPosition(),
                     }
                 },
                 elements: {
@@ -117,6 +120,6 @@ export class BoxPlotComponent {
                 }
             }
         });
-    }
+    });
 
 }

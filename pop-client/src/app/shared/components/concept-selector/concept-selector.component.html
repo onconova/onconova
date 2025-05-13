@@ -1,17 +1,16 @@
-@let $concepts = concepts$ | async;
-@if (widget === 'autocomplete') {
+@if (widget() === 'autocomplete') {
   <p-autoComplete
     [formControl]="formControl"
     [dropdown]="true"
     [showClear]="true"
-    [disabled]="disabled"
+    [attr.disabled]="disabled()"
     [forceSelection]="true"
-    [suggestions]="concepts || []"
-    (completeMethod)="updateConcepts($event)"
-    [multiple]="multiple"
+    [suggestions]="concepts.value() || []"
+    (completeMethod)="query.set($event.query); concepts.reload()"
+    [multiple]="multiple()"
     [unique]="true"
     [completeOnFocus]="true"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
     optionLabel="display"
     appendTo="body"
   >
@@ -20,12 +19,12 @@
       <div class="flex flex-column">
         <div>
           {{ concept.display }}
-          @if (showCodes) {
+          @if (showCodes()) {
             <small>(<code>{{ concept.code }}</code>)</small>
           }
         </div>
         <div class="ml-3 mt-1 text-xs gap2">
-          @if (showSynonyms) {
+          @if (showSynonyms()) {
             <div [ngClass]="concept.synonyms.length > 5 ? 'coded-concept-synonyms-faded' : ''">
                 @for (synonym of concept.synonyms; track $index;) {
                   <div>
@@ -40,32 +39,31 @@
         </div>
     </div>
     </ng-template>
-
-    @if (terminologySize >= conceptsLimit && conceptsLimit == subsetSize) {
+    @if ((terminologySize.value() || 0) >= conceptsLimit() && subsetSize() == conceptsLimit()) {
       <ng-template #footer>
         <div class="footer-message px-3 py-3 text-xs muted-text">
-            Showing {{ conceptsLimit }} out of {{ terminologySize }} entries. Please refine your search.
+            Showing {{ conceptsLimit() }} out of {{ terminologySize.value() }} entries. Please refine your search.
         </div>
       </ng-template>
     }
 
   </p-autoComplete>
-} @else if (widget === 'radio' && $concepts) {
-  @for (concept of concepts; track concept.code;) {
+} @else if (widget() === 'radio' && concepts.hasValue()) {
+  @for (concept of concepts.value(); track concept.code;) {
     <div class="field-checkbox">
       <p-radiobutton 
           [inputId]="concept.code" 
           [value]="concept" 
-          [disabled]="disabled"
+          [attr.disabled]="disabled()"
           [formControl]="formControl"/>
       <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
     </div>    
   }
-} @else if (widget === 'selectbutton' && $concepts) {
+} @else if (widget() === 'selectbutton' && concepts.hasValue()) {
     <p-selectbutton 
-        [options]="concepts || []"
+        [options]="concepts.value() || []"
         optionLabel="display"
-        [disabled]="disabled"
+        [attr.disabled]="disabled()"
         [formControl]="formControl"/>
 }
 

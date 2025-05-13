@@ -1,50 +1,57 @@
-<p-panel 
-    class="pop-case-manager-panel"
-    [toggleable]="true" 
-    [collapsed]="false" 
-    collapseIcon="pi pi-angle-down" 
-    expandIcon="pi pi-angle-up" 
-    styleClass="mb-3">
+<p-panel class="pop-case-manager-panel"
+        [toggleable]="true" 
+        [collapsed]="false" 
+        collapseIcon="pi pi-angle-down" 
+        expandIcon="pi pi-angle-up" 
+        styleClass="mb-3">
+
     <ng-template #header>
         <div class="flex align-items-center gap-2">
             <p-avatar size="normal" shape="square">
-                <lucide-angular [img]="icon" ></lucide-angular>
+                <lucide-angular [img]="icon()" ></lucide-angular>
             </p-avatar>
             <span class="pop-case-manager-header-title" >
-                {{ title }}
+                {{ title() }}
             </span>
             <p-badge styleClass="pop-case-manager-counter-badge" 
-                [value]="loadingData ? '-' : entries.length" 
-                [severity]="entries.length ? 'success' : 'secondary'"/>
-            @if (completed) {
+                [value]="data.isLoading() ? '-' : data.value()?.length || '-'" 
+                [severity]="data.value()?.entries?.length ? 'success' : 'secondary'"/>
+            @if (isCompleted()) {
                 <i class="pi pi-star-fill"></i>                
             }
         </div>
         
-        @if (!loadingData) {
-            @let menuItems = menuItems$ | async;
-            @if (authService.user.canManageCases) {
+        @if (!data.isLoading()) {
+            @if (currentUser().canManageCases) {
                 <i class="pop-case-manager-menu-button pi pi-cog" 
                 (click)="menu.toggle($event)"></i>
             }
-            <p-confirmdialog />
-            <p-menu #menu 
-            [model]="menuItems || getMenuItems()" 
-            [popup]="true"/>
+            <p-confirmdialog/>
+            <p-menu #menu [model]="menuItems()" [popup]="true"/>
         }
     </ng-template>
     
-    @if (loadingData) {
+    @if (data.isLoading()) {
         <div>
             <p-skeleton width="100%" styleClass="mb-2" />
             <p-skeleton width="100%" styleClass="mb-2" />
         </div>
-    } @else if (entries.length == 0) {
+    } @else if (data.error()) {
         <div class="text-muted">
-            No entries associated with this case
+            An error ocurred while loading the data
         </div>
-    } @else {
-        <pop-case-manager-panel-timeline [entries]="entries" [onEventClick]="showDrawer.bind(this)"></pop-case-manager-panel-timeline>
+    } @else if (data.hasValue()) {
+        @if (data.value(); as events;) {
+            @if (events.length) {
+                <pop-case-manager-panel-timeline 
+                    [events]="events" 
+                    (onEventClick)="showDrawer($event)"/>
+            } @else {
+                <div class="text-muted">
+                    No entries associated with this case
+                </div>
+            }
+        }
     }
 </p-panel>
 
@@ -52,8 +59,8 @@
     styleClass="pop-case-manager-drawer"
     [(visible)]="drawerVisible" 
     [data]="drawerData" 
-    [history$]="drawerHistory" 
-    [icon]="icon"
-    [editable]="!completed"
+    [historyService]="service().history" 
+    [icon]="icon()"
+    [editable]="!isCompleted()"
     (delete)="deleteEntry($event)"
     (update)="updateEntry($event)"/>

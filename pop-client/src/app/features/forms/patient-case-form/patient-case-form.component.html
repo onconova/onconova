@@ -1,9 +1,8 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()" style="min-width: 35vw;" >
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()" style="min-width: 35vw;" >
 
         <div class="p-1">
             <p-stepper [value]="1" [linear]="true">
-
 
                 <p-step-item [value]="1">
                     <p-step>Clinical Identification</p-step>
@@ -17,8 +16,8 @@
                                         <p-autocomplete 
                                             placeholder="Enter a center" 
                                             formControlName="clinicalCenter"  
-                                            [suggestions]="centers" 
-                                            (completeMethod)="searchCenter($event)" />
+                                            [suggestions]="clinicalCenters.value() || []" 
+                                            (completeMethod)="clinicalCenterQuery.set($event.query)" />
 
                                         <div><small class="text-muted">The name of the center where the patient's record originated from.</small></div>
                                     </div>
@@ -37,7 +36,6 @@
                         </ng-template>
                     </p-step-panel>
                 </p-step-item>
-        
 
                 <p-step-item [value]="2">
                     <p-step>Patient Information</p-step>
@@ -68,7 +66,7 @@
                                     <label class="form-label ml-2 my-auto required">Patient is alive</label>
                                 </div>
                                 
-                                @if (!form.value.general.isAlive) {
+                                @if (!form.value.general!.isAlive) {
                                     <div class="field">
                                         <label class="form-label required">Date of Death</label>
                                         <pop-datepicker 
@@ -95,8 +93,6 @@
                         </ng-template>
                     </p-step-panel>
                 </p-step-item>
-        
-
 
                 <p-step-item [value]="3">
                     <p-step>Consent</p-step>
@@ -118,12 +114,11 @@
                             </div>
                             <div class="flex py-3 gap-3">
                                 <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
-                                <p-button label="Next" (onClick)="activateCallback(4)" [disabled]="!form.value.consent.consentValid" class="flex-grow-1"/>
+                                <p-button label="Next" (onClick)="activateCallback(4)" [disabled]="!form.value.consent!.consentValid" class="flex-grow-1"/>
                             </div>
                         </ng-template>
                     </p-step-panel>
                 </p-step-item>
-
 
                 <p-step-item [value]="4">
                     <p-step>Submit</p-step>
@@ -133,16 +128,16 @@
                             <div class="">
                                 Please check that the patient's information is correct:
                                 <div class="ml-3 mt-3 pl-2" style="border-left: solid 4px var(--p-primary-500);">
-                                    <div><b>Center:</b> {{form.value.identification.clinicalCenter}}</div>
-                                    <div><b>ID:</b> {{form.value.identification.clinicalIdentifier}}</div>
-                                    <div><b>Gender</b>: {{form.value.general.gender?.display}}</div>
-                                    <div><b>Date of birth</b>: {{form.value.general.dateOfBirth | date:'MMM, y'}}</div>
-                                    <div><b>Alive</b>: {{form.value.general.isAlive ? 'Yes' : 'No'}}</div>
-                                    @if (!form.value.general.isAlive) {
-                                        <div><b>Date of death</b>: {{form.value.general.dateOfDeath | date:'MMM, y'}}</div>
-                                        <div><b>Cause of death</b>: {{form.value.general.causeOfDeath?.display ?? 'N/S'}}</div>
+                                    <div><b>Center:</b> {{form.value.identification!.clinicalCenter}}</div>
+                                    <div><b>ID:</b> {{form.value.identification!.clinicalIdentifier}}</div>
+                                    <div><b>Gender</b>: {{form.value.general!.gender?.display}}</div>
+                                    <div><b>Date of birth</b>: {{form.value.general!.dateOfBirth | date:'MMM, y'}}</div>
+                                    <div><b>Alive</b>: {{form.value.general!.isAlive ? 'Yes' : 'No'}}</div>
+                                    @if (!form.value.general!.isAlive) {
+                                        <div><b>Date of death</b>: {{form.value.general!.dateOfDeath | date:'MMM, y'}}</div>
+                                        <div><b>Cause of death</b>: {{form.value.general!.causeOfDeath?.display ?? 'N/S'}}</div>
                                     }
-                                    <div><b>Consent</b>: {{form.value.consent.consentValid ? 'Yes' : 'No'}}</div>
+                                    <div><b>Consent</b>: {{form.value.consent!.consentValid ? 'Yes' : 'No'}}</div>
                                 </div>
                             </div>
                             <div class="flex py-3 gap-3">
@@ -152,9 +147,8 @@
                                     icon="pi pi-verified"
                                     label="Confirm & Save" 
                                     class="flex-grow-1"
-                                    [loading]="loading"
-                                    [disabled]="form.invalid" />
-                            
+                                    [loading]="isSaving()"
+                                    [disabled]="form.invalid" />                            
                             </div>
                         </ng-template>
                     </p-step-panel>

@@ -12,19 +12,16 @@ export interface AppConfig {
     scale: number;
 }
 
-interface LayoutState {
-    staticMenuDesktopInactive: boolean;
-    overlayMenuActive: boolean;
-    profileSidebarVisible: boolean;
-    configSidebarVisible: boolean;
-    staticMenuMobileActive: boolean;
-    menuHoverActive: boolean;
-}
 
 @Injectable({
     providedIn: 'root',
 })
 export class LayoutService {
+
+    private static readonly STORAGE_KEYS = {
+        darkMode: 'pop-layout-config-darkMode',
+        theme: 'pop-layout-config-theme'
+    };
 
     public config: AppConfig = {
         ripple: true,
@@ -35,79 +32,75 @@ export class LayoutService {
         scale: 14,
     };
 
-    public state: LayoutState = {
-        staticMenuDesktopInactive: false,
-        overlayMenuActive: false,
-        profileSidebarVisible: false,
-        configSidebarVisible: false,
-        staticMenuMobileActive: false,
-        menuHoverActive: false
-        
-    };
+    // State as signals
+    isStaticMenuDesktopInactive = signal(false);
+    isOverlayMenuActive = signal(false);
+    isProfileSidebarVisible = signal(false);
+    isConfigSidebarVisible = signal(false);
+    isStaticMenuMobileActive = signal(false);
+    isMenuHoverActive = signal(false);
+    windowWidth = signal(window.innerWidth);
+    
+    // Computed properties
+    isOverlayMode = computed(() => this.config.menuMode === 'overlay');
+    isDarkMode = computed(() => this.config.darkMode());
+    isDesktop = computed(() => this.windowWidth() > 991);
+    isMobile = computed(() => !this.isDesktop());
+
+
+    // Simple trigger signal for overlay open event
+    #overlayOpenTrigger = signal(0);
+    overlayOpenSignal = computed(() => this.#overlayOpenTrigger());
 
     public readonly logo: string = 'assets/images/logo-dark.svg';
 
-    private configUpdate = new Subject<AppConfig>();
-    private overlayOpen = new Subject<any>();
-    public configUpdate$ = this.configUpdate.asObservable();
-    public overlayOpen$ = this.overlayOpen.asObservable();
-
     constructor() {
         // Load user preferences from local storage
-        this.getUserPreferences()
+        this.getStoredUserPreferences()
         // Upon any change, store new preferences in local storage 
         effect(() => {
             localStorage.setItem('pop-layout-config-darkMode', this.config.darkMode().toString())
             localStorage.setItem('pop-layout-config-theme', this.config.theme().toString())
         });
-        effect( () => {
-            this.updateDarkMode()
-        });
-        effect( () => {
-            this.updateTheme()
-        });
+        effect( () => this.updateDarkMode());
+        effect( () => this.updateTheme());
+        window.addEventListener('resize', () => this.windowWidth.set(window.innerWidth));
     }
 
     onMenuToggle() {
-        if (this.isOverlay()) {
-            this.state.overlayMenuActive = !this.state.overlayMenuActive;
-            if (this.state.overlayMenuActive) {
-                this.overlayOpen.next(null);
-            }
+        if (this.isOverlayMode()) {
+            this.isOverlayMenuActive.update(value => !value);
+            if (this.isOverlayMenuActive()) this.triggerOverlayOpen();
         }
 
         if (this.isDesktop()) {
-            this.state.staticMenuDesktopInactive = !this.state.staticMenuDesktopInactive;
+            this.isStaticMenuDesktopInactive.update(value => !value);
         }
         else {
-            this.state.staticMenuMobileActive = !this.state.staticMenuMobileActive;
-
-            if (this.state.staticMenuMobileActive) {
-                this.overlayOpen.next(null);
-            }
+            this.isStaticMenuMobileActive.update(value => !value);
+            if (this.isStaticMenuMobileActive()) this.triggerOverlayOpen();
         }
     }
 
-    getUserPreferences() {
-        const darkModePreference = localStorage.getItem('pop-layout-config-darkMode');
+    getStoredUserPreferences() {
+        const darkModePreference = localStorage.getItem(LayoutService.STORAGE_KEYS.darkMode);
         if (darkModePreference) {
             this.config.darkMode.set(darkModePreference.toLowerCase() === 'true');
         }
-        const themePreference = localStorage.getItem('pop-layout-config-theme');
+        const themePreference = localStorage.getItem(LayoutService.STORAGE_KEYS.theme);
         if (themePreference) {
             this.config.theme.set(themePreference);
         }
     }
 
     toggleDarkMode() {
-        this.config.darkMode.set(!this.config.darkMode());
+        this.config.darkMode.update(value => !value);
     }
 
     updateDarkMode() {
         const element = document.querySelector('html');
-        const darkModeSetting: boolean = this.config.darkMode()
         if (element) {
-            element.classList.toggle('dark-mode', darkModeSetting);
+            element.classList.toggle('dark-mode', this.config.darkMode());
         }
     }
 
@@ -117,56 +110,32 @@ export class LayoutService {
         if (element) {
             // Remove any class that starts with 'layout-theme-' and add the new theme class
             Array.from(element.classList)
-            .filter(cls => cls.startsWith('layout-theme-'))
-            .forEach(cls => element.classList.remove(cls));
+                 .filter(cls => cls.startsWith('layout-theme-'))
+                 .forEach(cls => element.classList.remove(cls));
             element.classList.add(`layout-theme-${theme}`);
         }
         const scheme = AppThemes[theme as keyof typeof AppThemes];
-        updatePreset(
-            {
+        updatePreset({
             semantic: {
                 colorScheme: {
-                    light: {
-                        primary: scheme
-                    },
-                    dark: {
-                        primary: scheme
-                    }
-                }
-            }
-        })
+                    light: {primary: scheme},
+                    dark: {primary: scheme}
+                },
+            },
+        });
     }
 
     showProfileSidebar() {
-        this.state.profileSidebarVisible = !this.state.profileSidebarVisible;
-        if (this.state.profileSidebarVisible) {
-            this.overlayOpen.next(null);
-        }
+        this.isProfileSidebarVisible.update(value => !value);
+        if (this.isProfileSidebarVisible()) this.triggerOverlayOpen();
     }
 
     showConfigSidebar() {
-        this.state.configSidebarVisible = true;
+        this.isConfigSidebarVisible.set(true);
     }
 
-    isOverlay() {
-        return this.config.menuMode === 'overlay';
-    }
-
-    isDarkMode() {
-        return this.config.darkMode;
-    }
-
-    isDesktop() {
-        return window.innerWidth > 991;
-    }
-
-    isMobile() {
-        return !this.isDesktop();
-    }
-
-    onConfigUpdate() {
-        this.configUpdate.next(this.config);
-        // localStorage.setItem('darkMode', element.classList.contains('dark-mode').toString());
+    private triggerOverlayOpen() {
+        this.#overlayOpenTrigger.update(v => v + 1);
     }
 
 }

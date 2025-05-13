@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Card } from 'primeng/card';
 import { Skeleton } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
-import { first, map } from 'rxjs';
+import { map } from 'rxjs';
 
 import { Cohort, CohortContribution, CohortsService } from 'src/app/shared/openapi';
 import { UserBadgeComponent } from "../../../../shared/components/user-badge/user-badge.component";
+import { rxResource } from '@angular/core/rxjs-interop';
+import { Message } from 'primeng/message';
 
 @Component({
     selector: 'pop-cohort-contributors',
@@ -16,6 +18,7 @@ import { UserBadgeComponent } from "../../../../shared/components/user-badge/use
         Card,
         Skeleton,
         TableModule,
+        Message,
         UserBadgeComponent
     ],
     template: `
@@ -26,9 +29,12 @@ import { UserBadgeComponent } from "../../../../shared/components/user-badge/use
             the data encompassed by this cohort.
             </p>
         </div>
-        @if (!loading && cohortContributions) {
+        @if (loading()|| contributions.isLoading()) {
+            <p-skeleton height="40rem"/>
+        }
+        @if (contributions.hasValue()) {
             <p-table 
-            [value]="cohortContributions" 
+            [value]="contributions.value()" 
             [paginator]="true"
             [rows]="10">
 
@@ -40,17 +46,18 @@ import { UserBadgeComponent } from "../../../../shared/components/user-badge/use
                 </tr>
             </ng-template>
             
-            <ng-template #body let-contribution let-i="rowIndex">
+            <ng-template #body let-entry let-i="rowIndex">
                 <tr [ngClass]="{'top-rank-1': 1 === i+1, 'top-rank-2': 2 === i+1, 'top-rank-3': 3 === i+1}">
                 <td class="text-center">{{ i + 1 }}</td>
-                <td><pop-user-badge [username]="contribution.contributor" [showName]="true"/></td>
-                <td class="text-center">{{ contribution.contributions }} ({{ contribution.contributions/totalContributions*100 | number: '1.0-0' }}%)</td>
+                <td><pop-user-badge [username]="entry.contributor" [showName]="true"/></td>
+                <td class="text-center">{{ entry.contributions }} ({{ entry.contributions/totalContributions()*100 | number: '1.0-0' }}%)</td>
                 </tr>
             </ng-template>
             
             </p-table>
-        } @else { 
-            <p-skeleton height="40rem"/>
+        } 
+        @if (contributions.error()) {
+            <p-message severity="error" text="Failed to load cohort contributors"></p-message>
         }
         <div class="mt-3 text-muted">
             *Both the <b>author and contributors</b> of this cohort are 
@@ -61,36 +68,18 @@ import { UserBadgeComponent } from "../../../../shared/components/user-badge/use
 })
 export class CohortContributorsComponent{
 
-    public cohortsService = inject(CohortsService);
-    public messageService = inject(MessageService);
+    public cohort = input.required<Cohort>();
+    public loading = input<boolean>(false);
+
+    readonly #cohortsService = inject(CohortsService);
+    readonly #messageService = inject(MessageService);
     
-    @Input() cohort!: Cohort;
-    @Input() loading: boolean = false;
-    public cohortContributions!: CohortContribution[] | null;
-    public totalContributions!: number;
-
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['loading'] && !this.loading) {
-            this.updateContributions()
-        }
-    }
-
-    ngOnInit() {
-        this.updateContributions()
-    }
-
-    updateContributions() {
-        this.cohortContributions = null
-        this.cohortsService.getCohortContributors({cohortId: this.cohort.id}).pipe(
-            first(),
-            map((contributions: CohortContribution[])  => {
-                this.cohortContributions = contributions.sort((a, b) => b.contributions - a.contributions)
-                this.totalContributions = this.cohortContributions.map(c => c.contributions).reduce((a, b) => a + b, 0)
-            }),
-        ).subscribe({
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort contributors', detail: error.error.detail })
-        })
-    }
+    public contributions = rxResource({
+        request: () => ({cohortId: this.cohort().id}),
+        loader: ({request}) => this.#cohortsService.getCohortContributors(request).pipe(
+            map((contributions: CohortContribution[]) => contributions.sort((a, b) => b.contributions - a.contributions)),
+        )
+    });
+    public totalContributions = computed<number>(() => this.contributions.value()!.map(c => c.contributions).reduce((a, b) => a + b, 0));  
 
 }

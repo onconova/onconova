@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, ElementRef, inject, input, Input, viewChild, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
 import { CohortTraitCounts } from 'src/app/shared/openapi';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 @Component({
     imports: [
@@ -12,37 +13,36 @@ import { Chart } from 'chart.js';
     ],
     selector: 'pop-distribution-graph',
     template: `
-    <div class="chart-container" style="height: 15rem; width: 100%">
+    <div class="chart-container" style="height: {{height()}}; width: {{width()}}">
         <canvas #histogramCanvas></canvas>
         @if (chart) {
-            <pop-cohort-graph-context-menu [target]="histogramCanvas" [chart]="chart" [data]="countData"/>
+            <pop-cohort-graph-context-menu [target]="histogramCanvas" [chart]="chart" [data]="data()"/>
         }
     </div>`
 })
 export class DistributionGraphComponent {
     
-    constructor(private cdr: ChangeDetectorRef) { }
-    
-    @Input() countData!: CohortTraitCounts[];
+    readonly #layoutService = inject(LayoutService);
 
-    @ViewChild('histogramCanvas') private chartRef!: ElementRef<HTMLCanvasElement>;
+    public data = input.required<CohortTraitCounts[]>()
+    public height = input<string>('15rem')
+    public width = input<string>('100%')
+    public legendPosition = input<"left" | "right" | "bottom" | "top" | "center" | "chartArea">('top')
+
+    public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('histogramCanvas');
     public chart!: Chart;
 
-    ngAfterViewInit() {
-        if (this.chartRef) {
-            this.initChart();
-            this.cdr.detectChanges()
-        }
-    }
+    #initChart = effect(() => {
+        // React to changes in the overall theme settings
+        this.#layoutService.config.darkMode();
+        this.#layoutService.config.theme();
 
-    initChart() {
         const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--p-text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
         // Convert keys to numbers for proper numeric sorting
-        const entries = this.countData
+        const entries = this.data()
             .map((entry) => [Number(entry.category), entry.counts]) // Convert keys to numbers
             .sort((a: any, b: any) => a[0] - b[0]); // Sort by numeric value of key
 
@@ -50,7 +50,10 @@ export class DistributionGraphComponent {
         const categories: string[] = entries.map(entry => String(entry[0])); // Convert back to string
         const values: number[] = entries.map((entry: any) => entry[1]);
 
-        this.chart = new Chart(this.chartRef.nativeElement, {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(this.chartRef()!.nativeElement, {
             type: 'bar',
             data: {
                 labels: categories,
@@ -64,7 +67,8 @@ export class DistributionGraphComponent {
             options: {
                 plugins: {
                     legend: {
-                        display: false
+                        display: false,
+                        position: this.legendPosition(),
                     }
                 },
                 scales: {
@@ -104,6 +108,6 @@ export class DistributionGraphComponent {
                 }
             }
         });
-    }
+    });
 
 }

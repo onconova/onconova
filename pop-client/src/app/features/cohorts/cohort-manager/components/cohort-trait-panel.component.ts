@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,Input } from '@angular/core';
+import { Component,input,Input } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { Avatar } from 'primeng/avatar';
@@ -24,17 +24,17 @@ import { TableModule } from 'primeng/table';
 
                 <div class="mr-1 my-auto">
                     <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="icon"></lucide-angular>
+                        <lucide-angular class="cohort-search-item-icon" [img]="icon()"></lucide-angular>
                     </p-avatar>
                 </div>
 
                 <div class="flex flex-column">
-                    <div class="text-muted mb-1">{{ title }}</div>
+                    <div class="text-muted mb-1">{{ title() }}</div>
                     <div class="flex">
                         <div>
-                            @if (loading) {
+                            @if (loading()) {
                                 <p-skeleton width="10rem" height="1.5rem"/>
-                            } @else if (valid) { 
+                            } @else if (valid()) { 
                                 <ng-content></ng-content>
                             } @else {
                                 -
@@ -48,10 +48,8 @@ import { TableModule } from 'primeng/table';
     `
 })
 export class CohortTraitPanel{
-    
-    @Input({required: true}) icon!: LucideIconData;
-    @Input({required: true}) title!: string;
-    @Input() loading: boolean = false;
-    @Input() valid: boolean | null = true;
-
+    public icon = input.required<LucideIconData>();
+    public title = input.required<string>(); 
+    public loading = input<boolean>(false); 
+    public valid = input<boolean | null>(true); 
 }

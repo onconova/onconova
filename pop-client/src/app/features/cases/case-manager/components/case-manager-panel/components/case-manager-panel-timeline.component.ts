@@ -1,4 +1,5 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Output, Signal, computed, inject, input } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { TimelineModule } from 'primeng/timeline';
 import { TypeCheckService } from '../../../../../../shared/services/type-check.service';
@@ -12,29 +13,29 @@ export interface RadioChoice {
 @Component({
     selector: 'pop-case-manager-panel-timeline',
     template: `
-        <p-timeline [value]="events" class="case-manager-panel-timeline">
-            <ng-template pTemplate="content" let-event>
+        <p-timeline [value]="groupedEvents()" class="case-manager-panel-timeline">
+            <ng-template pTemplate="content" let-groupedEvents>
                 <div>
                     <div class="pop-case-manager-panel-timeline-event-date mb-1">
                         <small>
-                            @if (typeCheck.isPeriod(event.timestamp)) {
-                                {{ event.timestamp.start | date }}
+                            @if (typeCheck.isPeriod(groupedEvents.timestamp)) {
+                                {{ groupedEvents.timestamp.start | date }}
                                 -
-                                @if (event.timestamp.end) {
-                                    {{ event.timestamp?.end | date }}
+                                @if (groupedEvents.timestamp.end) {
+                                    {{ groupedEvents.timestamp?.end | date }}
                                 } @else {
                                     ongoing
                                 }
                             } @else {
-                                {{ event.timestamp | date }}
+                                {{ groupedEvents.timestamp | date }}
                             }
                         </small>
                     </div>
                     <div class="flex flex-column gap-2">
-                        @for (entry of event.entries; track entry.id) {
-                            <div (click)="onEventClick(entry)" class="cursor-pointer">
+                        @for (event of groupedEvents.events; track event.id) {
+                            <div (click)="onEventClick.emit(event)" class="cursor-pointer">
                                 <i class="pop-case-manager-panel-timeline-event-icon pi pi-box"></i>
-                                {{ entry.description }}
+                                {{ event.description }}
                             </div>                        
                         }
                     </div>
@@ -49,24 +50,24 @@ export interface RadioChoice {
 })
 export class CaseManagerPanelTimelineComponent {
 
-    public readonly typeCheck = inject(TypeCheckService)
+    public readonly typeCheck = inject(TypeCheckService);
 
-    @Input({required: true}) public entries: any[] = []
-    @Input({required: true}) public onEventClick!: (event: any) => void;
-    public events: {timestamp: Date | Period, entries: any[]}[] = []
-    
-    ngOnInit() {
-        let eventMap = this.entries.map((entry) => {
-            let timestamp = entry.period || entry.assertionDate || entry.date 
-            return {
+    @Output() public onEventClick = new EventEmitter<any>();
+    public events = input.required<any[]>()
+    public groupedEvents: Signal<{timestamp: Date | Period, events: any[]}[]> = computed(
+        () => {
+            let eventMap = this.events().map((event) => {
+                let timestamp = event.period || event.assertionDate || event.date 
+                return {
+                    timestamp: timestamp,
+                    event: event,
+                }            
+            });
+            const uniqueTimeStamps = [...new Set(eventMap.map((event) => event.timestamp))];
+            return uniqueTimeStamps.map((timestamp) => ({
                 timestamp: timestamp,
-                entry: entry,
-            }            
-        });
-        const uniqueTimeStamps = [...new Set(eventMap.map((event) => event.timestamp))];
-        this.events = uniqueTimeStamps.map((timestamp) => ({
-            timestamp: timestamp,
-            entries: eventMap.filter((event) => event.timestamp == timestamp).map(event => event.entry)
-        }));
-    }
+                events: eventMap.filter((event) => event.timestamp == timestamp).map(event => event.event)
+            }));
+        }
+    )
 }

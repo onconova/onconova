@@ -344,6 +344,12 @@ class BaseSchema(Schema):
         m2m_relations, o2m_relations = {}, {}
         if create and instance is None:
             instance = model()
+        if instance and not isinstance(instance, model):
+            old_instace = instance
+            instance = model()
+            instance.pk = old_instace.pk
+            old_instace.delete()
+
         serialized_data = super().model_dump()
         for field_name, field in self.model_fields.items():
             # Skip unset fields

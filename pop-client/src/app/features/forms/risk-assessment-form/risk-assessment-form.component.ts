@@ -1,21 +1,20 @@
-import { Component, inject, OnInit,ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import { Component, inject, input, computed, effect} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable,map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { HeartPulse } from 'lucide-angular';
+import { map } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { InputNumber } from 'primeng/inputnumber';
 
 import { 
-    NeoplasticEntity, 
     NeoplasticEntitiesService, 
     RiskAssessmentCreate,
     RiskAssessmentsService,
+    RiskAssessment,
+    CodedConcept,
 } from '../../../shared/openapi'
 
 import { 
@@ -43,63 +42,59 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         FormControlErrorComponent,
     ]
 })
-export class RiskAssessmentFormComponent extends AbstractFormBase implements OnInit {
+export class RiskAssessmentFormComponent extends AbstractFormBase {
 
-  private readonly riskAssessmentsService: RiskAssessmentsService = inject(RiskAssessmentsService)
-  private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
-  public readonly formBuilder = inject(FormBuilder)
+  // Input signal for initial data passed to the form
+  initialData = input<RiskAssessment>();
 
-  public readonly createService = (payload: RiskAssessmentCreate) => this.riskAssessmentsService.createRiskAssessment({riskAssessmentCreate: payload})
-  public readonly updateService = (id: string, payload: RiskAssessmentCreate) => this.riskAssessmentsService.updateRiskAssessmentById({riskAssessmentId: id, riskAssessmentCreate: payload})
+  // Service injections
+  readonly #riskAssessmentsService = inject(RiskAssessmentsService)
+  readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService)
+  readonly #fb = inject(FormBuilder)
 
-  public readonly title: string = 'Risk Assessment'
-  public readonly subtitle: string = 'Add new risk assessment'
-  public readonly icon = HeartPulse;
+  // Create and update service methods for the form data
+  public readonly createService = (payload: RiskAssessmentCreate) => this.#riskAssessmentsService.createRiskAssessment({riskAssessmentCreate: payload})
+  public readonly updateService = (id: string, payload: RiskAssessmentCreate) => this.#riskAssessmentsService.updateRiskAssessmentById({riskAssessmentId: id, riskAssessmentCreate: payload})
 
-  private caseId!: string;
-  public initialData: RiskAssessmentCreate | any = {};
-  public relatedEntities: NeoplasticEntity[] = []; 
-  public resultsType: string[] = [];
+  // Static form definition
+  public form = this.#fb.group({
+    date: this.#fb.control<string | null>(null, Validators.required),
+    assessedEntities: this.#fb.control<string[]>([], Validators.required),
+    methodology: this.#fb.control<CodedConcept | null>(null, Validators.required),
+    risk: this.#fb.control<CodedConcept | null>(null, Validators.required),
+    score: this.#fb.control<number | null>(null),
+  });
 
-
-  ngOnInit() {
-    // Construct the form 
-    this.constructForm()
-    // Fetch any primary neoplastic entities that could be related to a new entry 
-    this.getRelatedEntities()
-  }
-
-  constructForm(): void {
-    this.form = this.formBuilder.group({
-        date: [this.initialData?.date, Validators.required],
-        assessedEntities: [this.initialData?.assessedEntitiesIds, Validators.required],
-        methodology: [this.initialData?.methodology,Validators.required],
-        risk: [this.initialData?.risk,Validators.required],
-        score: [this.initialData?.score],
+  // Effect to patch initial data
+  readonly #onInitialDataChangeEffect = effect((): void => {
+    const data = this.initialData();
+    if (!data) return;
+    this.form.patchValue({
+      date: data.date ?? null,
+      assessedEntities: data.assessedEntitiesIds ?? [],
+      methodology: data.methodology ?? null,
+      risk: data.risk ?? null,
+      score: data.score ?? null,
     });
-  }
-  
+  });
 
-  constructAPIPayload(data: any): RiskAssessmentCreate {    
+  // API Payload construction function
+  payload = (): RiskAssessmentCreate => {
+    const data = this.form.value;    
     return {
-      caseId: this.caseId,
-      assessedEntitiesIds: data.assessedEntities,
-      date: data.date,
-      methodology: data.methodology,
-      risk: data.risk,
+      caseId: this.caseId(),
+      assessedEntitiesIds: data.assessedEntities!,
+      date: data.date!,
+      methodology: data.methodology!,
+      risk: data.risk!,
       score: data.score,
     };
   }
 
-  private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(
-      (response) => {
-          this.relatedEntities = response.items
-      }
-    )
-  }
-
+  // All neoplastic entities related to this patient case
+  public relatedEntities = rxResource({
+    request: () => ({caseId: this.caseId()}),
+    loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(response => response.items)),
+  }) 
 
 }

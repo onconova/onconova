@@ -1,10 +1,8 @@
-import { Component, inject, OnInit, Pipe, PipeTransform} from '@angular/core';
-import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { Component, computed, effect, inject, input, Pipe, PipeTransform} from '@angular/core';
+import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { forkJoin, map, Observable } from 'rxjs';
-
-import { ShieldAlert } from 'lucide-angular';
+import { forkJoin, map } from 'rxjs';
 
 import { Fieldset } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
@@ -18,12 +16,8 @@ import { RadioButton } from 'primeng/radiobutton';
 import { 
     CodedConcept,
     SystemicTherapiesService,
-    SystemicTherapy,
-    SystemicTherapyMedication,
     RadiotherapiesService,
-    Radiotherapy,
     SurgeriesService,
-    Surgery,
     AdverseEventOutcomeChoices,
     AdverseEventSuspectedCauseCausalityChoices,
     AdverseEventMitigationCategoryChoices,
@@ -34,6 +28,10 @@ import {
     AdverseEventSuspectedCause,
     AdverseEventMitigation,
     AdverseEventMitigationCreate,
+    SystemicTherapy,
+    SystemicTherapyMedication,
+    Surgery,
+    Radiotherapy,
 } from '../../../shared/openapi'
 
 import { 
@@ -44,8 +42,7 @@ import {
   RadioSelectComponent
 } from '../../../shared/components';
 import { AbstractFormBase } from '../abstract-form-base.component';
-
-
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Pipe({
     standalone: true,
@@ -53,7 +50,8 @@ import { AbstractFormBase } from '../abstract-form-base.component';
   })
 export class getEventGradesPipe implements PipeTransform {
   
-    transform(concept: CodedConcept) {
+    transform(concept: CodedConcept | null) {
+        if (!concept) return [];
         const grades = Array.from({length: 5}, (_, i) => i+1);
         let gradeChoices = grades.map((grade: number) => {
             const properties = concept.properties as { [key: string]: any };
@@ -65,7 +63,6 @@ export class getEventGradesPipe implements PipeTransform {
         return gradeChoices.filter((choice) => choice.description !== '-')
     }
 }
-
 
 
 @Component({
@@ -89,44 +86,162 @@ export class getEventGradesPipe implements PipeTransform {
         FormControlErrorComponent,
     ]
 })
-export class AdverseEventFormComponent extends AbstractFormBase implements OnInit {
+export class AdverseEventFormComponent extends AbstractFormBase {
 
-    private readonly systemicTherapiesService: SystemicTherapiesService = inject(SystemicTherapiesService);
-    private readonly radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
-    private readonly surgeriesService: SurgeriesService = inject(SurgeriesService);
-    private readonly adverseEventsService: AdverseEventsService = inject(AdverseEventsService);
-    public readonly formBuilder = inject(FormBuilder);
-    
-    public readonly createService = (payload: AdverseEventCreate) => this.adverseEventsService.createAdverseEvent({adverseEventCreate: payload});
-    public readonly updateService = (id: string, payload: AdverseEventCreate) => this.adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreate: payload});
-    override readonly subformsServices = [
+    // Input signal for initial data passed to the form
+    public initialData = input<AdverseEvent>();
+
+    // Service injections
+    readonly #systemicTherapiesService: SystemicTherapiesService = inject(SystemicTherapiesService);
+    readonly #radiotherapiesService: RadiotherapiesService = inject(RadiotherapiesService);
+    readonly #surgeriesService: SurgeriesService = inject(SurgeriesService);
+    readonly #adverseEventsService: AdverseEventsService = inject(AdverseEventsService);
+    readonly #fb = inject(FormBuilder);
+
+    // Create and update service methods for the form data
+    public readonly createService = (payload: AdverseEventCreate) => this.#adverseEventsService.createAdverseEvent({adverseEventCreate: payload});
+    public readonly updateService = (id: string, payload: AdverseEventCreate) => this.#adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreate: payload});
+
+    // Services to create/update/delete related resources with data in subforms
+    override subformsServices = [
         {
-            payloads: this.constructSuspectedCausePayloads.bind(this),
+            payloads: this.suspectedCausesPayloads.bind(this),
             deletedEntries: this.getdeletedSuspectedCauses.bind(this),
-            delete: (parentId: string, id: string) => this.adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
-            create: (parentId: string, payload: AdverseEventSuspectedCauseCreate) => this.adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreate: payload}),
-            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreate) => this.adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreate: payload}),
+            delete: (parentId: string, id: string) => this.#adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
+            create: (parentId: string, payload: AdverseEventSuspectedCauseCreate) => this.#adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreate) => this.#adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreate: payload}),
         },
         {
-            payloads: this.constructMitigationsPayloads.bind(this),
+            payloads: this.mitigationsPayloads.bind(this),
             deletedEntries: this.getdeletedMitigations.bind(this),
-            delete: (parentId: string, id: string) => this.adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
-            create: (parentId: string, payload: AdverseEventMitigationCreate) => this.adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreate: payload}),
-            update: (parentId: string, id: string, payload: AdverseEventMitigationCreate) => this.adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreate: payload}),
+            delete: (parentId: string, id: string) => this.#adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
+            create: (parentId: string, payload: AdverseEventMitigationCreate) => this.#adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventMitigationCreate) => this.#adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreate: payload}),
         },
     ]
-    private deletedMitigations: string[] = [];
-    private deletedSuspectedCauses: string[] = [];
+    #deletedMitigations: string[] = [];
+    #deletedSuspectedCauses: string[] = [];
 
-    public readonly title: string = 'Adverse Event';
-    public readonly subtitle: string = 'Add new adverse event';
-    public readonly icon = ShieldAlert;
+    // Define the main form
+    public form = this.#fb.group({
+        date: this.#fb.control<string | null>(null, Validators.required),
+        event: this.#fb.control<CodedConcept | null>(null, Validators.required),
+        grade: this.#fb.control<number | null>(null, Validators.required),
+        outcome: this.#fb.control<AdverseEventOutcomeChoices | null>(null, Validators.required),
+        dateResolved: this.#fb.control<string | null>(null),
+        suspectedCauses: this.#fb.array<FormGroup>([]),
+        mitigations: this.#fb.array<FormGroup>([]),
+      });
 
-    private caseId!: string;
-    public suspectedCausesFormArray!: FormArray;
-    public mitigationsFormArray!: FormArray;
-    public initialData: AdverseEvent | any = {};
-    public relatedSuspectedCauses$!: Observable<(SystemicTherapy | SystemicTherapyMedication | Radiotherapy | Surgery)[]>;
+    readonly #onInitialDataChangeEffect = effect((): void => {
+        const data = this.initialData();
+        if (!data) return;       
+        this.form.patchValue({
+            date: data.date ?? null,
+            event: data.event || null,
+            grade: data.grade ?? null,
+            outcome: data.outcome ?? null,
+            dateResolved: data.dateResolved ?? null,
+        });
+        (data.suspectedCauses || []).forEach((initialData: AdverseEventSuspectedCause) =>
+            this.form.controls.suspectedCauses.push(this.#suspectedCauseForm(initialData))
+        );
+        (data.mitigations || []).forEach((initialData: AdverseEventMitigation) =>
+            this.form.controls.mitigations.push(this.#mitigationForm(initialData))
+        );
+    });
+
+    //Definition for the dynamic subform constructor
+    #suspectedCauseForm = (initialData: AdverseEventSuspectedCause) => this.#fb.group({
+        id: this.#fb.control<string | null>(
+            initialData?.id
+        ),
+        cause: this.#fb.control<string | null>(
+            initialData?.medicationId || 
+            initialData?.radiotherapyId || 
+            initialData?.surgeryId || 
+            initialData?.systemicTherapyId ||
+            null,
+            Validators.required
+        ),
+        causality: this.#fb.control<AdverseEventSuspectedCauseCausalityChoices | null>(
+            initialData?.causality ?? null,
+        )
+    })
+
+    //Definition for the dynamic subform constructor
+    #mitigationForm = (initialData: AdverseEventMitigation) => this.#fb.group({
+        id: this.#fb.control<string | null>(
+            initialData?.id,
+        ),
+        category: this.#fb.control<string | null>(
+            initialData?.category, Validators.required,
+        ),
+        adjustment: this.#fb.control<CodedConcept | null>(
+            initialData?.adjustment ?? null,
+        ),
+        drug: this.#fb.control<CodedConcept | null>(
+            initialData?.drug ?? null,
+        ),
+        procedure: this.#fb.control<CodedConcept | null>(
+            initialData?.procedure ?? null,
+        ),
+        management: this.#fb.control<CodedConcept | null>(
+            initialData?.management ??  null,
+        )
+    })
+
+    // API Payload construction function s
+    readonly payload = (): AdverseEventCreate => {    
+        const data = this.form.getRawValue();
+        return {
+            caseId: this.caseId(),
+            date: data.date!,
+            event: data.event!,
+            grade: data.grade!,
+            outcome: data.outcome as AdverseEventOutcomeChoices,
+            dateResolved: data.outcome === AdverseEventOutcomeChoices.Resolved || data.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae ?  data.dateResolved : null,
+        }
+    }
+    suspectedCausesPayloads (): AdverseEventSuspectedCauseCreate[] {
+        const data = this.form.controls['suspectedCauses'].value;
+        return data.map((subformData: any) => {return {
+            id: subformData.id,
+            causality: subformData.causality,            
+            medicationId: this.#suspectedMedicationsIds().includes(subformData.cause) ? subformData.cause : null,
+            radiotherapyId: this.#suspectedRadiotherapiesIds().includes(subformData.cause) ? subformData.cause : null,
+            surgeryId: this.#suspectedSurgeriesIds().includes(subformData.cause) ? subformData.cause : null,
+            systemicTherapyId: this.#suspectedSystemicTherapiesIds().includes(subformData.cause) ? subformData.cause : null,
+        }})
+    }
+    mitigationsPayloads(): AdverseEventMitigationCreate[] {
+        const data = this.form.controls['mitigations'].value;
+        return data.map((subformData: any) => {return {
+            id: subformData.id,
+            category: subformData.category,
+            adjustment: subformData.category === AdverseEventMitigationCategoryChoices.Adjustment ?  subformData.adjustment : null, 
+            drug: subformData.category === AdverseEventMitigationCategoryChoices.Pharmacological ? subformData.drug : null, 
+            procedure: subformData.category === AdverseEventMitigationCategoryChoices.Procedure ?  subformData.procedure : null, 
+            management: subformData.management, 
+        }})
+    }
+    
+    // All potiential suspected causes of the adverse event
+    public relatedSuspectedCauses = rxResource({
+        request: () => ({caseId: this.caseId(), limit: 100}),
+        loader: ({request}) => forkJoin([
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) => response.items)),
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) => response.items.flatMap(therapy => {
+                return therapy.medications
+        }))),
+            this.#radiotherapiesService.getRadiotherapies(request).pipe(map((response) => response.items)),
+            this.#surgeriesService.getSurgeries(request).pipe(map((response) => response.items)),
+        ]).pipe(
+            map(([systemicTherapies, medications, radiotherapies, surgeries]) => {
+                return [...systemicTherapies, ...medications,...radiotherapies, ...surgeries];
+            })
+        )
+    })
 
     public readonly AdverseEventOutcomeChoices = AdverseEventOutcomeChoices;
     public readonly outcomeChoices: RadioChoice[] = [
@@ -155,128 +270,63 @@ export class AdverseEventFormComponent extends AbstractFormBase implements OnIni
         {name: 'Non-pharmacological treatment of the adverse event', value: AdverseEventMitigationCategoryChoices.Procedure},
     ]
 
-    ngOnInit() {
-        // Construct the form 
-        this.constructForm()
-        this.relatedSuspectedCauses$ = forkJoin([
-            this.systemicTherapiesService.getSystemicTherapies({caseId:this.caseId}).pipe(map((response) => response.items)),
-            this.systemicTherapiesService.getSystemicTherapies({caseId:this.caseId}).pipe(map((response) => response.items.flatMap(therapy => {
-                return therapy.medications
-        }))),
-            this.radiotherapiesService.getRadiotherapies({caseId:this.caseId}).pipe(map((response) => response.items)),
-            this.surgeriesService.getSurgeries({caseId:this.caseId}).pipe(map((response) => response.items)),
-        ]).pipe(
-            map(([systemicTherapies, medications, radiotherapies, surgeries]) => {
-                return [...systemicTherapies, ...medications,...radiotherapies, ...surgeries];
-            })
-        )
-    }
-
-    constructForm(): void {
-
-        this.suspectedCausesFormArray = this.formBuilder.array((this.initialData?.suspectedCauses || [])?.map(
-            (initialSuspectedCause: AdverseEventSuspectedCause) => this.constructSuspectedCauseSubForm(initialSuspectedCause)
-        ))
-        this.mitigationsFormArray = this.formBuilder.array((this.initialData?.mitigations || [])?.map(
-            (initialMitigation: AdverseEventMitigation) => this.constructMitigationSubform(initialMitigation)
-        ))
-
-        this.form = this.formBuilder.group({
-            date: [this.initialData?.date, Validators.required],
-            event: [this.initialData?.event, Validators.required],
-            grade: [this.initialData?.grade, Validators.required],
-            outcome: [this.initialData?.outcome, Validators.required],
-            dateResolved: [this.initialData?.dateResolved],
-            suspectedCauses: this.suspectedCausesFormArray,
-            mitigations: this.mitigationsFormArray,
-        });
-    }
-
-
-    constructSuspectedCauseSubForm(initalData: AdverseEventSuspectedCause | null ) {
-        return this.formBuilder.group({
-            id: [initalData?.id],
-            cause:[initalData?.medicationId || initalData?.radiotherapyId || initalData?.surgeryId || initalData?.systemicTherapyId, Validators.required],
-            causality: [initalData?.causality],
-        })
-    }
-
-    constructMitigationSubform(initalData: AdverseEventMitigation | null ) {
-        return this.formBuilder.group({
-            id: [initalData?.id],
-            category: [initalData?.category, Validators.required],
-            adjustment: [initalData?.adjustment],
-            drug: [initalData?.drug],
-            procedure: [initalData?.procedure],
-            management: [initalData?.management],
-        })
-    }
-
-    constructAPIPayload(data: any): AdverseEventCreate {    
-        return {
-            caseId: this.caseId,
-            date: data.date,
-            event: data.event,
-            grade: data.grade,
-            outcome: data.outcome,
-            dateResolved: data.outcome === AdverseEventOutcomeChoices.Resolved || data.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae ?  data.dateResolved : null,
-        }
-    }
-
-    private constructSuspectedCausePayloads(data: any): AdverseEventSuspectedCauseCreate {
-        return data.suspectedCauses.map((subformData: any) => {return {
-            id: subformData.id,
-            causality: subformData.causality,            
-            medicationId: subformData.cause.includes('Medication') ? subformData.cause : null,
-            radiotherapyId: subformData.cause.includes('Radiotherapy') ? subformData.cause : null,
-            surgeryId:  subformData.cause.includes('Surgery') ? subformData.cause : null,
-            systemicTherapyId:  subformData.cause.includes('SystemicTherapy-') ? subformData.cause : null,
-        }})
-    }
-
-
-    private constructMitigationsPayloads(data: any): AdverseEventMitigationCreate {
-        return data.mitigations.map((subformData: any) => {return {
-            id: subformData.id,
-            category: subformData.category,
-            adjustment: subformData.category === AdverseEventMitigationCategoryChoices.Adjustment ?  subformData.adjustment : null, 
-            drug: subformData.category === AdverseEventMitigationCategoryChoices.Pharmacological ? subformData.drug : null, 
-            procedure: subformData.category === AdverseEventMitigationCategoryChoices.Procedure ?  subformData.procedure : null, 
-            management: subformData.management, 
-        }})
-    }
-
     public addSuspectedCause() {
-        this.suspectedCausesFormArray.push(this.constructSuspectedCauseSubForm({} as AdverseEventSuspectedCause));
+        const suspectedCauses: FormArray = this.form.controls['suspectedCauses']
+        suspectedCauses.push(this.#suspectedCauseForm({} as AdverseEventSuspectedCause));
     }
 
     public addMitigation() {
-        this.mitigationsFormArray.push(this.constructMitigationSubform({} as AdverseEventMitigation));
+        const mitigations: FormArray = this.form.controls['mitigations']
+        mitigations.push(this.#mitigationForm({} as AdverseEventMitigation));
     }
 
     public removeSuspectedCause(index: number) {
-        const settingValue = this.suspectedCausesFormArray.value[index];
+        const suspectedCauses: FormArray = this.form.controls['suspectedCauses']
+        const settingValue = suspectedCauses.value[index];
         if (settingValue?.id) {
-            this.deletedSuspectedCauses.push(settingValue.id);
+            this.#deletedSuspectedCauses.push(settingValue.id);
         }
-        this.suspectedCausesFormArray.removeAt(index);
+        suspectedCauses.removeAt(index);
     }
 
     public removeMitigation(index: number) {
-        const settingValue = this.mitigationsFormArray.value[index];
+        const mitigations: FormArray = this.form.controls['mitigations']
+        const settingValue = mitigations.value[index];
         if (settingValue?.id) {
-            this.deletedMitigations.push(settingValue.id);
+            this.#deletedMitigations.push(settingValue.id);
         }
-        this.mitigationsFormArray.removeAt(index);
+        mitigations.removeAt(index);
     }
 
-    private getdeletedSuspectedCauses(): string[] {
-        return this.deletedSuspectedCauses;
+    getdeletedSuspectedCauses(): string[] {
+        return this.#deletedSuspectedCauses;
     }
 
-    private getdeletedMitigations(): string[] {
-        return this.deletedMitigations;
+    getdeletedMitigations(): string[] {
+        return this.#deletedMitigations;
     }
 
+
+        #suspectedSystemicTherapiesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSystemicTherapy(entry))?.map((entry) => entry.id))
+        #suspectedMedicationsIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSystemicTherapyMedication(entry))?.map((entry) => entry.id))
+        #suspectedSurgeriesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSurgery(entry))?.map((entry) => entry.id))
+        #suspectedRadiotherapiesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isRadiotherapy(entry))?.map((entry) => entry.id))
+        #isSystemicTherapy(obj: any): obj is SystemicTherapy {
+            return typeof obj === 'object' && obj !== null
+              && obj.hasOwnProperty('medications') && obj.hasOwnProperty('period');
+        }
+        #isSystemicTherapyMedication(obj: any): obj is SystemicTherapyMedication {
+            return typeof obj === 'object' && obj !== null
+            && obj.hasOwnProperty('drug') && obj.hasOwnProperty('route');
+        }
+        #isSurgery(obj: any): obj is Surgery {
+            return typeof obj === 'object' && obj !== null
+            && obj.hasOwnProperty('date') && obj.hasOwnProperty('procedure');
+        }
+        #isRadiotherapy(obj: any): obj is Radiotherapy {
+            return typeof obj === 'object' && obj !== null
+            && obj.hasOwnProperty('dosages') && obj.hasOwnProperty('settings');
+        }
+    
 
 }

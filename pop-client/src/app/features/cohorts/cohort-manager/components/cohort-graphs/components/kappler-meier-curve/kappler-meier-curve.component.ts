@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, ElementRef, inject, input, Input, viewChild, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
 import { KapplerMeierCurve } from 'src/app/shared/openapi';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
+import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 @Component({
     imports: [
@@ -12,49 +13,50 @@ import { Chart } from 'chart.js';
     ],
     selector: 'pop-kappler-meier-curve',
     template: `
-    <div class="chart-container" style="height: 30rem; width: 100%">
+    <div class="chart-container" style="height: {{height()}}; width: {{width()}}">
         <canvas #KapplerMeierCurve></canvas>
         @if (chart) {
-            <pop-cohort-graph-context-menu [target]="KapplerMeierCurve" [chart]="chart" [data]="survivalData"/>
+            <pop-cohort-graph-context-menu [target]="KapplerMeierCurve" [chart]="chart" [data]="data()"/>
         }
     </div>`
 })
 export class KapplerMeierCurveComponent {
 
-    constructor(private cdr: ChangeDetectorRef) { }
+    readonly #layoutService = inject(LayoutService);
 
-    @Input() survivalData!: KapplerMeierCurve;
+    public data = input.required<KapplerMeierCurve>()
+    public height = input<string>('30rem')
+    public width = input<string>('100%')
+    public legendPosition = input<"left" | "right" | "bottom" | "top" | "center" | "chartArea">('top')
 
-    @ViewChild('KapplerMeierCurve') private chartRef!: ElementRef<HTMLCanvasElement>;
+    public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('KapplerMeierCurve');
     public chart!: Chart;
 
-    ngAfterViewInit() {
-        if (this.chartRef) {
-            this.initChart();
-            this.cdr.detectChanges();
-        }
-    }
+    #initChart = effect(() => {
+        // React to changes in the overall theme settings
+        this.#layoutService.config.darkMode();
+        this.#layoutService.config.theme();
 
-
-
-    initChart() {
-        if (!this.survivalData) return;
+        if (!this.data()) return;
 
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--p-text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
-        const firstContactX = this.findFirstContactX(this.survivalData.months, this.survivalData.probabilities);
+        const firstContactX = this.findFirstContactX(this.data().months, this.data().probabilities);
 
-        this.chart = new Chart(this.chartRef.nativeElement, {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = new Chart(this.chartRef()!.nativeElement, {
             type: 'line',
             data: {
-                labels: this.survivalData.months,
+                labels: this.data().months,
                 datasets: [
                     {
                         label: 'Estimated Survival',
-                        data: this.survivalData.probabilities,
+                        data: this.data().probabilities,
                         stepped: true,
                         fill: false,
                         tension: 0,
@@ -64,7 +66,7 @@ export class KapplerMeierCurveComponent {
                     },
                     {
                         label: 'Confidence bands',
-                        data: this.survivalData.lowerConfidenceBand,
+                        data: this.data().lowerConfidenceBand,
                         stepped: true,
                         fill: '+1',
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-color-transparent'), // Adjust transparency for confidence bands
@@ -73,7 +75,7 @@ export class KapplerMeierCurveComponent {
                         tension: 0,
                     },
                     {
-                        data: this.survivalData.upperConfidenceBand,
+                        data: this.data().upperConfidenceBand,
                         stepped: true,
                         fill: false,
                         tension: 0,
@@ -142,7 +144,7 @@ export class KapplerMeierCurveComponent {
                 }
             }
         })
-    }
+    })
 
     private findFirstContactX(months: number[], probabilities: number[]) {
         let shiftedProbabilities = probabilities.map(p => Math.abs(p - 0.5));

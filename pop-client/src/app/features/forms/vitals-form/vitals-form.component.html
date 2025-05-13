@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="date" class="form-label">Date</label>
@@ -53,12 +53,11 @@
             <pop-form-control-error controlName="temperature"></pop-form-control-error>
         </div>
 
-
         <p-button 
             type="submit" 
             label="Save" 
             styleClass="w-full p-3 mt-2"  
-            [loading]="loading"
+            [loading]="isSaving()"
             [disabled]="form.invalid" />
             
     </form>

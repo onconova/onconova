@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule, formatDate} from '@angular/common';
 import { DatePicker, DatePickerTypeView} from 'primeng/datepicker';
@@ -10,12 +10,12 @@ import { DateMaskDirective } from '../../directives/date-mask-directive';
     template: `
         <p-datepicker 
             [formControl]="formControl"
-            [view]="view"
+            [view]="view()"
             [showIcon]="true"
             [showOnFocus]="false"
-            [dateFormat]="dateFormat" 
-            [placeholder]="placeholder" 
-            [selectionMode]="selectionMode"
+            [dateFormat]="dateFormat()" 
+            [placeholder]="placeholder()" 
+            [selectionMode]="selectionMode()"
             [minDate]="minDate"
             [maxDate]="maxDate"
             dataType="string"
@@ -41,16 +41,16 @@ import { DateMaskDirective } from '../../directives/date-mask-directive';
 export class DatePickerComponent implements ControlValueAccessor {
     
     // Input properties to customize the date picker behavior
-    @Input() dateFormat: string = 'dd/mm/yy';
-    @Input() placeholder: string = 'DD/MM/YYYY';
-    @Input() selectionMode: "single" | "multiple" | "range" | undefined = 'single';
-    @Input() view: DatePickerTypeView = 'date';
+    public dateFormat = input<string>('dd/mm/yy');
+    public placeholder = input<string>('DD/MM/YYYY');
+    public selectionMode = input<"single" | "multiple" | "range" | undefined>('single');
+    public view = input<DatePickerTypeView>('date');
 
     public readonly minDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() - 200));
     public readonly maxDate: Date = new Date();
-    public formControl: FormControl = new FormControl();
     
     // Functions to call when form control's value changes or is touched
+    public formControl: FormControl = new FormControl();
     private onChange: (value: any) => void = () => {};
     private onTouched: () => void = () => {};
 
@@ -81,7 +81,7 @@ export class DatePickerComponent implements ControlValueAccessor {
                 return;
             }
 
-            if (this.selectionMode === 'range') {
+            if (this.selectionMode() === 'range') {
                 // Convert user-friendly format -> ISO for range
                 const dates = val.includes(' - ') ? val.split(' - ') : val;
                 if (dates.length === 2) {
@@ -110,15 +110,13 @@ export class DatePickerComponent implements ControlValueAccessor {
 
     formatDateToDisplayFormat(date: Date): string {
         // The dateFormat string must be reformated to the formatDate() data nomenclature
-        return formatDate(date, this.dateFormat.replaceAll('m','M').replace('yy','yyyy'), 'en-US')
+        return formatDate(date, this.dateFormat().replaceAll('m','M').replace('yy','yyyy'), 'en-US')
     }
 
     // Helper function to parse a date string into ISO format
     parseToISO(dateStr: string): string {
-        let day; 
-        let month;
-        let year;
-        switch (this.dateFormat) {
+        let day, month, year;
+        switch (this.dateFormat()) {
             case 'dd/mm/yy':
                 [day, month, year] = dateStr.split('/');
                 return `${year}-${month}-${day}`;

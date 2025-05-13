@@ -1,11 +1,9 @@
-import { Component, inject, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, computed, effect, inject, input,signal,ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Observable,map } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { TestTubeDiagonal } from 'lucide-angular';
+import { map } from 'rxjs';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
@@ -14,7 +12,6 @@ import { Tooltip } from 'primeng/tooltip';
 import { RadioButton } from 'primeng/radiobutton';
 
 import { 
-  NeoplasticEntity, 
   NeoplasticEntitiesService, 
   TumorMarkerCreate,
   TumorMarkersService,
@@ -26,6 +23,8 @@ import {
   TumorMarkerNuclearExpressionStatusChoices,
   TerminologyService,
   CodedConcept,
+  TumorMarker,
+  Measure,
 } from '../../../shared/openapi'
 
 import { 
@@ -38,6 +37,19 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+
+const valueTypeMap = {
+  immuneCellScore: AnalyteResultType.ImmuneCellsScore,
+  tumorProportionScore: AnalyteResultType.TumorProportionScore,
+  combinedPositiveScore: AnalyteResultType.CombinedPositiveScore,
+  massConcentration: AnalyteResultType.MassConcentration,
+  substanceConcentration: AnalyteResultType.SubstanceConcentration,
+  arbitraryConcentration: AnalyteResultType.ArbitraryConcentration,
+  fraction: AnalyteResultType.Fraction,
+  immunohistochemicalScore: AnalyteResultType.ImmunoHistoChemicalScore,
+  presence: AnalyteResultType.Presence,
+  nuclearExpressionStatus: AnalyteResultType.NuclearExpressionStatus,
+};
 
 @Component({
     selector: 'tumor-marker-form',
@@ -60,24 +72,98 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         FormControlErrorComponent,
     ]
 })
-export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit {
+export class TumorMarkerFormComponent extends AbstractFormBase {
 
-  private readonly tumorMarkersService: TumorMarkersService = inject(TumorMarkersService)
-  private readonly neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService)
-  private readonly terminologyService: TerminologyService = inject(TerminologyService)
-  public readonly formBuilder = inject(FormBuilder)
+  // Input signal for initial data passed to the form
+  initialData = input<TumorMarker>();
 
-  public readonly createService = (payload: TumorMarkerCreate) => this.tumorMarkersService.createTumorMarker({tumorMarkerCreate: payload})
-  public readonly updateService = (id: string, payload: TumorMarkerCreate) => this.tumorMarkersService.updateTumorMarkerById({tumorMarkerId: id, tumorMarkerCreate: payload})
+  // Service injections
+  readonly #tumorMarkersService: TumorMarkersService = inject(TumorMarkersService);
+  readonly #neoplasticEntitiesService: NeoplasticEntitiesService = inject(NeoplasticEntitiesService);
+  readonly #terminologyService: TerminologyService = inject(TerminologyService);
+  readonly #fb = inject(FormBuilder);
 
-  public readonly title: string = 'Tumor Marker'
-  public readonly subtitle: string = 'Add new tumor marker'
-  public readonly icon = TestTubeDiagonal;
+  // Create and update service methods for the form data
+  public readonly createService = (payload: TumorMarkerCreate) => this.#tumorMarkersService.createTumorMarker({tumorMarkerCreate: payload})
+  public readonly updateService = (id: string, payload: TumorMarkerCreate) => this.#tumorMarkersService.updateTumorMarkerById({tumorMarkerId: id, tumorMarkerCreate: payload})
 
+
+  // Define the form
+  public form = this.#fb.group({
+    date: this.#fb.control<string | null>(null, Validators.required),
+    stagedEntities: this.#fb.control<string[]>([], Validators.required),
+    analyte: this.#fb.control<CodedConcept | null>(null, Validators.required),
+    valueType: this.#fb.control<string | null>('', Validators.required),
+    massConcentration: this.#fb.control<Measure | null>(null),
+    substanceConcentration: this.#fb.control<Measure | null>(null),
+    arbitraryConcentration: this.#fb.control<Measure | null>(null),
+    fraction: this.#fb.control<Measure | null>(null),
+    immunoHistoChemicalScore: this.#fb.control<TumorMarkerImmunohistochemicalScoreChoices | null>(null),
+    presence: this.#fb.control<TumorMarkerPresenceChoices | null>(null),
+    nuclearExpressionStatus: this.#fb.control<TumorMarkerNuclearExpressionStatusChoices | null>(null),
+    immuneCellScore: this.#fb.control<TumorMarkerImmuneCellScoreChoices | null>(null),
+    tumorProportionScore: this.#fb.control<TumorMarkerTumorProportionScoreChoices | null>(null),
+    combinedPositiveScore: this.#fb.control<Measure | null>(null),
+  });
+  
+  // Effect to update the form when the initial data passed
+  readonly #onInitialDataChangeEffect = effect((): void => {
+    const data = this.initialData();
+    console.log('VALUETYPE',Object.entries(valueTypeMap).filter(([key, value]) => (this.initialData() as TumorMarker)[key as keyof TumorMarker]).map(([key, value]) => value)[0])
+    if (!data) return;  
+    this.form.patchValue({
+      date: data.date ?? null,
+      stagedEntities: data.relatedEntitiesIds ?? [],
+      analyte: data.analyte ?? null,
+      massConcentration: data.massConcentration ?? null,
+      substanceConcentration: data.substanceConcentration ?? null,
+      arbitraryConcentration: data.arbitraryConcentration ?? null,
+      fraction: data.fraction ?? null,
+      immunoHistoChemicalScore: data.immunohistochemicalScore ?? null,
+      presence: data.presence ?? null,
+      nuclearExpressionStatus: data.nuclearExpressionStatus ?? null,
+      immuneCellScore: data.immuneCellScore ?? null,
+      tumorProportionScore: data.tumorProportionScore ?? null,
+      combinedPositiveScore: data.combinedPositiveScore ?? null,
+      valueType: this.initialData() ? Object.entries(valueTypeMap).filter(([key, value]) => (this.initialData() as TumorMarker)[key as keyof TumorMarker]).map(([key, value]) => value)[0] : null,
+    });
+  });
+
+  // API Payload construction function
+  readonly payload = (): TumorMarkerCreate => {    
+    const data = this.form.value;
+    return {
+      caseId: this.caseId(),
+      relatedEntitiesIds: data.stagedEntities!,
+      date: data.date!,
+      analyte: data.analyte!,
+      massConcentration: data.valueType==AnalyteResultType.MassConcentration ? data.massConcentration : null,
+      substanceConcentration: data.valueType==AnalyteResultType.SubstanceConcentration ? data.substanceConcentration : null,
+      arbitraryConcentration: data.valueType==AnalyteResultType.ArbitraryConcentration ? data.arbitraryConcentration : null,
+      fraction: data.valueType==AnalyteResultType.Fraction ? data.fraction : null,
+      immunohistochemicalScore: data.valueType==AnalyteResultType.ImmunoHistoChemicalScore ? data.immunoHistoChemicalScore : null,
+      presence: data.valueType==AnalyteResultType.Presence ? data.presence : null,
+      nuclearExpressionStatus: data.valueType==AnalyteResultType.NuclearExpressionStatus ? data.nuclearExpressionStatus : null,
+      immuneCellScore: data.valueType==AnalyteResultType.ImmuneCellsScore ? data.immuneCellScore : null,
+      tumorProportionScore: data.valueType==AnalyteResultType.TumorProportionScore ? data.tumorProportionScore : null,
+      combinedPositiveScore: data.valueType==AnalyteResultType.CombinedPositiveScore ? data.combinedPositiveScore : null,
+    };
+  }
+
+  // All analytes supported by the platform
+  public analytes = rxResource({
+    request: () => ({terminologyName: 'TumorMarkerAnalyte'}),
+    loader: ({request}) => this.#terminologyService.getTerminologyConcepts(request).pipe(map(response => response.items)),
+  }) 
+
+  // All neoplastic entities related to this patient case
+  public relatedEntities = rxResource({
+    request: () => ({caseId: this.caseId()}),
+    loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(response => response.items)),
+  }) 
+
+  // Human readable choices for UI elements
   public readonly analyteResultTypes = AnalyteResultType;
-  public readonly analytes$: Observable<CodedConcept[]> = this.terminologyService.getTerminologyConcepts({terminologyName: 'TumorMarkerAnalyte'}).pipe(
-    map((data) => data.items || [])
-  );
   public readonly analyteResultTypeChoices: RadioChoice[] = [
     { name: 'Mass Concentration', value: AnalyteResultType.MassConcentration }, 
     { name: 'Substance Concentration', value: AnalyteResultType.SubstanceConcentration }, 
@@ -121,115 +207,27 @@ export class TumorMarkerFormComponent extends AbstractFormBase implements OnInit
     { name: 'TC3', value: TumorMarkerTumorProportionScoreChoices.Tc3 }
   ]
 
-  private caseId!: string;
-  public initialData: TumorMarkerCreate | any = {};
-  public relatedEntities: NeoplasticEntity[] = []; 
-  public resultsType: string[] = [];
-
-
-  ngOnInit() {
-    // Construct the form 
-    this.constructForm()
-    // Fetch any primary neoplastic entities that could be related to a new entry 
-    this.getRelatedEntities()
-
-    this.form.get('valueType')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(valueType => {
-      this.onValueTypeChange(valueType);
-    })
-    this.form.get('analyte')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(analyte => {
-      this.onAnalyteChange(analyte)
-    })
-    this.onAnalyteChange(this.form.get('analyte')?.value)
-    if (this.form.get('immuneCellScore')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.ImmuneCellsScore)
-    } else if (this.form.get('tumorProportionScore')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.TumorProportionScore)
-    } else if (this.form.get('combinedPositiveScore')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.CombinedPositiveScore)
-    } else if (this.form.get('massConcentration')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.MassConcentration)
-    } else if (this.form.get('substanceConcentration')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.SubstanceConcentration)
-    } else if (this.form.get('arbitraryConcentration')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.ArbitraryConcentration)
-    } else if (this.form.get('fraction')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.Fraction)
-    } else if (this.form.get('immunoHistoChemicalScore')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.ImmunoHistoChemicalScore)
-    } else if (this.form.get('presence')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.Presence)
-    } else if (this.form.get('nuclearExpressionStatus')?.value) {
-      this.form.get('valueType')?.setValue(AnalyteResultType.NuclearExpressionStatus)
-    } 
-    this.onValueTypeChange(this.form.get('valueType')?.value);
-
-  }
-
-  constructForm(): void {
-    this.form = this.formBuilder.group({
-        date: [this.initialData?.date, Validators.required],
-        stagedEntities: [this.initialData?.relatedEntitiesIds, Validators.required],
-        analyte: [this.initialData?.analyte,Validators.required],
-        valueType: ['',Validators.required],
-        massConcentration: [this.initialData?.massConcentration],
-        substanceConcentration: [this.initialData?.substanceConcentration],
-        arbitraryConcentration: [this.initialData?.arbitraryConcentration],
-        fraction: [this.initialData?.fraction],
-        immunoHistoChemicalScore: [this.initialData?.immunoHistoChemicalScore],
-        presence: [this.initialData?.presence],
-        nuclearExpressionStatus: [this.initialData?.nuclearExpressionStatus],
-        immuneCellScore: [this.initialData?.immuneCellScore],
-        tumorProportionScore: [this.initialData?.tumorProportionScore],
-        combinedPositiveScore: [this.initialData?.combinedPositiveScore],
-    });
-  }
+  public allowedResultTypes = signal([] as string[]);
   
-
-  constructAPIPayload(data: any): TumorMarkerCreate {    
-    return {
-      caseId: this.caseId,
-      relatedEntitiesIds: data.stagedEntities,
-      date: data.date,
-      analyte: data.analyte,
-      massConcentration: data.valueType==AnalyteResultType.MassConcentration ? data.massConcentration : null,
-      substanceConcentration: data.valueType==AnalyteResultType.SubstanceConcentration ? data.substanceConcentration : null,
-      arbitraryConcentration: data.valueType==AnalyteResultType.ArbitraryConcentration ? data.arbitraryConcentration : null,
-      fraction: data.valueType==AnalyteResultType.Fraction ? data.fraction : null,
-      immunohistochemicalScore: data.valueType==AnalyteResultType.ImmunoHistoChemicalScore ? data.immunohistochemicalScore : null,
-      presence: data.valueType==AnalyteResultType.Presence ? data.presence : null,
-      nuclearExpressionStatus: data.valueType==AnalyteResultType.NuclearExpressionStatus ? data.nuclearExpressionStatus : null,
-      immuneCellScore: data.valueType==AnalyteResultType.ImmuneCellsScore ? data.immuneCellScore : null,
-      tumorProportionScore: data.valueType==AnalyteResultType.TumorProportionScore ? data.tumorProportionScore : null,
-      combinedPositiveScore: data.valueType==AnalyteResultType.CombinedPositiveScore ? data.combinedPositiveScore : null,
-    };
-  }
-
-  private getRelatedEntities(): void {
-    this.neoplasticEntitiesService.getNeoplasticEntities({caseId:this.caseId})
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(
-      (response) => {
-          this.relatedEntities = response.items
-      }
-    )
-  }
-
-  private onAnalyteChange(analyte: any) {
-    {
-      if (analyte) {
-        this.resultsType = analyte.properties.valueTypes;
-        if (this.resultsType.length == 1){
-          this.form.get('valueType')?.setValue(this.resultsType[0])
-        } else {
-          this.form.get('valueType')?.setValue(null)
-        }
-      } else {
-        this.resultsType = []
-      }
+  #currentAnalyte = toSignal(this.form.controls['analyte'].valueChanges);
+  #currentValueType = toSignal(this.form.controls['valueType'].valueChanges);
+  #onValueTypeChangeEffect = effect(() => this.updateValidators(this.#currentValueType()))
+  #onAnalyteChangeEffect = effect(() => {
+    console.log('CURRENT ANALYTE', this.#currentAnalyte())
+    this.allowedResultTypes.set(this.#currentAnalyte()? this.#currentAnalyte()!.properties!['valueTypes'] : []);    
+  })
+  #setSingleValueTypeEffect = effect(() => {
+    if (this.allowedResultTypes().length == 1){
+      this.form.get('valueType')?.setValue(this.allowedResultTypes()[0])
+    } else if (!this.allowedResultTypes().includes(this.form.get('valueType')?.value || '')) {
+      this.form.get('valueType')?.setValue(null)
     }
-  }
+  })
 
-  private onValueTypeChange(valueType: string): void {
+  private updateValidators(valueType: string | null | undefined): void {
+    if (!valueType) {
+      return;
+    }
     const massConcentrationControl = this.form.get('massConcentration');
     const arbitraryConcentrationControl = this.form.get('arbitraryConcentration');
     const substanceConcentrationControl = this.form.get('substanceConcentration');

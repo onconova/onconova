@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()" >
+    <form  [formGroup]="form()" (ngSubmit)="submitFormData()" >
 
         <div class="field">
             <label class="form-label required">Cohort title</label>
@@ -20,8 +20,8 @@
             type="submit" 
             label="Save" 
             styleClass="w-full p-3 mt-2"  
-            [loading]="loading"
-            [disabled]="form.invalid" />
+            [loading]="isSaving()"
+            [disabled]="form().invalid" />
 
     </form>
 </p-fluid>  

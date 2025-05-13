@@ -1,439 +1,439 @@
-@let case = case$ | async;
 
-<div class="mb-3">
-    <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
-    <div class="flex gap-3" style="float: right;">
+@if (case$.error()) {
+    {{ pseudoidentifier()}} does not exist
+} @else { 
+    <div class="mb-3">
+        <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
         <p-button
             label="Export case"
-            [disabled]="!authService.user.canExportData"
-            [icon]="authService.user.canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
+            [style]="{'float': 'right'}"
+            [disabled]="!currentUser().canExportData"
+            [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
             [loading]="exportLoading"
-            (click)="downloadCaseBundle(case?.id || '')"/>
-        <ng-container *ngTemplateOutlet="additionalCaseActionButtons"></ng-container>
+            (click)="downloadCaseBundle(case$.value()?.id || '')"/>
+        <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
     </div>
-</div>
-
-<!-- Case summary -->
-<div class="case-manager-header card">
-    <pop-identicon [value]="pseudoidentifier" class="m-auto"/>
-    <div class="ml-3 my-auto">
-        <small class="text-muted">Patient case</small>
-        <h2 class="text-monospace my-0">
-            {{ pseudoidentifier }}
-        </h2>
-        <div>
-            @if (case) {
-                <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : 'pi pi-venus'"></i> {{ case.gender.display }}, 
-                {{ case.age }} years@if(case.isDeceased){, †}
-            } @else {
-                <p-skeleton width="7rem" height="1.2rem" />
-            }
-        </div>    
-    </div>
-    <p-divider layout="vertical"></p-divider>
-    <div class="">
-        @let primaryEntity = primaryEntity$ | async;
-        @if (case) {
-            <div class="flex">
-                @if (primaryEntity) {
-                <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+    
+    <!-- Case summary -->
+    <div class="case-manager-header card">
+        <pop-identicon [value]="pseudoidentifier()" class="m-auto"/>
+        <div class="ml-3 my-auto">
+            <small class="text-muted">Patient case</small>
+            <h2 class="text-monospace my-0">
+                {{ pseudoidentifier() }}
+            </h2>
+            <div>
+                @if (case$.value(); as case) {
+                    <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : 'pi pi-venus'"></i> {{ case.gender.display }}, 
+                    {{ case.age }} years@if(case.isDeceased){, †}
+                } @else {
+                    <p-skeleton width="7rem" height="1.2rem" />
                 }
+            </div>    
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="">
+            @if (case$.value(); as case) {
+                <div class="flex">
+                    @if (primaryEntity$.value(); as primaryEntity) {
+                        <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+                    }
+                    <div>
+                        <small class="text-muted">Primary site</small>
+                        @if (primaryEntity$.isLoading()) {
+                            <p-skeleton width="12rem" height="1.5rem" />
+                        } @else {
+                            <div>
+                                @if (primaryEntity$.value(); as primaryEntity) {
+                                    {{ primaryEntity.topography.display }}
+                                } @else {
+                                    -
+                                }
+                            </div>
+                        }  
+                    </div>
+                </div>
+                <small class="text-muted">Morphology</small>
+                @if (primaryEntity$.isLoading()) {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }  @else {
+                    <div>
+                        @if (primaryEntity$.value(); as primaryEntity) {
+                            {{ primaryEntity.morphology.display }}
+                        } @else {
+                            -
+                        }
+                    </div>
+                }  
+            } 
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="">
+            <div class="text-left">
+                <small class="text-muted">Latest staging</small>
                 <div>
-                    <small class="text-muted">Primary site</small>
-                    @if (primaryEntity !== undefined) {
-                        <div>
-                            @if (primaryEntity) {
-                                {{ primaryEntity.topography.display }}
-                            } @else {
-                                -
-                            }
-                        </div>
+                    @if (case$.value(); as case) {
+                        @if (latestStaging$.value(); as latestStaging) {
+                            {{ latestStaging.description }}
+                        } @else {
+                            -
+                        }
                     } @else {
                         <p-skeleton width="12rem" height="1.5rem" />
-                    }  
-                </div>
-            </div>
-            <small class="text-muted">Morphology</small>
-            @if (primaryEntity !== undefined) {
-                <div>
-                    @if (primaryEntity) {
-                        {{ primaryEntity.morphology.display }}
-                    } @else {
-                        -
-                    }
-                </div>
-            }  @else {
-                <p-skeleton width="12rem" height="1.5rem" />
-            }  
-        } 
-    </div>
-    <p-divider layout="vertical"></p-divider>
-    <div class="">
-        <div class="text-left">
-            <small class="text-muted">Latest staging</small>
-            <div>
-                @let latestStaging = latestStaging$ | async;
-                @if (case) {
-                    @if (latestStaging) {
-                        {{ latestStaging.description }}
-                    } @else {
-                        -
-                    }
-                } @else {
-                    <p-skeleton width="12rem" height="1.5rem" />
-                }      
-            </div>
-        </div> 
-
-        <div class="text-left mt-1">
-            <small class="text-muted">Age at diagnosis</small>
-            <div>
-                @if (case) {
-                    @if (case.overallSurvival !== null) {
-                        {{ case.ageAtDiagnosis | number:'1.0-0' }} years
-                    } @else {
-                        -
-                    }
-                } @else {
-                    <p-skeleton width="12rem" height="1.5rem" />
-                }      
-            </div>
-        </div> 
-    </div>
-    <p-divider layout="vertical"></p-divider>
-    <div class="">
-        <div class="text-left">
-            <small class="text-muted">Overall survival</small>
-            <div>
-                @if (case) {
-                    @if (case.overallSurvival !== null) {
-                        {{ case.overallSurvival | number:'1.0-0' }} months
-                    } @else {
-                        -
-                    }
-                } @else {
-                    <p-skeleton width="12rem" height="1.5rem" />
-                }      
-            </div>
-        </div> 
-
-        <div class="text-left mt-1">
-            <small class="text-muted">Cause of death</small>
-            <div>
-                @if (case) {
-                    {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
-                } @else {
-                    <p-skeleton width="12rem" height="1.5rem" />
-                }      
-            </div>
-        </div> 
-    </div>
-    <p-divider layout="vertical"></p-divider>
-    <div class="">
-        <div class="text-left">
-            <small class="text-muted">Clinical center</small>
-            <div>
-                @if (case) {
-                    {{ case.clinicalCenter }}      
-                } @else {
-                    <p-skeleton width="12rem" height="1.5rem" />
-                }
-            </div>
-        </div> 
-
-        <div class="text-left mt-1">
-            <small class="text-muted">Clinical Identifier</small>
-            <div>
-                @if (case) {
-                    @if (authService.user.canAccessSensitiveData) {
-                        {{ case.clinicalIdentifier}}
-                    } @else {
-                        <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
-                    }
-                } @else {
-                    <p-skeleton width="12rem" height="1.5rem" />
-                }
-            </div>
-        </div> 
-    </div>
-    <p-divider layout="vertical"></p-divider>
-    <div class="text-center">
-        <small class="text-muted">Completion</small>
-        @if (case) {
-            <p-knob [ngModel]="totalCompletion | number:'1.0-0'" 
-                    styleClass="mt-2"
-                    [readonly]="true" 
-                    valueTemplate="{value}%"
-                    [size]="55"/>
-        } @else {
-            <p-skeleton width="5rem" height="5rem" />     
-        }
-    </div>
-    <p-divider layout="vertical"></p-divider>
-    <div class="">
-        <div class=flex>
-            @if (case) {
-                @if (case.createdBy) {
-                    <pop-user-badge [username]="case.createdBy" class="my-auto mr-2"/>
-                }
-            } @else {
-                <p-skeleton width="4rem" height="4rem" />                    
-            }
-            <div class="text-left">
-                <small class="text-muted">Registration</small>
-                <div>
-                    @if (case) {
-                        {{ case.createdAt | date }}
-                    } @else {
-                        <p-skeleton width="7rem" height="1.5rem" />                    
-                    }
+                    }      
                 </div>
             </div> 
-        </div>
-
-        <div class=flex>
-            @if (case) {
-                @if (case.updatedBy) {
-                    @if (case.updatedBy[case.updatedBy.length-1]; as lastUpdatedBy) {
-                        <pop-user-badge [username]="lastUpdatedBy" class="my-auto mr-2"/>
-                    }
-                }
-            } @else {
-                <p-skeleton width="4rem" height="4rem" />                    
-                }
+    
             <div class="text-left mt-1">
-                <small class="text-muted">Last updated</small>
+                <small class="text-muted">Age at diagnosis</small>
                 <div>
-                    @if (case) {
-                        {{ case.updatedAt | date }}
+                    @if (case$.value(); as case) {
+                        @if (case.overallSurvival !== null) {
+                            {{ case.ageAtDiagnosis | number:'1.0-0' }} years
+                        } @else {
+                            -
+                        }
                     } @else {
-                        <p-skeleton width="7rem" height="1.5rem"/>
+                        <p-skeleton width="12rem" height="1.5rem" />
                     }      
                 </div>
             </div> 
         </div>
-    </div>
-</div>
-
-<!-- Case content -->
-@if (case) {
-    <div class="grid"> 
-        <div class="col-12 md:col-6 lg:col-4">
-
-            <p-fieldset legend="Cancer Characterization" class="pop-case-manager-group-panel">
-
-                <pop-case-manager-panel
-                    title="Neoplastic Entities"
-                    [icon]="icons.neoplasticEntities"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="NeoplasticEntityFormComponent"
-                    [service]="neoplasticEntityService"
-                    [category]="PatientCaseDataCategories.NeoplasticEntities"/>
-                    
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Stagings"
-                    [icon]="icons.stagings"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="StagingFormComponent"
-                    [service]="stagingService"
-                    [category]="PatientCaseDataCategories.Stagings"/>
-
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Risk Assessments"
-                    [icon]="icons.riskAssessments"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="RiskAssessmentFormComponent"
-                    [service]="riskAssessmentService"
-                    [category]="PatientCaseDataCategories.RiskAssessments"/>
-
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Tumor Markers"
-                    [icon]="icons.tumorMarkers"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="TumorMarkerFormComponent"
-                    [service]="tumorMarkerService"
-                    [category]="PatientCaseDataCategories.TumorMarkers"/>
-
-            </p-fieldset>
-
-
-            <p-fieldset legend="Genomics" class="pop-case-manager-group-panel">
-
-                <pop-case-manager-panel
-                    title="Genomic Variants"
-                    [icon]="icons.genomicVariants"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="GenomicVariantFormComponent"
-                    [service]="genomicVariantService"
-                    [category]="PatientCaseDataCategories.GenomicVariants"/>
-
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Genomic Signatures"
-                    [icon]="icons.genomicSignatures"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="GenomicSignatureFormComponent"
-                    [service]="genomicSignatureService"
-                    [category]="PatientCaseDataCategories.GenomicSignatures"/>
-
-            </p-fieldset>
+        <p-divider layout="vertical"></p-divider>
+        <div class="">
+            <div class="text-left">
+                <small class="text-muted">Overall survival</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        @if (case.overallSurvival !== null) {
+                            {{ case.overallSurvival | number:'1.0-0' }} months
+                        } @else {
+                            -
+                        }
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }      
+                </div>
+            </div> 
+    
+            <div class="text-left mt-1">
+                <small class="text-muted">Cause of death</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }      
+                </div>
+            </div> 
         </div>
-
-
-        <div class="col-12 md:col-6 lg:col-4 px-3">
-
-            <p-fieldset legend="Therapy" class="pop-case-manager-group-panel">
-
-                <pop-case-manager-panel
-                    title="Systemic Treatments"
-                    [icon]="icons.systemicTherapies"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="SystemicTherapyFormComponent"
-                    [service]="systemicTherapyService"
-                    [category]="PatientCaseDataCategories.SystemicTherapies"/>
-                    
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Surgical Procedures"
-                    [icon]="icons.surgeries"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="SurgeryFormComponent"
-                    [service]="surgeryService"
-                    [category]="PatientCaseDataCategories.Surgeries"/>
-
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Radiotherapies"
-                    [icon]="icons.radiotherapies"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="RadiotherapyFormComponent"
-                    [service]="radiotherapyService"
-                    [category]="PatientCaseDataCategories.Radiotherapies"/>
-            </p-fieldset>
-
-
-            <p-fieldset legend="Profile" class="pop-case-manager-group-panel">
-                <pop-case-manager-panel
-                    title="Lifestyle"
-                    [icon]="icons.lifestyle"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="LifestyleFormComponent"
-                    [service]="lifestyleService"
-                    [category]="PatientCaseDataCategories.Lifestyles"/>
-                    
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Familiy History"
-                    [icon]="icons.familyHistory"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="FamilyHistoryFormComponent"
-                    [service]="familyHistoryService"
-                    [category]="PatientCaseDataCategories.FamilyHistories"/>
-                
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Comorbidities"
-                    [icon]="icons.comorbidities"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="ComorbiditiesAssessmentFormComponent"
-                    [service]="comorbiditiesAssessmentService"
-                    [category]="PatientCaseDataCategories.ComorbiditiesAssessments"/>
-
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Vitals"
-                    [icon]="icons.vitals"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="VitalsFormComponent"
-                    [service]="vitalsService"
-                    [category]="PatientCaseDataCategories.Vitals"/> 
-            </p-fieldset>
+        <p-divider layout="vertical"></p-divider>
+        <div class="">
+            <div class="text-left">
+                <small class="text-muted">Clinical center</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        {{ case.clinicalCenter }}      
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }
+                </div>
+            </div> 
+    
+            <div class="text-left mt-1">
+                <small class="text-muted">Clinical Identifier</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        @if (currentUser().canAccessSensitiveData) {
+                            {{ case.clinicalIdentifier}}
+                        } @else {
+                            <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
+                        }
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }
+                </div>
+            </div> 
         </div>
-
-
-        <div class="col-12 md:col-6 lg:col-4">
- 
-            <p-fieldset legend="Clinical Observations"  class="pop-case-manager-group-panel">
-
-                <pop-case-manager-panel
-                    title="Tumor Boards"
-                    [icon]="icons.tumorBoards"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [category]="PatientCaseDataCategories.TumorBoardReviews"
-                    [formComponent]="TumorBoardFormComponent"
-                    [service]="tumorBoardService"/>
-
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Adverse Events"
-                    [icon]="icons.adverseEvents"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [category]="PatientCaseDataCategories.AdverseEvents"
-                    [formComponent]="AdverseEventFormComponent"
-                    [service]="adverseEventService"/>
-                
-                <p-divider></p-divider>
-
-                <pop-case-manager-panel
-                    title="Treatment Responses"
-                    [icon]="icons.treatmentResponses"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [category]="PatientCaseDataCategories.TherapyResponses"
-                    [formComponent]="TreatmentResponseFormComponent"
-                    [service]="treatmentResponseService"/>
-                
-                <p-divider></p-divider>
-                
-                <pop-case-manager-panel
-                    title="Performance Status"
-                    [icon]="icons.performanceStatus"
-                    [caseId]="case.id"
-                    (onCompletionChange)="updateCompletion($event)"
-                    [formComponent]="PerformanceStatusFormComponent"
-                    [service]="performanceStatusService"
-                    [category]="PatientCaseDataCategories.PerformanceStatus"/>
-            </p-fieldset>
+        <p-divider layout="vertical"></p-divider>
+        <div class="text-center">
+            <small class="text-muted">Completion</small>
+            @if (case$.value(); as case) {
+                <p-knob [ngModel]="totalCompletion | number:'1.0-0'" 
+                        styleClass="mt-2"
+                        [readonly]="true" 
+                        valueTemplate="{value}%"
+                        [size]="55"/>
+            } @else {
+                <p-skeleton width="5rem" height="5rem" />     
+            }
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="">
+            <div class=flex>
+                @if (case$.value(); as case) {
+                    @if (case.createdBy) {
+                        <pop-user-badge [username]="case.createdBy" class="my-auto mr-2"/>
+                    }
+                } @else {
+                    <p-skeleton width="4rem" height="4rem" />                    
+                }
+                <div class="text-left">
+                    <small class="text-muted">Registration</small>
+                    <div>
+                        @if (case$.value(); as case) {
+                            {{ case.createdAt | date }}
+                        } @else {
+                            <p-skeleton width="7rem" height="1.5rem" />                    
+                        }
+                    </div>
+                </div> 
+            </div>
+    
+            <div class=flex>
+                @if (case$.value(); as case) {
+                    @if (case.updatedBy) {
+                        @if (case.updatedBy[case.updatedBy.length-1]; as lastUpdatedBy) {
+                            <pop-user-badge [username]="lastUpdatedBy" class="my-auto mr-2"/>
+                        }
+                    }
+                } @else {
+                    <p-skeleton width="4rem" height="4rem" />                    
+                    }
+                <div class="text-left mt-1">
+                    <small class="text-muted">Last updated</small>
+                    <div>
+                        @if (case$.value(); as case) {
+                            {{ case.updatedAt | date }}
+                        } @else {
+                            <p-skeleton width="7rem" height="1.5rem"/>
+                        }      
+                    </div>
+                </div> 
+            </div>
         </div>
     </div>
-} @else {
-    <div class="grid">
-        @for (n of [].constructor(6); track $index) {
+    
+    <!-- Case content -->
+    @if (case$.value(); as case) {
+        <div class="grid"> 
             <div class="col-12 md:col-6 lg:col-4">
-                <p-skeleton width="10rem" height="2rem" styleClass="mt-4" />
-                <p-skeleton height="5rem" styleClass="mt-3"/>
-                <p-skeleton height="5rem" styleClass="mt-3"/>
-                <p-skeleton height="5rem" styleClass="mt-3"/>
-                <p-skeleton height="5rem" styleClass="mt-3"/>
-            </div>            
-        }
-    </div>
+    
+                <p-fieldset legend="Cancer Characterization" class="pop-case-manager-group-panel">
+    
+                    <pop-case-manager-panel
+                        title="Neoplastic Entities"
+                        [icon]="icons.neoplasticEntities"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="NeoplasticEntityFormComponent"
+                        [service]="neoplasticEntityService"
+                        [category]="PatientCaseDataCategories.NeoplasticEntities"/>
+                        
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Stagings"
+                        [icon]="icons.stagings"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="StagingFormComponent"
+                        [service]="stagingService"
+                        [category]="PatientCaseDataCategories.Stagings"/>
+    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Risk Assessments"
+                        [icon]="icons.riskAssessments"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="RiskAssessmentFormComponent"
+                        [service]="riskAssessmentService"
+                        [category]="PatientCaseDataCategories.RiskAssessments"/>
+    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Tumor Markers"
+                        [icon]="icons.tumorMarkers"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="TumorMarkerFormComponent"
+                        [service]="tumorMarkerService"
+                        [category]="PatientCaseDataCategories.TumorMarkers"/>
+    
+                </p-fieldset>
+    
+    
+                <p-fieldset legend="Genomics" class="pop-case-manager-group-panel">
+    
+                    <pop-case-manager-panel
+                        title="Genomic Variants"
+                        [icon]="icons.genomicVariants"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="GenomicVariantFormComponent"
+                        [service]="genomicVariantService"
+                        [category]="PatientCaseDataCategories.GenomicVariants"/>
+    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Genomic Signatures"
+                        [icon]="icons.genomicSignatures"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="GenomicSignatureFormComponent"
+                        [service]="genomicSignatureService"
+                        [category]="PatientCaseDataCategories.GenomicSignatures"/>
+    
+                </p-fieldset>
+            </div>
+    
+    
+            <div class="col-12 md:col-6 lg:col-4 px-3">
+    
+                <p-fieldset legend="Therapy" class="pop-case-manager-group-panel">
+    
+                    <pop-case-manager-panel
+                        title="Systemic Treatments"
+                        [icon]="icons.systemicTherapies"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="SystemicTherapyFormComponent"
+                        [service]="systemicTherapyService"
+                        [category]="PatientCaseDataCategories.SystemicTherapies"/>
+                        
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Surgical Procedures"
+                        [icon]="icons.surgeries"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="SurgeryFormComponent"
+                        [service]="surgeryService"
+                        [category]="PatientCaseDataCategories.Surgeries"/>
+    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Radiotherapies"
+                        [icon]="icons.radiotherapies"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="RadiotherapyFormComponent"
+                        [service]="radiotherapyService"
+                        [category]="PatientCaseDataCategories.Radiotherapies"/>
+                </p-fieldset>
+    
+    
+                <p-fieldset legend="Profile" class="pop-case-manager-group-panel">
+                    <pop-case-manager-panel
+                        title="Lifestyle"
+                        [icon]="icons.lifestyle"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="LifestyleFormComponent"
+                        [service]="lifestyleService"
+                        [category]="PatientCaseDataCategories.Lifestyles"/>
+                        
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Familiy History"
+                        [icon]="icons.familyHistory"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="FamilyHistoryFormComponent"
+                        [service]="familyHistoryService"
+                        [category]="PatientCaseDataCategories.FamilyHistories"/>
+                    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Comorbidities"
+                        [icon]="icons.comorbidities"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="ComorbiditiesAssessmentFormComponent"
+                        [service]="comorbiditiesAssessmentService"
+                        [category]="PatientCaseDataCategories.ComorbiditiesAssessments"/>
+    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Vitals"
+                        [icon]="icons.vitals"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="VitalsFormComponent"
+                        [service]="vitalsService"
+                        [category]="PatientCaseDataCategories.Vitals"/> 
+                </p-fieldset>
+            </div>
+    
+    
+            <div class="col-12 md:col-6 lg:col-4">
+     
+                <p-fieldset legend="Clinical Observations"  class="pop-case-manager-group-panel">
+    
+                    <pop-case-manager-panel
+                        title="Tumor Boards"
+                        [icon]="icons.tumorBoards"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [category]="PatientCaseDataCategories.TumorBoardReviews"
+                        [formComponent]="TumorBoardFormComponent"
+                        [service]="tumorBoardService"/>
+    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Adverse Events"
+                        [icon]="icons.adverseEvents"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [category]="PatientCaseDataCategories.AdverseEvents"
+                        [formComponent]="AdverseEventFormComponent"
+                        [service]="adverseEventService"/>
+                    
+                    <p-divider></p-divider>
+    
+                    <pop-case-manager-panel
+                        title="Treatment Responses"
+                        [icon]="icons.treatmentResponses"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [category]="PatientCaseDataCategories.TherapyResponses"
+                        [formComponent]="TreatmentResponseFormComponent"
+                        [service]="treatmentResponseService"/>
+                    
+                    <p-divider></p-divider>
+                    
+                    <pop-case-manager-panel
+                        title="Performance Status"
+                        [icon]="icons.performanceStatus"
+                        [caseId]="case.id"
+                        (onCompletionChange)="updateCompletion($event)"
+                        [formComponent]="PerformanceStatusFormComponent"
+                        [service]="performanceStatusService"
+                        [category]="PatientCaseDataCategories.PerformanceStatus"/>
+                </p-fieldset>
+            </div>
+        </div>
+    } @else {
+        <div class="grid">
+            @for (n of [].constructor(6); track $index) {
+                <div class="col-12 md:col-6 lg:col-4">
+                    <p-skeleton width="10rem" height="2rem" styleClass="mt-4" />
+                    <p-skeleton height="5rem" styleClass="mt-3"/>
+                    <p-skeleton height="5rem" styleClass="mt-3"/>
+                    <p-skeleton height="5rem" styleClass="mt-3"/>
+                    <p-skeleton height="5rem" styleClass="mt-3"/>
+                </div>            
+            }
+        </div>
+    }
 }

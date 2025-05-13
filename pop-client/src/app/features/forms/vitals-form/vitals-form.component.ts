@@ -1,15 +1,15 @@
-import { Component, inject, OnInit} from '@angular/core';
+import { Component, computed, effect, inject, input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-import { Activity } from 'lucide-angular';
 
 import { ButtonModule } from 'primeng/button';
 import { Fluid } from 'primeng/fluid';
 import { SelectModule } from 'primeng/select';
 
 import { 
+    Measure,
+    Vitals,
     VitalsCreate,
     VitalsService,
 } from '../../../shared/openapi'
@@ -38,41 +38,48 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         FormControlErrorComponent,
     ]
 })
-export class VitalsFormComponent extends AbstractFormBase implements OnInit {
+export class VitalsFormComponent extends AbstractFormBase{
 
-    private readonly vitalsService: VitalsService = inject(VitalsService);
-    public readonly formBuilder = inject(FormBuilder);
+    // Input signal for initial data passed to the form
+    initialData = input<Vitals>();
+
+    // Service injections
+    readonly #vitalsService = inject(VitalsService);
+    readonly #fb = inject(FormBuilder);
     
-    public readonly createService = (payload: VitalsCreate) => this.vitalsService.createVitals({vitalsCreate: payload});
-    public readonly updateService = (id: string, payload: VitalsCreate) => this.vitalsService.updateVitalsById({vitalsId: id, vitalsCreate: payload});
+    // Create and update service methods for the form data
+    public readonly createService = (payload: VitalsCreate) => this.#vitalsService.createVitals({vitalsCreate: payload});
+    public readonly updateService = (id: string, payload: VitalsCreate) => this.#vitalsService.updateVitalsById({vitalsId: id, vitalsCreate: payload});
 
-    public readonly title: string = 'Vitals';
-    public readonly subtitle: string = 'Add new vitals';
-    public readonly icon = Activity;
+    // Define the form
+    public form = this.#fb.group({
+        date: this.#fb.control<string | null>(null, Validators.required),
+        height: this.#fb.control<Measure | null>(null),
+        weight: this.#fb.control<Measure | null>(null),
+        bloodPressureDiastolic: this.#fb.control<Measure | null>(null),
+        bloodPressureSystolic: this.#fb.control<Measure | null>(null),
+        temperature: this.#fb.control<Measure | null>(null),
+      }, { validators: this.atLeastOneValueValidator });
 
-    private caseId!: string;
-    public initialData: VitalsCreate | any = {};
-
-    ngOnInit() {
-        this.constructForm()
-    }
-
-    constructForm(): void {
-        this.form = this.formBuilder.group({
-            date: [this.initialData?.date, Validators.required],
-            height: [this.initialData?.height],
-            weight: [this.initialData?.weight],
-            bloodPressureDiastolic: [this.initialData?.bloodPressureDiastolic],
-            bloodPressureSystolic: [this.initialData?.bloodPressureSystolic],
-            temperature: [this.initialData?.temperature],
-        }, {
-            validators: this.atLeastOneValueValidator
+    readonly #onInitialDataChangeEffect = effect((): void => {
+        const data = this.initialData();
+        if (!data) return;
+        
+        this.form.patchValue({
+            date: data.date ?? null,
+            height: data.height ?? null,
+            weight: data.weight ?? null,
+            bloodPressureDiastolic: data.bloodPressureDiastolic ?? null,
+            bloodPressureSystolic: data.bloodPressureSystolic ?? null,
+            temperature: data.temperature ?? null,
         });
-    }
-
-    constructAPIPayload(data: any): VitalsCreate {    
+    });
+        
+    // API Payload construction function
+    payload = (): VitalsCreate => {    
+        const data = this.form.value;
         return {
-            caseId: this.caseId,
+            caseId: this.caseId(),
             date: data.date,
             height: data.height,
             weight: data.weight,

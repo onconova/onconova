@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { Card } from 'primeng/card';
-import { SelectButtonChangeEvent, SelectButtonModule } from 'primeng/selectbutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
-import { first, map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { ChartModule } from 'primeng/chart';
 import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 
-import { Cohort, CohortsService, CohortTraitCounts, KapplerMeierCurve } from 'src/app/shared/openapi';
+import { Cohort, CohortsService } from 'src/app/shared/openapi';
 import { KapplerMeierCurveComponent } from './components/kappler-meier-curve/kappler-meier-curve.component';
 import { FormsModule } from '@angular/forms';
 import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-graph.component';
@@ -17,6 +17,7 @@ import { BoxPlotComponent } from './components/box-plot/box-plot.component';
 import { Skeleton } from 'primeng/skeleton';
 import { OncoplotComponent } from './components/oncoplot/oncoplot.component';
 import { MessageModule } from 'primeng/message';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
     imports: [
@@ -38,69 +39,64 @@ import { MessageModule } from 'primeng/message';
     selector: 'pop-cohort-graphs',
     templateUrl: './cohort-graphs.component.html'
 })
-export class CohortGraphsComponent implements OnInit, OnChanges{
+export class CohortGraphsComponent {
 
-    private cohortService = inject(CohortsService);
+    // Component input signals
+    public cohort = input.required<Cohort>();
+    public loading = input<boolean>(false);
 
-    @Input() cohort!: Cohort;
-    @Input() loading: boolean = false;
+    // Injected services
+    readonly #cohortService = inject(CohortsService);
 
-    public overallSurvivalCurve$!: Observable<KapplerMeierCurve>;
-    public overallSurvivalCurveData!: any;
-    public overallSurvivalCurveOptions!: any;
-    public genomicsData$!: Observable<any>;
-
-    public ageCount$!: Observable<CohortTraitCounts[]>;
-    public ageAtDiagnosisCount$!: Observable<CohortTraitCounts[]>;
-    public genderCount$!: Observable<CohortTraitCounts[]>;
-    public neoplasticSites$!: Observable<CohortTraitCounts[]>;
-    public vitalStatusCount$!: Observable<CohortTraitCounts[]>;
-    public therapyLinesCount$!: Observable<CohortTraitCounts[]>
-
-    public therapyLineOptions: string[] = []
-    public therapyLineDrugCombinations$!: Observable<any>;    
-    public therapyLineTherapyClassifications$!: Observable<any>;    
-    public therapyLineSurvivalCurve$!: Observable<KapplerMeierCurve>;    
-    public selectedTherapyLine: string = 'CLoT1';
-
-    ngOnInit() {
-        this.refreshData()
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes['loading'] && !this.loading) {
-            this.refreshData()            
-        }
-    }
-
-    refreshData() {
-        this.overallSurvivalCurve$ = this.cohortService.getCohortOverallSurvivalCurve({cohortId: this.cohort.id})
-        this.therapyLinesCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'therapyLines.label'}).pipe(
-            map((response: CohortTraitCounts[])  => {
-                this.therapyLineOptions = response.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b));
-                return response
-            }),
-        )
-        this.genomicsData$ = this.cohortService.getCohortGenomics({cohortId: this.cohort.id})
-        this.ageCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'age'})
-        this.neoplasticSites$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'neoplasticEntities.topographyGroup.display'})
-        this.ageAtDiagnosisCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'ageAtDiagnosis'})
-        this.vitalStatusCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'isDeceased'}).pipe(map((response: CohortTraitCounts[]) => response.map(
-            (item: CohortTraitCounts) => {
-                item.category = item.category ? 'Alive' : 'Deceased' 
-                return item
-            }
-        )))
-        this.genderCount$ = this.cohortService.getCohortTraitCounts({cohortId: this.cohort.id, trait: 'gender.display'})
-        this.therapyLineDrugCombinations$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
-        this.therapyLineTherapyClassifications$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
-        this.therapyLineSurvivalCurve$ = this.cohortService.getCohortProgressionFreeSurvivalCurve({cohortId: this.cohort.id, therapyLine: this.selectedTherapyLine})
-    }
-
-    updateTherapyLineGraphs(event: SelectButtonChangeEvent) {
-        this.therapyLineSurvivalCurve$ = this.cohortService.getCohortProgressionFreeSurvivalCurve({cohortId: this.cohort.id, therapyLine: event.value})
-        this.therapyLineDrugCombinations$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations({cohortId: this.cohort.id, therapyLine: event.value})
-        this.therapyLineTherapyClassifications$ = this.cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications({cohortId: this.cohort.id, therapyLine:  event.value})
-    }
-
+    // Resources    
+    public overallSurvivalCurve = rxResource({
+        request: () => ({cohortId: this.cohort().id}),
+        loader: ({request}) => this.#cohortService.getCohortOverallSurvivalCurve(request)
+    })
+    public cohortGenomics = rxResource({
+        request: () => ({cohortId: this.cohort().id}),
+        loader: ({request}) => this.#cohortService.getCohortGenomics(request)
+    })    
+    public ageCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'age'}),
+        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
+    })
+    public ageAtDiagnosisCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'ageAtDiagnosis'}),
+        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
+    })
+    public genderCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'gender.display'}),
+        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
+    })
+    public neoplasticSitesCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'neoplasticEntities.topographyGroup.display'}),
+        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
+    })
+    public vitalStatusCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'isDeceased'}),
+        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request).pipe(map(
+            response => response.map(item => ({...item, category: item.category === 'true' ? 'Alive' : 'Dead'}))
+        ))
+    })
+    public therapyLinesCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, trait: 'therapyLines.label'}),
+        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
+    })
+    public therapyLineOptions = computed<string[]>(
+        () => this.therapyLinesCount.value()?.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b)) || []
+    )
+    public selectedTherapyLine = signal<string>('CLoT1');
+    public therapyLineDrugCombinations = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
+        loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations(request)
+    })
+    public therapyLineTherapyClassifications = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
+        loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications(request)
+    })
+    public therapyLineSurvivalCurve = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
+        loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurve(request)
+    })
 }

@@ -15,7 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
         return next(request);
     }
 
-    return from(auth.checkAuthentication()).pipe(
+    return from(auth.ensureAuthenticated()).pipe(
         mergeMap(
             (isAuthenticated) => {
             const isApiUrl = request.url.startsWith(`${basePath}/api`);
@@ -24,7 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (request: HttpRequest<any>, ne
             )
             if (isApiUrl) {
                 request = request.clone({
-                    setHeaders: { Authorization: `Bearer ${auth.getAccessToken()}` }
+                    setHeaders: { Authorization: `Bearer ${auth.accessToken()}` }
                 });
             }
             return next(request);

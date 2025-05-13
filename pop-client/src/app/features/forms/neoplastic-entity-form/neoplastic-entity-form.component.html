@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="relationship" class="form-label required">Neoplastic relation category</label>
@@ -20,11 +20,11 @@
             <pop-form-control-error controlName="assertionDate"></pop-form-control-error>
         </div>
 
-        @if (requiresPrimary) {
+        @if (requiresPrimary()) {
             <div class="field">
                 <label for="relatedPrimary" class="form-label required">Related primary neoplasm</label>
                 <p-select 
-                [options]="relatedPrimaries" 
+                [options]="relatedPrimaries.value() || []" 
                 formControlName="relatedPrimary"
                 optionLabel="description" 
                 optionValue="id"
@@ -44,7 +44,7 @@
         <div class="field">
             <label for="morphology" class="form-label required">Morphology</label>
             <pop-concept-selector 
-                [terminology]="morphologyTerminology"
+                [terminology]="morphologyTerminology()"
                 [showCodes]="true"
                 formControlName="morphology"/>
             <pop-form-control-error controlName="morphology"></pop-form-control-error>
@@ -71,7 +71,7 @@
             type="submit" 
             label="Save" 
             styleClass="w-full p-3 mt-2"  
-            [loading]="loading"
+            [loading]="isSaving()"
             [disabled]="form.invalid" />
     </form>
 </p-fluid>

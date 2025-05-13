@@ -1,7 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices } from '../../../shared/openapi'
+import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices, PatientCase, CodedConcept } from '../../../shared/openapi'
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 import { InlineSVGModule } from 'ng-inline-svg-2';
 
@@ -17,11 +19,6 @@ import {
   ConceptSelectorComponent, 
   DatePickerComponent,
 } from '../../../shared/components';
-
-
-import { UserPlus } from 'lucide-angular';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { first, map } from 'rxjs';
 
 @Component({
     selector: 'patient-form',
@@ -41,99 +38,108 @@ import { first, map } from 'rxjs';
         Fluid,
     ]
 })
-export class PatientFormComponent extends AbstractFormBase implements OnInit {
+export class PatientFormComponent extends AbstractFormBase {
 
+  // Input signal for initial data passed to the form
+  initialData = input<PatientCase>();
 
-  private readonly caseService = inject(PatientCasesService);
-  public readonly formBuilder = inject(FormBuilder);
+  // Service injections
+  readonly #caseService = inject(PatientCasesService);
+  readonly #fb = inject(FormBuilder);
 
-  public readonly createService = (payload: PatientCaseCreate) => this.caseService.createPatientCase({patientCaseCreate: payload});
-  public readonly updateService = (id: string, payload: PatientCaseCreate) => this.caseService.updatePatientCaseById({caseId: id, patientCaseCreate: payload});
-  public initialData: any = {};
+  // Create and update service methods for the form data
+  public readonly createService = (payload: PatientCaseCreate) => this.#caseService.createPatientCase({patientCaseCreate: payload});
+  public readonly updateService = (id: string, payload: PatientCaseCreate) => this.#caseService.updatePatientCaseById({caseId: id, patientCaseCreate: payload});
 
+  // Path to illustrations
   public readonly centerIllustration = 'assets/images/accessioning/hospital.svg';
   public readonly consentIllustration = 'assets/images/accessioning/consent.svg';
 
-  public readonly title: string = 'Accessioning'
-  public readonly subtitle: string = 'Register a new patient case'
-  public readonly icon = UserPlus;
+  // Define the form
+  public form = this.#fb.group({
+    identification: this.#fb.nonNullable.group({
+      clinicalCenter: this.#fb.control<string | null>(null, Validators.required),
+      clinicalIdentifier: this.#fb.control<string | null>(null, Validators.required),
+    }),
+    general: this.#fb.nonNullable.group({
+      gender: this.#fb.control<CodedConcept | null>(null, Validators.required),
+      dateOfBirth: this.#fb.control<string | null>(null, Validators.required),
+      isAlive: this.#fb.control<boolean | null>(true, Validators.required),
+      dateOfDeath: this.#fb.control<string | null>(null),
+      causeOfDeath: this.#fb.control<CodedConcept | null>(null),
+    }),
+    consent: this.#fb.nonNullable.group({
+      consentValid: this.#fb.control<boolean | null>(false, Validators.required),
+    }),
+  });
 
-  public defaultClinicalCenter$ = this.caseService.getDefaultClinicalCenter().pipe(
-    first(),
-    map(center => {
+  readonly #onInitialDataChangeEffect = effect((): void => {
+    const data = this.initialData();
+    if (!data) return;
+  
+    this.form.patchValue({
+      identification: {
+        clinicalCenter: data.clinicalCenter ?? null,
+        clinicalIdentifier: data.clinicalIdentifier ?? null,
+      },
+      general: {
+        gender: data.gender ?? null,
+        dateOfBirth: data.dateOfBirth ?? null,
+        isAlive: !data.isDeceased,
+        dateOfDeath: data.dateOfDeath ?? null,
+        causeOfDeath: data.causeOfDeath ?? null,
+      },
+      consent: {
+        consentValid: false,
+      },
+    });
+  });
+
+  // API Payload construction function
+  public payload = (): PatientCaseCreate => {
+    const data = this.form.value;
+    return {
+      gender: data.general!.gender!,
+      dateOfBirth: data.general!.dateOfBirth!,
+      dateOfDeath: !data.general!.isAlive ? data.general!.dateOfDeath : null,
+      causeOfDeath: !data.general!.isAlive ? data.general!.causeOfDeath: null,
+      clinicalCenter: data.identification!.clinicalCenter!,
+      clinicalIdentifier: data.identification!.clinicalIdentifier!,
+      consentStatus: data.consent!.consentValid ? PatientCaseConsentStatusChoices.Valid : PatientCaseConsentStatusChoices.Unknown,
+    };
+  }
+  // Get the default clinical center through the API
+  public defaultClinicalCenter = rxResource({
+    request: () => ({}),
+    loader: ({request}) => this.#caseService.getDefaultClinicalCenter().pipe(map(center => {
       const ClinicalCenterControl = this.form.get('identification')?.get('clinicalCenter');
       if (ClinicalCenterControl) {
         ClinicalCenterControl.setValue(center);
         ClinicalCenterControl.updateValueAndValidity();
       }
-    })
-  );
+    }))
+  })
+  // Dynamically react to changes to the clinical center input query and search for matching centers
+  public clinicalCenterQuery = signal<string>('');
+  public clinicalCenters = rxResource({
+    request: () => ({clinicalCenterContains: this.clinicalCenterQuery()}),
+    loader: ({request}) => this.#caseService.getPatientCases(request).pipe(map(response => [...new Set(response.items.map(item => item.clinicalCenter))]))
+  })
 
-  public centers: string[] = [];
-
-  ngOnInit() {
-    this.constructForm();
-    this.defaultClinicalCenter$.subscribe()
-    this.onIsAliveChange();
-  }
-
-  private constructForm() {
-    this.form = this.formBuilder.group({
-      identification: this.formBuilder.group({
-        clinicalCenter: [null,Validators.required],
-        clinicalIdentifier: [null,Validators.required],
-      },Validators.required),
-      general: this.formBuilder.group({
-        gender: [null,Validators.required],
-        dateOfBirth: [null,Validators.required],
-        isAlive: [true,Validators.required],
-        dateOfDeath: (null),
-        causeOfDeath: (null),
-      },Validators.required),
-      consent: this.formBuilder.group({
-        consentValid: [null, Validators.required],
-      },Validators.required)
-    });
-  }
-
-  constructAPIPayload(data: any): PatientCaseCreate {
-    return {
-      gender: data.general.gender,
-      dateOfBirth: data.general.dateOfBirth,
-      dateOfDeath: !data.general.isAlive ? data.general.dateOfDeath : null,
-      causeOfDeath: !data.general.isAlive ? data.general.causeOfDeath: null,
-      clinicalCenter: data.identification.clinicalCenter,
-      clinicalIdentifier: data.identification.clinicalIdentifier,
-      consentStatus: data.consent.consentValid ? PatientCaseConsentStatusChoices.Valid : PatientCaseConsentStatusChoices.Unknown,
-    };
-  }
-
-  private onIsAliveChange(): void {
-    this.form.get('general')?.get('isAlive')?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(isAlive => {
-      const dateOfDeathControl = this.form.get('general')?.get('dateOfDeath');
-      const causeOfDeathControl = this.form.get('general')?.get('causeOfDeath');
-      const requiredValidator = [Validators.required];
-  
-      if (isAlive) {
-        dateOfDeathControl?.removeValidators(requiredValidator);
-        causeOfDeathControl?.removeValidators(requiredValidator);
-      } else {
-        dateOfDeathControl?.addValidators(requiredValidator);
-        causeOfDeathControl?.addValidators(requiredValidator);
-      }  
-      dateOfDeathControl?.updateValueAndValidity();
-      causeOfDeathControl?.updateValueAndValidity();
-    });
-  }
-
-  searchCenter(event: {originalEvent: Event, query: string}) {
-    this.caseService.getPatientCases({clinicalCenterContains: event.query}).pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: response => {
-        this.centers = [...new Set(response.items.map(item => item.clinicalCenter))]
-      }
-    })
-  }
+  // Dynamically react to changes to the isAlive field
+  public currentIsAlive = toSignal(this.form.controls['general']!.controls['isAlive']!.valueChanges, {initialValue: true})
+  #vitalStatusChangesEffect = effect(() => {
+    const dateOfDeathControl = this.form.get('general')!.get('dateOfDeath');
+    const causeOfDeathControl = this.form.get('general')!.get('causeOfDeath');
+    if (this.currentIsAlive()) {
+      dateOfDeathControl?.removeValidators([Validators.required]);
+      causeOfDeathControl?.removeValidators([Validators.required]);
+    } else {
+      dateOfDeathControl?.addValidators([Validators.required]);
+      causeOfDeathControl?.addValidators([Validators.required]);
+    }  
+    dateOfDeathControl?.updateValueAndValidity();
+    causeOfDeathControl?.updateValueAndValidity();
+  })
 
 }

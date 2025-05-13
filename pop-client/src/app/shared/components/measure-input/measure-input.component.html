@@ -1,21 +1,19 @@
 
-@let allowedUnits = allowedUnits$ | async; 
-@let defaultUnit = defaultUnit$ | async; 
 <p-inputgroup>
     <p-inputnumber 
-        [(ngModel)]="inputValue"
+        [(ngModel)]="measureValue"
         (onInput)="updateFormControlValue()"
         placeholder="Enter value" 
         useGrouping="false"
-        suffix=" {{selectedUnit && selectedUnit.display || defaultUnit?.display}}"
+        suffix=" {{measureUnit && measureUnit.display || defaultMeasureUnit.value()?.display}}"
         mode="decimal"
         [minFractionDigits]="1"
         [maxFractionDigits]="3"
         locale="en-US"/>
     <p-select 
-        [(ngModel)]="selectedUnit" 
+        [(ngModel)]="measureUnit" 
         (onChange)="updateFormControlValue()"
-        [options]="allowedUnits || []" 
+        [options]="allowedUnits.value() || []" 
         optionLabel="display" 
         placeholder="selectedUnit" 
         appendTo="body"

@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { NgModule, Component, Input, ViewEncapsulation, OnInit, inject, DestroyRef,ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, computed, input, effect, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, FormsModule, Validators } from '@angular/forms';
 
 import { Panel } from 'primeng/panel';
@@ -15,12 +15,12 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, PatientCase, CohortCreate, ModifiedResource, CohortContribution, CohortTraitMedian, CohortTraitCounts, HistoryEvent } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, CohortCreate, CohortTraitCounts } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
-import { catchError, first, map, Observable, of, throwError } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
 
-import { CaseBrowserCardComponent } from '../../cases/case-search/components/case-search-item/case-search-item.component';
+import { CaseSearchItemCardComponent } from '../../cases/case-search/components/case-search-item/case-search-item.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { DatasetComposerComponent } from 'src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component';
@@ -29,9 +29,10 @@ import { CohortGraphsComponent } from './components/cohort-graphs/cohort-graphs.
 import { Skeleton } from 'primeng/skeleton';
 import { Message } from 'primeng/message';
 import { CohortTraitPanel } from './components/cohort-trait-panel.component';
-import { Timeline, TimelineModule } from 'primeng/timeline';
+import { TimelineModule } from 'primeng/timeline';
 import { Card } from 'primeng/card';
 import { Fieldset } from 'primeng/fieldset';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -45,7 +46,7 @@ import { Fieldset } from 'primeng/fieldset';
         CohortGraphsComponent,
         CohortContributorsComponent,
         CohortQueryBuilderComponent,
-        CaseBrowserCardComponent,
+        CaseSearchItemCardComponent,
         DatasetComposerComponent,
         CohortTraitPanel,
         Panel,
@@ -65,133 +66,148 @@ import { Fieldset } from 'primeng/fieldset';
 })
 export class CohortBuilderComponent {
     
-    @Input() cohortId!: string;
+    public cohortId = input.required<string>()   
     
-    private readonly cohortsService = inject(CohortsService);
-    private readonly messageService = inject(MessageService);
-    public readonly formBuilder = inject(FormBuilder);
-    public readonly location = inject(Location);
-    public readonly authService = inject(AuthService)
+    readonly #cohortsService = inject(CohortsService);
+    readonly #messageService = inject(MessageService);
+    readonly #fb = inject(FormBuilder);
+    readonly #location = inject(Location);
+    readonly #authService = inject(AuthService)
     
     
-    public cohortControl: FormGroup = this.formBuilder.group({
-        name: [null,Validators.required],
-        isPublic: [null,Validators.required],
-        includeCriteria: [null],
-        excludeCriteria: [null],
+    public cohortControl: FormGroup = this.#fb.group({
+        name: this.#fb.nonNullable.control<string>('', Validators.required),
+        isPublic: this.#fb.nonNullable.control<boolean>(false, Validators.required),
+        includeCriteria: this.#fb.control<object | null>(null),
+        excludeCriteria: this.#fb.control<object | null>(null),
     });  
-    public cohortCases: PatientCase[] = [];
-    public cohort$!: Observable<Cohort>; 
-    public loading: boolean = false;
-    public userCanEdit: boolean = false;
+
+    public icons = {
+        age: CalendarClock,
+        gender: VenusAndMars,
+        site: Locate,
+        survival: Activity,
+        population: Users,
+        completion: ClipboardCheck
+    };
+    public loading = computed(() => this.cohort.isLoading() || this.submittedCohort.isLoading())
     public editCohortName: boolean = false;
-    public cohortHistory$!: Observable<HistoryEvent[]>
-    public cohortAgeStats$: Observable<CohortTraitMedian | null> = of(null)
-    public cohortTopographyStats$: Observable<CohortTraitCounts | null> = of(null)
-    public cohortGenderStats$: Observable<CohortTraitCounts | null> = of(null)
-    public cohortOverallSurvivalStats$: Observable<CohortTraitMedian | null> = of(null)
-    public cohortDataCompletionStats$: Observable<CohortTraitMedian | null> = of(null)
-    public currentOffset: number = 0
-    public pageSize: number = 15
-    
-    public readonly populationIcon = Users;
-    public readonly genderIcon = VenusAndMars;
-    public readonly survivalIcon = Activity;
-    public readonly ageIcon = CalendarClock;
-    public readonly siteIcon = Locate;
-    public readonly completionIcon = ClipboardCheck;
-    
-    
-    
-    ngAfterViewInit() {
-        this.refreshCohortData()
-        this.refreshCohortCases()
-        this.refreshCohortStatistics()
-    }    
-    
-    
-    refreshCohortData() {
-        this.cohort$ = this.cohortsService.getCohortById({cohortId: this.cohortId}).pipe(
-            first(), 
+    public pagination = signal({limit: 15, offset: 0});
+    public goBack = () => this.#location.back()
+    public user = computed(() => this.#authService.user())
+
+    public cohort = rxResource({
+        request: () => ({cohortId: this.cohortId()}),
+        loader: ({request}) => this.#cohortsService.getCohortById(request).pipe(
             catchError(
                 (error: any, caught: any) => {
-                    this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail})
+                    this.#messageService.add({ severity: 'error', summary: 'Error retrieving the cohort information', detail: error.error.detail})
                     return throwError(() => new Error(error));
                 }
             ),
-            map(
-            (cohort: Cohort) => {
-                this.userCanEdit = (cohort.isPublic || (!cohort.isPublic && cohort.createdBy == this.authService.user.username)) && this.authService.user.canManageCohorts 
-                if (!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
-                    this.cohortControl.controls['name'].setValue(cohort.name) ;
-                    this.cohortControl.controls['isPublic'].setValue(cohort.isPublic);
-                    this.cohortControl.controls['includeCriteria'].setValue(cohort.includeCriteria);
-                    this.cohortControl.controls['excludeCriteria'].setValue(cohort.excludeCriteria);    
-                    this.cohortControl.updateValueAndValidity();
-                }
-                this.loading = false;
-                return cohort
-            })
         )
-        this.cohortHistory$ = this.cohortsService.getAllCohortHistoryEvents({cohortId: this.cohortId}).pipe(map(response=>response.items))
-    }
+    })
+    public cohortPopulation = computed<number | undefined>(()=> this.cohort.value()?.population)
+    public cohortNonEmpty = computed<boolean>(()=> this.cohortPopulation() ? (this.cohortPopulation()! > 0) : false)
+    public cohortHistory = rxResource({
+        request: () => ({cohortId: this.currentCohortId()}),
+        loader: ({request}) => this.#cohortsService.getAllCohortHistoryEvents(request).pipe(map(response=>response.items))
+    })
+    
+    public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
+
+    public cohortCases = rxResource({
+        request: () => ({cohortId: this.currentCohortId()}),
+        loader: ({request}) => this.#cohortsService.getCohortCases(request).pipe(map(response=>response.items))
+    })    
+
+    public userCanEdit = computed<boolean>( () => (
+        this.cohort.value()?.isPublic || (!this.cohort.value()?.isPublic && this.cohort.value()?.createdBy == this.user().username)
+        ) && this.user().canManageCohorts 
+    )
+
+
+    #setCohortDataEffect = effect( () => {
+        const cohort = this.cohort.value();
+        if (cohort &&!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
+            this.cohortControl.setValue({
+                name: cohort.name,
+                isPublic: cohort.isPublic,
+                includeCriteria: cohort.includeCriteria,
+                excludeCriteria: cohort.excludeCriteria
+            })
+            this.cohortControl.updateValueAndValidity();
+        }
+    })
+
+    public ageStats = rxResource({
+        request: () => ({cohortId: this.currentCohortId(), trait: 'age'}),
+        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+    }) 
+    public topographyStats = rxResource({
+        request: () => ({cohortId: this.currentCohortId(), trait: 'neoplasticEntities.topographyGroup.display'}),
+        loader: ({request}) =>  this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+        ))
+    }) 
+    public genderStats = rxResource({
+        request: () => ({cohortId: this.currentCohortId(), trait: 'gender.display'}),
+        loader: ({request}) =>  this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
+        ))
+    }) 
+    public overallSurvivalStats = rxResource({
+        request: () => ({cohortId: this.currentCohortId(), trait: 'overallSurvival'}),
+        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+    }) 
+    public dataCompletionStats = rxResource({
+        request: () => ({cohortId: this.currentCohortId(), trait: 'dataCompletionRate'}),
+        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+    }) 
+
+    public cohortPayload = signal<CohortCreate | null>(null)
+    public submittedCohort = rxResource({
+        request: () => ({cohortId: this.cohortId(), cohortCreate: this.cohortPayload()}),
+        loader: ({request}) => {
+            const payload = request.cohortCreate;
+            if (payload) {
+                return this.#cohortsService.updateCohort({cohortId: request.cohortId, cohortCreate: payload}).pipe(
+                    catchError(
+                        (error: any, caught: any) => {
+                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${error.error.detail}"` });
+                            return throwError(() => new Error(error));
+                        }
+                    ),
+                )
+            } 
+            return of(null)
+        } 
+    })
+    refreshEffect = effect( () => {
+        this.submittedCohort.value();
+        this.cohort.reload();
+    })
+
     
     revertCohortDefinition(old: Cohort, timestamp: string) {
         try {
-            this.cohortControl.controls['name'].setValue(old.name);
-            this.cohortControl.controls['isPublic'].setValue(old.isPublic);
-            this.cohortControl.controls['includeCriteria'].setValue(old.includeCriteria);
-            this.cohortControl.controls['excludeCriteria'].setValue(old.excludeCriteria);    
-            this.messageService.add({ severity: 'success', summary: 'Changes applied', detail: 'Applied previous cohort defintion snapshot changes from ' + timestamp })
+            console.log(old)
+            this.cohortControl.setValue({
+                name: old?.name,
+                isPublic: old?.isPublic,
+                includeCriteria: old?.includeCriteria || null,
+                excludeCriteria: old?.excludeCriteria || null
+            })
+            this.#messageService.add({ severity: 'success', summary: 'Changes applied', detail: 'Applied previous cohort defintion snapshot changes from ' + timestamp })
         } catch (error) {
-            this.messageService.add({ severity: 'error', summary: 'Error reverting cohort definition', detail: 'Cohort definition might be invalid due to updates and/or recent changes.' })
+            console.error(error)
+            this.#messageService.add({ severity: 'error', summary: 'Error reverting cohort definition', detail: 'Cohort definition might be invalid due to updates and/or recent changes.' })
         }
         this.cohortControl.updateValueAndValidity();
-    }
-    
-    refreshCohortStatistics() {
-        const errorHandler = (error: any) => {
-            if (error.status == 422) {
-                return of(null)
-            } else {
-                this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort statistics', detail: error.error.detail })
-                console.error(error)
-                return of(null)
-            }
-        }
-        this.cohortAgeStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'age'}).pipe(catchError(errorHandler))
-        this.cohortTopographyStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'neoplasticEntities.topographyGroup.display'}).pipe(
-            map(
-                (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-            ),
-            catchError(errorHandler),
-        )
-        this.cohortGenderStats$ = this.cohortsService.getCohortTraitCounts({cohortId: this.cohortId, trait: 'gender.display'}).pipe(
-            map(
-                (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-            ),
-            catchError(errorHandler),
-        )
-        this.cohortOverallSurvivalStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'overallSurvival'}).pipe(catchError(errorHandler))
-        this.cohortDataCompletionStats$ = this.cohortsService.getCohortTraitMedian({cohortId: this.cohortId, trait: 'dataCompletionRate'}).pipe(catchError(errorHandler))
-    }
-    
-    refreshCohortCases() {
-        this.cohortsService.getCohortCases({cohortId: this.cohortId, offset: this.currentOffset, limit: this.pageSize}).pipe(
-            map(
-                cases => {
-                    this.cohortCases = cases.items;
-                }
-            ),
-            first()
-        ).subscribe({
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error retrieving the cohort cases', detail: error.error.detail })
-        })
-    }
+    }    
     
     submitCohort() {
         this.editCohortName = false;
-        this.loading = true;
         const cohortData = this.cohortControl.value;
         const payload: CohortCreate = {
             name: cohortData.name,
@@ -199,37 +215,8 @@ export class CohortBuilderComponent {
             includeCriteria: cohortData.includeCriteria,
             excludeCriteria: cohortData.excludeCriteria,
         };
-        this.cohortsService.updateCohort({cohortId: this.cohortId, cohortCreate: payload}).pipe(first()).subscribe({
-            next: (response: ModifiedResource) => {
-                this.refreshCohortData()
-                this.refreshCohortCases()
-                this.refreshCohortStatistics()
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
-            },
-            error: (error: any) => this.messageService.add({ severity: 'error', summary: 'Error saving the cohort', detail: error.error.detail }),
-        });
+        this.cohortPayload.set(payload);
     }
-    
-    setPaginationAndRefresh(event: any) {
-        this.currentOffset = event.first;
-        this.pageSize = event.rows;
-        this.refreshCohortCases()
-    }
-    
-    
-    //  describeChanges(oldObj: any, newObj: any): string {
-    //     const changes = this.getChanges(oldObj, newObj);
-    //     const changeDescription = changes.map(change => {
-    //       if (change.type === 'added') {
-    //         return `Added property '${change.key}' with value ${this.formatValue(change.value)}`;
-    //       } else if (change.type === 'removed') {
-    //         return `Removed property ${change.key}=${this.formatValue(change.oldValue)}`;
-    //       } else if (change.type === 'updated') {
-    //         return `Updated property '${change.key}' from ${this.formatValue(change.oldValue)} to ${this.formatValue(change.value)}`;
-    //       } return ''
-    //     }).join('\n');
-    //     return changeDescription;
-    //   }
     
     public getAllChanges(differential: any): any[] {
         return Object.entries(differential).flatMap(([key, value]) => {
@@ -241,14 +228,6 @@ export class CohortBuilderComponent {
                 return []
             }
         });
-    }
-    
-    private formatValue(value: any): string {
-        if (typeof value === 'object') {
-            return JSON.stringify(value, null, 2);
-        } else {
-            return `'${value}'`;
-        }
     }
     
     private getChanges(field: string, oldObj: any, newObj: any, path = ''): any[] {

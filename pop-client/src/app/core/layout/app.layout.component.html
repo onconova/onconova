@@ -1,14 +1,14 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
-    <pop-topbar></pop-topbar>
+    <pop-topbar/>
     <div class="layout-sidebar">
-        <pop-sidebar></pop-sidebar>
+        <pop-sidebar-menu/>
     </div>
     <div class="layout-main-container">
         <div class="layout-main">
             <router-outlet></router-outlet>
         </div>
-        <pop-footer></pop-footer>
+        <pop-footer/>
     </div>
     <div class="layout-mask"></div>
-    <p-toast></p-toast>
+    <p-toast/>
 </div>

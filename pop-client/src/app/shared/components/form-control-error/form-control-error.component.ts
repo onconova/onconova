@@ -1,11 +1,9 @@
-import { inject, Input, Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
-import { NgIf } from '@angular/common';
+import { inject, Component, OnDestroy, input, signal, effect} from '@angular/core';
 import { InjectionToken } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
-import { ValidationErrors, FormGroupDirective, AbstractControl } from '@angular/forms';
-import { BehaviorSubject, Subscription, distinctUntilChanged, merge } from 'rxjs';
+import { ValidationErrors, AbstractControl, ControlContainer } from '@angular/forms';
+import { Subscription, distinctUntilChanged, merge } from 'rxjs';
 
-export const defaultErrors = {
+export const DEFAULT_ERRORS = {
   required: () => `This field is required.`,
   pattern: () => `This field has an invalid format.`,
   minlength: (err: {requiredLength: number, actualLength: number}) => `Minimum length is ${err.requiredLength} characters.`,
@@ -22,65 +20,36 @@ export const defaultErrors = {
 
 export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
   providedIn: 'root',
-  factory: () => defaultErrors
+  factory: () => DEFAULT_ERRORS
 });
 
 @Component({
     selector: 'pop-form-control-error',
-    imports: [AsyncPipe],
     template: `
-      @let message = message$ | async;
-      @if (message) {
-        <div class="text-danger mt-2" style="color:#e24c4c">{{ message }}</div>
+      @if (message()) {
+        <div class="text-danger mt-2" style="color:#e24c4c">{{ message() }}</div>
       }
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormControlErrorComponent implements OnInit, OnDestroy {
+export class FormControlErrorComponent implements OnDestroy {
 
-  /**
-   * The name of the control in the form group to display the errors for.
-   */
-  @Input({required: true}) controlName!: string;
+  // Component inputs
+  public controlName = input.required<string>()
+  public customErrors = input<ValidationErrors>()
 
-  /**
-   * Custom error messages to use for the control. If provided, will override the default error messages.
-   */
-  @Input() customErrors?: ValidationErrors;
+  // Component injections
+  readonly #controlContainer = inject(ControlContainer);
+  readonly #errors: any = inject(FORM_ERRORS);
+  
+  #subscription = new Subscription();
+  public message = signal<string | null>(null);
 
-  /**
-   * The form group directive this component is used within.
-   */
-  public formGroupDirective = inject(FormGroupDirective);
 
-  /**
-   * Subscription to the form group directive's ngSubmit event and the control's value changes.
-   */
-  private subscription = new Subscription();
-
-  /**
-   * The default error messages to use if custom error messages are not provided.
-   */
-  private errors: any = inject(FORM_ERRORS);
-
-  /**
-   * The error message to display. Will be an empty string if there are no errors.
-   */
-  public message$ = new BehaviorSubject<string>('');
-
-  ngOnInit(): void {
-    // Initialize the control error handling
-    this.initializeControlErrorHandling();
-  }
-
-  /**
-   * Initialize the control error handling.
-   */
-  private initializeControlErrorHandling() {
+  #initializeControlErrorHandling = effect(() => {
     // Check if the controlName is provided and the form group directive is available
-    if (this.formGroupDirective && this.controlName) {
+    if (this.#controlContainer && this.controlName()) {
         // Get the control from the form group directive
-        const control = this.formGroupDirective.control.get(this.controlName);
+        const control = this.#controlContainer.control?.get(this.controlName());
 
         if (control) {
             // Subscribe to the control's errors and the form group directive's ngSubmit event
@@ -91,35 +60,21 @@ export class FormControlErrorComponent implements OnInit, OnDestroy {
     } else {
         console.error('FormControlErrorComponent must be used within a FormGroupDirective and "controlName" must be provided.');
     }
-  }
+  })
 
-  /**
-   * Subscribe to the control's errors and the form group directive's ngSubmit event.
-   * @param control The control to subscribe to
-   */
   private subscribeToControlErrors(control: AbstractControl) {
-    // Unsubscribe from any previous subscriptions to avoid memory leaks
-    this.subscription.unsubscribe();
-    
-    // Subscribe to the control's value changes and the form group directive's ngSubmit event
-    this.subscription = merge(control.valueChanges, this.formGroupDirective.ngSubmit)
-        .pipe(distinctUntilChanged())
-        .subscribe(() => {
-            // Get the control errors
-            const controlErrors = control.errors;
+    this.#subscription.unsubscribe();
+    const formSubmit$ = 'ngSubmit' in this.#controlContainer ? (this.#controlContainer as any).ngSubmit : [];
 
-            // Get the error message
-            const errorMessage = this.getErrorMessage(controlErrors);
-
-            // Set the error message
-            this.setError(errorMessage);
-        });
+    this.#subscription = merge(control.valueChanges, formSubmit$)
+      .pipe(distinctUntilChanged())
+      .subscribe(() => {
+        const controlErrors = control.errors;
+        const errorMessage = this.getErrorMessage(controlErrors);
+        this.message.set(errorMessage);
+      });
   }
 
-  /**
-   * Get the error message for the control errors.
-   * @param errors The control errors
-   */
   private getErrorMessage(errors: ValidationErrors | null): string {
     if (!errors) {
         // Return an empty string if there are no errors
@@ -130,23 +85,15 @@ export class FormControlErrorComponent implements OnInit, OnDestroy {
     const firstErrorKey = Object.keys(errors)[0];
 
     // Get the error message from the custom error messages if provided, otherwise use the default error message
-    const getError = this.errors[firstErrorKey];
+    const getError = this.#errors[firstErrorKey];
 
     // Get the custom error message if provided, otherwise default error message
-    const errorText = this.customErrors?.[firstErrorKey] || getError(errors[firstErrorKey]);
+    const errorText = this.customErrors()?.[firstErrorKey] || getError(errors[firstErrorKey]);
     return errorText;
-  }
-
-  /**
-   * Set the error message to display.
-   * @param message The error message to display
-   */
-  private setError(message: string): void {
-    this.message$.next(message);
   }
 
   ngOnDestroy(): void {
     // Clean up the subscription
-    this.subscription.unsubscribe();
+    this.#subscription.unsubscribe();
   }
 }

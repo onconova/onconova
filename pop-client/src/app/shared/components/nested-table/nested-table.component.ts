@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
@@ -15,15 +15,11 @@ import { TypeCheckService } from '../../services/type-check.service';
 })
 export class NestedTableComponent {
 
-  private typeCheckService = inject(TypeCheckService); 
-  public isArray = this.typeCheckService.isArray;
+  readonly #typeCheckService = inject(TypeCheckService); 
+  public isArray = this.#typeCheckService.isArray;
 
-  @Input() nestedData!: any[];
-  public nestedDataColumn!: any[];
-
-  ngOnInit() {
-    this.nestedDataColumn = this.getColumns(this.nestedData);
-  }
+  public nestedData = input.required<any[]>();
+  public nestedDataColumn = computed(() => this.getColumns(this.nestedData()));
 
   getColumns(data: any[]): string[] {
     const allKeys = new Set<string>();

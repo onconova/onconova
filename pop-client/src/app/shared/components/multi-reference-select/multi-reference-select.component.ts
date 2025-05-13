@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule} from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,9 +14,9 @@ interface Reference {
     selector: 'pop-multi-reference-select',
     template: `
     <p-multiselect 
-        [options]="options" 
+        [options]="options()" 
         [formControl]="formControl"
-        [placeholder]="placeholder" 
+        [placeholder]="placeholder()" 
         optionLabel="description" 
         optionValue="id"
         filter="false"
@@ -41,9 +41,8 @@ interface Reference {
 })
 export class MultiReferenceSelectComponent implements ControlValueAccessor {
     
-    @Input({required: true}) options!: Reference[];
-    @Input() placeholder: string = 'Select one or more options';
-
+    public options = input.required<Reference[]>();
+    public placeholder = input<string>('Select one or more options');
     public formControl: FormControl = new FormControl();
 
     writeValue(value: any): void {

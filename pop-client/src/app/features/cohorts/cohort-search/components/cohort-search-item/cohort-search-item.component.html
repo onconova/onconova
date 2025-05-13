@@ -9,7 +9,7 @@
             <div class="flex my-auto gap-1">
                 <lucide-angular class="cohort-search-item-icon" [img]="populationIcon"></lucide-angular>
                 <div class="my-auto text-xl">
-                    {{ cohort.population }}               
+                    {{ cohort().population }}               
                 </div>
             </div>
         </div>
@@ -17,15 +17,15 @@
         <!-- Cohort title -->
         <div class="flex flex-column">
             <small class="text-muted mb-1">Cohort</small>
-            <h5 class="cohort-search-item-title">{{cohort.name}}</h5>
+            <h5 class="cohort-search-item-title">{{ cohort().name }}</h5>
         </div>
 
         <!-- Cohort public/private badge -->
         <div class="flex flex-column ml-auto">
             <div class="cohort-search-item-chip text-md mt-2">
                 <p-chip 
-                    [label]="cohort.isPublic ? 'Public' : 'Private'" 
-                    [icon]="cohort.isPublic ? 'pi pi-lock-open' : 'pi pi-unlock'" 
+                    [label]="cohort().isPublic ? 'Public' : 'Private'" 
+                    [icon]="cohort().isPublic ? 'pi pi-lock-open' : 'pi pi-unlock'" 
                     class="is-public-chip"/>
             </div>
         </div>
@@ -33,52 +33,49 @@
 
 
     <!-- Predominant site -->
-    @let cohortPredominantSite = cohortPredominantSite$ | async;
     <div class="flex flex-column mb-2">
         <small class="text-muted mb-1">Predominant neoplastic topography</small>
         <div class="flex my-auto gap-1">
-            @if (cohortPredominantSite !== null) {
-                <div class="my-auto">
-                    <span class="text-xl">{{ (cohortPredominantSite.percentage | number:'1.0-0') || '-' }}% <small>{{ cohortPredominantSite.category }}</small></span>               
-                </div>    
-            } @else if (cohortPredominantSite === null) {
-                -
-            } @else {
+            @if (predominantSite.isLoading()) {
                 <p-skeleton width="4rem" height="1rem"/>      
+            } @if (predominantSite.value(); as predominantSite) {
+                <div class="my-auto">
+                    <span class="text-xl">{{ (predominantSite.percentage | number:'1.0-0') || '-' }}% <small>{{ predominantSite.category }}</small></span>               
+                </div>    
+            } @else {
+                -
             }
         </div>
     </div>
     <div class="flex gap-3">
         <!-- Cohort age stats -->
-        @let cohortAgeStats = cohortAgeStats$ | async;
         <div class="flex flex-column">
             <small class="text-muted mb-1">Median age</small>
             <div class="flex my-auto gap-1">
-                @if (cohortAgeStats !== null) {
+                @if (ageStats.isLoading()) {
+                    <p-skeleton width="6rem" height="1rem"/>     
+                } @if (ageStats.value(); as age) {
                     <div class="my-auto">
-                        <span class="text-xl">{{ cohortAgeStats.median || '-' }} <small>years</small></span>               
+                        <span class="text-xl">{{ age.median || '-' }} <small>years</small></span>               
                     </div>    
-                } @else if (cohortAgeStats === null) {
-                    -
                 } @else {
-                    <p-skeleton width="4rem" height="1rem"/>      
+                    -
                 }
             </div>
         </div>
 
         <!-- Data completion stats -->
-        @let cohortDataCompletionStats = cohortDataCompletionStats$ | async;
         <div class="flex flex-column">
             <small class="text-muted mb-1">Median completion</small>
             <div class="flex my-auto gap-1">
-                @if (cohortDataCompletionStats !== null) {
+                @if (dataCompletionStats.isLoading()) {
+                    <p-skeleton width="6rem" height="1rem"/>       
+                } @if (dataCompletionStats.value(); as dataCompletion) {
                     <div class="my-auto">
-                        <span class="text-xl">{{ cohortDataCompletionStats.median }}% <small>complete</small></span>               
-                    </div>
-                } @else if (cohortDataCompletionStats === null) {
-                    -
+                        <span class="text-xl">{{ dataCompletion.median || '-' }}% <small>complete</small></span>               
+                    </div>    
                 } @else {
-                    <p-skeleton width="6rem" height="1rem"/>         
+                    -
                 }
             </div>
         </div>
@@ -87,7 +84,7 @@
         <div class="flex flex-column">
             <small class="text-muted mb-1">Last updated</small>
             <div class="flex my-auto gap-1">
-                <div>{{cohort.updatedAt | date }}</div>
+                <div>{{cohort().updatedAt | date }}</div>
             </div>
         </div>
 
@@ -97,8 +94,8 @@
             <p-splitbutton
                 label="Open cohort"
                 class="mt-auto"
-                [menuButtonDisabled]="!authService.user.canManageCohorts"
-                [dropdownIcon]="authService.user.canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
+                [menuButtonDisabled]="!currentUser().canManageCohorts"
+                [dropdownIcon]="currentUser().canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
                 [model]="actionItems"
                 (onClick)="openCohortManagement()" />
         </div>

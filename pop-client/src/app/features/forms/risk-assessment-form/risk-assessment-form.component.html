@@ -1,5 +1,5 @@
 <p-fluid>
-    <form  [formGroup]="form" (ngSubmit)="onSave()">
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
             <label for="date" class="form-label required">Date of the risk assessment</label>
@@ -12,7 +12,7 @@
         <div class="field">
             <label class="form-label required">Neoplastic entities assessed</label>
             <pop-multi-reference-select 
-            [options]="relatedEntities" 
+            [options]="relatedEntities.value() || []" 
             formControlName="assessedEntities"/>
             <pop-form-control-error controlName="assessedEntities"></pop-form-control-error>
         </div>
@@ -53,7 +53,7 @@
             type="submit" 
             label="Save" 
             styleClass="w-full p-3 mt-2"  
-            [loading]="loading"
+            [loading]="isSaving()"
             [disabled]="form.invalid" />
             
     </form>

@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule} from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ export interface RadioChoice {
     selector: 'pop-radio-select',
     template: `
         <div [ngClass]="class">
-            @for (choice of choices; track choice.value;) {
+            @for (choice of choices(); track choice.value;) {
                 <div class="flex items-center">
                     <p-radiobutton 
                         [inputId]="choice.value" 
@@ -40,8 +40,8 @@ export interface RadioChoice {
 })
 export class RadioSelectComponent implements ControlValueAccessor {
     
-    @Input() choices: RadioChoice[] = [];
-    @Input() class: string = 'flex flex-wrap gap-4';
+    public choices = input.required<RadioChoice[]>();
+    public class = input<String>('flex flex-wrap gap-4');
 
     public formControl = new FormControl<RadioChoice|null>(null);
 
