@@ -2,16 +2,17 @@
 @if (case$.error()) {
     {{ pseudoidentifier()}} does not exist
 } @else { 
-    <div class="mb-3">
+    <div class="mb-3 mr-3 flex">
         <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
-        <p-button
-            label="Export case"
-            [style]="{'float': 'right'}"
-            [disabled]="!currentUser().canExportData"
-            [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
-            [loading]="exportLoading"
-            (click)="downloadCaseBundle(case$.value()?.id || '')"/>
-        <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
+        <div class="flex ml-auto gap-2">
+            <p-button
+                label="Export case"
+                [disabled]="!currentUser().canExportData"
+                [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
+                [loading]="exportLoading"
+                (click)="downloadCaseBundle(case$.value()?.id || '')"/>
+            <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
+        </div>
     </div>
     
     <!-- Case summary -->

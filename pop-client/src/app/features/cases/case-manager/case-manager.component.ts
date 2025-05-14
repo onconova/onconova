@@ -14,7 +14,7 @@ import { Fieldset } from 'primeng/fieldset';
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
     Fingerprint, Tablets, Slice, Radiation, Cigarette, 
-    DiamondPlus, Activity, Presentation, ShieldAlert, 
+    DiamondPlus, Activity, Presentation, ShieldAlert,
     Image, CircleGauge, History } from 'lucide-angular';
 
 import { 
@@ -280,7 +280,7 @@ export class CaseManagerComponent {
         this.exportLoading = true;
         this.#interoperabilityService.exportPatientCaseBundle({caseId:caseId}).subscribe({
             next: (response) => {
-                this.#downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier}.json`)
+                this.#downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier()}.json`)
             },
             complete: () => {
                 this.exportLoading = false;
