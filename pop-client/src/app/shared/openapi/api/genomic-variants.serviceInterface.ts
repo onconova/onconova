@@ -46,6 +46,12 @@ export interface GetGenomicVariantHistoryEventByIdRequestParams {
 }
 
 export interface GetGenomicVariantsRequestParams {
+    isPathogenicNotExists?: boolean;
+    isPathogenicExists?: boolean;
+    isPathogenic?: boolean;
+    isVUSNotExists?: boolean;
+    isVUSExists?: boolean;
+    isVUS?: boolean;
     dnaHgvsNotExists?: boolean;
     dnaHgvsExists?: boolean;
     dnaHgvs?: string;
@@ -211,10 +217,6 @@ export interface GetGenomicVariantsRequestParams {
     clinicalRelevance?: string;
     clinicalRelevanceNot?: string;
     clinicalRelevanceAnyOf?: Array<'pathogenic' | 'likely_pathogenic' | 'uncertain_significance' | 'ambiguous' | 'likely_benign' | 'benign'>;
-    isVusNotExists?: boolean;
-    isVusExists?: boolean;
-    isVus?: boolean;
-    isPathogenic?: boolean;
     genomeAssemblyVersionNotExists?: boolean;
     genomeAssemblyVersionExists?: boolean;
     genomeAssemblyVersion?: string;

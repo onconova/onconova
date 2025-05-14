@@ -3,14 +3,14 @@ import pghistory
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
-from django.contrib.postgres.fields import IntegerRangeField
+from django.contrib.postgres.fields import IntegerRangeField, ArrayField
 
 from typing import Union
 from django.contrib.postgres.aggregates import StringAgg, ArrayAgg
 from django.db.models import Q, F, Func, CheckConstraint, When, Case, Value, Subquery, OuterRef
 from django.db.models.expressions import RawSQL
 
-from django.db.models.functions import Cast, Coalesce
+from django.db.models.functions import Cast, Coalesce, Concat
 from django.db.models.fields.json import KeyTextTransform
 
 from queryable_properties.properties import AnnotationProperty, SubqueryFieldProperty
@@ -55,7 +55,12 @@ class HGVSRegex:
     PROTEIN_REFSEQ = fr"(?:{PROTEIN_NCIB_REFSEQ})|(?:{PROTEIN_ENSEMBL_REFSEQ})|(?:{PROTEIN_LRG_REFSEQ})"
 
     # Genomic coordinates
-    POSITION = r'(?:\?|\*|(?:\+|-)?\d+(?:(?:\+|-)?\d+)?)'
+    CODING_POSITION = r'(?:\?|\*|\d+)'
+    UTR3_POSITION = r'(?:\*\d+(?:[\+-]\d+)?)'
+    UTR5_POSITION = r'(?:-\d+(?:[\+-]\d+)?)'
+    INTRONIC_POSITION = r'(?:(?:(?:\+|-)\d+)|(?:(?:\?|\*|\d+)(?:\+|-)\d+))'
+    NONCODING_POSITION = rf'(?:{UTR3_POSITION}|{UTR5_POSITION}|{INTRONIC_POSITION})'
+    POSITION = rf"(?:{NONCODING_POSITION}|{CODING_POSITION})"
     NUCLEOTIDE_UNCERTAIN_POSITION = rf"\({POSITION}_{POSITION}\)"
     NUCLEOTIDE_POSITION = fr"(?:{POSITION}|{NUCLEOTIDE_UNCERTAIN_POSITION})"
     NUCLEOTIDE_RANGE = fr"(?:{NUCLEOTIDE_POSITION}_{NUCLEOTIDE_POSITION})"
@@ -352,27 +357,61 @@ class GenomicVariant(BaseModel):
         verbose_name = _('DNA change position'),
         annotation =Case(
             When(
-                ~Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*') & Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}.*'),
+                ~Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_RANGE}.*') & Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.NUCLEOTIDE_POSITION}.*') & ~Q(dna_hgvs__regex=rf'.*:[cg]\.{HGVSRegex.INTRONIC_POSITION}.*'),
                 then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*(\d+)?\D*.*'), output_field=models.IntegerField())
             ),
             default=None, output_field=models.IntegerField(),
         ),
     )    
-    exons = AnnotationProperty(
+    dna_change_position_intron = AnnotationProperty(
         annotation=Case(
+            When(
+                Q(dna_hgvs__regex=rf'.*:[cg]\.\D*{HGVSRegex.INTRONIC_POSITION}.*'),
+                then=Cast(RegexpMatchSubstring(F('dna_hgvs'),rf':[cg]\.\D*({HGVSRegex.INTRONIC_POSITION}).*'), output_field=models.CharField())
+            ),
+            default=None, output_field=models.CharField(),
+        ),
+    )
+    regions = AnnotationProperty(
+        annotation=Case(
+            When(dna_hgvs__regex=rf'.*:c\.{HGVSRegex.UTR3_POSITION}.*', then=ArrayAgg(
+                Concat('genes__display', models.Value(" 3'UTR"), output_field=models.CharField()),
+                distinct=True
+            )),
+            When(dna_hgvs__regex=rf'.*:c\.{HGVSRegex.UTR5_POSITION}.*', then=ArrayAgg(
+                Concat('genes__display', models.Value(" 5'UTR"), output_field=models.CharField()),
+                distinct=True
+            )),
+            When(dna_hgvs__regex=rf'.*:c\.\D*{HGVSRegex.INTRONIC_POSITION}.*', then=ArrayAgg(
+                Concat(
+                    'genes__exons__gene__display', 
+                    models.Value(' intron '), 
+                    Case(
+                        When(
+                            Q(dna_change_position_intron__regex=r'\+'), 
+                            then=F('genes__exons__rank') + 1
+                        ), 
+                        default=F('genes__exons__rank')
+                    ), output_field=models.CharField()
+                ),
+                filter=Q(genes__exons__coding_dna_region__contains=Cast(RegexpMatchSubstring(F('dna_change_position_intron'),r'(\d+)[\+-]\d+'), output_field=models.IntegerField())),
+                distinct=True,
+            )),
             When(dna_hgvs__regex=r'.*:c\..*', then=ArrayAgg(
-                F('genes__exons__name'), 
+                Concat('genes__exons__gene__display', models.Value(' exon '), 'genes__exons__rank', output_field=models.CharField()),
                 filter=
                     Q(genes__exons__coding_dna_region__contains=F('dna_change_position'))
                     |                    
                     Q(genes__exons__coding_dna_region__overlap=F('dna_change_position_range')),
+                distinct=True,
             )),
             When(dna_hgvs__regex=r'.*:g\..*', then=ArrayAgg(
-                F('genes__exons__name'), 
+                Concat('genes__exons__gene__display', models.Value(' exon '), 'genes__exons__rank', output_field=models.CharField()),
                 filter=
                     Q(genes__exons__coding_genomic_region__contains=F('dna_change_position'))
                     |                    
                     Q(genes__exons__coding_genomic_region__overlap=F('dna_change_position_range')),
+                distinct=True,
             )),
             default=None,
         )            

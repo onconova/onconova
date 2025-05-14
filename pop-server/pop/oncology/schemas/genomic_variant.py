@@ -118,10 +118,10 @@ class GenomicVariantSchema(ModelGetSchema):
         alias='nucleotides_length',
         validation_alias=AliasChoices('nucleotidesLength','nucleotides_length'),        
     )
-    exons: Optional[List[str]] = Field(
+    regions: Optional[List[str]] = Field(
         default=None,
-        title='Exons',
-        description='Gene exons affected by the variant. Estimated from MANE reference sequences.',
+        title='Gene regions',
+        description='Gene regions (exons, introns, UTRs) affected by the variant. Estimated from MANE reference sequences.',
         alias='exons',
     )
     config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'))

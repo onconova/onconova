@@ -378,6 +378,9 @@ class GenomicVariantModelTest(TestCase):
         }, code='gene-1', display='gene-1', system='system')
         terminology.GeneExon.objects.create(gene=gene, rank=1, coding_dna_region=(100,199), coding_genomic_region=(100000,199999))
         terminology.GeneExon.objects.create(gene=gene, rank=2, coding_dna_region=(200,299), coding_genomic_region=(200000,299999))
+        terminology.GeneExon.objects.create(gene=gene, rank=3, coding_dna_region=(300,399), coding_genomic_region=(300000,399999))
+        terminology.GeneExon.objects.create(gene=gene, rank=4, coding_dna_region=(400,499), coding_genomic_region=(400000,499999))
+        terminology.GeneExon.objects.create(gene=gene, rank=5, coding_dna_region=(500,599), coding_genomic_region=(500000,599999))
         cls.variant = factories.GenomicVariantFactory.create(dna_hgvs=None, rna_hgvs=None, protein_hgvs=None)
         cls.variant.genes.set([gene])
     
@@ -495,6 +498,23 @@ class GenomicVariantModelTest(TestCase):
         self.variant.dna_hgvs = hgvs
         self.variant.save()
         self.assertEqual(self.variant.dna_change_position, expected)
+    
+    @parameterized.expand(
+        [
+            # Sequences (intronic DNA coordinate)
+           ('NM_12345.0:c.123-4C>A', '123-4'),
+           ('NM_12345.0:c.123+4C>A', '123+4'),
+           ('NM_12345.0:c.(123-5_123-4)C>A', '123-5'),
+           ('NM_12345.0:c.(123+4_123-5)C>A', '123+4'),
+           ('NM_12345.0:c.(?_123-4)C>A', '123-4'),
+           ('NM_12345.0:c.(123-4_?)C>A', '123-4'),
+        ],
+        name_func = dynamic_test_name
+    )
+    def test_dna_change_position_intron(self, hgvs, expected):
+        self.variant.dna_hgvs = hgvs
+        self.variant.save()
+        self.assertEqual(self.variant.dna_change_position_intron, expected)
         
         
     @parameterized.expand(
@@ -533,12 +553,17 @@ class GenomicVariantModelTest(TestCase):
 
     @parameterized.expand(
         [
-            # Sequences (genomic DNA coordinate)
+            # Untranslated region
+           ('NC_12345:c.-1A>C', ["gene-1 5'UTR"]),
+           ('NC_12345:c.-1-45A>C', ["gene-1 5'UTR"]),
+           ('NC_12345:c.*1A>C', ["gene-1 3'UTR"]),
+           ('NC_12345:c.*1+25A>C', ["gene-1 3'UTR"]),
+           # Exons (genomic DNA coordinate)
            ('NC_12345:g.111111del', ['gene-1 exon 1']),
            ('NC_12345:g.(111111_?)_122222del', ['gene-1 exon 1']),
            ('NC_12345:g.222222_(222223_?)del', ['gene-1 exon 2']),
            ('NC_12345:g.(222222_?)_(222223_?)del', ['gene-1 exon 2']),
-            # Sequences (coding DNA coordinate)
+            # Exons (coding DNA coordinate)
            ('NM_12345.0:c.105del', ['gene-1 exon 1']),
            ('NM_12345.0:c.105_106del', ['gene-1 exon 1']),
            ('NM_12345.0:c.(106_107)_109del',['gene-1 exon 1']),
@@ -551,17 +576,23 @@ class GenomicVariantModelTest(TestCase):
            ('NM_12345.0:c.(200_?)_(?_206)del', ['gene-1 exon 2']),
            ('NM_12345.0:c.(?_123)_(156_?)del', ['gene-1 exon 1']),
            ('NM_12345.0:c.(?_101)_(?_201)del', ['gene-1 exon 1','gene-1 exon 2']),
-           ('NM_12345.0:c.123_?del', ['gene-1 exon 1', 'gene-1 exon 2']),
+           ('NM_12345.0:c.(?_101)_(?_401)del', ['gene-1 exon 1','gene-1 exon 2','gene-1 exon 3','gene-1 exon 4']),
+           ('NM_12345.0:c.123_?del', ['gene-1 exon 1','gene-1 exon 2','gene-1 exon 3','gene-1 exon 4', 'gene-1 exon 5']),
            ('NM_12345.0:c.?_109del', ['gene-1 exon 1']),
            ('NM_12345.0:c.?_(102_?)del', ['gene-1 exon 1']),
-           ('NM_12345.0:c.(123_?)_?del', ['gene-1 exon 1', 'gene-1 exon 2']),
+           ('NM_12345.0:c.(123_?)_?del', ['gene-1 exon 1','gene-1 exon 2','gene-1 exon 3','gene-1 exon 4', 'gene-1 exon 5']),
+            # Introns (coding DNA coordinate)
+           ('NM_12345.0:c.105-1del', ['gene-1 intron 1']),
+           ('NM_12345.0:c.105-1_106-1del', ['gene-1 intron 1']),
+           ('NM_12345.0:c.105+1del', ['gene-1 intron 2']),
+           ('NM_12345.0:c.105+1_106+3del', ['gene-1 intron 2']),
         ],
         name_func = dynamic_test_name
     )
-    def test_dna_change_exons(self, hgvs, expected):
+    def test_dna_change_regions(self, hgvs, expected):
         self.variant.dna_hgvs = hgvs
         self.variant.save()
-        self.assertEqual(self.variant.exons, expected)
+        self.assertEqual(self.variant.regions, expected)
     
     @parameterized.expand(
         [

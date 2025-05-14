@@ -11,6 +11,30 @@
 
 export interface GenomicVariantFilters { 
     /**
+     * Is Pathogenic - Filter for entries without a value
+     */
+    'isPathogenic.not.exists'?: boolean;
+    /**
+     * Is Pathogenic - Filter for entries with a value
+     */
+    'isPathogenic.exists'?: boolean;
+    /**
+     * Is Pathogenic - (\'Filter for yes/no statement\',)
+     */
+    isPathogenic?: boolean;
+    /**
+     * Is VUS - Filter for entries without a value
+     */
+    'isVUS.not.exists'?: boolean;
+    /**
+     * Is VUS - Filter for entries with a value
+     */
+    'isVUS.exists'?: boolean;
+    /**
+     * Is VUS - (\'Filter for yes/no statement\',)
+     */
+    isVUS?: boolean;
+    /**
      * DNA HGVS - Filter for entries without a value
      */
     'dnaHgvs.not.exists'?: boolean;
@@ -634,22 +658,6 @@ export interface GenomicVariantFilters {
      * Clinical relevance - (\'Filter for excluding a subset of value choices\',)
      */
     'clinicalRelevance.anyOf'?: Array<GenomicVariantFilters.ClinicalRelevanceAnyOfEnum>;
-    /**
-     * Is pathogenic - Filter for entries without a value
-     */
-    'isVus.not.exists'?: boolean;
-    /**
-     * Is pathogenic - Filter for entries with a value
-     */
-    'isVus.exists'?: boolean;
-    /**
-     * Is pathogenic - (\'Filter for yes/no statement\',)
-     */
-    isVus?: boolean;
-    /**
-     * Is pathogenic - (\'Filter for yes/no statement\',)
-     */
-    isPathogenic?: boolean;
     /**
      * Genome assembly version - Filter for entries without a value
      */
