@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 
 from pop.core import permissions as perms
 from pop.core.utils import find_uuid_across_models
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema
 import pop.oncology.schemas as oncology_schemas
 from pop.oncology.models import PatientCase
@@ -35,7 +36,7 @@ class ConflictResolution(str, Enum):
 
 @api_controller(
     'interoperability', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Interoperability'],  
 )
 class InteroperabilityController(ControllerBase):

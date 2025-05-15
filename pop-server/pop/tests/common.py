@@ -1,6 +1,6 @@
 from django.db import connection
 from django.db.models.base import ModelBase
-from django.test import TestCase
+from django.test import TestCase, Client
 
 class AbstractModelMixinTestCase(TestCase):
     """
@@ -77,7 +77,7 @@ class ApiControllerTestMixin:
         cls.user.set_password(password)
         cls.user.save()
         # Authenticate user and get authentication HTTP header
-        cls.auth_header = cls._authenticate_user(username, password)
+        cls.auth_header = cls._authenticate_user_and_get_authentication_header(username, password)
         cls.authenticated_client = Client(headers=cls.auth_header)
         cls.unauthenticated_client = Client()
         
@@ -97,12 +97,15 @@ class ApiControllerTestMixin:
         return f'/{instance.id}/history/events/{event.pgh_id}/reversion'
 
     @staticmethod
-    def _authenticate_user(username, password):
+    def _authenticate_user_and_get_authentication_header(username, password):
         # Login the user and retrieve the JWT token
-        auth_client = TestClient(AuthController)
-        response = auth_client.post("/pair", json={'username': username, 'password': password}, secure=True)
-        token = response.json()["access"]
-        return {"Authorization": f"Bearer {str(token)}"}
+        auth_client = Client()
+        response = auth_client.post("/api/allauth/app/v1/auth/login", data={'username': username, 'password': password}, content_type='application/json', secure=True)
+        if response.status_code != 200:
+            raise RuntimeError(f'Failed to authenticate user. Login endpoint returned {response.status_code}')
+        token = response.json()["meta"]['session_token']
+        return {"X-Session-Token": str(token)}
+
 
     def call_api_endpoint(self, verb, route, expected_responses, authenticated, use_https, access_level, data=None):        
         # Set the user access level for this call

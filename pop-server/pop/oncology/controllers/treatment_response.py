@@ -6,6 +6,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TreatmentResponse, TherapyLine
 
@@ -15,7 +16,7 @@ from pop.oncology.schemas import TreatmentResponseSchema, TreatmentResponseCreat
 
 @api_controller(
     'treatment-responses', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Treatment Responses'],  
 )
 class TreatmentResponseController(ControllerBase):

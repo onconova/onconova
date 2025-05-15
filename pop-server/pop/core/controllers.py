@@ -1,13 +1,13 @@
 from ninja import Query
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
-from ninja_jwt.authentication import JWTAuth
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.models import User
 from pop.core.schemas import (
     Paginated,
@@ -51,7 +51,7 @@ class AuthController(ControllerBase):
     
 @api_controller(
     '/auth', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Auth'],  
 )
 class UsersController(ControllerBase):
@@ -108,40 +108,6 @@ class UsersController(ControllerBase):
         user = get_object_or_404(User, id=userId)
         return payload.model_dump_django(instance=user)
         
-    @route.put(
-        path='/users/{userId}/password', 
-       response={
-            200: None,
-            404: None, 401: None, 403: None,
-        },
-        operation_id='updateUserPassword',
-    )
-    def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
-        user = get_object_or_404(User, id=userId)
-        requesting_user = self.context.request.user
-        authorized = user.id == requesting_user.id or requesting_user.can_manage_users
-        if not authorized or not user.check_password(payload.oldPassword):
-            return 403, None
-        user.set_password(payload.newPassword)
-        user.save()
-        return 200, None 
-    
-
-    @route.post(
-        path='/users/{userId}/password/reset', 
-        response={
-            200: None,
-            401: None, 403: None,
-        },
-        permissions=[perms.CanManageUsers],
-        operation_id='resetUserPassword',
-    )
-    def reset_user_password(self, userId: str, password: str):
-        user = get_object_or_404(User, id=userId)
-        user.set_password(password)
-        user.save()
-        return 200, None 
-
     @route.put(
         path='/users/{userId}/profile', 
        response={

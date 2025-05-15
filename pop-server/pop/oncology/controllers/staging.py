@@ -12,6 +12,7 @@ from typing_extensions import TypeAliasType
 
 from pop.core import permissions as perms
 from pop.core.utils import revert_multitable_model
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Staging
 from pop.oncology.schemas import (
@@ -78,7 +79,7 @@ def cast_to_model_schema(model_instance, schemas, payload=None):
     
 @api_controller(
     'stagings', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Stagings'],  
 )
 class StagingController(ControllerBase):

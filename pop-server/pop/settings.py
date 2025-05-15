@@ -31,6 +31,17 @@ HOST_ORGANIZATION = env('ORGANIZATION_NAME') # Used by API
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    f"https://{WEBAPP_HOST}"
+]
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "x-session-token",
+    "x-email-verification-key",
+    "x-password-reset-key",
+)
 
 # Django debugging mode
 DEBUG = env("ENVIRONMENT") == 'development'                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
@@ -59,6 +70,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.headless',
+    'allauth.usersessions',
+    'allauth.socialaccount',
 
     'ninja_extra',
     'corsheaders',
@@ -73,10 +86,17 @@ INSTALLED_APPS = [
 # Register the custom user (do not change)
 AUTH_USER_MODEL = 'core.User'
 SITE_ID = 1
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
 ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    },
+}
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -85,10 +105,18 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+USERSESSIONS_TRACK_ACTIVITY = True
 HEADLESS_ONLY = True
-HEADLESS_CLIENTS = ('browser',)
+HEADLESS_CLIENTS = ('app',)
 HEADLESS_SERVE_SPECIFICATION = True
 HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html" 
+HEADLESS_FRONTEND_URLS = {
+    "account_confirm_email": "/account/verify-email/{key}",
+    "account_reset_password": "/account/password/reset",
+    "account_reset_password_from_key": "/account/password/reset/key/{key}",
+    "account_signup": "/account/signup",
+    "socialaccount_login_error": "/account/provider/callback",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',           
@@ -98,6 +126,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',     
     "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+    'allauth.usersessions.middleware.UserSessionsMiddleware',
     'pop.core.middleware.HistoryMiddleware',
 ]
 

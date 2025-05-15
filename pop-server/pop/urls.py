@@ -11,5 +11,5 @@ urlpatterns = [
     path("api/", api.urls),
 
     path("api/accounts/", include("allauth.urls")),
-    path("api/_allauth/", include("allauth.headless.urls")),
+    path("api/allauth/", include("allauth.headless.urls")),
 ]

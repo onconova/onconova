@@ -11,6 +11,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
  
 from pop.core.schemas import Paginated, CodedConceptSchema
+from pop.core.security import XSessionTokenAuth
 from pop.terminology import models as terminologies
 
 
@@ -28,7 +29,7 @@ def get_matching_score_expression(query, score):
 
 @api_controller(
     "/terminologies", 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=["Terminology"]
 )
 class TerminologyController(ControllerBase):

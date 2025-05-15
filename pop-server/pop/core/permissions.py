@@ -4,12 +4,16 @@ from django.http import HttpRequest
 from django.contrib.auth.models import AnonymousUser
 from pop.core.models import User
 
+from allauth.headless import app_settings
+from django.contrib.auth import SESSION_KEY, get_user_model
+
 class BasePermission(permissions.BasePermission):
     
     def check_user_permission(self, user: User):
         raise NotImplementedError 
     
     def has_permission(self, request: HttpRequest, controller):
+        print('session', app_settings.TOKEN_STRATEGY.lookup_session(request.headers.get("X-Session-Token")).get(SESSION_KEY))
         return request.user.is_superuser or (not isinstance(request.user, AnonymousUser) and (request.user.is_system_admin or self.check_user_permission(request.user)))
 
 

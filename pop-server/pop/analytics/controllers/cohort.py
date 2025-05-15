@@ -10,13 +10,13 @@ from typing import List, Any
 
 from ninja import Query
 from ninja_extra import route, api_controller
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import route, api_controller, status, ControllerBase
 from ninja_extra.exceptions import APIException
 
 from pop.core import permissions as perms
 from pop.core.utils import camel_to_snake
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import Paginated, ModifiedResourceSchema, HistoryEvent
 from pop.oncology import schemas as oncological_schemas
 from pop.interoperability.schemas import ExportMetadata
@@ -46,7 +46,7 @@ class EmptyCohortException(APIException):
 
 @api_controller(
     "/cohorts", 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=["Cohorts"]
 )
 class CohortsController(ControllerBase):
