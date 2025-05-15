@@ -9,18 +9,30 @@ import { AppThemePreset } from './app.preset';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { AuthInterceptor } from './core/auth/interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
 import { provideNgxCountAnimations } from "ngx-count-animation";
 
 import { environment } from 'src/environments/environment';
+import { AuthErrorInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         MessageService,
         DialogService,
+        provideHttpClient(withInterceptorsFromDi()), 
+        { 
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
+        { 
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthErrorInterceptor,
+            multi: true,
+        },
         provideZoneChangeDetection({ 
             eventCoalescing: true 
         }), 
@@ -35,11 +47,6 @@ export const appConfig: ApplicationConfig = {
                 }
             }
         }),  
-        provideHttpClient(
-            withInterceptors([
-                authInterceptor, 
-            ]),
-        ),
         { provide: BASE_PATH, useValue: `${window.location.protocol}//${window.location.host}`},
         { provide: JDENTICON_CONFIG, useValue: {
             hues: [0, 0],

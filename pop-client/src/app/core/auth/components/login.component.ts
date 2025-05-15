@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { LayoutService } from '../../layout/app.layout.service'
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,23 +25,23 @@ import { InputIconModule } from 'primeng/inputicon';
                 <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px; background: var(--p-content-background) !important;">
                     <div class="text-center mb-5">
                         <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
-                        <span class="text-600 font-medium">Sign in to continue</span>
+                        <span class="text-600 font-medium text-muted">Sign in to continue</span>
                     </div>
 
                     <form (ngSubmit)="login()">
                         <div class="field">
-                            <label for="username" class="block text-900 text-xl font-medium mb-2">Username</label>
+                            <label for="username" class="font-semibold">What is your {{ loginMethods() }}? </label>
                             <p-iconfield>
-                                <p-inputicon styleClass="pi pi-user" />
-                                <input type="text" pInputText placeholder="Username" name="username" fluid [(ngModel)]="username" class="py-3 px-5"/>
+                                <p-inputicon styleClass="pi pi-at" />
+                                <input type="text" pInputText placeholder="{{ loginMethods() | titlecase }}" name="username" fluid [(ngModel)]="username" class="py-3 px-5" autocomplete="username"/>
                             </p-iconfield>
                         </div>
 
                         <div class="field">
-                            <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
+                            <label for="password1" class="font-semibold">Password</label>
                             <p-iconfield>
                                 <p-inputicon styleClass="pi pi-key" />
-                                <input type="password" pInputText placeholder="Username" name="password" fluid [(ngModel)]="password" class="py-3 px-5"/>
+                                <input type="password" pInputText placeholder="Password" name="password" fluid [(ngModel)]="password" class="py-3 px-5" autocomplete="current-password"/>
                             </p-iconfield>
                         </div>
 
@@ -79,6 +79,12 @@ export class LoginComponent implements OnInit {
     public password!: string;
     public loading: boolean = false;
     private nextUrl!: string;
+
+    public loginMethods = computed(() => {
+        const config = this.authService.configuration.value() as any;
+        console.log('config?.data?.account?.login_methods', config?.data?.account?.login_methods)
+        return config?.data?.account?.login_methods.join(' or ');
+    })
 
     ngOnInit(): void {
         // Get return URL from route parameters or default to '/'
