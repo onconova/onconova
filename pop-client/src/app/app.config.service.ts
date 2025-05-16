@@ -16,7 +16,7 @@ export class AppConfigService {
     public isAuthConfigLoaded = computed(() => this.#authConfig.hasValue())
 
     public getIdentityProviders() {
-        return this.#authConfig.value()?.socialaccount?.providers || []
+        return (this.#authConfig.value()?.socialaccount?.providers || []).filter(provider => provider.client_id != null);
     }
 
     public getIdentityProviderClientId(providerId: string): string | null {

@@ -58,23 +58,34 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True       # Ensure that all subdomains, not ju
 
 # Application definition
 INSTALLED_APPS = [
-    'django_extensions',
+
+    # Postgres triggers
+    'pgtrigger',
+    'pghistory',
+
+    # POP core
     'pop.core',
     'pop.terminology',
     'pop.oncology',
     'pop.interoperability',
     'pop.analytics',
-    'pgtrigger',
-    'pghistory',
 
+    # Social Media Auth
     'allauth',
     'allauth.account',
-    'allauth.headless',
-    'allauth.usersessions',
+    "allauth.headless",
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.microsoft',
+    'allauth.usersessions',
 
+    # Django Extensions
     'ninja_extra',
     'corsheaders',
+    'django_extensions',
+
+    # Django Core
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,21 +94,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-# Register the custom user (do not change)
+# Authentication Settings
+# https://docs.djangoproject.com/en/3.1/ref/settings/#auth
 AUTH_USER_MODEL = 'core.User'
-SITE_ID = 1
-ACCOUNT_LOGIN_METHODS = {'email', 'username'}
-ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
-SOCIALACCOUNT_PROVIDERS = {
-    "github": {
-        'SCOPE': [
-            'user',
-            'repo',
-            'read:org',
-        ],
-    },
-}
 
+# Authentication Enabled Backends
+SITE_ID = 1
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -105,17 +107,53 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# Django AllAuth Configuration
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
 USERSESSIONS_TRACK_ACTIVITY = True
 HEADLESS_ONLY = True
 HEADLESS_CLIENTS = ('app',)
 HEADLESS_SERVE_SPECIFICATION = True
 HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html" 
-HEADLESS_FRONTEND_URLS = {
-    "account_confirm_email": "/account/verify-email/{key}",
-    "account_reset_password": "/account/password/reset",
-    "account_reset_password_from_key": "/account/password/reset/key/{key}",
-    "account_signup": "/account/signup",
-    "socialaccount_login_error": "/account/provider/callback",
+
+
+# Django AllAuth Providers
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'read:user'
+        ],
+        'APP': {
+            'client_id': os.environ.get('POP_GITHUB_CLIENT_ID'),
+            'secret': os.environ.get('POP_GITHUB_SECRET'),
+        }
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.environ.get('POP_GOOGLE_CLIENT_ID'),
+            'secret': os.environ.get('POP_GOOGLE_SECRET'),
+            'key': ''
+        }
+    },
+    'microsoft': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'APP': {
+            'tenant': os.environ.get('AZURE_AD_TENANT_ID'), 
+            'client_id': os.environ.get('POP_MICROSOFT_CLIENT_ID'),
+            'secret': os.environ.get('POP_MICROSOFT_SECRET'),
+            'key': ''
+        }
+    }
 }
 
 MIDDLEWARE = [

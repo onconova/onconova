@@ -56,11 +56,11 @@ import { AppConfigService } from 'src/app/app.config.service';
                         <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3"  [loading]="loading"></p-button>
                     </form>
                 </div>
-
+                Session: {{ sessionId() }}
                 @if (identityProviders().length > 0) {
                     <p-divider class="my-5"></p-divider>
                     <div class="flex flex-column gap-3">
-                        <div class="mx-auto text-muted ">or Sign In with an Identity Provider</div>
+                        <div class="mx-auto text-muted ">or Sign In with an authorized Identity Provider</div>
                         <div class="flex flex-column gap-3 mx-auto">
                             @for (provider of identityProviders(); track provider.id ){
                                 @switch (provider.id) {
