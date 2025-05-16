@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { LayoutService } from '../../layout/app.layout.service'
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,27 +13,35 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { FluidModule } from 'primeng/fluid';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { GoogleSigninButtonModule, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { switchMap } from 'rxjs';
+import { Divider } from 'primeng/divider';
+import { GoogleSigninComponent } from "./google-signin-button.component";
+import { AppConfigService } from 'src/app/app.config.service';
 
 @Component({
     selector: 'pop-login',
     template: `
+    <header>
+        <script src="https://accounts.google.com/gsi/client" async></script>
+    </header>
     <p-toast></p-toast>
     <div class="flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
         <div class="flex flex-column align-items-center justify-content-center">
             <div [inlineSVG]="layoutService.logo" class="pop-logo w-8rem h-8rem mr-3 mb-3" alt="POP logo"></div>            
             <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--p-primary-color) 10%, rgba(33, 150, 243, 0) 30%); min-width: 40rem;">
                 <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px; background: var(--p-content-background) !important;">
-                    <div class="text-center mb-5">
-                        <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
+                    <div class="text-center mb-5 pb-4">
+                        <div class="text-900 text-3xl font-medium mb-2">Welcome!</div>
                         <span class="text-600 font-medium text-muted">Sign in to continue</span>
                     </div>
 
                     <form (ngSubmit)="login()">
                         <div class="field">
-                            <label for="username" class="font-semibold">What is your {{ loginMethods() }}? </label>
+                            <label for="username" class="font-semibold">Do you have a POP account? </label>
                             <p-iconfield>
                                 <p-inputicon styleClass="pi pi-at" />
-                                <input type="text" pInputText placeholder="{{ loginMethods() | titlecase }}" name="username" fluid [(ngModel)]="username" class="py-3 px-5" autocomplete="username"/>
+                                <input type="text" pInputText placeholder="Account {{ loginMethods() }}" name="username" fluid [(ngModel)]="username" class="py-3 px-5" autocomplete="username"/>
                             </p-iconfield>
                         </div>
 
@@ -48,21 +56,43 @@ import { InputIconModule } from 'primeng/inputicon';
                         <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3"  [loading]="loading"></p-button>
                     </form>
                 </div>
+
+                @if (identityProviders().length > 0) {
+                    <p-divider class="my-5"></p-divider>
+                    <div class="flex flex-column gap-3">
+                        <div class="mx-auto text-muted ">or Sign In with an Identity Provider</div>
+                        <div class="flex flex-column gap-3 mx-auto">
+                            @for (provider of identityProviders(); track provider.id ){
+                                @switch (provider.id) {
+                                    @case ('google') {
+                                        <app-google-signin (loginWithGoogle)="$event.click()"></app-google-signin>
+                                    }
+                                    @case ('microsoft') {
+                                        <p-button icon="pi pi-microsoft" styleClass="w-30rem py-3" severity="secondary" [raised]="true" size="large" [rounded]="true" label="Sign In with Microsoft"/>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
     `,
     imports: [
-        CommonModule,
-        FormsModule,
-        InlineSVGModule,
-        FluidModule,
-        InputIconModule,
-        IconFieldModule,
-        Button,
-        InputText,
-        Toast,
-    ]
+    CommonModule,
+    FormsModule,
+    InlineSVGModule,
+    FluidModule,
+    InputIconModule,
+    IconFieldModule,
+    Divider,
+    Button,
+    InputText,
+    Toast,
+    GoogleSigninButtonModule,
+    GoogleSigninComponent
+]
 })
 export class LoginComponent implements OnInit {
 
@@ -72,6 +102,7 @@ export class LoginComponent implements OnInit {
     public layoutService =  inject(LayoutService);
     private messageService = inject(MessageService);
     private authService = inject(AuthService);
+    private configService = inject(AppConfigService);
 
     // Properties
     public valCheck: string[] = ['remember'];
@@ -80,17 +111,54 @@ export class LoginComponent implements OnInit {
     public loading: boolean = false;
     private nextUrl!: string;
 
-    public loginMethods = computed(() => {
-        const config = this.authService.configuration.value() as any;
-        console.log('config?.data?.account?.login_methods', config?.data?.account?.login_methods)
-        return config?.data?.account?.login_methods.join(' or ');
-    })
+    #socialAuthService = inject(SocialAuthService);
 
-    ngOnInit(): void {
-        // Get return URL from route parameters or default to '/'
-        this.nextUrl = this.route.snapshot.queryParams['next'] || '/dashboard';
+    public loginMethods = computed(() => {
+        return this.configService.getAllowedLoginMethds().join(' or ');
+    })
+    public identityProviders = computed(() => {
+        return this.configService.getIdentityProviders();
+    })
+    
+    constructor() {
+        effect(() => {
+            const clientId = this.configService.getIdentityProviderClientId('google');
+            if (clientId) {
+                this.#socialAuthService.authState.pipe(
+                    switchMap((user: SocialUser) => {
+                        this.loading = true;
+                        this.authService.identityProvider = 'google';
+                        console.log('user.idToken',user.idToken)
+                        return this.authService.loginThroughProvider("google", clientId, user.idToken)
+                    })
+                ).subscribe({
+                    next: (response) => {
+                        this.loading = false
+                        this.router.navigateByUrl(this.nextUrl).then(() => 
+                            this.messageService.add({ severity: 'success', summary: 'Login', detail: 'Succesful login' })
+                        )
+                    },
+                    error: (error) => {
+                        this.loading = false
+                        if (error.status == 401) {
+                            this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
+                        } else 
+                        if (error.status == 400 ){
+                            this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Error occurred during processing of provider credentials' });
+                        } else {
+                            this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.error.detail });
+                        }
+                    }
+                })
+            }
+        })
     }
 
+    ngOnInit() {
+        // Get return URL from route parameters or default to '/'
+        this.nextUrl = this.route.snapshot.queryParams['next'] || '/';
+    }
+      
     login(): void {
         this.loading = true
         this.authService.login(this.username, this.password).subscribe({
@@ -113,6 +181,7 @@ export class LoginComponent implements OnInit {
             }
         })
     }
+
 }
 
 

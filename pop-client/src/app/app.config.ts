@@ -10,16 +10,21 @@ import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { AuthInterceptor } from './core/auth/interceptors/auth.interceptor';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
 import { provideNgxCountAnimations } from "ngx-count-animation";
-
-import { environment } from 'src/environments/environment';
+import {
+    SocialAuthServiceConfig,
+  } from '@abacritt/angularx-social-login';
+  import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { AuthErrorInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
+import { AppConfigService } from './app.config.service';
+
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        AppConfigService,
         MessageService,
         DialogService,
         provideHttpClient(withInterceptorsFromDi()), 
@@ -59,6 +64,33 @@ export const appConfig: ApplicationConfig = {
                 grayscale: 0.50,
             },
         }},
-        provideNgxCountAnimations()
+        provideNgxCountAnimations(),
+        {
+            provide: 'SocialAuthServiceConfig',
+            useFactory: (configService: AppConfigService) => new Promise<void>((resolve) => {
+                if (configService.isAuthConfigLoaded()) {
+                    resolve();
+                } else {
+                    const checkInterval = setInterval(() => {
+                        if (configService.isAuthConfigLoaded()) {
+                        clearInterval(checkInterval);
+                        resolve();
+                        }
+                    }, 50); // check every 50ms     
+                }                
+            }).then(() => ({
+                autoLogin: false,
+                providers: [
+                    {
+                    id: GoogleLoginProvider.PROVIDER_ID,
+                    provider: new GoogleLoginProvider(configService.getIdentityProviderClientId('google') || '', {
+                        oneTapEnabled: false
+                    }),
+                    },
+                ],
+                } as SocialAuthServiceConfig)
+            ),
+            deps: [AppConfigService]
+        },
     ]
 };

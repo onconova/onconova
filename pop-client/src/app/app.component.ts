@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'pop-root',
-    templateUrl: './app.component.html',
+    template: `<router-outlet></router-outlet>`,
     imports: [RouterOutlet],
 })
 export class AppComponent {
