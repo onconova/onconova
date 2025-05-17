@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService, LOGOUT_ENDPOINT } from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { URLs } from '../allauth-api.service';
 
 @Injectable()
 export class AuthErrorInterceptor implements HttpInterceptor {
@@ -16,16 +17,18 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          // Session is no longer valid
             this.authService.sessionToken.set(null);
             this.authService.sessionUserId.set(null);
-            if (req.url.includes(LOGOUT_ENDPOINT)) {
+            this.router.navigate(['auth', 'login']);
+            if (req.url.includes(URLs.SESSIONS)) {
+                // User has manually logged out
                 this.messageService.add({ severity: 'success', summary: 'Logout', detail: 'Successfully logged out' });
+                return EMPTY;
             } else {
+                // Session is no longer valid
                 this.messageService.add({ severity: 'error', summary: 'Session expired', detail: 'Please log in again' });
+                return throwError(() => error);
             }
-            this.router.navigate(['/']);
-          // Optionally display a message or toast notification here
         }
         return throwError(() => error);
       })

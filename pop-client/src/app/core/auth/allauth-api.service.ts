@@ -237,11 +237,24 @@ export class AllAuthApiService {
     return this.http.post(`${this.baseUrl}/auth/2fa/trust`, data, this.httpOptions);
   }
 
+
   // Auth: Social
-  providerSignup(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/auth/provider/signup`, data, this.httpOptions);
+  providerSignup(data: any, headers: any = {}): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/provider/signup`, data, {headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      ...headers
+    })});
   }
 
+  getproviderSignupInfo(headers: any = {}): Observable<any> {
+    return this.http.get(`${this.baseUrl}/auth/provider/signup`, {headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      ...headers
+    })});
+  }
+  
   redirectToProvider(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/provider/redirect`, data, this.httpOptions);
   }

@@ -179,8 +179,6 @@ export class AppTopBarComponent {
     
     logout() {
         this.#authService.logout()
-        this.#router.navigate(['auth','login'])
-        this.#messageService.add({ severity: 'success', summary: 'Logout', detail: 'Succesful logout' });
     }
     
 }

@@ -13,16 +13,12 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const basePath: string = inject(BASE_PATH);
-    const router = inject(Router);
 
-    if (request.url.endsWith('/auth/login')) {
+    if (request.url.startsWith(`${basePath}/api/auth/`) || request.url.endsWith('/api/allauth/app/v1/config')) {
         return next.handle(request);
     }
 
         const isApiUrl = request.url.startsWith(`${basePath}/api`);
-        if (!this.authService.isAuthenticated()) (
-            router.navigate(['auth','login'])
-        )
         if (isApiUrl) {
             request = request.clone({
                 setHeaders: {

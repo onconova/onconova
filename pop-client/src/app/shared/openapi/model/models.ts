@@ -102,6 +102,7 @@ export * from './neoplastic-entity';
 export * from './neoplastic-entity-create';
 export * from './neoplastic-entity-filters';
 export * from './neoplastic-entity-relationship-choices';
+export * from './o-auth-exchange-code';
 export * from './paginated-adverse-event';
 export * from './paginated-any';
 export * from './paginated-any-genomic-signature';

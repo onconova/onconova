@@ -11,7 +11,6 @@
     "serve:ssr:ngtest": "node dist/ngtest/server/server.mjs"
   },
   "dependencies": {
-    "@abacritt/angularx-social-login": "^2.4.0",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
@@ -21,7 +20,6 @@
     "@angular/platform-server": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.10",
-    "@auth0/angular-jwt": "^5.2.0",
     "@primeng/themes": "^19.1.2",
     "@sgratzl/chartjs-chart-boxplot": "^4.4.4",
     "chart.js": "^4.4.9",
@@ -30,7 +28,6 @@
     "fflate": "^0.8.2",
     "imask": "^7.6.1",
     "jdenticon": "^3.3.0",
-    "jwt-decode": "^4.0.0",
     "lucide-angular": "^0.482.0",
     "ng-inline-svg-2": "^15.0.1",
     "ngx-count-animation": "^3.1.0",

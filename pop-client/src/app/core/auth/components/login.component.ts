@@ -13,18 +13,12 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { FluidModule } from 'primeng/fluid';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { GoogleSigninButtonModule, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { switchMap } from 'rxjs';
 import { Divider } from 'primeng/divider';
-import { GoogleSigninComponent } from "./google-signin-button.component";
 import { AppConfigService } from 'src/app/app.config.service';
 
 @Component({
     selector: 'pop-login',
     template: `
-    <header>
-        <script src="https://accounts.google.com/gsi/client" async></script>
-    </header>
     <p-toast></p-toast>
     <div class="flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
         <div class="flex flex-column align-items-center justify-content-center">
@@ -32,8 +26,9 @@ import { AppConfigService } from 'src/app/app.config.service';
             <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--p-primary-color) 10%, rgba(33, 150, 243, 0) 30%); min-width: 40rem;">
                 <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px; background: var(--p-content-background) !important;">
                     <div class="text-center mb-5 pb-4">
-                        <div class="text-900 text-3xl font-medium mb-2">Welcome!</div>
-                        <span class="text-600 font-medium text-muted">Sign in to continue</span>
+                        <div class="text-900 text-xl font-medium mb-1">Welcome to the</div>
+                        <div class="text-900 text-3xl font-medium mb-2">Precision Oncology Platform</div>
+                        <span class="text-600 font-medium text-muted">Please sign in to continue</span>
                     </div>
 
                     <form (ngSubmit)="login()">
@@ -56,19 +51,20 @@ import { AppConfigService } from 'src/app/app.config.service';
                         <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3"  [loading]="loading"></p-button>
                     </form>
                 </div>
-                Session: {{ sessionId() }}
                 @if (identityProviders().length > 0) {
-                    <p-divider class="my-5"></p-divider>
+                    <p-divider class="my-5"><div class="px-3 text-muted" style="background: light-dark(var(--p-surface-50), var(--p-surface-950))">or</div></p-divider>
                     <div class="flex flex-column gap-3">
-                        <div class="mx-auto text-muted ">or Sign In with an authorized Identity Provider</div>
                         <div class="flex flex-column gap-3 mx-auto">
                             @for (provider of identityProviders(); track provider.id ){
                                 @switch (provider.id) {
                                     @case ('google') {
-                                        <app-google-signin (loginWithGoogle)="$event.click()"></app-google-signin>
+                                        <p-button (onClick)="loginProvider('google')" icon="pi pi-google" styleClass="w-30rem py-3" severity="secondary" [raised]="true" size="large" [rounded]="true" label="Sign In with Google"/>
                                     }
                                     @case ('microsoft') {
-                                        <p-button icon="pi pi-microsoft" styleClass="w-30rem py-3" severity="secondary" [raised]="true" size="large" [rounded]="true" label="Sign In with Microsoft"/>
+                                        <p-button (onClick)="loginProvider('microsoft')" icon="pi pi-microsoft" styleClass="w-30rem py-3" severity="secondary" [raised]="true" size="large" [rounded]="true" label="Sign In with Microsoft"/>
+                                    }
+                                    @case ('github') {
+                                        <p-button (onClick)="loginProvider('github')" icon="pi pi-github" styleClass="w-30rem py-3" severity="secondary" [raised]="true" size="large" [rounded]="true" label="Sign In with GitHub"/>
                                     }
                                 }
                             }
@@ -90,8 +86,6 @@ import { AppConfigService } from 'src/app/app.config.service';
     Button,
     InputText,
     Toast,
-    GoogleSigninButtonModule,
-    GoogleSigninComponent
 ]
 })
 export class LoginComponent implements OnInit {
@@ -111,48 +105,12 @@ export class LoginComponent implements OnInit {
     public loading: boolean = false;
     private nextUrl!: string;
 
-    #socialAuthService = inject(SocialAuthService);
-
     public loginMethods = computed(() => {
         return this.configService.getAllowedLoginMethds().join(' or ');
     })
     public identityProviders = computed(() => {
         return this.configService.getIdentityProviders();
     })
-    
-    constructor() {
-        effect(() => {
-            const clientId = this.configService.getIdentityProviderClientId('google');
-            if (clientId) {
-                this.#socialAuthService.authState.pipe(
-                    switchMap((user: SocialUser) => {
-                        this.loading = true;
-                        this.authService.identityProvider = 'google';
-                        console.log('user.idToken',user.idToken)
-                        return this.authService.loginThroughProvider("google", clientId, user.idToken)
-                    })
-                ).subscribe({
-                    next: (response) => {
-                        this.loading = false
-                        this.router.navigateByUrl(this.nextUrl).then(() => 
-                            this.messageService.add({ severity: 'success', summary: 'Login', detail: 'Succesful login' })
-                        )
-                    },
-                    error: (error) => {
-                        this.loading = false
-                        if (error.status == 401) {
-                            this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
-                        } else 
-                        if (error.status == 400 ){
-                            this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Error occurred during processing of provider credentials' });
-                        } else {
-                            this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.error.detail });
-                        }
-                    }
-                })
-            }
-        })
-    }
 
     ngOnInit() {
         // Get return URL from route parameters or default to '/'
@@ -181,6 +139,13 @@ export class LoginComponent implements OnInit {
             }
         })
     }
+    
+
+  loginProvider(provider: string) {
+    localStorage.setItem('login_provider', provider);  // track for callback
+    localStorage.setItem('login_client_id', this.configService.getIdentityProviderClientId(provider)!);  // track for callback
+    this.authService.initiateOpenIdAuthentication(provider);
+  }
 
 }
 

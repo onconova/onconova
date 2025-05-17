@@ -18,6 +18,8 @@ import { DNAChangeType } from './dna-change-type';
 
 
 export interface GenomicVariant { 
+    isPathogenic?: boolean | null;
+    isVUS?: boolean | null;
     dnaHgvs?: string | null;
     dnaReferenceSequence?: string | null;
     dnaChangePosition?: number | null;
@@ -51,11 +53,6 @@ export interface GenomicVariant {
     confidence?: GenomicVariantConfidenceChoices | null;
     analysisMethod?: CodedConcept | null;
     clinicalRelevance?: GenomicVariantClinicalRelevanceChoices | null;
-    isVus?: boolean | null;
-    /**
-     * Indicates if the variant is pathogenic (determined automatically based on the clinical relevance classification)
-     */
-    isPathogenic: boolean;
     genomeAssemblyVersion?: CodedConcept | null;
     molecularConsequence?: CodedConcept | null;
     copyNumber?: number | null;

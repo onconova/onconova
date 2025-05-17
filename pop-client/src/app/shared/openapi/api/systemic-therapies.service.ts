@@ -85,8 +85,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -156,8 +155,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -223,8 +221,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -283,8 +280,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -347,8 +343,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -417,8 +412,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1141,8 +1135,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1199,8 +1192,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1260,8 +1252,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1321,8 +1312,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1386,8 +1376,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1443,8 +1432,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1508,8 +1496,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1569,8 +1556,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1630,8 +1616,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1705,8 +1690,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

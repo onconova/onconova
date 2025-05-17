@@ -1,5 +1,8 @@
-from ninja import Query
-from ninja_extra import route, api_controller, ControllerBase
+import requests
+import os 
+from typing import Any, Optional
+from ninja import Query, Schema
+from ninja_extra import status,route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
 
 from django.contrib.auth import get_user_model
@@ -23,8 +26,15 @@ from pop.core.schemas import (
     UserCredentials
 )
 
+class OAuthExchangeCode(Schema):
+    code: str
+    provider: str
+    state: Optional[str] = None
+    redirect_uri: Optional[str] = None
+
+
 @api_controller(
-    "/auth/token", 
+    "/auth", 
     tags=["Auth"]
 )
 class AuthController(ControllerBase):
@@ -47,10 +57,48 @@ class AuthController(ControllerBase):
     )
     def refresh_token_pair(self, refresh_token: TokenRefresh):
         return refresh_token.to_response_schema()
+
+
+    @route.post(
+        path="/oauth/access_token", 
+        response={
+            200: Any,
+            400: Any
+        }, 
+        operation_id='exchangeOauthCodeForAccessToken',
+    )
+    def exchange_oauth_code_for_access_token(self, payload: OAuthExchangeCode):
+        print('payload', payload)
+        provider = payload.provider
+
+        if provider == 'github':
+            token_url = 'https://github.com/login/oauth/access_token'
+            client_id = os.getenv('POP_GITHUB_CLIENT_ID')
+            client_secret = os.getenv('POP_GITHUB_SECRET')
+
+            data = {
+                'client_id': client_id,
+                'client_secret': client_secret,
+                'code': payload.code,
+            }
+            print('DATA', data)
+            headers = {'Accept': 'application/json'}
+            response = requests.post(token_url, params=data, headers=headers)
+            print(response.url)
+            if response.status_code == 200:
+                tokens = response.json()
+                # Now — use AllAuth's headless provider/token endpoint or your own logic to log them in
+                return 200, tokens
+            else:
+                return 400, {'error': 'Token exchange failed.', 'details': response.json()}
+
+        else:
+            return 400, {'error': 'Unsupported provider.'}
     
+
     
 @api_controller(
-    '/auth', 
+    '/users', 
     auth=[XSessionTokenAuth()], 
     tags=['Auth'],  
 )
@@ -122,3 +170,36 @@ class UsersController(ControllerBase):
         User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
         return get_object_or_404(User, id=user.id)
     
+    @route.put(
+        path='/users/{userId}/password', 
+       response={
+            200: None,
+            404: None, 401: None, 403: None,
+        },
+        operation_id='updateUserPassword',
+    )
+    def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
+        user = get_object_or_404(User, id=userId)
+        requesting_user = self.context.request.user
+        authorized = user.id == requesting_user.id or requesting_user.can_manage_users
+        if not authorized or not user.check_password(payload.oldPassword):
+            return 403, None
+        user.set_password(payload.newPassword)
+        user.save()
+        return 200, None 
+    
+
+    @route.post(
+        path='/users/{userId}/password/reset', 
+        response={
+            200: None,
+            401: None, 403: None,
+        },
+        permissions=[perms.CanManageUsers],
+        operation_id='resetUserPassword',
+    )
+    def reset_user_password(self, userId: str, password: str):
+        user = get_object_or_404(User, id=userId)
+        user.set_password(password)
+        user.save()
+        return 200, None 

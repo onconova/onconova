@@ -73,8 +73,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -140,8 +139,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -204,8 +202,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -262,8 +259,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -323,8 +319,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -373,6 +368,12 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedGenomicVariant>>;
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedGenomicVariant>>;
     public getGenomicVariants(requestParameters?: GetGenomicVariantsRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const isPathogenicNotExists = requestParameters?.isPathogenicNotExists;
+        const isPathogenicExists = requestParameters?.isPathogenicExists;
+        const isPathogenic = requestParameters?.isPathogenic;
+        const isVUSNotExists = requestParameters?.isVUSNotExists;
+        const isVUSExists = requestParameters?.isVUSExists;
+        const isVUS = requestParameters?.isVUS;
         const dnaHgvsNotExists = requestParameters?.dnaHgvsNotExists;
         const dnaHgvsExists = requestParameters?.dnaHgvsExists;
         const dnaHgvs = requestParameters?.dnaHgvs;
@@ -538,10 +539,6 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const clinicalRelevance = requestParameters?.clinicalRelevance;
         const clinicalRelevanceNot = requestParameters?.clinicalRelevanceNot;
         const clinicalRelevanceAnyOf = requestParameters?.clinicalRelevanceAnyOf;
-        const isVusNotExists = requestParameters?.isVusNotExists;
-        const isVusExists = requestParameters?.isVusExists;
-        const isVus = requestParameters?.isVus;
-        const isPathogenic = requestParameters?.isPathogenic;
         const genomeAssemblyVersionNotExists = requestParameters?.genomeAssemblyVersionNotExists;
         const genomeAssemblyVersionExists = requestParameters?.genomeAssemblyVersionExists;
         const genomeAssemblyVersion = requestParameters?.genomeAssemblyVersion;
@@ -628,6 +625,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isPathogenicNotExists, 'isPathogenic.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isPathogenicExists, 'isPathogenic.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isPathogenic, 'isPathogenic');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isVUSNotExists, 'isVUS.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isVUSExists, 'isVUS.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isVUS, 'isVUS');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaHgvsNotExists, 'dnaHgvs.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1015,14 +1024,6 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isVusNotExists, 'isVus.not.exists');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isVusExists, 'isVus.exists');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isVus, 'isVus');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>isPathogenic, 'isPathogenic');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>genomeAssemblyVersionNotExists, 'genomeAssemblyVersion.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>genomeAssemblyVersionExists, 'genomeAssemblyVersion.exists');
@@ -1273,8 +1274,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1335,8 +1335,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1396,8 +1395,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

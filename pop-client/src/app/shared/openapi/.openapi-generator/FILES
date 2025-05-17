@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -165,6 +164,7 @@ model/neoplastic-entity-create.ts
 model/neoplastic-entity-filters.ts
 model/neoplastic-entity-relationship-choices.ts
 model/neoplastic-entity.ts
+model/o-auth-exchange-code.ts
 model/paginated-adverse-event.ts
 model/paginated-any-genomic-signature.ts
 model/paginated-any-staging.ts

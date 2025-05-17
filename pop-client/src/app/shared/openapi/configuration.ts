@@ -87,12 +87,14 @@ export class Configuration {
             this.credentials = {};
         }
 
-        // init default JWTAuth credential
-        if (!this.credentials['JWTAuth']) {
-            this.credentials['JWTAuth'] = () => {
-                return typeof this.accessToken === 'function'
-                    ? this.accessToken()
-                    : this.accessToken;
+        // init default XSessionTokenAuth credential
+        if (!this.credentials['XSessionTokenAuth']) {
+            this.credentials['XSessionTokenAuth'] = () => {
+                if (this.apiKeys === null || this.apiKeys === undefined) {
+                    return undefined;
+                } else {
+                    return this.apiKeys['XSessionTokenAuth'] || this.apiKeys[''];
+                }
             };
         }
     }

@@ -12,6 +12,7 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { ModifiedResource } from '../model/models';
+import { OAuthExchangeCode } from '../model/models';
 import { PaginatedUser } from '../model/models';
 import { RefreshedTokenPair } from '../model/models';
 import { TokenPair } from '../model/models';
@@ -28,6 +29,10 @@ import { Configuration }                                     from '../configurat
 
 export interface CreateUserRequestParams {
     userCreate: UserCreate;
+}
+
+export interface ExchangeOauthCodeForAccessTokenRequestParams {
+    oAuthExchangeCode: OAuthExchangeCode;
 }
 
 export interface GetTokenPairRequestParams {
@@ -192,6 +197,13 @@ export interface AuthServiceInterface {
 * @param requestParameters
      */
     createUser(requestParameters: CreateUserRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Exchange Oauth Code For Access Token
+     * 
+* @param requestParameters
+     */
+    exchangeOauthCodeForAccessToken(requestParameters: ExchangeOauthCodeForAccessTokenRequestParams, extraHttpRequestParams?: any): Observable<any>;
 
     /**
      * Obtain Token Pair

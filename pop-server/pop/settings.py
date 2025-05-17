@@ -75,9 +75,7 @@ INSTALLED_APPS = [
     'allauth.account',
     "allauth.headless",
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.microsoft',
+    'allauth.socialaccount.providers.openid_connect',
     'allauth.usersessions',
 
     # Django Extensions
@@ -119,40 +117,35 @@ HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html"
 
 # Django AllAuth Providers
 SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        'SCOPE': [
-            'read:user'
-        ],
-        'APP': {
-            'client_id': os.environ.get('POP_GITHUB_CLIENT_ID'),
-            'secret': os.environ.get('POP_GITHUB_SECRET'),
-        }
-    },
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'APP': {
-            'client_id': os.environ.get('POP_GOOGLE_CLIENT_ID'),
-            'secret': os.environ.get('POP_GOOGLE_SECRET'),
-            'key': ''
-        }
-    },
-    'microsoft': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'APP': {
-            'tenant': os.environ.get('AZURE_AD_TENANT_ID'), 
-            'client_id': os.environ.get('POP_MICROSOFT_CLIENT_ID'),
-            'secret': os.environ.get('POP_MICROSOFT_SECRET'),
-            'key': ''
-        }
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "google",
+                "name": "Google",
+                "client_id": os.environ.get("POP_GOOGLE_CLIENT_ID"),
+                "secret": os.environ.get("POP_GOOGLE_SECRET"),
+                "settings": {
+                    "server_url": "https://accounts.google.com",
+                    "auth_params": {
+                        "scope": "openid email profile",
+                        "prompt": "login",
+                    }
+                },
+            },
+            {
+                "provider_id": "microsoft",
+                "name": "Microsoft",
+                "client_id": os.environ.get("POP_MICROSOFT_CLIENT_ID"),
+                "secret": os.environ.get("POP_MICROSOFT_SECRET"),
+                "settings": {
+                    "server_url": f"https://login.microsoftonline.com/{os.environ.get('POP_MICROSOFT_TENANT_ID')}/v2.0",
+                    "auth_params": {
+                        "scope": "openid",
+                        "prompt": "login",
+                    }
+                },
+            },
+        ]
     }
 }
 
