@@ -9,16 +9,12 @@ import { AppThemePreset } from './app.preset';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { AuthInterceptor } from './core/auth/interceptors/auth.interceptor';
+import { APIAuthInterceptor } from './core/auth/interceptors/api-auth.interceptor';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
 import { provideNgxCountAnimations } from "ngx-count-animation";
-import {
-    SocialAuthServiceConfig,
-  } from '@abacritt/angularx-social-login';
-  import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
-import { AuthErrorInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
+import { UnauthorizedInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
 import { AppConfigService } from './app.config.service';
 
 
@@ -30,12 +26,12 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(withInterceptorsFromDi()), 
         { 
             provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
+            useClass: APIAuthInterceptor,
             multi: true,
         },
         { 
             provide: HTTP_INTERCEPTORS,
-            useClass: AuthErrorInterceptor,
+            useClass: UnauthorizedInterceptor,
             multi: true,
         },
         provideZoneChangeDetection({ 
@@ -65,32 +61,5 @@ export const appConfig: ApplicationConfig = {
             },
         }},
         provideNgxCountAnimations(),
-        {
-            provide: 'SocialAuthServiceConfig',
-            useFactory: (configService: AppConfigService) => new Promise<void>((resolve) => {
-                if (configService.isAuthConfigLoaded()) {
-                    resolve();
-                } else {
-                    const checkInterval = setInterval(() => {
-                        if (configService.isAuthConfigLoaded()) {
-                        clearInterval(checkInterval);
-                        resolve();
-                        }
-                    }, 50); // check every 50ms     
-                }                
-            }).then(() => ({
-                autoLogin: false,
-                providers: [
-                    {
-                    id: GoogleLoginProvider.PROVIDER_ID,
-                    provider: new GoogleLoginProvider(configService.getIdentityProviderClientId('google') || '', {
-                        oneTapEnabled: false
-                    }),
-                    },
-                ],
-                } as SocialAuthServiceConfig)
-            ),
-            deps: [AppConfigService]
-        },
     ]
 };

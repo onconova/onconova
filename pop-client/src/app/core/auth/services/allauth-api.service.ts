@@ -239,19 +239,19 @@ export class AllAuthApiService {
 
 
   // Auth: Social
-  providerSignup(data: any, headers: any = {}): Observable<any> {
+  providerSignup(data: any, sessionToken: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/auth/provider/signup`, data, {headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      ...headers
+      'X-SESSION-TOKEN': sessionToken,
     })});
   }
 
-  getproviderSignupInfo(headers: any = {}): Observable<any> {
+  getproviderSignupInfo(sessionToken: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/auth/provider/signup`, {headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      ...headers
+      'X-SESSION-TOKEN': sessionToken,
     })});
   }
   

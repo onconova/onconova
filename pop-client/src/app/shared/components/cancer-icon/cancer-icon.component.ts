@@ -22,9 +22,9 @@ import { Skeleton } from 'primeng/skeleton';
 export class CancerIconComponent {
 
     // Component inputs
-    public topography = input.required<string>();
-    public height = input<string>('2rem');
-    public width = input<string>('2rem');
+    readonly topography = input.required<string>();
+    readonly height = input<string>('2rem');
+    readonly width = input<string>('2rem');
 
     readonly #defaultIcon : string = 'assets/images/body/unknown.svg';
     readonly #icons = {
@@ -63,8 +63,8 @@ export class CancerIconComponent {
         'lymph_nodes.svg': ['C77'],
     }
 
-    public loadingSVG = signal<boolean>(true);
-    public icon = computed(() => {
+    protected loadingSVG = signal<boolean>(true);
+    protected icon = computed(() => {
         if (!this.topography()) {
             return this.#defaultIcon
         } 

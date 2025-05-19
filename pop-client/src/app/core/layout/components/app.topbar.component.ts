@@ -67,10 +67,9 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
                             <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
                             <div class="flex-col my-auto">
                                 <div class="font-bold mb-0">{{currentUser() | fullname}}</div>
-                                <div class="ml-1 text-muted">{{currentUser().role}}</div>
-                                <div class="text-muted my-1">
-                                    <i class="pi pi-lock"></i> {{ currentUser().accessLevel}}
-                                </div>
+                                <div class="text-muted text-sm mb-2">({{currentUser().email || 'Email unknown'}})</div>
+
+                                <div class="text-muted">{{currentUser().role}}</div>
                             </div>
                         </div>
                     </ng-template>

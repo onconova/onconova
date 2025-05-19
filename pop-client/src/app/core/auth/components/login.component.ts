@@ -1,56 +1,72 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { LayoutService } from '../../layout/app.layout.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import { Toast } from 'primeng/toast';
 import { InlineSVGModule } from 'ng-inline-svg-2';
-import { FluidModule } from 'primeng/fluid';
+import { Fluid, FluidModule } from 'primeng/fluid';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { Divider } from 'primeng/divider';
 import { AppConfigService } from 'src/app/app.config.service';
+import { AuthLayoutComponent } from './auth-layout.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { UserCredentials } from 'src/app/shared/openapi/model/user-credentials';
 
 @Component({
     selector: 'pop-login',
+    imports: [
+        ReactiveFormsModule,
+        AuthLayoutComponent,
+        CommonModule,
+        FormsModule,
+        InlineSVGModule,
+        FluidModule,
+        InputIconModule,
+        IconFieldModule,
+        Divider,
+        Fluid,
+        Button,
+        InputText,
+    ],
     template: `
-    <p-toast></p-toast>
-    <div class="flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-        <div class="flex flex-column align-items-center justify-content-center">
-            <div [inlineSVG]="layoutService.logo" class="pop-logo w-8rem h-8rem mr-3 mb-3" alt="POP logo"></div>            
-            <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--p-primary-color) 10%, rgba(33, 150, 243, 0) 30%); min-width: 40rem;">
-                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px; background: var(--p-content-background) !important;">
-                    <div class="text-center mb-5 pb-4">
-                        <div class="text-900 text-xl font-medium mb-1">Welcome to the</div>
-                        <div class="text-900 text-3xl font-medium mb-2">Precision Oncology Platform</div>
-                        <span class="text-600 font-medium text-muted">Please sign in to continue</span>
+    <pop-auth-layout>
+
+        <ng-template #inside>
+            <div class="text-center mb-5 pb-4">
+                <div class="text-900 text-xl font-medium mb-1">Welcome to the</div>
+                <div class="text-900 text-3xl font-medium mb-2">Precision Oncology Platform</div>
+                <span class="text-600 font-medium text-muted">Please sign in to continue</span>
+            </div>
+
+            <form [formGroup]="credentials" (ngSubmit)="login()">
+                <p-fluid>
+                    <div class="field">
+                        <label for="username" class="font-semibold">Do you have a POP account? </label>
+                        <p-iconfield>
+                            <p-inputicon styleClass="pi pi-at" />
+                            <input type="text" pInputText placeholder="Account {{ loginMethods() }}" formControlName="username" class="py-3 px-5" autocomplete="username"/>
+                        </p-iconfield>
                     </div>
 
-                    <form (ngSubmit)="login()">
-                        <div class="field">
-                            <label for="username" class="font-semibold">Do you have a POP account? </label>
-                            <p-iconfield>
-                                <p-inputicon styleClass="pi pi-at" />
-                                <input type="text" pInputText placeholder="Account {{ loginMethods() }}" name="username" fluid [(ngModel)]="username" class="py-3 px-5" autocomplete="username"/>
-                            </p-iconfield>
-                        </div>
+                    <div class="field">
+                        <label for="password1" class="font-semibold">Password</label>
+                        <p-iconfield>
+                            <p-inputicon styleClass="pi pi-key" />
+                            <input type="password" pInputText placeholder="Password" formControlName="password" class="py-3 px-5" autocomplete="current-password"/>
+                        </p-iconfield>
+                    </div>
 
-                        <div class="field">
-                            <label for="password1" class="font-semibold">Password</label>
-                            <p-iconfield>
-                                <p-inputicon styleClass="pi pi-key" />
-                                <input type="password" pInputText placeholder="Password" name="password" fluid [(ngModel)]="password" class="py-3 px-5" autocomplete="current-password"/>
-                            </p-iconfield>
-                        </div>
+                    <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3"  [loading]="loading"></p-button>
+                </p-fluid>
+            </form>
+        </ng-template>
 
-                        <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3"  [loading]="loading"></p-button>
-                    </form>
-                </div>
+        <ng-template #outside>
                 @if (identityProviders().length > 0) {
                     <p-divider class="my-5"><div class="px-3 text-muted" style="background: light-dark(var(--p-surface-50), var(--p-surface-950))">or</div></p-divider>
                     <div class="flex flex-column gap-3">
@@ -71,80 +87,48 @@ import { AppConfigService } from 'src/app/app.config.service';
                         </div>
                     </div>
                 }
-            </div>
-        </div>
-    </div>
+        </ng-template>
+    </pop-auth-layout>
     `,
-    imports: [
-    CommonModule,
-    FormsModule,
-    InlineSVGModule,
-    FluidModule,
-    InputIconModule,
-    IconFieldModule,
-    Divider,
-    Button,
-    InputText,
-    Toast,
-]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
     // Inject services
-    private route = inject(ActivatedRoute);
-    private router = inject(Router);
-    public layoutService =  inject(LayoutService);
-    private messageService = inject(MessageService);
-    private authService = inject(AuthService);
-    private configService = inject(AppConfigService);
+    #route = inject(ActivatedRoute);
+    #fb = inject(FormBuilder);
+    #authService = inject(AuthService);
+    #configService = inject(AppConfigService);
 
-    // Properties
-    public valCheck: string[] = ['remember'];
-    public username!: string;
-    public password!: string;
-    public loading: boolean = false;
-    private nextUrl!: string;
-
-    public loginMethods = computed(() => {
-        return this.configService.getAllowedLoginMethds().join(' or ');
-    })
-    public identityProviders = computed(() => {
-        return this.configService.getIdentityProviders();
-    })
-
-    ngOnInit() {
-        // Get return URL from route parameters or default to '/'
-        this.nextUrl = this.route.snapshot.queryParams['next'] || '/';
-    }
+    // Computed signal to get the next url from the query params
+    #queryParams = toSignal(this.#route.queryParamMap, { initialValue: this.#route.snapshot.queryParamMap });
+    #nextUrl = computed(() => this.#queryParams().get('next') || '/');
       
+    // Login form
+    protected credentials: FormGroup = this.#fb.group({
+        username: this.#fb.nonNullable.control<string>('', Validators.required),
+        password: this.#fb.nonNullable.control<string>('', Validators.required),
+    })
+    public loading: boolean = false;
+
+    // Computed reactive properties
+    protected loginMethods = computed(() => {
+        return this.#configService.getAllowedLoginMethds().join(' or ');
+    })
+    protected identityProviders = computed(() => {
+        return this.#configService.getIdentityProviders();
+    })
+
     login(): void {
-        this.loading = true
-        this.authService.login(this.username, this.password).subscribe({
-            next: (response) => {
-                this.loading = false
-                this.router.navigateByUrl(this.nextUrl).then(() => 
-                    this.messageService.add({ severity: 'success', summary: 'Login', detail: 'Succesful login' })
-                )
-            },
-            error: (error) => {
-                this.loading = false
-                if (error.status == 401) {
-                    this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
-                } else 
-                if (error.status == 400 ){
-                    this.messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Please provide a username and a password' });
-                } else {
-                    this.messageService.add({ severity: 'error', summary: 'Network error', detail: error.error.detail });
-                }
-            }
-        })
+        this.#authService.login(this.credentials.value, this.#nextUrl());
     }
     
 
   loginProvider(provider: string) {
-    localStorage.setItem('login_provider', provider);  // track for callback
-    localStorage.setItem('login_client_id', this.configService.getIdentityProviderClientId(provider)!);  // track for callback
-    this.authService.initiateOpenIdAuthentication(provider);
+    // Set login variables required for callback function once redirected back
+    localStorage.setItem('login_provider', provider);  
+    localStorage.setItem('login_client_id', this.#configService.getIdentityProviderClientId(provider)!); 
+    // Initiate OpenID Connect authentication
+    this.#authService.initiateOpenIdAuthentication(provider);
   }
 
 }

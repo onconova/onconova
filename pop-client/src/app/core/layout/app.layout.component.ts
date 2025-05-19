@@ -14,7 +14,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     CommonModule,
     RouterModule,
-    Toast,
     AppTopBarComponent,
     AppFooterComponent,
     AppSidebarMenuComponent,

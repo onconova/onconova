@@ -1,15 +1,20 @@
 import { computed, effect, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { AuthService as APIAuthService } from 'src/app/shared/openapi';
-import { map, Observable, of, switchMap, tap } from 'rxjs'
+import { iif, map, Observable, of, switchMap, throwError } from 'rxjs'
 import { User} from 'src/app/shared/openapi/';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { AllAuthApiService, AllAuthResponse } from '../allauth-api.service';
+import { AllAuthApiService, AllAuthResponse } from './allauth-api.service';
 import { AppConfigService } from 'src/app/app.config.service';
-import { OAuthExchangeCode } from 'src/app/shared/openapi/model/o-auth-exchange-code';
 import { MessageService } from 'primeng/api';
 
 export const OPENID_CALLBACK_URL = '/auth/callback'
+export interface OpenIDCredentials {
+  accessToken: string | null,
+  idToken: string | null,
+  authorizationCode: string | null,
+  state: string | null
+}
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +22,15 @@ export const OPENID_CALLBACK_URL = '/auth/callback'
 export class AuthService {
 
   // Injected services
+  #router = inject(Router);
   #apiAuth = inject(APIAuthService);
   #allAuthApiService = inject(AllAuthApiService);
-  #router = inject(Router);
   #messageService = inject(MessageService);
   #configService = inject(AppConfigService);
 
   // Signals initialized from localStorage
   public sessionUserId = signal<string | null>(this.getStoredSessionUserId());
   public sessionToken = signal<string | null>(this.getStoredSessionToken());
-
-  public identityProvider: string | null = null
 
   // Computed: isAuthenticated (reactive, based on session token)
   public isAuthenticated = computed(() => !!this.sessionToken());
@@ -37,6 +40,7 @@ export class AuthService {
     request: () => ({userId: this.sessionUserId() as string}),
     loader: ({request}): Observable<User> => this.isAuthenticated() ? this.#apiAuth.getUserById(request) : of({username: 'anonymous', id: '', email: '', accessLevel: 0} as User),
   });  
+
   // Computed: Current user value from resource
   public user = linkedSignal(() => this.userResource.value() as User);
 
@@ -60,23 +64,31 @@ export class AuthService {
     });
   }
 
-  /**
-   * Perform a login with a username and password.
-   *
-   * @param username The username to use for login.
-   * @param password The password to use for login.
-   * @returns An observable that resolves to the response from the server, after setting the
-   * session token and user ID signals.
-   */
-  public login(username: string, password: string): Observable<any> {
-    return this.#allAuthApiService.login({ username, password })
+  public login(credentials: {username: string, password: string}, nextUrl?: string): void {
+    this.#allAuthApiService.login(credentials)
       .pipe(
         // Set the session token and user ID signals after a successful login
         map( (response: AllAuthResponse) => {
           this.sessionToken.set(response.meta?.session_token || null);
           this.sessionUserId.set(response.data.user.id);
         })
-      );
+      ).subscribe({
+        next: () => {
+            this.#router.navigateByUrl(nextUrl || '/').then(() => 
+                this.#messageService.add({ severity: 'success', summary: 'Login', detail: 'Succesful login' })
+            )
+        },
+        error: (error) => {
+            if (error.status == 401) {
+                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
+            } else 
+            if (error.status == 400 ){
+                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Please provide a username and a password' });
+            } else {
+                this.#messageService.add({ severity: 'error', summary: 'Network error', detail: error.error.detail });
+            }
+        }
+    });
   }
   
   /**
@@ -94,7 +106,6 @@ export class AuthService {
     }
     // Send a request to the server to delete the current user session
     this.#allAuthApiService.logoutCurrentSession().subscribe();
-    this.identityProvider = null;
   }
 
   /**
@@ -148,93 +159,98 @@ export class AuthService {
 
 
 
-  handleAuthCallback() {
+  /**
+   * Handle the OpenID Connect callback from a provider and authenticate the user using the authorization
+   * code, access token, or ID token provided by the provider.
+   *
+   * The OpenID Connect callback is handled by this method by extracting the authorization code, access
+   * token, and ID token from the redirect URL, and using them to authenticate the user and start a
+   * session.
+   *
+   * If the authentication is successful, the user is redirected to the dashboard.
+   *
+   */
+  handleOpenIdAuthCallback(): void {
     const provider = localStorage.getItem('login_provider')!;
     const client_id = localStorage.getItem('login_client_id')!;
 
-    const params = new URLSearchParams(window.location.search);
-    const params2 = new URLSearchParams(window.location.hash.substring(1));
-    const accessToken = params.get('access_token') || params2.get('access_token');
-    const idToken = params.get('id_token') || params2.get('id_token');
-    const code = params.get('code') || params2.get('code');
-    const state = params.get('state') || params2.get('state');
+    // Get the OpdnID callback parameters encoded in the redirect URL
+    const credentials = this.getCurrentURLOpenIdCredentials();
 
-    if (code && state) {
-      const payload: OAuthExchangeCode = {        
-        provider: provider,
-        code: code,
-        state: state,
-      }
-      this.#apiAuth.exchangeOauthCodeForAccessToken({oAuthExchangeCode: payload}).pipe(
-        switchMap((response: any) => {
-        console.log('ACCESS TOKEN RETURNED BY POP SERVER', response)
-        return this.authenticateWithProviderToken(provider, client_id, undefined, response?.access_token);
-      })).subscribe({
-        next: (response) => {
-          localStorage.setItem('app_access_token', response?.meta?.access_token);
-          this.#router.navigate(['/dashboard']);
-        },
-        error: (err) => {
-          console.log(err)
-          console.error('Backend authentication failed', err);
-        },
-      })
-    } else if (accessToken && idToken) {
-      this.authenticateWithProviderToken(provider, client_id, idToken, accessToken).subscribe({
-        next: (response) => {
-          localStorage.setItem('app_access_token', response?.meta?.access_token);
-          this.#router.navigate(['/dashboard']);
+    of(credentials).pipe(
+      // If OpenID Connect access token or ID token is present, just return the credentials
+      switchMap((creds: OpenIDCredentials): Observable<OpenIDCredentials> => iif(() => Boolean(creds.idToken || creds.accessToken), of(creds),
+        // Otherwise, exchange the authorization code for an access token
+        iif(() => Boolean(creds.authorizationCode),
+          this.#apiAuth.exchangeOauthCodeForAccessToken({ oAuthExchangeCode: {provider: provider, code: creds.authorizationCode!, state: creds.state} }).pipe(
+            map((response: any): OpenIDCredentials => ({...creds, accessToken: response?.access_token, idToken: response?.id_token}))
+          ),
+          // If no credentials are found, throw an error
+          throwError(() => 'No OpenID Connect access token, ID token, or authorization code found in callback')
+        )
+      )),
+      // Use the ID token or access token to authenticate the user and start a session
+      switchMap((creds: OpenIDCredentials): Observable<AllAuthResponse> => this.#allAuthApiService.authenticateWithProviderToken({
+        provider: provider, process: "login",
+        token: {client_id: client_id, id_token: creds.idToken, access_token: creds.accessToken,}
+      }))
+    ).subscribe({
+          next: (response: AllAuthResponse) => {
+            this.sessionToken.set(response.meta!.session_token || '');
+            this.sessionUserId.set(response.data.user.id);
+            // Redirect the user to the dashboard
+            this.#router.navigate(['/dashboard']);
+          },
+          error: (error) => {
+            if (error?.status == 401 && error.error?.meta.session_token) {
+              // If the authentication failed because the user needs to create a POP username,
+              // redirect the user to a signup form to create a POP username
+              this.#router.navigate(['/auth/signup',provider, error.error.meta.session_token])
+            } else {
+              console.error('OpenID Connect callback authentication failed:', error);
+              this.#router.navigate(['/auth/login']);
+            }
+          },
+        });
+  }
+
+
+  public signupProviderAccount(data: {username: string, email: string}, sessionToken: string): void {
+    this.#allAuthApiService.providerSignup(data, sessionToken)
+      .subscribe({
+        next: (response: AllAuthResponse) => {
+            // Store the session token locally
+            this.sessionToken.set(response.meta!.session_token || '');
+            this.sessionUserId.set(response.data.user.id);
+            // Redirect the user to the dashboard
+            this.#router.navigate(['/dashboard']);
         },
         error: (error) => {
-          console.log('SIGNUP ERROR', error.error)
-          if (error?.status == 401 && error.error?.meta.session_token) {
-            localStorage.setItem('app_access_token', error.error?.meta.session_token);
-             this.#allAuthApiService.getproviderSignupInfo({'X-SESSION-TOKEN': error.error?.meta.session_token}).subscribe({
-              next: response => this.#allAuthApiService.providerSignup(
-                // TODO: Create a proper signup form component for users to connect a provider account with a POP username
-                {username: response.data.user.email.split('@')[0], email: response.data.user.email},
-                {'X-SESSION-TOKEN': error.error?.meta.session_token}
-              ).subscribe({
-                next: (response) => {
-                  localStorage.setItem('app_access_token', response?.meta?.access_token);
-                  this.#router.navigate(['/dashboard']);
-                },
-                error: (error) => {
-                  const message = error?.error?.errors?.map((e: any) => e?.message || 'a').join(', ');
-                  this.#messageService.add({ severity: 'error', summary: 'Identity Provider Signup', detail: message});
-                  console.error(error);
-                }
-              })
-              
-             })
-          } else {
-            console.error('Backend authentication failed', error);
-          }
-        },
+          const message = error?.error?.errors?.map((e: any) => e?.message || 'a').join(', ');
+          this.#messageService.add({ severity: 'error', summary: 'Identity Provider Signup', detail: message });
+          console.error(error);
+        }
       });
-    } else {
-      console.error('Tokens missing in callback URL', params);
+  }
+
+  /**
+   * Returns an object with the OpenID Connect credentials from the current URL.
+   */
+  private getCurrentURLOpenIdCredentials(): OpenIDCredentials {
+    // Parse the URL search parameters (e.g. ?access_token=...)
+    const searchParams = new URLSearchParams(window.location.search);
+    // Parse the URL hash parameters (e.g. #access_token=...)
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    // Helper function to get a parameter value from either the URL search or hash parameters.
+    const getURLParam = (name: string) => searchParams.get(name) || hashParams.get(name);
+    // Return the OpenID Connect credentials
+    return {
+      accessToken: getURLParam('access_token'),
+      idToken: getURLParam('id_token'),
+      authorizationCode: getURLParam('code'),
+      state: getURLParam('state'),
     }
   }
-
-
-  private authenticateWithProviderToken(provider: string, client_id: string, id_token?: string, access_token?: string): Observable<any> {
-    return this.#allAuthApiService.authenticateWithProviderToken({
-          provider: provider,
-          process: "login",
-          token: {
-            client_id: client_id,
-            id_token: id_token,
-            access_token: access_token,
-          }
-    }).pipe(
-      map( (response: any) => {
-        this.sessionToken.set(response.meta.session_token);
-        this.sessionUserId.set(response.data.user.id);
-      })
-    )
-  }
-
 
   private setStoredSessionToken(token: string) {
     localStorage.setItem('sessionToken', token);
