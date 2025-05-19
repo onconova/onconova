@@ -65,6 +65,7 @@ class AuthController(ControllerBase):
             200: Any,
             400: Any
         }, 
+        openapi_extra=dict(security=[]),
         operation_id='exchangeOauthCodeForAccessToken',
     )
     def exchange_oauth_code_for_access_token(self, payload: OAuthExchangeCode):
@@ -105,12 +106,11 @@ class AuthController(ControllerBase):
 class UsersController(ControllerBase):
 
     @route.get(
-        path="/users",
+        path="",
         response={
             200: Paginated[UserSchema],
             401: None, 403: None,
         }, 
-        permissions=[perms.CanViewUsers],
         operation_id='getUsers',
     )
     @paginate
@@ -119,12 +119,11 @@ class UsersController(ControllerBase):
         return query.filter(queryset)
     
     @route.get(
-        path="/users/{userId}", 
+        path="/{userId}", 
         response={
             200: UserSchema,
             404: None, 401: None, 403: None,
         }, 
-        permissions=[perms.CanViewUsers],
         operation_id='getUserById',
     )
     def get_user_by_id(self, userId: str):
@@ -132,7 +131,7 @@ class UsersController(ControllerBase):
 
 
     @route.post(
-        path="/users", 
+        path="", 
         response={
             201: ModifiedResourceSchema,
             401: None, 403: None,
@@ -144,7 +143,7 @@ class UsersController(ControllerBase):
         return 201, payload.model_dump_django()
 
     @route.put(
-        path='/users/{userId}', 
+        path='/{userId}', 
        response={
             200: UserSchema,
             404: None, 401: None, 403: None,
@@ -157,7 +156,7 @@ class UsersController(ControllerBase):
         return payload.model_dump_django(instance=user)
         
     @route.put(
-        path='/users/{userId}/profile', 
+        path='/{userId}/profile', 
        response={
             200: UserSchema,
             404: None, 401: None, 403: None,
@@ -171,7 +170,7 @@ class UsersController(ControllerBase):
         return get_object_or_404(User, id=user.id)
     
     @route.put(
-        path='/users/{userId}/password', 
+        path='/{userId}/password', 
        response={
             200: None,
             404: None, 401: None, 403: None,
@@ -190,7 +189,7 @@ class UsersController(ControllerBase):
     
 
     @route.post(
-        path='/users/{userId}/password/reset', 
+        path='/{userId}/password/reset', 
         response={
             200: None,
             401: None, 403: None,

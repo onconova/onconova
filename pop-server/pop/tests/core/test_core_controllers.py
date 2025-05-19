@@ -9,7 +9,7 @@ from pop.core.measures import measures
 from pop.core.measures.schemas import MeasureConversion   
    
 class TestUserController(common.ApiControllerTestMixin, TestCase):
-    controller_path = '/api/auth/users'
+    controller_path = '/api/users'
     
     @classmethod 
     def setUpTestData(cls):

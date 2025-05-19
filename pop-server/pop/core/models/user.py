@@ -57,7 +57,7 @@ class User(AbstractUser):
         verbose_name = _('Access level'),
         help_text = _('Level of access of the user in terms of permissions'),
         validators = [MinValueValidator(0), MaxValueValidator(7)],        
-        default=1,
+        default=0,
     )
     role = MappingProperty(
         verbose_name = _('Role'),

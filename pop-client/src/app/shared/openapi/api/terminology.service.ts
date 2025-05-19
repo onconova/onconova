@@ -75,6 +75,7 @@ export class TerminologyService extends BaseService implements TerminologyServic
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

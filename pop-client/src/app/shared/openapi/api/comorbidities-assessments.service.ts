@@ -77,6 +77,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -143,6 +144,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -206,6 +208,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -263,6 +266,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -323,6 +327,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -630,6 +635,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -682,6 +688,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -738,6 +745,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -798,6 +806,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -858,6 +867,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

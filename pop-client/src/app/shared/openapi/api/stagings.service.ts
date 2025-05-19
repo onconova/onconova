@@ -74,6 +74,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -140,6 +141,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -203,6 +205,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -260,6 +263,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -320,6 +324,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -502,6 +507,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -563,6 +569,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -623,6 +630,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

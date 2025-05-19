@@ -93,7 +93,7 @@ export class Configuration {
                 if (this.apiKeys === null || this.apiKeys === undefined) {
                     return undefined;
                 } else {
-                    return this.apiKeys['XSessionTokenAuth'] || this.apiKeys[''];
+                    return this.apiKeys['XSessionTokenAuth'] || this.apiKeys['X-SESSION-TOKEN'];
                 }
             };
         }

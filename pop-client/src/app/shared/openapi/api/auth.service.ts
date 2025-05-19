@@ -86,6 +86,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -119,7 +120,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users`;
+        let localVarPath = `/api/users`;
         return this.httpClient.request<ModifiedResource>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -280,6 +281,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -304,7 +306,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<User>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -702,6 +704,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -726,7 +729,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users`;
+        let localVarPath = `/api/users`;
         return this.httpClient.request<PaginatedUser>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -831,6 +834,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -854,7 +858,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password/reset`;
+        let localVarPath = `/api/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password/reset`;
         return this.httpClient.request<any>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -891,6 +895,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -924,7 +929,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<User>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -961,6 +966,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -993,7 +999,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password`;
+        let localVarPath = `/api/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/password`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -1030,6 +1036,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1063,7 +1070,7 @@ export class AuthService extends BaseService implements AuthServiceInterface {
             }
         }
 
-        let localVarPath = `/api/users/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/profile`;
+        let localVarPath = `/api/users/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/profile`;
         return this.httpClient.request<User>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

@@ -115,10 +115,11 @@
             }
           },
           "required": true
-        }
+        },
+        "security": []
       }
     },
-    "/api/users/users": {
+    "/api/users": {
       "get": {
         "operationId": "getUsers",
         "summary": "Get All Users Matching The Query",
@@ -1558,7 +1559,7 @@
         ]
       }
     },
-    "/api/users/users/{userId}": {
+    "/api/users/{userId}": {
       "get": {
         "operationId": "getUserById",
         "summary": "Get User By Id",
@@ -1658,7 +1659,7 @@
         ]
       }
     },
-    "/api/users/users/{userId}/profile": {
+    "/api/users/{userId}/profile": {
       "put": {
         "operationId": "updateUserProfile",
         "summary": "Update User Profile",
@@ -1714,7 +1715,7 @@
         ]
       }
     },
-    "/api/users/users/{userId}/password": {
+    "/api/users/{userId}/password": {
       "put": {
         "operationId": "updateUserPassword",
         "summary": "Update User Password",
@@ -1763,7 +1764,7 @@
         ]
       }
     },
-    "/api/users/users/{userId}/password/reset": {
+    "/api/users/{userId}/password/reset": {
       "post": {
         "operationId": "resetUserPassword",
         "summary": "Reset User Password",
@@ -38309,7 +38310,7 @@
             "x-expanded": false
           },
           "accessLevel": {
-            "default": 1,
+            "default": 0,
             "description": "Level of access of the user in terms of permissions",
             "title": "Access level",
             "type": "integer",
@@ -38482,7 +38483,7 @@
             "x-expanded": false
           },
           "accessLevel": {
-            "default": 1,
+            "default": 0,
             "description": "Level of access of the user in terms of permissions",
             "title": "Access level",
             "type": "integer",
@@ -65957,7 +65958,9 @@
     },
     "securitySchemes": {
       "XSessionTokenAuth": {
-        "type": "apiKey"
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-SESSION-TOKEN"
       }
     }
   },

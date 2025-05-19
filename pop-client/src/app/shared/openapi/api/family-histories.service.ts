@@ -74,6 +74,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -140,6 +141,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -203,6 +205,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -475,6 +478,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -532,6 +536,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -592,6 +597,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -652,6 +658,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -712,6 +719,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         let localVarHeaders = this.defaultHeaders;
 
         // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
