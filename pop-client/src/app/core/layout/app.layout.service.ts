@@ -1,5 +1,4 @@
-import { Injectable, signal, effect, computed, WritableSignal, Signal } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, signal, effect, computed, WritableSignal } from '@angular/core';
 import { updatePreset } from '@primeng/themes';
 import { AppThemes } from 'src/app/app.preset';
 
