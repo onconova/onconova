@@ -82,6 +82,7 @@ export class PasswordResetFormComponent extends AbstractFormBase {
     ngOnInit() {
         // Dynamically set the corresponding service
         if (this.initialData()?.isAdmin) {
+            this.form.controls['oldPassword'].removeValidators(Validators.required);
             this.createService = (payload: any) => this.#authService.resetUserPassword({userId: this.initialData()?.user.id as string, password: payload});
         } else {
             this.createService = (payload: any) => this.#authService.updateUserPassword({userId: this.initialData()?.user.id as string, userPasswordReset: payload});

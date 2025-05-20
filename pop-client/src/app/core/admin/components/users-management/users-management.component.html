@@ -22,6 +22,7 @@
                 <th>Name</th>
                 <th>Access level & Role</th>
                 <th>Email</th>
+                <th>Provider</th>
                 <th>Last login</th>
             </tr>
             <tr>
@@ -41,7 +42,7 @@
                 <th>
                     <p-columnFilter
                         type="text"
-                        field="name"
+                        field="lastName"
                         matchMode="contains"
                         [matchModeOptions]="[{label:'contains', value:'contains'}]"
                         placeholder="Search by name"
@@ -65,6 +66,15 @@
                         placeholder="Search by email"
                     ></p-columnFilter>
                 </th>
+                <th>
+                    <p-columnFilter
+                        type="text"
+                        field="provider"
+                        matchMode="contains"
+                        [matchModeOptions]="[{label:'contains', value:'contains'}]"
+                        placeholder="Search by provider"
+                    ></p-columnFilter>
+                </th>
                 <th></th>
         </ng-template>
         <ng-template #body let-user>
@@ -78,16 +88,20 @@
                     <td><p-skeleton height="2rem" width="100%"/></td>
                     <td><p-skeleton height="2rem" width="100%"/></td>
                     <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
                 } @else {
                     <td class="flex gap-2">
                         <p-button title="Update user information" icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
-                        <p-button title="Reset user password" icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
+                        @if (!user.isProvided) {
+                            <p-button title="Reset user password" icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
+                        }
                     </td>
                     <td class="text-monospace">{{ user.username }}</td>
                     <td>{{ user.lastName }}, {{ user.firstName }}</td>
                     <td>{{ user.accessLevel }} - {{ user.role }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.lastLogin }}</td>
+                    <td><i class="pi pi-{{ user.provider }}"></i> {{ user.provider | titlecase }}</td>
+                    <td>{{ user.lastLogin | date: 'medium'}}</td>
                 }
             </tr>
         </ng-template>

@@ -167,12 +167,12 @@ class UsersController(ControllerBase):
     def update_user_profile(self, userId: str, payload: UserProfileSchema):
         user = get_object_or_404(User, id=userId)
         User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
-        return get_object_or_404(User, id=user.id)
+        return 201, get_object_or_404(User, id=user.id)
     
     @route.put(
         path='/{userId}/password', 
        response={
-            200: None,
+            201: ModifiedResourceSchema,
             404: None, 401: None, 403: None,
         },
         operation_id='updateUserPassword',
@@ -185,13 +185,13 @@ class UsersController(ControllerBase):
             return 403, None
         user.set_password(payload.newPassword)
         user.save()
-        return 200, None 
+        return 201, user 
     
 
     @route.post(
         path='/{userId}/password/reset', 
         response={
-            200: None,
+            201: ModifiedResourceSchema,
             401: None, 403: None,
         },
         permissions=[perms.CanManageUsers],
@@ -201,4 +201,4 @@ class UsersController(ControllerBase):
         user = get_object_or_404(User, id=userId)
         user.set_password(password)
         user.save()
-        return 200, None 
+        return 201, user 

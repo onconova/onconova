@@ -1,9 +1,10 @@
 import { computed, effect, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { AuthService as APIAuthService } from 'src/app/shared/openapi';
 import { iif, map, Observable, of, switchMap, throwError } from 'rxjs'
 import { User} from 'src/app/shared/openapi/';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AllAuthApiService, AllAuthResponse } from './allauth-api.service';
 import { AppConfigService } from 'src/app/app.config.service';
 import { MessageService } from 'primeng/api';
@@ -105,7 +106,12 @@ export class AuthService {
       throw new Error('There is no active session to log out');
     }
     // Send a request to the server to delete the current user session
-    this.#allAuthApiService.logoutCurrentSession().subscribe();
+    this.#allAuthApiService.logoutCurrentSession().subscribe({
+      next: () => {
+        this.sessionToken.set(null);
+        this.sessionUserId.set(null);
+      }
+    });
   }
 
   /**
@@ -117,21 +123,21 @@ export class AuthService {
    * @returns The authorization URL, or null if the client ID or authorization endpoint was not found.
    */
   public initiateOpenIdAuthentication(providerId: string): void {
-    if (!providerId || typeof providerId !== 'string') {
+    if (!providerId) {
       throw new Error('Invalid provider ID');
     }
     const config = this.#configService;
     const callbackUrl = config.BASE_PATH + OPENID_CALLBACK_URL;
+    console.log('callbackUrl',callbackUrl)
     const scope = 'openid email profile';
     const responseType = 'token id_token';
-    const state = this.generateRandomString(16);
-    const nonce = this.generateRandomString(16);
+    const state = this.generateRandomState(16);
+    const nonce = this.generateRandomState(16);
 
     // Get the client ID for the provider from the server
     const clientId = config.getIdentityProviderClientId(providerId);    
     if (!clientId) {
       this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: `No client ID found for provider '${providerId}'` });
-      console.error('No client ID found for provider', providerId);
       throw new Error(`No client ID found for provider ${providerId}`);
     }
 
@@ -150,14 +156,20 @@ export class AuthService {
         url.searchParams.set('scope', scope);
         url.searchParams.set('state', state);
         url.searchParams.set('nonce', nonce);
-
-        // Return the authorization URL
-        window.location.href = url.toString();
+        this.redirect(url);
       })
-    ).subscribe();
+    ).subscribe({
+      error: (error) => {
+        this.#messageService.add({ severity: 'error', summary: 'Could not retrieve authorization endpoint from OpenID provider', detail: error });
+        console.error(error);
+      }
+    });
   }
 
-
+  redirect(url: URL): void {
+    // Return the authorization URL
+    window.location.href = url.toString();
+  }
 
   /**
    * Handle the OpenID Connect callback from a provider and authenticate the user using the authorization
@@ -236,7 +248,7 @@ export class AuthService {
   /**
    * Returns an object with the OpenID Connect credentials from the current URL.
    */
-  private getCurrentURLOpenIdCredentials(): OpenIDCredentials {
+  public getCurrentURLOpenIdCredentials(): OpenIDCredentials {
     // Parse the URL search parameters (e.g. ?access_token=...)
     const searchParams = new URLSearchParams(window.location.search);
     // Parse the URL hash parameters (e.g. #access_token=...)
@@ -267,12 +279,12 @@ export class AuthService {
   private removeStoredSessionUserId() {
     localStorage.removeItem('sessionUserId');
   }
-  private getStoredSessionUserId(): string {
-    return localStorage.getItem('sessionUserId') || '?';
+  private getStoredSessionUserId(): string | null {
+    return localStorage.getItem('sessionUserId');
   }
 
 
-  private generateRandomString(length: number) {
+  private generateRandomState(length: number) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
   }

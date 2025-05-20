@@ -54,7 +54,7 @@ export class UserFormComponent extends AbstractFormBase {
     readonly #onInitialDataChangeEffect = effect((): void => {
         const data = this.initialData();
         if (!data) return;
-      
+        
         this.form.patchValue({
             username: data.username ?? null,
             firstName: data.firstName ?? null,
@@ -64,7 +64,21 @@ export class UserFormComponent extends AbstractFormBase {
             department: data.department ?? null,
             accessLevel: data.accessLevel || 1,
         });
+
+        // Username if non-editable
+        this.form.get('username')?.disable(); 
+
+        if (data.isProvided) {
+            Object.keys(this.form.controls).forEach((controlName) => {
+                if (controlName !== 'accessLevel') {
+                    this.form.get(controlName)?.disable();
+                }
+            });
+        }
+
+
     });
+    provider = computed(() => this.initialData()?.provider);
 
     // API Payload construction function
     readonly payload = (): UserCreate => { 

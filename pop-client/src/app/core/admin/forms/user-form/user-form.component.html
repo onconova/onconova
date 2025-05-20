@@ -1,6 +1,14 @@
 <p-fluid>
     <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
+        @if (provider()) {
+            <div class="field">
+                <label class="form-label required">User identity provided by:</label>
+                <div><i class="pi pi-{{ provider() }}"></i>  {{ provider() | titlecase }}</div>
+                <pop-form-control-error controlName="username"/>
+            </div>
+        }
+
         <div class="field">
             <label class="form-label required">Username</label>
             <input type="text" pInputText formControlName="username" />
@@ -32,11 +40,11 @@
             <pop-form-control-error controlName="department"/>
         </div>
         <div class="field">
-            <label class="form-label required">Role</label>
+            <label class="form-label required">Access level & Role</label>
             @for (role of roles; track $index;) {
                 <div class="field-checkbox">
                     <p-radiobutton [inputId]="role.label" [value]="role.accessLevel" formControlName="accessLevel"/>
-                    <label [for]="role.label" class="ml-2">{{ role.label }}</label>
+                    <label [for]="role.label" class="ml-2"><i class="pi pi-lock text-muted"></i> {{ role.accessLevel }} - {{ role.label }}</label>
                 </div>    
             }
             <pop-form-control-error controlName="accessLevel"/>
