@@ -1,7 +1,7 @@
 import uuid 
 import pghistory
 from django.db import models
-from django.db.models import Case, When, Q
+from django.db.models import Case, When, Q, Min
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
@@ -72,7 +72,19 @@ class User(AbstractUser):
             (5, AccessRoles.PLATFORM_MANAGER),
             (6, AccessRoles.SYSTEM_ADMIN),
         )
+    )    
+    is_provided = AnnotationProperty(
+        verbose_name = _('Identity provided'),
+        annotation = Case(
+            When(Q(socialaccount__isnull=False) & (Q(password__startswith='!') | Q(password__isnull=True)), then=True), 
+            default=False, output_field=models.BooleanField()),
     )
+    provider = AnnotationProperty(
+        verbose_name = _('Provider'),
+        annotation = Min('socialaccount__provider', filter=Q(socialaccount__isnull=False), output_field=models.CharField()),
+    )
+
+    # Generated permission fields
     can_view_cases = construct_GeneratedField_from_access_level(min_access_level=1, action='view cases')
     can_view_projects = construct_GeneratedField_from_access_level(min_access_level=1, action='view projects')
     can_view_cohorts = construct_GeneratedField_from_access_level(min_access_level=1, action='view cohorts')

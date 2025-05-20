@@ -374,6 +374,127 @@
           },
           {
             "in": "query",
+            "name": "isProvided",
+            "schema": {
+              "description": "None - ('Filter for yes/no statement',)",
+              "title": "Isprovided",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "None - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.exists",
+            "schema": {
+              "description": "None - Filter for entries without a value",
+              "title": "Provider.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "None - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "provider.exists",
+            "schema": {
+              "description": "None - Filter for entries with a value",
+              "title": "Provider.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "None - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "provider",
+            "schema": {
+              "description": "None - Filter for full text matches",
+              "title": "Provider",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "provider.not",
+            "schema": {
+              "description": "None - Filter for full text mismatches",
+              "title": "Provider.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "provider.contains",
+            "schema": {
+              "description": "None - Filter for partial text matches",
+              "title": "Provider.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.contains",
+            "schema": {
+              "description": "None - Filter for partial text mismatches",
+              "title": "Provider.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "provider.beginsWith",
+            "schema": {
+              "description": "None - Filter for entries starting with the text",
+              "title": "Provider.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.beginsWith",
+            "schema": {
+              "description": "None - Filter for entries not starting with the text",
+              "title": "Provider.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "provider.endsWith",
+            "schema": {
+              "description": "None - Filter for entries ending with the text",
+              "title": "Provider.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.endsWith",
+            "schema": {
+              "description": "None - Filter for entries not ending with the text",
+              "title": "Provider.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
             "name": "lastLogin.not.exists",
             "schema": {
               "description": "Last Login - Filter for entries without a value",
@@ -37570,6 +37691,61 @@
             "title": "Issystemadmin",
             "type": "boolean"
           },
+          "isProvided": {
+            "description": "None - ('Filter for yes/no statement',)",
+            "title": "Isprovided",
+            "type": "boolean"
+          },
+          "provider.not.exists": {
+            "description": "None - Filter for entries without a value",
+            "title": "Provider.Not.Exists",
+            "type": "boolean"
+          },
+          "provider.exists": {
+            "description": "None - Filter for entries with a value",
+            "title": "Provider.Exists",
+            "type": "boolean"
+          },
+          "provider": {
+            "description": "None - Filter for full text matches",
+            "title": "Provider",
+            "type": "string"
+          },
+          "provider.not": {
+            "description": "None - Filter for full text mismatches",
+            "title": "Provider.Not",
+            "type": "string"
+          },
+          "provider.contains": {
+            "description": "None - Filter for partial text matches",
+            "title": "Provider.Contains",
+            "type": "string"
+          },
+          "provider.not.contains": {
+            "description": "None - Filter for partial text mismatches",
+            "title": "Provider.Not.Contains",
+            "type": "string"
+          },
+          "provider.beginsWith": {
+            "description": "None - Filter for entries starting with the text",
+            "title": "Provider.Beginswith",
+            "type": "string"
+          },
+          "provider.not.beginsWith": {
+            "description": "None - Filter for entries not starting with the text",
+            "title": "Provider.Not.Beginswith",
+            "type": "string"
+          },
+          "provider.endsWith": {
+            "description": "None - Filter for entries ending with the text",
+            "title": "Provider.Endswith",
+            "type": "string"
+          },
+          "provider.not.endsWith": {
+            "description": "None - Filter for entries not ending with the text",
+            "title": "Provider.Not.Endswith",
+            "type": "string"
+          },
           "lastLogin.not.exists": {
             "description": "Last Login - Filter for entries without a value",
             "title": "Lastlogin.Not.Exists",
@@ -38190,6 +38366,21 @@
             "title": "Issystemadmin",
             "type": "boolean"
           },
+          "isProvided": {
+            "title": "Isprovided",
+            "type": "boolean"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
           "lastLogin": {
             "anyOf": [
               {
@@ -38335,6 +38526,7 @@
           "canAuditLogs",
           "canManageUsers",
           "isSystemAdmin",
+          "isProvided",
           "username",
           "id"
         ],

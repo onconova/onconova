@@ -3,31 +3,32 @@
         <p-avatar size="large" shape="square">
             <lucide-angular [img]="icon()"></lucide-angular>
         </p-avatar>
-        <div class="font-bold my-auto ml-3">{{data().description || 'Unknown'}}</div>
+        <div class="pop-drawer-title">{{data().description || 'Unknown'}}</div>
     </ng-template>
 
+    <p-divider align="left" class="mt-0"><span class="p-divider-text"><i class="pi pi-box"></i> Properties</span></p-divider>
+    <pop-drawer-properties [data]="data()"/>
+
+    <p-divider align="left"><span class="p-divider-text"><i class="pi pi-database"></i> Metadata</span></p-divider>
+
     <div class="property">
-        <small class="property-label">Database ID</small>
+        <div class="property-label text-muted text-sm">Database ID</div>
         <div class="monospace"><small>{{ data().id }}</small></div>
     </div>
     @if (data().externalSource) {    
         <div class="property">
-            <small class="property-label">External Source</small>
-            <div class="monospace"><small>{{ data().externalSource }}</small></div>
+            <div class="property-label text-muted text-sm">External Source</div>
+            <div class="monospace text-muted"><small>{{ data().externalSource }}</small></div>
         </div>
         <div class="property">
-            <small class="property-label">External Source ID</small>
+            <div class="property-label text-muted text-sm">External Source ID</div>
             <div class="monospace"><small>{{ data().externalSourceId }}</small></div>
         </div>
     }
 
-    <p-divider/>
-    <pop-drawer-properties [data]="data()"/>
-
-    <p-divider/>
+    <p-divider align="left"><span class="p-divider-text"><i class="pi pi-history"></i> History</span></p-divider>
 
     <div>
-        <i class="pi pi-history"></i> History
         @if (history.hasValue()) {
         <p-timeline [value]="history.value()" class="pop-case-manager-drawer-history">
             <ng-template pTemplate="content" let-event>

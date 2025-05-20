@@ -63,6 +63,17 @@ export interface GetUsersRequestParams {
     canAuditLogs?: boolean;
     canManageUsers?: boolean;
     isSystemAdmin?: boolean;
+    isProvided?: boolean;
+    providerNotExists?: boolean;
+    providerExists?: boolean;
+    provider?: string;
+    providerNot?: string;
+    providerContains?: string;
+    providerNotContains?: string;
+    providerBeginsWith?: string;
+    providerNotBeginsWith?: string;
+    providerEndsWith?: string;
+    providerNotEndsWith?: string;
     lastLoginNotExists?: boolean;
     lastLoginExists?: boolean;
     lastLoginBefore?: string;

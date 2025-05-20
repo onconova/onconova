@@ -349,6 +349,17 @@ export class AuthService extends BaseService implements AuthServiceInterface {
         const canAuditLogs = requestParameters?.canAuditLogs;
         const canManageUsers = requestParameters?.canManageUsers;
         const isSystemAdmin = requestParameters?.isSystemAdmin;
+        const isProvided = requestParameters?.isProvided;
+        const providerNotExists = requestParameters?.providerNotExists;
+        const providerExists = requestParameters?.providerExists;
+        const provider = requestParameters?.provider;
+        const providerNot = requestParameters?.providerNot;
+        const providerContains = requestParameters?.providerContains;
+        const providerNotContains = requestParameters?.providerNotContains;
+        const providerBeginsWith = requestParameters?.providerBeginsWith;
+        const providerNotBeginsWith = requestParameters?.providerNotBeginsWith;
+        const providerEndsWith = requestParameters?.providerEndsWith;
+        const providerNotEndsWith = requestParameters?.providerNotEndsWith;
         const lastLoginNotExists = requestParameters?.lastLoginNotExists;
         const lastLoginExists = requestParameters?.lastLoginExists;
         const lastLoginBefore = requestParameters?.lastLoginBefore;
@@ -490,6 +501,28 @@ export class AuthService extends BaseService implements AuthServiceInterface {
           <any>canManageUsers, 'canManageUsers');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>isSystemAdmin, 'isSystemAdmin');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isProvided, 'isProvided');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerNotExists, 'provider.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerExists, 'provider.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>provider, 'provider');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerNot, 'provider.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerContains, 'provider.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerNotContains, 'provider.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerBeginsWith, 'provider.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerNotBeginsWith, 'provider.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerEndsWith, 'provider.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>providerNotEndsWith, 'provider.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>lastLoginNotExists, 'lastLogin.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
