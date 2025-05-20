@@ -13,12 +13,6 @@ from .user import (
     UserProfileSchema,
     UserPasswordReset as UserPasswordResetSchema,
 )
-from .auth import (
-    RefreshedTokenPair,
-    TokenRefresh,  
-    TokenPair, 
-    UserCredentials,
-)
 from pop.core.schemas.factory import create_filters_schema
 
 
@@ -30,11 +24,6 @@ __all__ = (
     CodedConceptSchema,
     UserSchema, UserCreateSchema, UserProfileSchema, UserFilters,
     ModifiedResourceSchema,
-    RefreshedTokenPair, 
-    TokenRefresh, 
-    TokenPair, 
     Paginated,
-    UserCredentials,
     HistoryEvent,
-    
 )

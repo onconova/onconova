@@ -15,7 +15,6 @@ import { Divider } from 'primeng/divider';
 import { AppConfigService } from 'src/app/app.config.service';
 import { AuthLayoutComponent } from './auth-layout.component';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { UserCredentials } from 'src/app/shared/openapi/model/user-credentials';
 
 @Component({
     selector: 'pop-login',

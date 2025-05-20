@@ -3,13 +3,14 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AbstractFormBase } from 'src/app/features/forms/abstract-form-base.component';
-import { AuthService, User, UserPasswordReset } from 'src/app/shared/openapi';
+import { UsersService, User, UserPasswordReset } from 'src/app/shared/openapi';
 import { Button } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormControlErrorComponent } from 'src/app/shared/components';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { Fluid } from 'primeng/fluid';
+import { Users } from 'lucide-angular';
 
 
 @Component({
@@ -65,7 +66,7 @@ export class PasswordResetFormComponent extends AbstractFormBase {
     initialData = input<{isAdmin: boolean, user: User}>();
 
     // Service injections
-    readonly #authService: AuthService = inject(AuthService);
+    readonly #usersService = inject(UsersService);
     readonly #fb = inject(FormBuilder);
     
     // Create and update service methods for the form data
@@ -83,9 +84,9 @@ export class PasswordResetFormComponent extends AbstractFormBase {
         // Dynamically set the corresponding service
         if (this.initialData()?.isAdmin) {
             this.form.controls['oldPassword'].removeValidators(Validators.required);
-            this.createService = (payload: any) => this.#authService.resetUserPassword({userId: this.initialData()?.user.id as string, password: payload});
+            this.createService = (payload: any) => this.#usersService.resetUserPassword({userId: this.initialData()?.user.id as string, password: payload});
         } else {
-            this.createService = (payload: any) => this.#authService.updateUserPassword({userId: this.initialData()?.user.id as string, userPasswordReset: payload});
+            this.createService = (payload: any) => this.#usersService.updateUserPassword({userId: this.initialData()?.user.id as string, userPasswordReset: payload});
         }
         this.updateService = () => {null}; 
     }

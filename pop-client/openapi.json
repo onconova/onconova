@@ -3,122 +3,13 @@
   "info": {
     "title": "POP API",
     "version": "1.0.0",
-    "description": "Precision Oncology Platform API for exchange of research cancer data",
+    "description": "\nWelcome to the Precision Oncology Platform API — a secure, standards-based interface designed to facilitate the exchange, management, and \nanalysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of \nRESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.\n\nThe primary objective of this API is to support precision oncology research by enabling interoperability between data systems, \npromoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.\n\n### Authentication\nTo ensure the security and integrity of cancer research data, **all API requests require proper authentication**.\n\nA valid session token must be obtained prior to accessing any protected endpoint. This token must be included in the request header `X-Session-Token`.\n\nThe authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. \nThis includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and \nmanaging session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).\n\n**Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.\n\n### Terms and Conditions\nBy accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is \nintended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make \nany express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.\n\nThe information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a \nresult of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.\n\nThese terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.\n\n### License \nThis API is made available under the MIT License.\n    ",
     "license": {
       "name": "MIT",
       "url": "https://github.com/precisionmedicineinitiative/POP/blob/main/LICENSE"
     }
   },
   "paths": {
-    "/api/auth/pair": {
-      "post": {
-        "operationId": "getTokenPair",
-        "summary": "Obtain Token Pair",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokenPair"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCredentials"
-              }
-            }
-          },
-          "required": true
-        },
-        "security": []
-      }
-    },
-    "/api/auth/refresh": {
-      "post": {
-        "operationId": "refreshTokenPair",
-        "summary": "Refresh Token Pair",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RefreshedTokenPair"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TokenRefresh"
-              }
-            }
-          },
-          "required": true
-        },
-        "security": []
-      }
-    },
-    "/api/auth/oauth/access_token": {
-      "post": {
-        "operationId": "exchangeOauthCodeForAccessToken",
-        "summary": "Exchange Oauth Code For Access Token",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/OAuthExchangeCode"
-              }
-            }
-          },
-          "required": true
-        },
-        "security": []
-      }
-    },
     "/api/users": {
       "get": {
         "operationId": "getUsers",
@@ -1630,7 +1521,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
@@ -1661,7 +1552,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1717,7 +1608,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
@@ -1761,7 +1652,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1817,7 +1708,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1852,8 +1743,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifiedResource"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not Found"
@@ -1866,7 +1764,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1910,8 +1808,15 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifiedResource"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -1921,7 +1826,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
@@ -37401,129 +37306,6 @@
   },
   "components": {
     "schemas": {
-      "TokenPair": {
-        "properties": {
-          "username": {
-            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
-            "maxLength": 150,
-            "title": "Username",
-            "type": "string"
-          },
-          "refresh": {
-            "title": "Refresh",
-            "type": "string"
-          },
-          "access": {
-            "title": "Access",
-            "type": "string"
-          }
-        },
-        "required": [
-          "username",
-          "refresh",
-          "access"
-        ],
-        "title": "TokenPair",
-        "type": "object"
-      },
-      "UserCredentials": {
-        "properties": {
-          "password": {
-            "format": "password",
-            "title": "Password",
-            "type": "string",
-            "writeOnly": true
-          },
-          "username": {
-            "title": "Username",
-            "type": "string"
-          }
-        },
-        "required": [
-          "password",
-          "username"
-        ],
-        "title": "UserCredentials",
-        "type": "object"
-      },
-      "RefreshedTokenPair": {
-        "properties": {
-          "refresh": {
-            "title": "Refresh",
-            "type": "string"
-          },
-          "access": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access"
-          }
-        },
-        "required": [
-          "refresh",
-          "access"
-        ],
-        "title": "RefreshedTokenPair",
-        "type": "object"
-      },
-      "TokenRefresh": {
-        "properties": {
-          "refresh": {
-            "title": "Refresh",
-            "type": "string"
-          }
-        },
-        "required": [
-          "refresh"
-        ],
-        "title": "TokenRefresh",
-        "type": "object"
-      },
-      "OAuthExchangeCode": {
-        "properties": {
-          "code": {
-            "title": "Code",
-            "type": "string"
-          },
-          "provider": {
-            "title": "Provider",
-            "type": "string"
-          },
-          "state": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "State"
-          },
-          "redirect_uri": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Redirect Uri"
-          }
-        },
-        "required": [
-          "code",
-          "provider"
-        ],
-        "title": "OAuthExchangeCode",
-        "type": "object"
-      },
       "AccessRoles": {
         "enum": [
           "External",

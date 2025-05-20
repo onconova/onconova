@@ -12,14 +12,9 @@ import { HttpHeaders }                                       from '@angular/comm
 import { Observable }                                        from 'rxjs';
 
 import { ModifiedResource } from '../model/models';
-import { OAuthExchangeCode } from '../model/models';
 import { PaginatedUser } from '../model/models';
-import { RefreshedTokenPair } from '../model/models';
-import { TokenPair } from '../model/models';
-import { TokenRefresh } from '../model/models';
 import { User } from '../model/models';
 import { UserCreate } from '../model/models';
-import { UserCredentials } from '../model/models';
 import { UserPasswordReset } from '../model/models';
 import { UserProfileSchema } from '../model/models';
 
@@ -29,14 +24,6 @@ import { Configuration }                                     from '../configurat
 
 export interface CreateUserRequestParams {
     userCreate: UserCreate;
-}
-
-export interface ExchangeOauthCodeForAccessTokenRequestParams {
-    oAuthExchangeCode: OAuthExchangeCode;
-}
-
-export interface GetTokenPairRequestParams {
-    userCredentials: UserCredentials;
 }
 
 export interface GetUserByIdRequestParams {
@@ -173,10 +160,6 @@ export interface GetUsersRequestParams {
     offset?: number;
 }
 
-export interface RefreshTokenPairRequestParams {
-    tokenRefresh: TokenRefresh;
-}
-
 export interface ResetUserPasswordRequestParams {
     userId: string;
     password: string;
@@ -198,7 +181,7 @@ export interface UpdateUserProfileRequestParams {
 }
 
 
-export interface AuthServiceInterface {
+export interface UsersServiceInterface {
     defaultHeaders: HttpHeaders;
     configuration: Configuration;
 
@@ -208,20 +191,6 @@ export interface AuthServiceInterface {
 * @param requestParameters
      */
     createUser(requestParameters: CreateUserRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
-
-    /**
-     * Exchange Oauth Code For Access Token
-     * 
-* @param requestParameters
-     */
-    exchangeOauthCodeForAccessToken(requestParameters: ExchangeOauthCodeForAccessTokenRequestParams, extraHttpRequestParams?: any): Observable<any>;
-
-    /**
-     * Obtain Token Pair
-     * 
-* @param requestParameters
-     */
-    getTokenPair(requestParameters: GetTokenPairRequestParams, extraHttpRequestParams?: any): Observable<TokenPair>;
 
     /**
      * Get User By Id
@@ -238,18 +207,11 @@ export interface AuthServiceInterface {
     getUsers(requestParameters: GetUsersRequestParams, extraHttpRequestParams?: any): Observable<PaginatedUser>;
 
     /**
-     * Refresh Token Pair
-     * 
-* @param requestParameters
-     */
-    refreshTokenPair(requestParameters: RefreshTokenPairRequestParams, extraHttpRequestParams?: any): Observable<RefreshedTokenPair>;
-
-    /**
      * Reset User Password
      * 
 * @param requestParameters
      */
-    resetUserPassword(requestParameters: ResetUserPasswordRequestParams, extraHttpRequestParams?: any): Observable<{}>;
+    resetUserPassword(requestParameters: ResetUserPasswordRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update User
@@ -263,7 +225,7 @@ export interface AuthServiceInterface {
      * 
 * @param requestParameters
      */
-    updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, extraHttpRequestParams?: any): Observable<{}>;
+    updateUserPassword(requestParameters: UpdateUserPasswordRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update User Profile

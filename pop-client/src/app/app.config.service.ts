@@ -40,4 +40,12 @@ export class AppConfigService {
             catchError((error) => throwError(() => 'Failed to fetch OpenID configuration for ' + providerId + ': ' + error))
         )
     }
+    public getOpenIdTokenEndpoint(providerId: string): Observable<string | null> {
+        const configUrl: string | null = this.getIdentityProviders().find((provider: ProviderConfig) => provider.id == providerId)?.openid_configuration_url || null;
+        if (!configUrl) return of(null);
+        return this.#http.get(configUrl).pipe(
+            map((config: any) => config.token_endpoint),
+            catchError((error) => throwError(() => 'Failed to fetch OpenID configuration for ' + providerId + ': ' + error))
+        )
+    }
 }

@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AbstractFormBase } from 'src/app/features/forms/abstract-form-base.component';
-import { AccessRoles, AuthService, User, UserCreate } from 'src/app/shared/openapi';
+import { AccessRoles, UsersService, User, UserCreate } from 'src/app/shared/openapi';
 import { Fluid } from 'primeng/fluid';
 import { Button } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
@@ -33,12 +33,12 @@ export class UserFormComponent extends AbstractFormBase {
     initialData = input<User>();
 
     // Service injections
-    readonly #authService: AuthService = inject(AuthService);
+    readonly #usersService = inject(UsersService);
     readonly #fb = inject(FormBuilder);
     
     // Create and update service methods for the form data
-    public readonly createService = (payload: UserCreate) => this.#authService.createUser({userCreate: payload});
-    public readonly updateService = (id: string, payload: UserCreate) => this.#authService.updateUser({userId: id, userCreate: payload});
+    public readonly createService = (payload: UserCreate) => this.#usersService.createUser({userCreate: payload});
+    public readonly updateService = (id: string, payload: UserCreate) => this.#usersService.updateUser({userId: id, userCreate: payload});
 
     // Define the form
     public form = this.#fb.group({

@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AllAuthApiService } from '../services/allauth-api.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
-import { AuthService as APIAuthService } from 'src/app/shared/openapi';
+import { UsersService } from 'src/app/shared/openapi';
 import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../layout/app.layout.service';
 import { InputIconModule } from 'primeng/inputicon';
@@ -74,7 +74,7 @@ export class ProviderSignupComponent {
 
     readonly #fb = inject(FormBuilder);
     readonly #authService = inject(AuthService);
-    readonly #userService = inject(APIAuthService);
+    readonly #usersService = inject(UsersService);
     readonly #allAuthApiService = inject(AllAuthApiService);
     public layoutService =  inject(LayoutService);
 

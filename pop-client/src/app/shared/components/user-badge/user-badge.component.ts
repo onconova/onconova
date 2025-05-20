@@ -1,6 +1,6 @@
 import { Component, inject, input, ViewEncapsulation } from '@angular/core';
 
-import { AuthService } from '../../openapi';
+import { UsersService } from '../../openapi';
 import { GetNameAcronymPipe } from '../../pipes/name-acronym.pipe';
 import { GetFullNamePipe } from '../../pipes/full-name.pipe';
 
@@ -47,12 +47,12 @@ import { rxResource } from '@angular/core/rxjs-interop';
     ]
 })
 export class UserBadgeComponent {
-    readonly #userService = inject(AuthService);
+    readonly #usersService = inject(UsersService);
     public username = input.required<string>();
     public showName = input<boolean>(false);
     public user = rxResource({
         request: () => ({username: this.username(), limit: 1}),
-        loader: ({request}) => this.#userService.getUsers(request).pipe(
+        loader: ({request}) => this.#usersService.getUsers(request).pipe(
             map(response => response.items[0])
         )
     });

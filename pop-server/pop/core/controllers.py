@@ -1,8 +1,6 @@
-import requests
-import os 
-from typing import Any, Optional
+from typing import  Optional
 from ninja import Query, Schema
-from ninja_extra import status,route, api_controller, ControllerBase
+from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
 
 from django.contrib.auth import get_user_model
@@ -20,88 +18,12 @@ from pop.core.schemas import (
     UserProfileSchema,
     UserPasswordResetSchema,
     ModifiedResourceSchema,
-    TokenRefresh, 
-    RefreshedTokenPair,
-    TokenPair, 
-    UserCredentials
 )
-
-class OAuthExchangeCode(Schema):
-    code: str
-    provider: str
-    state: Optional[str] = None
-    redirect_uri: Optional[str] = None
-
-
-@api_controller(
-    "/auth", 
-    tags=["Auth"]
-)
-class AuthController(ControllerBase):
-
-    @route.post(
-        "/pair",
-        response=TokenPair,
-        operation_id="getTokenPair",
-        openapi_extra=dict(security=[])
-    )
-    def obtain_token_pair(self, credentials: UserCredentials):
-        credentials.check_user_authentication_rule()
-        return credentials.to_response_schema()
-
-    @route.post(
-        "/refresh",
-        response=RefreshedTokenPair,
-        operation_id="refreshTokenPair",
-        openapi_extra=dict(security=[])
-    )
-    def refresh_token_pair(self, refresh_token: TokenRefresh):
-        return refresh_token.to_response_schema()
-
-
-    @route.post(
-        path="/oauth/access_token", 
-        response={
-            200: Any,
-            400: Any
-        }, 
-        openapi_extra=dict(security=[]),
-        operation_id='exchangeOauthCodeForAccessToken',
-    )
-    def exchange_oauth_code_for_access_token(self, payload: OAuthExchangeCode):
-        print('payload', payload)
-        provider = payload.provider
-
-        if provider == 'github':
-            token_url = 'https://github.com/login/oauth/access_token'
-            client_id = os.getenv('POP_GITHUB_CLIENT_ID')
-            client_secret = os.getenv('POP_GITHUB_SECRET')
-
-            data = {
-                'client_id': client_id,
-                'client_secret': client_secret,
-                'code': payload.code,
-            }
-            print('DATA', data)
-            headers = {'Accept': 'application/json'}
-            response = requests.post(token_url, params=data, headers=headers)
-            print(response.url)
-            if response.status_code == 200:
-                tokens = response.json()
-                # Now — use AllAuth's headless provider/token endpoint or your own logic to log them in
-                return 200, tokens
-            else:
-                return 400, {'error': 'Token exchange failed.', 'details': response.json()}
-
-        else:
-            return 400, {'error': 'Unsupported provider.'}
-    
-
     
 @api_controller(
     '/users', 
     auth=[XSessionTokenAuth()], 
-    tags=['Auth'],  
+    tags=['Users'],  
 )
 class UsersController(ControllerBase):
 

@@ -2,7 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { AuthService, User, UserCreate } from 'src/app/shared/openapi';
+import { UsersService, User, UserCreate } from 'src/app/shared/openapi';
 import { catchError, first, map, of, tap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -30,7 +30,7 @@ import { MessageService } from 'primeng/api';
 export class UsersManagementCompnent {
 
     // Injected services
-    private authService = inject(AuthService);
+    readonly #usersService = inject(UsersService);
     readonly #messageService = inject(MessageService); 
     readonly #dialogservice = inject(DialogService);
 
@@ -38,7 +38,7 @@ export class UsersManagementCompnent {
     public queryFilters = signal({})
     public users = rxResource({
         request: () => ({ ...this.queryFilters(), limit: this.pagination().limit, offset: this.pagination().offset}),
-        loader: ({request}) => this.authService.getUsers(request).pipe(
+        loader: ({request}) => this.#usersService.getUsers(request).pipe(
             tap(page => this.totalUsers.set(page.count)),
             map(page => page.items),
             catchError((error: any) => {

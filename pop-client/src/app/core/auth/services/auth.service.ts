@@ -1,6 +1,6 @@
 import { computed, effect, inject, Injectable, linkedSignal, signal } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthService as APIAuthService } from 'src/app/shared/openapi';
+import { UsersService } from 'src/app/shared/openapi';
 import { iif, map, Observable, of, switchMap, throwError } from 'rxjs'
 import { User} from 'src/app/shared/openapi/';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -24,7 +24,7 @@ export class AuthService {
 
   // Injected services
   #router = inject(Router);
-  #apiAuth = inject(APIAuthService);
+  #userService = inject(UsersService);
   #allAuthApiService = inject(AllAuthApiService);
   #messageService = inject(MessageService);
   #configService = inject(AppConfigService);
@@ -39,7 +39,7 @@ export class AuthService {
   // Reactive user resource (refetches on username change)
   public userResource = rxResource({
     request: () => ({userId: this.sessionUserId() as string}),
-    loader: ({request}): Observable<User> => this.isAuthenticated() ? this.#apiAuth.getUserById(request) : of({username: 'anonymous', id: '', email: '', accessLevel: 0} as User),
+    loader: ({request}): Observable<User> => this.isAuthenticated() ? this.#userService.getUserById(request) : of({username: 'anonymous', id: '', email: '', accessLevel: 0} as User),
   });  
 
   // Computed: Current user value from resource
@@ -192,11 +192,10 @@ export class AuthService {
     of(credentials).pipe(
       // If OpenID Connect access token or ID token is present, just return the credentials
       switchMap((creds: OpenIDCredentials): Observable<OpenIDCredentials> => iif(() => Boolean(creds.idToken || creds.accessToken), of(creds),
-        // Otherwise, exchange the authorization code for an access token
+        // Otherwise, if authorization code is present exchange it
         iif(() => Boolean(creds.authorizationCode),
-          this.#apiAuth.exchangeOauthCodeForAccessToken({ oAuthExchangeCode: {provider: provider, code: creds.authorizationCode!, state: creds.state} }).pipe(
-            map((response: any): OpenIDCredentials => ({...creds, accessToken: response?.access_token, idToken: response?.id_token}))
-          ),
+          // To be implemented...
+          throwError(() => 'The OpenID authorization code flow is not supported.'),
           // If no credentials are found, throw an error
           throwError(() => 'No OpenID Connect access token, ID token, or authorization code found in callback')
         )
