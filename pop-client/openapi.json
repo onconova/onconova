@@ -3,80 +3,14 @@
   "info": {
     "title": "POP API",
     "version": "1.0.0",
-    "description": "Precision Oncology Platform API for exchange of research cancer data",
+    "description": "\nWelcome to the Precision Oncology Platform API — a secure, standards-based interface designed to facilitate the exchange, management, and \nanalysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of \nRESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.\n\nThe primary objective of this API is to support precision oncology research by enabling interoperability between data systems, \npromoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.\n\n### Authentication\nTo ensure the security and integrity of cancer research data, **all API requests require proper authentication**.\n\nA valid session token must be obtained prior to accessing any protected endpoint. This token must be included in the request header `X-Session-Token`.\n\nThe authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. \nThis includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and \nmanaging session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).\n\n**Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.\n\n### Terms and Conditions\nBy accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is \nintended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make \nany express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.\n\nThe information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a \nresult of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.\n\nThese terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.\n\n### License \nThis API is made available under the MIT License.\n    ",
     "license": {
       "name": "MIT",
       "url": "https://github.com/precisionmedicineinitiative/POP/blob/main/LICENSE"
     }
   },
   "paths": {
-    "/api/auth/token/pair": {
-      "post": {
-        "operationId": "getTokenPair",
-        "summary": "Obtain Token Pair",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokenPair"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCredentials"
-              }
-            }
-          },
-          "required": true
-        },
-        "security": []
-      }
-    },
-    "/api/auth/token/refresh": {
-      "post": {
-        "operationId": "refreshTokenPair",
-        "summary": "Refresh Token Pair",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RefreshedTokenPair"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TokenRefresh"
-              }
-            }
-          },
-          "required": true
-        },
-        "security": []
-      }
-    },
-    "/api/auth/users": {
+    "/api/users": {
       "get": {
         "operationId": "getUsers",
         "summary": "Get All Users Matching The Query",
@@ -328,6 +262,127 @@
             },
             "required": false,
             "description": "None - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
+            "name": "isProvided",
+            "schema": {
+              "description": "None - ('Filter for yes/no statement',)",
+              "title": "Isprovided",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "None - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.exists",
+            "schema": {
+              "description": "None - Filter for entries without a value",
+              "title": "Provider.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "None - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "provider.exists",
+            "schema": {
+              "description": "None - Filter for entries with a value",
+              "title": "Provider.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "None - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "provider",
+            "schema": {
+              "description": "None - Filter for full text matches",
+              "title": "Provider",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "provider.not",
+            "schema": {
+              "description": "None - Filter for full text mismatches",
+              "title": "Provider.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "provider.contains",
+            "schema": {
+              "description": "None - Filter for partial text matches",
+              "title": "Provider.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.contains",
+            "schema": {
+              "description": "None - Filter for partial text mismatches",
+              "title": "Provider.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "provider.beginsWith",
+            "schema": {
+              "description": "None - Filter for entries starting with the text",
+              "title": "Provider.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.beginsWith",
+            "schema": {
+              "description": "None - Filter for entries not starting with the text",
+              "title": "Provider.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "provider.endsWith",
+            "schema": {
+              "description": "None - Filter for entries ending with the text",
+              "title": "Provider.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "provider.not.endsWith",
+            "schema": {
+              "description": "None - Filter for entries not ending with the text",
+              "title": "Provider.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "None - Filter for entries not ending with the text"
           },
           {
             "in": "query",
@@ -1466,11 +1521,11 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -1497,7 +1552,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1511,12 +1566,12 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
     },
-    "/api/auth/users/{userId}": {
+    "/api/users/{userId}": {
       "get": {
         "operationId": "getUserById",
         "summary": "Get User By Id",
@@ -1553,11 +1608,11 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -1597,7 +1652,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1611,106 +1666,12 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
     },
-    "/api/auth/users/{userId}/password": {
-      "put": {
-        "operationId": "updateUserPassword",
-        "summary": "Update User Password",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "schema": {
-              "title": "Userid",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserPasswordReset"
-              }
-            }
-          },
-          "required": true
-        },
-        "security": [
-          {
-            "JWTAuth": []
-          }
-        ]
-      }
-    },
-    "/api/auth/users/{userId}/password/reset": {
-      "post": {
-        "operationId": "resetUserPassword",
-        "summary": "Reset User Password",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "userId",
-            "schema": {
-              "title": "Userid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "password",
-            "schema": {
-              "title": "Password",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Auth"
-        ],
-        "security": [
-          {
-            "JWTAuth": []
-          }
-        ]
-      }
-    },
-    "/api/auth/users/{userId}/profile": {
+    "/api/users/{userId}/profile": {
       "put": {
         "operationId": "updateUserProfile",
         "summary": "Update User Profile",
@@ -1747,7 +1708,7 @@
           }
         },
         "tags": [
-          "Auth"
+          "Users"
         ],
         "requestBody": {
           "content": {
@@ -1761,7 +1722,115 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{userId}/password": {
+      "put": {
+        "operationId": "updateUserPassword",
+        "summary": "Update User Password",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "title": "Userid",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifiedResource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPasswordReset"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{userId}/password/reset": {
+      "post": {
+        "operationId": "resetUserPassword",
+        "summary": "Reset User Password",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "title": "Userid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "schema": {
+              "title": "Password",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModifiedResource"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -1801,7 +1870,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -1842,7 +1911,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -1879,7 +1948,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -1937,7 +2006,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -3555,7 +3624,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -3596,7 +3665,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -3636,7 +3705,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -3690,7 +3759,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -3727,7 +3796,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -3767,7 +3836,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -3835,7 +3904,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -3890,7 +3959,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -3945,7 +4014,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -4020,7 +4089,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -4093,7 +4162,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -4159,7 +4228,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -5047,7 +5116,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -5088,7 +5157,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -5134,7 +5203,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -5188,7 +5257,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -5225,7 +5294,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -5293,7 +5362,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -5348,7 +5417,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -5403,7 +5472,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -5923,7 +5992,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -6008,7 +6077,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -6048,7 +6117,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -6146,7 +6215,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -6183,7 +6252,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -6251,7 +6320,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -6306,7 +6375,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -6361,7 +6430,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -6979,7 +7048,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -7020,7 +7089,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -7066,7 +7135,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -7120,7 +7189,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -7157,7 +7226,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -7225,7 +7294,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -7280,7 +7349,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -7335,7 +7404,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -8964,7 +9033,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -9005,7 +9074,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -9051,7 +9120,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -9105,7 +9174,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -9142,7 +9211,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -9210,7 +9279,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -9265,7 +9334,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -9320,7 +9389,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -9366,7 +9435,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -11650,7 +11719,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -11691,7 +11760,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -11737,7 +11806,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -11774,7 +11843,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -11828,7 +11897,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -11896,7 +11965,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -11951,7 +12020,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -12006,7 +12075,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -12056,7 +12125,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -12107,7 +12176,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -12162,7 +12231,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -12225,7 +12294,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -12271,7 +12340,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -12348,7 +12417,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -12412,7 +12481,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -12476,7 +12545,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -13402,7 +13471,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -13443,7 +13512,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -13489,7 +13558,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -13543,7 +13612,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -13580,7 +13649,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -13648,7 +13717,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -13703,7 +13772,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -13758,7 +13827,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15287,7 +15356,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -15328,7 +15397,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15374,7 +15443,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -15411,7 +15480,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -15465,7 +15534,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15533,7 +15602,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15588,7 +15657,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15643,7 +15712,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15693,7 +15762,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -15744,7 +15813,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15799,7 +15868,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -15862,7 +15931,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -15908,7 +15977,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -15985,7 +16054,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16049,7 +16118,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16113,7 +16182,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16163,7 +16232,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -16214,7 +16283,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16269,7 +16338,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -16332,7 +16401,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -16378,7 +16447,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16455,7 +16524,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16519,7 +16588,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -16583,7 +16652,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -17492,7 +17561,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -17533,7 +17602,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -17579,7 +17648,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -17633,7 +17702,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -17670,7 +17739,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -17738,7 +17807,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -17793,7 +17862,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -17848,7 +17917,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -17898,7 +17967,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -19725,7 +19794,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -19766,7 +19835,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -19812,7 +19881,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -19849,7 +19918,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -19903,7 +19972,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -19971,7 +20040,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20026,7 +20095,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20081,7 +20150,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20131,7 +20200,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -20182,7 +20251,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20237,7 +20306,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -20300,7 +20369,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -20346,7 +20415,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20423,7 +20492,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20487,7 +20556,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20551,7 +20620,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20601,7 +20670,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -20652,7 +20721,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20707,7 +20776,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -20770,7 +20839,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -20816,7 +20885,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20893,7 +20962,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -20957,7 +21026,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -21021,7 +21090,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -21653,7 +21722,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -21694,7 +21763,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -21740,7 +21809,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -21794,7 +21863,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -21831,7 +21900,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -21899,7 +21968,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -21954,7 +22023,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22009,7 +22078,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22486,7 +22555,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -22535,7 +22604,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22575,7 +22644,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -22637,7 +22706,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -22674,7 +22743,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22742,7 +22811,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22797,7 +22866,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22852,7 +22921,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -22902,7 +22971,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -22953,7 +23022,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -23002,7 +23071,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -23065,7 +23134,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -23111,7 +23180,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -23188,7 +23257,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -23252,7 +23321,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -23316,7 +23385,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -24086,7 +24155,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -24127,7 +24196,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -24173,7 +24242,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -24227,7 +24296,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -24264,7 +24333,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -24332,7 +24401,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -24387,7 +24456,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -24442,7 +24511,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -27699,7 +27768,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -27740,7 +27809,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -27786,7 +27855,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -27840,7 +27909,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -27877,7 +27946,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -27945,7 +28014,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28000,7 +28069,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28055,7 +28124,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28468,7 +28537,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -28529,7 +28598,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28569,7 +28638,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -28643,7 +28712,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -28680,7 +28749,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28748,7 +28817,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28803,7 +28872,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -28858,7 +28927,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -29980,7 +30049,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -30021,7 +30090,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -30067,7 +30136,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -30121,7 +30190,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -30158,7 +30227,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -30226,7 +30295,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -30281,7 +30350,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -30336,7 +30405,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -31081,7 +31150,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -31122,7 +31191,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -31168,7 +31237,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -31205,7 +31274,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -31259,7 +31328,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -31327,7 +31396,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -31382,7 +31451,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -31437,7 +31506,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32303,7 +32372,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -32344,7 +32413,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32390,7 +32459,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -32427,7 +32496,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -32481,7 +32550,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32549,7 +32618,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32604,7 +32673,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32659,7 +32728,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32696,7 +32765,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -32742,7 +32811,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -33866,7 +33935,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -33907,7 +33976,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -33953,7 +34022,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -34007,7 +34076,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -34044,7 +34113,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34112,7 +34181,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34167,7 +34236,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34222,7 +34291,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34266,7 +34335,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34307,7 +34376,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34357,7 +34426,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34443,7 +34512,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -34922,7 +34991,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -34963,7 +35032,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35009,7 +35078,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -35046,7 +35115,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -35100,7 +35169,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35168,7 +35237,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35240,7 +35309,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35308,7 +35377,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35363,7 +35432,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35418,7 +35487,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35478,7 +35547,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35560,7 +35629,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35637,7 +35706,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35695,7 +35764,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35753,7 +35822,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35815,7 +35884,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35864,7 +35933,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35915,7 +35984,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -35973,7 +36042,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36033,7 +36102,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36093,7 +36162,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36126,7 +36195,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36163,7 +36232,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36200,7 +36269,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36842,7 +36911,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -36883,7 +36952,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -36929,7 +36998,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -36966,7 +37035,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       },
@@ -37020,7 +37089,7 @@
         },
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -37088,7 +37157,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -37143,7 +37212,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -37198,7 +37267,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -37229,7 +37298,7 @@
         ],
         "security": [
           {
-            "JWTAuth": []
+            "XSessionTokenAuth": []
           }
         ]
       }
@@ -37237,89 +37306,6 @@
   },
   "components": {
     "schemas": {
-      "TokenPair": {
-        "properties": {
-          "username": {
-            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
-            "maxLength": 150,
-            "title": "Username",
-            "type": "string"
-          },
-          "refresh": {
-            "title": "Refresh",
-            "type": "string"
-          },
-          "access": {
-            "title": "Access",
-            "type": "string"
-          }
-        },
-        "required": [
-          "username",
-          "refresh",
-          "access"
-        ],
-        "title": "TokenPair",
-        "type": "object"
-      },
-      "UserCredentials": {
-        "properties": {
-          "password": {
-            "format": "password",
-            "title": "Password",
-            "type": "string",
-            "writeOnly": true
-          },
-          "username": {
-            "title": "Username",
-            "type": "string"
-          }
-        },
-        "required": [
-          "password",
-          "username"
-        ],
-        "title": "UserCredentials",
-        "type": "object"
-      },
-      "RefreshedTokenPair": {
-        "properties": {
-          "refresh": {
-            "title": "Refresh",
-            "type": "string"
-          },
-          "access": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access"
-          }
-        },
-        "required": [
-          "refresh",
-          "access"
-        ],
-        "title": "RefreshedTokenPair",
-        "type": "object"
-      },
-      "TokenRefresh": {
-        "properties": {
-          "refresh": {
-            "title": "Refresh",
-            "type": "string"
-          }
-        },
-        "required": [
-          "refresh"
-        ],
-        "title": "TokenRefresh",
-        "type": "object"
-      },
       "AccessRoles": {
         "enum": [
           "External",
@@ -37486,6 +37472,61 @@
             "description": "None - ('Filter for yes/no statement',)",
             "title": "Issystemadmin",
             "type": "boolean"
+          },
+          "isProvided": {
+            "description": "None - ('Filter for yes/no statement',)",
+            "title": "Isprovided",
+            "type": "boolean"
+          },
+          "provider.not.exists": {
+            "description": "None - Filter for entries without a value",
+            "title": "Provider.Not.Exists",
+            "type": "boolean"
+          },
+          "provider.exists": {
+            "description": "None - Filter for entries with a value",
+            "title": "Provider.Exists",
+            "type": "boolean"
+          },
+          "provider": {
+            "description": "None - Filter for full text matches",
+            "title": "Provider",
+            "type": "string"
+          },
+          "provider.not": {
+            "description": "None - Filter for full text mismatches",
+            "title": "Provider.Not",
+            "type": "string"
+          },
+          "provider.contains": {
+            "description": "None - Filter for partial text matches",
+            "title": "Provider.Contains",
+            "type": "string"
+          },
+          "provider.not.contains": {
+            "description": "None - Filter for partial text mismatches",
+            "title": "Provider.Not.Contains",
+            "type": "string"
+          },
+          "provider.beginsWith": {
+            "description": "None - Filter for entries starting with the text",
+            "title": "Provider.Beginswith",
+            "type": "string"
+          },
+          "provider.not.beginsWith": {
+            "description": "None - Filter for entries not starting with the text",
+            "title": "Provider.Not.Beginswith",
+            "type": "string"
+          },
+          "provider.endsWith": {
+            "description": "None - Filter for entries ending with the text",
+            "title": "Provider.Endswith",
+            "type": "string"
+          },
+          "provider.not.endsWith": {
+            "description": "None - Filter for entries not ending with the text",
+            "title": "Provider.Not.Endswith",
+            "type": "string"
           },
           "lastLogin.not.exists": {
             "description": "Last Login - Filter for entries without a value",
@@ -38107,6 +38148,21 @@
             "title": "Issystemadmin",
             "type": "boolean"
           },
+          "isProvided": {
+            "title": "Isprovided",
+            "type": "boolean"
+          },
+          "provider": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider"
+          },
           "lastLogin": {
             "anyOf": [
               {
@@ -38227,7 +38283,7 @@
             "x-expanded": false
           },
           "accessLevel": {
-            "default": 1,
+            "default": 0,
             "description": "Level of access of the user in terms of permissions",
             "title": "Access level",
             "type": "integer",
@@ -38252,6 +38308,7 @@
           "canAuditLogs",
           "canManageUsers",
           "isSystemAdmin",
+          "isProvided",
           "username",
           "id"
         ],
@@ -38400,7 +38457,7 @@
             "x-expanded": false
           },
           "accessLevel": {
-            "default": 1,
+            "default": 0,
             "description": "Level of access of the user in terms of permissions",
             "title": "Access level",
             "type": "integer",
@@ -38411,24 +38468,6 @@
           "username"
         ],
         "title": "UserCreate",
-        "type": "object"
-      },
-      "UserPasswordReset": {
-        "properties": {
-          "oldPassword": {
-            "title": "Oldpassword",
-            "type": "string"
-          },
-          "newPassword": {
-            "title": "Newpassword",
-            "type": "string"
-          }
-        },
-        "required": [
-          "oldPassword",
-          "newPassword"
-        ],
-        "title": "UserPasswordReset",
         "type": "object"
       },
       "UserProfileSchema": {
@@ -38499,6 +38538,24 @@
           "email"
         ],
         "title": "UserProfileSchema",
+        "type": "object"
+      },
+      "UserPasswordReset": {
+        "properties": {
+          "oldPassword": {
+            "title": "Oldpassword",
+            "type": "string"
+          },
+          "newPassword": {
+            "title": "Newpassword",
+            "type": "string"
+          }
+        },
+        "required": [
+          "oldPassword",
+          "newPassword"
+        ],
+        "title": "UserPasswordReset",
         "type": "object"
       },
       "AdverseEvent": {
@@ -65874,9 +65931,10 @@
       }
     },
     "securitySchemes": {
-      "JWTAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "XSessionTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-SESSION-TOKEN"
       }
     }
   },

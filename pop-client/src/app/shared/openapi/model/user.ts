@@ -31,6 +31,8 @@ export interface User {
     canAuditLogs: boolean;
     canManageUsers: boolean;
     isSystemAdmin: boolean;
+    isProvided: boolean;
+    provider?: string | null;
     lastLogin?: string | null;
     /**
      * Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.

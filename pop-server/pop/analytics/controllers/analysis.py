@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Subquery, F, OuterRef, Case, When, Value, Q
 from django.db.models.functions import Coalesce
 
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra import route, api_controller, ControllerBase
 
 from pop.analytics.schemas.analysis import KapplerMeierCurve
@@ -11,6 +10,7 @@ from pop.analytics.analysis import calculate_Kappler_Maier_survival_curve, calcu
 from pop.analytics.models import Cohort
 from pop.oncology.models import TherapyLine
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 
 from collections import Counter
 from enum import Enum
@@ -26,7 +26,7 @@ class FeaturesCounters(str,Enum):
 
 @api_controller(
     "/cohorts", 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=["Cohorts"]
 )
 class CohortAnalysisController(ControllerBase):

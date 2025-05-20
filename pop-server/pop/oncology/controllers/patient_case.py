@@ -1,26 +1,24 @@
 import pghistory.models
 
 from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
-
 from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
+from pop.core.security import XSessionTokenAuth
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,
     PatientCaseDataCompletionStatusSchema, 
 )
-
+ 
 @api_controller(
     'patient-cases', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Patient Cases'],  
 )
 class PatientCaseController(ControllerBase):
@@ -188,7 +186,7 @@ class PatientCaseController(ControllerBase):
 
 @api_controller(
     'others', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Patient Cases'],  
 )
 class OthersController(ControllerBase):

@@ -61,9 +61,9 @@ import { Skeleton } from 'primeng/skeleton';
                 <div>
                     @for (property of subProperties(); track $index;) {
                         <div class="property">             
-                            <small class="property-label {{ data() ? '' : 'text-muted'}}">
+                            <div class="property-label text-muted text-sm">
                                 {{ property.label | titlecase | replace:'Ids':' ' | replace:'Id':' '}}
-                            </small>
+                            </div>
                             <pop-drawer-properties [data]="property.value" [label]='property.label'/>
                         </div>
                     }
@@ -130,7 +130,7 @@ export class DrawerDataPropertiesComponent {
                         return null
                     }
                     return {
-                        label: key.replace(/([A-Z])/g, " $1"),
+                        label: key.replace(/([a-z])([A-Z])/g, "$1 $2"),
                         value: value
                     }
                 }

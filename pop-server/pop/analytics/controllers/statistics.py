@@ -8,13 +8,14 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.oncology import models as oncological_models
+from pop.core.security import XSessionTokenAuth
 from pop.analytics.schemas.statistics import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
 from pop.analytics.aggregates import Median
 
 
 @api_controller(
     "/dashboard", 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=["Dashboard"]
 )
 class DashboardController(ControllerBase):

@@ -31,6 +31,17 @@ HOST_ORGANIZATION = env('ORGANIZATION_NAME') # Used by API
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    f"https://{WEBAPP_HOST}"
+]
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "x-session-token",
+    "x-email-verification-key",
+    "x-password-reset-key",
+)
 
 # Django debugging mode
 DEBUG = env("ENVIRONMENT") == 'development'                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
@@ -47,16 +58,32 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True       # Ensure that all subdomains, not ju
 
 # Application definition
 INSTALLED_APPS = [
-    'django_extensions',
+
+    # Postgres triggers
+    'pgtrigger',
+    'pghistory',
+
+    # POP core
     'pop.core',
     'pop.terminology',
     'pop.oncology',
     'pop.interoperability',
     'pop.analytics',
-    'pgtrigger',
-    'pghistory',
+
+    # Social Media Auth
+    'allauth',
+    'allauth.account',
+    "allauth.headless",
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.openid_connect',
+    'allauth.usersessions',
+
+    # Django Extensions
     'ninja_extra',
     'corsheaders',
+    'django_extensions',
+
+    # Django Core
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,9 +92,63 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-# Register the custom user (do not change)
+# Authentication Settings
+# https://docs.djangoproject.com/en/3.1/ref/settings/#auth
 AUTH_USER_MODEL = 'core.User'
 
+# Authentication Enabled Backends
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Django AllAuth Configuration
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+USERSESSIONS_TRACK_ACTIVITY = True
+HEADLESS_ONLY = True
+HEADLESS_CLIENTS = ('app',)
+HEADLESS_SERVE_SPECIFICATION = True
+HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html" 
+
+
+# Django AllAuth Providers
+SOCIALACCOUNT_PROVIDERS = {
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "google",
+                "name": "Google",
+                "client_id": os.environ.get("POP_GOOGLE_CLIENT_ID"),
+                "secret": os.environ.get("POP_GOOGLE_SECRET"),
+                "settings": {
+                    "server_url": "https://accounts.google.com",
+                    "auth_params": {
+                        "scope": "openid email profile",
+                        "prompt": "login",
+                    }
+                },
+            },
+            {
+                "provider_id": "microsoft",
+                "name": "Microsoft",
+                "client_id": os.environ.get("POP_MICROSOFT_CLIENT_ID"),
+                "secret": os.environ.get("POP_MICROSOFT_SECRET"),
+                "settings": {
+                    "server_url": f"https://login.microsoftonline.com/{os.environ.get('POP_MICROSOFT_TENANT_ID')}/v2.0",
+                    "auth_params": {
+                        "scope": "openid",
+                        "prompt": "login",
+                    }
+                },
+            },
+        ]
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',           
@@ -75,7 +156,9 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',          
     'django.contrib.auth.middleware.AuthenticationMiddleware',  
     'django.contrib.messages.middleware.MessageMiddleware',     
+    "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+    'allauth.usersessions.middleware.UserSessionsMiddleware',
     'pop.core.middleware.HistoryMiddleware',
 ]
 
@@ -192,3 +275,9 @@ LOGGING = {
         }, 
     }
 }
+
+
+try:
+    from .local_settings import *  # noqa
+except ImportError:
+    pass

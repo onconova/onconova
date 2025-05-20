@@ -9,18 +9,31 @@ import { AppThemePreset } from './app.preset';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { authInterceptor } from './core/auth/interceptors/auth.interceptor';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { APIAuthInterceptor } from './core/auth/interceptors/api-auth.interceptor';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BASE_PATH } from './shared/openapi';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
 import { provideNgxCountAnimations } from "ngx-count-animation";
+import { UnauthorizedInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
+import { AppConfigService } from './app.config.service';
 
-import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        AppConfigService,
         MessageService,
         DialogService,
+        provideHttpClient(withInterceptorsFromDi()), 
+        { 
+            provide: HTTP_INTERCEPTORS,
+            useClass: APIAuthInterceptor,
+            multi: true,
+        },
+        { 
+            provide: HTTP_INTERCEPTORS,
+            useClass: UnauthorizedInterceptor,
+            multi: true,
+        },
         provideZoneChangeDetection({ 
             eventCoalescing: true 
         }), 
@@ -35,11 +48,6 @@ export const appConfig: ApplicationConfig = {
                 }
             }
         }),  
-        provideHttpClient(
-            withInterceptors([
-                authInterceptor, 
-            ]),
-        ),
         { provide: BASE_PATH, useValue: `${window.location.protocol}//${window.location.host}`},
         { provide: JDENTICON_CONFIG, useValue: {
             hues: [0, 0],
@@ -52,6 +60,6 @@ export const appConfig: ApplicationConfig = {
                 grayscale: 0.50,
             },
         }},
-        provideNgxCountAnimations()
+        provideNgxCountAnimations(),
     ]
 };

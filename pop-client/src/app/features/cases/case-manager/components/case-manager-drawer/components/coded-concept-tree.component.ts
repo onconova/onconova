@@ -9,13 +9,13 @@ import { CommonModule } from '@angular/common';
     template: `
     <p-tree class="drawer-property-tree" [value]="nodes()">
         <ng-template let-node pTemplate="code">                        
-            <small class="property-label"> {{ node.label }}</small> <div class="monospace text-sm">{{ node.code }}</div>
+            <small class="property-label text-muted"> {{ node.label }}</small> <div class="monospace text-sm">{{ node.code }}</div>
         </ng-template>
         <ng-template let-node pTemplate="system">                        
-            <small class="property-label">{{ node.label }}</small> <div class="monospace text-sm">{{ node.system }}</div>
+            <small class="property-label text-muted">{{ node.label }}</small> <div class="monospace text-sm">{{ node.system }}</div>
         </ng-template>
         <ng-template let-node pTemplate="synonyms" > 
-            <small class="property-label">{{ node.label }}</small> 
+            <small class="property-label text-muted">{{ node.label }}</small> 
             <div>  
                 @if (node.synonyms.length) {                    
                     <ul class="list-none pl-0">

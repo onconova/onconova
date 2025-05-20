@@ -81,6 +81,50 @@ export interface UserFilters {
      */
     isSystemAdmin?: boolean;
     /**
+     * None - (\'Filter for yes/no statement\',)
+     */
+    isProvided?: boolean;
+    /**
+     * None - Filter for entries without a value
+     */
+    'provider.not.exists'?: boolean;
+    /**
+     * None - Filter for entries with a value
+     */
+    'provider.exists'?: boolean;
+    /**
+     * None - Filter for full text matches
+     */
+    provider?: string;
+    /**
+     * None - Filter for full text mismatches
+     */
+    'provider.not'?: string;
+    /**
+     * None - Filter for partial text matches
+     */
+    'provider.contains'?: string;
+    /**
+     * None - Filter for partial text mismatches
+     */
+    'provider.not.contains'?: string;
+    /**
+     * None - Filter for entries starting with the text
+     */
+    'provider.beginsWith'?: string;
+    /**
+     * None - Filter for entries not starting with the text
+     */
+    'provider.not.beginsWith'?: string;
+    /**
+     * None - Filter for entries ending with the text
+     */
+    'provider.endsWith'?: string;
+    /**
+     * None - Filter for entries not ending with the text
+     */
+    'provider.not.endsWith'?: string;
+    /**
      * Last Login - Filter for entries without a value
      */
     'lastLogin.not.exists'?: boolean;

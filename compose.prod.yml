@@ -10,7 +10,9 @@ services:
             - 8000
         volumes:
             - ./pop-server:/app/src
-            - ./etc/logs:/app/logs
+            - pop_static_volume:/app/static
+            - pop_media_volume:/app/media
+            - pop_logs_volume:/app/logs
         env_file: .env
         depends_on:
             - pop-postgres

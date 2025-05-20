@@ -97,8 +97,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -168,8 +168,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -239,8 +239,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -306,8 +306,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -366,8 +366,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -426,8 +426,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
         ]);
@@ -494,8 +494,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -560,8 +560,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -630,8 +630,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1143,8 +1143,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1201,8 +1201,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1262,8 +1262,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1327,8 +1327,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1384,8 +1384,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1445,8 +1445,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1506,8 +1506,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1571,8 +1571,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1628,8 +1628,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1693,8 +1693,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1758,8 +1758,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1819,8 +1819,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1880,8 +1880,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -1955,8 +1955,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'
@@ -2030,8 +2030,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
 
         let localVarHeaders = this.defaultHeaders;
 
-        // authentication (JWTAuth) required
-        localVarHeaders = this.configuration.addCredentialToHeaders('JWTAuth', 'Authorization', localVarHeaders, 'Bearer ');
+        // authentication (XSessionTokenAuth) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('XSessionTokenAuth', 'X-SESSION-TOKEN', localVarHeaders);
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
             'application/json'

@@ -7,6 +7,7 @@ from ninja_extra import api_controller, ControllerBase, route
 from typing import List
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TherapyLine, PatientCase
 
@@ -16,7 +17,7 @@ from pop.oncology.schemas import TherapyLineSchema, TherapyLineCreateSchema, The
 
 @api_controller(
     'therapy-lines', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Therapy Lines'],  
 )
 class TherapyLineController(ControllerBase):

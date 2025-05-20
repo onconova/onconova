@@ -1,13 +1,14 @@
-from ninja import Query
+from typing import  Optional
+from ninja import Query, Schema
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
-from ninja_jwt.authentication import JWTAuth
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.models import User
 from pop.core.schemas import (
     Paginated,
@@ -17,52 +18,21 @@ from pop.core.schemas import (
     UserProfileSchema,
     UserPasswordResetSchema,
     ModifiedResourceSchema,
-    TokenRefresh, 
-    RefreshedTokenPair,
-    TokenPair, 
-    UserCredentials
 )
-
-@api_controller(
-    "/auth/token", 
-    tags=["Auth"]
-)
-class AuthController(ControllerBase):
-
-    @route.post(
-        "/pair",
-        response=TokenPair,
-        operation_id="getTokenPair",
-        openapi_extra=dict(security=[])
-    )
-    def obtain_token_pair(self, credentials: UserCredentials):
-        credentials.check_user_authentication_rule()
-        return credentials.to_response_schema()
-
-    @route.post(
-        "/refresh",
-        response=RefreshedTokenPair,
-        operation_id="refreshTokenPair",
-        openapi_extra=dict(security=[])
-    )
-    def refresh_token_pair(self, refresh_token: TokenRefresh):
-        return refresh_token.to_response_schema()
-    
     
 @api_controller(
-    '/auth', 
-    auth=[JWTAuth()], 
-    tags=['Auth'],  
+    '/users', 
+    auth=[XSessionTokenAuth()], 
+    tags=['Users'],  
 )
 class UsersController(ControllerBase):
 
     @route.get(
-        path="/users",
+        path="",
         response={
             200: Paginated[UserSchema],
             401: None, 403: None,
         }, 
-        permissions=[perms.CanViewUsers],
         operation_id='getUsers',
     )
     @paginate
@@ -71,12 +41,11 @@ class UsersController(ControllerBase):
         return query.filter(queryset)
     
     @route.get(
-        path="/users/{userId}", 
+        path="/{userId}", 
         response={
             200: UserSchema,
             404: None, 401: None, 403: None,
         }, 
-        permissions=[perms.CanViewUsers],
         operation_id='getUserById',
     )
     def get_user_by_id(self, userId: str):
@@ -84,7 +53,7 @@ class UsersController(ControllerBase):
 
 
     @route.post(
-        path="/users", 
+        path="", 
         response={
             201: ModifiedResourceSchema,
             401: None, 403: None,
@@ -96,7 +65,7 @@ class UsersController(ControllerBase):
         return 201, payload.model_dump_django()
 
     @route.put(
-        path='/users/{userId}', 
+        path='/{userId}', 
        response={
             200: UserSchema,
             404: None, 401: None, 403: None,
@@ -109,9 +78,23 @@ class UsersController(ControllerBase):
         return payload.model_dump_django(instance=user)
         
     @route.put(
-        path='/users/{userId}/password', 
+        path='/{userId}/profile', 
        response={
-            200: None,
+            200: UserSchema,
+            404: None, 401: None, 403: None,
+        },
+        permissions=[perms.CanManageUsers | perms.IsRequestingUser],
+        operation_id='updateUserProfile',
+    )
+    def update_user_profile(self, userId: str, payload: UserProfileSchema):
+        user = get_object_or_404(User, id=userId)
+        User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
+        return 201, get_object_or_404(User, id=user.id)
+    
+    @route.put(
+        path='/{userId}/password', 
+       response={
+            201: ModifiedResourceSchema,
             404: None, 401: None, 403: None,
         },
         operation_id='updateUserPassword',
@@ -124,13 +107,13 @@ class UsersController(ControllerBase):
             return 403, None
         user.set_password(payload.newPassword)
         user.save()
-        return 200, None 
+        return 201, user 
     
 
     @route.post(
-        path='/users/{userId}/password/reset', 
+        path='/{userId}/password/reset', 
         response={
-            200: None,
+            201: ModifiedResourceSchema,
             401: None, 403: None,
         },
         permissions=[perms.CanManageUsers],
@@ -140,19 +123,4 @@ class UsersController(ControllerBase):
         user = get_object_or_404(User, id=userId)
         user.set_password(password)
         user.save()
-        return 200, None 
-
-    @route.put(
-        path='/users/{userId}/profile', 
-       response={
-            200: UserSchema,
-            404: None, 401: None, 403: None,
-        },
-        permissions=[perms.CanManageUsers | perms.IsRequestingUser],
-        operation_id='updateUserProfile',
-    )
-    def update_user_profile(self, userId: str, payload: UserProfileSchema):
-        user = get_object_or_404(User, id=userId)
-        User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
-        return get_object_or_404(User, id=user.id)
-    
+        return 201, user 

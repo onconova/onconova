@@ -176,9 +176,6 @@ export class StagingFormComponent extends AbstractFormBase{
     // Reactive signal for the current staging domain
     #currentStagingDomain = toSignal(this.form.get('stagingDomain')!.valueChanges)
     #stagingDomainChangesEffect = effect(() => {
-        if (this.#currentStagingDomain()) {
-            this.form.controls['stage'].setValue(null)
-        }
         if (this.#currentStagingDomain() === 'breslow') {
             this.form.controls['breslow'].controls['depth'].addValidators([Validators.required])
             this.form.controls['stage'].removeValidators([Validators.required])

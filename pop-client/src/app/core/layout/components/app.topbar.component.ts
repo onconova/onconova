@@ -19,6 +19,7 @@ import { PasswordResetFormComponent } from 'src/app/core/admin/forms/passwrd-res
 import { environment } from 'src/environments/environment';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
+import { Divider } from 'primeng/divider';
 
 @Component({
     selector: 'pop-topbar',
@@ -31,6 +32,7 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
         Menu,
         Button,
         InlineSVGModule,
+        Divider,
         SettingsDialogComponent,
         GetFullNamePipe,
         GetNameAcronymPipe,
@@ -48,7 +50,7 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
                     </div>
                 </div>
             </a>
-
+        
             <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="onMenuToggle()">
                 <i class="pi pi-bars"></i>
             </button>
@@ -61,18 +63,28 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
                 <p-button [icon]="darkMode() ? 'pi pi-moon' : 'pi pi-sun'" [rounded]="true" [outlined]="true" (onClick)="toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
 
                 <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
-                <p-menu #profile class="pop-profile-menu" [model]="profileItems" [popup]="true">
+                <p-menu #profile class="pop-profile-menu" [model]="profileItems()" [popup]="true">
                     <ng-template #start>
-                        <div class="flex flex-column m-3 text-center">
+                        <div class="flex flex-column m-3 text-center">    
+                            @if (currentUser().isProvided) {
+                                <div class="text-muted text-sm">
+                                    <i class="pi pi-{{currentUser().provider}} mr-2"></i>{{currentUser().provider | titlecase}} account
+                                </div>
+                            }
                             <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
                             <div class="flex-col my-auto">
                                 <div class="font-bold mb-0">{{currentUser() | fullname}}</div>
-                                <div class="ml-1 text-muted">{{currentUser().role}}</div>
-                                <div class="text-muted my-1">
-                                    <i class="pi pi-lock"></i> {{ currentUser().accessLevel}}
-                                </div>
+                                <div class="text-muted text-sm mb-2">{{currentUser().email || 'Email unknown'}}</div>
+
                             </div>
                         </div>
+                        <p-divider><span class="p-divider-text text-sm">Access level</span></p-divider>
+                        <div class="flex flex-column m-3 text-center">    
+                            <div class="">
+                                <i class="pi pi-lock text-muted"></i> {{ currentUser().accessLevel }} - {{currentUser().role}}
+                            </div>
+                        </div>
+                        <p-divider><span class="p-divider-text text-sm">Management</span></p-divider>
                     </ng-template>
                 </p-menu>
 
@@ -84,8 +96,6 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
 export class AppTopBarComponent {
 
     // Injected services
-    readonly #router = inject(Router);
-    readonly #messageService = inject(MessageService);
     readonly #dialogService = inject(DialogService);
     readonly #authService = inject(AuthService);
     readonly #layoutService = inject(LayoutService);
@@ -106,29 +116,24 @@ export class AppTopBarComponent {
     public readonly darkMode = this.#layoutService.config.darkMode;
     public readonly isProduction: boolean = environment.production;
     public readonly isSidebarVisible = computed(() => this.#layoutService.isProfileSidebarVisible);
-    public readonly profileItems: MenuItem[] = [
-        {separator: true},
+    public readonly profileItems = computed<MenuItem[]>(() => [
         {
-            label: 'Menu',
-            items: [
-                {
-                    label: 'Preferences',
-                    icon: 'pi pi-cog',
-                    command: () => this.showSettingsDialog()
-                },
-                {
-                    label: 'Change password',
-                    icon: 'pi pi-key',
-                    command: () => this.openPasswordResetForm()
-                },
-                {
-                    label: 'Logout',
-                    icon: 'pi pi-sign-out',
-                    command: () => this.logout()
-                },
-            ]
+            label: 'Preferences',
+            icon: 'pi pi-cog',
+            command: () => this.showSettingsDialog()
         },
-    ];
+        {
+            label: 'Change password',
+            icon: 'pi pi-key',
+            disabled: this.currentUser()?.isProvided,
+            command: () => this.openPasswordResetForm(),
+        },
+        {
+            label: 'Logout',
+            icon: 'pi pi-sign-out',
+            command: () => this.logout()
+        },
+    ])
 
     onMenuToggle() {
         this.#layoutService.onMenuToggle();
@@ -179,8 +184,6 @@ export class AppTopBarComponent {
     
     logout() {
         this.#authService.logout()
-        this.#router.navigate(['auth','login'])
-        this.#messageService.add({ severity: 'success', summary: 'Logout', detail: 'Succesful logout' });
     }
     
 }

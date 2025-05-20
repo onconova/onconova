@@ -1,15 +1,15 @@
 from typing import List 
 from ninja_extra import route, api_controller, ControllerBase
-from ninja_jwt.authentication import JWTAuth
 
 from measurement.base import MeasureBase, BidimensionalMeasure
 
+from pop.core.security import XSessionTokenAuth
 from pop.core.measures.schemas import MeasureConversion, Measure
 from pop.core.measures import measures
 
 @api_controller(
     '/measures', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Measures'],  
 )
 class MeasuresController(ControllerBase):

@@ -8,6 +8,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import NeoplasticEntity
 
@@ -19,7 +20,7 @@ from pop.oncology.schemas import NeoplasticEntitySchema, NeoplasticEntityCreateS
 
 @api_controller(
     'neoplastic-entities', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Neoplastic Entities'],  
 )
 class NeoplasticEntityController(ControllerBase):

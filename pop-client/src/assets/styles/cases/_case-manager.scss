@@ -87,7 +87,7 @@ pop-case-manager-panel {
                 color: var(--p-primary-faded-color) !important;
             }
             & .pop-case-manager-panel-timeline-event-icon {
-                color: var(--p-primary-faded-color) !important;
+                color: var(--p-divider-text-color) !important;
             }
         }
     }
@@ -115,14 +115,20 @@ pop-case-manager-panel {
                 }
             }
         }
+        .pop-drawer-title {
+            margin: auto 0;
+            margin-right: auto;
+            color: var(--p-primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    }
+    .property-label {
+        margin-bottom: .25rem;
     }
     & pop-drawer-properties {
         & .property {
-            margin-bottom: .75rem;
-        }
-        & .property-label {
-            font-size: .9rem;
-            font-weight: 600;
+            margin-bottom: 1.25rem;
         }
         & ul.list-property {
             padding-left: .25rem;

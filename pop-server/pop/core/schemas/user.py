@@ -27,6 +27,8 @@ class UserSchema(ModelGetSchema):
     canAuditLogs: bool = Field(alias='can_audit_logs', validation_alias=AliasChoices('canAuditLogs', 'can_audit_logs'))
     canManageUsers: bool = Field(alias='can_manage_users', validation_alias=AliasChoices('canManageUsers', 'can_manage_users'))
     isSystemAdmin: bool = Field(alias='is_system_admin', validation_alias=AliasChoices('isSystemAdmin', 'is_system_admin'))
+    isProvided: bool = Field(alias='is_provided', validation_alias=AliasChoices('isProvided', 'is_provided'))
+    provider: Optional[str] = Field(default=None, alias='provider', validation_alias=AliasChoices('provider', 'provider'))    
     config = SchemaConfig(model=orm.User, exclude=['date_joined', 'groups', 'is_staff', 'is_superuser', 'user_permissions', 'password'])    
 
 class UserCreateSchema(ModelCreateSchema):

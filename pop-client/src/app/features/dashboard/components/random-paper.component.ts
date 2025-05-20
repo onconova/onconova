@@ -7,6 +7,7 @@ import { Skeleton } from 'primeng/skeleton';
 import { Button } from 'primeng/button';
 import { rxResource } from '@angular/core/rxjs-interop';
 
+
 @Component({
     selector: 'pop-random-paper',
     imports: [
@@ -77,10 +78,10 @@ export class RandomPaperComponent {
   constructAPIcall() {
     const baseUrl = 'https://api.crossref.org/works';
     const query = 'cancer';
-    const filters = `from-pub-date:${this.generateDynamicDateFilter()}`;
+    const filters = `type:journal-article,from-pub-date:${this.generateDynamicDateFilter()}`;
     const rows = 1; // Maximum number of papers to retrieve
 
     // Construct API URL
-    return `${baseUrl}?query=${encodeURIComponent(query)}&facet=type-name:journal-article&filter=${filters}&rows=${rows}&sort=published&order=asc`;
+    return `${baseUrl}?query=${encodeURIComponent(query)}&filter=${filters}&rows=${rows}&sort=published&order=asc`;
   }
 }

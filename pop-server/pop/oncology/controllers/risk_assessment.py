@@ -7,6 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import RiskAssessment
 
@@ -17,7 +18,7 @@ from pop.oncology.schemas import RiskAssessmentSchema, RiskAssessmentCreateSchem
 
 @api_controller(
     'risk-assessments', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Risk Assessments'],  
 )
 class RiskAssessmentController(ControllerBase):

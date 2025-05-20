@@ -7,6 +7,7 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
+from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
 
@@ -23,7 +24,7 @@ from pop.oncology.schemas import (
 
 @api_controller(
     'adverse-events', 
-    auth=[JWTAuth()], 
+    auth=[XSessionTokenAuth()], 
     tags=['Adverse Events'],  
 )
 class AdverseEventController(ControllerBase):
