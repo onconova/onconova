@@ -5,7 +5,9 @@ from ninja_extra.pagination import paginate
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.urls import resolve
 
+import json
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
@@ -19,6 +21,47 @@ from pop.core.schemas import (
     UserPasswordResetSchema,
     ModifiedResourceSchema,
 )
+
+from pydantic import Field, AliasChoices
+class UserCredentials(Schema):
+    username: str 
+    password: str
+
+class AuthenticationMeta(Schema):
+    sessionToken: Optional[str] = Field(
+        default=None,
+        alias='session_token',
+        validation_alias=AliasChoices('sessionToken','session_token'),
+    )
+    accessToken: Optional[str] = Field(
+        default=None,
+        alias='access_token',
+        validation_alias=AliasChoices('accessToken','access_token'),
+    )
+    isAuthenticated: bool = Field(
+        alias='is_authenticated',
+        validation_alias=AliasChoices('isAuthenticated','is_authenticated'),
+    ) 
+        
+@api_controller(
+    '/auth', 
+    tags=['Authentication'],  
+)
+class AuthController(ControllerBase):
+
+    @route.post(
+        path="/session",
+        response={
+            200: AuthenticationMeta,
+            401: None, 403: None,
+        }, 
+        operation_id='login',
+    )
+    @paginate
+    def login(self, credentials: UserCredentials): 
+        view = resolve('/api/allauth/app/v1/auth/login')
+        response = view.func(self.context.request)
+        return 200, json.loads(response.content.decode())['meta']
     
 @api_controller(
     '/users', 

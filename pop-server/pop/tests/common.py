@@ -100,10 +100,10 @@ class ApiControllerTestMixin:
     def _authenticate_user_and_get_authentication_header(username, password):
         # Login the user and retrieve the JWT token
         auth_client = Client()
-        response = auth_client.post("/api/allauth/app/v1/auth/login", data={'username': username, 'password': password}, content_type='application/json', secure=True)
+        response = auth_client.post("/api/auth/session", data={'username': username, 'password': password}, content_type='application/json', secure=True)
         if response.status_code != 200:
             raise RuntimeError(f'Failed to authenticate user. Login endpoint returned {response.status_code}')
-        token = response.json()["meta"]['session_token']
+        token = response.json()['sessionToken']
         return {"X-Session-Token": str(token)}
 
 

@@ -1,6 +1,6 @@
 from ninja_extra import NinjaExtraAPI
 
-from pop.core.controllers import UsersController
+from pop.core.controllers import AuthController, UsersController
 from pop.core.measures.controllers import MeasuresController
 from pop.terminology.controllers import TerminologyController
 from pop.oncology.controllers import (
@@ -87,6 +87,7 @@ modify, merge, publish, distribute, sublicense, and/or sell copies of the softwa
     )
 )
 api.register_controllers(
+    AuthController,
     UsersController,
     InteroperabilityController,
     PatientCaseController,
