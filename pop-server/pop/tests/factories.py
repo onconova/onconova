@@ -14,6 +14,7 @@ import pop.core.measures as measures
 from pop.core.models import User
 import pop.oncology.models as models
 import pop.analytics.models as analytics_models
+import pop.projects.models as projects_models
 import pop.terminology.models as terminology
 
 import sys
@@ -55,15 +56,20 @@ def make_m2m_terminology_factory(field, terminology_model, min=1, max=2):
     return set_m2m_terminology
 
 
-def add_m2m_related(field, factory, min=1, max=2, get_related_case=lambda self: self.case):
+def add_m2m_related(field, factory, min=1, max=2, get_related_case=lambda self: self.case, post=None):
     def set_m2m_related(self, create, extracted, **kwargs):
         if not create:
             # Simple build, or nothing to add, do nothing.
             return
         if extracted is None:
-            extracted = [factory(case=get_related_case(self)) for _ in range(random.randint(min,max))]
+            if get_related_case:
+                extracted = [factory(case=get_related_case(self)) for _ in range(random.randint(min,max))]
+            else:
+                extracted = [factory.create() for _ in range(random.randint(min,max))]
         # Add the iterable of groups using bulk addition
         getattr(self, field).set(extracted)
+        if post:
+            post(self)
     return set_m2m_related
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -470,6 +476,26 @@ class DatasetFactory(factory.django.DjangoModelFactory):
         model = analytics_models.Dataset
     name = factory.LazyFunction(lambda: f'Dataset #{random.randint(1111,9999)}')
     is_public = factory.LazyFunction(lambda: random.random()>0.5)  
+
+
+class ProjectFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = projects_models.Project
+    title = factory.LazyFunction(lambda: f'Project #{random.randint(1111,9999)}')
+    summary = factory.LazyFunction(lambda: faker.text())
+    leader = factory.SubFactory(UserFactory, access_level=5)
+    members = factory.post_generation(add_m2m_related('members', UserFactory, min=2, max=5, get_related_case=None))
+    status = FuzzyChoice(projects_models.Project.ProjectStatus)
+    clinical_centers = factory.LazyFunction(lambda: [faker.company() + ' Hospital' for _ in range(1, random.randint(1,3))])
+    ethics_approval_number = factory.LazyFunction(lambda: f'Req-{random.randint(1111,9999)}-{random.randint(1111,9999)}')
+
+
+class ProjectDataManagerGrantFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = projects_models.ProjectDataManagerGrant
+    project = factory.SubFactory(ProjectFactory)
+    member = factory.SubFactory(UserFactory)
+    expires_at = factory.LazyFunction(lambda: faker.date_between(datetime.now().date(), datetime.now().date() + timedelta(days=30)))
 
 
 

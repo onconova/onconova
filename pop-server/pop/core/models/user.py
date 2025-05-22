@@ -91,17 +91,24 @@ class User(AbstractUser):
     can_view_users = construct_GeneratedField_from_access_level(min_access_level=1, action='view users')
     can_view_datasets = construct_GeneratedField_from_access_level(min_access_level=1, action='view datasets')
     can_import_data = construct_GeneratedField_from_access_level(min_access_level=2, action='import data')
-    can_manage_cases = construct_GeneratedField_from_access_level(min_access_level=2, action='manage cases')
     can_manage_cohorts = construct_GeneratedField_from_access_level(min_access_level=2, action='manage cohorts')
     can_manage_datasets = construct_GeneratedField_from_access_level(min_access_level=2, action='manage datasets')
     can_analyze_data = construct_GeneratedField_from_access_level(min_access_level=3, action='analyze data')
     can_export_data = construct_GeneratedField_from_access_level(min_access_level=3, action='export data')
     can_manage_projects = construct_GeneratedField_from_access_level(min_access_level=4, action='manage projects')
     can_access_sensitive_data = construct_GeneratedField_from_access_level(min_access_level=4, action='access sensitive data')
+    can_delete_projects = construct_GeneratedField_from_access_level(min_access_level=5, action='delete projects')
     can_audit_logs = construct_GeneratedField_from_access_level(min_access_level=5, action='audit logs')
     can_manage_users = construct_GeneratedField_from_access_level(min_access_level=5, action='manage users')
-    is_system_admin = construct_GeneratedField_from_access_level(min_access_level=6, action='manage users')
+    is_system_admin = construct_GeneratedField_from_access_level(min_access_level=6, action='system admin')
     
+    can_manage_cases = AnnotationProperty(
+        verbose_name = _('Can manage case data'),
+        annotation = Case(
+            When(Q(access_level__gte=4) | Q(is_superuser=True) | (Q(data_management_grants__isnull=False) & Q(data_management_grants__has_expired=False)), then=True), 
+            default=False, output_field=models.BooleanField()),
+    )
+
     def __str__(self):
         return self.username
     

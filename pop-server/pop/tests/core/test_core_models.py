@@ -72,7 +72,6 @@ class TestUserModel(TestCase):
         user.access_level = 2
         user.save()
         self.assertTrue(user.can_import_data)
-        self.assertTrue(user.can_manage_cases)
         self.assertFalse(user.can_export_data)
 
         # Upgrade user to Data Analyst (level 3)
@@ -85,6 +84,7 @@ class TestUserModel(TestCase):
         user.access_level = 4
         user.save()
         self.assertTrue(user.can_manage_projects)
+        self.assertTrue(user.can_manage_cases)
         self.assertTrue(user.can_access_sensitive_data)
         
         # Upgrade to Platform Manager (level 5)

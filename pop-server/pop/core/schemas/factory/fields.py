@@ -206,7 +206,17 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
                     continue
                 subfield_filters.extend(get_schema_field_filters(f'{field_name}.{subfield_name}', subfield))
             return subfield_filters 
-                 
+        else:
+            filters += FILTERS_MAP.get(list_type, [])
+        
+    if issubclass(annotation, PydanticBaseModel) and not issubclass(annotation, CodedConceptSchema):
+        subfield_filters = []
+        for subfield_name, subfield in annotation.model_fields.items():
+            if subfield_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource']:
+                continue
+            subfield_filters.extend(get_schema_field_filters(f'{field_name}.{subfield_name}', subfield))
+        return subfield_filters 
+
     if is_enum(annotation):
         for filter in schema_filters.ENUM_FILTERS:
             filter.value_type = List[annotation] if is_list(filter.value_type) else annotation
@@ -228,4 +238,3 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
             (f"filter_{filter_schema_attribute.replace('.','_')}", filter.generate_query_expression(field=camel_to_snake(field_name)))
         ))
     return filter_infos
-

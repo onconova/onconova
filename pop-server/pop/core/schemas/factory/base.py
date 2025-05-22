@@ -397,7 +397,8 @@ class BaseSchema(Schema):
                                 related_instance = related_model.objects.get(code=data.get('code'), system=data.get('system'))
                             else:
                                 # Otherwise, query the database via the foreign key to get the related instance
-                                related_instance = related_model.objects.get(id=data)
+                                print('DATA', type(data), data)
+                                related_instance = related_model.objects.get(id=data.get('id') if isinstance(data, dict) else data)
                 # Set the related instance value into the model instance
                 setattr(instance, orm_field.name, related_instance)      
             else:             

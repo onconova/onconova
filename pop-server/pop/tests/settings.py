@@ -1,5 +1,6 @@
 # testsettings.py
 from pop.settings import *
+import pgtrigger 
 
 INSTALLED_APPS += [
     'pop.tests',
