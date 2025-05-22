@@ -187,12 +187,36 @@ export interface RiskAssessmentFilters {
      */
     'score.not.between'?: Array<any>;
     /**
-     * Assessed neoplastic entities - Filter for reference matches
+     * Assessed neoplastic entities - Filter for full text matches
      */
     assessedEntitiesIds?: string;
     /**
-     * Assessed neoplastic entities - Filter for reference mismatches
+     * Assessed neoplastic entities - Filter for full text mismatches
      */
     'assessedEntitiesIds.not'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for partial text matches
+     */
+    'assessedEntitiesIds.contains'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for partial text mismatches
+     */
+    'assessedEntitiesIds.not.contains'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for entries starting with the text
+     */
+    'assessedEntitiesIds.beginsWith'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for entries not starting with the text
+     */
+    'assessedEntitiesIds.not.beginsWith'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for entries ending with the text
+     */
+    'assessedEntitiesIds.endsWith'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for entries not ending with the text
+     */
+    'assessedEntitiesIds.not.endsWith'?: string;
 }
 

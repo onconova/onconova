@@ -549,6 +549,12 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
         const nuclearExpressionStatusAnyOf = requestParameters?.nuclearExpressionStatusAnyOf;
         const relatedEntitiesIds = requestParameters?.relatedEntitiesIds;
         const relatedEntitiesIdsNot = requestParameters?.relatedEntitiesIdsNot;
+        const relatedEntitiesIdsContains = requestParameters?.relatedEntitiesIdsContains;
+        const relatedEntitiesIdsNotContains = requestParameters?.relatedEntitiesIdsNotContains;
+        const relatedEntitiesIdsBeginsWith = requestParameters?.relatedEntitiesIdsBeginsWith;
+        const relatedEntitiesIdsNotBeginsWith = requestParameters?.relatedEntitiesIdsNotBeginsWith;
+        const relatedEntitiesIdsEndsWith = requestParameters?.relatedEntitiesIdsEndsWith;
+        const relatedEntitiesIdsNotEndsWith = requestParameters?.relatedEntitiesIdsNotEndsWith;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -869,6 +875,18 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
           <any>relatedEntitiesIds, 'relatedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>relatedEntitiesIdsNot, 'relatedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsContains, 'relatedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsNotContains, 'relatedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsBeginsWith, 'relatedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsNotBeginsWith, 'relatedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsEndsWith, 'relatedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsNotEndsWith, 'relatedEntitiesIds.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

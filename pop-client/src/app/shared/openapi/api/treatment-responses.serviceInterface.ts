@@ -85,6 +85,12 @@ export interface GetTreatmentResponsesRequestParams {
     methodologyDescendantsOf?: string;
     assessedEntitiesIds?: string;
     assessedEntitiesIdsNot?: string;
+    assessedEntitiesIdsContains?: string;
+    assessedEntitiesIdsNotContains?: string;
+    assessedEntitiesIdsBeginsWith?: string;
+    assessedEntitiesIdsNotBeginsWith?: string;
+    assessedEntitiesIdsEndsWith?: string;
+    assessedEntitiesIdsNotEndsWith?: string;
     assessedBodysitesNotExists?: boolean;
     assessedBodysitesExists?: boolean;
     assessedBodysites?: string;

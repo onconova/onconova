@@ -109,6 +109,12 @@ export interface GetSurgeriesRequestParams {
     therapyLineIdNotEndsWith?: string;
     targetedEntitiesIds?: string;
     targetedEntitiesIdsNot?: string;
+    targetedEntitiesIdsContains?: string;
+    targetedEntitiesIdsNotContains?: string;
+    targetedEntitiesIdsBeginsWith?: string;
+    targetedEntitiesIdsNotBeginsWith?: string;
+    targetedEntitiesIdsEndsWith?: string;
+    targetedEntitiesIdsNotEndsWith?: string;
     limit?: number;
     offset?: number;
 }

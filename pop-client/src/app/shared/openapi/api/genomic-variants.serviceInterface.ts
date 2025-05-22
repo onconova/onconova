@@ -159,8 +159,16 @@ export interface GetGenomicVariantsRequestParams {
     nucleotidesLengthNotEqual?: number;
     nucleotidesLengthBetween?: Array<any>;
     nucleotidesLengthNotBetween?: Array<any>;
-    exonsNotExists?: boolean;
-    exonsExists?: boolean;
+    regionsNotExists?: boolean;
+    regionsExists?: boolean;
+    regions?: string;
+    regionsNot?: string;
+    regionsContains?: string;
+    regionsNotContains?: string;
+    regionsBeginsWith?: string;
+    regionsNotBeginsWith?: string;
+    regionsEndsWith?: string;
+    regionsNotEndsWith?: string;
     id?: string;
     idNot?: string;
     idContains?: string;

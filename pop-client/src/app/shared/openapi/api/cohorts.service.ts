@@ -1266,10 +1266,28 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const isPublic = requestParameters?.isPublic;
         const casesIds = requestParameters?.casesIds;
         const casesIdsNot = requestParameters?.casesIdsNot;
+        const casesIdsContains = requestParameters?.casesIdsContains;
+        const casesIdsNotContains = requestParameters?.casesIdsNotContains;
+        const casesIdsBeginsWith = requestParameters?.casesIdsBeginsWith;
+        const casesIdsNotBeginsWith = requestParameters?.casesIdsNotBeginsWith;
+        const casesIdsEndsWith = requestParameters?.casesIdsEndsWith;
+        const casesIdsNotEndsWith = requestParameters?.casesIdsNotEndsWith;
         const manualChoicesIds = requestParameters?.manualChoicesIds;
         const manualChoicesIdsNot = requestParameters?.manualChoicesIdsNot;
+        const manualChoicesIdsContains = requestParameters?.manualChoicesIdsContains;
+        const manualChoicesIdsNotContains = requestParameters?.manualChoicesIdsNotContains;
+        const manualChoicesIdsBeginsWith = requestParameters?.manualChoicesIdsBeginsWith;
+        const manualChoicesIdsNotBeginsWith = requestParameters?.manualChoicesIdsNotBeginsWith;
+        const manualChoicesIdsEndsWith = requestParameters?.manualChoicesIdsEndsWith;
+        const manualChoicesIdsNotEndsWith = requestParameters?.manualChoicesIdsNotEndsWith;
         const frozenSetIds = requestParameters?.frozenSetIds;
         const frozenSetIdsNot = requestParameters?.frozenSetIdsNot;
+        const frozenSetIdsContains = requestParameters?.frozenSetIdsContains;
+        const frozenSetIdsNotContains = requestParameters?.frozenSetIdsNotContains;
+        const frozenSetIdsBeginsWith = requestParameters?.frozenSetIdsBeginsWith;
+        const frozenSetIdsNotBeginsWith = requestParameters?.frozenSetIdsNotBeginsWith;
+        const frozenSetIdsEndsWith = requestParameters?.frozenSetIdsEndsWith;
+        const frozenSetIdsNotEndsWith = requestParameters?.frozenSetIdsNotEndsWith;
         const createdBy = requestParameters?.createdBy;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
@@ -1346,13 +1364,49 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>casesIdsNot, 'casesIds.not');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>casesIdsContains, 'casesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>casesIdsNotContains, 'casesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>casesIdsBeginsWith, 'casesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>casesIdsNotBeginsWith, 'casesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>casesIdsEndsWith, 'casesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>casesIdsNotEndsWith, 'casesIds.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>manualChoicesIds, 'manualChoicesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>manualChoicesIdsNot, 'manualChoicesIds.not');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manualChoicesIdsContains, 'manualChoicesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manualChoicesIdsNotContains, 'manualChoicesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manualChoicesIdsBeginsWith, 'manualChoicesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manualChoicesIdsNotBeginsWith, 'manualChoicesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manualChoicesIdsEndsWith, 'manualChoicesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manualChoicesIdsNotEndsWith, 'manualChoicesIds.not.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>frozenSetIds, 'frozenSetIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>frozenSetIdsNot, 'frozenSetIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>frozenSetIdsContains, 'frozenSetIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>frozenSetIdsNotContains, 'frozenSetIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>frozenSetIdsBeginsWith, 'frozenSetIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>frozenSetIdsNotBeginsWith, 'frozenSetIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>frozenSetIdsEndsWith, 'frozenSetIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>frozenSetIdsNotEndsWith, 'frozenSetIds.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>createdBy, 'createdBy');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

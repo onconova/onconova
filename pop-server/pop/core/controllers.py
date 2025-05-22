@@ -56,6 +56,7 @@ class AuthController(ControllerBase):
             401: None, 403: None,
         }, 
         operation_id='login',
+        openapi_extra=dict(security=[])
     )
     @paginate
     def login(self, credentials: UserCredentials): 

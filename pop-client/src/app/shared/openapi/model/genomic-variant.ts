@@ -33,7 +33,7 @@ export interface GenomicVariant {
     proteinReferenceSequence?: string | null;
     proteinChangeType?: ProteinChangeType | null;
     nucleotidesLength?: number | null;
-    exons?: Array<string> | null;
+    regions?: Array<string> | null;
     /**
      * 
      */

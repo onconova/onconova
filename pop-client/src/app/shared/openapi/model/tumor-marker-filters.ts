@@ -437,13 +437,37 @@ export interface TumorMarkerFilters {
      */
     'nuclearExpressionStatus.anyOf'?: Array<TumorMarkerFilters.NuclearExpressionStatusAnyOfEnum>;
     /**
-     * Related neoplastic entities - Filter for reference matches
+     * Related neoplastic entities - Filter for full text matches
      */
     relatedEntitiesIds?: string;
     /**
-     * Related neoplastic entities - Filter for reference mismatches
+     * Related neoplastic entities - Filter for full text mismatches
      */
     'relatedEntitiesIds.not'?: string;
+    /**
+     * Related neoplastic entities - Filter for partial text matches
+     */
+    'relatedEntitiesIds.contains'?: string;
+    /**
+     * Related neoplastic entities - Filter for partial text mismatches
+     */
+    'relatedEntitiesIds.not.contains'?: string;
+    /**
+     * Related neoplastic entities - Filter for entries starting with the text
+     */
+    'relatedEntitiesIds.beginsWith'?: string;
+    /**
+     * Related neoplastic entities - Filter for entries not starting with the text
+     */
+    'relatedEntitiesIds.not.beginsWith'?: string;
+    /**
+     * Related neoplastic entities - Filter for entries ending with the text
+     */
+    'relatedEntitiesIds.endsWith'?: string;
+    /**
+     * Related neoplastic entities - Filter for entries not ending with the text
+     */
+    'relatedEntitiesIds.not.endsWith'?: string;
 }
 export namespace TumorMarkerFilters {
     export type TumorProportionScoreEnum = 'TC0' | 'TC1' | 'TC2' | 'TC3';

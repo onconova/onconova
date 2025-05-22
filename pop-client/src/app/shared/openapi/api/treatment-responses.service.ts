@@ -412,6 +412,12 @@ export class TreatmentResponsesService extends BaseService implements TreatmentR
         const methodologyDescendantsOf = requestParameters?.methodologyDescendantsOf;
         const assessedEntitiesIds = requestParameters?.assessedEntitiesIds;
         const assessedEntitiesIdsNot = requestParameters?.assessedEntitiesIdsNot;
+        const assessedEntitiesIdsContains = requestParameters?.assessedEntitiesIdsContains;
+        const assessedEntitiesIdsNotContains = requestParameters?.assessedEntitiesIdsNotContains;
+        const assessedEntitiesIdsBeginsWith = requestParameters?.assessedEntitiesIdsBeginsWith;
+        const assessedEntitiesIdsNotBeginsWith = requestParameters?.assessedEntitiesIdsNotBeginsWith;
+        const assessedEntitiesIdsEndsWith = requestParameters?.assessedEntitiesIdsEndsWith;
+        const assessedEntitiesIdsNotEndsWith = requestParameters?.assessedEntitiesIdsNotEndsWith;
         const assessedBodysitesNotExists = requestParameters?.assessedBodysitesNotExists;
         const assessedBodysitesExists = requestParameters?.assessedBodysitesExists;
         const assessedBodysites = requestParameters?.assessedBodysites;
@@ -527,6 +533,18 @@ export class TreatmentResponsesService extends BaseService implements TreatmentR
           <any>assessedEntitiesIds, 'assessedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>assessedEntitiesIdsNot, 'assessedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsContains, 'assessedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotContains, 'assessedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsBeginsWith, 'assessedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotBeginsWith, 'assessedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsEndsWith, 'assessedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotEndsWith, 'assessedEntitiesIds.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>assessedBodysitesNotExists, 'assessedBodysites.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

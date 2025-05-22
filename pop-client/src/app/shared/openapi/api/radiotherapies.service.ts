@@ -798,6 +798,12 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const therapyLineIdNotEndsWith = requestParameters?.therapyLineIdNotEndsWith;
         const targetedEntitiesIds = requestParameters?.targetedEntitiesIds;
         const targetedEntitiesIdsNot = requestParameters?.targetedEntitiesIdsNot;
+        const targetedEntitiesIdsContains = requestParameters?.targetedEntitiesIdsContains;
+        const targetedEntitiesIdsNotContains = requestParameters?.targetedEntitiesIdsNotContains;
+        const targetedEntitiesIdsBeginsWith = requestParameters?.targetedEntitiesIdsBeginsWith;
+        const targetedEntitiesIdsNotBeginsWith = requestParameters?.targetedEntitiesIdsNotBeginsWith;
+        const targetedEntitiesIdsEndsWith = requestParameters?.targetedEntitiesIdsEndsWith;
+        const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1136,6 +1142,18 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
           <any>targetedEntitiesIds, 'targetedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>targetedEntitiesIdsNot, 'targetedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsContains, 'targetedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsNotContains, 'targetedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsBeginsWith, 'targetedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsNotBeginsWith, 'targetedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsEndsWith, 'targetedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>targetedEntitiesIdsNotEndsWith, 'targetedEntitiesIds.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

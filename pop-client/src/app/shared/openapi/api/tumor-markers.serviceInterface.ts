@@ -167,6 +167,12 @@ export interface GetTumorMarkersRequestParams {
     nuclearExpressionStatusAnyOf?: Array<'intact' | 'loss' | 'indeterminate'>;
     relatedEntitiesIds?: string;
     relatedEntitiesIdsNot?: string;
+    relatedEntitiesIdsContains?: string;
+    relatedEntitiesIdsNotContains?: string;
+    relatedEntitiesIdsBeginsWith?: string;
+    relatedEntitiesIdsNotBeginsWith?: string;
+    relatedEntitiesIdsEndsWith?: string;
+    relatedEntitiesIdsNotEndsWith?: string;
     limit?: number;
     offset?: number;
 }

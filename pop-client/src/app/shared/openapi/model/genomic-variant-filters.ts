@@ -445,13 +445,45 @@ export interface GenomicVariantFilters {
      */
     'nucleotidesLength.not.between'?: Array<any>;
     /**
-     * Exons - Filter for entries without a value
+     * Gene regions - Filter for entries without a value
      */
-    'exons.not.exists'?: boolean;
+    'regions.not.exists'?: boolean;
     /**
-     * Exons - Filter for entries with a value
+     * Gene regions - Filter for entries with a value
      */
-    'exons.exists'?: boolean;
+    'regions.exists'?: boolean;
+    /**
+     * Gene regions - Filter for full text matches
+     */
+    regions?: string;
+    /**
+     * Gene regions - Filter for full text mismatches
+     */
+    'regions.not'?: string;
+    /**
+     * Gene regions - Filter for partial text matches
+     */
+    'regions.contains'?: string;
+    /**
+     * Gene regions - Filter for partial text mismatches
+     */
+    'regions.not.contains'?: string;
+    /**
+     * Gene regions - Filter for entries starting with the text
+     */
+    'regions.beginsWith'?: string;
+    /**
+     * Gene regions - Filter for entries not starting with the text
+     */
+    'regions.not.beginsWith'?: string;
+    /**
+     * Gene regions - Filter for entries ending with the text
+     */
+    'regions.endsWith'?: string;
+    /**
+     * Gene regions - Filter for entries not ending with the text
+     */
+    'regions.not.endsWith'?: string;
     /**
      * Id - Filter for full text matches
      */

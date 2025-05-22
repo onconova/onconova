@@ -172,7 +172,7 @@ class ProjectController(ControllerBase):
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewProjects],
-        operation_id='getProjectById',
+        operation_id='getProjectDataManagerGrantById',
     )
     def check_project_data_manager_grant(self, projectId: str, memberId: str, grantId: str):
         return 200, get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId)
@@ -185,7 +185,7 @@ class ProjectController(ControllerBase):
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageProjects],
-        operation_id='deleteProjectById',
+        operation_id='deleteProjectDataManagerGrant',
     )
     def revoke_project_data_manager_grant(self, projectId: str, memberId: str, grantId: str):
         get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId).delete()

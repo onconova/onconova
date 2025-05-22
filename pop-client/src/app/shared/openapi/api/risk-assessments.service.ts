@@ -419,6 +419,12 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         const scoreNotBetween = requestParameters?.scoreNotBetween;
         const assessedEntitiesIds = requestParameters?.assessedEntitiesIds;
         const assessedEntitiesIdsNot = requestParameters?.assessedEntitiesIdsNot;
+        const assessedEntitiesIdsContains = requestParameters?.assessedEntitiesIdsContains;
+        const assessedEntitiesIdsNotContains = requestParameters?.assessedEntitiesIdsNotContains;
+        const assessedEntitiesIdsBeginsWith = requestParameters?.assessedEntitiesIdsBeginsWith;
+        const assessedEntitiesIdsNotBeginsWith = requestParameters?.assessedEntitiesIdsNotBeginsWith;
+        const assessedEntitiesIdsEndsWith = requestParameters?.assessedEntitiesIdsEndsWith;
+        const assessedEntitiesIdsNotEndsWith = requestParameters?.assessedEntitiesIdsNotEndsWith;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -547,6 +553,18 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
           <any>assessedEntitiesIds, 'assessedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>assessedEntitiesIdsNot, 'assessedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsContains, 'assessedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotContains, 'assessedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsBeginsWith, 'assessedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotBeginsWith, 'assessedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsEndsWith, 'assessedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotEndsWith, 'assessedEntitiesIds.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

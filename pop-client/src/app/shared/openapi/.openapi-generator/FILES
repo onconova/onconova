@@ -6,6 +6,8 @@ api.module.ts
 api/adverse-events.service.ts
 api/adverse-events.serviceInterface.ts
 api/api.ts
+api/authentication.service.ts
+api/authentication.serviceInterface.ts
 api/cohorts.service.ts
 api/cohorts.serviceInterface.ts
 api/comorbidities-assessments.service.ts
@@ -32,6 +34,8 @@ api/patient-cases.service.ts
 api/patient-cases.serviceInterface.ts
 api/performance-status.service.ts
 api/performance-status.serviceInterface.ts
+api/projects.service.ts
+api/projects.serviceInterface.ts
 api/radiotherapies.service.ts
 api/radiotherapies.serviceInterface.ts
 api/risk-assessments.service.ts
@@ -78,6 +82,7 @@ model/aneuploid-score.ts
 model/any-genomic-signature.ts
 model/any-staging.ts
 model/any-tumor-board.ts
+model/authentication-meta.ts
 model/binet-staging-create.ts
 model/binet-staging.ts
 model/breslow-depth-create.ts
@@ -182,6 +187,8 @@ model/paginated-lifestyle.ts
 model/paginated-neoplastic-entity.ts
 model/paginated-patient-case.ts
 model/paginated-performance-status.ts
+model/paginated-project-data-manager-grant.ts
+model/paginated-project.ts
 model/paginated-radiotherapy.ts
 model/paginated-risk-assessment.ts
 model/paginated-surgery.ts
@@ -208,6 +215,12 @@ model/performance-status-create.ts
 model/performance-status-filters.ts
 model/performance-status.ts
 model/period.ts
+model/project-create.ts
+model/project-data-manager-grant-create.ts
+model/project-data-manager-grant.ts
+model/project-filters.ts
+model/project-status-choices.ts
+model/project.ts
 model/protein-change-type.ts
 model/radiotherapy-create.ts
 model/radiotherapy-dosage-create.ts
@@ -271,6 +284,7 @@ model/tumor-neoantigen-burden.ts
 model/unspecified-tumor-board-create.ts
 model/unspecified-tumor-board.ts
 model/user-create.ts
+model/user-credentials.ts
 model/user-filters.ts
 model/user-password-reset.ts
 model/user-profile-schema.ts

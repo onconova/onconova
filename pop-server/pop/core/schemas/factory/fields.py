@@ -209,18 +209,19 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
         else:
             filters += FILTERS_MAP.get(list_type, [])
         
-    if issubclass(annotation, PydanticBaseModel) and not issubclass(annotation, CodedConceptSchema):
+
+    if is_enum(annotation):
+        for filter in schema_filters.ENUM_FILTERS:
+            filter.value_type = List[annotation] if is_list(filter.value_type) else annotation
+            filters.append(filter)
+
+    if not filters and issubclass(annotation, PydanticBaseModel) and not issubclass(annotation, CodedConceptSchema):
         subfield_filters = []
         for subfield_name, subfield in annotation.model_fields.items():
             if subfield_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource']:
                 continue
             subfield_filters.extend(get_schema_field_filters(f'{field_name}.{subfield_name}', subfield))
         return subfield_filters 
-
-    if is_enum(annotation):
-        for filter in schema_filters.ENUM_FILTERS:
-            filter.value_type = List[annotation] if is_list(filter.value_type) else annotation
-            filters.append(filter)
 
     if not filters:
         warnings.warn(f"No filters defined for field type: {annotation}")

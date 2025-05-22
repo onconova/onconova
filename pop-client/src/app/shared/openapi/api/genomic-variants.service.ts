@@ -486,8 +486,16 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const nucleotidesLengthNotEqual = requestParameters?.nucleotidesLengthNotEqual;
         const nucleotidesLengthBetween = requestParameters?.nucleotidesLengthBetween;
         const nucleotidesLengthNotBetween = requestParameters?.nucleotidesLengthNotBetween;
-        const exonsNotExists = requestParameters?.exonsNotExists;
-        const exonsExists = requestParameters?.exonsExists;
+        const regionsNotExists = requestParameters?.regionsNotExists;
+        const regionsExists = requestParameters?.regionsExists;
+        const regions = requestParameters?.regions;
+        const regionsNot = requestParameters?.regionsNot;
+        const regionsContains = requestParameters?.regionsContains;
+        const regionsNotContains = requestParameters?.regionsNotContains;
+        const regionsBeginsWith = requestParameters?.regionsBeginsWith;
+        const regionsNotBeginsWith = requestParameters?.regionsNotBeginsWith;
+        const regionsEndsWith = requestParameters?.regionsEndsWith;
+        const regionsNotEndsWith = requestParameters?.regionsNotEndsWith;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -885,9 +893,25 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>exonsNotExists, 'exons.not.exists');
+          <any>regionsNotExists, 'regions.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>exonsExists, 'exons.exists');
+          <any>regionsExists, 'regions.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regions, 'regions');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNot, 'regions.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsContains, 'regions.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNotContains, 'regions.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsBeginsWith, 'regions.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNotBeginsWith, 'regions.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsEndsWith, 'regions.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNotEndsWith, 'regions.not.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
