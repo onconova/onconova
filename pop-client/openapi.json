@@ -44673,30 +44673,6 @@
             "title": "External data source Id",
             "x-expanded": false
           },
-          "member": {
-            "description": "Manager of the project data",
-            "title": "Manager",
-            "x-expanded": false
-          },
-          "projectId": {
-            "description": "",
-            "format": "uuid",
-            "title": "Project",
-            "type": "string",
-            "x-expanded": false
-          },
-          "grantedBy": {
-            "description": "Project leader that granted the permission",
-            "title": "Granted by",
-            "x-expanded": false
-          },
-          "grantedAt": {
-            "description": "",
-            "format": "date",
-            "title": "Granted At",
-            "type": "string",
-            "x-expanded": false
-          },
           "expiresAt": {
             "description": "Date and time when the permission expires",
             "format": "date",
@@ -44706,10 +44682,6 @@
           }
         },
         "required": [
-          "member",
-          "projectId",
-          "grantedBy",
-          "grantedAt",
           "expiresAt"
         ],
         "title": "ProjectDataManagerGrantCreate",

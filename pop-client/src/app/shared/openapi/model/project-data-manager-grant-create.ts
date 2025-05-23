@@ -12,16 +12,6 @@
 export interface ProjectDataManagerGrantCreate { 
     externalSource?: string | null;
     externalSourceId?: string | null;
-    member: any | null;
-    /**
-     * 
-     */
-    projectId: string;
-    grantedBy: any | null;
-    /**
-     * 
-     */
-    grantedAt: string;
     /**
      * Date and time when the permission expires
      */

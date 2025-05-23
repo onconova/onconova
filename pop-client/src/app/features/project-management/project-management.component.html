@@ -70,38 +70,115 @@
     [value]="members.value() ?? []"
     >
     <ng-template #header>
+
+        <tr>
+            <th colspan="3">Member</th>
+            <th colspan="4">Data Management</th>
+        </tr>
         <tr>
             <th>Name</th>
             <th>Role</th>
             <th>Joined</th>
-            <th>Data Management</th>
+
+            <th>Status</th>
+            <th>Granted by</th>
             <th>Expiration</th>
+            <th>Actions</th>
         </tr>
     </ng-template>
     <ng-template #body let-member>
         <tr>
-            <td><i class="pi pi-user text-primary mr-2"></i>{{member.user.fullName}}</td>
-            <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.user.accessLevel}}</span> - {{member.user.role}}</td>
+            <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}</td>
+            <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
             <td>
                 -
             </td>
             <td>
-                @if (member.grant || member.user.accessLevel >= 4) {
+                @if (member.canManageCases) {
                     <p-tag value="Authorized" severity="success"/>
                 } @else {
                     <p-tag value="Unauthorized" severity="danger"/>   
                 }
             </td>
             <td>
-                @if (member.grant; as grant) {
-                    {{member.grant.grantedAt}}
-                    {{member.grant.expiresAt}}
-                } @else if (member.user.accessLevel >= 4) {
+                @if (member.authorization; as authorization) {
+                    {{authorization.grantedBy}}
+                } @else if (member.accessLevel >= 4) {
+                    System
+                } @else {
+                    <span class="text-muted">-</span>
+                }
+            </td>
+            <td>
+                @if (member.authorization; as authorization) {
+                    {{authorization.grantedAt}}
+                    {{authorization.expiresAt}}
+                } @else if (member.accessLevel >= 4) {
                     Never
                 } @else {
                     <span class="text-muted">-</span>
                 }
             </td>
+            <td>
+                <p-menu #menu [model]="getMemberMenuItems(member)" [popup]="true" appendTo="body" />
+                <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+            </td>
         </tr>
     </ng-template>
 </p-table>
+
+
+
+<p-confirmdialog #cd>
+    <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+        <div class="p-4">
+            <h5 class="mb-4">
+                Data management authorization
+            </h5> 
+            <div>
+                You are about to change the data management authorization for this project's member:
+            </div> 
+            <div class="flex gap-4 border-round	border-1 p-2 mt-2 surface-border	">
+                <div class="ml-auto">
+                    <div class="text-sm text-muted">
+                        Name
+                    </div>
+                    <div>
+                        {{authDialogMember()!.fullName}}
+                    </div>    
+                </div>
+                <div class="mr-auto">
+                    <div class="text-sm text-muted">
+                        Role
+                    </div>
+                    <div>
+                        <span class="text-muted"><i class="pi pi-lock"></i> {{authDialogMember()!.accessLevel}}</span> - {{authDialogMember()!.role}}
+                    </div>    
+                </div>
+            </div>
+            
+            <p-fluid>
+                <div class="field mt-4" >
+                    <label class="form-label required">Expiration date</label>
+                    <div class="text-muted text-sm mb-2">
+                        A maximal duration of 31 days can be specified. 
+                    </div>
+                    <p-datepicker class="max-w-full mt-2"
+                         [(ngModel)]="authDialogExpirationDate" 
+                         [minDate]="authDialogExpirationMinDate"
+                         [maxDate]="authDialogExpirationMaxDate"
+                         [inline]="true"/>
+                </div>    
+                <div class="field mt-4" >
+                    <label class="form-label required">Confirmation</label>
+                </div>  
+            </p-fluid>
+
+
+            <div class="flex items-center gap-2 mt-6">
+                <p-button label="Save" (onClick)="onAccept()" styleClass="w-32"></p-button>
+                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+            </div>    
+        </div>
+    </ng-template>
+</p-confirmdialog>
