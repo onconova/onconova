@@ -1,0 +1,107 @@
+
+<div class="text-sm text-muted mt-3">
+    Project
+</div>
+<div>
+    @if (project.isLoading()) {
+        <p-skeleton width="100%" height="2rem"/>
+    } @else {
+        @let status = parseStatus(project.value()!.status!);
+        <div class="flex">
+            <h3 class="my-0 mr-2">{{ project.value()!.title }}</h3>    
+            <p-tag [value]="status.value" [severity]="status.severity"/>    
+        </div>
+    }
+</div>
+
+<div class="text-sm text-muted mt-3">
+    Project leader
+</div>
+<div>
+    @if (project.isLoading()) {
+        <p-skeleton width="10rem" height="2rem"/>
+    } @else {
+        <pop-user-badge [username]="project.value()!.leader" [showName]="true"/>
+    }
+</div>
+
+<div class="flex gap-4">
+    <div>
+        <div class="text-sm text-muted mt-3">
+            Created
+        </div>
+        <div>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="2rem"/>
+            } @else {                
+                {{ (project.value()!.createdAt | date) ?? '-'  }}
+            }
+        </div>
+    </div>
+    <div>
+        <div class="text-sm text-muted mt-3">
+            Last updated
+        </div>
+        <div>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="2rem"/>
+            } @else {                
+                {{ (project.value()!.updatedAt | date) ?? '-'  }}
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="text-sm text-muted mt-3">
+    Summary
+</div>
+<div>
+    @if (project.isLoading()) {
+        <p-skeleton width="100%" height="4rem"/>
+    } @else {
+        <p>{{ project.value()!.summary }}</p>
+    }
+</div>
+
+
+<h5>Project members</h5>
+<p-table 
+    [value]="members.value() ?? []"
+    >
+    <ng-template #header>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Joined</th>
+            <th>Data Management</th>
+            <th>Expiration</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-member>
+        <tr>
+            <td><i class="pi pi-user text-primary mr-2"></i>{{member.user.fullName}}</td>
+            <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.user.accessLevel}}</span> - {{member.user.role}}</td>
+            <td>
+                -
+            </td>
+            <td>
+                @if (member.grant || member.user.accessLevel >= 4) {
+                    <p-tag value="Authorized" severity="success"/>
+                } @else {
+                    <p-tag value="Unauthorized" severity="danger"/>   
+                }
+            </td>
+            <td>
+                @if (member.grant; as grant) {
+                    {{member.grant.grantedAt}}
+                    {{member.grant.expiresAt}}
+                } @else if (member.user.accessLevel >= 4) {
+                    Never
+                } @else {
+                    <span class="text-muted">-</span>
+                }
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

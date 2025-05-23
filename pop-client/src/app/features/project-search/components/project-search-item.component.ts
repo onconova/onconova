@@ -81,6 +81,9 @@ export class ProjectSearchItemComponent {
     ];
     
 
+    openProjectManagement() {
+        this.#router.navigate(['projects/',this.project().id, 'management'])
+    }
 
     parseStatus(status: ProjectStatusChoices): {value: string, icon: string, severity: string} {
         switch (status) {

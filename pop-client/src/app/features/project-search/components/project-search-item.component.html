@@ -93,6 +93,7 @@
             label="Open project management"
             class="mt-auto"
             [model]="actionItems"
+            (onClick)="openProjectManagement()"
             [menuButtonDisabled]="!currentUser().canManageCohorts"
             [dropdownIcon]="currentUser().canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
             />

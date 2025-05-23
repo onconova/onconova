@@ -119,10 +119,11 @@ export class ProjectSearchComponent {
     #modalFormRef: DynamicDialogRef | undefined;
 
 
-    public openProjectForm(initialData: UserCreate | {}) {    
+    public openProjectForm(initialData?: Project) {    
         this.#modalFormRef = this.#dialogservice.open(ProjectFormComponent, {
             inputValues: {
                 initialData: initialData,
+                resourceId: initialData ? initialData.id : undefined,
             },
             data: {
                 title: 'Project',

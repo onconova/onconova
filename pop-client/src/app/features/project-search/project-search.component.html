@@ -43,7 +43,7 @@
             <p-divider layout="vertical"></p-divider>
             <!-- Button to add new projects -->
             <p-button 
-                (onClick)="openProjectForm({})" 
+                (onClick)="openProjectForm()" 
                 [disabled]="!currentUser().canManageProjects"
                 label="Register New Project"
                 [icon]="currentUser().canManageProjects ? 'pi pi-plus' : 'pi pi-lock'"/>
