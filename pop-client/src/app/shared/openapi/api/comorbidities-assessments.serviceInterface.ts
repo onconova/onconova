@@ -65,6 +65,8 @@ export interface GetComorbiditiesAssessmentsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -73,6 +75,8 @@ export interface GetComorbiditiesAssessmentsRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -89,6 +93,8 @@ export interface GetComorbiditiesAssessmentsRequestParams {
     indexConditionIdNotBeginsWith?: string;
     indexConditionIdEndsWith?: string;
     indexConditionIdNotEndsWith?: string;
+    indexConditionIdAnyOf?: Array<string>;
+    indexConditionIdNotAnyOf?: Array<string>;
     panelNotExists?: boolean;
     panelExists?: boolean;
     panel?: string;

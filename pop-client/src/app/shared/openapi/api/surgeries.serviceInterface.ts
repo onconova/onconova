@@ -45,6 +45,8 @@ export interface GetSurgeriesRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -53,6 +55,8 @@ export interface GetSurgeriesRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -107,6 +111,8 @@ export interface GetSurgeriesRequestParams {
     therapyLineIdNotBeginsWith?: string;
     therapyLineIdEndsWith?: string;
     therapyLineIdNotEndsWith?: string;
+    therapyLineIdAnyOf?: Array<string>;
+    therapyLineIdNotAnyOf?: Array<string>;
     targetedEntitiesIds?: string;
     targetedEntitiesIdsNot?: string;
     targetedEntitiesIdsContains?: string;
@@ -115,6 +121,8 @@ export interface GetSurgeriesRequestParams {
     targetedEntitiesIdsNotBeginsWith?: string;
     targetedEntitiesIdsEndsWith?: string;
     targetedEntitiesIdsNotEndsWith?: string;
+    targetedEntitiesIdsAnyOf?: Array<string>;
+    targetedEntitiesIdsNotAnyOf?: Array<string>;
     limit?: number;
     offset?: number;
 }

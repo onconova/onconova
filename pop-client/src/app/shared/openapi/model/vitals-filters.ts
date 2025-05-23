@@ -83,6 +83,14 @@ export interface VitalsFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -114,6 +122,14 @@ export interface VitalsFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Assessment date - Filter for entries with dates before the specified value
      */

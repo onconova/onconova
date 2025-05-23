@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { ProjectStatusChoices } from './project-status-choices';
 
 
@@ -18,10 +17,7 @@ export interface Project {
     id: string;
     externalSource?: string | null;
     externalSourceId?: string | null;
-    /**
-     * User responsible for the project and its members
-     */
-    leader: User;
+    leader: any | null;
     /**
      * 
      */
@@ -49,7 +45,7 @@ export interface Project {
     /**
      * Users that are part of the project
      */
-    members?: Array<User>;
+    members?: Array<any>;
     /**
      * Human-readable description
      */

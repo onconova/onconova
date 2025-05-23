@@ -51,6 +51,11 @@ const appRoutes: Routes = [
                     { path: 'search/:author', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent), title: 'My cohorts - POP' },
                 ]
             },
+            { path: 'projects', 
+                children: [
+                    { path: 'search', loadComponent: () => import('./features/project-search/project-search.component').then(m => m.ProjectSearchComponent), title: 'Projects - POP'},
+                ]
+            },
             { path: 'admin', 
                 loadChildren: () => import('./core/admin/admin.routes').then(m => m.adminRoutes),
             },

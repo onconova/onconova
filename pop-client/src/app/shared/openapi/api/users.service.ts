@@ -189,6 +189,16 @@ export class UsersService extends BaseService implements UsersServiceInterface {
     public getUsers(requestParameters?: GetUsersRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedUser>>;
     public getUsers(requestParameters?: GetUsersRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedUser>>;
     public getUsers(requestParameters?: GetUsersRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        const fullName = requestParameters?.fullName;
+        const fullNameNot = requestParameters?.fullNameNot;
+        const fullNameContains = requestParameters?.fullNameContains;
+        const fullNameNotContains = requestParameters?.fullNameNotContains;
+        const fullNameBeginsWith = requestParameters?.fullNameBeginsWith;
+        const fullNameNotBeginsWith = requestParameters?.fullNameNotBeginsWith;
+        const fullNameEndsWith = requestParameters?.fullNameEndsWith;
+        const fullNameNotEndsWith = requestParameters?.fullNameNotEndsWith;
+        const fullNameAnyOf = requestParameters?.fullNameAnyOf;
+        const fullNameNotAnyOf = requestParameters?.fullNameNotAnyOf;
         const role = requestParameters?.role;
         const roleNot = requestParameters?.roleNot;
         const roleAnyOf = requestParameters?.roleAnyOf;
@@ -219,6 +229,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const providerNotBeginsWith = requestParameters?.providerNotBeginsWith;
         const providerEndsWith = requestParameters?.providerEndsWith;
         const providerNotEndsWith = requestParameters?.providerNotEndsWith;
+        const providerAnyOf = requestParameters?.providerAnyOf;
+        const providerNotAnyOf = requestParameters?.providerNotAnyOf;
         const lastLoginNotExists = requestParameters?.lastLoginNotExists;
         const lastLoginExists = requestParameters?.lastLoginExists;
         const lastLoginBefore = requestParameters?.lastLoginBefore;
@@ -237,6 +249,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const usernameNotBeginsWith = requestParameters?.usernameNotBeginsWith;
         const usernameEndsWith = requestParameters?.usernameEndsWith;
         const usernameNotEndsWith = requestParameters?.usernameNotEndsWith;
+        const usernameAnyOf = requestParameters?.usernameAnyOf;
+        const usernameNotAnyOf = requestParameters?.usernameNotAnyOf;
         const firstNameNotExists = requestParameters?.firstNameNotExists;
         const firstNameExists = requestParameters?.firstNameExists;
         const firstName = requestParameters?.firstName;
@@ -247,6 +261,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const firstNameNotBeginsWith = requestParameters?.firstNameNotBeginsWith;
         const firstNameEndsWith = requestParameters?.firstNameEndsWith;
         const firstNameNotEndsWith = requestParameters?.firstNameNotEndsWith;
+        const firstNameAnyOf = requestParameters?.firstNameAnyOf;
+        const firstNameNotAnyOf = requestParameters?.firstNameNotAnyOf;
         const lastNameNotExists = requestParameters?.lastNameNotExists;
         const lastNameExists = requestParameters?.lastNameExists;
         const lastName = requestParameters?.lastName;
@@ -257,6 +273,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const lastNameNotBeginsWith = requestParameters?.lastNameNotBeginsWith;
         const lastNameEndsWith = requestParameters?.lastNameEndsWith;
         const lastNameNotEndsWith = requestParameters?.lastNameNotEndsWith;
+        const lastNameAnyOf = requestParameters?.lastNameAnyOf;
+        const lastNameNotAnyOf = requestParameters?.lastNameNotAnyOf;
         const emailNotExists = requestParameters?.emailNotExists;
         const emailExists = requestParameters?.emailExists;
         const email = requestParameters?.email;
@@ -267,6 +285,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const emailNotBeginsWith = requestParameters?.emailNotBeginsWith;
         const emailEndsWith = requestParameters?.emailEndsWith;
         const emailNotEndsWith = requestParameters?.emailNotEndsWith;
+        const emailAnyOf = requestParameters?.emailAnyOf;
+        const emailNotAnyOf = requestParameters?.emailNotAnyOf;
         const isActive = requestParameters?.isActive;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
@@ -276,6 +296,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const titleNotExists = requestParameters?.titleNotExists;
         const titleExists = requestParameters?.titleExists;
         const title = requestParameters?.title;
@@ -286,6 +308,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const titleNotBeginsWith = requestParameters?.titleNotBeginsWith;
         const titleEndsWith = requestParameters?.titleEndsWith;
         const titleNotEndsWith = requestParameters?.titleNotEndsWith;
+        const titleAnyOf = requestParameters?.titleAnyOf;
+        const titleNotAnyOf = requestParameters?.titleNotAnyOf;
         const organizationNotExists = requestParameters?.organizationNotExists;
         const organizationExists = requestParameters?.organizationExists;
         const organization = requestParameters?.organization;
@@ -296,6 +320,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const organizationNotBeginsWith = requestParameters?.organizationNotBeginsWith;
         const organizationEndsWith = requestParameters?.organizationEndsWith;
         const organizationNotEndsWith = requestParameters?.organizationNotEndsWith;
+        const organizationAnyOf = requestParameters?.organizationAnyOf;
+        const organizationNotAnyOf = requestParameters?.organizationNotAnyOf;
         const departmentNotExists = requestParameters?.departmentNotExists;
         const departmentExists = requestParameters?.departmentExists;
         const department = requestParameters?.department;
@@ -306,6 +332,8 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const departmentNotBeginsWith = requestParameters?.departmentNotBeginsWith;
         const departmentEndsWith = requestParameters?.departmentEndsWith;
         const departmentNotEndsWith = requestParameters?.departmentNotEndsWith;
+        const departmentAnyOf = requestParameters?.departmentAnyOf;
+        const departmentNotAnyOf = requestParameters?.departmentNotAnyOf;
         const accessLevelLessThan = requestParameters?.accessLevelLessThan;
         const accessLevelLessThanOrEqual = requestParameters?.accessLevelLessThanOrEqual;
         const accessLevelGreaterThan = requestParameters?.accessLevelGreaterThan;
@@ -318,6 +346,34 @@ export class UsersService extends BaseService implements UsersServiceInterface {
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullName, 'fullName');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameNot, 'fullName.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameContains, 'fullName.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameNotContains, 'fullName.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameBeginsWith, 'fullName.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameNotBeginsWith, 'fullName.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameEndsWith, 'fullName.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fullNameNotEndsWith, 'fullName.not.endsWith');
+        if (fullNameAnyOf) {
+            fullNameAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'fullName.anyOf');
+            })
+        }
+        if (fullNameNotAnyOf) {
+            fullNameNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'fullName.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>role, 'role');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -382,6 +438,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>providerEndsWith, 'provider.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>providerNotEndsWith, 'provider.not.endsWith');
+        if (providerAnyOf) {
+            providerAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'provider.anyOf');
+            })
+        }
+        if (providerNotAnyOf) {
+            providerNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'provider.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>lastLoginNotExists, 'lastLogin.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -426,6 +494,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>usernameEndsWith, 'username.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>usernameNotEndsWith, 'username.not.endsWith');
+        if (usernameAnyOf) {
+            usernameAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'username.anyOf');
+            })
+        }
+        if (usernameNotAnyOf) {
+            usernameNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'username.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>firstNameNotExists, 'firstName.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -446,6 +526,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>firstNameEndsWith, 'firstName.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>firstNameNotEndsWith, 'firstName.not.endsWith');
+        if (firstNameAnyOf) {
+            firstNameAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'firstName.anyOf');
+            })
+        }
+        if (firstNameNotAnyOf) {
+            firstNameNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'firstName.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>lastNameNotExists, 'lastName.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -466,6 +558,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>lastNameEndsWith, 'lastName.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>lastNameNotEndsWith, 'lastName.not.endsWith');
+        if (lastNameAnyOf) {
+            lastNameAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'lastName.anyOf');
+            })
+        }
+        if (lastNameNotAnyOf) {
+            lastNameNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'lastName.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>emailNotExists, 'email.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -486,6 +590,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>emailEndsWith, 'email.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>emailNotEndsWith, 'email.not.endsWith');
+        if (emailAnyOf) {
+            emailAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'email.anyOf');
+            })
+        }
+        if (emailNotAnyOf) {
+            emailNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'email.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>isActive, 'isActive');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -504,6 +620,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>titleNotExists, 'title.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -524,6 +652,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>titleEndsWith, 'title.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>titleNotEndsWith, 'title.not.endsWith');
+        if (titleAnyOf) {
+            titleAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'title.anyOf');
+            })
+        }
+        if (titleNotAnyOf) {
+            titleNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'title.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>organizationNotExists, 'organization.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -544,6 +684,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>organizationEndsWith, 'organization.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>organizationNotEndsWith, 'organization.not.endsWith');
+        if (organizationAnyOf) {
+            organizationAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'organization.anyOf');
+            })
+        }
+        if (organizationNotAnyOf) {
+            organizationNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'organization.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>departmentNotExists, 'department.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -564,6 +716,18 @@ export class UsersService extends BaseService implements UsersServiceInterface {
           <any>departmentEndsWith, 'department.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>departmentNotEndsWith, 'department.not.endsWith');
+        if (departmentAnyOf) {
+            departmentAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'department.anyOf');
+            })
+        }
+        if (departmentNotAnyOf) {
+            departmentNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'department.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>accessLevelLessThan, 'accessLevel.lessThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

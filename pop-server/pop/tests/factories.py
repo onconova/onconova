@@ -481,7 +481,7 @@ class DatasetFactory(factory.django.DjangoModelFactory):
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = projects_models.Project
-    title = factory.LazyFunction(lambda: f'Project #{random.randint(1111,9999)}')
+    title = factory.LazyFunction(lambda: f'Project #{random.randint(1111,9999)} - {faker.company()}')
     summary = factory.LazyFunction(lambda: faker.text())
     leader = factory.SubFactory(UserFactory, access_level=5)
     members = factory.post_generation(add_m2m_related('members', UserFactory, min=2, max=5, get_related_case=None))

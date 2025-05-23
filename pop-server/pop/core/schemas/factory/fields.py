@@ -1,4 +1,6 @@
-from typing import get_args, List, Tuple, Optional
+from typing import get_args, List, Tuple, Optional, Annotated, TypeAlias
+
+from typing_extensions import TypeAliasType
 import enum 
 import warnings
 from uuid import UUID
@@ -12,7 +14,7 @@ from django.contrib.postgres.fields import ArrayField
 
 from ninja.orm.fields import TYPES as BASE_TYPES, title_if_lower
 
-from pydantic import AliasChoices, BaseModel as PydanticBaseModel
+from pydantic import AliasChoices, BaseModel as PydanticBaseModel, constr, UUID4
 from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined #type: ignore
 
@@ -28,6 +30,15 @@ UserModel = get_user_model()
 DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
 }
+
+class POPTypeAnnotations(enum.Enum): 
+    
+    REFERENCE_ID = UUID4
+    USERNAME = TypeAliasType(
+        'Username',
+        str,
+    )
+
 
 
 def get_schema_field(
@@ -121,13 +132,12 @@ def process_relation_field(field, exclude_related_fields=None, expand=False):
 
 def get_related_field_type(field, related_model, serialization_alias):
     from .base import BaseSchema
-    from pop.core.schemas.user import UserSchema
     
     if issubclass(related_model, CodedConceptModel):
         extras = {'x-terminology': related_model.__name__}
         return None, CodedConceptSchema, serialization_alias, extras
     if issubclass(related_model, UserModel):
-        return None, UserSchema, serialization_alias, {}
+        return partial(BaseSchema._resolve_user, orm_field_name=field.name, many=field.many_to_many), POPTypeAnnotations.USERNAME, serialization_alias, {}
     
     resolver_fcn = partial(BaseSchema._resolve_many_to_many if field.many_to_many else BaseSchema._resolve_foreign_key, orm_field_name=field.name)
     internal_type = related_model._meta.get_field('id').get_internal_type()
@@ -175,6 +185,7 @@ FILTERS_MAP = {
     Measure: schema_filters.FLOAT_FILTERS,
     bool: schema_filters.BOOLEAN_FILTERS,
     CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
+    POPTypeAnnotations.USERNAME: schema_filters.USER_REFERENCE_FILTERS,
     List[CodedConceptSchema]: schema_filters.MULTI_CODED_CONCEPT_FILTERS,
 }
 

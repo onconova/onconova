@@ -1251,6 +1251,8 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const name = requestParameters?.name;
         const nameNot = requestParameters?.nameNot;
         const nameContains = requestParameters?.nameContains;
@@ -1259,6 +1261,8 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const nameNotBeginsWith = requestParameters?.nameNotBeginsWith;
         const nameEndsWith = requestParameters?.nameEndsWith;
         const nameNotEndsWith = requestParameters?.nameNotEndsWith;
+        const nameAnyOf = requestParameters?.nameAnyOf;
+        const nameNotAnyOf = requestParameters?.nameNotAnyOf;
         const includeCriteriaNotExists = requestParameters?.includeCriteriaNotExists;
         const includeCriteriaExists = requestParameters?.includeCriteriaExists;
         const excludeCriteriaNotExists = requestParameters?.excludeCriteriaNotExists;
@@ -1272,6 +1276,8 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const casesIdsNotBeginsWith = requestParameters?.casesIdsNotBeginsWith;
         const casesIdsEndsWith = requestParameters?.casesIdsEndsWith;
         const casesIdsNotEndsWith = requestParameters?.casesIdsNotEndsWith;
+        const casesIdsAnyOf = requestParameters?.casesIdsAnyOf;
+        const casesIdsNotAnyOf = requestParameters?.casesIdsNotAnyOf;
         const manualChoicesIds = requestParameters?.manualChoicesIds;
         const manualChoicesIdsNot = requestParameters?.manualChoicesIdsNot;
         const manualChoicesIdsContains = requestParameters?.manualChoicesIdsContains;
@@ -1280,6 +1286,8 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const manualChoicesIdsNotBeginsWith = requestParameters?.manualChoicesIdsNotBeginsWith;
         const manualChoicesIdsEndsWith = requestParameters?.manualChoicesIdsEndsWith;
         const manualChoicesIdsNotEndsWith = requestParameters?.manualChoicesIdsNotEndsWith;
+        const manualChoicesIdsAnyOf = requestParameters?.manualChoicesIdsAnyOf;
+        const manualChoicesIdsNotAnyOf = requestParameters?.manualChoicesIdsNotAnyOf;
         const frozenSetIds = requestParameters?.frozenSetIds;
         const frozenSetIdsNot = requestParameters?.frozenSetIdsNot;
         const frozenSetIdsContains = requestParameters?.frozenSetIdsContains;
@@ -1288,6 +1296,8 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const frozenSetIdsNotBeginsWith = requestParameters?.frozenSetIdsNotBeginsWith;
         const frozenSetIdsEndsWith = requestParameters?.frozenSetIdsEndsWith;
         const frozenSetIdsNotEndsWith = requestParameters?.frozenSetIdsNotEndsWith;
+        const frozenSetIdsAnyOf = requestParameters?.frozenSetIdsAnyOf;
+        const frozenSetIdsNotAnyOf = requestParameters?.frozenSetIdsNotAnyOf;
         const createdBy = requestParameters?.createdBy;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
@@ -1333,6 +1343,18 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>name, 'name');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1349,6 +1371,18 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
           <any>nameEndsWith, 'name.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>nameNotEndsWith, 'name.not.endsWith');
+        if (nameAnyOf) {
+            nameAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'name.anyOf');
+            })
+        }
+        if (nameNotAnyOf) {
+            nameNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'name.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>includeCriteriaNotExists, 'includeCriteria.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1375,6 +1409,18 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
           <any>casesIdsEndsWith, 'casesIds.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>casesIdsNotEndsWith, 'casesIds.not.endsWith');
+        if (casesIdsAnyOf) {
+            casesIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'casesIds.anyOf');
+            })
+        }
+        if (casesIdsNotAnyOf) {
+            casesIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'casesIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>manualChoicesIds, 'manualChoicesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1391,6 +1437,18 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
           <any>manualChoicesIdsEndsWith, 'manualChoicesIds.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>manualChoicesIdsNotEndsWith, 'manualChoicesIds.not.endsWith');
+        if (manualChoicesIdsAnyOf) {
+            manualChoicesIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'manualChoicesIds.anyOf');
+            })
+        }
+        if (manualChoicesIdsNotAnyOf) {
+            manualChoicesIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'manualChoicesIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>frozenSetIds, 'frozenSetIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1407,6 +1465,18 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
           <any>frozenSetIdsEndsWith, 'frozenSetIds.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>frozenSetIdsNotEndsWith, 'frozenSetIds.not.endsWith');
+        if (frozenSetIdsAnyOf) {
+            frozenSetIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'frozenSetIds.anyOf');
+            })
+        }
+        if (frozenSetIdsNotAnyOf) {
+            frozenSetIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'frozenSetIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>createdBy, 'createdBy');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

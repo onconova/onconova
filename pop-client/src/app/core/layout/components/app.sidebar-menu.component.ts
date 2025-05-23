@@ -63,8 +63,21 @@ export class AppSidebarMenuComponent {
                 ]
             },
             {
-                label: 'Cohorts',
+                label: 'Projects',
                 items: [
+                    { 
+                        label: 'Search Projects', 
+                        icon: 'pi pi-fw pi-graduation-cap', 
+                        routerLink: ['/projects/search'],
+                        disabled: this.#accessLevel() == 0,
+                    },
+                    { 
+                        label: 'My Projects', 
+                        icon: 'pi pi-fw pi-graduation-cap', 
+                        routerLink: ['/projects/search'],
+                        queryParams: { member: this.currenUser().username },
+                        disabled: this.#accessLevel() == 0,
+                    },
                     { 
                         label: 'Search Cohorts', 
                         icon: 'pi pi-fw pi-users', 

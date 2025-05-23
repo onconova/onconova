@@ -15,6 +15,8 @@ from pop.core.models import BaseModel, User
 @pghistory.track()
 class Project(BaseModel):
 
+    objects = QueryablePropertiesManager()
+    
     class ProjectStatus(models.TextChoices):
         PLANNED = 'planned'
         ONGOING = 'ongoing'
@@ -71,12 +73,6 @@ class Project(BaseModel):
     @property 
     def description(self): 
         return f'Project "{self.title}"'
-
-@receiver(pre_save, sender=Project)
-def ensure_leader_is_member(sender, instance, **kwargs):
-    if instance.pk and instance.leader and not instance.members.filter(pk=instance.leader.pk).exists():
-        instance.members.add(instance.leader)
-
 
 class ProjectMembership(models.Model):
     member = models.ForeignKey(

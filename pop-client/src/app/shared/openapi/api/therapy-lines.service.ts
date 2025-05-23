@@ -447,6 +447,8 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
         const labelNotBeginsWith = requestParameters?.labelNotBeginsWith;
         const labelEndsWith = requestParameters?.labelEndsWith;
         const labelNotEndsWith = requestParameters?.labelNotEndsWith;
+        const labelAnyOf = requestParameters?.labelAnyOf;
+        const labelNotAnyOf = requestParameters?.labelNotAnyOf;
         const progressionFreeSurvivalNotExists = requestParameters?.progressionFreeSurvivalNotExists;
         const progressionFreeSurvivalExists = requestParameters?.progressionFreeSurvivalExists;
         const progressionFreeSurvivalLessThan = requestParameters?.progressionFreeSurvivalLessThan;
@@ -465,6 +467,8 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -473,6 +477,8 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const ordinalLessThan = requestParameters?.ordinalLessThan;
         const ordinalLessThanOrEqual = requestParameters?.ordinalLessThanOrEqual;
         const ordinalGreaterThan = requestParameters?.ordinalGreaterThan;
@@ -554,6 +560,18 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
           <any>labelEndsWith, 'label.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>labelNotEndsWith, 'label.not.endsWith');
+        if (labelAnyOf) {
+            labelAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'label.anyOf');
+            })
+        }
+        if (labelNotAnyOf) {
+            labelNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'label.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>progressionFreeSurvivalNotExists, 'progressionFreeSurvival.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -598,6 +616,18 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -614,6 +644,18 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>ordinalLessThan, 'ordinal.lessThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

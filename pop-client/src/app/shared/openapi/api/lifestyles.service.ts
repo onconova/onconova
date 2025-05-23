@@ -381,6 +381,8 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -389,6 +391,8 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const dateBefore = requestParameters?.dateBefore;
         const dateAfter = requestParameters?.dateAfter;
         const dateOnOrBefore = requestParameters?.dateOnOrBefore;
@@ -479,6 +483,18 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -495,6 +511,18 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dateBefore, 'date.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

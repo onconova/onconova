@@ -384,6 +384,8 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
         const rulesFieldNotBeginsWith = requestParameters?.rulesFieldNotBeginsWith;
         const rulesFieldEndsWith = requestParameters?.rulesFieldEndsWith;
         const rulesFieldNotEndsWith = requestParameters?.rulesFieldNotEndsWith;
+        const rulesFieldAnyOf = requestParameters?.rulesFieldAnyOf;
+        const rulesFieldNotAnyOf = requestParameters?.rulesFieldNotAnyOf;
         const rulesTransformNotExists = requestParameters?.rulesTransformNotExists;
         const rulesTransformExists = requestParameters?.rulesTransformExists;
         const rulesTransform = requestParameters?.rulesTransform;
@@ -394,6 +396,8 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
         const rulesTransformNotBeginsWith = requestParameters?.rulesTransformNotBeginsWith;
         const rulesTransformEndsWith = requestParameters?.rulesTransformEndsWith;
         const rulesTransformNotEndsWith = requestParameters?.rulesTransformNotEndsWith;
+        const rulesTransformAnyOf = requestParameters?.rulesTransformAnyOf;
+        const rulesTransformNotAnyOf = requestParameters?.rulesTransformNotAnyOf;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -402,6 +406,8 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const name = requestParameters?.name;
         const nameNot = requestParameters?.nameNot;
         const nameContains = requestParameters?.nameContains;
@@ -410,6 +416,8 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
         const nameNotBeginsWith = requestParameters?.nameNotBeginsWith;
         const nameEndsWith = requestParameters?.nameEndsWith;
         const nameNotEndsWith = requestParameters?.nameNotEndsWith;
+        const nameAnyOf = requestParameters?.nameAnyOf;
+        const nameNotAnyOf = requestParameters?.nameNotAnyOf;
         const isPublic = requestParameters?.isPublic;
         const createdBy = requestParameters?.createdBy;
         const limit = requestParameters?.limit;
@@ -442,6 +450,18 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
           <any>rulesFieldEndsWith, 'rules.field.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rulesFieldNotEndsWith, 'rules.field.not.endsWith');
+        if (rulesFieldAnyOf) {
+            rulesFieldAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rules.field.anyOf');
+            })
+        }
+        if (rulesFieldNotAnyOf) {
+            rulesFieldNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rules.field.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rulesTransformNotExists, 'rules.transform.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -462,6 +482,18 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
           <any>rulesTransformEndsWith, 'rules.transform.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rulesTransformNotEndsWith, 'rules.transform.not.endsWith');
+        if (rulesTransformAnyOf) {
+            rulesTransformAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rules.transform.anyOf');
+            })
+        }
+        if (rulesTransformNotAnyOf) {
+            rulesTransformNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rules.transform.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -478,6 +510,18 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>name, 'name');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -494,6 +538,18 @@ export class DatasetsService extends BaseService implements DatasetsServiceInter
           <any>nameEndsWith, 'name.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>nameNotEndsWith, 'name.not.endsWith');
+        if (nameAnyOf) {
+            nameAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'name.anyOf');
+            })
+        }
+        if (nameNotAnyOf) {
+            nameNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'name.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>isPublic, 'isPublic');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

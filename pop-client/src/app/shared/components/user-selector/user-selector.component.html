@@ -1,0 +1,18 @@
+<p-autoComplete
+    [formControl]="formControl"
+    [dropdown]="true"
+    [showClear]="true"
+    [attr.disabled]="disabled()"
+    [forceSelection]="true"
+    optionLabel="fullName"
+    [suggestions]="userSuggestions.value() || []"
+    (completeMethod)="query.set($event.query); userSuggestions.reload()"
+    [multiple]="multiple()"
+    [unique]="true"
+    [completeOnFocus]="true"
+    [placeholder]="placeholder()"
+    appendTo="body"
+>
+
+  
+  

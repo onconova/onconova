@@ -43,6 +43,14 @@ export interface RadiotherapyFilters {
      */
     'dosages.id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'dosages.id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'dosages.id.not.anyOf'?: Array<string>;
+    /**
      * Total fractions - Filter for entries without a value
      */
     'dosages.fractions.not.exists'?: boolean;
@@ -231,6 +239,14 @@ export interface RadiotherapyFilters {
      */
     'settings.id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'settings.id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'settings.id.not.anyOf'?: Array<string>;
+    /**
      * Modality - Filter for a matching concept code
      */
     'settings.modality'?: string;
@@ -303,6 +319,14 @@ export interface RadiotherapyFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -334,6 +358,14 @@ export interface RadiotherapyFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Treatment period - Filter for entries overlapping with the time period
      */
@@ -465,6 +497,14 @@ export interface RadiotherapyFilters {
      */
     'therapyLineId.not.endsWith'?: string;
     /**
+     * Therapy line - Filter for entries where at least one reference matches the query
+     */
+    'therapyLineId.anyOf'?: Array<string>;
+    /**
+     * Therapy line - Filter for entries where at least one reference mismatches the query
+     */
+    'therapyLineId.not.anyOf'?: Array<string>;
+    /**
      * Targeted neoplastic entities - Filter for full text matches
      */
     targetedEntitiesIds?: string;
@@ -496,6 +536,14 @@ export interface RadiotherapyFilters {
      * Targeted neoplastic entities - Filter for entries not ending with the text
      */
     'targetedEntitiesIds.not.endsWith'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for entries where at least one reference matches the query
+     */
+    'targetedEntitiesIds.anyOf'?: Array<string>;
+    /**
+     * Targeted neoplastic entities - Filter for entries where at least one reference mismatches the query
+     */
+    'targetedEntitiesIds.not.anyOf'?: Array<string>;
 }
 export namespace RadiotherapyFilters {
     export type IntentEnum = 'curative' | 'palliative';

@@ -7,7 +7,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 
 
 export interface ProjectDataManagerGrant { 
@@ -17,18 +16,12 @@ export interface ProjectDataManagerGrant {
      * 
      */
     id: string;
-    /**
-     * Manager of the project data
-     */
-    member: User;
+    member: any | null;
     /**
      * 
      */
     projectId: string;
-    /**
-     * Project leader that granted the permission
-     */
-    grantedBy: User;
+    grantedBy: any | null;
     /**
      * 
      */

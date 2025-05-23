@@ -2,16 +2,22 @@ import uuid
 import pghistory
 from django.db import models
 from django.db.models import Case, When, Q, Min
+from django.db.models.functions import Concat
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 
+from queryable_properties.managers import QueryablePropertiesManager
 from queryable_properties.properties import MappingProperty
 from queryable_properties.properties import AnnotationProperty
 
+class QueryablePropertiesUserManager(UserManager, QueryablePropertiesManager):
+    pass
 
 class User(AbstractUser):
-        
+    
+    objects = QueryablePropertiesUserManager()
+
     class AccessRoles(models.TextChoices):
         EXTERNAL = 'External'
         VIEWER = 'Viewer'
@@ -21,7 +27,7 @@ class User(AbstractUser):
         PLATFORM_MANAGER = 'Platform Manager'
         SYSTEM_ADMIN = 'System Administrator'
         
-    def construct_GeneratedField_from_access_level(min_access_level, action):
+    def construct_permission_field_from_access_level(min_access_level, action):
         return AnnotationProperty(
             verbose_name = _(f'Can {action}'),
             annotation = Case(When(Q(access_level__gte=min_access_level) | Q(is_superuser=True), then=True), default=False, output_field=models.BooleanField()),
@@ -31,6 +37,10 @@ class User(AbstractUser):
         primary_key=True, 
         default=uuid.uuid4, 
         editable=False
+    )
+    full_name = AnnotationProperty(
+        verbose_name = _('Full Name'),
+        annotation = Concat('first_name', models.Value(' '), 'last_name', output_field=models.CharField()),
     )
     title = models.CharField(
         verbose_name = _('Title'),
@@ -85,22 +95,22 @@ class User(AbstractUser):
     )
 
     # Generated permission fields
-    can_view_cases = construct_GeneratedField_from_access_level(min_access_level=1, action='view cases')
-    can_view_projects = construct_GeneratedField_from_access_level(min_access_level=1, action='view projects')
-    can_view_cohorts = construct_GeneratedField_from_access_level(min_access_level=1, action='view cohorts')
-    can_view_users = construct_GeneratedField_from_access_level(min_access_level=1, action='view users')
-    can_view_datasets = construct_GeneratedField_from_access_level(min_access_level=1, action='view datasets')
-    can_import_data = construct_GeneratedField_from_access_level(min_access_level=2, action='import data')
-    can_manage_cohorts = construct_GeneratedField_from_access_level(min_access_level=2, action='manage cohorts')
-    can_manage_datasets = construct_GeneratedField_from_access_level(min_access_level=2, action='manage datasets')
-    can_analyze_data = construct_GeneratedField_from_access_level(min_access_level=3, action='analyze data')
-    can_export_data = construct_GeneratedField_from_access_level(min_access_level=3, action='export data')
-    can_manage_projects = construct_GeneratedField_from_access_level(min_access_level=4, action='manage projects')
-    can_access_sensitive_data = construct_GeneratedField_from_access_level(min_access_level=4, action='access sensitive data')
-    can_delete_projects = construct_GeneratedField_from_access_level(min_access_level=5, action='delete projects')
-    can_audit_logs = construct_GeneratedField_from_access_level(min_access_level=5, action='audit logs')
-    can_manage_users = construct_GeneratedField_from_access_level(min_access_level=5, action='manage users')
-    is_system_admin = construct_GeneratedField_from_access_level(min_access_level=6, action='system admin')
+    can_view_cases = construct_permission_field_from_access_level(min_access_level=1, action='view cases')
+    can_view_projects = construct_permission_field_from_access_level(min_access_level=1, action='view projects')
+    can_view_cohorts = construct_permission_field_from_access_level(min_access_level=1, action='view cohorts')
+    can_view_users = construct_permission_field_from_access_level(min_access_level=1, action='view users')
+    can_view_datasets = construct_permission_field_from_access_level(min_access_level=1, action='view datasets')
+    can_import_data = construct_permission_field_from_access_level(min_access_level=2, action='import data')
+    can_manage_cohorts = construct_permission_field_from_access_level(min_access_level=2, action='manage cohorts')
+    can_manage_datasets = construct_permission_field_from_access_level(min_access_level=2, action='manage datasets')
+    can_analyze_data = construct_permission_field_from_access_level(min_access_level=3, action='analyze data')
+    can_export_data = construct_permission_field_from_access_level(min_access_level=3, action='export data')
+    can_manage_projects = construct_permission_field_from_access_level(min_access_level=4, action='manage projects')
+    can_access_sensitive_data = construct_permission_field_from_access_level(min_access_level=4, action='access sensitive data')
+    can_delete_projects = construct_permission_field_from_access_level(min_access_level=5, action='delete projects')
+    can_audit_logs = construct_permission_field_from_access_level(min_access_level=5, action='audit logs')
+    can_manage_users = construct_permission_field_from_access_level(min_access_level=5, action='manage users')
+    is_system_admin = construct_permission_field_from_access_level(min_access_level=6, action='system admin')
     
     can_manage_cases = AnnotationProperty(
         verbose_name = _('Can manage case data'),

@@ -69,6 +69,14 @@ export interface StagingFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -100,6 +108,14 @@ export interface StagingFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Staging date - Filter for entries with dates before the specified value
      */
@@ -164,6 +180,14 @@ export interface StagingFilters {
      * Staged neoplastic entities - Filter for entries not ending with the text
      */
     'stagedEntitiesIds.not.endsWith'?: string;
+    /**
+     * Staged neoplastic entities - Filter for entries where at least one reference matches the query
+     */
+    'stagedEntitiesIds.anyOf'?: Array<string>;
+    /**
+     * Staged neoplastic entities - Filter for entries where at least one reference mismatches the query
+     */
+    'stagedEntitiesIds.not.anyOf'?: Array<string>;
 }
 export namespace StagingFilters {
     export type StagingDomainEnum = 'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma';

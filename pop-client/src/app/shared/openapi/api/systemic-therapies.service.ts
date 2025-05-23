@@ -476,6 +476,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const medicationsIdNotBeginsWith = requestParameters?.medicationsIdNotBeginsWith;
         const medicationsIdEndsWith = requestParameters?.medicationsIdEndsWith;
         const medicationsIdNotEndsWith = requestParameters?.medicationsIdNotEndsWith;
+        const medicationsIdAnyOf = requestParameters?.medicationsIdAnyOf;
+        const medicationsIdNotAnyOf = requestParameters?.medicationsIdNotAnyOf;
         const medicationsDrug = requestParameters?.medicationsDrug;
         const medicationsDrugNot = requestParameters?.medicationsDrugNot;
         const medicationsDrugAnyOf = requestParameters?.medicationsDrugAnyOf;
@@ -590,6 +592,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -598,6 +602,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const periodOverlaps = requestParameters?.periodOverlaps;
         const periodNotOverlaps = requestParameters?.periodNotOverlaps;
         const periodContains = requestParameters?.periodContains;
@@ -640,6 +646,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const therapyLineIdNotBeginsWith = requestParameters?.therapyLineIdNotBeginsWith;
         const therapyLineIdEndsWith = requestParameters?.therapyLineIdEndsWith;
         const therapyLineIdNotEndsWith = requestParameters?.therapyLineIdNotEndsWith;
+        const therapyLineIdAnyOf = requestParameters?.therapyLineIdAnyOf;
+        const therapyLineIdNotAnyOf = requestParameters?.therapyLineIdNotAnyOf;
         const targetedEntitiesIds = requestParameters?.targetedEntitiesIds;
         const targetedEntitiesIdsNot = requestParameters?.targetedEntitiesIdsNot;
         const targetedEntitiesIdsContains = requestParameters?.targetedEntitiesIdsContains;
@@ -648,6 +656,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const targetedEntitiesIdsNotBeginsWith = requestParameters?.targetedEntitiesIdsNotBeginsWith;
         const targetedEntitiesIdsEndsWith = requestParameters?.targetedEntitiesIdsEndsWith;
         const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
+        const targetedEntitiesIdsAnyOf = requestParameters?.targetedEntitiesIdsAnyOf;
+        const targetedEntitiesIdsNotAnyOf = requestParameters?.targetedEntitiesIdsNotAnyOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -668,6 +678,18 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
           <any>medicationsIdEndsWith, 'medications.id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>medicationsIdNotEndsWith, 'medications.id.not.endsWith');
+        if (medicationsIdAnyOf) {
+            medicationsIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'medications.id.anyOf');
+            })
+        }
+        if (medicationsIdNotAnyOf) {
+            medicationsIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'medications.id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>medicationsDrug, 'medications.drug');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -984,6 +1006,18 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1000,6 +1034,18 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         if (periodOverlaps) {
             periodOverlaps.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1136,6 +1182,18 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
           <any>therapyLineIdEndsWith, 'therapyLineId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>therapyLineIdNotEndsWith, 'therapyLineId.not.endsWith');
+        if (therapyLineIdAnyOf) {
+            therapyLineIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'therapyLineId.anyOf');
+            })
+        }
+        if (therapyLineIdNotAnyOf) {
+            therapyLineIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'therapyLineId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>targetedEntitiesIds, 'targetedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1152,6 +1210,18 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
           <any>targetedEntitiesIdsEndsWith, 'targetedEntitiesIds.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>targetedEntitiesIdsNotEndsWith, 'targetedEntitiesIds.not.endsWith');
+        if (targetedEntitiesIdsAnyOf) {
+            targetedEntitiesIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'targetedEntitiesIds.anyOf');
+            })
+        }
+        if (targetedEntitiesIdsNotAnyOf) {
+            targetedEntitiesIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'targetedEntitiesIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

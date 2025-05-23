@@ -18,9 +18,6 @@ class ProjectModelTest(TestCase):
             self.assertTrue(membership.project == self.project)
             self.assertTrue(membership.date_joined == datetime.now().date())
 
-    def test_project_leader_in_members(self):
-        self.assertTrue(self.project.leader in self.project.members.all())
-
 
 class ProjectDataManagerGrantModelTest(TestCase):
     

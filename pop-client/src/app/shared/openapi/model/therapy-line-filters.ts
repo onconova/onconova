@@ -75,6 +75,14 @@ export interface TherapyLineFilters {
      */
     'label.not.endsWith'?: string;
     /**
+     * Label - Filter for entries where at least one reference matches the query
+     */
+    'label.anyOf'?: Array<string>;
+    /**
+     * Label - Filter for entries where at least one reference mismatches the query
+     */
+    'label.not.anyOf'?: Array<string>;
+    /**
      * Progression-free survival in months - Filter for entries without a value
      */
     'progressionFreeSurvival.not.exists'?: boolean;
@@ -147,6 +155,14 @@ export interface TherapyLineFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -178,6 +194,14 @@ export interface TherapyLineFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Line ordinal number - Filter for entries with values less than the specified value
      */

@@ -75,6 +75,14 @@ export interface CohortFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Cohort name - Filter for full text matches
      */
     name?: string;
@@ -106,6 +114,14 @@ export interface CohortFilters {
      * Cohort name - Filter for entries not ending with the text
      */
     'name.not.endsWith'?: string;
+    /**
+     * Cohort name - Filter for entries where at least one reference matches the query
+     */
+    'name.anyOf'?: Array<string>;
+    /**
+     * Cohort name - Filter for entries where at least one reference mismatches the query
+     */
+    'name.not.anyOf'?: Array<string>;
     /**
      * Inclusion criteria - Filter for entries without a value
      */
@@ -159,6 +175,14 @@ export interface CohortFilters {
      */
     'casesIds.not.endsWith'?: string;
     /**
+     * Cases - Filter for entries where at least one reference matches the query
+     */
+    'casesIds.anyOf'?: Array<string>;
+    /**
+     * Cases - Filter for entries where at least one reference mismatches the query
+     */
+    'casesIds.not.anyOf'?: Array<string>;
+    /**
      * Manually added cases - Filter for full text matches
      */
     manualChoicesIds?: string;
@@ -191,6 +215,14 @@ export interface CohortFilters {
      */
     'manualChoicesIds.not.endsWith'?: string;
     /**
+     * Manually added cases - Filter for entries where at least one reference matches the query
+     */
+    'manualChoicesIds.anyOf'?: Array<string>;
+    /**
+     * Manually added cases - Filter for entries where at least one reference mismatches the query
+     */
+    'manualChoicesIds.not.anyOf'?: Array<string>;
+    /**
      * Frozen cases - Filter for full text matches
      */
     frozenSetIds?: string;
@@ -222,6 +254,14 @@ export interface CohortFilters {
      * Frozen cases - Filter for entries not ending with the text
      */
     'frozenSetIds.not.endsWith'?: string;
+    /**
+     * Frozen cases - Filter for entries where at least one reference matches the query
+     */
+    'frozenSetIds.anyOf'?: Array<string>;
+    /**
+     * Frozen cases - Filter for entries where at least one reference mismatches the query
+     */
+    'frozenSetIds.not.anyOf'?: Array<string>;
     createdBy?: string | null;
 }
 

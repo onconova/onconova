@@ -31,6 +31,16 @@ export interface GetUserByIdRequestParams {
 }
 
 export interface GetUsersRequestParams {
+    fullName?: string;
+    fullNameNot?: string;
+    fullNameContains?: string;
+    fullNameNotContains?: string;
+    fullNameBeginsWith?: string;
+    fullNameNotBeginsWith?: string;
+    fullNameEndsWith?: string;
+    fullNameNotEndsWith?: string;
+    fullNameAnyOf?: Array<string>;
+    fullNameNotAnyOf?: Array<string>;
     role?: string;
     roleNot?: string;
     roleAnyOf?: Array<'External' | 'Viewer' | 'Data Contributor' | 'Data Analyst' | 'Project Manager' | 'Platform Manager' | 'System Administrator'>;
@@ -61,6 +71,8 @@ export interface GetUsersRequestParams {
     providerNotBeginsWith?: string;
     providerEndsWith?: string;
     providerNotEndsWith?: string;
+    providerAnyOf?: Array<string>;
+    providerNotAnyOf?: Array<string>;
     lastLoginNotExists?: boolean;
     lastLoginExists?: boolean;
     lastLoginBefore?: string;
@@ -79,6 +91,8 @@ export interface GetUsersRequestParams {
     usernameNotBeginsWith?: string;
     usernameEndsWith?: string;
     usernameNotEndsWith?: string;
+    usernameAnyOf?: Array<string>;
+    usernameNotAnyOf?: Array<string>;
     firstNameNotExists?: boolean;
     firstNameExists?: boolean;
     firstName?: string;
@@ -89,6 +103,8 @@ export interface GetUsersRequestParams {
     firstNameNotBeginsWith?: string;
     firstNameEndsWith?: string;
     firstNameNotEndsWith?: string;
+    firstNameAnyOf?: Array<string>;
+    firstNameNotAnyOf?: Array<string>;
     lastNameNotExists?: boolean;
     lastNameExists?: boolean;
     lastName?: string;
@@ -99,6 +115,8 @@ export interface GetUsersRequestParams {
     lastNameNotBeginsWith?: string;
     lastNameEndsWith?: string;
     lastNameNotEndsWith?: string;
+    lastNameAnyOf?: Array<string>;
+    lastNameNotAnyOf?: Array<string>;
     emailNotExists?: boolean;
     emailExists?: boolean;
     email?: string;
@@ -109,6 +127,8 @@ export interface GetUsersRequestParams {
     emailNotBeginsWith?: string;
     emailEndsWith?: string;
     emailNotEndsWith?: string;
+    emailAnyOf?: Array<string>;
+    emailNotAnyOf?: Array<string>;
     isActive?: boolean;
     id?: string;
     idNot?: string;
@@ -118,6 +138,8 @@ export interface GetUsersRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     titleNotExists?: boolean;
     titleExists?: boolean;
     title?: string;
@@ -128,6 +150,8 @@ export interface GetUsersRequestParams {
     titleNotBeginsWith?: string;
     titleEndsWith?: string;
     titleNotEndsWith?: string;
+    titleAnyOf?: Array<string>;
+    titleNotAnyOf?: Array<string>;
     organizationNotExists?: boolean;
     organizationExists?: boolean;
     organization?: string;
@@ -138,6 +162,8 @@ export interface GetUsersRequestParams {
     organizationNotBeginsWith?: string;
     organizationEndsWith?: string;
     organizationNotEndsWith?: string;
+    organizationAnyOf?: Array<string>;
+    organizationNotAnyOf?: Array<string>;
     departmentNotExists?: boolean;
     departmentExists?: boolean;
     department?: string;
@@ -148,6 +174,8 @@ export interface GetUsersRequestParams {
     departmentNotBeginsWith?: string;
     departmentEndsWith?: string;
     departmentNotEndsWith?: string;
+    departmentAnyOf?: Array<string>;
+    departmentNotAnyOf?: Array<string>;
     accessLevelLessThan?: number;
     accessLevelLessThanOrEqual?: number;
     accessLevelGreaterThan?: number;

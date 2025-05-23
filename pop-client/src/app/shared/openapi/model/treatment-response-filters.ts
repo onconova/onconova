@@ -43,6 +43,14 @@ export interface TreatmentResponseFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -74,6 +82,14 @@ export interface TreatmentResponseFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Assessment date - Filter for entries with dates before the specified value
      */
@@ -190,6 +206,14 @@ export interface TreatmentResponseFilters {
      * Assessed neoplastic entities - Filter for entries not ending with the text
      */
     'assessedEntitiesIds.not.endsWith'?: string;
+    /**
+     * Assessed neoplastic entities - Filter for entries where at least one reference matches the query
+     */
+    'assessedEntitiesIds.anyOf'?: Array<string>;
+    /**
+     * Assessed neoplastic entities - Filter for entries where at least one reference mismatches the query
+     */
+    'assessedEntitiesIds.not.anyOf'?: Array<string>;
     /**
      * Assessed anatomical location - Filter for entries without a value
      */

@@ -57,6 +57,8 @@ export interface GetGenomicSignaturesRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -65,6 +67,8 @@ export interface GetGenomicSignaturesRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;

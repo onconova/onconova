@@ -139,6 +139,8 @@ export interface GetCohortsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     name?: string;
     nameNot?: string;
     nameContains?: string;
@@ -147,6 +149,8 @@ export interface GetCohortsRequestParams {
     nameNotBeginsWith?: string;
     nameEndsWith?: string;
     nameNotEndsWith?: string;
+    nameAnyOf?: Array<string>;
+    nameNotAnyOf?: Array<string>;
     includeCriteriaNotExists?: boolean;
     includeCriteriaExists?: boolean;
     excludeCriteriaNotExists?: boolean;
@@ -160,6 +164,8 @@ export interface GetCohortsRequestParams {
     casesIdsNotBeginsWith?: string;
     casesIdsEndsWith?: string;
     casesIdsNotEndsWith?: string;
+    casesIdsAnyOf?: Array<string>;
+    casesIdsNotAnyOf?: Array<string>;
     manualChoicesIds?: string;
     manualChoicesIdsNot?: string;
     manualChoicesIdsContains?: string;
@@ -168,6 +174,8 @@ export interface GetCohortsRequestParams {
     manualChoicesIdsNotBeginsWith?: string;
     manualChoicesIdsEndsWith?: string;
     manualChoicesIdsNotEndsWith?: string;
+    manualChoicesIdsAnyOf?: Array<string>;
+    manualChoicesIdsNotAnyOf?: Array<string>;
     frozenSetIds?: string;
     frozenSetIdsNot?: string;
     frozenSetIdsContains?: string;
@@ -176,6 +184,8 @@ export interface GetCohortsRequestParams {
     frozenSetIdsNotBeginsWith?: string;
     frozenSetIdsEndsWith?: string;
     frozenSetIdsNotEndsWith?: string;
+    frozenSetIdsAnyOf?: Array<string>;
+    frozenSetIdsNotAnyOf?: Array<string>;
     createdBy?: string | null;
     limit?: number;
     offset?: number;

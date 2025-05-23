@@ -714,6 +714,8 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const pseudoidentifier = requestParameters?.pseudoidentifier;
         const pseudoidentifierNot = requestParameters?.pseudoidentifierNot;
         const pseudoidentifierContains = requestParameters?.pseudoidentifierContains;
@@ -722,6 +724,8 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const pseudoidentifierNotBeginsWith = requestParameters?.pseudoidentifierNotBeginsWith;
         const pseudoidentifierEndsWith = requestParameters?.pseudoidentifierEndsWith;
         const pseudoidentifierNotEndsWith = requestParameters?.pseudoidentifierNotEndsWith;
+        const pseudoidentifierAnyOf = requestParameters?.pseudoidentifierAnyOf;
+        const pseudoidentifierNotAnyOf = requestParameters?.pseudoidentifierNotAnyOf;
         const clinicalCenter = requestParameters?.clinicalCenter;
         const clinicalCenterNot = requestParameters?.clinicalCenterNot;
         const clinicalCenterContains = requestParameters?.clinicalCenterContains;
@@ -730,6 +734,8 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const clinicalCenterNotBeginsWith = requestParameters?.clinicalCenterNotBeginsWith;
         const clinicalCenterEndsWith = requestParameters?.clinicalCenterEndsWith;
         const clinicalCenterNotEndsWith = requestParameters?.clinicalCenterNotEndsWith;
+        const clinicalCenterAnyOf = requestParameters?.clinicalCenterAnyOf;
+        const clinicalCenterNotAnyOf = requestParameters?.clinicalCenterNotAnyOf;
         const clinicalIdentifier = requestParameters?.clinicalIdentifier;
         const clinicalIdentifierNot = requestParameters?.clinicalIdentifierNot;
         const clinicalIdentifierContains = requestParameters?.clinicalIdentifierContains;
@@ -738,6 +744,8 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const clinicalIdentifierNotBeginsWith = requestParameters?.clinicalIdentifierNotBeginsWith;
         const clinicalIdentifierEndsWith = requestParameters?.clinicalIdentifierEndsWith;
         const clinicalIdentifierNotEndsWith = requestParameters?.clinicalIdentifierNotEndsWith;
+        const clinicalIdentifierAnyOf = requestParameters?.clinicalIdentifierAnyOf;
+        const clinicalIdentifierNotAnyOf = requestParameters?.clinicalIdentifierNotAnyOf;
         const consentStatus = requestParameters?.consentStatus;
         const consentStatusNot = requestParameters?.consentStatusNot;
         const consentStatusAnyOf = requestParameters?.consentStatusAnyOf;
@@ -918,6 +926,18 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>pseudoidentifier, 'pseudoidentifier');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -934,6 +954,18 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
           <any>pseudoidentifierEndsWith, 'pseudoidentifier.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>pseudoidentifierNotEndsWith, 'pseudoidentifier.not.endsWith');
+        if (pseudoidentifierAnyOf) {
+            pseudoidentifierAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'pseudoidentifier.anyOf');
+            })
+        }
+        if (pseudoidentifierNotAnyOf) {
+            pseudoidentifierNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'pseudoidentifier.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>clinicalCenter, 'clinicalCenter');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -950,6 +982,18 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
           <any>clinicalCenterEndsWith, 'clinicalCenter.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>clinicalCenterNotEndsWith, 'clinicalCenter.not.endsWith');
+        if (clinicalCenterAnyOf) {
+            clinicalCenterAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'clinicalCenter.anyOf');
+            })
+        }
+        if (clinicalCenterNotAnyOf) {
+            clinicalCenterNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'clinicalCenter.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>clinicalIdentifier, 'clinicalIdentifier');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -966,6 +1010,18 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
           <any>clinicalIdentifierEndsWith, 'clinicalIdentifier.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>clinicalIdentifierNotEndsWith, 'clinicalIdentifier.not.endsWith');
+        if (clinicalIdentifierAnyOf) {
+            clinicalIdentifierAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'clinicalIdentifier.anyOf');
+            })
+        }
+        if (clinicalIdentifierNotAnyOf) {
+            clinicalIdentifierNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'clinicalIdentifier.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>consentStatus, 'consentStatus');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
