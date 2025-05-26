@@ -86,13 +86,6 @@ export class ProjectManagementComponent {
         return new Date(start.getTime() + 31 * 24 * 60 * 60 * 1000)
     })
     
-    protected authDialogExpirationDuration = computed(() => {
-        let duration: number = 0;
-        if (this.authDialogValidityPeriod()[1]) {
-            duration = this.getDaysDifference(this.authDialogValidityPeriod()![0], this.authDialogValidityPeriod()![1])
-        } 
-        return duration
-    })
 
     getValidityPeriodAnnotation(period: Period) {
         const today = new Date()
@@ -110,7 +103,6 @@ export class ProjectManagementComponent {
     getDaysDifference(start: Date, end: Date) {
         const oneDayMs = 1000 * 60 * 60 * 24; // milliseconds in one day
         const diffMs = end.getTime() - start.getTime();
-        console.log(diffMs / oneDayMs)
         return Math.ceil(diffMs / oneDayMs);
     }
 

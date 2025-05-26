@@ -176,7 +176,7 @@
             
             <p-fluid>
                 <div class="field mt-4" >
-                    <label class="form-label required">Expiration date</label>
+                    <label class="form-label required">Authorization period</label>
                     <div class="text-muted text-sm mb-2">
                         A maximal duration of 31 days can be specified. 
                     </div>
@@ -190,11 +190,14 @@
                 </div>    
                 @if (authDialogValidityPeriod()[1]) {
                     <div class="text-center">
-                        <div class="text-sm">Authorization period</div>
-                        <div class="text-primary">From <span class="font-semibold">{{ authDialogValidityPeriod()![0] | date }}</span> until <span class="font-semibold">{{ authDialogValidityPeriod()![1] | date }}</span> ({{authDialogExpirationDuration()}} days)</div>                        
+                        <div class="text-sm">Selected period</div>
+                        <div class="text-primary">From <span class="font-semibold">{{ authDialogValidityPeriod()![0] | date }}</span> until <span class="font-semibold">{{ authDialogValidityPeriod()![1] | date }}</span> ({{getDaysDifference(authDialogValidityPeriod()![0], authDialogValidityPeriod()![1])}} days)</div>                        
                     </div>    
                 }
                 <div class="field mt-4" >
+                    <div class="text-muted text-sm">
+                        Please confirm the following:
+                    </div>
                     <div class="field flex mt-3"  formGroupName="consent">
                         <p-toggleswitch [(ngModel)]="authDialogConfirmation" />
                         <label class="form-label ml-2 my-auto required">
