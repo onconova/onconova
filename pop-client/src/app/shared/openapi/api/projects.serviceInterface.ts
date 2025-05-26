@@ -39,10 +39,12 @@ export interface DeleteProjectByIdRequestParams {
     projectId: string;
 }
 
-export interface DeleteProjectDataManagerGrantRequestParams {
+export interface GetAllProjectDataManagementGrantHistoryEventsRequestParams {
     projectId: string;
     memberId: string;
     grantId: string;
+    limit?: number;
+    offset?: number;
 }
 
 export interface GetAllProjectHistoryEventsRequestParams {
@@ -53,6 +55,13 @@ export interface GetAllProjectHistoryEventsRequestParams {
 
 export interface GetProjectByIdRequestParams {
     projectId: string;
+}
+
+export interface GetProjectDataManagementGrantHistoryEventByIdRequestParams {
+    projectId: string;
+    memberId: string;
+    grantId: string;
+    eventId: string;
 }
 
 export interface GetProjectDataManagerGrantRequestParams {
@@ -139,9 +148,22 @@ export interface GetProjectsRequestParams {
     offset?: number;
 }
 
+export interface RevertProjectDataManagementGrantToHistoryEventRequestParams {
+    projectId: string;
+    memberId: string;
+    grantId: string;
+    eventId: string;
+}
+
 export interface RevertProjectToHistoryEventRequestParams {
     projectId: string;
     eventId: string;
+}
+
+export interface RevokeProjectDataManagerGrantRequestParams {
+    projectId: string;
+    memberId: string;
+    grantId: string;
 }
 
 export interface UpdateProjectByIdRequestParams {
@@ -176,11 +198,11 @@ export interface ProjectsServiceInterface {
     deleteProjectById(requestParameters: DeleteProjectByIdRequestParams, extraHttpRequestParams?: any): Observable<{}>;
 
     /**
-     * Revoke Project Data Manager Grant
+     * Get All Project Data Management Grant History Events
      * 
 * @param requestParameters
      */
-    deleteProjectDataManagerGrant(requestParameters: DeleteProjectDataManagerGrantRequestParams, extraHttpRequestParams?: any): Observable<{}>;
+    getAllProjectDataManagementGrantHistoryEvents(requestParameters: GetAllProjectDataManagementGrantHistoryEventsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedHistoryEventWithSchema>;
 
     /**
      * Get All Project History Events
@@ -195,6 +217,13 @@ export interface ProjectsServiceInterface {
 * @param requestParameters
      */
     getProjectById(requestParameters: GetProjectByIdRequestParams, extraHttpRequestParams?: any): Observable<Project>;
+
+    /**
+     * Get Project Data Management Grant History Event By Id
+     * 
+* @param requestParameters
+     */
+    getProjectDataManagementGrantHistoryEventById(requestParameters: GetProjectDataManagementGrantHistoryEventByIdRequestParams, extraHttpRequestParams?: any): Observable<HistoryEventWithSchema>;
 
     /**
      * Get All Project Data Manager Grant
@@ -225,11 +254,25 @@ export interface ProjectsServiceInterface {
     getProjects(requestParameters: GetProjectsRequestParams, extraHttpRequestParams?: any): Observable<PaginatedProject>;
 
     /**
+     * Revert Project Data Management Grant To History Event
+     * 
+* @param requestParameters
+     */
+    revertProjectDataManagementGrantToHistoryEvent(requestParameters: RevertProjectDataManagementGrantToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
      * Revert Project To History Event
      * 
 * @param requestParameters
      */
     revertProjectToHistoryEvent(requestParameters: RevertProjectToHistoryEventRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
+
+    /**
+     * Revoke Project Data Manager Grant
+     * 
+* @param requestParameters
+     */
+    revokeProjectDataManagerGrant(requestParameters: RevokeProjectDataManagerGrantRequestParams, extraHttpRequestParams?: any): Observable<ModifiedResource>;
 
     /**
      * Update Project

@@ -7,32 +7,43 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Period } from './period';
 
 
 export interface ProjectDataManagerGrant { 
-    externalSource?: string | null;
-    externalSourceId?: string | null;
+    /**
+     * Whether the authorization grant is valid today
+     */
+    isValid: boolean;
     /**
      * 
      */
     id: string;
+    externalSource?: string | null;
+    externalSourceId?: string | null;
     member: any | null;
     /**
      * 
      */
     projectId: string;
-    grantedBy: any | null;
     /**
-     * 
+     * A flag that indicated whether the authorization has been revoked
      */
-    grantedAt: string;
+    revoked?: boolean;
     /**
-     * Date and time when the permission expires
+     * Period of validity
      */
-    expiresAt: string;
+    validityPeriod: Period;
     /**
      * Human-readable description
      */
     description: string;
+    /**
+     * Date-time when the resource was created
+     */
+    createdAt: string;
+    updatedAt?: string | null;
+    createdBy: string | null;
+    updatedBy?: Array<string> | null;
 }
 

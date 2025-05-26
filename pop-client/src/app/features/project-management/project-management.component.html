@@ -68,6 +68,7 @@
 <h5>Project members</h5>
 <p-table 
     [value]="members.value() ?? []"
+    sortField="fullName"
     >
     <ng-template #header>
 
@@ -81,8 +82,8 @@
             <th>Joined</th>
 
             <th>Status</th>
-            <th>Granted by</th>
-            <th>Expiration</th>
+            <th>Authorization granted by</th>
+            <th>Validity</th>
             <th>Actions</th>
         </tr>
     </ng-template>
@@ -102,19 +103,34 @@
             </td>
             <td>
                 @if (member.authorization; as authorization) {
-                    {{authorization.grantedBy}}
+                    <div>
+                        <pop-user-badge [username]="authorization.grantedBy" [showName]="true"/>
+                    </div>
+                    <div class="text-muted text-sm authorization-granter-subtitle">
+                        on {{ authorization.createdAt | date }}
+                    </div>
                 } @else if (member.accessLevel >= 4) {
-                    System
+                    <span class="text-muted">System</span>
                 } @else {
                     <span class="text-muted">-</span>
                 }
             </td>
             <td>
                 @if (member.authorization; as authorization) {
-                    {{authorization.grantedAt}}
-                    {{authorization.expiresAt}}
+                    <div> 
+                        {{authorization.validityPeriod.start | date}}
+                        -
+                        {{authorization.validityPeriod.end | date}}
+                    </div>
+                    <div class="text-muted text-sm">
+                        @if (authorization.revoked) {
+                            Revoked
+                        } @else {
+                            {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
+                        }
+                    </div>
                 } @else if (member.accessLevel >= 4) {
-                    Never
+                    <span class="text-muted">Always</span>
                 } @else {
                     <span class="text-muted">-</span>
                 }
@@ -129,7 +145,8 @@
 
 
 
-<p-confirmdialog #cd>
+<p-confirmdialog key="revoke"/>
+<p-confirmdialog key="authorize">
     <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
         <div class="p-4">
             <h5 class="mb-4">
@@ -164,19 +181,33 @@
                         A maximal duration of 31 days can be specified. 
                     </div>
                     <p-datepicker class="max-w-full mt-2"
-                         [(ngModel)]="authDialogExpirationDate" 
+                         [(ngModel)]="authDialogValidityPeriod" 
                          [minDate]="authDialogExpirationMinDate"
-                         [maxDate]="authDialogExpirationMaxDate"
+                         [maxDate]="authDialogExpirationMaxDate()"
+                         selectionMode="range"
+                         [selectOtherMonths]="true"
                          [inline]="true"/>
                 </div>    
+                @if (authDialogValidityPeriod()[1]) {
+                    <div class="text-center">
+                        <div class="text-sm">Authorization period</div>
+                        <div class="text-primary">From <span class="font-semibold">{{ authDialogValidityPeriod()![0] | date }}</span> until <span class="font-semibold">{{ authDialogValidityPeriod()![1] | date }}</span> ({{authDialogExpirationDuration()}} days)</div>                        
+                    </div>    
+                }
                 <div class="field mt-4" >
-                    <label class="form-label required">Confirmation</label>
+                    <div class="field flex mt-3"  formGroupName="consent">
+                        <p-toggleswitch [(ngModel)]="authDialogConfirmation" />
+                        <label class="form-label ml-2 my-auto required">
+                            I hereby authorize and accept responsibility for {{authDialogMember()!.fullName}} as a member of this project, granting them permission to manage (create, edit, and delete) patient cases and related data. 
+                            This authorization also includes access to de-anonymized (pseudo-anonymized) case data for the specified time period.
+                        </label>
+                    </div>
                 </div>  
             </p-fluid>
 
 
             <div class="flex items-center gap-2 mt-6">
-                <p-button label="Save" (onClick)="onAccept()" styleClass="w-32"></p-button>
+                <p-button label="Authorize Data Manager" (onClick)="onAccept()" styleClass="w-20rem" [disabled]="!authDialogConfirmation() || !authDialogValidityPeriod()[1]"></p-button>
                 <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
             </div>    
         </div>
