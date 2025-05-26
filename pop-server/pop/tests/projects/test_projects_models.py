@@ -24,14 +24,20 @@ class ProjectDataManagerGrantModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.unauthorized_user = factories.UserFactory.create(access_level=1)
+
         cls.authorized_user = factories.UserFactory.create(access_level=1)
         cls.grant = factories.ProjectDataManagerGrantFactory.create(member=cls.authorized_user)
-        cls.grant.save()
         cls.authorized_user.refresh_from_db() 
-        cls.unauthorized_user.refresh_from_db() 
+
+        cls.revoked_user = factories.UserFactory.create(access_level=1)
+        cls.grant = factories.ProjectDataManagerGrantFactory.create(member=cls.revoked_user, revoked=True)
+        cls.revoked_user.refresh_from_db() 
         
     def test_auhtorized_user_is_granted_right(self):
         self.assertTrue(self.authorized_user.can_manage_cases)
 
     def test_unauhtorized_user_is_not_granted_right(self):
         self.assertFalse(self.unauthorized_user.can_manage_cases)
+        
+    def test_auhtorized_user_is_revoked_right(self):
+        self.assertFalse(self.revoked_user.can_manage_cases)

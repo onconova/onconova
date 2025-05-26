@@ -181,12 +181,14 @@ class ProjectController(ControllerBase):
     @route.delete(
         path='/{projectId}/members/{memberId}/data-management/grants/{grantId}', 
         response={
-            204: None, 
+            201: ModifiedResourceSchema,
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageProjects],
         operation_id='deleteProjectDataManagerGrant',
     )
     def revoke_project_data_manager_grant(self, projectId: str, memberId: str, grantId: str):
-        get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId).delete()
-        return 204, None
+        instance = get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId)
+        instance.revoked = True
+        instance.save()
+        return 201, instance

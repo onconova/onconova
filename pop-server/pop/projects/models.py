@@ -134,12 +134,20 @@ class ProjectDataManagerGrant(BaseModel):
     granted_at = models.DateField(
         auto_now_add=True,
     )
+    revoked = models.BooleanField(
+        verbose_name = _('Revoked'),
+        help_text = _('A flag that indicated whether the authorization has been revoked'),
+        default = False,
+    )
     validity_period = postgres.DateRangeField(
         verbose_name=_('Validity period'),
         help_text=_('Period of validity'),
     )
     is_valid = AnnotationProperty(
         annotation=models.Case(
+            models.When(
+                revoked=True, then=False,    
+            ),
             models.When(
                 validity_period__startswith__lte=models.functions.Now(), 
                 validity_period__endswith__gte=models.functions.Now(), 
