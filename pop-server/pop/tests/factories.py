@@ -494,8 +494,8 @@ class ProjectDataManagerGrantFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = projects_models.ProjectDataManagerGrant
     project = factory.SubFactory(ProjectFactory)
-    member = factory.SubFactory(UserFactory)
-    expires_at = factory.LazyFunction(lambda: faker.date_between(datetime.now().date(), datetime.now().date() + timedelta(days=30)))
+    member = factory.SubFactory(UserFactory)    
+    validity_period = factory.LazyFunction(lambda: PostgresRange(datetime.now().date(), datetime.now().date() + timedelta(days=30)))
 
 
 

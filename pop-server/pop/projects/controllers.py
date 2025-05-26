@@ -161,7 +161,7 @@ class ProjectController(ControllerBase):
     def create_project_data_manager_grant(self, projectId: str, memberId: str, payload: ProjectDataManagerGrantCreateSchema): # type: ignore
         project = get_object_or_404(Project, id=projectId)
         member = get_object_or_404(User, id=memberId)
-        instance = ProjectDataManagerGrant(project=project, member=member, grantedBy=self.request.user)
+        instance = ProjectDataManagerGrant(project=project, member=member, granted_by=self.context.request.user)
         return 201, payload.model_dump_django(instance=instance)
         
 

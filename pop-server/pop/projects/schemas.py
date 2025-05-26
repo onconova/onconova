@@ -1,3 +1,4 @@
+from pydantic import Field, AliasChoices
 from pop.projects import models as orm
 from pop.core.schemas.factory import create_filters_schema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
@@ -14,6 +15,12 @@ ProjectFilters = create_filters_schema(schema = ProjectSchema, name='ProjectFilt
 
 
 class ProjectDataManagerGrantSchema(ModelGetSchema):
+    isValid: bool = Field(
+        title='Is valid',
+        description='Whether the authorization grant is valid today',
+        alias='is_valid',
+        validation_alias=AliasChoices('isValid','is_valid'),        
+    ) 
     config = SchemaConfig(model=orm.ProjectDataManagerGrant)
 
 class ProjectDataManagerGrantCreateSchema(ModelCreateSchema):

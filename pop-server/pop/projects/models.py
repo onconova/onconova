@@ -134,20 +134,22 @@ class ProjectDataManagerGrant(BaseModel):
     granted_at = models.DateField(
         auto_now_add=True,
     )
-    expires_at = models.DateField(
-        verbose_name=_('Expires at'),
-        help_text=_('Date and time when the permission expires'),
+    validity_period = postgres.DateRangeField(
+        verbose_name=_('Validity period'),
+        help_text=_('Period of validity'),
     )
-    has_expired = AnnotationProperty(
+    is_valid = AnnotationProperty(
         annotation=models.Case(
-            models.When(models.Q(expires_at__gt=models.Func(function='NOW')), then=False),
-            default=True, output_field=models.BooleanField()
+            models.When(
+                validity_period__startswith__lte=models.functions.Now(), 
+                validity_period__endswith__gte=models.functions.Now(), 
+            then=True), default=False, output_field=models.BooleanField()
         )
     )
 
     @property
     def description(self):
-        return f'Data manager role for {self.member.username} in project {self.project.title} granted by {self.granted_by.username} until {self.expires_at}'
+        return f'Data manager role for {self.member.username} in project {self.project.title} granted by {self.granted_by.username} until {self.validity_period.upper}'
 
     def save(self, *args, **kwargs):
         try:
@@ -160,11 +162,7 @@ class ProjectDataManagerGrant(BaseModel):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(granted_at__lte=models.F('expires_at')),
+                condition=models.Q(granted_at__lte=models.Func(models.F('validity_period'), function='lower', output_field=models.DateField())),
                 name='expiration_date_must_be_in_future',
-            ),
-            models.CheckConstraint(
-                condition=models.Q(expires_at__lte=models.expressions.RawSQL("granted_at + interval '31 days'", [])),
-                name='max_31_day_expiry'
             ),
         ]

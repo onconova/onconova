@@ -115,7 +115,7 @@ class User(AbstractUser):
     can_manage_cases = AnnotationProperty(
         verbose_name = _('Can manage case data'),
         annotation = Case(
-            When(Q(access_level__gte=4) | Q(is_superuser=True) | (Q(data_management_grants__isnull=False) & Q(data_management_grants__has_expired=False)), then=True), 
+            When(Q(access_level__gte=4) | Q(is_superuser=True) | (Q(data_management_grants__isnull=False) & Q(data_management_grants__is_valid=True)), then=True), 
             default=False, output_field=models.BooleanField()),
     )
 
