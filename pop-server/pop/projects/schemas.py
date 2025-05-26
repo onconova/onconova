@@ -24,7 +24,7 @@ class ProjectDataManagerGrantSchema(ModelGetSchema):
     config = SchemaConfig(model=orm.ProjectDataManagerGrant)
 
 class ProjectDataManagerGrantCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(model=orm.ProjectDataManagerGrant, exclude=('project','member','granted_by','granted_at'))
+    config = SchemaConfig(model=orm.ProjectDataManagerGrant, exclude=('project','member'))
 
 
 ProjectDataManagerGrantFilters = create_filters_schema(schema = ProjectDataManagerGrantSchema, name='ProjectDataManagerGrantFilters')

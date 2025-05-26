@@ -102,16 +102,9 @@ class ProjectMembership(models.Model):
 
 
 
+@pghistory.track()
 class ProjectDataManagerGrant(BaseModel):
-
-    objects = QueryablePropertiesManager()
     
-    id = models.UUIDField(
-        verbose_name=_('ID'),
-        primary_key=True, 
-        default=uuid.uuid4, 
-        editable=False
-    )
     member = models.ForeignKey(
         verbose_name=_('Manager'),
         help_text=_('Manager of the project data'),
@@ -123,16 +116,6 @@ class ProjectDataManagerGrant(BaseModel):
         'Project',
         on_delete=models.CASCADE,
         related_name='edit_permissions'
-    )
-    granted_by = models.ForeignKey(
-        verbose_name=_('Granted by'),
-        help_text=_('Project leader that granted the permission'),
-        to = User,
-        on_delete=models.CASCADE,
-        related_name='+'
-    )
-    granted_at = models.DateField(
-        auto_now_add=True,
     )
     revoked = models.BooleanField(
         verbose_name = _('Revoked'),
@@ -157,20 +140,4 @@ class ProjectDataManagerGrant(BaseModel):
 
     @property
     def description(self):
-        return f'Data manager role for {self.member.username} in project {self.project.title} granted by {self.granted_by.username} until {self.validity_period.upper}'
-
-    def save(self, *args, **kwargs):
-        try:
-            self.granted_by 
-        except:
-            if self.project:
-                self.granted_by = self.project.leader
-        super().save(*args, **kwargs)
-
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                condition=models.Q(granted_at__lte=models.Func(models.F('validity_period'), function='lower', output_field=models.DateField())),
-                name='expiration_date_must_be_in_future',
-            ),
-        ]
+        return f'Data manager role for {self.member.username} in project {self.project.title} from {self.validity_period.lower} to  {self.validity_period.upper}' + ('' if not self.revoked else ' (revoked)')

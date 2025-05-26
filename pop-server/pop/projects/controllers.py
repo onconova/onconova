@@ -146,7 +146,7 @@ class ProjectController(ControllerBase):
         return ProjectDataManagerGrant.objects.filter(
             project=get_object_or_404(Project, id=projectId),
             member=get_object_or_404(User, id=memberId),
-        ).order_by('-granted_at')
+        ).order_by('-created_at')
         
 
     @route.post(
@@ -161,7 +161,7 @@ class ProjectController(ControllerBase):
     def create_project_data_manager_grant(self, projectId: str, memberId: str, payload: ProjectDataManagerGrantCreateSchema): # type: ignore
         project = get_object_or_404(Project, id=projectId)
         member = get_object_or_404(User, id=memberId)
-        instance = ProjectDataManagerGrant(project=project, member=member, granted_by=self.context.request.user)
+        instance = ProjectDataManagerGrant(project=project, member=member)
         return 201, payload.model_dump_django(instance=instance)
         
 
@@ -185,10 +185,50 @@ class ProjectController(ControllerBase):
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanManageProjects],
-        operation_id='deleteProjectDataManagerGrant',
+        operation_id='revokeProjectDataManagerGrant',
     )
     def revoke_project_data_manager_grant(self, projectId: str, memberId: str, grantId: str):
         instance = get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId)
         instance.revoked = True
         instance.save()
         return 201, instance
+    
+    @route.get(
+        path='/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events', 
+        response={
+            200: Paginated[HistoryEvent.bind_schema(ProjectCreateSchema)],
+            404: None, 401: None, 403: None,
+        },
+        permissions=[perms.CanViewProjects],
+        operation_id='getAllProjectDataManagementGrantHistoryEvents',
+    )
+    @paginate()
+    def get_all_project_data_management_grant_history_events(self, projectId: str, memberId: str, grantId: str):
+        instance = get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId)
+        return pghistory.models.Events.objects.tracks(instance).all()
+
+    @route.get(
+        path='/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events/{eventId}', 
+        response={
+            200: HistoryEvent.bind_schema(ProjectCreateSchema),
+            404: None, 401: None, 403: None,
+        },
+        permissions=[perms.CanViewProjects],
+        operation_id='getProjectDataManagementGrantHistoryEventById',
+    )
+    def get_project_data_management_grant_history_event_by_id(self, projectId: str, memberId: str, grantId: str, eventId: str):
+        instance = get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId)
+        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+
+    @route.put(
+        path='/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events/{eventId}/reversion', 
+        response={
+            201: ModifiedResourceSchema,
+            404: None, 401: None, 403: None,
+        },
+        permissions=[perms.CanManageProjects],
+        operation_id='revertProjectDataManagementGrantToHistoryEvent',
+    )
+    def revert_project_data_management_grant_to_history_event(self, projectId: str, memberId: str, grantId: str, eventId: str):
+        instance = get_object_or_404(ProjectDataManagerGrant, id=grantId, project_id=projectId, member_id=memberId)
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
