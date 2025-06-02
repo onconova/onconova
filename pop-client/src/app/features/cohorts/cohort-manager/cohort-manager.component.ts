@@ -124,7 +124,7 @@ export class CohortBuilderComponent {
     public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
 
     public cohortCases = rxResource({
-        request: () => ({cohortId: this.currentCohortId()}),
+        request: () => ({cohortId: this.currentCohortId(), limit: this.pagination().limit, offset: this.pagination().offset}),
         loader: ({request}) => this.#cohortsService.getCohortCases(request).pipe(map(response=>response.items))
     })    
 
