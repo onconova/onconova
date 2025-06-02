@@ -47,6 +47,7 @@ class Project(BaseModel):
         verbose_name = _('Project title'),
         help_text = _('Title of the project'),
         max_length = 200,
+        unique=True,
     )
     summary = models.TextField(
         verbose_name = _('Project description'),
@@ -72,7 +73,7 @@ class Project(BaseModel):
     
     @property 
     def description(self): 
-        return f'Project "{self.title}"'
+        return f'{self.title}'
 
 class ProjectMembership(models.Model):
     member = models.ForeignKey(
