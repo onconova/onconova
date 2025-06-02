@@ -39638,6 +39638,144 @@
           },
           {
             "in": "query",
+            "name": "projectId.not.exists",
+            "schema": {
+              "description": "Project - Filter for entries without a value",
+              "title": "Projectid.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Project - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "projectId.exists",
+            "schema": {
+              "description": "Project - Filter for entries with a value",
+              "title": "Projectid.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Project - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "projectId",
+            "schema": {
+              "description": "Project - Filter for reference matches",
+              "title": "Projectid",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for reference matches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not",
+            "schema": {
+              "description": "Project - Filter for reference mismatches",
+              "title": "Projectid.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for reference mismatches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.contains",
+            "schema": {
+              "description": "Project - Filter for partial text matches",
+              "title": "Projectid.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.contains",
+            "schema": {
+              "description": "Project - Filter for partial text mismatches",
+              "title": "Projectid.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.beginsWith",
+            "schema": {
+              "description": "Project - Filter for entries starting with the text",
+              "title": "Projectid.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.beginsWith",
+            "schema": {
+              "description": "Project - Filter for entries not starting with the text",
+              "title": "Projectid.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.endsWith",
+            "schema": {
+              "description": "Project - Filter for entries ending with the text",
+              "title": "Projectid.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.endsWith",
+            "schema": {
+              "description": "Project - Filter for entries not ending with the text",
+              "title": "Projectid.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.anyOf",
+            "schema": {
+              "description": "Project - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Projectid.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Project - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.anyOf",
+            "schema": {
+              "description": "Project - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Projectid.Not.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Project - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
             "name": "casesIds",
             "schema": {
               "description": "Cases - Filter for full text matches",
@@ -72225,6 +72363,72 @@
             "title": "Ispublic",
             "type": "boolean"
           },
+          "projectId.not.exists": {
+            "description": "Project - Filter for entries without a value",
+            "title": "Projectid.Not.Exists",
+            "type": "boolean"
+          },
+          "projectId.exists": {
+            "description": "Project - Filter for entries with a value",
+            "title": "Projectid.Exists",
+            "type": "boolean"
+          },
+          "projectId": {
+            "description": "Project - Filter for reference matches",
+            "title": "Projectid",
+            "type": "string"
+          },
+          "projectId.not": {
+            "description": "Project - Filter for reference mismatches",
+            "title": "Projectid.Not",
+            "type": "string"
+          },
+          "projectId.contains": {
+            "description": "Project - Filter for partial text matches",
+            "title": "Projectid.Contains",
+            "type": "string"
+          },
+          "projectId.not.contains": {
+            "description": "Project - Filter for partial text mismatches",
+            "title": "Projectid.Not.Contains",
+            "type": "string"
+          },
+          "projectId.beginsWith": {
+            "description": "Project - Filter for entries starting with the text",
+            "title": "Projectid.Beginswith",
+            "type": "string"
+          },
+          "projectId.not.beginsWith": {
+            "description": "Project - Filter for entries not starting with the text",
+            "title": "Projectid.Not.Beginswith",
+            "type": "string"
+          },
+          "projectId.endsWith": {
+            "description": "Project - Filter for entries ending with the text",
+            "title": "Projectid.Endswith",
+            "type": "string"
+          },
+          "projectId.not.endsWith": {
+            "description": "Project - Filter for entries not ending with the text",
+            "title": "Projectid.Not.Endswith",
+            "type": "string"
+          },
+          "projectId.anyOf": {
+            "description": "Project - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Projectid.Anyof",
+            "type": "array"
+          },
+          "projectId.not.anyOf": {
+            "description": "Project - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Projectid.Not.Anyof",
+            "type": "array"
+          },
           "casesIds": {
             "description": "Cases - Filter for full text matches",
             "title": "Casesids",
@@ -72489,6 +72693,20 @@
             "type": "boolean",
             "x-expanded": false
           },
+          "projectId": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Project to which the cohort is associated",
+            "title": "Project",
+            "x-expanded": false
+          },
           "casesIds": {
             "default": [],
             "description": "Cases composing the cohort",
@@ -72670,6 +72888,20 @@
             "description": "Whether the cohort is public",
             "title": "Is public?",
             "type": "boolean",
+            "x-expanded": false
+          },
+          "projectId": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Project to which the cohort is associated",
+            "title": "Project",
             "x-expanded": false
           },
           "casesIds": {

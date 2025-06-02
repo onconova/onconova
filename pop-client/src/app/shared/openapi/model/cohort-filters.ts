@@ -143,6 +143,54 @@ export interface CohortFilters {
      */
     isPublic?: boolean;
     /**
+     * Project - Filter for entries without a value
+     */
+    'projectId.not.exists'?: boolean;
+    /**
+     * Project - Filter for entries with a value
+     */
+    'projectId.exists'?: boolean;
+    /**
+     * Project - Filter for reference matches
+     */
+    projectId?: string;
+    /**
+     * Project - Filter for reference mismatches
+     */
+    'projectId.not'?: string;
+    /**
+     * Project - Filter for partial text matches
+     */
+    'projectId.contains'?: string;
+    /**
+     * Project - Filter for partial text mismatches
+     */
+    'projectId.not.contains'?: string;
+    /**
+     * Project - Filter for entries starting with the text
+     */
+    'projectId.beginsWith'?: string;
+    /**
+     * Project - Filter for entries not starting with the text
+     */
+    'projectId.not.beginsWith'?: string;
+    /**
+     * Project - Filter for entries ending with the text
+     */
+    'projectId.endsWith'?: string;
+    /**
+     * Project - Filter for entries not ending with the text
+     */
+    'projectId.not.endsWith'?: string;
+    /**
+     * Project - Filter for entries where at least one reference matches the query
+     */
+    'projectId.anyOf'?: Array<string>;
+    /**
+     * Project - Filter for entries where at least one reference mismatches the query
+     */
+    'projectId.not.anyOf'?: Array<string>;
+    /**
      * Cases - Filter for full text matches
      */
     casesIds?: string;

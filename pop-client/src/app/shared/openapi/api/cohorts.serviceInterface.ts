@@ -156,6 +156,18 @@ export interface GetCohortsRequestParams {
     excludeCriteriaNotExists?: boolean;
     excludeCriteriaExists?: boolean;
     isPublic?: boolean;
+    projectIdNotExists?: boolean;
+    projectIdExists?: boolean;
+    projectId?: string;
+    projectIdNot?: string;
+    projectIdContains?: string;
+    projectIdNotContains?: string;
+    projectIdBeginsWith?: string;
+    projectIdNotBeginsWith?: string;
+    projectIdEndsWith?: string;
+    projectIdNotEndsWith?: string;
+    projectIdAnyOf?: Array<string>;
+    projectIdNotAnyOf?: Array<string>;
     casesIds?: string;
     casesIdsNot?: string;
     casesIdsContains?: string;

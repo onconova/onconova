@@ -1268,6 +1268,18 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         const excludeCriteriaNotExists = requestParameters?.excludeCriteriaNotExists;
         const excludeCriteriaExists = requestParameters?.excludeCriteriaExists;
         const isPublic = requestParameters?.isPublic;
+        const projectIdNotExists = requestParameters?.projectIdNotExists;
+        const projectIdExists = requestParameters?.projectIdExists;
+        const projectId = requestParameters?.projectId;
+        const projectIdNot = requestParameters?.projectIdNot;
+        const projectIdContains = requestParameters?.projectIdContains;
+        const projectIdNotContains = requestParameters?.projectIdNotContains;
+        const projectIdBeginsWith = requestParameters?.projectIdBeginsWith;
+        const projectIdNotBeginsWith = requestParameters?.projectIdNotBeginsWith;
+        const projectIdEndsWith = requestParameters?.projectIdEndsWith;
+        const projectIdNotEndsWith = requestParameters?.projectIdNotEndsWith;
+        const projectIdAnyOf = requestParameters?.projectIdAnyOf;
+        const projectIdNotAnyOf = requestParameters?.projectIdNotAnyOf;
         const casesIds = requestParameters?.casesIds;
         const casesIdsNot = requestParameters?.casesIdsNot;
         const casesIdsContains = requestParameters?.casesIdsContains;
@@ -1393,6 +1405,38 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
           <any>excludeCriteriaExists, 'excludeCriteria.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>isPublic, 'isPublic');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdNotExists, 'projectId.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdExists, 'projectId.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectId, 'projectId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdNot, 'projectId.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdContains, 'projectId.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdNotContains, 'projectId.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdBeginsWith, 'projectId.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdNotBeginsWith, 'projectId.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdEndsWith, 'projectId.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>projectIdNotEndsWith, 'projectId.not.endsWith');
+        if (projectIdAnyOf) {
+            projectIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'projectId.anyOf');
+            })
+        }
+        if (projectIdNotAnyOf) {
+            projectIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'projectId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>casesIds, 'casesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

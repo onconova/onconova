@@ -23,6 +23,7 @@ import { NgxJdenticonModule } from "ngx-jdenticon";
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe';
 
 @Component({
     selector: 'pop-cohort-search-item',
@@ -37,6 +38,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
         NgxJdenticonModule,
         LucideAngularModule,
         AvatarModule,
+        ResolveResourcePipe,
         AvatarGroupModule,
         DividerModule,
         SplitButtonModule,

@@ -21,21 +21,24 @@
                 }
             </div>
         </div>
-        <div class="flex mt-2">
-            <div class="text-md mr-2">
-                <p-chip 
-                    [label]="cohort.isPublic ? 'Public' : 'Private'" 
-                    [icon]="cohort.isPublic ? 'pi pi-lock-open' : 'pi pi-unlock'"/>
-            </div>
+        <div class="flex mt-2 gap-3">
             @if (cohort.createdBy) {
-                <div class="my-auto text-muted flex">
-                    <div class="my-auto mr-2">Author</div>
-                    <pop-user-badge [username]="cohort.createdBy"/>
+                <div>
+                    <div class="text-muted text-sm">Author</div>
+                    <pop-user-badge [username]="cohort.createdBy" [showName]="true"/>
+                </div>
+            }     
+        </div>
+        <div class="flex mt-2 gap-3">
+            @if (cohort.createdBy) {
+                <div>
+                    <div class="text-muted text-sm">Project</div>
+                    <div>{{project.value()?.title || '-' }}</div>
                 </div>
             }
-            <p-divider layout="vertical" class="mx-3"></p-divider>
-            <div class="my-auto text-muted">
-                <i class="pi pi-history"></i> Last updated: {{cohort.updatedAt | date }}
+            <div>
+                <div class="text-muted text-sm">Last updated</div> 
+                <div>{{cohort.updatedAt | date }}</div>
             </div>            
         </div>
     } @else if (cohort.isLoading()) {
