@@ -389,6 +389,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const dnaHgvsNotBeginsWith = requestParameters?.dnaHgvsNotBeginsWith;
         const dnaHgvsEndsWith = requestParameters?.dnaHgvsEndsWith;
         const dnaHgvsNotEndsWith = requestParameters?.dnaHgvsNotEndsWith;
+        const dnaHgvsAnyOf = requestParameters?.dnaHgvsAnyOf;
+        const dnaHgvsNotAnyOf = requestParameters?.dnaHgvsNotAnyOf;
         const dnaReferenceSequenceNotExists = requestParameters?.dnaReferenceSequenceNotExists;
         const dnaReferenceSequenceExists = requestParameters?.dnaReferenceSequenceExists;
         const dnaReferenceSequence = requestParameters?.dnaReferenceSequence;
@@ -399,6 +401,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const dnaReferenceSequenceNotBeginsWith = requestParameters?.dnaReferenceSequenceNotBeginsWith;
         const dnaReferenceSequenceEndsWith = requestParameters?.dnaReferenceSequenceEndsWith;
         const dnaReferenceSequenceNotEndsWith = requestParameters?.dnaReferenceSequenceNotEndsWith;
+        const dnaReferenceSequenceAnyOf = requestParameters?.dnaReferenceSequenceAnyOf;
+        const dnaReferenceSequenceNotAnyOf = requestParameters?.dnaReferenceSequenceNotAnyOf;
         const dnaChangePositionNotExists = requestParameters?.dnaChangePositionNotExists;
         const dnaChangePositionExists = requestParameters?.dnaChangePositionExists;
         const dnaChangePositionLessThan = requestParameters?.dnaChangePositionLessThan;
@@ -426,6 +430,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const rnaHgvsNotBeginsWith = requestParameters?.rnaHgvsNotBeginsWith;
         const rnaHgvsEndsWith = requestParameters?.rnaHgvsEndsWith;
         const rnaHgvsNotEndsWith = requestParameters?.rnaHgvsNotEndsWith;
+        const rnaHgvsAnyOf = requestParameters?.rnaHgvsAnyOf;
+        const rnaHgvsNotAnyOf = requestParameters?.rnaHgvsNotAnyOf;
         const rnaReferenceSequenceNotExists = requestParameters?.rnaReferenceSequenceNotExists;
         const rnaReferenceSequenceExists = requestParameters?.rnaReferenceSequenceExists;
         const rnaReferenceSequence = requestParameters?.rnaReferenceSequence;
@@ -436,6 +442,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const rnaReferenceSequenceNotBeginsWith = requestParameters?.rnaReferenceSequenceNotBeginsWith;
         const rnaReferenceSequenceEndsWith = requestParameters?.rnaReferenceSequenceEndsWith;
         const rnaReferenceSequenceNotEndsWith = requestParameters?.rnaReferenceSequenceNotEndsWith;
+        const rnaReferenceSequenceAnyOf = requestParameters?.rnaReferenceSequenceAnyOf;
+        const rnaReferenceSequenceNotAnyOf = requestParameters?.rnaReferenceSequenceNotAnyOf;
         const rnaChangePositionNotExists = requestParameters?.rnaChangePositionNotExists;
         const rnaChangePositionExists = requestParameters?.rnaChangePositionExists;
         const rnaChangePosition = requestParameters?.rnaChangePosition;
@@ -446,6 +454,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const rnaChangePositionNotBeginsWith = requestParameters?.rnaChangePositionNotBeginsWith;
         const rnaChangePositionEndsWith = requestParameters?.rnaChangePositionEndsWith;
         const rnaChangePositionNotEndsWith = requestParameters?.rnaChangePositionNotEndsWith;
+        const rnaChangePositionAnyOf = requestParameters?.rnaChangePositionAnyOf;
+        const rnaChangePositionNotAnyOf = requestParameters?.rnaChangePositionNotAnyOf;
         const rnaChangeTypeNotExists = requestParameters?.rnaChangeTypeNotExists;
         const rnaChangeTypeExists = requestParameters?.rnaChangeTypeExists;
         const rnaChangeType = requestParameters?.rnaChangeType;
@@ -461,6 +471,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const proteinHgvsNotBeginsWith = requestParameters?.proteinHgvsNotBeginsWith;
         const proteinHgvsEndsWith = requestParameters?.proteinHgvsEndsWith;
         const proteinHgvsNotEndsWith = requestParameters?.proteinHgvsNotEndsWith;
+        const proteinHgvsAnyOf = requestParameters?.proteinHgvsAnyOf;
+        const proteinHgvsNotAnyOf = requestParameters?.proteinHgvsNotAnyOf;
         const proteinReferenceSequenceNotExists = requestParameters?.proteinReferenceSequenceNotExists;
         const proteinReferenceSequenceExists = requestParameters?.proteinReferenceSequenceExists;
         const proteinReferenceSequence = requestParameters?.proteinReferenceSequence;
@@ -471,6 +483,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const proteinReferenceSequenceNotBeginsWith = requestParameters?.proteinReferenceSequenceNotBeginsWith;
         const proteinReferenceSequenceEndsWith = requestParameters?.proteinReferenceSequenceEndsWith;
         const proteinReferenceSequenceNotEndsWith = requestParameters?.proteinReferenceSequenceNotEndsWith;
+        const proteinReferenceSequenceAnyOf = requestParameters?.proteinReferenceSequenceAnyOf;
+        const proteinReferenceSequenceNotAnyOf = requestParameters?.proteinReferenceSequenceNotAnyOf;
         const proteinChangeTypeNotExists = requestParameters?.proteinChangeTypeNotExists;
         const proteinChangeTypeExists = requestParameters?.proteinChangeTypeExists;
         const proteinChangeType = requestParameters?.proteinChangeType;
@@ -486,8 +500,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const nucleotidesLengthNotEqual = requestParameters?.nucleotidesLengthNotEqual;
         const nucleotidesLengthBetween = requestParameters?.nucleotidesLengthBetween;
         const nucleotidesLengthNotBetween = requestParameters?.nucleotidesLengthNotBetween;
-        const exonsNotExists = requestParameters?.exonsNotExists;
-        const exonsExists = requestParameters?.exonsExists;
+        const regionsNotExists = requestParameters?.regionsNotExists;
+        const regionsExists = requestParameters?.regionsExists;
+        const regions = requestParameters?.regions;
+        const regionsNot = requestParameters?.regionsNot;
+        const regionsContains = requestParameters?.regionsContains;
+        const regionsNotContains = requestParameters?.regionsNotContains;
+        const regionsBeginsWith = requestParameters?.regionsBeginsWith;
+        const regionsNotBeginsWith = requestParameters?.regionsNotBeginsWith;
+        const regionsEndsWith = requestParameters?.regionsEndsWith;
+        const regionsNotEndsWith = requestParameters?.regionsNotEndsWith;
+        const regionsAnyOf = requestParameters?.regionsAnyOf;
+        const regionsNotAnyOf = requestParameters?.regionsNotAnyOf;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -496,6 +520,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -504,6 +530,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const dateBefore = requestParameters?.dateBefore;
         const dateAfter = requestParameters?.dateAfter;
         const dateOnOrBefore = requestParameters?.dateOnOrBefore;
@@ -522,6 +550,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const genePanelNotBeginsWith = requestParameters?.genePanelNotBeginsWith;
         const genePanelEndsWith = requestParameters?.genePanelEndsWith;
         const genePanelNotEndsWith = requestParameters?.genePanelNotEndsWith;
+        const genePanelAnyOf = requestParameters?.genePanelAnyOf;
+        const genePanelNotAnyOf = requestParameters?.genePanelNotAnyOf;
         const assessmentNotExists = requestParameters?.assessmentNotExists;
         const assessmentExists = requestParameters?.assessmentExists;
         const assessment = requestParameters?.assessment;
@@ -619,6 +649,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const clinvarNotBeginsWith = requestParameters?.clinvarNotBeginsWith;
         const clinvarEndsWith = requestParameters?.clinvarEndsWith;
         const clinvarNotEndsWith = requestParameters?.clinvarNotEndsWith;
+        const clinvarAnyOf = requestParameters?.clinvarAnyOf;
+        const clinvarNotAnyOf = requestParameters?.clinvarNotAnyOf;
         const genes = requestParameters?.genes;
         const genesNot = requestParameters?.genesNot;
         const genesAnyOf = requestParameters?.genesAnyOf;
@@ -662,6 +694,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>dnaHgvsEndsWith, 'dnaHgvs.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaHgvsNotEndsWith, 'dnaHgvs.not.endsWith');
+        if (dnaHgvsAnyOf) {
+            dnaHgvsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaHgvs.anyOf');
+            })
+        }
+        if (dnaHgvsNotAnyOf) {
+            dnaHgvsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaHgvs.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaReferenceSequenceNotExists, 'dnaReferenceSequence.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -682,6 +726,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>dnaReferenceSequenceEndsWith, 'dnaReferenceSequence.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaReferenceSequenceNotEndsWith, 'dnaReferenceSequence.not.endsWith');
+        if (dnaReferenceSequenceAnyOf) {
+            dnaReferenceSequenceAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaReferenceSequence.anyOf');
+            })
+        }
+        if (dnaReferenceSequenceNotAnyOf) {
+            dnaReferenceSequenceNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'dnaReferenceSequence.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dnaChangePositionNotExists, 'dnaChangePosition.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -748,6 +804,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>rnaHgvsEndsWith, 'rnaHgvs.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rnaHgvsNotEndsWith, 'rnaHgvs.not.endsWith');
+        if (rnaHgvsAnyOf) {
+            rnaHgvsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaHgvs.anyOf');
+            })
+        }
+        if (rnaHgvsNotAnyOf) {
+            rnaHgvsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaHgvs.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rnaReferenceSequenceNotExists, 'rnaReferenceSequence.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -768,6 +836,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>rnaReferenceSequenceEndsWith, 'rnaReferenceSequence.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rnaReferenceSequenceNotEndsWith, 'rnaReferenceSequence.not.endsWith');
+        if (rnaReferenceSequenceAnyOf) {
+            rnaReferenceSequenceAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaReferenceSequence.anyOf');
+            })
+        }
+        if (rnaReferenceSequenceNotAnyOf) {
+            rnaReferenceSequenceNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaReferenceSequence.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rnaChangePositionNotExists, 'rnaChangePosition.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -788,6 +868,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>rnaChangePositionEndsWith, 'rnaChangePosition.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rnaChangePositionNotEndsWith, 'rnaChangePosition.not.endsWith');
+        if (rnaChangePositionAnyOf) {
+            rnaChangePositionAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaChangePosition.anyOf');
+            })
+        }
+        if (rnaChangePositionNotAnyOf) {
+            rnaChangePositionNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'rnaChangePosition.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>rnaChangeTypeNotExists, 'rnaChangeType.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -822,6 +914,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>proteinHgvsEndsWith, 'proteinHgvs.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>proteinHgvsNotEndsWith, 'proteinHgvs.not.endsWith');
+        if (proteinHgvsAnyOf) {
+            proteinHgvsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'proteinHgvs.anyOf');
+            })
+        }
+        if (proteinHgvsNotAnyOf) {
+            proteinHgvsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'proteinHgvs.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>proteinReferenceSequenceNotExists, 'proteinReferenceSequence.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -842,6 +946,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>proteinReferenceSequenceEndsWith, 'proteinReferenceSequence.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>proteinReferenceSequenceNotEndsWith, 'proteinReferenceSequence.not.endsWith');
+        if (proteinReferenceSequenceAnyOf) {
+            proteinReferenceSequenceAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'proteinReferenceSequence.anyOf');
+            })
+        }
+        if (proteinReferenceSequenceNotAnyOf) {
+            proteinReferenceSequenceNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'proteinReferenceSequence.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>proteinChangeTypeNotExists, 'proteinChangeType.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -885,9 +1001,37 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>exonsNotExists, 'exons.not.exists');
+          <any>regionsNotExists, 'regions.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>exonsExists, 'exons.exists');
+          <any>regionsExists, 'regions.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regions, 'regions');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNot, 'regions.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsContains, 'regions.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNotContains, 'regions.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsBeginsWith, 'regions.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNotBeginsWith, 'regions.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsEndsWith, 'regions.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>regionsNotEndsWith, 'regions.not.endsWith');
+        if (regionsAnyOf) {
+            regionsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'regions.anyOf');
+            })
+        }
+        if (regionsNotAnyOf) {
+            regionsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'regions.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -904,6 +1048,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -920,6 +1076,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dateBefore, 'date.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -964,6 +1132,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>genePanelEndsWith, 'genePanel.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>genePanelNotEndsWith, 'genePanel.not.endsWith');
+        if (genePanelAnyOf) {
+            genePanelAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'genePanel.anyOf');
+            })
+        }
+        if (genePanelNotAnyOf) {
+            genePanelNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'genePanel.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>assessmentNotExists, 'assessment.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1242,6 +1422,18 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
           <any>clinvarEndsWith, 'clinvar.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>clinvarNotEndsWith, 'clinvar.not.endsWith');
+        if (clinvarAnyOf) {
+            clinvarAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'clinvar.anyOf');
+            })
+        }
+        if (clinvarNotAnyOf) {
+            clinvarNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'clinvar.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>genes, 'genes');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

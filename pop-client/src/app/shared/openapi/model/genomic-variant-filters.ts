@@ -75,6 +75,14 @@ export interface GenomicVariantFilters {
      */
     'dnaHgvs.not.endsWith'?: string;
     /**
+     * DNA HGVS - Filter for entries where at least one reference matches the query
+     */
+    'dnaHgvs.anyOf'?: Array<string>;
+    /**
+     * DNA HGVS - Filter for entries where at least one reference mismatches the query
+     */
+    'dnaHgvs.not.anyOf'?: Array<string>;
+    /**
      * DNA HGVS RefSeq - Filter for entries without a value
      */
     'dnaReferenceSequence.not.exists'?: boolean;
@@ -114,6 +122,14 @@ export interface GenomicVariantFilters {
      * DNA HGVS RefSeq - Filter for entries not ending with the text
      */
     'dnaReferenceSequence.not.endsWith'?: string;
+    /**
+     * DNA HGVS RefSeq - Filter for entries where at least one reference matches the query
+     */
+    'dnaReferenceSequence.anyOf'?: Array<string>;
+    /**
+     * DNA HGVS RefSeq - Filter for entries where at least one reference mismatches the query
+     */
+    'dnaReferenceSequence.not.anyOf'?: Array<string>;
     /**
      * DNA change position - Filter for entries without a value
      */
@@ -217,6 +233,14 @@ export interface GenomicVariantFilters {
      */
     'rnaHgvs.not.endsWith'?: string;
     /**
+     * RNA HGVS - Filter for entries where at least one reference matches the query
+     */
+    'rnaHgvs.anyOf'?: Array<string>;
+    /**
+     * RNA HGVS - Filter for entries where at least one reference mismatches the query
+     */
+    'rnaHgvs.not.anyOf'?: Array<string>;
+    /**
      * RNA HGVS RefSeq - Filter for entries without a value
      */
     'rnaReferenceSequence.not.exists'?: boolean;
@@ -257,6 +281,14 @@ export interface GenomicVariantFilters {
      */
     'rnaReferenceSequence.not.endsWith'?: string;
     /**
+     * RNA HGVS RefSeq - Filter for entries where at least one reference matches the query
+     */
+    'rnaReferenceSequence.anyOf'?: Array<string>;
+    /**
+     * RNA HGVS RefSeq - Filter for entries where at least one reference mismatches the query
+     */
+    'rnaReferenceSequence.not.anyOf'?: Array<string>;
+    /**
      * RNA change position - Filter for entries without a value
      */
     'rnaChangePosition.not.exists'?: boolean;
@@ -296,6 +328,14 @@ export interface GenomicVariantFilters {
      * RNA change position - Filter for entries not ending with the text
      */
     'rnaChangePosition.not.endsWith'?: string;
+    /**
+     * RNA change position - Filter for entries where at least one reference matches the query
+     */
+    'rnaChangePosition.anyOf'?: Array<string>;
+    /**
+     * RNA change position - Filter for entries where at least one reference mismatches the query
+     */
+    'rnaChangePosition.not.anyOf'?: Array<string>;
     /**
      * RNA change type - Filter for entries without a value
      */
@@ -351,6 +391,14 @@ export interface GenomicVariantFilters {
      */
     'proteinHgvs.not.endsWith'?: string;
     /**
+     * Protein HGVS - Filter for entries where at least one reference matches the query
+     */
+    'proteinHgvs.anyOf'?: Array<string>;
+    /**
+     * Protein HGVS - Filter for entries where at least one reference mismatches the query
+     */
+    'proteinHgvs.not.anyOf'?: Array<string>;
+    /**
      * Protein HGVS RefSeq - Filter for entries without a value
      */
     'proteinReferenceSequence.not.exists'?: boolean;
@@ -390,6 +438,14 @@ export interface GenomicVariantFilters {
      * Protein HGVS RefSeq - Filter for entries not ending with the text
      */
     'proteinReferenceSequence.not.endsWith'?: string;
+    /**
+     * Protein HGVS RefSeq - Filter for entries where at least one reference matches the query
+     */
+    'proteinReferenceSequence.anyOf'?: Array<string>;
+    /**
+     * Protein HGVS RefSeq - Filter for entries where at least one reference mismatches the query
+     */
+    'proteinReferenceSequence.not.anyOf'?: Array<string>;
     /**
      * Protein change type - Filter for entries without a value
      */
@@ -445,13 +501,53 @@ export interface GenomicVariantFilters {
      */
     'nucleotidesLength.not.between'?: Array<any>;
     /**
-     * Exons - Filter for entries without a value
+     * Gene regions - Filter for entries without a value
      */
-    'exons.not.exists'?: boolean;
+    'regions.not.exists'?: boolean;
     /**
-     * Exons - Filter for entries with a value
+     * Gene regions - Filter for entries with a value
      */
-    'exons.exists'?: boolean;
+    'regions.exists'?: boolean;
+    /**
+     * Gene regions - Filter for full text matches
+     */
+    regions?: string;
+    /**
+     * Gene regions - Filter for full text mismatches
+     */
+    'regions.not'?: string;
+    /**
+     * Gene regions - Filter for partial text matches
+     */
+    'regions.contains'?: string;
+    /**
+     * Gene regions - Filter for partial text mismatches
+     */
+    'regions.not.contains'?: string;
+    /**
+     * Gene regions - Filter for entries starting with the text
+     */
+    'regions.beginsWith'?: string;
+    /**
+     * Gene regions - Filter for entries not starting with the text
+     */
+    'regions.not.beginsWith'?: string;
+    /**
+     * Gene regions - Filter for entries ending with the text
+     */
+    'regions.endsWith'?: string;
+    /**
+     * Gene regions - Filter for entries not ending with the text
+     */
+    'regions.not.endsWith'?: string;
+    /**
+     * Gene regions - Filter for entries where at least one reference matches the query
+     */
+    'regions.anyOf'?: Array<string>;
+    /**
+     * Gene regions - Filter for entries where at least one reference mismatches the query
+     */
+    'regions.not.anyOf'?: Array<string>;
     /**
      * Id - Filter for full text matches
      */
@@ -485,6 +581,14 @@ export interface GenomicVariantFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -516,6 +620,14 @@ export interface GenomicVariantFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Assessment date - Filter for entries with dates before the specified value
      */
@@ -588,6 +700,14 @@ export interface GenomicVariantFilters {
      * Gene panel - Filter for entries not ending with the text
      */
     'genePanel.not.endsWith'?: string;
+    /**
+     * Gene panel - Filter for entries where at least one reference matches the query
+     */
+    'genePanel.anyOf'?: Array<string>;
+    /**
+     * Gene panel - Filter for entries where at least one reference mismatches the query
+     */
+    'genePanel.not.anyOf'?: Array<string>;
     /**
      * Assessment - Filter for entries without a value
      */
@@ -958,6 +1078,14 @@ export interface GenomicVariantFilters {
      * ClinVar accession number - Filter for entries not ending with the text
      */
     'clinvar.not.endsWith'?: string;
+    /**
+     * ClinVar accession number - Filter for entries where at least one reference matches the query
+     */
+    'clinvar.anyOf'?: Array<string>;
+    /**
+     * ClinVar accession number - Filter for entries where at least one reference mismatches the query
+     */
+    'clinvar.not.anyOf'?: Array<string>;
     /**
      * Gene(s) - Filter for a matching concept code
      */

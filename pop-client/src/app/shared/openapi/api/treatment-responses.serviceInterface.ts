@@ -54,6 +54,8 @@ export interface GetTreatmentResponsesRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -62,6 +64,8 @@ export interface GetTreatmentResponsesRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -85,6 +89,14 @@ export interface GetTreatmentResponsesRequestParams {
     methodologyDescendantsOf?: string;
     assessedEntitiesIds?: string;
     assessedEntitiesIdsNot?: string;
+    assessedEntitiesIdsContains?: string;
+    assessedEntitiesIdsNotContains?: string;
+    assessedEntitiesIdsBeginsWith?: string;
+    assessedEntitiesIdsNotBeginsWith?: string;
+    assessedEntitiesIdsEndsWith?: string;
+    assessedEntitiesIdsNotEndsWith?: string;
+    assessedEntitiesIdsAnyOf?: Array<string>;
+    assessedEntitiesIdsNotAnyOf?: Array<string>;
     assessedBodysitesNotExists?: boolean;
     assessedBodysitesExists?: boolean;
     assessedBodysites?: string;

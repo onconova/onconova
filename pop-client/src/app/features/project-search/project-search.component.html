@@ -1,0 +1,103 @@
+
+<div class="flex flex-column">
+    <h2 class="mb-0 font-semibold">
+        @if (isPersonalPage()) {
+            Your Projects
+        } @else {
+            Projects
+        }
+    </h2>
+    <div class="text-muted">
+        @if (isPersonalPage()) {
+            Welcome to your personal projects search page. You can find all projects of which you are a member.
+        } @else {
+            Welcome to the projects search page. You can find all present and past projects here.
+        }
+    </div>    
+</div>
+
+<p-toolbar styleClass="my-3 border-transparent">
+
+    <ng-template #start>
+        <div class="mt-auto ml-3">
+            <div class="text-muted"><small>Total projects</small></div>
+            @if (projects.isLoading()) {
+                <p-skeleton width="4rem" height="2rem"/>
+            } @else {
+                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalProjects()" duration="500"></div>
+            }
+        </div>        
+    </ng-template>
+
+    <ng-template #end>
+        <div class="flex">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search"/>
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
+            </p-iconfield>
+            <p-button 
+                icon="pi pi-sync"
+                title="Refresh cases"
+                severity="secondary"
+                (onClick)="projects.reload()"/>
+            <p-divider layout="vertical"></p-divider>
+            <!-- Button to add new projects -->
+            <p-button 
+                (onClick)="openProjectForm()" 
+                [disabled]="!currentUser().canManageProjects"
+                label="Register New Project"
+                [icon]="currentUser().canManageProjects ? 'pi pi-plus' : 'pi pi-lock'"/>
+        </div>
+    </ng-template>
+
+</p-toolbar>
+    
+
+
+
+<p-dataView
+    styleClass="pop-case-search-dataview"
+    [value]="projects.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+    [paginator]="true" 
+    [rows]="pagination().limit" 
+    layout="grid"
+    sortField="createdAt"
+    lazy="true"
+    [rowsPerPageOptions]="pageSizeChoices"
+    [totalRecords]="totalProjects()"
+    (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
+    class="no-background">
+
+    <ng-template #grid let-projectsPage>
+        <div class="grid mt-3" >
+            @for (project of projectsPage; track $index; let first = $first) {
+                <div class="col p-2">
+                    @if (projects.isLoading()) {
+                        <div class="pop-project-search-item-card placeholder" @fadeAnimation>
+                            <div class="flex my-3">
+                                <p-skeleton width="4rem" height="4rem"/>
+                                <div class="flex flex-column mx-3">
+                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                    <p-skeleton width="15rem" height="1.5rem"/>      
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-4">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <div class="my-3 mb-5">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
+                        </div>
+                    } @else {
+                        <pop-project-search-item 
+                            @fadeAnimation
+                            [project]="project"
+                            (onDelete)="projects.reload()"
+                            (onEdit)="openProjectForm($event)"/>                              
+                    }
+                </div>
+            }
+        </div>
+    </ng-template>
+</p-dataView>

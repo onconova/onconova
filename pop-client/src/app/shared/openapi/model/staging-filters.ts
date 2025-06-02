@@ -69,6 +69,14 @@ export interface StagingFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -100,6 +108,14 @@ export interface StagingFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Staging date - Filter for entries with dates before the specified value
      */
@@ -133,13 +149,45 @@ export interface StagingFilters {
      */
     'date.not.between'?: Array<any>;
     /**
-     * Staged neoplastic entities - Filter for reference matches
+     * Staged neoplastic entities - Filter for full text matches
      */
     stagedEntitiesIds?: string;
     /**
-     * Staged neoplastic entities - Filter for reference mismatches
+     * Staged neoplastic entities - Filter for full text mismatches
      */
     'stagedEntitiesIds.not'?: string;
+    /**
+     * Staged neoplastic entities - Filter for partial text matches
+     */
+    'stagedEntitiesIds.contains'?: string;
+    /**
+     * Staged neoplastic entities - Filter for partial text mismatches
+     */
+    'stagedEntitiesIds.not.contains'?: string;
+    /**
+     * Staged neoplastic entities - Filter for entries starting with the text
+     */
+    'stagedEntitiesIds.beginsWith'?: string;
+    /**
+     * Staged neoplastic entities - Filter for entries not starting with the text
+     */
+    'stagedEntitiesIds.not.beginsWith'?: string;
+    /**
+     * Staged neoplastic entities - Filter for entries ending with the text
+     */
+    'stagedEntitiesIds.endsWith'?: string;
+    /**
+     * Staged neoplastic entities - Filter for entries not ending with the text
+     */
+    'stagedEntitiesIds.not.endsWith'?: string;
+    /**
+     * Staged neoplastic entities - Filter for entries where at least one reference matches the query
+     */
+    'stagedEntitiesIds.anyOf'?: Array<string>;
+    /**
+     * Staged neoplastic entities - Filter for entries where at least one reference mismatches the query
+     */
+    'stagedEntitiesIds.not.anyOf'?: Array<string>;
 }
 export namespace StagingFilters {
     export type StagingDomainEnum = 'tnm' | 'figo' | 'binet' | 'rai' | 'breslow' | 'clark' | 'iss' | 'riss' | 'inss' | 'inrgss' | 'gleason' | 'rhabdomyosarcoma' | 'wilms' | 'lymphoma';

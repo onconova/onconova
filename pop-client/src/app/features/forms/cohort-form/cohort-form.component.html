@@ -7,13 +7,16 @@
             <pop-form-control-error controlName="name"></pop-form-control-error>
         </div>
 
+
         <div class="field">
-            <div class="flex">
-                <p-toggleswitch formControlName="isPublic" />
-                <label class="form-label ml-2 my-auto required">Make cohort publicly available</label>
-                <pop-form-control-error controlName="isPublic"></pop-form-control-error>
-            </div>
-            <small>Public cohorts can be updated by other users collaboratively. Private cohorts can only be updated by the user who created them. All cohorts are visible and accessible to all users.</small>
+            <label class="form-label required">Project associated to this cohort</label>
+            <p-select 
+            [options]="relatedProjects.value() || []" 
+            formControlName="project"
+            optionLabel="title" 
+            optionValue="id"
+            appendTo="body"
+            placeholder="Select a project" />
         </div>
 
         <p-button 

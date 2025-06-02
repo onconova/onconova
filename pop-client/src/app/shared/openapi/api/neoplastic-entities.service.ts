@@ -270,6 +270,8 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -278,6 +280,8 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const relationship = requestParameters?.relationship;
         const relationshipNot = requestParameters?.relationshipNot;
         const relationshipAnyOf = requestParameters?.relationshipAnyOf;
@@ -291,6 +295,8 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         const relatedPrimaryIdNotBeginsWith = requestParameters?.relatedPrimaryIdNotBeginsWith;
         const relatedPrimaryIdEndsWith = requestParameters?.relatedPrimaryIdEndsWith;
         const relatedPrimaryIdNotEndsWith = requestParameters?.relatedPrimaryIdNotEndsWith;
+        const relatedPrimaryIdAnyOf = requestParameters?.relatedPrimaryIdAnyOf;
+        const relatedPrimaryIdNotAnyOf = requestParameters?.relatedPrimaryIdNotAnyOf;
         const assertionDateBefore = requestParameters?.assertionDateBefore;
         const assertionDateAfter = requestParameters?.assertionDateAfter;
         const assertionDateOnOrBefore = requestParameters?.assertionDateOnOrBefore;
@@ -365,6 +371,18 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -381,6 +399,18 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>relationship, 'relationship');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -411,6 +441,18 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
           <any>relatedPrimaryIdEndsWith, 'relatedPrimaryId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>relatedPrimaryIdNotEndsWith, 'relatedPrimaryId.not.endsWith');
+        if (relatedPrimaryIdAnyOf) {
+            relatedPrimaryIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'relatedPrimaryId.anyOf');
+            })
+        }
+        if (relatedPrimaryIdNotAnyOf) {
+            relatedPrimaryIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'relatedPrimaryId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>assertionDateBefore, 'assertionDate.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

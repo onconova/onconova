@@ -12,7 +12,7 @@ export interface RadioChoice {
 @Component({
     selector: 'pop-radio-select',
     template: `
-        <div [ngClass]="class">
+        <div [ngClass]="class()">
             @for (choice of choices(); track choice.value;) {
                 <div class="flex items-center">
                     <p-radiobutton 

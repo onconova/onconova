@@ -1,0 +1,266 @@
+
+<div class="text-sm text-muted mt-3">
+    Project
+</div>
+<div>
+    @if (project.isLoading()) {
+        <p-skeleton width="100%" height="2rem"/>
+    } @else {
+        @let status = parseStatus(project.value()!.status!);
+        <div class="flex">
+            <h3 class="my-0 mr-2">{{ project.value()!.title }}</h3>    
+            <p-tag [value]="status.value" [severity]="status.severity"/>    
+        </div>
+    }
+</div>
+
+<div class="flex gap-4">
+    <div>
+        <div class="text-sm text-muted mt-3">
+            Project leader
+        </div>
+        <div>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="2rem"/>
+            } @else {
+                <pop-user-badge [username]="project.value()!.leader" [showName]="true"/>
+            }
+        </div>
+    </div>
+    
+        <div>
+        <div class="text-sm text-muted mt-3 mb-1">
+            Created
+        </div>
+        <div>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="2rem"/>
+            } @else {                
+                {{ (project.value()!.createdAt | date) ?? '-'  }}
+            }
+        </div>
+    </div>
+    <div>
+        <div class="text-sm text-muted mt-3 mb-1">
+            Last updated
+        </div>
+        <div>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="2rem"/>
+            } @else {                
+                {{ (project.value()!.updatedAt | date) ?? '-'  }}
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="text-sm text-muted mt-2">
+    Summary
+</div>
+<div class="mb-5">
+    @if (project.isLoading()) {
+        <p-skeleton width="100%" height="4rem"/>
+    } @else {
+        <p>{{ project.value()!.summary }}</p>
+    }
+</div>
+
+
+<h6 class="font-semibold">Project members</h6>
+<p-table 
+    [value]="members.value() ?? []"
+    sortField="fullName"
+    >
+    <ng-template #header>
+
+        <tr>
+            <th colspan="3">Member</th>
+            <th colspan="4">Data Management</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Joined</th>
+
+            <th>Status</th>
+            <th>Authorization granted by</th>
+            <th>Validity</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-member>
+        <tr>
+            <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}</td>
+            <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
+            <td>
+                -
+            </td>
+            <td>
+                @if (member.canManageCases) {
+                    <p-tag value="Authorized" severity="success"/>
+                } @else {
+                    <p-tag value="Unauthorized" severity="danger"/>   
+                }
+            </td>
+            <td>
+                @if (member.authorization; as authorization) {
+                    <div>
+                        <pop-user-badge [username]="authorization.grantedBy" [showName]="true"/>
+                    </div>
+                    <div class="text-muted text-sm authorization-granter-subtitle">
+                        on {{ authorization.createdAt | date }}
+                    </div>
+                } @else if (member.accessLevel >= 4) {
+                    <span class="text-muted">System</span>
+                } @else {
+                    <span class="text-muted">-</span>
+                }
+            </td>
+            <td>
+                @if (member.authorization; as authorization) {
+                    <div> 
+                        {{authorization.validityPeriod.start | date}}
+                        -
+                        {{authorization.validityPeriod.end | date}}
+                    </div>
+                    <div class="text-muted text-sm">
+                        @if (authorization.revoked) {
+                            Revoked
+                        } @else {
+                            {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
+                        }
+                    </div>
+                } @else if (member.accessLevel >= 4) {
+                    <span class="text-muted">Always</span>
+                } @else {
+                    <span class="text-muted">-</span>
+                }
+            </td>
+            <td>
+                <p-menu #menu [model]="getMemberMenuItems(member)" [popup]="true" appendTo="body" />
+                <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<h6 class="font-semibold">Cohorts</h6>
+<p-dataView
+    styleClass="pop-case-search-dataview"
+    [value]="cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+    [paginator]="true" 
+    [rows]="cohortsPagination().limit" 
+    layout="grid"
+    sortField="createdAt"
+    lazy="true"
+    [rowsPerPageOptions]="cohortsPageSizeChoices"
+    [totalRecords]="totalCohorts()"
+    (onLazyLoad)="cohortsPagination.set({limit: $event.rows, offset: $event.first})"
+    class="no-background">
+
+    <ng-template #grid let-cohortsPage>
+        <div class="grid mt-3" >
+            @for (cohort of cohortsPage; track $index; let first = $first) {
+                <div class="col p-2">
+                    @if (cohorts.isLoading()) {
+                        <div class="pop-project-search-item-card placeholder" @fadeAnimation>
+                            <div class="flex my-3">
+                                <p-skeleton width="4rem" height="4rem"/>
+                                <div class="flex flex-column mx-3">
+                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                    <p-skeleton width="15rem" height="1.5rem"/>      
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-4">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <div class="my-3 mb-5">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
+                        </div>
+                    } @else {
+                        <pop-cohort-search-item 
+                            @fadeAnimation
+                            [cohort]="cohort"/>                              
+                    }
+                </div>
+            }
+        </div>
+    </ng-template>
+</p-dataView>
+
+
+
+<p-confirmdialog key="revoke"/>
+<p-confirmdialog key="authorize">
+    <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+        <div class="p-4">
+            <h5 class="mb-4">
+                Data management authorization
+            </h5> 
+            <div>
+                You are about to change the data management authorization for this project's member:
+            </div> 
+            <div class="flex gap-4 border-round	border-1 p-2 mt-2 surface-border	">
+                <div class="ml-auto">
+                    <div class="text-sm text-muted">
+                        Name
+                    </div>
+                    <div>
+                        {{authDialogMember()!.fullName}}
+                    </div>    
+                </div>
+                <div class="mr-auto">
+                    <div class="text-sm text-muted">
+                        Role
+                    </div>
+                    <div>
+                        <span class="text-muted"><i class="pi pi-lock"></i> {{authDialogMember()!.accessLevel}}</span> - {{authDialogMember()!.role}}
+                    </div>    
+                </div>
+            </div>
+            
+            <p-fluid>
+                <div class="field mt-4" >
+                    <label class="form-label required">Authorization period</label>
+                    <div class="text-muted text-sm mb-2">
+                        A maximal duration of 31 days can be specified. 
+                    </div>
+                    <p-datepicker class="max-w-full mt-2"
+                         [(ngModel)]="authDialogValidityPeriod" 
+                         [minDate]="authDialogExpirationMinDate"
+                         [maxDate]="authDialogExpirationMaxDate()"
+                         selectionMode="range"
+                         [selectOtherMonths]="true"
+                         [inline]="true"/>
+                </div>    
+                @if (authDialogValidityPeriod()[1]) {
+                    <div class="text-center">
+                        <div class="text-sm">Selected period</div>
+                        <div class="text-primary">From <span class="font-semibold">{{ authDialogValidityPeriod()![0] | date }}</span> until <span class="font-semibold">{{ authDialogValidityPeriod()![1] | date }}</span> ({{getDaysDifference(authDialogValidityPeriod()![0], authDialogValidityPeriod()![1])}} days)</div>                        
+                    </div>    
+                }
+                <div class="field mt-4" >
+                    <div class="text-muted text-sm">
+                        Please confirm the following:
+                    </div>
+                    <div class="field flex mt-3"  formGroupName="consent">
+                        <p-toggleswitch [(ngModel)]="authDialogConfirmation" />
+                        <label class="form-label ml-2 my-auto required">
+                            I hereby authorize and accept responsibility for {{authDialogMember()!.fullName}} as a member of this project, granting them permission to manage (create, edit, and delete) patient cases and related data. 
+                            This authorization also includes access to de-anonymized (pseudo-anonymized) case data for the specified time period.
+                        </label>
+                    </div>
+                </div>  
+            </p-fluid>
+
+
+            <div class="flex items-center gap-2 mt-6">
+                <p-button label="Authorize Data Manager" (onClick)="onAccept()" styleClass="w-20rem" [disabled]="!authDialogConfirmation() || !authDialogValidityPeriod()[1]"></p-button>
+                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+            </div>    
+        </div>
+    </ng-template>
+</p-confirmdialog>

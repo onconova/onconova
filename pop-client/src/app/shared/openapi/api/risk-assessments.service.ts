@@ -381,6 +381,8 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -389,6 +391,8 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const dateBefore = requestParameters?.dateBefore;
         const dateAfter = requestParameters?.dateAfter;
         const dateOnOrBefore = requestParameters?.dateOnOrBefore;
@@ -419,6 +423,14 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         const scoreNotBetween = requestParameters?.scoreNotBetween;
         const assessedEntitiesIds = requestParameters?.assessedEntitiesIds;
         const assessedEntitiesIdsNot = requestParameters?.assessedEntitiesIdsNot;
+        const assessedEntitiesIdsContains = requestParameters?.assessedEntitiesIdsContains;
+        const assessedEntitiesIdsNotContains = requestParameters?.assessedEntitiesIdsNotContains;
+        const assessedEntitiesIdsBeginsWith = requestParameters?.assessedEntitiesIdsBeginsWith;
+        const assessedEntitiesIdsNotBeginsWith = requestParameters?.assessedEntitiesIdsNotBeginsWith;
+        const assessedEntitiesIdsEndsWith = requestParameters?.assessedEntitiesIdsEndsWith;
+        const assessedEntitiesIdsNotEndsWith = requestParameters?.assessedEntitiesIdsNotEndsWith;
+        const assessedEntitiesIdsAnyOf = requestParameters?.assessedEntitiesIdsAnyOf;
+        const assessedEntitiesIdsNotAnyOf = requestParameters?.assessedEntitiesIdsNotAnyOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -439,6 +451,18 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -455,6 +479,18 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dateBefore, 'date.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -547,6 +583,30 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
           <any>assessedEntitiesIds, 'assessedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>assessedEntitiesIdsNot, 'assessedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsContains, 'assessedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotContains, 'assessedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsBeginsWith, 'assessedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotBeginsWith, 'assessedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsEndsWith, 'assessedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>assessedEntitiesIdsNotEndsWith, 'assessedEntitiesIds.not.endsWith');
+        if (assessedEntitiesIdsAnyOf) {
+            assessedEntitiesIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'assessedEntitiesIds.anyOf');
+            })
+        }
+        if (assessedEntitiesIdsNotAnyOf) {
+            assessedEntitiesIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'assessedEntitiesIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

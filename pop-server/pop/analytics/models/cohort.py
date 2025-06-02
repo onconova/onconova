@@ -12,6 +12,7 @@ from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.analytics.aggregates import Median, Percentile25, Percentile75
 from pop.oncology.models import PatientCase
+from pop.projects.models import Project
 from pop.core.models import BaseModel
 
 
@@ -61,6 +62,14 @@ class Cohort(BaseModel):
     population = AnnotationProperty(
         verbose_name = _("Population"),
         annotation = Count('cases'),
+    )
+    project = models.ForeignKey(
+        verbose_name = _("Project"),
+        help_text = _("Project to which the cohort is associated"),
+        to = Project,
+        on_delete = models.PROTECT,
+        related_name = 'cohorts',
+        null=True, blank=True
     )
     
     @property

@@ -62,6 +62,8 @@ export interface GetGenomicVariantsRequestParams {
     dnaHgvsNotBeginsWith?: string;
     dnaHgvsEndsWith?: string;
     dnaHgvsNotEndsWith?: string;
+    dnaHgvsAnyOf?: Array<string>;
+    dnaHgvsNotAnyOf?: Array<string>;
     dnaReferenceSequenceNotExists?: boolean;
     dnaReferenceSequenceExists?: boolean;
     dnaReferenceSequence?: string;
@@ -72,6 +74,8 @@ export interface GetGenomicVariantsRequestParams {
     dnaReferenceSequenceNotBeginsWith?: string;
     dnaReferenceSequenceEndsWith?: string;
     dnaReferenceSequenceNotEndsWith?: string;
+    dnaReferenceSequenceAnyOf?: Array<string>;
+    dnaReferenceSequenceNotAnyOf?: Array<string>;
     dnaChangePositionNotExists?: boolean;
     dnaChangePositionExists?: boolean;
     dnaChangePositionLessThan?: number;
@@ -99,6 +103,8 @@ export interface GetGenomicVariantsRequestParams {
     rnaHgvsNotBeginsWith?: string;
     rnaHgvsEndsWith?: string;
     rnaHgvsNotEndsWith?: string;
+    rnaHgvsAnyOf?: Array<string>;
+    rnaHgvsNotAnyOf?: Array<string>;
     rnaReferenceSequenceNotExists?: boolean;
     rnaReferenceSequenceExists?: boolean;
     rnaReferenceSequence?: string;
@@ -109,6 +115,8 @@ export interface GetGenomicVariantsRequestParams {
     rnaReferenceSequenceNotBeginsWith?: string;
     rnaReferenceSequenceEndsWith?: string;
     rnaReferenceSequenceNotEndsWith?: string;
+    rnaReferenceSequenceAnyOf?: Array<string>;
+    rnaReferenceSequenceNotAnyOf?: Array<string>;
     rnaChangePositionNotExists?: boolean;
     rnaChangePositionExists?: boolean;
     rnaChangePosition?: string;
@@ -119,6 +127,8 @@ export interface GetGenomicVariantsRequestParams {
     rnaChangePositionNotBeginsWith?: string;
     rnaChangePositionEndsWith?: string;
     rnaChangePositionNotEndsWith?: string;
+    rnaChangePositionAnyOf?: Array<string>;
+    rnaChangePositionNotAnyOf?: Array<string>;
     rnaChangeTypeNotExists?: boolean;
     rnaChangeTypeExists?: boolean;
     rnaChangeType?: string;
@@ -134,6 +144,8 @@ export interface GetGenomicVariantsRequestParams {
     proteinHgvsNotBeginsWith?: string;
     proteinHgvsEndsWith?: string;
     proteinHgvsNotEndsWith?: string;
+    proteinHgvsAnyOf?: Array<string>;
+    proteinHgvsNotAnyOf?: Array<string>;
     proteinReferenceSequenceNotExists?: boolean;
     proteinReferenceSequenceExists?: boolean;
     proteinReferenceSequence?: string;
@@ -144,6 +156,8 @@ export interface GetGenomicVariantsRequestParams {
     proteinReferenceSequenceNotBeginsWith?: string;
     proteinReferenceSequenceEndsWith?: string;
     proteinReferenceSequenceNotEndsWith?: string;
+    proteinReferenceSequenceAnyOf?: Array<string>;
+    proteinReferenceSequenceNotAnyOf?: Array<string>;
     proteinChangeTypeNotExists?: boolean;
     proteinChangeTypeExists?: boolean;
     proteinChangeType?: string;
@@ -159,8 +173,18 @@ export interface GetGenomicVariantsRequestParams {
     nucleotidesLengthNotEqual?: number;
     nucleotidesLengthBetween?: Array<any>;
     nucleotidesLengthNotBetween?: Array<any>;
-    exonsNotExists?: boolean;
-    exonsExists?: boolean;
+    regionsNotExists?: boolean;
+    regionsExists?: boolean;
+    regions?: string;
+    regionsNot?: string;
+    regionsContains?: string;
+    regionsNotContains?: string;
+    regionsBeginsWith?: string;
+    regionsNotBeginsWith?: string;
+    regionsEndsWith?: string;
+    regionsNotEndsWith?: string;
+    regionsAnyOf?: Array<string>;
+    regionsNotAnyOf?: Array<string>;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -169,6 +193,8 @@ export interface GetGenomicVariantsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -177,6 +203,8 @@ export interface GetGenomicVariantsRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -195,6 +223,8 @@ export interface GetGenomicVariantsRequestParams {
     genePanelNotBeginsWith?: string;
     genePanelEndsWith?: string;
     genePanelNotEndsWith?: string;
+    genePanelAnyOf?: Array<string>;
+    genePanelNotAnyOf?: Array<string>;
     assessmentNotExists?: boolean;
     assessmentExists?: boolean;
     assessment?: string;
@@ -292,6 +322,8 @@ export interface GetGenomicVariantsRequestParams {
     clinvarNotBeginsWith?: string;
     clinvarEndsWith?: string;
     clinvarNotEndsWith?: string;
+    clinvarAnyOf?: Array<string>;
+    clinvarNotAnyOf?: Array<string>;
     genes?: string;
     genesNot?: string;
     genesAnyOf?: Array<string>;

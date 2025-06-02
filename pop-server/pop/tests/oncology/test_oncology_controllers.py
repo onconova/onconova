@@ -140,7 +140,9 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 model.objects.all().delete()
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
-    def test_update(self, scenario, config):              
+    def test_update(self, scenario, config):     
+        if not getattr(self, 'HAS_UPDATE_ENDPOINT', True):
+            pytest.skip("No relevant endpoint")         
         for i in range(self.SUBTESTS):
             instance = self.INSTANCE[i]
             payload = self.UPDATE_PAYLOAD[i]

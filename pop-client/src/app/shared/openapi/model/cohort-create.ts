@@ -23,6 +23,7 @@ export interface CohortCreate {
      * Whether the cohort is public
      */
     isPublic?: boolean;
+    projectId?: string | null;
     /**
      * Cases composing the cohort
      */

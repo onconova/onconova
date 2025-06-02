@@ -88,6 +88,8 @@ export interface GetTumorBoardsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -96,6 +98,8 @@ export interface GetTumorBoardsRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -106,6 +110,14 @@ export interface GetTumorBoardsRequestParams {
     dateNotBetween?: Array<any>;
     relatedEntitiesIds?: string;
     relatedEntitiesIdsNot?: string;
+    relatedEntitiesIdsContains?: string;
+    relatedEntitiesIdsNotContains?: string;
+    relatedEntitiesIdsBeginsWith?: string;
+    relatedEntitiesIdsNotBeginsWith?: string;
+    relatedEntitiesIdsEndsWith?: string;
+    relatedEntitiesIdsNotEndsWith?: string;
+    relatedEntitiesIdsAnyOf?: Array<string>;
+    relatedEntitiesIdsNotAnyOf?: Array<string>;
     recommendationsNotExists?: boolean;
     recommendationsExists?: boolean;
     recommendations?: string;

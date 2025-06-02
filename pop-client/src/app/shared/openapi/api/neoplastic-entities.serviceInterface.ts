@@ -52,6 +52,8 @@ export interface GetNeoplasticEntitiesRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -60,6 +62,8 @@ export interface GetNeoplasticEntitiesRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     relationship?: string;
     relationshipNot?: string;
     relationshipAnyOf?: Array<'primary' | 'metastatic' | 'local_recurrence' | 'regional_recurrence'>;
@@ -73,6 +77,8 @@ export interface GetNeoplasticEntitiesRequestParams {
     relatedPrimaryIdNotBeginsWith?: string;
     relatedPrimaryIdEndsWith?: string;
     relatedPrimaryIdNotEndsWith?: string;
+    relatedPrimaryIdAnyOf?: Array<string>;
+    relatedPrimaryIdNotAnyOf?: Array<string>;
     assertionDateBefore?: string;
     assertionDateAfter?: string;
     assertionDateOnOrBefore?: string;

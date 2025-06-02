@@ -187,6 +187,14 @@ export interface PatientCaseFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Pseudoidentifier - Filter for full text matches
      */
     pseudoidentifier?: string;
@@ -218,6 +226,14 @@ export interface PatientCaseFilters {
      * Pseudoidentifier - Filter for entries not ending with the text
      */
     'pseudoidentifier.not.endsWith'?: string;
+    /**
+     * Pseudoidentifier - Filter for entries where at least one reference matches the query
+     */
+    'pseudoidentifier.anyOf'?: Array<string>;
+    /**
+     * Pseudoidentifier - Filter for entries where at least one reference mismatches the query
+     */
+    'pseudoidentifier.not.anyOf'?: Array<string>;
     /**
      * Medical center - Filter for full text matches
      */
@@ -251,6 +267,14 @@ export interface PatientCaseFilters {
      */
     'clinicalCenter.not.endsWith'?: string;
     /**
+     * Medical center - Filter for entries where at least one reference matches the query
+     */
+    'clinicalCenter.anyOf'?: Array<string>;
+    /**
+     * Medical center - Filter for entries where at least one reference mismatches the query
+     */
+    'clinicalCenter.not.anyOf'?: Array<string>;
+    /**
      * Clinical identifier - Filter for full text matches
      */
     clinicalIdentifier?: string;
@@ -282,6 +306,14 @@ export interface PatientCaseFilters {
      * Clinical identifier - Filter for entries not ending with the text
      */
     'clinicalIdentifier.not.endsWith'?: string;
+    /**
+     * Clinical identifier - Filter for entries where at least one reference matches the query
+     */
+    'clinicalIdentifier.anyOf'?: Array<string>;
+    /**
+     * Clinical identifier - Filter for entries where at least one reference mismatches the query
+     */
+    'clinicalIdentifier.not.anyOf'?: Array<string>;
     consentStatus?: PatientCaseFilters.ConsentStatusEnum;
     'consentStatus.not'?: PatientCaseFilters.ConsentStatusNotEnum;
     /**

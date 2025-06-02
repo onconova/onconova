@@ -65,6 +65,10 @@ class CanManageProjects(BasePermission):
         return user.can_manage_projects
 
 
+class CanDeleteProjects(BasePermission):
+    def check_user_permission(self, user: User):
+        return user.can_delete_projects
+
 class CanAccessSensitiveData(BasePermission):
     def check_user_permission(self, user: User):
         return user.can_access_sensitive_data

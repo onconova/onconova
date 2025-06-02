@@ -40,22 +40,22 @@ export class AppSidebarMenuComponent {
                 ]
             },
             {
-                label: 'Cases',
+                label: 'Data Hub',
                 items: [
                     { 
-                        label: 'Search Cases', 
+                        label: 'Case Explorer', 
                         icon: 'pi pi-fw pi-search', 
                         routerLink: ['/cases/search'],
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
-                        label: 'My Cases', 
-                        icon: 'pi pi-fw pi-search-plus', 
+                        label: 'My Case List', 
+                        icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/cases/search/', this.currenUser().username],
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
-                        label: 'Import', 
+                        label: 'Upload Cases', 
                         icon: 'pi pi-fw pi-file-import', 
                         routerLink: ['/cases/import'],
                         disabled: this.#accessLevel() == 0,
@@ -63,17 +63,30 @@ export class AppSidebarMenuComponent {
                 ]
             },
             {
-                label: 'Cohorts',
+                label: 'Research Management',
                 items: [
                     { 
-                        label: 'Search Cohorts', 
+                        label: 'Project Explorer', 
+                        icon: 'pi pi-fw pi-graduation-cap', 
+                        routerLink: ['/projects/search'],
+                        disabled: this.#accessLevel() == 0,
+                    },
+                    { 
+                        label: 'My Projects', 
+                        icon: 'pi pi-fw pi-bookmark', 
+                        routerLink: ['/projects/search'],
+                        queryParams: { member: this.currenUser().username },
+                        disabled: this.#accessLevel() == 0,
+                    },
+                    { 
+                        label: 'Cohort Explorer', 
                         icon: 'pi pi-fw pi-users', 
                         routerLink: ['/cohorts/search'],
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
                         label: 'My Cohorts', 
-                        icon: 'pi pi-fw pi-user', 
+                        icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/cohorts/search/', this.currenUser().username],
                         disabled: this.#accessLevel() == 0,
                     },

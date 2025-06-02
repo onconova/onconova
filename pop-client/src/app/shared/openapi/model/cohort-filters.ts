@@ -75,6 +75,14 @@ export interface CohortFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Cohort name - Filter for full text matches
      */
     name?: string;
@@ -107,6 +115,14 @@ export interface CohortFilters {
      */
     'name.not.endsWith'?: string;
     /**
+     * Cohort name - Filter for entries where at least one reference matches the query
+     */
+    'name.anyOf'?: Array<string>;
+    /**
+     * Cohort name - Filter for entries where at least one reference mismatches the query
+     */
+    'name.not.anyOf'?: Array<string>;
+    /**
      * Inclusion criteria - Filter for entries without a value
      */
     'includeCriteria.not.exists'?: boolean;
@@ -127,29 +143,173 @@ export interface CohortFilters {
      */
     isPublic?: boolean;
     /**
-     * Cases - Filter for reference matches
+     * Project - Filter for entries without a value
+     */
+    'projectId.not.exists'?: boolean;
+    /**
+     * Project - Filter for entries with a value
+     */
+    'projectId.exists'?: boolean;
+    /**
+     * Project - Filter for reference matches
+     */
+    projectId?: string;
+    /**
+     * Project - Filter for reference mismatches
+     */
+    'projectId.not'?: string;
+    /**
+     * Project - Filter for partial text matches
+     */
+    'projectId.contains'?: string;
+    /**
+     * Project - Filter for partial text mismatches
+     */
+    'projectId.not.contains'?: string;
+    /**
+     * Project - Filter for entries starting with the text
+     */
+    'projectId.beginsWith'?: string;
+    /**
+     * Project - Filter for entries not starting with the text
+     */
+    'projectId.not.beginsWith'?: string;
+    /**
+     * Project - Filter for entries ending with the text
+     */
+    'projectId.endsWith'?: string;
+    /**
+     * Project - Filter for entries not ending with the text
+     */
+    'projectId.not.endsWith'?: string;
+    /**
+     * Project - Filter for entries where at least one reference matches the query
+     */
+    'projectId.anyOf'?: Array<string>;
+    /**
+     * Project - Filter for entries where at least one reference mismatches the query
+     */
+    'projectId.not.anyOf'?: Array<string>;
+    /**
+     * Cases - Filter for full text matches
      */
     casesIds?: string;
     /**
-     * Cases - Filter for reference mismatches
+     * Cases - Filter for full text mismatches
      */
     'casesIds.not'?: string;
     /**
-     * Manually added cases - Filter for reference matches
+     * Cases - Filter for partial text matches
+     */
+    'casesIds.contains'?: string;
+    /**
+     * Cases - Filter for partial text mismatches
+     */
+    'casesIds.not.contains'?: string;
+    /**
+     * Cases - Filter for entries starting with the text
+     */
+    'casesIds.beginsWith'?: string;
+    /**
+     * Cases - Filter for entries not starting with the text
+     */
+    'casesIds.not.beginsWith'?: string;
+    /**
+     * Cases - Filter for entries ending with the text
+     */
+    'casesIds.endsWith'?: string;
+    /**
+     * Cases - Filter for entries not ending with the text
+     */
+    'casesIds.not.endsWith'?: string;
+    /**
+     * Cases - Filter for entries where at least one reference matches the query
+     */
+    'casesIds.anyOf'?: Array<string>;
+    /**
+     * Cases - Filter for entries where at least one reference mismatches the query
+     */
+    'casesIds.not.anyOf'?: Array<string>;
+    /**
+     * Manually added cases - Filter for full text matches
      */
     manualChoicesIds?: string;
     /**
-     * Manually added cases - Filter for reference mismatches
+     * Manually added cases - Filter for full text mismatches
      */
     'manualChoicesIds.not'?: string;
     /**
-     * Frozen cases - Filter for reference matches
+     * Manually added cases - Filter for partial text matches
+     */
+    'manualChoicesIds.contains'?: string;
+    /**
+     * Manually added cases - Filter for partial text mismatches
+     */
+    'manualChoicesIds.not.contains'?: string;
+    /**
+     * Manually added cases - Filter for entries starting with the text
+     */
+    'manualChoicesIds.beginsWith'?: string;
+    /**
+     * Manually added cases - Filter for entries not starting with the text
+     */
+    'manualChoicesIds.not.beginsWith'?: string;
+    /**
+     * Manually added cases - Filter for entries ending with the text
+     */
+    'manualChoicesIds.endsWith'?: string;
+    /**
+     * Manually added cases - Filter for entries not ending with the text
+     */
+    'manualChoicesIds.not.endsWith'?: string;
+    /**
+     * Manually added cases - Filter for entries where at least one reference matches the query
+     */
+    'manualChoicesIds.anyOf'?: Array<string>;
+    /**
+     * Manually added cases - Filter for entries where at least one reference mismatches the query
+     */
+    'manualChoicesIds.not.anyOf'?: Array<string>;
+    /**
+     * Frozen cases - Filter for full text matches
      */
     frozenSetIds?: string;
     /**
-     * Frozen cases - Filter for reference mismatches
+     * Frozen cases - Filter for full text mismatches
      */
     'frozenSetIds.not'?: string;
+    /**
+     * Frozen cases - Filter for partial text matches
+     */
+    'frozenSetIds.contains'?: string;
+    /**
+     * Frozen cases - Filter for partial text mismatches
+     */
+    'frozenSetIds.not.contains'?: string;
+    /**
+     * Frozen cases - Filter for entries starting with the text
+     */
+    'frozenSetIds.beginsWith'?: string;
+    /**
+     * Frozen cases - Filter for entries not starting with the text
+     */
+    'frozenSetIds.not.beginsWith'?: string;
+    /**
+     * Frozen cases - Filter for entries ending with the text
+     */
+    'frozenSetIds.endsWith'?: string;
+    /**
+     * Frozen cases - Filter for entries not ending with the text
+     */
+    'frozenSetIds.not.endsWith'?: string;
+    /**
+     * Frozen cases - Filter for entries where at least one reference matches the query
+     */
+    'frozenSetIds.anyOf'?: Array<string>;
+    /**
+     * Frozen cases - Filter for entries where at least one reference mismatches the query
+     */
+    'frozenSetIds.not.anyOf'?: Array<string>;
     createdBy?: string | null;
 }
 

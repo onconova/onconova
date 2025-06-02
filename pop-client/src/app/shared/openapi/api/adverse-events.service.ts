@@ -967,6 +967,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesIdNotBeginsWith = requestParameters?.suspectedCausesIdNotBeginsWith;
         const suspectedCausesIdEndsWith = requestParameters?.suspectedCausesIdEndsWith;
         const suspectedCausesIdNotEndsWith = requestParameters?.suspectedCausesIdNotEndsWith;
+        const suspectedCausesIdAnyOf = requestParameters?.suspectedCausesIdAnyOf;
+        const suspectedCausesIdNotAnyOf = requestParameters?.suspectedCausesIdNotAnyOf;
         const suspectedCausesSystemicTherapyIdNotExists = requestParameters?.suspectedCausesSystemicTherapyIdNotExists;
         const suspectedCausesSystemicTherapyIdExists = requestParameters?.suspectedCausesSystemicTherapyIdExists;
         const suspectedCausesSystemicTherapyId = requestParameters?.suspectedCausesSystemicTherapyId;
@@ -977,6 +979,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesSystemicTherapyIdNotBeginsWith = requestParameters?.suspectedCausesSystemicTherapyIdNotBeginsWith;
         const suspectedCausesSystemicTherapyIdEndsWith = requestParameters?.suspectedCausesSystemicTherapyIdEndsWith;
         const suspectedCausesSystemicTherapyIdNotEndsWith = requestParameters?.suspectedCausesSystemicTherapyIdNotEndsWith;
+        const suspectedCausesSystemicTherapyIdAnyOf = requestParameters?.suspectedCausesSystemicTherapyIdAnyOf;
+        const suspectedCausesSystemicTherapyIdNotAnyOf = requestParameters?.suspectedCausesSystemicTherapyIdNotAnyOf;
         const suspectedCausesMedicationIdNotExists = requestParameters?.suspectedCausesMedicationIdNotExists;
         const suspectedCausesMedicationIdExists = requestParameters?.suspectedCausesMedicationIdExists;
         const suspectedCausesMedicationId = requestParameters?.suspectedCausesMedicationId;
@@ -987,6 +991,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesMedicationIdNotBeginsWith = requestParameters?.suspectedCausesMedicationIdNotBeginsWith;
         const suspectedCausesMedicationIdEndsWith = requestParameters?.suspectedCausesMedicationIdEndsWith;
         const suspectedCausesMedicationIdNotEndsWith = requestParameters?.suspectedCausesMedicationIdNotEndsWith;
+        const suspectedCausesMedicationIdAnyOf = requestParameters?.suspectedCausesMedicationIdAnyOf;
+        const suspectedCausesMedicationIdNotAnyOf = requestParameters?.suspectedCausesMedicationIdNotAnyOf;
         const suspectedCausesRadiotherapyIdNotExists = requestParameters?.suspectedCausesRadiotherapyIdNotExists;
         const suspectedCausesRadiotherapyIdExists = requestParameters?.suspectedCausesRadiotherapyIdExists;
         const suspectedCausesRadiotherapyId = requestParameters?.suspectedCausesRadiotherapyId;
@@ -997,6 +1003,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesRadiotherapyIdNotBeginsWith = requestParameters?.suspectedCausesRadiotherapyIdNotBeginsWith;
         const suspectedCausesRadiotherapyIdEndsWith = requestParameters?.suspectedCausesRadiotherapyIdEndsWith;
         const suspectedCausesRadiotherapyIdNotEndsWith = requestParameters?.suspectedCausesRadiotherapyIdNotEndsWith;
+        const suspectedCausesRadiotherapyIdAnyOf = requestParameters?.suspectedCausesRadiotherapyIdAnyOf;
+        const suspectedCausesRadiotherapyIdNotAnyOf = requestParameters?.suspectedCausesRadiotherapyIdNotAnyOf;
         const suspectedCausesSurgeryIdNotExists = requestParameters?.suspectedCausesSurgeryIdNotExists;
         const suspectedCausesSurgeryIdExists = requestParameters?.suspectedCausesSurgeryIdExists;
         const suspectedCausesSurgeryId = requestParameters?.suspectedCausesSurgeryId;
@@ -1007,6 +1015,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesSurgeryIdNotBeginsWith = requestParameters?.suspectedCausesSurgeryIdNotBeginsWith;
         const suspectedCausesSurgeryIdEndsWith = requestParameters?.suspectedCausesSurgeryIdEndsWith;
         const suspectedCausesSurgeryIdNotEndsWith = requestParameters?.suspectedCausesSurgeryIdNotEndsWith;
+        const suspectedCausesSurgeryIdAnyOf = requestParameters?.suspectedCausesSurgeryIdAnyOf;
+        const suspectedCausesSurgeryIdNotAnyOf = requestParameters?.suspectedCausesSurgeryIdNotAnyOf;
         const suspectedCausesCausalityNotExists = requestParameters?.suspectedCausesCausalityNotExists;
         const suspectedCausesCausalityExists = requestParameters?.suspectedCausesCausalityExists;
         const suspectedCausesCausality = requestParameters?.suspectedCausesCausality;
@@ -1020,6 +1030,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const mitigationsIdNotBeginsWith = requestParameters?.mitigationsIdNotBeginsWith;
         const mitigationsIdEndsWith = requestParameters?.mitigationsIdEndsWith;
         const mitigationsIdNotEndsWith = requestParameters?.mitigationsIdNotEndsWith;
+        const mitigationsIdAnyOf = requestParameters?.mitigationsIdAnyOf;
+        const mitigationsIdNotAnyOf = requestParameters?.mitigationsIdNotAnyOf;
         const mitigationsCategory = requestParameters?.mitigationsCategory;
         const mitigationsCategoryNot = requestParameters?.mitigationsCategoryNot;
         const mitigationsCategoryAnyOf = requestParameters?.mitigationsCategoryAnyOf;
@@ -1059,6 +1071,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -1067,6 +1081,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const dateBefore = requestParameters?.dateBefore;
         const dateAfter = requestParameters?.dateAfter;
         const dateOnOrBefore = requestParameters?.dateOnOrBefore;
@@ -1121,6 +1137,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>suspectedCausesIdEndsWith, 'suspectedCauses.id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesIdNotEndsWith, 'suspectedCauses.id.not.endsWith');
+        if (suspectedCausesIdAnyOf) {
+            suspectedCausesIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.id.anyOf');
+            })
+        }
+        if (suspectedCausesIdNotAnyOf) {
+            suspectedCausesIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesSystemicTherapyIdNotExists, 'suspectedCauses.systemicTherapyId.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1141,6 +1169,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>suspectedCausesSystemicTherapyIdEndsWith, 'suspectedCauses.systemicTherapyId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesSystemicTherapyIdNotEndsWith, 'suspectedCauses.systemicTherapyId.not.endsWith');
+        if (suspectedCausesSystemicTherapyIdAnyOf) {
+            suspectedCausesSystemicTherapyIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.systemicTherapyId.anyOf');
+            })
+        }
+        if (suspectedCausesSystemicTherapyIdNotAnyOf) {
+            suspectedCausesSystemicTherapyIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.systemicTherapyId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesMedicationIdNotExists, 'suspectedCauses.medicationId.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1161,6 +1201,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>suspectedCausesMedicationIdEndsWith, 'suspectedCauses.medicationId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesMedicationIdNotEndsWith, 'suspectedCauses.medicationId.not.endsWith');
+        if (suspectedCausesMedicationIdAnyOf) {
+            suspectedCausesMedicationIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.medicationId.anyOf');
+            })
+        }
+        if (suspectedCausesMedicationIdNotAnyOf) {
+            suspectedCausesMedicationIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.medicationId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesRadiotherapyIdNotExists, 'suspectedCauses.radiotherapyId.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1181,6 +1233,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>suspectedCausesRadiotherapyIdEndsWith, 'suspectedCauses.radiotherapyId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesRadiotherapyIdNotEndsWith, 'suspectedCauses.radiotherapyId.not.endsWith');
+        if (suspectedCausesRadiotherapyIdAnyOf) {
+            suspectedCausesRadiotherapyIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.radiotherapyId.anyOf');
+            })
+        }
+        if (suspectedCausesRadiotherapyIdNotAnyOf) {
+            suspectedCausesRadiotherapyIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.radiotherapyId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesSurgeryIdNotExists, 'suspectedCauses.surgeryId.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1201,6 +1265,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>suspectedCausesSurgeryIdEndsWith, 'suspectedCauses.surgeryId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesSurgeryIdNotEndsWith, 'suspectedCauses.surgeryId.not.endsWith');
+        if (suspectedCausesSurgeryIdAnyOf) {
+            suspectedCausesSurgeryIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.surgeryId.anyOf');
+            })
+        }
+        if (suspectedCausesSurgeryIdNotAnyOf) {
+            suspectedCausesSurgeryIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'suspectedCauses.surgeryId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>suspectedCausesCausalityNotExists, 'suspectedCauses.causality.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1231,6 +1307,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>mitigationsIdEndsWith, 'mitigations.id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsIdNotEndsWith, 'mitigations.id.not.endsWith');
+        if (mitigationsIdAnyOf) {
+            mitigationsIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'mitigations.id.anyOf');
+            })
+        }
+        if (mitigationsIdNotAnyOf) {
+            mitigationsIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'mitigations.id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsCategory, 'mitigations.category');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1345,6 +1433,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1361,6 +1461,18 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dateBefore, 'date.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

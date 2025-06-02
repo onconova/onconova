@@ -65,10 +65,11 @@ INSTALLED_APPS = [
 
     # POP core
     'pop.core',
-    'pop.terminology',
+    'pop.projects',
     'pop.oncology',
-    'pop.interoperability',
     'pop.analytics',
+    'pop.terminology',
+    'pop.interoperability',
 
     # Social Media Auth
     'allauth',

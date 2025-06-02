@@ -66,6 +66,8 @@ export interface GetTherapyLinesRequestParams {
     labelNotBeginsWith?: string;
     labelEndsWith?: string;
     labelNotEndsWith?: string;
+    labelAnyOf?: Array<string>;
+    labelNotAnyOf?: Array<string>;
     progressionFreeSurvivalNotExists?: boolean;
     progressionFreeSurvivalExists?: boolean;
     progressionFreeSurvivalLessThan?: number;
@@ -84,6 +86,8 @@ export interface GetTherapyLinesRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -92,6 +96,8 @@ export interface GetTherapyLinesRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     ordinalLessThan?: number;
     ordinalLessThanOrEqual?: number;
     ordinalGreaterThan?: number;

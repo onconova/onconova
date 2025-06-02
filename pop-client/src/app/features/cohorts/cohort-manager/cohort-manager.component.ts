@@ -15,7 +15,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, CohortCreate, CohortTraitCounts } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, CohortCreate, CohortTraitCounts, ProjectsService } from 'src/app/shared/openapi';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
 import { catchError, map, of, throwError } from 'rxjs';
@@ -69,6 +69,7 @@ export class CohortBuilderComponent {
     public cohortId = input.required<string>()   
     
     readonly #cohortsService = inject(CohortsService);
+    readonly #projectsService = inject(ProjectsService);
     readonly #messageService = inject(MessageService);
     readonly #fb = inject(FormBuilder);
     readonly #location = inject(Location);
@@ -77,7 +78,7 @@ export class CohortBuilderComponent {
     
     public cohortControl: FormGroup = this.#fb.group({
         name: this.#fb.nonNullable.control<string>('', Validators.required),
-        isPublic: this.#fb.nonNullable.control<boolean>(false, Validators.required),
+        project: this.#fb.nonNullable.control<string>('', Validators.required),
         includeCriteria: this.#fb.control<object | null>(null),
         excludeCriteria: this.#fb.control<object | null>(null),
     });  
@@ -107,6 +108,12 @@ export class CohortBuilderComponent {
             ),
         )
     })
+
+    public project = rxResource({
+        request: () => ({projectId: this.cohort.value()?.projectId as string}),
+        loader: ({request}) => request.projectId ? this.#projectsService.getProjectById(request) : of(null)
+    })
+
     public cohortPopulation = computed<number | undefined>(()=> this.cohort.value()?.population)
     public cohortNonEmpty = computed<boolean>(()=> this.cohortPopulation() ? (this.cohortPopulation()! > 0) : false)
     public cohortHistory = rxResource({
@@ -117,7 +124,7 @@ export class CohortBuilderComponent {
     public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
 
     public cohortCases = rxResource({
-        request: () => ({cohortId: this.currentCohortId()}),
+        request: () => ({cohortId: this.currentCohortId(), limit: this.pagination().limit, offset: this.pagination().offset}),
         loader: ({request}) => this.#cohortsService.getCohortCases(request).pipe(map(response=>response.items))
     })    
 
@@ -132,7 +139,7 @@ export class CohortBuilderComponent {
         if (cohort &&!this.cohortControl.value.includeCriteria && !this.cohortControl.value.includeCriteria) {
             this.cohortControl.setValue({
                 name: cohort.name,
-                isPublic: cohort.isPublic,
+                project: cohort.projectId,
                 includeCriteria: cohort.includeCriteria,
                 excludeCriteria: cohort.excludeCriteria
             })
@@ -211,11 +218,12 @@ export class CohortBuilderComponent {
         const cohortData = this.cohortControl.value;
         const payload: CohortCreate = {
             name: cohortData.name,
-            isPublic: cohortData.isPublic,
+            projectId: cohortData.project,
             includeCriteria: cohortData.includeCriteria,
             excludeCriteria: cohortData.excludeCriteria,
         };
         this.cohortPayload.set(payload);
+        this.cohort.reload()
     }
     
     public getAllChanges(differential: any): any[] {

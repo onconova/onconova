@@ -12,6 +12,10 @@ import { AccessRoles } from './access-roles';
 
 export interface User { 
     /**
+     * User full name
+     */
+    fullName: string;
+    /**
      * User role based on its access level
      */
     role: AccessRoles;

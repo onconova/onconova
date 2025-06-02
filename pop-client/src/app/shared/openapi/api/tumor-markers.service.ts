@@ -441,6 +441,8 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -449,6 +451,8 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const dateBefore = requestParameters?.dateBefore;
         const dateAfter = requestParameters?.dateAfter;
         const dateOnOrBefore = requestParameters?.dateOnOrBefore;
@@ -549,6 +553,14 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
         const nuclearExpressionStatusAnyOf = requestParameters?.nuclearExpressionStatusAnyOf;
         const relatedEntitiesIds = requestParameters?.relatedEntitiesIds;
         const relatedEntitiesIdsNot = requestParameters?.relatedEntitiesIdsNot;
+        const relatedEntitiesIdsContains = requestParameters?.relatedEntitiesIdsContains;
+        const relatedEntitiesIdsNotContains = requestParameters?.relatedEntitiesIdsNotContains;
+        const relatedEntitiesIdsBeginsWith = requestParameters?.relatedEntitiesIdsBeginsWith;
+        const relatedEntitiesIdsNotBeginsWith = requestParameters?.relatedEntitiesIdsNotBeginsWith;
+        const relatedEntitiesIdsEndsWith = requestParameters?.relatedEntitiesIdsEndsWith;
+        const relatedEntitiesIdsNotEndsWith = requestParameters?.relatedEntitiesIdsNotEndsWith;
+        const relatedEntitiesIdsAnyOf = requestParameters?.relatedEntitiesIdsAnyOf;
+        const relatedEntitiesIdsNotAnyOf = requestParameters?.relatedEntitiesIdsNotAnyOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -569,6 +581,18 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -585,6 +609,18 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dateBefore, 'date.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -869,6 +905,30 @@ export class TumorMarkersService extends BaseService implements TumorMarkersServ
           <any>relatedEntitiesIds, 'relatedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>relatedEntitiesIdsNot, 'relatedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsContains, 'relatedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsNotContains, 'relatedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsBeginsWith, 'relatedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsNotBeginsWith, 'relatedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsEndsWith, 'relatedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>relatedEntitiesIdsNotEndsWith, 'relatedEntitiesIds.not.endsWith');
+        if (relatedEntitiesIdsAnyOf) {
+            relatedEntitiesIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'relatedEntitiesIds.anyOf');
+            })
+        }
+        if (relatedEntitiesIdsNotAnyOf) {
+            relatedEntitiesIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'relatedEntitiesIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

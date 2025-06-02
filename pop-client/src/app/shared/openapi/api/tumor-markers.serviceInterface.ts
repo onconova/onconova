@@ -59,6 +59,8 @@ export interface GetTumorMarkersRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -67,6 +69,8 @@ export interface GetTumorMarkersRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -167,6 +171,14 @@ export interface GetTumorMarkersRequestParams {
     nuclearExpressionStatusAnyOf?: Array<'intact' | 'loss' | 'indeterminate'>;
     relatedEntitiesIds?: string;
     relatedEntitiesIdsNot?: string;
+    relatedEntitiesIdsContains?: string;
+    relatedEntitiesIdsNotContains?: string;
+    relatedEntitiesIdsBeginsWith?: string;
+    relatedEntitiesIdsNotBeginsWith?: string;
+    relatedEntitiesIdsEndsWith?: string;
+    relatedEntitiesIdsNotEndsWith?: string;
+    relatedEntitiesIdsAnyOf?: Array<string>;
+    relatedEntitiesIdsNotAnyOf?: Array<string>;
     limit?: number;
     offset?: number;
 }

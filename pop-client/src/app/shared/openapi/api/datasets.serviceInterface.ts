@@ -57,6 +57,8 @@ export interface GetDatasetsRequestParams {
     rulesFieldNotBeginsWith?: string;
     rulesFieldEndsWith?: string;
     rulesFieldNotEndsWith?: string;
+    rulesFieldAnyOf?: Array<string>;
+    rulesFieldNotAnyOf?: Array<string>;
     rulesTransformNotExists?: boolean;
     rulesTransformExists?: boolean;
     rulesTransform?: string;
@@ -67,6 +69,8 @@ export interface GetDatasetsRequestParams {
     rulesTransformNotBeginsWith?: string;
     rulesTransformEndsWith?: string;
     rulesTransformNotEndsWith?: string;
+    rulesTransformAnyOf?: Array<string>;
+    rulesTransformNotAnyOf?: Array<string>;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -75,6 +79,8 @@ export interface GetDatasetsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     name?: string;
     nameNot?: string;
     nameContains?: string;
@@ -83,6 +89,8 @@ export interface GetDatasetsRequestParams {
     nameNotBeginsWith?: string;
     nameEndsWith?: string;
     nameNotEndsWith?: string;
+    nameAnyOf?: Array<string>;
+    nameNotAnyOf?: Array<string>;
     isPublic?: boolean;
     createdBy?: string | null;
     limit?: number;

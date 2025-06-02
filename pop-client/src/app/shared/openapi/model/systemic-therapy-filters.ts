@@ -43,6 +43,14 @@ export interface SystemicTherapyFilters {
      */
     'medications.id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'medications.id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'medications.id.not.anyOf'?: Array<string>;
+    /**
      * Antineoplastic Drug - Filter for a matching concept code
      */
     'medications.drug'?: string;
@@ -499,6 +507,14 @@ export interface SystemicTherapyFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -530,6 +546,14 @@ export interface SystemicTherapyFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Treatment period - Filter for entries overlapping with the time period
      */
@@ -693,13 +717,53 @@ export interface SystemicTherapyFilters {
      */
     'therapyLineId.not.endsWith'?: string;
     /**
-     * Targeted neoplastic entities - Filter for reference matches
+     * Therapy line - Filter for entries where at least one reference matches the query
+     */
+    'therapyLineId.anyOf'?: Array<string>;
+    /**
+     * Therapy line - Filter for entries where at least one reference mismatches the query
+     */
+    'therapyLineId.not.anyOf'?: Array<string>;
+    /**
+     * Targeted neoplastic entities - Filter for full text matches
      */
     targetedEntitiesIds?: string;
     /**
-     * Targeted neoplastic entities - Filter for reference mismatches
+     * Targeted neoplastic entities - Filter for full text mismatches
      */
     'targetedEntitiesIds.not'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for partial text matches
+     */
+    'targetedEntitiesIds.contains'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for partial text mismatches
+     */
+    'targetedEntitiesIds.not.contains'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for entries starting with the text
+     */
+    'targetedEntitiesIds.beginsWith'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for entries not starting with the text
+     */
+    'targetedEntitiesIds.not.beginsWith'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for entries ending with the text
+     */
+    'targetedEntitiesIds.endsWith'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for entries not ending with the text
+     */
+    'targetedEntitiesIds.not.endsWith'?: string;
+    /**
+     * Targeted neoplastic entities - Filter for entries where at least one reference matches the query
+     */
+    'targetedEntitiesIds.anyOf'?: Array<string>;
+    /**
+     * Targeted neoplastic entities - Filter for entries where at least one reference mismatches the query
+     */
+    'targetedEntitiesIds.not.anyOf'?: Array<string>;
 }
 export namespace SystemicTherapyFilters {
     export type IntentEnum = 'curative' | 'palliative';

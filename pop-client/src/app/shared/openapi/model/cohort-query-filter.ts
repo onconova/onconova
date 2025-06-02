@@ -9,7 +9,7 @@
  */
 
 
-export type CohortQueryFilter = 'ExactStringFilter' | 'NotExactStringFilter' | 'ContainsStringFilter' | 'NotContainsStringFilter' | 'BeginsWithStringFilter' | 'NotBeginsWithStringFilter' | 'EndsWithStringFilter' | 'NotEndsWithStringFilter' | 'BeforeDateFilter' | 'AfterDateFilter' | 'OnOrBeforeDateFilter' | 'OnOrAfterDateFilter' | 'OnDateFilter' | 'NotOnDateFilter' | 'BetweenDatesFilter' | 'NotBetweenDatesFilter' | 'OverlapsPeriodFilter' | 'NotOverlapsPeriodFilter' | 'ContainsPeriodFilter' | 'NotContainsPeriodFilter' | 'ContainedByPeriodFilter' | 'NotContainedByPeriodFilter' | 'LessThanIntegerFilter' | 'LessThanOrEqualIntegerFilter' | 'GreaterThanIntegerFilter' | 'GreaterThanOrEqualIntegerFilter' | 'EqualIntegerFilter' | 'NotEqualIntegerFilter' | 'BetweenIntegerFilter' | 'NotBetweenIntegerFilter' | 'LessThanFloatFilter' | 'LessThanOrEqualFloatFilter' | 'GreaterThanFloatFilter' | 'GreaterThanOrEqualFloatFilter' | 'EqualFloatFilter' | 'NotEqualFloatFilter' | 'BetweenFloatFilter' | 'NotBetweenFloatFilter' | 'EqualsBooleanFilter' | 'EqualsConceptFilter' | 'NotEqualsConceptFilter' | 'AnyOfConceptFilter' | 'NotAnyOfConceptFilter' | 'DescendantsOfConceptFilter' | 'AllOfConceptFilter' | 'NotAllOfConceptFilter' | 'ExactRefereceFilter' | 'NotExactRefereceFilter' | 'AnyOfReferecesFilter' | 'NotAnyOfReferecesFilter' | 'AllOfReferencesFilter' | 'NotAllOfReferencesFilter' | 'EqualsEnumFilter' | 'NotEqualsEnumFilter' | 'AnyOfEnumFilter' | 'NotAnyOfEnumFilter' | 'IsNullFilter' | 'NotIsNullFilter';
+export type CohortQueryFilter = 'ExactStringFilter' | 'NotExactStringFilter' | 'ContainsStringFilter' | 'NotContainsStringFilter' | 'BeginsWithStringFilter' | 'NotBeginsWithStringFilter' | 'EndsWithStringFilter' | 'NotEndsWithStringFilter' | 'AnyOfStringFilter' | 'NotAnyOfStringFilter' | 'BeforeDateFilter' | 'AfterDateFilter' | 'OnOrBeforeDateFilter' | 'OnOrAfterDateFilter' | 'OnDateFilter' | 'NotOnDateFilter' | 'BetweenDatesFilter' | 'NotBetweenDatesFilter' | 'OverlapsPeriodFilter' | 'NotOverlapsPeriodFilter' | 'ContainsPeriodFilter' | 'NotContainsPeriodFilter' | 'ContainedByPeriodFilter' | 'NotContainedByPeriodFilter' | 'LessThanIntegerFilter' | 'LessThanOrEqualIntegerFilter' | 'GreaterThanIntegerFilter' | 'GreaterThanOrEqualIntegerFilter' | 'EqualIntegerFilter' | 'NotEqualIntegerFilter' | 'BetweenIntegerFilter' | 'NotBetweenIntegerFilter' | 'LessThanFloatFilter' | 'LessThanOrEqualFloatFilter' | 'GreaterThanFloatFilter' | 'GreaterThanOrEqualFloatFilter' | 'EqualFloatFilter' | 'NotEqualFloatFilter' | 'BetweenFloatFilter' | 'NotBetweenFloatFilter' | 'EqualsBooleanFilter' | 'EqualsConceptFilter' | 'NotEqualsConceptFilter' | 'AnyOfConceptFilter' | 'NotAnyOfConceptFilter' | 'DescendantsOfConceptFilter' | 'AllOfConceptFilter' | 'NotAllOfConceptFilter' | 'ExactRefereceFilter' | 'NotExactRefereceFilter' | 'AnyOfReferecesFilter' | 'NotAnyOfReferecesFilter' | 'AllOfReferencesFilter' | 'NotAllOfReferencesFilter' | 'ExactUserReferenceFilter' | 'NotExactUserRefereceFilter' | 'AnyOfUserRefereceFilter' | 'NotAnyOfUserRefereceFilter' | 'EqualsEnumFilter' | 'NotEqualsEnumFilter' | 'AnyOfEnumFilter' | 'NotAnyOfEnumFilter' | 'IsNullFilter' | 'NotIsNullFilter';
 
 export const CohortQueryFilter = {
 
@@ -28,6 +28,10 @@ export const CohortQueryFilter = {
     EndsWithStringFilter: 'EndsWithStringFilter' as CohortQueryFilter,
 
     NotEndsWithStringFilter: 'NotEndsWithStringFilter' as CohortQueryFilter,
+
+    AnyOfStringFilter: 'AnyOfStringFilter' as CohortQueryFilter,
+
+    NotAnyOfStringFilter: 'NotAnyOfStringFilter' as CohortQueryFilter,
 
     BeforeDateFilter: 'BeforeDateFilter' as CohortQueryFilter,
 
@@ -116,6 +120,14 @@ export const CohortQueryFilter = {
     AllOfReferencesFilter: 'AllOfReferencesFilter' as CohortQueryFilter,
 
     NotAllOfReferencesFilter: 'NotAllOfReferencesFilter' as CohortQueryFilter,
+
+    ExactUserReferenceFilter: 'ExactUserReferenceFilter' as CohortQueryFilter,
+
+    NotExactUserRefereceFilter: 'NotExactUserRefereceFilter' as CohortQueryFilter,
+
+    AnyOfUserRefereceFilter: 'AnyOfUserRefereceFilter' as CohortQueryFilter,
+
+    NotAnyOfUserRefereceFilter: 'NotAnyOfUserRefereceFilter' as CohortQueryFilter,
 
     EqualsEnumFilter: 'EqualsEnumFilter' as CohortQueryFilter,
 

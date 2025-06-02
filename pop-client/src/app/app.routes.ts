@@ -49,6 +49,13 @@ const appRoutes: Routes = [
                     { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-manager/cohort-manager.component').then(m => m.CohortBuilderComponent), title: 'Cohort management - POP' },
                     { path: 'search', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent), title: 'Search cohorts - POP'},
                     { path: 'search/:author', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent), title: 'My cohorts - POP' },
+
+                ]
+            },
+            { path: 'projects', 
+                children: [
+                    { path: 'search', loadComponent: () => import('./features/project-search/project-search.component').then(m => m.ProjectSearchComponent), title: 'Projects - POP'},
+                    { path: ':projectId/management', loadComponent: () => import('./features/project-management/project-management.component').then(m => m.ProjectManagementComponent), title: 'Project management - POP' },
                 ]
             },
             { path: 'admin', 

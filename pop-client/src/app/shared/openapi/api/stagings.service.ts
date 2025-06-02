@@ -389,6 +389,8 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         const idNotBeginsWith = requestParameters?.idNotBeginsWith;
         const idEndsWith = requestParameters?.idEndsWith;
         const idNotEndsWith = requestParameters?.idNotEndsWith;
+        const idAnyOf = requestParameters?.idAnyOf;
+        const idNotAnyOf = requestParameters?.idNotAnyOf;
         const caseId = requestParameters?.caseId;
         const caseIdNot = requestParameters?.caseIdNot;
         const caseIdContains = requestParameters?.caseIdContains;
@@ -397,6 +399,8 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         const caseIdNotBeginsWith = requestParameters?.caseIdNotBeginsWith;
         const caseIdEndsWith = requestParameters?.caseIdEndsWith;
         const caseIdNotEndsWith = requestParameters?.caseIdNotEndsWith;
+        const caseIdAnyOf = requestParameters?.caseIdAnyOf;
+        const caseIdNotAnyOf = requestParameters?.caseIdNotAnyOf;
         const dateBefore = requestParameters?.dateBefore;
         const dateAfter = requestParameters?.dateAfter;
         const dateOnOrBefore = requestParameters?.dateOnOrBefore;
@@ -407,6 +411,14 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         const dateNotBetween = requestParameters?.dateNotBetween;
         const stagedEntitiesIds = requestParameters?.stagedEntitiesIds;
         const stagedEntitiesIdsNot = requestParameters?.stagedEntitiesIdsNot;
+        const stagedEntitiesIdsContains = requestParameters?.stagedEntitiesIdsContains;
+        const stagedEntitiesIdsNotContains = requestParameters?.stagedEntitiesIdsNotContains;
+        const stagedEntitiesIdsBeginsWith = requestParameters?.stagedEntitiesIdsBeginsWith;
+        const stagedEntitiesIdsNotBeginsWith = requestParameters?.stagedEntitiesIdsNotBeginsWith;
+        const stagedEntitiesIdsEndsWith = requestParameters?.stagedEntitiesIdsEndsWith;
+        const stagedEntitiesIdsNotEndsWith = requestParameters?.stagedEntitiesIdsNotEndsWith;
+        const stagedEntitiesIdsAnyOf = requestParameters?.stagedEntitiesIdsAnyOf;
+        const stagedEntitiesIdsNotAnyOf = requestParameters?.stagedEntitiesIdsNotAnyOf;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -455,6 +467,18 @@ export class StagingsService extends BaseService implements StagingsServiceInter
           <any>idEndsWith, 'id.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>idNotEndsWith, 'id.not.endsWith');
+        if (idAnyOf) {
+            idAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.anyOf');
+            })
+        }
+        if (idNotAnyOf) {
+            idNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'id.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseId, 'caseId');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -471,6 +495,18 @@ export class StagingsService extends BaseService implements StagingsServiceInter
           <any>caseIdEndsWith, 'caseId.endsWith');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>caseIdNotEndsWith, 'caseId.not.endsWith');
+        if (caseIdAnyOf) {
+            caseIdAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.anyOf');
+            })
+        }
+        if (caseIdNotAnyOf) {
+            caseIdNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'caseId.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dateBefore, 'date.before');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -499,6 +535,30 @@ export class StagingsService extends BaseService implements StagingsServiceInter
           <any>stagedEntitiesIds, 'stagedEntitiesIds');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>stagedEntitiesIdsNot, 'stagedEntitiesIds.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>stagedEntitiesIdsContains, 'stagedEntitiesIds.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>stagedEntitiesIdsNotContains, 'stagedEntitiesIds.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>stagedEntitiesIdsBeginsWith, 'stagedEntitiesIds.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>stagedEntitiesIdsNotBeginsWith, 'stagedEntitiesIds.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>stagedEntitiesIdsEndsWith, 'stagedEntitiesIds.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>stagedEntitiesIdsNotEndsWith, 'stagedEntitiesIds.not.endsWith');
+        if (stagedEntitiesIdsAnyOf) {
+            stagedEntitiesIdsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'stagedEntitiesIds.anyOf');
+            })
+        }
+        if (stagedEntitiesIdsNotAnyOf) {
+            stagedEntitiesIdsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'stagedEntitiesIds.not.anyOf');
+            })
+        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

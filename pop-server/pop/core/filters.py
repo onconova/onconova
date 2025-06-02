@@ -77,11 +77,23 @@ class NotEndsWithStringFilter(EndsWithStringFilter):
     description='Filter for entries not ending with the text'
     negative = True
 
+class AnyOfStringFilter(DjangoFilter):
+    name='anyOf'
+    description='Filter for entries where at least one reference matches the query'
+    value_type = List[str]
+    lookup='in'
+
+class NotAnyOfStringFilter(AnyOfStringFilter):
+    name='not.anyOf'
+    description='Filter for entries where at least one reference mismatches the query'
+    negative = True
+
 STRING_FILTERS = (
     ExactStringFilter, NotExactStringFilter,
     ContainsStringFilter, NotContainsStringFilter,
     BeginsWithStringFilter, NotBeginsWithStringFilter,
-    EndsWithStringFilter, NotEndsWithStringFilter
+    EndsWithStringFilter, NotEndsWithStringFilter,
+    AnyOfStringFilter, NotAnyOfStringFilter,
 )
 
     
@@ -521,6 +533,39 @@ MULTI_REFERENCE_FILTERS = (
     AllOfReferencesFilter, NotAllOfReferencesFilter,
 )
 
+
+
+class ExactUserReferenceFilter(DjangoFilter):
+    name = 'username'
+    description = 'Filter for username matches'
+    value_type = str
+    lookup = 'username__iexact'
+
+class NotExactUserRefereceFilter(ExactStringFilter):
+    name = 'username.not'
+    description = 'Filter for username mismatches'
+    value_type = str
+    negative = True
+
+class AnyOfUserRefereceFilter(ExactStringFilter):
+    name = 'username.anyOf'
+    description = 'Filter for entries where at least one reference mismatches the query'
+    value_type = List[str]
+    lookup = 'username__in'
+
+class NotAnyOfUserRefereceFilter(AnyOfUserRefereceFilter):
+    name = 'username.not.anyOf'
+    description = 'Filter for entries where at least one reference matches the query'
+    value_type = str
+    negative = True
+
+
+USER_REFERENCE_FILTERS = (
+    ExactUserReferenceFilter, NotExactUserRefereceFilter,
+    AnyOfUserRefereceFilter, NotAnyOfUserRefereceFilter
+)
+
+
 __all__ = (
     *STRING_FILTERS,
     *DATE_FILTERS,
@@ -532,6 +577,7 @@ __all__ = (
     *MULTI_CODED_CONCEPT_FILTERS,
     *REFERENCE_FILTERS,
     *MULTI_REFERENCE_FILTERS,
+    *USER_REFERENCE_FILTERS,
     *ENUM_FILTERS,
     *NULL_FILTERS,
     

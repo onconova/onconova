@@ -102,6 +102,8 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesIdNotBeginsWith?: string;
     suspectedCausesIdEndsWith?: string;
     suspectedCausesIdNotEndsWith?: string;
+    suspectedCausesIdAnyOf?: Array<string>;
+    suspectedCausesIdNotAnyOf?: Array<string>;
     suspectedCausesSystemicTherapyIdNotExists?: boolean;
     suspectedCausesSystemicTherapyIdExists?: boolean;
     suspectedCausesSystemicTherapyId?: string;
@@ -112,6 +114,8 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesSystemicTherapyIdNotBeginsWith?: string;
     suspectedCausesSystemicTherapyIdEndsWith?: string;
     suspectedCausesSystemicTherapyIdNotEndsWith?: string;
+    suspectedCausesSystemicTherapyIdAnyOf?: Array<string>;
+    suspectedCausesSystemicTherapyIdNotAnyOf?: Array<string>;
     suspectedCausesMedicationIdNotExists?: boolean;
     suspectedCausesMedicationIdExists?: boolean;
     suspectedCausesMedicationId?: string;
@@ -122,6 +126,8 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesMedicationIdNotBeginsWith?: string;
     suspectedCausesMedicationIdEndsWith?: string;
     suspectedCausesMedicationIdNotEndsWith?: string;
+    suspectedCausesMedicationIdAnyOf?: Array<string>;
+    suspectedCausesMedicationIdNotAnyOf?: Array<string>;
     suspectedCausesRadiotherapyIdNotExists?: boolean;
     suspectedCausesRadiotherapyIdExists?: boolean;
     suspectedCausesRadiotherapyId?: string;
@@ -132,6 +138,8 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesRadiotherapyIdNotBeginsWith?: string;
     suspectedCausesRadiotherapyIdEndsWith?: string;
     suspectedCausesRadiotherapyIdNotEndsWith?: string;
+    suspectedCausesRadiotherapyIdAnyOf?: Array<string>;
+    suspectedCausesRadiotherapyIdNotAnyOf?: Array<string>;
     suspectedCausesSurgeryIdNotExists?: boolean;
     suspectedCausesSurgeryIdExists?: boolean;
     suspectedCausesSurgeryId?: string;
@@ -142,6 +150,8 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesSurgeryIdNotBeginsWith?: string;
     suspectedCausesSurgeryIdEndsWith?: string;
     suspectedCausesSurgeryIdNotEndsWith?: string;
+    suspectedCausesSurgeryIdAnyOf?: Array<string>;
+    suspectedCausesSurgeryIdNotAnyOf?: Array<string>;
     suspectedCausesCausalityNotExists?: boolean;
     suspectedCausesCausalityExists?: boolean;
     suspectedCausesCausality?: string;
@@ -155,6 +165,8 @@ export interface GetAdverseEventsRequestParams {
     mitigationsIdNotBeginsWith?: string;
     mitigationsIdEndsWith?: string;
     mitigationsIdNotEndsWith?: string;
+    mitigationsIdAnyOf?: Array<string>;
+    mitigationsIdNotAnyOf?: Array<string>;
     mitigationsCategory?: string;
     mitigationsCategoryNot?: string;
     mitigationsCategoryAnyOf?: Array<'adjustment' | 'pharmacological' | 'procedure'>;
@@ -194,6 +206,8 @@ export interface GetAdverseEventsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -202,6 +216,8 @@ export interface GetAdverseEventsRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;

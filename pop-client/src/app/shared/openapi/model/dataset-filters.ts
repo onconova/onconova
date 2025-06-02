@@ -49,6 +49,14 @@ export interface DatasetFilters {
      */
     'rules.field.not.endsWith'?: string;
     /**
+     * None - Filter for entries where at least one reference matches the query
+     */
+    'rules.field.anyOf'?: Array<string>;
+    /**
+     * None - Filter for entries where at least one reference mismatches the query
+     */
+    'rules.field.not.anyOf'?: Array<string>;
+    /**
      * None - Filter for entries without a value
      */
     'rules.transform.not.exists'?: boolean;
@@ -89,6 +97,14 @@ export interface DatasetFilters {
      */
     'rules.transform.not.endsWith'?: string;
     /**
+     * None - Filter for entries where at least one reference matches the query
+     */
+    'rules.transform.anyOf'?: Array<string>;
+    /**
+     * None - Filter for entries where at least one reference mismatches the query
+     */
+    'rules.transform.not.anyOf'?: Array<string>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -121,6 +137,14 @@ export interface DatasetFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Dataset name - Filter for full text matches
      */
     name?: string;
@@ -152,6 +176,14 @@ export interface DatasetFilters {
      * Dataset name - Filter for entries not ending with the text
      */
     'name.not.endsWith'?: string;
+    /**
+     * Dataset name - Filter for entries where at least one reference matches the query
+     */
+    'name.anyOf'?: Array<string>;
+    /**
+     * Dataset name - Filter for entries where at least one reference mismatches the query
+     */
+    'name.not.anyOf'?: Array<string>;
     /**
      * Is public? - (\'Filter for yes/no statement\',)
      */

@@ -10,10 +10,50 @@
 
 
 export interface UserFilters { 
+    /**
+     * Full name - Filter for full text matches
+     */
+    fullName?: string;
+    /**
+     * Full name - Filter for full text mismatches
+     */
+    'fullName.not'?: string;
+    /**
+     * Full name - Filter for partial text matches
+     */
+    'fullName.contains'?: string;
+    /**
+     * Full name - Filter for partial text mismatches
+     */
+    'fullName.not.contains'?: string;
+    /**
+     * Full name - Filter for entries starting with the text
+     */
+    'fullName.beginsWith'?: string;
+    /**
+     * Full name - Filter for entries not starting with the text
+     */
+    'fullName.not.beginsWith'?: string;
+    /**
+     * Full name - Filter for entries ending with the text
+     */
+    'fullName.endsWith'?: string;
+    /**
+     * Full name - Filter for entries not ending with the text
+     */
+    'fullName.not.endsWith'?: string;
+    /**
+     * Full name - Filter for entries where at least one reference matches the query
+     */
+    'fullName.anyOf'?: Array<string>;
+    /**
+     * Full name - Filter for entries where at least one reference mismatches the query
+     */
+    'fullName.not.anyOf'?: Array<string>;
     role?: UserFilters.RoleEnum;
     'role.not'?: UserFilters.RoleNotEnum;
     /**
-     * None - (\'Filter for excluding a subset of value choices\',)
+     * User role - (\'Filter for excluding a subset of value choices\',)
      */
     'role.anyOf'?: Array<UserFilters.RoleAnyOfEnum>;
     /**
@@ -125,6 +165,14 @@ export interface UserFilters {
      */
     'provider.not.endsWith'?: string;
     /**
+     * None - Filter for entries where at least one reference matches the query
+     */
+    'provider.anyOf'?: Array<string>;
+    /**
+     * None - Filter for entries where at least one reference mismatches the query
+     */
+    'provider.not.anyOf'?: Array<string>;
+    /**
      * Last Login - Filter for entries without a value
      */
     'lastLogin.not.exists'?: boolean;
@@ -197,6 +245,14 @@ export interface UserFilters {
      */
     'username.not.endsWith'?: string;
     /**
+     * Username - Filter for entries where at least one reference matches the query
+     */
+    'username.anyOf'?: Array<string>;
+    /**
+     * Username - Filter for entries where at least one reference mismatches the query
+     */
+    'username.not.anyOf'?: Array<string>;
+    /**
      * First Name - Filter for entries without a value
      */
     'firstName.not.exists'?: boolean;
@@ -236,6 +292,14 @@ export interface UserFilters {
      * First Name - Filter for entries not ending with the text
      */
     'firstName.not.endsWith'?: string;
+    /**
+     * First Name - Filter for entries where at least one reference matches the query
+     */
+    'firstName.anyOf'?: Array<string>;
+    /**
+     * First Name - Filter for entries where at least one reference mismatches the query
+     */
+    'firstName.not.anyOf'?: Array<string>;
     /**
      * Last Name - Filter for entries without a value
      */
@@ -277,6 +341,14 @@ export interface UserFilters {
      */
     'lastName.not.endsWith'?: string;
     /**
+     * Last Name - Filter for entries where at least one reference matches the query
+     */
+    'lastName.anyOf'?: Array<string>;
+    /**
+     * Last Name - Filter for entries where at least one reference mismatches the query
+     */
+    'lastName.not.anyOf'?: Array<string>;
+    /**
      * Email Address - Filter for entries without a value
      */
     'email.not.exists'?: boolean;
@@ -317,6 +389,14 @@ export interface UserFilters {
      */
     'email.not.endsWith'?: string;
     /**
+     * Email Address - Filter for entries where at least one reference matches the query
+     */
+    'email.anyOf'?: Array<string>;
+    /**
+     * Email Address - Filter for entries where at least one reference mismatches the query
+     */
+    'email.not.anyOf'?: Array<string>;
+    /**
      * Active - (\'Filter for yes/no statement\',)
      */
     isActive?: boolean;
@@ -352,6 +432,14 @@ export interface UserFilters {
      * Id - Filter for entries not ending with the text
      */
     'id.not.endsWith'?: string;
+    /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
     /**
      * Title - Filter for entries without a value
      */
@@ -393,6 +481,14 @@ export interface UserFilters {
      */
     'title.not.endsWith'?: string;
     /**
+     * Title - Filter for entries where at least one reference matches the query
+     */
+    'title.anyOf'?: Array<string>;
+    /**
+     * Title - Filter for entries where at least one reference mismatches the query
+     */
+    'title.not.anyOf'?: Array<string>;
+    /**
      * Organization - Filter for entries without a value
      */
     'organization.not.exists'?: boolean;
@@ -433,6 +529,14 @@ export interface UserFilters {
      */
     'organization.not.endsWith'?: string;
     /**
+     * Organization - Filter for entries where at least one reference matches the query
+     */
+    'organization.anyOf'?: Array<string>;
+    /**
+     * Organization - Filter for entries where at least one reference mismatches the query
+     */
+    'organization.not.anyOf'?: Array<string>;
+    /**
      * Department - Filter for entries without a value
      */
     'department.not.exists'?: boolean;
@@ -472,6 +576,14 @@ export interface UserFilters {
      * Department - Filter for entries not ending with the text
      */
     'department.not.endsWith'?: string;
+    /**
+     * Department - Filter for entries where at least one reference matches the query
+     */
+    'department.anyOf'?: Array<string>;
+    /**
+     * Department - Filter for entries where at least one reference mismatches the query
+     */
+    'department.not.anyOf'?: Array<string>;
     /**
      * Access level - Filter for entries with values less than the specified value
      */

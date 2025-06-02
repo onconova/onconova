@@ -10,7 +10,8 @@ class UserPasswordReset(Schema):
     newPassword: str
 
 class UserSchema(ModelGetSchema):
-    role: orm.User.AccessRoles = Field(description='User role based on its access level')
+    fullName: str = Field(title='Full name', description='User full name', alias='full_name', validation_alias=AliasChoices('fullName', 'full_name'))
+    role: orm.User.AccessRoles = Field(title='User role', description='User role based on its access level')
     canViewCases: bool = Field(alias='can_view_cases', validation_alias=AliasChoices('canViewCases', 'can_view_cases'))
     canViewProjects: bool = Field(alias='can_view_projects', validation_alias=AliasChoices('canViewProjects', 'can_view_projects'))
     canViewCohorts: bool = Field(alias='can_view_cohorts', validation_alias=AliasChoices('canViewCohorts', 'can_view_cohorts'))

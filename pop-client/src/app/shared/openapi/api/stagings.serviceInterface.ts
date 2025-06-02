@@ -62,6 +62,8 @@ export interface GetStagingsRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     caseId?: string;
     caseIdNot?: string;
     caseIdContains?: string;
@@ -70,6 +72,8 @@ export interface GetStagingsRequestParams {
     caseIdNotBeginsWith?: string;
     caseIdEndsWith?: string;
     caseIdNotEndsWith?: string;
+    caseIdAnyOf?: Array<string>;
+    caseIdNotAnyOf?: Array<string>;
     dateBefore?: string;
     dateAfter?: string;
     dateOnOrBefore?: string;
@@ -80,6 +84,14 @@ export interface GetStagingsRequestParams {
     dateNotBetween?: Array<any>;
     stagedEntitiesIds?: string;
     stagedEntitiesIdsNot?: string;
+    stagedEntitiesIdsContains?: string;
+    stagedEntitiesIdsNotContains?: string;
+    stagedEntitiesIdsBeginsWith?: string;
+    stagedEntitiesIdsNotBeginsWith?: string;
+    stagedEntitiesIdsEndsWith?: string;
+    stagedEntitiesIdsNotEndsWith?: string;
+    stagedEntitiesIdsAnyOf?: Array<string>;
+    stagedEntitiesIdsNotAnyOf?: Array<string>;
     limit?: number;
     offset?: number;
 }

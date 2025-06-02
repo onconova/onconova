@@ -71,10 +71,11 @@ export class UsersManagementCompnent {
     }))
     #modalFormRef: DynamicDialogRef | undefined;
 
-    public openUserForm(initialData: UserCreate | {}) {    
+    public openUserForm(initialData?: User | undefined) {    
         this.#modalFormRef = this.#dialogservice.open(UserFormComponent, {
             inputValues: {
                 initialData: initialData,
+                resourceId: initialData?.id  || undefined,
             },
             data: {
                 title: 'User information',

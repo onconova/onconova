@@ -43,6 +43,14 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'suspectedCauses.id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'suspectedCauses.id.not.anyOf'?: Array<string>;
+    /**
      * Suspected systemic therapy - Filter for entries without a value
      */
     'suspectedCauses.systemicTherapyId.not.exists'?: boolean;
@@ -82,6 +90,14 @@ export interface AdverseEventFilters {
      * Suspected systemic therapy - Filter for entries not ending with the text
      */
     'suspectedCauses.systemicTherapyId.not.endsWith'?: string;
+    /**
+     * Suspected systemic therapy - Filter for entries where at least one reference matches the query
+     */
+    'suspectedCauses.systemicTherapyId.anyOf'?: Array<string>;
+    /**
+     * Suspected systemic therapy - Filter for entries where at least one reference mismatches the query
+     */
+    'suspectedCauses.systemicTherapyId.not.anyOf'?: Array<string>;
     /**
      * Suspected systemic therapy medication - Filter for entries without a value
      */
@@ -123,6 +139,14 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.medicationId.not.endsWith'?: string;
     /**
+     * Suspected systemic therapy medication - Filter for entries where at least one reference matches the query
+     */
+    'suspectedCauses.medicationId.anyOf'?: Array<string>;
+    /**
+     * Suspected systemic therapy medication - Filter for entries where at least one reference mismatches the query
+     */
+    'suspectedCauses.medicationId.not.anyOf'?: Array<string>;
+    /**
      * Suspected radiotherapy - Filter for entries without a value
      */
     'suspectedCauses.radiotherapyId.not.exists'?: boolean;
@@ -163,6 +187,14 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.radiotherapyId.not.endsWith'?: string;
     /**
+     * Suspected radiotherapy - Filter for entries where at least one reference matches the query
+     */
+    'suspectedCauses.radiotherapyId.anyOf'?: Array<string>;
+    /**
+     * Suspected radiotherapy - Filter for entries where at least one reference mismatches the query
+     */
+    'suspectedCauses.radiotherapyId.not.anyOf'?: Array<string>;
+    /**
      * Suspected surgery - Filter for entries without a value
      */
     'suspectedCauses.surgeryId.not.exists'?: boolean;
@@ -202,6 +234,14 @@ export interface AdverseEventFilters {
      * Suspected surgery - Filter for entries not ending with the text
      */
     'suspectedCauses.surgeryId.not.endsWith'?: string;
+    /**
+     * Suspected surgery - Filter for entries where at least one reference matches the query
+     */
+    'suspectedCauses.surgeryId.anyOf'?: Array<string>;
+    /**
+     * Suspected surgery - Filter for entries where at least one reference mismatches the query
+     */
+    'suspectedCauses.surgeryId.not.anyOf'?: Array<string>;
     /**
      * Causality - Filter for entries without a value
      */
@@ -248,6 +288,14 @@ export interface AdverseEventFilters {
      * Id - Filter for entries not ending with the text
      */
     'mitigations.id.not.endsWith'?: string;
+    /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'mitigations.id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'mitigations.id.not.anyOf'?: Array<string>;
     'mitigations.category'?: AdverseEventFilters.MitigationsCategoryEnum;
     'mitigations.category.not'?: AdverseEventFilters.MitigationsCategoryNotEnum;
     /**
@@ -399,6 +447,14 @@ export interface AdverseEventFilters {
      */
     'id.not.endsWith'?: string;
     /**
+     * Id - Filter for entries where at least one reference matches the query
+     */
+    'id.anyOf'?: Array<string>;
+    /**
+     * Id - Filter for entries where at least one reference mismatches the query
+     */
+    'id.not.anyOf'?: Array<string>;
+    /**
      * Patient case - Filter for reference matches
      */
     caseId?: string;
@@ -430,6 +486,14 @@ export interface AdverseEventFilters {
      * Patient case - Filter for entries not ending with the text
      */
     'caseId.not.endsWith'?: string;
+    /**
+     * Patient case - Filter for entries where at least one reference matches the query
+     */
+    'caseId.anyOf'?: Array<string>;
+    /**
+     * Patient case - Filter for entries where at least one reference mismatches the query
+     */
+    'caseId.not.anyOf'?: Array<string>;
     /**
      * Event date - Filter for entries with dates before the specified value
      */

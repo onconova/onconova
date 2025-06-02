@@ -110,6 +110,8 @@ export interface GetPatientCasesRequestParams {
     idNotBeginsWith?: string;
     idEndsWith?: string;
     idNotEndsWith?: string;
+    idAnyOf?: Array<string>;
+    idNotAnyOf?: Array<string>;
     pseudoidentifier?: string;
     pseudoidentifierNot?: string;
     pseudoidentifierContains?: string;
@@ -118,6 +120,8 @@ export interface GetPatientCasesRequestParams {
     pseudoidentifierNotBeginsWith?: string;
     pseudoidentifierEndsWith?: string;
     pseudoidentifierNotEndsWith?: string;
+    pseudoidentifierAnyOf?: Array<string>;
+    pseudoidentifierNotAnyOf?: Array<string>;
     clinicalCenter?: string;
     clinicalCenterNot?: string;
     clinicalCenterContains?: string;
@@ -126,6 +130,8 @@ export interface GetPatientCasesRequestParams {
     clinicalCenterNotBeginsWith?: string;
     clinicalCenterEndsWith?: string;
     clinicalCenterNotEndsWith?: string;
+    clinicalCenterAnyOf?: Array<string>;
+    clinicalCenterNotAnyOf?: Array<string>;
     clinicalIdentifier?: string;
     clinicalIdentifierNot?: string;
     clinicalIdentifierContains?: string;
@@ -134,6 +140,8 @@ export interface GetPatientCasesRequestParams {
     clinicalIdentifierNotBeginsWith?: string;
     clinicalIdentifierEndsWith?: string;
     clinicalIdentifierNotEndsWith?: string;
+    clinicalIdentifierAnyOf?: Array<string>;
+    clinicalIdentifierNotAnyOf?: Array<string>;
     consentStatus?: string;
     consentStatusNot?: string;
     consentStatusAnyOf?: Array<'valid' | 'revoked' | 'unknown'>;

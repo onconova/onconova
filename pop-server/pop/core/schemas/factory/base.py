@@ -13,6 +13,7 @@ from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 
 from pop.terminology.models import CodedConcept
 from pop.core.measures.fields import MeasurementField
+from pop.core.models import User 
 from pop.core.utils import to_camel_case 
 
 class FilterBaseSchema(FilterSchema):
@@ -126,6 +127,7 @@ class BaseSchema(Schema):
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name = True,
+        arbitrary_types_allowed=True,
     )
     
     @model_validator(mode="wrap")
@@ -234,7 +236,9 @@ class BaseSchema(Schema):
                     expanded = related_schema is not None 
                     # Handle one-to-many or many-to-many relationships
                     if field.one_to_many or field.many_to_many:
-                        if expanded:
+                        if field.related_model is User:
+                            data[orm_field_name] = cls._resolve_user(obj, orm_field_name, many=True)
+                        elif expanded:
                             data[orm_field_name] = cls._resolve_expanded_many_to_many(obj, orm_field_name, related_schema)
                         else:
                             data[orm_field_name] = cls._resolve_many_to_many(obj, orm_field_name)
@@ -242,7 +246,9 @@ class BaseSchema(Schema):
                         # Handle one-to-one or foreign key relationships
                         related_object = getattr(obj, orm_field_name)
                         if related_object:
-                            if expanded:
+                            if field.related_model is User:
+                                data[orm_field_name] = cls._resolve_user(obj, orm_field_name)
+                            elif expanded:
                                 # Validate the related object if expansion is needed
                                 data[orm_field_name] = cls._resolve_expanded_foreign_key(obj, orm_field_name, related_schema)
                             else:
@@ -312,6 +318,16 @@ class BaseSchema(Schema):
             unit=default_unit
         )
 
+    @staticmethod
+    def _resolve_user(obj, orm_field_name, many=False):
+        if not getattr(obj, orm_field_name, None):
+            return [] 
+        # Collect related objects and apply validation or get their IDs
+        if many:
+            return [related_object.username for related_object in getattr(obj, orm_field_name).all()]
+        else:
+            return getattr(obj, orm_field_name).username
+
     def model_dump_django(self, 
             model: Optional[Type[DjangoModel]] = None, 
             instance: Optional[DjangoModel] = None, 
@@ -370,6 +386,11 @@ class BaseSchema(Schema):
                         m2m_relations[orm_field.name] = [
                             related_model.objects.get(code=concept.get('code'), system=concept.get('system')) for concept in data or []
                         ]
+                    elif issubclass(related_model, User):
+                        # For users. query the database via the username
+                        m2m_relations[orm_field.name] = [
+                            related_model.objects.get(username=username) for username in data or []
+                        ]
                     else:
                         # Collect all related instances
                         m2m_relations[orm_field.name] = [
@@ -395,9 +416,12 @@ class BaseSchema(Schema):
                             if issubclass(related_model, CodedConcept):
                                 # For coded concepts, wuery the database via the code and codesystem
                                 related_instance = related_model.objects.get(code=data.get('code'), system=data.get('system'))
+                            elif issubclass(related_model, User):
+                                # For users. query the database via the username
+                                related_instance = related_model.objects.get(username=data)
                             else:
                                 # Otherwise, query the database via the foreign key to get the related instance
-                                related_instance = related_model.objects.get(id=data)
+                                related_instance = related_model.objects.get(id=data.get('id') if isinstance(data, dict) else data)
                 # Set the related instance value into the model instance
                 setattr(instance, orm_field.name, related_instance)      
             else:             
