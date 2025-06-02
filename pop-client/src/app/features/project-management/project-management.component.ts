@@ -17,7 +17,6 @@ import { forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
 import { CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "src/app/shared/openapi";
 import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
-import { Panel } from "primeng/panel";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -35,7 +34,6 @@ interface ProjectMember extends User {
         CommonModule,
         Skeleton,
         UserBadgeComponent,
-        Panel,
         ConfirmDialog,
         ToggleSwitch,
         TagModule,

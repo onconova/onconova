@@ -40,22 +40,22 @@ export class AppSidebarMenuComponent {
                 ]
             },
             {
-                label: 'Cases',
+                label: 'Data Hub',
                 items: [
                     { 
-                        label: 'Search Cases', 
+                        label: 'Case Explorer', 
                         icon: 'pi pi-fw pi-search', 
                         routerLink: ['/cases/search'],
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
-                        label: 'My Cases', 
+                        label: 'My Case List', 
                         icon: 'pi pi-fw pi-search-plus', 
                         routerLink: ['/cases/search/', this.currenUser().username],
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
-                        label: 'Import', 
+                        label: 'Upload Cases', 
                         icon: 'pi pi-fw pi-file-import', 
                         routerLink: ['/cases/import'],
                         disabled: this.#accessLevel() == 0,
@@ -63,10 +63,10 @@ export class AppSidebarMenuComponent {
                 ]
             },
             {
-                label: 'Projects',
+                label: 'Research Management',
                 items: [
                     { 
-                        label: 'Search Projects', 
+                        label: 'Project Explorer', 
                         icon: 'pi pi-fw pi-graduation-cap', 
                         routerLink: ['/projects/search'],
                         disabled: this.#accessLevel() == 0,
@@ -79,7 +79,7 @@ export class AppSidebarMenuComponent {
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
-                        label: 'Search Cohorts', 
+                        label: 'Cohort Explorer', 
                         icon: 'pi pi-fw pi-users', 
                         routerLink: ['/cohorts/search'],
                         disabled: this.#accessLevel() == 0,
