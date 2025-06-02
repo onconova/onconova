@@ -61,9 +61,6 @@ export class ProjectSearchItemComponent {
     // Injected services
     readonly #authService = inject(AuthService);
     readonly #router = inject(Router);
-    readonly #confirmationService = inject(ConfirmationService);
-    readonly #downloadService = inject(DownloadService);
-    readonly #messageService = inject(MessageService);
     readonly #cohortsService = inject(CohortsService);
 
 
@@ -79,6 +76,11 @@ export class ProjectSearchItemComponent {
             command: (event: any) => this.onEdit.emit(this.project()),
         },
     ];
+
+    protected cohortsCount = rxResource({
+        request: () => ({projectId: this.project().id}),
+        loader: ({request}) => this.#cohortsService.getCohorts(request).pipe(map(response => response.count))
+    })
     
 
     openProjectManagement() {

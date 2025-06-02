@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { ConfirmationService, MenuItem, MessageService } from "primeng/api";
 import { Button } from "primeng/button";
 import { ConfirmDialog } from "primeng/confirmdialog";
+import { DataView } from "primeng/dataview";
 import { DatePicker } from "primeng/datepicker";
 import { Fluid } from "primeng/fluid";
 import { Menu } from "primeng/menu";
@@ -14,7 +15,9 @@ import { TagModule } from "primeng/tag";
 import { ToggleSwitch } from "primeng/toggleswitch";
 import { forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
-import { Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "src/app/shared/openapi";
+import { CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "src/app/shared/openapi";
+import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
+import { Panel } from "primeng/panel";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -32,13 +35,16 @@ interface ProjectMember extends User {
         CommonModule,
         Skeleton,
         UserBadgeComponent,
+        Panel,
         ConfirmDialog,
         ToggleSwitch,
         TagModule,
+        DataView,
         TableModule,
         DatePicker,
         Menu,
         Button,
+        CohortSearchItemComponent,
     ]
 })
 export class ProjectManagementComponent {
@@ -49,6 +55,7 @@ export class ProjectManagementComponent {
     readonly #userService = inject(UsersService);
     readonly #messageService = inject(MessageService);
     readonly #confirmationService = inject(ConfirmationService);
+    readonly #cohortsService = inject(CohortsService);
 
     protected project = rxResource({
         request: () => ({projectId: this.projectId()}),
@@ -74,6 +81,14 @@ export class ProjectManagementComponent {
         )
     });
 
+    protected cohorts = rxResource({
+        request: () => ({projectId: this.projectId()}),
+        loader: ({request}) => this.#cohortsService.getCohorts(request).pipe(map(response => {
+            this.totalCohorts.set(response.count)
+            return response.items
+        }))
+    });
+
     protected authDialogMember = signal<ProjectMember | null>(null);
     protected authDialogConfirmation = signal<boolean>(false);
     protected authDialogValidityPeriod = signal<Date[]>([]);
@@ -86,6 +101,13 @@ export class ProjectManagementComponent {
         return new Date(start.getTime() + 31 * 24 * 60 * 60 * 1000)
     })
     
+
+
+    // Pagination and search settings
+    public readonly cohortsPageSizeChoices: number[] = [12, 24, 36, 48, 60];
+    public cohortsPagination = signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
+    public totalCohorts= signal(0);
+
 
     getValidityPeriodAnnotation(period: Period) {
         const today = new Date()
@@ -113,12 +135,19 @@ export class ProjectManagementComponent {
                 {
                     label: 'Grant data management authorization',
                     icon: 'pi pi-plus',
-                    disabled: (member?.accessLevel || 0) >= 4 || !!member.authorization,
+                    disabled: this.project.value()?.status === ProjectStatusChoices.Completed 
+                            || this.project.value()?.status === ProjectStatusChoices.Aborted 
+                            || (member?.accessLevel || 0) >= 4 
+                            || !!member.authorization,
                     command: (event: any) => {this.grantNewAuthorization(event, member)}
                 },
                 {
                     label: 'Revoke data management authorization',
-                    disabled: (member?.accessLevel || 0) >= 4 || !member.authorization || (new Date(member.authorization.validityPeriod.end as string) < new Date()),
+                    disabled: this.project.value()?.status === ProjectStatusChoices.Completed 
+                            || this.project.value()?.status === ProjectStatusChoices.Aborted 
+                            || (member?.accessLevel || 0) >= 4 
+                            || !member.authorization 
+                            || (new Date(member.authorization.validityPeriod.end as string) < new Date()),
                     icon: 'pi pi-times',
                     command: (event: any) => {this.revokeAuthorization(event, member)}
                 },

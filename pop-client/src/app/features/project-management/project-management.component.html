@@ -14,20 +14,22 @@
     }
 </div>
 
-<div class="text-sm text-muted mt-3">
-    Project leader
-</div>
-<div>
-    @if (project.isLoading()) {
-        <p-skeleton width="10rem" height="2rem"/>
-    } @else {
-        <pop-user-badge [username]="project.value()!.leader" [showName]="true"/>
-    }
-</div>
-
 <div class="flex gap-4">
     <div>
         <div class="text-sm text-muted mt-3">
+            Project leader
+        </div>
+        <div>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="2rem"/>
+            } @else {
+                <pop-user-badge [username]="project.value()!.leader" [showName]="true"/>
+            }
+        </div>
+    </div>
+    
+        <div>
+        <div class="text-sm text-muted mt-3 mb-1">
             Created
         </div>
         <div>
@@ -39,7 +41,7 @@
         </div>
     </div>
     <div>
-        <div class="text-sm text-muted mt-3">
+        <div class="text-sm text-muted mt-3 mb-1">
             Last updated
         </div>
         <div>
@@ -53,10 +55,10 @@
 </div>
 
 
-<div class="text-sm text-muted mt-3">
+<div class="text-sm text-muted mt-2">
     Summary
 </div>
-<div>
+<div class="mb-5">
     @if (project.isLoading()) {
         <p-skeleton width="100%" height="4rem"/>
     } @else {
@@ -65,7 +67,7 @@
 </div>
 
 
-<h5>Project members</h5>
+<h6 class="font-semibold">Project members</h6>
 <p-table 
     [value]="members.value() ?? []"
     sortField="fullName"
@@ -142,6 +144,52 @@
         </tr>
     </ng-template>
 </p-table>
+
+<h6 class="font-semibold">Cohorts</h6>
+<p-dataView
+    styleClass="pop-case-search-dataview"
+    [value]="cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+    [paginator]="true" 
+    [rows]="cohortsPagination().limit" 
+    layout="grid"
+    sortField="createdAt"
+    lazy="true"
+    [rowsPerPageOptions]="cohortsPageSizeChoices"
+    [totalRecords]="totalCohorts()"
+    (onLazyLoad)="cohortsPagination.set({limit: $event.rows, offset: $event.first})"
+    class="no-background">
+
+    <ng-template #grid let-cohortsPage>
+        <div class="grid mt-3" >
+            @for (cohort of cohortsPage; track $index; let first = $first) {
+                <div class="col p-2">
+                    @if (cohorts.isLoading()) {
+                        <div class="pop-project-search-item-card placeholder" @fadeAnimation>
+                            <div class="flex my-3">
+                                <p-skeleton width="4rem" height="4rem"/>
+                                <div class="flex flex-column mx-3">
+                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                    <p-skeleton width="15rem" height="1.5rem"/>      
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-4">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <div class="my-3 mb-5">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
+                        </div>
+                    } @else {
+                        <pop-cohort-search-item 
+                            @fadeAnimation
+                            [cohort]="cohort"/>                              
+                    }
+                </div>
+            }
+        </div>
+    </ng-template>
+</p-dataView>
 
 
 
