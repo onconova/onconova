@@ -50,7 +50,7 @@ export class AppSidebarMenuComponent {
                     },
                     { 
                         label: 'My Case List', 
-                        icon: 'pi pi-fw pi-search-plus', 
+                        icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/cases/search/', this.currenUser().username],
                         disabled: this.#accessLevel() == 0,
                     },
@@ -73,7 +73,7 @@ export class AppSidebarMenuComponent {
                     },
                     { 
                         label: 'My Projects', 
-                        icon: 'pi pi-fw pi-graduation-cap', 
+                        icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/projects/search'],
                         queryParams: { member: this.currenUser().username },
                         disabled: this.#accessLevel() == 0,
@@ -86,7 +86,7 @@ export class AppSidebarMenuComponent {
                     },
                     { 
                         label: 'My Cohorts', 
-                        icon: 'pi pi-fw pi-user', 
+                        icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/cohorts/search/', this.currenUser().username],
                         disabled: this.#accessLevel() == 0,
                     },
