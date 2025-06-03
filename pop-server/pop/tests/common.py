@@ -1,6 +1,7 @@
 from django.db import connection
 from django.db.models.base import ModelBase
 from django.test import TestCase, Client
+from urllib.parse import urlencode
 
 class AbstractModelMixinTestCase(TestCase):
     """
@@ -107,7 +108,7 @@ class ApiControllerTestMixin:
         return {"X-Session-Token": str(token)}
 
 
-    def call_api_endpoint(self, verb, route, expected_responses, authenticated, use_https, access_level, data=None):        
+    def call_api_endpoint(self, verb, route, expected_responses, authenticated, use_https, access_level, anonymized=None, data=None):        
         # Set the user access level for this call
         self.user.access_level = access_level
         self.user.save()
@@ -119,8 +120,10 @@ class ApiControllerTestMixin:
             'PUT': client.put,
             'DELETE': client.delete,
         }
+        queryparams = f'?{urlencode({"anonymized": anonymized})}' if verb=='GET' and anonymized is not None else ''
+        print('URL',  f'{self.controller_path}{route}' + queryparams)
         response = action[verb](
-            f'{self.controller_path}{route}', 
+            f'{self.controller_path}{route}' + queryparams, 
             secure=use_https, 
             data=data if data is not None else None, 
             content_type="application/json"

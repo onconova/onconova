@@ -7,12 +7,12 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
+from pop.core.anonymization import  anonymize
 from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import PerformanceStatus
 
 from django.shortcuts import get_object_or_404
-
 from pop.oncology.schemas import PerformanceStatusSchema, PerformanceStatusCreateSchema, PerformanceStatusFilters
 
 
@@ -32,7 +32,8 @@ class PerformanceStatusController(ControllerBase):
         operation_id='getPerformanceStatus',
     )
     @paginate()
-    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters]): # type: ignore
+    @anonymize()
+    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters], anonymized: bool = True): # type: ignore
         queryset = PerformanceStatus.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -57,7 +58,8 @@ class PerformanceStatusController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getPerformanceStatusById',
     )
-    def get_performance_status_by_id(self, performanceStatusId: str):
+    @anonymize()
+    def get_performance_status_by_id(self, performanceStatusId: str, anonymized: bool = True):
         return get_object_or_404(PerformanceStatus, id=performanceStatusId)
 
     @route.put(

@@ -41,7 +41,7 @@ class SchemaFactory(NinjaSchemaFactory):
         reverse_fields: List[str] = None,
         optional_fields: Optional[List[str]] = None,
         custom_fields: Optional[List[Tuple[str, Any, Any]]] = None,
-        base_class: Type[Schema] = BaseSchema,
+        bases: List[Type[Schema]] = [BaseSchema],
     ) -> Type[Schema]:
         """
         Creates a Pydantic schema from a Django model.
@@ -114,8 +114,8 @@ class SchemaFactory(NinjaSchemaFactory):
 
         schema: Type[Schema] = create_pydantic_model(
             name,
-            __base__= (OrmMetadataMixin, base_class),
-            __module__=base_class.__module__,
+            __base__= (OrmMetadataMixin, *bases),
+            __module__=bases[-1].__module__,
             __validators__={},
             **definitions,
         )
@@ -155,7 +155,7 @@ class SchemaFactory(NinjaSchemaFactory):
         definitions = {}
         filter_fcns = {}
         for field_name, field_info in schema.model_fields.items():
-            if field_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource']:
+            if field_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource', 'anonymized']:
                 continue
             schema_fields = get_schema_field_filters(field_name, field_info)
             for field_name, (python_type, field_info), (method_name, filter_fcn) in schema_fields:

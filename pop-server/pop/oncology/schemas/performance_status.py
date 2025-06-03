@@ -2,6 +2,7 @@ from typing import Optional
 from pydantic import Field, AliasChoices
 
 from pop.oncology import models as orm
+from pop.core.anonymization import AnonymizationConfig
 from pop.core.schemas import CodedConceptSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
@@ -18,7 +19,7 @@ class PerformanceStatusSchema(ModelGetSchema):
         alias='karnofsky_interpretation',
         validation_alias=AliasChoices('karnofskyInterpretation', 'karnofsky_interpretation'),
     )
-    config = SchemaConfig(model=orm.PerformanceStatus)
+    config = SchemaConfig(model=orm.PerformanceStatus, anonymization=AnonymizationConfig(fields=['date'], key='caseId'))
 
 
 class PerformanceStatusCreateSchema(ModelCreateSchema):
