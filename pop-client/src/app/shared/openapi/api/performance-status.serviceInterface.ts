@@ -99,12 +99,14 @@ export interface GetPerformanceStatusRequestParams {
     karnofskyScoreNotEqual?: number;
     karnofskyScoreBetween?: Array<any>;
     karnofskyScoreNotBetween?: Array<any>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetPerformanceStatusByIdRequestParams {
     performanceStatusId: string;
+    anonymized?: boolean;
 }
 
 export interface GetPerformanceStatusHistoryEventByIdRequestParams {

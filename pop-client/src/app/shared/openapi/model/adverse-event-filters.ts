@@ -257,6 +257,10 @@ export interface AdverseEventFilters {
      */
     'suspectedCauses.causality.anyOf'?: Array<AdverseEventFilters.SuspectedCausesCausalityAnyOfEnum>;
     /**
+     * Is anonymized - (\'Filter for yes/no statement\',)
+     */
+    'suspectedCauses.anonymized'?: boolean;
+    /**
      * Id - Filter for full text matches
      */
     'mitigations.id'?: string;
@@ -414,6 +418,10 @@ export interface AdverseEventFilters {
      * Management - Filter for all child concepts of a given concepts code
      */
     'mitigations.management.descendantsOf'?: string;
+    /**
+     * Is anonymized - (\'Filter for yes/no statement\',)
+     */
+    'mitigations.anonymized'?: boolean;
     /**
      * Id - Filter for full text matches
      */

@@ -157,6 +157,7 @@ export interface GetAdverseEventsRequestParams {
     suspectedCausesCausality?: string;
     suspectedCausesCausalityNot?: string;
     suspectedCausesCausalityAnyOf?: Array<'unrelated' | 'unlikely-related' | 'possibly-related' | 'probably-related' | 'definitely-related' | 'conditionally-related'>;
+    suspectedCausesAnonymized?: boolean;
     mitigationsId?: string;
     mitigationsIdNot?: string;
     mitigationsIdContains?: string;
@@ -198,6 +199,7 @@ export interface GetAdverseEventsRequestParams {
     mitigationsManagementAnyOf?: Array<string>;
     mitigationsManagementNotAnyOf?: Array<string>;
     mitigationsManagementDescendantsOf?: string;
+    mitigationsAnonymized?: boolean;
     id?: string;
     idNot?: string;
     idContains?: string;

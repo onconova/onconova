@@ -66,6 +66,10 @@ export interface PatientCase {
      */
     description: string;
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * Date-time when the resource was created
      */
     createdAt: string;

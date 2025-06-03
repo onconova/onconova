@@ -25,7 +25,7 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
 
 
 export interface DataService {
-    get: (caseId: string) => Observable<{items: any[]}>;
+    get: ({request} : any) => Observable<{items: any[]}>;
     delete: (id: string) => Observable<any>;
     history: (id: string) => Observable<any>;
 }
@@ -58,6 +58,7 @@ export class CaseManagerPanelComponent {
     readonly #dialogservice = inject(DialogService);
 
     @Input() formComponent!: any;
+    readonly anonymized = input<boolean>(true)
 
 
     public caseId = input.required<string>();
@@ -73,8 +74,8 @@ export class CaseManagerPanelComponent {
     public currentUser = computed(() => this.#authService.user());
     public isCompleted = computed(() => this.dataCompletionStatus.value()?.status);
     public data = rxResource({
-        request: () => ({caseId: this.caseId()}),
-        loader: ({request}) => this.service().get(request.caseId).pipe(map(response => response.items)),
+        request: () => ({caseId: this.caseId(), anonymized: this.anonymized()}),
+        loader: ({request}) => this.service().get(request).pipe(map(response => response.items)),
     });
 
     #modalFormConfig = computed( () => ({

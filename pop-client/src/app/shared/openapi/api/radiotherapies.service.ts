@@ -730,6 +730,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const dosagesIrradiatedVolumeQualifierAnyOf = requestParameters?.dosagesIrradiatedVolumeQualifierAnyOf;
         const dosagesIrradiatedVolumeQualifierNotAnyOf = requestParameters?.dosagesIrradiatedVolumeQualifierNotAnyOf;
         const dosagesIrradiatedVolumeQualifierDescendantsOf = requestParameters?.dosagesIrradiatedVolumeQualifierDescendantsOf;
+        const dosagesAnonymized = requestParameters?.dosagesAnonymized;
         const settingsId = requestParameters?.settingsId;
         const settingsIdNot = requestParameters?.settingsIdNot;
         const settingsIdContains = requestParameters?.settingsIdContains;
@@ -750,6 +751,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const settingsTechniqueAnyOf = requestParameters?.settingsTechniqueAnyOf;
         const settingsTechniqueNotAnyOf = requestParameters?.settingsTechniqueNotAnyOf;
         const settingsTechniqueDescendantsOf = requestParameters?.settingsTechniqueDescendantsOf;
+        const settingsAnonymized = requestParameters?.settingsAnonymized;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -967,6 +969,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dosagesIrradiatedVolumeQualifierDescendantsOf, 'dosages.irradiatedVolumeQualifier.descendantsOf');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>dosagesAnonymized, 'dosages.anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>settingsId, 'settings.id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>settingsIdNot, 'settings.id.not');
@@ -1030,6 +1034,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>settingsTechniqueDescendantsOf, 'settings.technique.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>settingsAnonymized, 'settings.anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

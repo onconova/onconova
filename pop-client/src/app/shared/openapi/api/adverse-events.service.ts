@@ -1022,6 +1022,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesCausality = requestParameters?.suspectedCausesCausality;
         const suspectedCausesCausalityNot = requestParameters?.suspectedCausesCausalityNot;
         const suspectedCausesCausalityAnyOf = requestParameters?.suspectedCausesCausalityAnyOf;
+        const suspectedCausesAnonymized = requestParameters?.suspectedCausesAnonymized;
         const mitigationsId = requestParameters?.mitigationsId;
         const mitigationsIdNot = requestParameters?.mitigationsIdNot;
         const mitigationsIdContains = requestParameters?.mitigationsIdContains;
@@ -1063,6 +1064,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const mitigationsManagementAnyOf = requestParameters?.mitigationsManagementAnyOf;
         const mitigationsManagementNotAnyOf = requestParameters?.mitigationsManagementNotAnyOf;
         const mitigationsManagementDescendantsOf = requestParameters?.mitigationsManagementDescendantsOf;
+        const mitigationsAnonymized = requestParameters?.mitigationsAnonymized;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -1292,6 +1294,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>suspectedCausesAnonymized, 'suspectedCauses.anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsId, 'mitigations.id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsIdNot, 'mitigations.id.not');
@@ -1417,6 +1421,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsManagementDescendantsOf, 'mitigations.management.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>mitigationsAnonymized, 'mitigations.anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

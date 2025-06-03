@@ -13518,6 +13518,17 @@
           },
           {
             "in": "query",
+            "name": "medications.anonymized",
+            "schema": {
+              "description": "Is anonymized - ('Filter for yes/no statement',)",
+              "title": "Medications.Anonymized",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is anonymized - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
             "name": "duration.lessThan",
             "schema": {
               "description": "None - Filter for entries with values less than the specified value",
@@ -17531,6 +17542,17 @@
           },
           {
             "in": "query",
+            "name": "dosages.anonymized",
+            "schema": {
+              "description": "Is anonymized - ('Filter for yes/no statement',)",
+              "title": "Dosages.Anonymized",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is anonymized - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
             "name": "settings.id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -17766,6 +17788,17 @@
             },
             "required": false,
             "description": "Technique - Filter for all child concepts of a given concepts code"
+          },
+          {
+            "in": "query",
+            "name": "settings.anonymized",
+            "schema": {
+              "description": "Is anonymized - ('Filter for yes/no statement',)",
+              "title": "Settings.Anonymized",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is anonymized - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -22145,6 +22178,17 @@
           },
           {
             "in": "query",
+            "name": "suspectedCauses.anonymized",
+            "schema": {
+              "description": "Is anonymized - ('Filter for yes/no statement',)",
+              "title": "Suspectedcauses.Anonymized",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is anonymized - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
             "name": "mitigations.id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -22650,6 +22694,17 @@
             },
             "required": false,
             "description": "Management - Filter for all child concepts of a given concepts code"
+          },
+          {
+            "in": "query",
+            "name": "mitigations.anonymized",
+            "schema": {
+              "description": "Is anonymized - ('Filter for yes/no statement',)",
+              "title": "Mitigations.Anonymized",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is anonymized - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -28104,6 +28159,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -28201,6 +28266,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -44636,6 +44711,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45040,6 +45121,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45252,6 +45339,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45417,6 +45510,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -45606,6 +45705,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45739,6 +45844,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -45876,6 +45987,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -46029,6 +46146,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46166,6 +46289,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -46422,6 +46551,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46600,6 +46735,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -46780,6 +46921,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -47299,6 +47446,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47466,6 +47619,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47610,6 +47769,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -47756,6 +47921,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47893,6 +48064,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48029,6 +48206,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -48248,6 +48431,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48371,6 +48560,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -48560,6 +48755,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48704,6 +48905,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -48926,6 +49133,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -49141,6 +49354,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -49330,6 +49549,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -49599,6 +49824,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -50062,6 +50293,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -50215,6 +50452,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -50410,6 +50653,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -50575,6 +50824,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -50693,6 +50948,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -50843,6 +51104,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -51020,6 +51287,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -51170,6 +51443,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -51380,6 +51659,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -51585,6 +51870,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -51863,6 +52154,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -52152,6 +52449,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -52313,6 +52616,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -52490,6 +52799,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -52783,6 +53098,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -52970,6 +53291,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53104,6 +53431,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -53251,6 +53584,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -53450,6 +53789,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53585,6 +53930,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -54764,6 +55115,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -59902,6 +60259,11 @@
             "title": "Medications.Dosageratemasssurface.Not.Between",
             "type": "array"
           },
+          "medications.anonymized": {
+            "description": "Is anonymized - ('Filter for yes/no statement',)",
+            "title": "Medications.Anonymized",
+            "type": "boolean"
+          },
           "duration.lessThan": {
             "description": "None - Filter for entries with values less than the specified value",
             "title": "Duration.Lessthan",
@@ -61851,6 +62213,11 @@
             "title": "Dosages.Irradiatedvolumequalifier.Descendantsof",
             "type": "string"
           },
+          "dosages.anonymized": {
+            "description": "Is anonymized - ('Filter for yes/no statement',)",
+            "title": "Dosages.Anonymized",
+            "type": "boolean"
+          },
           "settings.id": {
             "description": "Id - Filter for full text matches",
             "title": "Settings.Id",
@@ -61968,6 +62335,11 @@
             "description": "Technique - Filter for all child concepts of a given concepts code",
             "title": "Settings.Technique.Descendantsof",
             "type": "string"
+          },
+          "settings.anonymized": {
+            "description": "Is anonymized - ('Filter for yes/no statement',)",
+            "title": "Settings.Anonymized",
+            "type": "boolean"
           },
           "id": {
             "description": "Id - Filter for full text matches",
@@ -63731,6 +64103,11 @@
             "title": "Suspectedcauses.Causality.Anyof",
             "type": "array"
           },
+          "suspectedCauses.anonymized": {
+            "description": "Is anonymized - ('Filter for yes/no statement',)",
+            "title": "Suspectedcauses.Anonymized",
+            "type": "boolean"
+          },
           "mitigations.id": {
             "description": "Id - Filter for full text matches",
             "title": "Mitigations.Id",
@@ -63992,6 +64369,11 @@
             "description": "Management - Filter for all child concepts of a given concepts code",
             "title": "Mitigations.Management.Descendantsof",
             "type": "string"
+          },
+          "mitigations.anonymized": {
+            "description": "Is anonymized - ('Filter for yes/no statement',)",
+            "title": "Mitigations.Anonymized",
+            "type": "boolean"
           },
           "id": {
             "description": "Id - Filter for full text matches",
@@ -72745,6 +73127,12 @@
             "title": "Description",
             "type": "string"
           },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -74014,6 +74402,12 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
+          },
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",

@@ -576,6 +576,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const medicationsDosageRateMassSurfaceNotEqual = requestParameters?.medicationsDosageRateMassSurfaceNotEqual;
         const medicationsDosageRateMassSurfaceBetween = requestParameters?.medicationsDosageRateMassSurfaceBetween;
         const medicationsDosageRateMassSurfaceNotBetween = requestParameters?.medicationsDosageRateMassSurfaceNotBetween;
+        const medicationsAnonymized = requestParameters?.medicationsAnonymized;
         const durationLessThan = requestParameters?.durationLessThan;
         const durationLessThanOrEqual = requestParameters?.durationLessThanOrEqual;
         const durationGreaterThan = requestParameters?.durationGreaterThan;
@@ -966,6 +967,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
                   <any>element, 'medications.dosageRateMassSurface.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>medicationsAnonymized, 'medications.anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>durationLessThan, 'duration.lessThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

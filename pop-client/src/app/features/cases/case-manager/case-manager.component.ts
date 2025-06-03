@@ -1,4 +1,4 @@
-import { Component, inject, input, computed, contentChild, TemplateRef  } from '@angular/core';
+import { Component, inject, input, computed, contentChild, TemplateRef, signal  } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -125,87 +125,87 @@ export class CaseManagerComponent {
 
 
     public neoplasticEntityService: DataService = {
-        get: (caseId) => this.#neoplasticEntitiesService.getNeoplasticEntities({caseId: caseId}),
+        get: (request) => this.#neoplasticEntitiesService.getNeoplasticEntities(request),
         delete: (id) => this.#neoplasticEntitiesService.deleteNeoplasticEntityById({entityId: id}),
         history: (id) => this.#neoplasticEntitiesService.getAllNeoplasticEntityHistoryEvents({entityId: id}),
     };
     public stagingService: DataService = {
-        get: (caseId) => this.#stagingsService.getStagings({caseId: caseId}),
+        get: (request) => this.#stagingsService.getStagings(request),
         delete: (id) => this.#stagingsService.deleteStagingById({stagingId: id}),
         history: (id) => this.#stagingsService.getAllStagingHistoryEvents({stagingId: id}),
     };
     public tumorMarkerService: DataService = {
-        get: (caseId) => this.#tumorMarkersService.getTumorMarkers({caseId: caseId}),
+        get: (request) => this.#tumorMarkersService.getTumorMarkers(request),
         delete: (id) => this.#tumorMarkersService.deleteTumorMarkerById({tumorMarkerId: id}),
         history: (id) => this.#tumorMarkersService.getAllTumorMarkerHistoryEvents({tumorMarkerId: id}),
     };
     public riskAssessmentService: DataService = {
-        get: (caseId) => this.#riskAssessmentsService.getRiskAssessments({caseId: caseId}),
+        get: (request) => this.#riskAssessmentsService.getRiskAssessments(request),
         delete: (id) => this.#riskAssessmentsService.deleteRiskAssessmentById({riskAssessmentId: id}),
         history: (id) => this.#riskAssessmentsService.getAllRiskAssessmentHistoryEvents({riskAssessmentId: id}),
     };
     public systemicTherapyService: DataService = {
-        get: (caseId) => this.#systemicTherapiesService.getSystemicTherapies({caseId: caseId}),
+        get: (request) => this.#systemicTherapiesService.getSystemicTherapies(request),
         delete: (id) => this.#systemicTherapiesService.deleteSystemicTherapyById({systemicTherapyId: id}),
         history: (id) => this.#systemicTherapiesService.getAllSystemicTherapyHistoryEvents({systemicTherapyId: id}),
     };
     public performanceStatusService: DataService = {
-        get: (caseId) => this.#performanceStatiiService.getPerformanceStatus({caseId: caseId}),
+        get: (request) => this.#performanceStatiiService.getPerformanceStatus(request),
         delete: (id) => this.#performanceStatiiService.deletePerformanceStatus({performanceStatusId: id}),
         history: (id) => this.#performanceStatiiService.getAllPerformanceStatusHistoryEvents({performanceStatusId: id}),
     };
     public surgeryService: DataService = {
-        get: (caseId) => this.#surgeriesService.getSurgeries({caseId: caseId}),
+        get: (request) => this.#surgeriesService.getSurgeries(request),
         delete: (id) => this.#surgeriesService.deleteSurgeryById({surgeryId: id}),
         history: (id) => this.#surgeriesService.getAllSurgeryHistoryEvents({surgeryId: id}),
     };
     public radiotherapyService: DataService = {
-        get: (caseId) => this.#radiotherapiesService.getRadiotherapies({caseId: caseId}),
+        get: (request) => this.#radiotherapiesService.getRadiotherapies(request),
         delete: (id) => this.#radiotherapiesService.deleteRadiotherapyById({radiotherapyId: id}),
         history: (id) => this.#radiotherapiesService.getAllRadiotherapyHistoryEvents({radiotherapyId: id}),
     };
     public lifestyleService: DataService = {
-        get: (caseId) => this.#lifestylesService.getLifestyles({caseId: caseId}),
+        get: (request) => this.#lifestylesService.getLifestyles(request),
         delete: (id) => this.#lifestylesService.deleteLifestyleById({lifestyleId: id}),
         history: (id) => this.#lifestylesService.getAllLifestyleHistoryEvents({lifestyleId: id}),
     };
     public familyHistoryService: DataService = {
-        get: (caseId) => this.#familyHistoriesService.getFamilyHistories({caseId: caseId}),
+        get: (request) => this.#familyHistoriesService.getFamilyHistories(request),
         delete: (id) => this.#familyHistoriesService.deleteFamilyHistoryById({familyHistoryId: id}),
         history: (id) => this.#familyHistoriesService.getAllFamilyHistoryHistoryEvents({familyHistoryId: id}),
     };
     public comorbiditiesAssessmentService: DataService = {
-        get: (caseId) => this.#comorbiditiesAssessmentsService.getComorbiditiesAssessments({caseId: caseId}),
+        get: (request) => this.#comorbiditiesAssessmentsService.getComorbiditiesAssessments(request),
         delete: (id) => this.#comorbiditiesAssessmentsService.deleteComorbiditiesAssessment({comorbiditiesAssessmentId: id}),
         history: (id) => this.#comorbiditiesAssessmentsService.getAllComorbiditiesAssessmentHistoryEvents({comorbiditiesAssessmentId: id}),
     };
     public genomicVariantService: DataService = {
-        get: (caseId) => this.#genomicVariantsService.getGenomicVariants({caseId: caseId}),
+        get: (request) => this.#genomicVariantsService.getGenomicVariants(request),
         delete: (id) => this.#genomicVariantsService.deleteGenomicVariant({genomicVariantId: id}),
         history: (id) => this.#genomicVariantsService.getAllGenomicVariantHistoryEvents({genomicVariantId: id}),
     };
     public genomicSignatureService: DataService = {
-        get: (caseId) => this.#genomicSignaturesService.getGenomicSignatures({caseId: caseId}),
+        get: (request) => this.#genomicSignaturesService.getGenomicSignatures(request),
         delete: (id) => this.#genomicSignaturesService.deleteGenomicSignatureById({genomicSignatureId: id}),
         history: (id) => this.#genomicSignaturesService.getAllGenomicSignatureHistoryEvents({genomicSignatureId: id}),
     };
     public vitalsService: DataService = {
-        get: (caseId) => this.#vitalsCoreService.getVitals({caseId: caseId}),
+        get: (request) => this.#vitalsCoreService.getVitals(request),
         delete: (id) => this.#vitalsCoreService.deleteVitalsById({vitalsId: id}),
         history: (id) => this.#vitalsCoreService.getAllVitalsHistoryEvents({vitalsId: id}),
     };
     public adverseEventService: DataService = {
-        get: (caseId) => this.#adverseEventsService.getAdverseEvents({caseId: caseId}),
+        get: (request) => this.#adverseEventsService.getAdverseEvents(request),
         delete: (id) => this.#adverseEventsService.deleteAdverseEventById({adverseEventId: id}),
         history: (id) => this.#adverseEventsService.getAllAdverseEventHistoryEvents({adverseEventId: id}),
     };
     public tumorBoardService: DataService = {
-        get: (caseId) => this.#tumorBoardsService.getTumorBoards({caseId: caseId}),
+        get: (request) => this.#tumorBoardsService.getTumorBoards(request),
         delete: (id) => this.#tumorBoardsService.deleteTumorBoardById({tumorBoardId: id}),
         history: (id) => this.#tumorBoardsService.getAllTumorBoardHistoryEvents({tumorBoardId: id}),
     };
     public treatmentResponseService: DataService = {
-        get: (caseId) => this.#treatmentResponsesService.getTreatmentResponses({caseId: caseId}),
+        get: (request) => this.#treatmentResponsesService.getTreatmentResponses(request),
         delete: (id) => this.#treatmentResponsesService.deleteTreatmentResponse({treatmentRresponseId: id}),
         history: (id) => this.#treatmentResponsesService.getAllTreatmentResponseHistoryEvents({treatmentRresponseId: id}),
     };
@@ -254,6 +254,7 @@ export class CaseManagerComponent {
     public exportLoading: boolean = false;
     public totalCompletion!: number; 
     readonly currentUser = computed(() => this.#authService.user());
+    protected anonymized = signal<boolean>(true); 
     
     // Case properties
     public pseudoidentifier = input.required<string>();
