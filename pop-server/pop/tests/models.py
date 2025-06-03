@@ -14,10 +14,13 @@ class OptionsEnum(models.TextChoices):
 class MockCodedConcept(CodedConcept):
     pass
     
+class UntrackedMockBaseModel(BaseModel):    
+    pass
+
 @pghistory.track()
 class MockBaseModel(BaseModel):    
     pass
-    
+
 class MockModel(models.Model):
     id = models.CharField(primary_key=True)
     str_field = models.CharField(null=True)

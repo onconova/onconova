@@ -1,5 +1,6 @@
 import re
 import inspect
+import hashlib
 from uuid import UUID
 from enum import Enum
 from typing import Any, Union, get_args, get_origin, Optional, Literal
@@ -186,3 +187,20 @@ def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
             },
         )[0]
     return instance
+
+
+def hash_to_range(input_str: str, secret: str, low: int = -90, high: int = 90) -> int:
+    # Combine input and secret
+    combined = input_str + secret
+    
+    # Get SHA-256 hash as bytes
+    hash_bytes = hashlib.sha256(combined.encode('utf-8')).digest()
+    
+    # Convert hash bytes to a large integer
+    hash_int = int.from_bytes(hash_bytes, 'big')
+    
+    # Map to the range [low, high]
+    range_size = high - low + 1
+    mapped_value = low + (hash_int % range_size)
+    
+    return mapped_value

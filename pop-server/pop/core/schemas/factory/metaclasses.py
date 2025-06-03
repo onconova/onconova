@@ -19,6 +19,8 @@ CREATE_IGNORED_FIELDS = (
 @dataclass
 class SchemaConfig:
     model: Any
+    anonymization_fields: Union[List[str], Tuple[str]] = ()
+    anonymization_key: Optional[str] = None
     schema_name: Optional[str] = None
     fields: Optional[Union[List[str], Tuple[str]]] = None
     exclude: Optional[Union[List[str], Tuple[str]]] = None
@@ -43,9 +45,10 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                     
                 # If it is a get schema, add description field to the custom schema fields
                 if issubclass(base, ModelGetSchema) and issubclass(metaclass_config.model, OrmBaseModel):
-                    custom_fields.append(
+                    custom_fields.extend((
                         ('description', str, Field(description='Human-readable description')),
-                    )
+                        ('isAnonymized', bool, Field(default=False, title='Is anonymized', description='Whether the data has been anonymized', alias='is_anonymized', validation_alias=AliasChoices('isAnonymized','is_anonymized'))),
+                    ))
                     if hasattr(metaclass_config.model, 'pgh_event_model'):
                         custom_fields.extend((
                             ('createdAt', datetime, Field(description='Date-time when the resource was created', alias='created_at', validation_alias=AliasChoices('createdAt','created_at'))),
@@ -73,6 +76,8 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                     base_class=cls,
                 )
                 model_schema.__doc__ = cls.__doc__
+                model_schema._anonymization_fields = metaclass_config.anonymization_fields
+                model_schema._anonymization_key = metaclass_config.anonymization_key
                 return model_schema
         return cls
 

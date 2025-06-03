@@ -1,12 +1,14 @@
 
 import inspect
-from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
+from typing import Optional, List, Tuple, Dict, get_args, get_origin, Type, Any, Union, Callable, Self
+from datetime import date, datetime, timedelta
 
 from ninja import Schema, FilterSchema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
-from pydantic.fields import FieldInfo
+from pydantic.fields import FieldInfo, PrivateAttr
 
+from django.conf import settings
 from django.db import transaction
 from django.db.models import Q, QuerySet, Model as DjangoModel, Field as DjangoField
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
@@ -14,7 +16,9 @@ from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from pop.terminology.models import CodedConcept
 from pop.core.measures.fields import MeasurementField
 from pop.core.models import User 
-from pop.core.utils import to_camel_case 
+from pop.core.utils import to_camel_case, hash_to_range
+
+ANONYMIZED_STRING = '*************'
 
 class FilterBaseSchema(FilterSchema):
     _queryset_model: Type[DjangoModel] = None
@@ -124,11 +128,35 @@ class BaseSchema(Schema):
     """
     Expands the Pydantic [BaseModel](https://docs.pydantic.dev/latest/api/base_model/) to use aliases by default.    
     """    
+    # Pydantic configuration
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name = True,
         arbitrary_types_allowed=True,
     )
+    
+    # Anonymization metadata    
+    _anonymization_fields: Union[List[str], Tuple[str]] = PrivateAttr(default_factory=list)
+    _anonymization_key: Optional[str] = PrivateAttr(default=None)
+    
+    @model_validator(mode='after')
+    def anonymize_data(self) -> Self:
+        if not getattr(self, 'isAnonymized', None):
+            return self
+        for field in self._anonymization_fields:
+            print('Anonymizing field:', field)
+            value = getattr(self, field)
+            if not value:
+                continue
+            if isinstance(value, (datetime, date)):
+                timeshift = hash_to_range(self._anonymization_key, secret=settings.ANONYMIZATION_SECRET_KEY, low=-90, high=90)
+                anonymized_value = value + timedelta(days=abs(timeshift)) if timeshift>0 else value - timedelta(days=abs(timeshift))
+                setattr(self, field, anonymized_date)   
+            elif isinstance(value, (str)):
+                anonymized_value = ANONYMIZED_STRING
+            setattr(self, field, anonymized_value)    
+        return self
+    
     
     @model_validator(mode="wrap")
     @classmethod
