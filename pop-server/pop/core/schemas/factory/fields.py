@@ -1,4 +1,4 @@
-from typing import get_args, List, Tuple, Optional, Annotated, TypeAlias
+from typing import get_args, List, Tuple, Optional, Annotated, TypeAlias, Union
 
 from typing_extensions import TypeAliasType
 import enum 
@@ -37,6 +37,10 @@ class POPTypeAnnotations(enum.Enum):
     USERNAME = TypeAliasType(
         'Username',
         str,
+    )
+    AGE = TypeAliasType(
+        'Age',
+        Union[int, str],
     )
 
 

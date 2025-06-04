@@ -6,12 +6,37 @@ from pydantic.dataclasses import dataclass
 from pydantic.fields import PrivateAttr
 from pop.core.utils import hash_to_range 
 from pop.core.schemas.others import Period
+from pop.core.types import Age, AgeBin
 
 ANONYMIZED_STRING = '*************'
 
 def anonymize_date(original_date, key):
     timeshift = hash_to_range(key, secret=settings.ANONYMIZATION_SECRET_KEY, low=-90, high=90)
     return original_date + timedelta(days=abs(timeshift)) if timeshift>0 else original_date - timedelta(days=abs(timeshift))
+
+def anonymize_age(age: Age) -> AgeBin:
+    bins = [
+        (AgeBin.SUB_20,       (None, 19)),
+        (AgeBin.AGE_20_24,    (20, 24)),
+        (AgeBin.AGE_25_30,    (25, 30)),
+        (AgeBin.AGE_30_34,    (31, 34)),
+        (AgeBin.AGE_35_40,    (35, 40)),
+        (AgeBin.AGE_40_44,    (41, 44)),
+        (AgeBin.AGE_45_50,    (45, 50)),
+        (AgeBin.AGE_50_54,    (51, 54)),
+        (AgeBin.AGE_55_60,    (55, 60)),
+        (AgeBin.AGE_60_64,    (61, 64)),
+        (AgeBin.AGE_65_70,    (65, 70)),
+        (AgeBin.AGE_70_74,    (71, 74)),
+        (AgeBin.AGE_75_80,    (75, 80)),
+        (AgeBin.AGE_80_84,    (81, 84)),
+        (AgeBin.AGE_85_90,    (85, 90)),
+        (AgeBin.OVER_90,      (91, None)),
+    ]
+    for age_bin, (low, high) in bins:
+        if (low is None or age >= low) and (high is None or age <= high):
+            return age_bin
+    raise ValueError(f"Age {age} is out of valid range")
 
 def anonymize_value(value, key):
     # Anonymize date/time fields by introducing a hash-based time-shift
@@ -23,6 +48,9 @@ def anonymize_value(value, key):
     # Anonymize string fields by replacing by a placeholder 
     elif isinstance(value, (str)):
         anonymized_value = ANONYMIZED_STRING
+    # Anonymize string fields by replacing by a placeholder 
+    elif isinstance(value, (Age)):
+        anonymized_value = anonymize_age(value)
     else:
         # Otherwise raise an error 
         raise NotImplementedError(f'Could not anonymize value of type {type(value)}')
