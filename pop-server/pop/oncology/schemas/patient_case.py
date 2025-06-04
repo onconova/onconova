@@ -37,7 +37,7 @@ class PatientCaseSchema(ModelGetSchema):
         alias='data_completion_rate',
         validation_alias=AliasChoices('dataCompletionRate', 'data_completion_rate'),
     ) 
-    config = SchemaConfig(model = orm.PatientCase, anonymization=AnonymizationConfig(fields=['clinicalIdentifier','age','ageAtDiagnosis'], key='id'))
+    config = SchemaConfig(model = orm.PatientCase, anonymization=AnonymizationConfig(fields=['clinicalIdentifier','age','ageAtDiagnosis', 'dateOfBirth', 'dateOfDeath'], key='id'))
 
     @field_validator('age', 'ageAtDiagnosis', mode='before')
     @classmethod
