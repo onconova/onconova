@@ -26,8 +26,8 @@ class Lifestyle(BaseModel):
         help_text=_("Clinically-relevant date at which the patient's lifetyle was assessed and recorded."),
     ) 
     smoking_status = termfields.CodedConceptField(
-        verbose_name = _('Alcohol consumption'),
-        help_text = _("Frequency of alcohol consumption"),
+        verbose_name = _('Smoking Status'),
+        help_text = _("Tobacco consumption status"),
         terminology = terminologies.SmokingStatus,  
         null = True, blank = True
     )  

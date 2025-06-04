@@ -1,5 +1,6 @@
 
 from pop.core.schemas import CodedConceptSchema,UserSchema
+from pop.core.measures.schemas import Measure 
 from django.db.models import F 
 
 
@@ -14,7 +15,7 @@ class DjangoTransform:
         raise NotImplementedError
 
 class GetCodedConceptDisplay(DjangoTransform):
-    name='text'
+    name='display'
     description = 'Get the human-readable representation of the coded concept'
     value_type = CodedConceptSchema
 
@@ -49,3 +50,4 @@ class GetUserUsername(DjangoTransform):
     @staticmethod
     def generate_annotation_expression(field_path, *args):
         return F(f'{field_path}__username')
+

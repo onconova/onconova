@@ -4,7 +4,7 @@ from django.conf import settings
 from pydantic import Field, model_validator
 from pydantic.dataclasses import dataclass
 from pydantic.fields import PrivateAttr
-from pop.core.utils import hash_to_range 
+from pop.core.utils import hash_to_range, is_datetime, is_period 
 from pop.core.schemas.others import Period
 from pop.core.types import Age, AgeBin
 
@@ -42,9 +42,15 @@ def anonymize_value(value, key):
     # Anonymize date/time fields by introducing a hash-based time-shift
     if isinstance(value, (datetime, date)):
         anonymized_value = anonymize_date(value, key)
+    elif isinstance(value, (str)) and is_datetime(value,'%Y-%m-%d'):
+        anonymized_value = anonymize_date(datetime.strptime(value, '%Y-%m-%d').date(), key)
     # Anonymize string fields by replacing by a placeholder 
     elif isinstance(value, (Period)):
         anonymized_value = Period(start=anonymize_date(value.start, key) if value.start else None, end=anonymize_date(value.end, key) if value.end else None)
+    elif isinstance(value, (str)) and is_period(value,'%Y-%m-%d'):
+        period_start_string, period_end_string = value.strip('()[]').split(',')
+        anonymized_value = Period(start=anonymize_date(datetime.strptime(period_start_string, '%Y-%m-%d'), key) or None, end=anonymize_date(datetime.strptime(period_end_string, '%Y-%m-%d') , key) or None)
+        anonymized_value = f'{anonymized_value.start} to {anonymized_value.end}'
     # Anonymize string fields by replacing by a placeholder 
     elif isinstance(value, (str)):
         anonymized_value = ANONYMIZED_STRING
@@ -63,7 +69,7 @@ class AnonymizationConfig:
 
 class AnonymizationMixin:
     
-    anonymized: bool = Field(default=False, title='Is anonymized', description='Whether the data has been anonymized')
+    anonymized: bool = Field(default=False, title='Is anonymized', description='Whether the data has been anonymized', validate_default=True)
     
     # Anonymization metadata    
     __anonymization_fields__: Union[List[str], Tuple[str]] = ()

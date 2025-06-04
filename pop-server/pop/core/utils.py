@@ -1,5 +1,6 @@
 import re
 import inspect
+from datetime import datetime
 import hashlib
 from uuid import UUID
 from enum import Enum
@@ -200,6 +201,23 @@ def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
         )[0]
     return instance
 
+
+def is_datetime(date_string, date_format):
+    try:
+        datetime.strptime(date_string, date_format)
+        return True
+    except ValueError:
+        return False
+    
+
+def is_period(period_string, date_format):
+    try:
+        period_start_string, period_end_string = period_string.strip('()[]').split(',')
+        datetime.strptime(period_start_string, date_format)
+        datetime.strptime(period_end_string, date_format)
+        return True
+    except ValueError:
+        return False
 
 def hash_to_range(input_str: str, secret: str, low: int = -90, high: int = 90) -> int:
     # Combine input and secret

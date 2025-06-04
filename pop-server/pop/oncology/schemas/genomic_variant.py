@@ -123,7 +123,7 @@ class GenomicVariantSchema(ModelGetSchema):
         default=None,
         title='Gene regions',
         description='Gene regions (exons, introns, UTRs) affected by the variant. Estimated from MANE reference sequences.',
-        alias='exons',
+        alias='regions',
     )
     config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'), anonymization=AnonymizationConfig(fields=['date'], key='caseId'))
 

@@ -30,7 +30,7 @@ from pop.analytics.schemas.cohort import (
     CohortTraitMedian, CohortTraitCounts,
     CohortContribution,
 )
-from pop.analytics.schemas.datasets import DatasetRule
+from pop.analytics.schemas.datasets import DatasetRule, PatientCaseDataset
 
 
 def convert_api_path_to_snake_case_path(path):
@@ -208,8 +208,8 @@ class CohortsController(ControllerBase):
     )
     def export_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        dataset = list(construct_dataset(cohort=cohort, rules=rules))
-        checksum = hashlib.md5(json.dumps(dataset, sort_keys=True, default=str).encode('utf-8')).hexdigest()
+        dataset = [PatientCaseDataset.model_validate(subset) for subset in construct_dataset(cohort=cohort, rules=rules)]
+        checksum = hashlib.md5(json.dumps([subset.model_dump(mode='json') for subset in dataset], sort_keys=True, default=str).encode('utf-8')).hexdigest()
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),
@@ -227,20 +227,22 @@ class CohortsController(ControllerBase):
     @route.post(
         path='/{cohortId}/dataset', 
         response={
-            200: Paginated[Any],
+            200: Paginated[PatientCaseDataset],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
+        exclude_unset=True,
         operation_id='getCohortDatasetDynamically',
     )
     @paginate()
     def construct_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
+        print("DATASE", construct_dataset(cohort=get_object_or_404(Cohort, id=cohortId), rules=rules))
         return construct_dataset(cohort=get_object_or_404(Cohort, id=cohortId), rules=rules)
 
     @route.get(
         path='/{cohortId}/datasets/{datasetId}', 
         response={
-            200: Paginated[Any],
+            200: Paginated[PatientCaseDataset],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],

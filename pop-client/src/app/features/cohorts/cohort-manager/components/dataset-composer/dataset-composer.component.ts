@@ -38,8 +38,11 @@ export class IsStringPipe implements PipeTransform {
 
 function getColumns(data: any[]): string[] {
     const allKeys = new Set<string>();
+    allKeys.add('pseudoidentifier')
     data.forEach(item => Object.entries(item).forEach(([key,value]) => {
-        allKeys.add(key);
+        if (key!=='pseudoidentifier') {
+            allKeys.add(key);
+        }
     }))
     return Array.from(allKeys);
 }
@@ -239,9 +242,6 @@ export class DatasetComposerComponent {
         switch (type) {
             case 'CodedConcept':
                 defaultTransform = 'GetCodedConceptDisplay';
-                break
-            case 'User':
-                defaultTransform = 'GetUserUsername';
                 break
             default:
                 defaultTransform = null;
