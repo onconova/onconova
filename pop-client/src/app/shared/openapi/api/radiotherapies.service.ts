@@ -730,7 +730,6 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const dosagesIrradiatedVolumeQualifierAnyOf = requestParameters?.dosagesIrradiatedVolumeQualifierAnyOf;
         const dosagesIrradiatedVolumeQualifierNotAnyOf = requestParameters?.dosagesIrradiatedVolumeQualifierNotAnyOf;
         const dosagesIrradiatedVolumeQualifierDescendantsOf = requestParameters?.dosagesIrradiatedVolumeQualifierDescendantsOf;
-        const dosagesAnonymized = requestParameters?.dosagesAnonymized;
         const settingsId = requestParameters?.settingsId;
         const settingsIdNot = requestParameters?.settingsIdNot;
         const settingsIdContains = requestParameters?.settingsIdContains;
@@ -751,7 +750,6 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const settingsTechniqueAnyOf = requestParameters?.settingsTechniqueAnyOf;
         const settingsTechniqueNotAnyOf = requestParameters?.settingsTechniqueNotAnyOf;
         const settingsTechniqueDescendantsOf = requestParameters?.settingsTechniqueDescendantsOf;
-        const settingsAnonymized = requestParameters?.settingsAnonymized;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -818,6 +816,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const targetedEntitiesIdsAnyOf = requestParameters?.targetedEntitiesIdsAnyOf;
         const targetedEntitiesIdsNotAnyOf = requestParameters?.targetedEntitiesIdsNotAnyOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -969,8 +968,6 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>dosagesIrradiatedVolumeQualifierDescendantsOf, 'dosages.irradiatedVolumeQualifier.descendantsOf');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>dosagesAnonymized, 'dosages.anonymized');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>settingsId, 'settings.id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>settingsIdNot, 'settings.id.not');
@@ -1034,8 +1031,6 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>settingsTechniqueDescendantsOf, 'settings.technique.descendantsOf');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>settingsAnonymized, 'settings.anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1245,6 +1240,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -1306,6 +1303,11 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapyById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -1339,6 +1341,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         return this.httpClient.request<Radiotherapy>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

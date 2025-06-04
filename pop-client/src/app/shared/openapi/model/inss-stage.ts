@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface INSSStage { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: INSSStage.StagingDomainEnum;
     /**
      * 
@@ -38,10 +42,6 @@ export interface INSSStage {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

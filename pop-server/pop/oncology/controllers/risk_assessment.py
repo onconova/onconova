@@ -8,6 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import RiskAssessment
 
@@ -32,7 +33,8 @@ class RiskAssessmentController(ControllerBase):
         operation_id='getRiskAssessments',
     )
     @paginate()
-    def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters]): # type: ignore
+    @anonymize()
+    def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters], anonymized: bool = True): # type: ignore
         queryset = RiskAssessment.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -57,7 +59,8 @@ class RiskAssessmentController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getRiskAssessmentById',
     )
-    def get_risk_assessment_by_id(self, riskAssessmentId: str):
+    @anonymize()
+    def get_risk_assessment_by_id(self, riskAssessmentId: str, anonymized: bool = True):
         return get_object_or_404(RiskAssessment, id=riskAssessmentId)
 
     @route.put(

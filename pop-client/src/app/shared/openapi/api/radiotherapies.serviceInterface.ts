@@ -124,7 +124,6 @@ export interface GetRadiotherapiesRequestParams {
     dosagesIrradiatedVolumeQualifierAnyOf?: Array<string>;
     dosagesIrradiatedVolumeQualifierNotAnyOf?: Array<string>;
     dosagesIrradiatedVolumeQualifierDescendantsOf?: string;
-    dosagesAnonymized?: boolean;
     settingsId?: string;
     settingsIdNot?: string;
     settingsIdContains?: string;
@@ -145,7 +144,6 @@ export interface GetRadiotherapiesRequestParams {
     settingsTechniqueAnyOf?: Array<string>;
     settingsTechniqueNotAnyOf?: Array<string>;
     settingsTechniqueDescendantsOf?: string;
-    settingsAnonymized?: boolean;
     id?: string;
     idNot?: string;
     idContains?: string;
@@ -212,12 +210,14 @@ export interface GetRadiotherapiesRequestParams {
     targetedEntitiesIdsNotEndsWith?: string;
     targetedEntitiesIdsAnyOf?: Array<string>;
     targetedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetRadiotherapyByIdRequestParams {
     radiotherapyId: string;
+    anonymized?: boolean;
 }
 
 export interface GetRadiotherapyDosageByIdRequestParams {

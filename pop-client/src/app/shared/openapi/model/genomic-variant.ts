@@ -18,6 +18,10 @@ import { DNAChangeType } from './dna-change-type';
 
 
 export interface GenomicVariant { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     isPathogenic?: boolean | null;
     isVUS?: boolean | null;
     dnaHgvs?: string | null;
@@ -70,10 +74,6 @@ export interface GenomicVariant {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

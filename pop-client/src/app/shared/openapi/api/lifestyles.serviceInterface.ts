@@ -38,6 +38,7 @@ export interface GetAllLifestyleHistoryEventsRequestParams {
 
 export interface GetLifestyleByIdRequestParams {
     lifestyleId: string;
+    anonymized?: boolean;
 }
 
 export interface GetLifestyleHistoryEventByIdRequestParams {
@@ -136,6 +137,7 @@ export interface GetLifestylesRequestParams {
     exposuresDescendantsOf?: string;
     exposuresAllOf?: Array<string>;
     exposuresNotAllOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

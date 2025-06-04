@@ -164,7 +164,6 @@ export interface GetSystemicTherapiesRequestParams {
     medicationsDosageRateMassSurfaceNotEqual?: number;
     medicationsDosageRateMassSurfaceBetween?: Array<any>;
     medicationsDosageRateMassSurfaceNotBetween?: Array<any>;
-    medicationsAnonymized?: boolean;
     durationLessThan?: number;
     durationLessThanOrEqual?: number;
     durationGreaterThan?: number;
@@ -247,12 +246,14 @@ export interface GetSystemicTherapiesRequestParams {
     targetedEntitiesIdsNotEndsWith?: string;
     targetedEntitiesIdsAnyOf?: Array<string>;
     targetedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetSystemicTherapyByIdRequestParams {
     systemicTherapyId: string;
+    anonymized?: boolean;
 }
 
 export interface GetSystemicTherapyHistoryEventByIdRequestParams {

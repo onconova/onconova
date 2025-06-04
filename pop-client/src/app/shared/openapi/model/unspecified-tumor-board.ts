@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface UnspecifiedTumorBoard { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: UnspecifiedTumorBoard.CategoryEnum;
     /**
      * 
@@ -35,10 +39,6 @@ export interface UnspecifiedTumorBoard {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

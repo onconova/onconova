@@ -11,6 +11,10 @@ import { HomologousRecombinationDeficiencyInterpretationChoices } from './homolo
 
 
 export interface HomologousRecombinationDeficiency { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: HomologousRecombinationDeficiency.CategoryEnum;
     /**
      * 
@@ -32,10 +36,6 @@ export interface HomologousRecombinationDeficiency {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

@@ -341,6 +341,7 @@ export class SurgeriesService extends BaseService implements SurgeriesServiceInt
         const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const targetedEntitiesIdsAnyOf = requestParameters?.targetedEntitiesIdsAnyOf;
         const targetedEntitiesIdsNotAnyOf = requestParameters?.targetedEntitiesIdsNotAnyOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -602,6 +603,8 @@ export class SurgeriesService extends BaseService implements SurgeriesServiceInt
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -663,6 +666,11 @@ export class SurgeriesService extends BaseService implements SurgeriesServiceInt
         if (surgeryId === null || surgeryId === undefined) {
             throw new Error('Required parameter surgeryId was null or undefined when calling getSurgeryById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -696,6 +704,7 @@ export class SurgeriesService extends BaseService implements SurgeriesServiceInt
         return this.httpClient.request<Surgery>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

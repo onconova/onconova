@@ -12,6 +12,10 @@ import { TherapyLineIntentChoices } from './therapy-line-intent-choices';
 
 
 export interface TherapyLine { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     period?: Period | null;
     /**
      * Label categorizing the therapy line
@@ -41,10 +45,6 @@ export interface TherapyLine {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

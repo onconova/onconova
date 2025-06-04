@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface RhabdomyosarcomaClinicalGroup { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: RhabdomyosarcomaClinicalGroup.StagingDomainEnum;
     /**
      * 
@@ -38,10 +42,6 @@ export interface RhabdomyosarcomaClinicalGroup {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

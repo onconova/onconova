@@ -7,6 +7,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import GenomicVariant
 
@@ -31,7 +32,8 @@ class GenomicVariantController(ControllerBase):
         operation_id='getGenomicVariants',
     )
     @paginate()
-    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters]): # type: ignore
+    @anonymize()
+    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters], anonymized: bool = True): # type: ignore
         queryset = GenomicVariant.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -58,7 +60,8 @@ class GenomicVariantController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getGenomicVariantById',
     )
-    def get_genomic_variant_by_id(self, genomicVariantId: str):
+    @anonymize()
+    def get_genomic_variant_by_id(self, genomicVariantId: str, anonymized: bool = True):
         return get_object_or_404(GenomicVariant, id=genomicVariantId)
         
 

@@ -43,6 +43,7 @@ export interface GetTumorMarkerAnalyteDetailsByCodeRequestParams {
 
 export interface GetTumorMarkerByIdRequestParams {
     tumorMarkerId: string;
+    anonymized?: boolean;
 }
 
 export interface GetTumorMarkerHistoryEventByIdRequestParams {
@@ -179,6 +180,7 @@ export interface GetTumorMarkersRequestParams {
     relatedEntitiesIdsNotEndsWith?: string;
     relatedEntitiesIdsAnyOf?: Array<string>;
     relatedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

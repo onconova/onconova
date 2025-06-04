@@ -14,6 +14,7 @@ from typing_extensions import TypeAliasType
 from pop.core import permissions as perms
 from pop.core.utils import revert_multitable_model
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
 from pop.oncology.schemas import (
@@ -71,7 +72,8 @@ class GenomicSignatureController(ControllerBase):
         operation_id='getGenomicSignatures',
     )
     @paginate()
-    def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters]): # type: ignore
+    @anonymize()
+    def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters], anonymized: bool = True): # type: ignore
         queryset = GenomicSignature.objects.all().order_by('-date')
         return [cast_to_model_schema(genomic_signature.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS) for genomic_signature in query.filter(queryset)]
 
@@ -98,7 +100,8 @@ class GenomicSignatureController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getGenomicSignatureById',
         )
-    def get_genomic_signature_by_id(self, genomicSignatureId: str): 
+    @anonymize()
+    def get_genomic_signature_by_id(self, genomicSignatureId: str, anonymized: bool = True): 
         instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
         return cast_to_model_schema(instance.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS)
 

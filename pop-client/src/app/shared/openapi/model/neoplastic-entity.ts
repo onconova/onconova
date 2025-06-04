@@ -12,6 +12,10 @@ import { NeoplasticEntityRelationshipChoices } from './neoplastic-entity-relatio
 
 
 export interface NeoplasticEntity { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     topographyGroup?: CodedConcept | null;
     /**
      * 
@@ -46,10 +50,6 @@ export interface NeoplasticEntity {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

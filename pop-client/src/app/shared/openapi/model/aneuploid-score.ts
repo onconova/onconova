@@ -10,6 +10,10 @@
 
 
 export interface AneuploidScore { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: AneuploidScore.CategoryEnum;
     /**
      * 
@@ -33,10 +37,6 @@ export interface AneuploidScore {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

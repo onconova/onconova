@@ -317,6 +317,11 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
         if (therapyLineId === null || therapyLineId === undefined) {
             throw new Error('Required parameter therapyLineId was null or undefined when calling getTherapyLineById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -350,6 +355,7 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
         return this.httpClient.request<TherapyLine>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -500,6 +506,7 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
         const progressionDateNotOn = requestParameters?.progressionDateNotOn;
         const progressionDateBetween = requestParameters?.progressionDateBetween;
         const progressionDateNotBetween = requestParameters?.progressionDateNotBetween;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -718,6 +725,8 @@ export class TherapyLinesService extends BaseService implements TherapyLinesServ
                   <any>element, 'progressionDate.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

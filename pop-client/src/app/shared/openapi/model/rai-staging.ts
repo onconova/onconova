@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface RaiStaging { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: RaiStaging.StagingDomainEnum;
     /**
      * 
@@ -39,10 +43,6 @@ export interface RaiStaging {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

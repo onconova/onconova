@@ -39,6 +39,7 @@ export interface GetAllComorbiditiesAssessmentHistoryEventsRequestParams {
 
 export interface GetComorbiditiesAssessmentByIdRequestParams {
     comorbiditiesAssessmentId: string;
+    anonymized?: boolean;
 }
 
 export interface GetComorbiditiesAssessmentHistoryEventByIdRequestParams {
@@ -118,6 +119,7 @@ export interface GetComorbiditiesAssessmentsRequestParams {
     absentConditionsDescendantsOf?: string;
     absentConditionsAllOf?: Array<string>;
     absentConditionsNotAllOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

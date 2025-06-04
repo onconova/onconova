@@ -259,6 +259,11 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         if (riskAssessmentId === null || riskAssessmentId === undefined) {
             throw new Error('Required parameter riskAssessmentId was null or undefined when calling getRiskAssessmentById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -292,6 +297,7 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         return this.httpClient.request<RiskAssessment>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -431,6 +437,7 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
         const assessedEntitiesIdsNotEndsWith = requestParameters?.assessedEntitiesIdsNotEndsWith;
         const assessedEntitiesIdsAnyOf = requestParameters?.assessedEntitiesIdsAnyOf;
         const assessedEntitiesIdsNotAnyOf = requestParameters?.assessedEntitiesIdsNotAnyOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -607,6 +614,8 @@ export class RiskAssessmentsService extends BaseService implements RiskAssessmen
                   <any>element, 'assessedEntitiesIds.not.anyOf');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

@@ -7333,6 +7333,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -7430,6 +7440,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -8359,6 +8379,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -8500,6 +8530,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -9565,6 +9605,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -9662,6 +9712,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -11700,6 +11760,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -11797,6 +11867,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -13518,17 +13598,6 @@
           },
           {
             "in": "query",
-            "name": "medications.anonymized",
-            "schema": {
-              "description": "Is anonymized - ('Filter for yes/no statement',)",
-              "title": "Medications.Anonymized",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Is anonymized - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
             "name": "duration.lessThan",
             "schema": {
               "description": "None - Filter for entries with values less than the specified value",
@@ -14603,6 +14672,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -14700,6 +14779,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -16533,6 +16622,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -16630,6 +16729,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -17542,17 +17651,6 @@
           },
           {
             "in": "query",
-            "name": "dosages.anonymized",
-            "schema": {
-              "description": "Is anonymized - ('Filter for yes/no statement',)",
-              "title": "Dosages.Anonymized",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Is anonymized - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
             "name": "settings.id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -17788,17 +17886,6 @@
             },
             "required": false,
             "description": "Technique - Filter for all child concepts of a given concepts code"
-          },
-          {
-            "in": "query",
-            "name": "settings.anonymized",
-            "schema": {
-              "description": "Is anonymized - ('Filter for yes/no statement',)",
-              "title": "Settings.Anonymized",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Is anonymized - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -18674,6 +18761,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -18771,6 +18868,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -20963,6 +21070,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -21060,6 +21177,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -22178,17 +22305,6 @@
           },
           {
             "in": "query",
-            "name": "suspectedCauses.anonymized",
-            "schema": {
-              "description": "Is anonymized - ('Filter for yes/no statement',)",
-              "title": "Suspectedcauses.Anonymized",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Is anonymized - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
             "name": "mitigations.id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -22694,17 +22810,6 @@
             },
             "required": false,
             "description": "Management - Filter for all child concepts of a given concepts code"
-          },
-          {
-            "in": "query",
-            "name": "mitigations.anonymized",
-            "schema": {
-              "description": "Is anonymized - ('Filter for yes/no statement',)",
-              "title": "Mitigations.Anonymized",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Is anonymized - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -23436,6 +23541,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -23539,6 +23654,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -25520,6 +25645,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -25617,6 +25752,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -26503,6 +26648,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -26608,6 +26763,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -32216,6 +32381,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -32313,6 +32488,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -33041,6 +33226,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -33158,6 +33353,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -34609,6 +34814,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -34706,6 +34921,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -35766,6 +35991,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -35863,6 +36098,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -37072,6 +37317,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -37169,6 +37424,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -38691,6 +38956,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -38788,6 +39063,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -44711,12 +44996,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45121,12 +45400,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45237,6 +45510,12 @@
       },
       "AdverseEvent": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "suspectedCauses": {
             "description": "Suspected causes of the adverse event",
             "items": {
@@ -45338,12 +45617,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -45510,12 +45783,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -45705,12 +45972,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45781,6 +46042,12 @@
       },
       "AneuploidScore": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "aneuploid_score",
             "default": "aneuploid_score",
@@ -45845,12 +46112,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -45912,6 +46173,12 @@
       },
       "BinetStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "binet",
             "default": "binet",
@@ -45988,12 +46255,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46055,6 +46316,12 @@
       },
       "BreslowDepth": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "breslow",
             "default": "breslow",
@@ -46146,12 +46413,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46214,6 +46475,12 @@
       },
       "ClarkStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "clark",
             "default": "clark",
@@ -46289,12 +46556,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -46429,6 +46690,12 @@
       },
       "ComorbiditiesAssessment": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "score": {
             "anyOf": [
               {
@@ -46551,12 +46818,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46646,6 +46907,12 @@
       },
       "FIGOStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "figo",
             "default": "figo",
@@ -46736,12 +47003,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46803,6 +47064,12 @@
       },
       "FamilyHistory": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -46922,12 +47189,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -46990,6 +47251,12 @@
       },
       "GenomicVariant": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "isPathogenic": {
             "anyOf": [
               {
@@ -47446,12 +47713,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47543,6 +47804,12 @@
       },
       "GleasonGrade": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "gleason",
             "default": "gleason",
@@ -47619,12 +47886,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47686,6 +47947,12 @@
       },
       "HomologousRecombinationDeficiency": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "homologous_recombination_deficiency",
             "default": "homologous_recombination_deficiency",
@@ -47770,12 +48037,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47845,6 +48106,12 @@
       },
       "INRGSSStage": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "inrgss",
             "default": "inrgss",
@@ -47921,12 +48188,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -47988,6 +48249,12 @@
       },
       "INSSStage": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "inss",
             "default": "inss",
@@ -48064,12 +48331,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48131,6 +48392,12 @@
       },
       "ISSStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "iss",
             "default": "iss",
@@ -48207,12 +48474,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48274,6 +48535,12 @@
       },
       "Lifestyle": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -48431,12 +48698,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48497,6 +48758,12 @@
       },
       "LossOfHeterozygosity": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "loss_of_heterozygosity",
             "default": "loss_of_heterozygosity",
@@ -48561,12 +48828,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48628,6 +48889,12 @@
       },
       "LymphomaStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "lymphoma",
             "default": "lymphoma",
@@ -48755,12 +49022,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48841,6 +49102,12 @@
       },
       "MicrosatelliteInstability": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "microsatellite_instability",
             "default": "microsatellite_instability",
@@ -48906,12 +49173,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -48973,6 +49234,12 @@
       },
       "MolecularTherapeuticRecommendation": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -49133,12 +49400,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -49197,6 +49458,12 @@
       },
       "MolecularTumorBoard": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "molecular",
             "default": "molecular",
@@ -49354,12 +49621,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -49422,6 +49683,12 @@
       },
       "NeoplasticEntity": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "topographyGroup": {
             "anyOf": [
               {
@@ -49549,12 +49816,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -49824,12 +50085,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -50193,6 +50448,12 @@
       },
       "PerformanceStatus": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "ecogInterpretation": {
             "anyOf": [
               {
@@ -50293,12 +50554,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -50377,6 +50632,12 @@
       },
       "RISSStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "riss",
             "default": "riss",
@@ -50453,12 +50714,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -50534,6 +50789,12 @@
       },
       "Radiotherapy": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "dosages": {
             "description": "Radiation doses administered during the radiotherapy",
             "items": {
@@ -50652,12 +50913,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -50824,12 +51079,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -50949,12 +51198,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -51015,6 +51258,12 @@
       },
       "RaiStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "rai",
             "default": "rai",
@@ -51104,12 +51353,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -51211,6 +51454,12 @@
       },
       "RhabdomyosarcomaClinicalGroup": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "rhabdomyosarcoma",
             "default": "rhabdomyosarcoma",
@@ -51287,12 +51536,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -51354,6 +51597,12 @@
       },
       "RiskAssessment": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -51444,12 +51693,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -51512,6 +51755,12 @@
       },
       "Surgery": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -51659,12 +51908,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -51735,6 +51978,12 @@
       },
       "SystemicTherapy": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "medications": {
             "description": "Medications administered during the systemic therapy",
             "items": {
@@ -51870,12 +52119,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -52155,12 +52398,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -52220,6 +52457,12 @@
       },
       "TNMStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "tnm",
             "default": "tnm",
@@ -52449,12 +52692,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -52516,6 +52753,12 @@
       },
       "TherapyLine": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "period": {
             "anyOf": [
               {
@@ -52617,12 +52860,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -52693,6 +52930,12 @@
       },
       "TreatmentResponse": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -52800,12 +53043,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -52868,6 +53105,12 @@
       },
       "TumorMarker": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -53098,12 +53341,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53214,6 +53451,12 @@
       },
       "TumorMutationalBurden": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "tumor_mutational_burden",
             "default": "tumor_mutational_burden",
@@ -53291,12 +53534,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53368,6 +53605,12 @@
       },
       "TumorNeoantigenBurden": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "tumor_neoantigen_burden",
             "default": "tumor_neoantigen_burden",
@@ -53432,12 +53675,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53499,6 +53736,12 @@
       },
       "UnspecifiedTumorBoard": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "unspecified",
             "default": "unspecified",
@@ -53585,12 +53828,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53651,6 +53888,12 @@
       },
       "Vitals": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "body_mass_index": {
             "anyOf": [
               {
@@ -53789,12 +54032,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -53855,6 +54092,12 @@
       },
       "WilmsStage": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "wilms",
             "default": "wilms",
@@ -53930,12 +54173,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -55115,12 +55352,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
@@ -60259,11 +60490,6 @@
             "title": "Medications.Dosageratemasssurface.Not.Between",
             "type": "array"
           },
-          "medications.anonymized": {
-            "description": "Is anonymized - ('Filter for yes/no statement',)",
-            "title": "Medications.Anonymized",
-            "type": "boolean"
-          },
           "duration.lessThan": {
             "description": "None - Filter for entries with values less than the specified value",
             "title": "Duration.Lessthan",
@@ -62213,11 +62439,6 @@
             "title": "Dosages.Irradiatedvolumequalifier.Descendantsof",
             "type": "string"
           },
-          "dosages.anonymized": {
-            "description": "Is anonymized - ('Filter for yes/no statement',)",
-            "title": "Dosages.Anonymized",
-            "type": "boolean"
-          },
           "settings.id": {
             "description": "Id - Filter for full text matches",
             "title": "Settings.Id",
@@ -62335,11 +62556,6 @@
             "description": "Technique - Filter for all child concepts of a given concepts code",
             "title": "Settings.Technique.Descendantsof",
             "type": "string"
-          },
-          "settings.anonymized": {
-            "description": "Is anonymized - ('Filter for yes/no statement',)",
-            "title": "Settings.Anonymized",
-            "type": "boolean"
           },
           "id": {
             "description": "Id - Filter for full text matches",
@@ -64103,11 +64319,6 @@
             "title": "Suspectedcauses.Causality.Anyof",
             "type": "array"
           },
-          "suspectedCauses.anonymized": {
-            "description": "Is anonymized - ('Filter for yes/no statement',)",
-            "title": "Suspectedcauses.Anonymized",
-            "type": "boolean"
-          },
           "mitigations.id": {
             "description": "Id - Filter for full text matches",
             "title": "Mitigations.Id",
@@ -64369,11 +64580,6 @@
             "description": "Management - Filter for all child concepts of a given concepts code",
             "title": "Mitigations.Management.Descendantsof",
             "type": "string"
-          },
-          "mitigations.anonymized": {
-            "description": "Is anonymized - ('Filter for yes/no statement',)",
-            "title": "Mitigations.Anonymized",
-            "type": "boolean"
           },
           "id": {
             "description": "Id - Filter for full text matches",
@@ -73127,12 +73333,6 @@
             "title": "Description",
             "type": "string"
           },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
@@ -74402,12 +74602,6 @@
             "description": "Human-readable description",
             "title": "Description",
             "type": "string"
-          },
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",

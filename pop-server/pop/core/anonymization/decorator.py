@@ -2,6 +2,7 @@
 from functools import wraps
 from django.db.models import Model as DjangoModel, Value
 from pop.core import permissions
+from ninja import Schema
 
 def anonymize():
     """
@@ -18,8 +19,12 @@ def anonymize():
             if anonymized:
                 if not permissions.CanManageCases().check_user_permission(user):
                     raise HttpError(403, "Permission denied to access de-anonymized data")
-                if isinstance(result, DjangoModel):
+                if isinstance(result, (DjangoModel,Schema)):
                     result.anonymized = True 
+                elif isinstance(result, (tuple, list)):
+                    print('RESULT',result)
+                    for res in result:
+                        res.anonymized = True 
                 else:
                     result = result.annotate(anonymized=Value(True))
             return result

@@ -14,6 +14,10 @@ import { MolecularTumorBoard } from './molecular-tumor-board';
 
 
 export interface AnyTumorBoard { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: AnyTumorBoard.CategoryEnum;
     /**
      * 
@@ -38,10 +42,6 @@ export interface AnyTumorBoard {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

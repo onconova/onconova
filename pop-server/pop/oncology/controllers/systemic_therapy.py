@@ -8,6 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication, TherapyLine
 
@@ -33,7 +34,8 @@ class SystemicTherapyController(ControllerBase):
         operation_id='getSystemicTherapies',
     )
     @paginate()
-    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]): # type: ignore
+    @anonymize()
+    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters], anonymized: bool = True): # type: ignore
         queryset = SystemicTherapy.objects.all().order_by('-period')
         return query.filter(queryset)
 
@@ -58,7 +60,8 @@ class SystemicTherapyController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getSystemicTherapyById',
     )
-    def get_systemic_therapy_by_id(self, systemicTherapyId: str):
+    @anonymize()
+    def get_systemic_therapy_by_id(self, systemicTherapyId: str, anonymized: bool = True):
         return get_object_or_404(SystemicTherapy, id=systemicTherapyId)
 
     @route.delete(

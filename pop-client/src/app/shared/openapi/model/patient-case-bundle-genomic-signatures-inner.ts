@@ -18,6 +18,10 @@ import { AneuploidScore } from './aneuploid-score';
 
 
 export interface PatientCaseBundleGenomicSignaturesInner { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: PatientCaseBundleGenomicSignaturesInner.CategoryEnum;
     /**
      * 
@@ -42,10 +46,6 @@ export interface PatientCaseBundleGenomicSignaturesInner {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

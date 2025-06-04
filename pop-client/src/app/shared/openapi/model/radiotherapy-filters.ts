@@ -207,10 +207,6 @@ export interface RadiotherapyFilters {
      */
     'dosages.irradiatedVolumeQualifier.descendantsOf'?: string;
     /**
-     * Is anonymized - (\'Filter for yes/no statement\',)
-     */
-    'dosages.anonymized'?: boolean;
-    /**
      * Id - Filter for full text matches
      */
     'settings.id'?: string;
@@ -290,10 +286,6 @@ export interface RadiotherapyFilters {
      * Technique - Filter for all child concepts of a given concepts code
      */
     'settings.technique.descendantsOf'?: string;
-    /**
-     * Is anonymized - (\'Filter for yes/no statement\',)
-     */
-    'settings.anonymized'?: boolean;
     /**
      * Id - Filter for full text matches
      */

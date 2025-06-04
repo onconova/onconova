@@ -9,6 +9,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import NeoplasticEntity
 
@@ -34,7 +35,8 @@ class NeoplasticEntityController(ControllerBase):
         operation_id='getNeoplasticEntities',
     )
     @paginate()
-    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]): # type: ignore
+    @anonymize()
+    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters], anonymized: bool = True): # type: ignore
         queryset = NeoplasticEntity.objects.all().order_by('-assertion_date')
         return query.filter(queryset)
 
@@ -59,7 +61,8 @@ class NeoplasticEntityController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getNeoplasticEntityById',
     )
-    def get_neoplastic_entity_by_id(self, entityId: str):
+    @anonymize()
+    def get_neoplastic_entity_by_id(self, entityId: str, anonymized: bool = True):
         return get_object_or_404(NeoplasticEntity, id=entityId)
         
     @route.put(

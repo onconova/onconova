@@ -111,12 +111,14 @@ export interface GetNeoplasticEntitiesRequestParams {
     lateralityAnyOf?: Array<string>;
     lateralityNotAnyOf?: Array<string>;
     lateralityDescendantsOf?: string;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetNeoplasticEntityByIdRequestParams {
     entityId: string;
+    anonymized?: boolean;
 }
 
 export interface GetNeoplasticEntityHistoryEventByIdRequestParams {

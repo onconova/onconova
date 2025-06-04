@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface TNMStaging { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: TNMStaging.StagingDomainEnum;
     /**
      * 
@@ -49,10 +53,6 @@ export interface TNMStaging {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

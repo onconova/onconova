@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface LymphomaStaging { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: LymphomaStaging.StagingDomainEnum;
     /**
      * 
@@ -45,10 +49,6 @@ export interface LymphomaStaging {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

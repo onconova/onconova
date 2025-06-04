@@ -18,6 +18,10 @@ import { AneuploidScore } from './aneuploid-score';
 
 
 export interface AnyGenomicSignature { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: AnyGenomicSignature.CategoryEnum;
     /**
      * 
@@ -41,10 +45,6 @@ export interface AnyGenomicSignature {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

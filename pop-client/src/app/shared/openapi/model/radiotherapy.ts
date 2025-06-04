@@ -16,6 +16,10 @@ import { RadiotherapySetting } from './radiotherapy-setting';
 
 export interface Radiotherapy { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * Radiation doses administered during the radiotherapy
      */
     dosages: Array<RadiotherapyDosage>;
@@ -55,10 +59,6 @@ export interface Radiotherapy {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

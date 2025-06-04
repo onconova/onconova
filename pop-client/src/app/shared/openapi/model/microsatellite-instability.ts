@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface MicrosatelliteInstability { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: MicrosatelliteInstability.CategoryEnum;
     /**
      * 
@@ -34,10 +38,6 @@ export interface MicrosatelliteInstability {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

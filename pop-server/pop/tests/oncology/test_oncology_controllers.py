@@ -85,7 +85,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     if self.history_tracked:
                         expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
                         result['createdAt'] = result['createdAt'].replace(microsecond=0)
-                    self.assertEqual(expected, result)
+                    self.assertDictEqual(expected, result)
                     
                     if can_be_anonymized:
                         anonymized_response = self.call_api_endpoint('GET', self.get_route_url(instance), anonymized=True, **config)

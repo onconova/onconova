@@ -262,6 +262,11 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         if (comorbiditiesAssessmentId === null || comorbiditiesAssessmentId === undefined) {
             throw new Error('Required parameter comorbiditiesAssessmentId was null or undefined when calling getComorbiditiesAssessmentById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -295,6 +300,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         return this.httpClient.request<ComorbiditiesAssessment>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -447,6 +453,7 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
         const absentConditionsDescendantsOf = requestParameters?.absentConditionsDescendantsOf;
         const absentConditionsAllOf = requestParameters?.absentConditionsAllOf;
         const absentConditionsNotAllOf = requestParameters?.absentConditionsNotAllOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -669,6 +676,8 @@ export class ComorbiditiesAssessmentsService extends BaseService implements Como
                   <any>element, 'absentConditions.not.allOf');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

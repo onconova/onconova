@@ -72,6 +72,7 @@ export interface GetMolecularTherapeuticRecommendationsRequestParams {
 
 export interface GetTumorBoardByIdRequestParams {
     tumorBoardId: string;
+    anonymized?: boolean;
 }
 
 export interface GetTumorBoardHistoryEventByIdRequestParams {
@@ -127,6 +128,7 @@ export interface GetTumorBoardsRequestParams {
     recommendationsDescendantsOf?: string;
     recommendationsAllOf?: Array<string>;
     recommendationsNotAllOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

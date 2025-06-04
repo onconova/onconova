@@ -655,6 +655,11 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
         if (tumorBoardId === null || tumorBoardId === undefined) {
             throw new Error('Required parameter tumorBoardId was null or undefined when calling getTumorBoardById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -688,6 +693,7 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
         return this.httpClient.request<AnyTumorBoard>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -816,6 +822,7 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
         const recommendationsDescendantsOf = requestParameters?.recommendationsDescendantsOf;
         const recommendationsAllOf = requestParameters?.recommendationsAllOf;
         const recommendationsNotAllOf = requestParameters?.recommendationsNotAllOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -962,6 +969,8 @@ export class TumorBoardsService extends BaseService implements TumorBoardsServic
                   <any>element, 'recommendations.not.allOf');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

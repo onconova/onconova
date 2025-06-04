@@ -7,6 +7,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import FamilyHistory
 
@@ -29,7 +30,8 @@ class FamilyHistoryController(ControllerBase):
         operation_id='getFamilyHistories',
     )
     @paginate()
-    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters]): # type: ignore
+    @anonymize()
+    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters], anonymized: bool = True): # type: ignore
         queryset = FamilyHistory.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -55,7 +57,8 @@ class FamilyHistoryController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getFamilyHistoryById',
     )
-    def get_family_history_by_id(self, familyHistoryId: str):
+    @anonymize()
+    def get_family_history_by_id(self, familyHistoryId: str, anonymized: bool = True):
         return get_object_or_404(FamilyHistory, id=familyHistoryId)
         
 

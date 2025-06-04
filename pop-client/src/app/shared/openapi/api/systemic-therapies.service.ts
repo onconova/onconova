@@ -576,7 +576,6 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const medicationsDosageRateMassSurfaceNotEqual = requestParameters?.medicationsDosageRateMassSurfaceNotEqual;
         const medicationsDosageRateMassSurfaceBetween = requestParameters?.medicationsDosageRateMassSurfaceBetween;
         const medicationsDosageRateMassSurfaceNotBetween = requestParameters?.medicationsDosageRateMassSurfaceNotBetween;
-        const medicationsAnonymized = requestParameters?.medicationsAnonymized;
         const durationLessThan = requestParameters?.durationLessThan;
         const durationLessThanOrEqual = requestParameters?.durationLessThanOrEqual;
         const durationGreaterThan = requestParameters?.durationGreaterThan;
@@ -659,6 +658,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const targetedEntitiesIdsAnyOf = requestParameters?.targetedEntitiesIdsAnyOf;
         const targetedEntitiesIdsNotAnyOf = requestParameters?.targetedEntitiesIdsNotAnyOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -968,8 +968,6 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>medicationsAnonymized, 'medications.anonymized');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>durationLessThan, 'duration.lessThan');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>durationLessThanOrEqual, 'duration.lessThanOrEqual');
@@ -1226,6 +1224,8 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -1287,6 +1287,11 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         if (systemicTherapyId === null || systemicTherapyId === undefined) {
             throw new Error('Required parameter systemicTherapyId was null or undefined when calling getSystemicTherapyById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -1320,6 +1325,7 @@ export class SystemicTherapiesService extends BaseService implements SystemicThe
         return this.httpClient.request<SystemicTherapy>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

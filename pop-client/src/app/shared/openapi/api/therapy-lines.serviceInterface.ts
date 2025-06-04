@@ -42,6 +42,7 @@ export interface GetReassignedPatientCaseTherapyLinesRequestParams {
 
 export interface GetTherapyLineByIdRequestParams {
     therapyLineId: string;
+    anonymized?: boolean;
 }
 
 export interface GetTherapyLineHistoryEventByIdRequestParams {
@@ -119,6 +120,7 @@ export interface GetTherapyLinesRequestParams {
     progressionDateNotOn?: string;
     progressionDateBetween?: Array<any>;
     progressionDateNotBetween?: Array<any>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

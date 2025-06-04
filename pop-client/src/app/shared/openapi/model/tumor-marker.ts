@@ -18,6 +18,10 @@ import { TumorMarkerImmuneCellScoreChoices } from './tumor-marker-immune-cell-sc
 
 export interface TumorMarker { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * 
      */
     id: string;
@@ -54,10 +58,6 @@ export interface TumorMarker {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

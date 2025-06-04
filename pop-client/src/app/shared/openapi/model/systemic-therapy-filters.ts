@@ -443,10 +443,6 @@ export interface SystemicTherapyFilters {
      */
     'medications.dosageRateMassSurface.not.between'?: Array<any>;
     /**
-     * Is anonymized - (\'Filter for yes/no statement\',)
-     */
-    'medications.anonymized'?: boolean;
-    /**
      * None - Filter for entries with values less than the specified value
      */
     'duration.lessThan'?: number;

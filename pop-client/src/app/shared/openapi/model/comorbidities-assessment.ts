@@ -13,6 +13,10 @@ import { ComorbiditiesAssessmentPanelChoices } from './comorbidities-assessment-
 
 
 export interface ComorbiditiesAssessment { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     score?: Score | null;
     /**
      * 
@@ -39,10 +43,6 @@ export interface ComorbiditiesAssessment {
      * Human-readable description
      */
     description: string;
-    /**
-     * Whether the data has been anonymized
-     */
-    anonymized?: boolean;
     /**
      * Date-time when the resource was created
      */

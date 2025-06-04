@@ -8,6 +8,7 @@ from typing import List
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TherapyLine, PatientCase
 
@@ -31,7 +32,8 @@ class TherapyLineController(ControllerBase):
         operation_id='getTherapyLines',
     )
     @paginate()
-    def get_all_therapy_lines_matching_the_query(self, query: Query[TherapyLineFilters]): # type: ignore
+    @anonymize()
+    def get_all_therapy_lines_matching_the_query(self, query: Query[TherapyLineFilters], anonymized: bool = True): # type: ignore
         queryset = TherapyLine.objects.all().order_by('-period')
         return query.filter(queryset)
 
@@ -56,7 +58,8 @@ class TherapyLineController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getTherapyLineById',
     )
-    def get_therapy_line_by_id(self, therapyLineId: str):
+    @anonymize()
+    def get_therapy_line_by_id(self, therapyLineId: str, anonymized: bool = True):
         return get_object_or_404(TherapyLine, id=therapyLineId)
 
 

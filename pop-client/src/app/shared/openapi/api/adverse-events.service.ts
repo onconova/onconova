@@ -479,6 +479,11 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         if (adverseEventId === null || adverseEventId === undefined) {
             throw new Error('Required parameter adverseEventId was null or undefined when calling getAdverseEventById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -512,6 +517,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         return this.httpClient.request<AdverseEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -1022,7 +1028,6 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const suspectedCausesCausality = requestParameters?.suspectedCausesCausality;
         const suspectedCausesCausalityNot = requestParameters?.suspectedCausesCausalityNot;
         const suspectedCausesCausalityAnyOf = requestParameters?.suspectedCausesCausalityAnyOf;
-        const suspectedCausesAnonymized = requestParameters?.suspectedCausesAnonymized;
         const mitigationsId = requestParameters?.mitigationsId;
         const mitigationsIdNot = requestParameters?.mitigationsIdNot;
         const mitigationsIdContains = requestParameters?.mitigationsIdContains;
@@ -1064,7 +1069,6 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const mitigationsManagementAnyOf = requestParameters?.mitigationsManagementAnyOf;
         const mitigationsManagementNotAnyOf = requestParameters?.mitigationsManagementNotAnyOf;
         const mitigationsManagementDescendantsOf = requestParameters?.mitigationsManagementDescendantsOf;
-        const mitigationsAnonymized = requestParameters?.mitigationsAnonymized;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -1119,6 +1123,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const dateResolvedNotOn = requestParameters?.dateResolvedNotOn;
         const dateResolvedBetween = requestParameters?.dateResolvedBetween;
         const dateResolvedNotBetween = requestParameters?.dateResolvedNotBetween;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1294,8 +1299,6 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>suspectedCausesAnonymized, 'suspectedCauses.anonymized');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsId, 'mitigations.id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsIdNot, 'mitigations.id.not');
@@ -1421,8 +1424,6 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>mitigationsManagementDescendantsOf, 'mitigations.management.descendantsOf');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>mitigationsAnonymized, 'mitigations.anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>id, 'id');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1583,6 +1584,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
                   <any>element, 'dateResolved.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
