@@ -17,6 +17,7 @@ from ninja_extra.exceptions import APIException
 from pop.core import permissions as perms
 from pop.core.utils import camel_to_snake
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import Paginated, ModifiedResourceSchema, HistoryEvent
 from pop.oncology import schemas as oncological_schemas
 from pop.interoperability.schemas import ExportMetadata
@@ -133,7 +134,8 @@ class CohortsController(ControllerBase):
         operation_id='getCohortCases',
     )
     @paginate()
-    def get_cohort_cases(self, cohortId: str):
+    @anonymize()
+    def get_cohort_cases(self, cohortId: str, anonymized: bool = True):
         return get_object_or_404(Cohort, id=cohortId).cases.all()
 
     @route.get(

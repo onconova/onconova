@@ -4077,6 +4077,114 @@
         "parameters": [
           {
             "in": "query",
+            "name": "age.lessThan",
+            "schema": {
+              "description": "Age - Filter for entries with values less than the specified value",
+              "title": "Age.Lessthan",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values less than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "age.lessThanOrEqual",
+            "schema": {
+              "description": "Age - Filter for entries with values less than or equal to the specified value",
+              "title": "Age.Lessthanorequal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values less than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "age.greaterThan",
+            "schema": {
+              "description": "Age - Filter for entries with values greater than the specified value",
+              "title": "Age.Greaterthan",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values greater than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "age.greaterThanOrEqual",
+            "schema": {
+              "description": "Age - Filter for entries with values greater than or equal to the specified value",
+              "title": "Age.Greaterthanorequal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values greater than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "age.equal",
+            "schema": {
+              "description": "Age - Filter for entries with values exactly equal to the specified value",
+              "title": "Age.Equal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values exactly equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "age.not.equal",
+            "schema": {
+              "description": "Age - Filter for entries with values not equal to the specified value",
+              "title": "Age.Not.Equal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values not equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "age.between",
+            "schema": {
+              "description": "Age - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "Age.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "age.not.between",
+            "schema": {
+              "description": "Age - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "Age.Not.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Age - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
             "name": "overallSurvival.not.exists",
             "schema": {
               "description": "Overall survival - Filter for entries without a value",
@@ -40667,6 +40775,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -54197,6 +54315,66 @@
       },
       "PatientCaseFilters": {
         "properties": {
+          "age.lessThan": {
+            "description": "Age - Filter for entries with values less than the specified value",
+            "title": "Age.Lessthan",
+            "type": "integer"
+          },
+          "age.lessThanOrEqual": {
+            "description": "Age - Filter for entries with values less than or equal to the specified value",
+            "title": "Age.Lessthanorequal",
+            "type": "integer"
+          },
+          "age.greaterThan": {
+            "description": "Age - Filter for entries with values greater than the specified value",
+            "title": "Age.Greaterthan",
+            "type": "integer"
+          },
+          "age.greaterThanOrEqual": {
+            "description": "Age - Filter for entries with values greater than or equal to the specified value",
+            "title": "Age.Greaterthanorequal",
+            "type": "integer"
+          },
+          "age.equal": {
+            "description": "Age - Filter for entries with values exactly equal to the specified value",
+            "title": "Age.Equal",
+            "type": "integer"
+          },
+          "age.not.equal": {
+            "description": "Age - Filter for entries with values not equal to the specified value",
+            "title": "Age.Not.Equal",
+            "type": "integer"
+          },
+          "age.between": {
+            "description": "Age - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Age.Between",
+            "type": "array"
+          },
+          "age.not.between": {
+            "description": "Age - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Age.Not.Between",
+            "type": "array"
+          },
           "overallSurvival.not.exists": {
             "description": "Overall survival - Filter for entries without a value",
             "title": "Overallsurvival.Not.Exists",

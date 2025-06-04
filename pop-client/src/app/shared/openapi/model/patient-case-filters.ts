@@ -11,6 +11,38 @@
 
 export interface PatientCaseFilters { 
     /**
+     * Age - Filter for entries with values less than the specified value
+     */
+    'age.lessThan'?: number;
+    /**
+     * Age - Filter for entries with values less than or equal to the specified value
+     */
+    'age.lessThanOrEqual'?: number;
+    /**
+     * Age - Filter for entries with values greater than the specified value
+     */
+    'age.greaterThan'?: number;
+    /**
+     * Age - Filter for entries with values greater than or equal to the specified value
+     */
+    'age.greaterThanOrEqual'?: number;
+    /**
+     * Age - Filter for entries with values exactly equal to the specified value
+     */
+    'age.equal'?: number;
+    /**
+     * Age - Filter for entries with values not equal to the specified value
+     */
+    'age.not.equal'?: number;
+    /**
+     * Age - Filter for entries with values between two specified values (inclusive)
+     */
+    'age.between'?: Array<any>;
+    /**
+     * Age - Filter for entries with values between two specified values (inclusive)
+     */
+    'age.not.between'?: Array<any>;
+    /**
      * Overall survival - Filter for entries without a value
      */
     'overallSurvival.not.exists'?: boolean;

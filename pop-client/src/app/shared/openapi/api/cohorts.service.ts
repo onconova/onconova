@@ -416,10 +416,13 @@ export class CohortsService extends BaseService implements CohortsServiceInterfa
         if (cohortId === null || cohortId === undefined) {
             throw new Error('Required parameter cohortId was null or undefined when calling getCohortCases.');
         }
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

@@ -68,6 +68,14 @@ export interface GetPatientCaseHistoryEventByIdRequestParams {
 }
 
 export interface GetPatientCasesRequestParams {
+    ageLessThan?: number;
+    ageLessThanOrEqual?: number;
+    ageGreaterThan?: number;
+    ageGreaterThanOrEqual?: number;
+    ageEqual?: number;
+    ageNotEqual?: number;
+    ageBetween?: Array<any>;
+    ageNotBetween?: Array<any>;
     overallSurvivalNotExists?: boolean;
     overallSurvivalExists?: boolean;
     overallSurvivalLessThan?: number;

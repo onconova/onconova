@@ -41,10 +41,11 @@ class PatientCaseSchema(ModelGetSchema):
 
     @field_validator('age', 'ageAtDiagnosis', mode='before')
     @classmethod
-    def age_type_conversion(cls, value: Union[int, Age]) -> Age:
-        if value is None:
-            return None
-        return Age(value)
+    def age_type_conversion(cls, value: Union[int, Age, AgeBin]) -> Age:
+        if isinstance(value, int):
+            return Age(value)
+        else:
+            return value
 
 
 class PatientCaseCreateSchema(ModelCreateSchema):

@@ -25,6 +25,18 @@ def is_optional(field: type) -> bool:
     return get_origin(field) is Union and \
            type(None) in get_args(field)
 
+def is_union(field: type) -> bool:
+    """
+    Check if a field is optional, i.e. its type is a Union containing None.
+
+    Args:
+        field (type): The field to check.
+
+    Returns:
+        bool: True if the field is optional, False otherwise.
+    """
+    return get_origin(field) is Union
+
 def is_list(field):
     """
     Check if a field is a list.

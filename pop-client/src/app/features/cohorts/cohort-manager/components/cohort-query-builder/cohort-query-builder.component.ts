@@ -124,7 +124,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     } 
 
     getEntityFields(entity: DataResource): Field[] {
-        const ignoredFields: string[] = ['description', 'caseId', 'id','createdAt','updatedAt', 'createdBy', 'updatedBy', 'externalSourceId']
+        const ignoredFields: string[] = ['description', 'caseId', 'id','createdAt','updatedAt', 'createdBy', 'updatedBy', 'externalSourceId', 'anonymized']
         // Get the schema definition of the entity from the OpenAPISpecification object
         const schemas = OpenAPISpecification.components.schemas
         // Get a list of all fields/properties in that schema
@@ -143,7 +143,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                 
                 let isArray: boolean = false;
                 const nullable = property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null'
-                if (nullable) {
+                if (property.anyOf) {
                     property = property.anyOf[0];
                 } 
                 if (property.items) {
@@ -200,7 +200,10 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     entity: entity,
                     value: `${entity}.${propertyKey}`,
                     type: propertyType,
-                    operators: this.getTypeFilterOperators(propertyType),
+                    operators: [
+                      ...(nullable ? [CohortQueryFilter.IsNullFilter] : []),
+                      ...this.getTypeFilterOperators(propertyType),
+                    ],
                     description: description,
                     ...extras,
                 }

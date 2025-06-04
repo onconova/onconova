@@ -197,7 +197,7 @@ export class DatasetComposerComponent {
         const propertyNodes = Object.entries(properties)
             .filter(
                 ([propertyKey,_]) => !this.createMetadataItems('').map(
-                    item => item['field']).includes(propertyKey) && !['caseId', 'description'].includes(propertyKey)
+                    item => item['field']).includes(propertyKey) && !['caseId', 'description','anonymized'].includes(propertyKey)
             ).flatMap(
                 ([propertyKey,property]:[string, any]) => {
                     const title: string = property.title
