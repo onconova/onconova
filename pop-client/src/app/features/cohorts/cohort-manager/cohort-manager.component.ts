@@ -78,7 +78,7 @@ export class CohortBuilderComponent {
     
     public cohortControl: FormGroup = this.#fb.group({
         name: this.#fb.nonNullable.control<string>('', Validators.required),
-        project: this.#fb.nonNullable.control<string>('', Validators.required),
+        project: this.#fb.control<string | null>(''),
         includeCriteria: this.#fb.control<object | null>(null),
         excludeCriteria: this.#fb.control<object | null>(null),
     });  

@@ -38,7 +38,7 @@
             label="Download Dataset" 
             class="my-auto ml-auto"
             (onClick)="downloadMenu.toggle($event)"
-            [disabled]="user().canExportData"/>
+            [disabled]="!user().canExportData"/>
     </div>
     <div class="flex gap-4">
 
