@@ -123,7 +123,7 @@ export class DrawerDataPropertiesComponent {
                 (pair) => {
                     let key = pair[0]
                     let value = pair[1] 
-                    if (value===null || value===undefined || ['caseId', 'createdBy', 'updatedBy', 'id', 'createdAt', 'updatedAt', 'description', 'externalSource', 'externalSourceId'].includes(key)) {
+                    if (value===null || value===undefined || ['caseId', 'createdBy', 'updatedBy', 'id', 'createdAt', 'updatedAt', 'description', 'externalSource', 'externalSourceId','anonymized'].includes(key)) {
                         return null
                     }
                     if (this.#typeCheckService.isArray(value) && value.length==0) {

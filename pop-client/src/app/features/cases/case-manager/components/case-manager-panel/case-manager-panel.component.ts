@@ -67,7 +67,7 @@ export class CaseManagerPanelComponent {
     public title = input<string>();
     public icon = input.required<LucideIconData>();
 
-    private dataCompletionStatus = rxResource({
+    protected dataCompletionStatus = rxResource({
         request: () => ({caseId: this.caseId(), category: this.category()}),
         loader: ({request}) => this.#patienCaseService.getPatientCaseDataCompletionStatus(request),
     });
@@ -108,7 +108,7 @@ export class CaseManagerPanelComponent {
             {
                 label: 'Add',
                 icon: 'pi pi-plus',
-                disabled: this.isCompleted(),
+                disabled: this.isCompleted() || this.anonymized(),
                 command: () => this.addNewEntry()
             },
             {
@@ -125,6 +125,7 @@ export class CaseManagerPanelComponent {
                 label: this.isCompleted() ? 'Mark as incomplete' : 'Mark as complete',
                 icon: this.isCompleted() ? 'pi pi-star-fill' : 'pi pi-star',
                 styleClass: this.isCompleted() ? 'completed-category' : '',
+                disabled: this.anonymized(),
                 command: (event) => {
                     if (this.isCompleted()) {
                         this.confirmDataIncomplete(event);

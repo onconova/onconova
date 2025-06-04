@@ -12,9 +12,9 @@
                 [loading]="exportLoading"
                 (click)="downloadCaseBundle(case$.value()?.id || '')"/>
             <p-button
-                [label]="anonymized() ? 'De-anonymize case' : 'Anonymize case'"
+                [label]="anonymized() ? 'Enable data management' : 'Disable data management'"
                 [disabled]="!currentUser().canManageCases"
-                [icon]="currentUser().canManageCases ? 'pi pi-file-export' : 'pi pi-lock'"
+                [icon]="anonymized() ? 'pi pi-lock' : 'pi pi-lock-open'"
                 (click)="anonymized.set(!anonymized())"/>
             <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
         </div>
@@ -31,7 +31,7 @@
             <div>
                 @if (case$.value(); as case) {
                     <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : 'pi pi-venus'"></i> {{ case.gender.display }}, 
-                    {{ case.age }} years@if(case.isDeceased){, †}
+                    {{ case.age }} years@if(case.isDeceased){, deceased}
                 } @else {
                     <p-skeleton width="7rem" height="1.2rem" />
                 }
@@ -95,7 +95,7 @@
                 <div>
                     @if (case$.value(); as case) {
                         @if (case.overallSurvival !== null) {
-                            {{ case.ageAtDiagnosis | number:'1.0-0' }} years
+                            {{ case.ageAtDiagnosis }} years
                         } @else {
                             -
                         }

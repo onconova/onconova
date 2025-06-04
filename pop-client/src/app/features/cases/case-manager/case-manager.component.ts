@@ -259,7 +259,7 @@ export class CaseManagerComponent {
     // Case properties
     public pseudoidentifier = input.required<string>();
     public case$ = rxResource({
-        request: () => ({pseudoidentifier: this.pseudoidentifier()}),
+        request: () => ({pseudoidentifier: this.pseudoidentifier(), anonymized: this.anonymized()}),
         loader: ({request}) => this.#caseService.getPatientCaseByPseudoidentifier(request).pipe(
             tap(response => this.totalCompletion = response.dataCompletionRate)
         )

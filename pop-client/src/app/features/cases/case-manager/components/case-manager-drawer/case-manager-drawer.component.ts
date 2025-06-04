@@ -24,7 +24,6 @@ import { Timeline } from 'primeng/timeline';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Skeleton } from 'primeng/skeleton';
 
-
 @Component({
     selector: 'pop-case-manager-drawer',
     templateUrl: './case-manager-drawer.component.html',
@@ -54,6 +53,7 @@ export class CaseManagerDrawerComponent {
     public icon = input.required<LucideIconData>();
     public visible = model<boolean>(false);
     public editable = input<boolean>(true);
+    public anonymized = computed<boolean>(()=> (this.data() as any).anonymized ? true : false);
     public styleClass = input<string>('');
     public historyService = input.required<(resourceId: string) => Observable<PaginatedHistoryEvent>>();
 
