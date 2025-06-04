@@ -4077,114 +4077,6 @@
         "parameters": [
           {
             "in": "query",
-            "name": "age.lessThan",
-            "schema": {
-              "description": "Age - Filter for entries with values less than the specified value",
-              "title": "Age.Lessthan",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values less than the specified value"
-          },
-          {
-            "in": "query",
-            "name": "age.lessThanOrEqual",
-            "schema": {
-              "description": "Age - Filter for entries with values less than or equal to the specified value",
-              "title": "Age.Lessthanorequal",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values less than or equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "age.greaterThan",
-            "schema": {
-              "description": "Age - Filter for entries with values greater than the specified value",
-              "title": "Age.Greaterthan",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values greater than the specified value"
-          },
-          {
-            "in": "query",
-            "name": "age.greaterThanOrEqual",
-            "schema": {
-              "description": "Age - Filter for entries with values greater than or equal to the specified value",
-              "title": "Age.Greaterthanorequal",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values greater than or equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "age.equal",
-            "schema": {
-              "description": "Age - Filter for entries with values exactly equal to the specified value",
-              "title": "Age.Equal",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values exactly equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "age.not.equal",
-            "schema": {
-              "description": "Age - Filter for entries with values not equal to the specified value",
-              "title": "Age.Not.Equal",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values not equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "age.between",
-            "schema": {
-              "description": "Age - Filter for entries with values between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "integer"
-                }
-              ],
-              "title": "Age.Between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
-            "name": "age.not.between",
-            "schema": {
-              "description": "Age - Filter for entries with values between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "integer"
-                }
-              ],
-              "title": "Age.Not.Between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Age - Filter for entries with values between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
             "name": "overallSurvival.not.exists",
             "schema": {
               "description": "Overall survival - Filter for entries without a value",
@@ -5757,6 +5649,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -5854,6 +5756,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -5985,6 +5897,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -46040,6 +45962,28 @@
         "title": "AdverseEventSuspectedCauseCausalityChoices",
         "type": "string"
       },
+      "AgeBin": {
+        "enum": [
+          "\u003C20",
+          "20-24",
+          "25-30",
+          "30-34",
+          "35-40",
+          "40-44",
+          "45-50",
+          "50-54",
+          "55-60",
+          "60-64",
+          "65-70",
+          "70-74",
+          "75-80",
+          "80-84",
+          "85-90",
+          "\u003E90"
+        ],
+        "title": "AgeBin",
+        "type": "string"
+      },
       "AneuploidScore": {
         "properties": {
           "anonymized": {
@@ -49234,12 +49178,6 @@
       },
       "MolecularTherapeuticRecommendation": {
         "properties": {
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -49891,10 +49829,23 @@
       "PatientCaseBundle": {
         "description": "The order of the properties matters for the import tool (based on references tree)",
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
+              }
+            ],
             "description": "Approximate age of the patient in years",
-            "title": "Age",
-            "type": "integer"
+            "title": "Age"
           },
           "overallSurvival": {
             "anyOf": [
@@ -49912,6 +49863,9 @@
             "anyOf": [
               {
                 "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
               },
               {
                 "type": "null"
@@ -54243,66 +54197,6 @@
       },
       "PatientCaseFilters": {
         "properties": {
-          "age.lessThan": {
-            "description": "Age - Filter for entries with values less than the specified value",
-            "title": "Age.Lessthan",
-            "type": "integer"
-          },
-          "age.lessThanOrEqual": {
-            "description": "Age - Filter for entries with values less than or equal to the specified value",
-            "title": "Age.Lessthanorequal",
-            "type": "integer"
-          },
-          "age.greaterThan": {
-            "description": "Age - Filter for entries with values greater than the specified value",
-            "title": "Age.Greaterthan",
-            "type": "integer"
-          },
-          "age.greaterThanOrEqual": {
-            "description": "Age - Filter for entries with values greater than or equal to the specified value",
-            "title": "Age.Greaterthanorequal",
-            "type": "integer"
-          },
-          "age.equal": {
-            "description": "Age - Filter for entries with values exactly equal to the specified value",
-            "title": "Age.Equal",
-            "type": "integer"
-          },
-          "age.not.equal": {
-            "description": "Age - Filter for entries with values not equal to the specified value",
-            "title": "Age.Not.Equal",
-            "type": "integer"
-          },
-          "age.between": {
-            "description": "Age - Filter for entries with values between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "integer"
-              }
-            ],
-            "title": "Age.Between",
-            "type": "array"
-          },
-          "age.not.between": {
-            "description": "Age - Filter for entries with values between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "integer"
-              }
-            ],
-            "title": "Age.Not.Between",
-            "type": "array"
-          },
           "overallSurvival.not.exists": {
             "description": "Overall survival - Filter for entries without a value",
             "title": "Overallsurvival.Not.Exists",
@@ -55158,10 +55052,23 @@
       },
       "PatientCase": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
+              }
+            ],
             "description": "Approximate age of the patient in years",
-            "title": "Age",
-            "type": "integer"
+            "title": "Age"
           },
           "overallSurvival": {
             "anyOf": [
@@ -55179,6 +55086,9 @@
             "anyOf": [
               {
                 "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
               },
               {
                 "type": "null"

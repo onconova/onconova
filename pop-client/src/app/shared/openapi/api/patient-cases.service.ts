@@ -438,6 +438,11 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         if (caseId === null || caseId === undefined) {
             throw new Error('Required parameter caseId was null or undefined when calling getPatientCaseById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -471,6 +476,7 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         return this.httpClient.request<PatientCase>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -495,6 +501,11 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         if (pseudoidentifier === null || pseudoidentifier === undefined) {
             throw new Error('Required parameter pseudoidentifier was null or undefined when calling getPatientCaseByPseudoidentifier.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -528,6 +539,7 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         return this.httpClient.request<PatientCase>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -670,14 +682,6 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
     public getPatientCases(requestParameters?: GetPatientCasesRequestParams, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<PaginatedPatientCase>>;
     public getPatientCases(requestParameters?: GetPatientCasesRequestParams, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<PaginatedPatientCase>>;
     public getPatientCases(requestParameters?: GetPatientCasesRequestParams, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        const ageLessThan = requestParameters?.ageLessThan;
-        const ageLessThanOrEqual = requestParameters?.ageLessThanOrEqual;
-        const ageGreaterThan = requestParameters?.ageGreaterThan;
-        const ageGreaterThanOrEqual = requestParameters?.ageGreaterThanOrEqual;
-        const ageEqual = requestParameters?.ageEqual;
-        const ageNotEqual = requestParameters?.ageNotEqual;
-        const ageBetween = requestParameters?.ageBetween;
-        const ageNotBetween = requestParameters?.ageNotBetween;
         const overallSurvivalNotExists = requestParameters?.overallSurvivalNotExists;
         const overallSurvivalExists = requestParameters?.overallSurvivalExists;
         const overallSurvivalLessThan = requestParameters?.overallSurvivalLessThan;
@@ -802,34 +806,11 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const causeOfDeathNotAnyOf = requestParameters?.causeOfDeathNotAnyOf;
         const causeOfDeathDescendantsOf = requestParameters?.causeOfDeathDescendantsOf;
         const manager = requestParameters?.manager;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>ageLessThan, 'age.lessThan');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>ageLessThanOrEqual, 'age.lessThanOrEqual');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>ageGreaterThan, 'age.greaterThan');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>ageGreaterThanOrEqual, 'age.greaterThanOrEqual');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>ageEqual, 'age.equal');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>ageNotEqual, 'age.not.equal');
-        if (ageBetween) {
-            ageBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'age.between');
-            })
-        }
-        if (ageNotBetween) {
-            ageNotBetween.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, 'age.not.between');
-            })
-        }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>overallSurvivalNotExists, 'overallSurvival.not.exists');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -1194,6 +1175,8 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
           <any>causeOfDeathDescendantsOf, 'causeOfDeath.descendantsOf');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>manager, 'manager');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

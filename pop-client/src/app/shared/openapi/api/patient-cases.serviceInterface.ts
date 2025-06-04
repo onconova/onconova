@@ -49,10 +49,12 @@ export interface GetAllPatientCaseHistoryEventsRequestParams {
 
 export interface GetPatientCaseByIdRequestParams {
     caseId: string;
+    anonymized?: boolean;
 }
 
 export interface GetPatientCaseByPseudoidentifierRequestParams {
     pseudoidentifier: string;
+    anonymized?: boolean;
 }
 
 export interface GetPatientCaseDataCompletionStatusRequestParams {
@@ -66,14 +68,6 @@ export interface GetPatientCaseHistoryEventByIdRequestParams {
 }
 
 export interface GetPatientCasesRequestParams {
-    ageLessThan?: number;
-    ageLessThanOrEqual?: number;
-    ageGreaterThan?: number;
-    ageGreaterThanOrEqual?: number;
-    ageEqual?: number;
-    ageNotEqual?: number;
-    ageBetween?: Array<any>;
-    ageNotBetween?: Array<any>;
     overallSurvivalNotExists?: boolean;
     overallSurvivalExists?: boolean;
     overallSurvivalLessThan?: number;
@@ -198,6 +192,7 @@ export interface GetPatientCasesRequestParams {
     causeOfDeathNotAnyOf?: Array<string>;
     causeOfDeathDescendantsOf?: string;
     manager?: string | null;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
