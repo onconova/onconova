@@ -59,8 +59,6 @@ def create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
         # Get schema field annotation 
         annotation = model_field.annotation
 
-        if field_name == 'ageAtDiagnosis':
-            print(field_name, annotation)
         if is_optional(annotation):
             annotation = get_args(annotation)
             if len(annotation) > 1:
@@ -68,8 +66,6 @@ def create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
             else:
                 annotation = get_args(annotation)[0]
 
-        if field_name == 'ageAtDiagnosis':
-            print(field_name, annotation)
         if is_list(annotation):
             list_annotation = get_args(annotation)[0]
             if issubclass(list_annotation, PydanticBaseModel) and not issubclass(list_annotation, CodedConceptSchema):

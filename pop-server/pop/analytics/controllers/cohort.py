@@ -236,7 +236,6 @@ class CohortsController(ControllerBase):
     )
     @paginate()
     def construct_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
-        print("DATASE", construct_dataset(cohort=get_object_or_404(Cohort, id=cohortId), rules=rules))
         return construct_dataset(cohort=get_object_or_404(Cohort, id=cohortId), rules=rules)
 
     @route.get(
