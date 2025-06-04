@@ -22,7 +22,6 @@ def anonymize():
                 if isinstance(result, (DjangoModel,Schema)):
                     result.anonymized = True 
                 elif isinstance(result, (tuple, list)):
-                    print('RESULT',result)
                     for res in result:
                         res.anonymized = True 
                 else:

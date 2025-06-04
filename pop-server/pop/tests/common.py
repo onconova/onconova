@@ -121,7 +121,6 @@ class ApiControllerTestMixin:
             'DELETE': client.delete,
         }
         queryparams = f'?{urlencode({"anonymized": anonymized})}' if verb=='GET' and anonymized is not None else ''
-        print('URL',  f'{self.controller_path}{route}' + queryparams)
         response = action[verb](
             f'{self.controller_path}{route}' + queryparams, 
             secure=use_https, 

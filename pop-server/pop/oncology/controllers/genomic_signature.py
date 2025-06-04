@@ -117,7 +117,6 @@ class GenomicSignatureController(ControllerBase):
     )
     def update_genomic_signature(self, genomicSignatureId: str, payload: AnyPayloadSchemas): # type: ignore
         instance = get_object_or_404(GenomicSignature, id=genomicSignatureId).get_discriminated_genomic_signature()
-        print('PAYLOAD', payload.get_orm_model())
         return payload.model_dump_django(instance=instance)
         
 
