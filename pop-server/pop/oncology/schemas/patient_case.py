@@ -33,6 +33,10 @@ class PatientCaseSchema(ModelGetSchema):
         alias='data_completion_rate',
         validation_alias=AliasChoices('dataCompletionRate', 'data_completion_rate'),
     ) 
+    contributors: Optional[list[str]] = Field(
+        title='Data contributors',
+        description='Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.', 
+    ) 
     config = SchemaConfig(model = orm.PatientCase)
 
     @staticmethod
@@ -51,17 +55,6 @@ class PatientCaseSchema(ModelGetSchema):
 
 class PatientCaseCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model = orm.PatientCase, exclude=('pseudoidentifier','is_deceased'))
-
-PatientCaseFiltersBase = create_filters_schema(
-    schema = PatientCaseSchema, 
-    name='PatientCaseFilters'
-)
-
-class PatientCaseFilters(PatientCaseFiltersBase):
-    manager: Optional[str] = Field(None, description='Filter for a particular case manager by its username')
-
-    def filter_manager(self, value: str) -> Q:
-        return Q(created_by=self.manager) if value is not None else Q()
 
 
 class PatientCaseDataCompletionStatusSchema(Schema):

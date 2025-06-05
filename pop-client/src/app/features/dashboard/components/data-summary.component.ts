@@ -25,6 +25,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
         <pop-data-summary-counter [count]="statistics.value()?.primarySites" title="Primary Sites" [loading]="statistics.isLoading()"/>
         <pop-data-summary-counter [count]="statistics.value()?.mutations" title="Mutations" [loading]="statistics.isLoading()"/>
         <pop-data-summary-counter [count]="statistics.value()?.contributors" title="Contributors" [loading]="statistics.isLoading()"/>
+        <pop-data-summary-counter [count]="statistics.value()?.cohorts" title="Cohorts" [loading]="statistics.isLoading()"/>
+        <pop-data-summary-counter [count]="statistics.value()?.projects" title="Projects" [loading]="statistics.isLoading()"/>
         <pop-data-summary-counter [count]="statistics.value()?.clinicalCenters" title="Clinical Centers" [loading]="statistics.isLoading()"/>
     </div>
     <div class="mt-4 mb-2">

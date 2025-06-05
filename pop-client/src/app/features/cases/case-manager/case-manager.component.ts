@@ -39,8 +39,6 @@ import {
     TumorBoardsService,
     TreatmentResponsesService,
     InteroperabilityService,
-    NeoplasticEntity,
-    AnyStaging
 } from 'src/app/shared/openapi'
 
 import { 
@@ -70,6 +68,7 @@ import { IdenticonComponent } from "../../../shared/components/identicon/identic
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { AvatarGroup } from 'primeng/avatargroup';
 
 
 
@@ -82,6 +81,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
         RouterModule,
         CaseManagerPanelComponent,
         AvatarModule,
+        AvatarGroup,
         Button,
         Fieldset,
         UserBadgeComponent,

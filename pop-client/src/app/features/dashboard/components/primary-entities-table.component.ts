@@ -18,7 +18,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
         CommonModule,
         FormsModule,
         CancerIconComponent,
-        UserBadgeComponent,
         AvatarModule,
         AvatarGroupModule,
         RatingModule,
@@ -32,7 +31,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
                     <tr>
                         <th>Primary site</th>
                         <th>Cases</th>
-                        <th>Completion</th>
+                        <th>Average data completion</th>
                         <th>Contributors</th>
                     </tr>
                 </ng-template>
@@ -50,9 +49,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
                 <ng-template #header>
                     <tr>
                         <th>Primary site</th>
-                        <th>Cases</th>
-                        <th>Completion</th>
-                        <th>Contributors</th>
+                        <th class="text-center">Cases</th>
+                        <th class="text-center">Average data completion</th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-entity>
@@ -61,23 +59,12 @@ import { rxResource } from '@angular/core/rxjs-interop';
                             <pop-cancer-icon [topography]="entity.topographyCode"/>
                             <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div>
                         </td>
-                        <td class="font-semibold"> 
+                        <td class="font-semibold text-center"> 
                             {{ entity.population }}
                         </td>
-                        <td>
-                            <p-rating title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" />
-                        </td>
-                        <td>
-                            <p-avatar-group>
-                                @for (contributorUsername of entity.contributors; track $index; let index = $index;) {
-                                    @if (index<3) {
-                                        <pop-user-badge [username]="contributorUsername"/>
-                                    }
-                                }
-                                @if (entity.contributors.length>3) {
-                                    <p-avatar class="pop-other-users-avatar" [label]="'+' + (entity.contributors.length-3).toString()" shape="circle" size="normal" />
-                                }
-                            </p-avatar-group>
+                        <td class="flex align-items-center">
+                            <p-rating class="ml-auto" title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" />
+                            <span class="text-muted ml-2 mr-auto">({{entity.dataCompletionMedian}}%)</span>
                         </td>
                     </tr>
                 </ng-template>

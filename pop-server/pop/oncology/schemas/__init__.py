@@ -1,6 +1,5 @@
 from pop.core.schemas.factory import create_filters_schema
 from .patient_case import (
-    PatientCaseFilters,
     PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 
 )
@@ -63,6 +62,7 @@ from .genomic_signature import (
 )
 
 # Filter schemas
+PatientCaseFilters = create_filters_schema(schema = PatientCaseSchema, name='PatientCaseFilters')
 NeoplasticEntityFilters = create_filters_schema(schema = NeoplasticEntitySchema, name='NeoplasticEntityFilters')
 TumorMarkerFilters = create_filters_schema(schema = TumorMarkerSchema, name='TumorMarkerFilters')
 StagingFilters = create_filters_schema(schema = StagingSchema, name='StagingFilters')

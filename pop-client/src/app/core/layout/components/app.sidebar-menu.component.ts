@@ -49,7 +49,7 @@ export class AppSidebarMenuComponent {
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
-                        label: 'My Case List', 
+                        label: 'My Contributions', 
                         icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/cases/search/', this.currenUser().username],
                         disabled: this.#accessLevel() == 0,
