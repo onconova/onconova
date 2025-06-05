@@ -4,12 +4,11 @@ import pghistory
 
 from django.db import models 
 from django.apps import apps
-from django.db.models.functions import Round, Cast, ExtractMonth, ExtractYear, Least, FirstValue
+from django.db.models.functions import Round, Cast, ExtractYear
 from django.db.models import Q, F, Func, Min, ExpressionWrapper, Case, When, Value, Count, Subquery, OuterRef, Exists
-from django.contrib.postgres.aggregates import ArrayAgg
 from django.utils.translation import gettext_lazy as _
 
-from queryable_properties.properties import AnnotationProperty, RelatedExistenceCheckProperty, AnnotationMixin, QueryableProperty, AnnotationMixin
+from queryable_properties.properties import AnnotationProperty, RelatedExistenceCheckProperty, AnnotationMixin, QueryableProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel 
@@ -57,7 +56,7 @@ class UpdatedAtProperty(AnnotationMixin, QueryableProperty):
         )
 
 
-class ContributorsProperty(QueryableProperty, AnnotationMixin):
+class ContributorsProperty(QueryableProperty):
 
     def get_value(self, obj):
         """Return the combined version info as a string."""
@@ -73,20 +72,6 @@ class ContributorsProperty(QueryableProperty, AnnotationMixin):
                 query |= Exists(related_model.pgh_event_model.objects.filter(case_id=OuterRef('pk'), **{f'pgh_context__username__{lookup}': value}))
         return query
     
-    def get_annotation(self, cls):
-        related_models = [PatientCase.pgh_event_model] + [obj.related_model.pgh_event_model for obj in PatientCase._meta.related_objects if obj.related_model._meta.app_label == 'oncology' and not issubclass(obj.related_model, pghistory.models.Event)]
-        return ArrayAgg(Subquery(
-            pghistory.models.Events.objects.across(*related_models)
-            .annotate(pk_string=Cast(OuterRef('pk'), output_field=models.CharField()))
-            .filter(
-                Q(pgh_obj_id=F('pk_string')) | Q(pgh_data__case_id__iexact=F('pk_string')),
-            )
-            .exclude(pgh_context__username=None)
-            .order_by('-pgh_created_at')
-            .annotate(contributor=ArrayAgg('pgh_context__username'))
-            .values_list('contributor', flat=True)[:1]
-        ), distinct=True)
-
 @pghistory.track()
 class PatientCase(BaseModel):
 
