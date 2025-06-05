@@ -24,5 +24,4 @@ class EntityStatisticsSchema(Schema):
     dataCompletionMedian: Optional[float] = None
     topographyCode: Optional[str] = None
     topographyGroup: Optional[str] = None
-    contributors: Optional[List[str]] = None
     model_config = ConfigDict(title='EntityStatistics')

@@ -63,7 +63,7 @@
 
 <p-dataView
     styleClass="pop-case-search-dataview"
-    [value]="cases.value()"
+    [value]="cases.value() || [1,2,3]"
     [paginator]="true" 
     [rows]="pagination().limit" 
     layout="grid"
@@ -74,42 +74,41 @@
     (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
     class="no-background">
 
-    <ng-template #grid let-cases>
+    <ng-template #grid let-data>
         <div class="grid mt-3" >
-            @for (case of cases; track case.id; let first = $first) {
-                <div class="col p-2">
-                    <pop-case-search-item 
-                    @fadeAnimation
-                    [case]="case"
-                    (onDelete)="cases.reload()"/>
-                </div>
+            @if (cases.hasValue()) {
+                @for (case of data; track case.id; let first = $first) {
+                    <div class="col p-2">
+                        <pop-case-search-item 
+                        @fadeAnimation
+                        [case]="case"
+                        (onDelete)="cases.reload()"/>
+                    </div>                
+                }
+            } @else if (cases.isLoading()) {
+                @for (_ of [].constructor(15); track $index; let first = $first;) { 
+                    <div class="col p-2">
+                        <div class="pop-case-search-item-card placeholder" @fadeAnimation>
+                            <div class="flex my-3">
+                                <p-skeleton width="5rem" height="5rem"/>
+                                <div class="flex flex-column mx-3">
+                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                    <p-skeleton width="20rem" height="1.5rem"/>      
+                                </div>
+                            </div>
+                            <div class="mb-3 mt-4">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <div class="my-3 mb-5">
+                                <p-skeleton width="100%" height="2rem"/>
+                            </div>
+                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
+                        </div>
+                    </div>
+                }
+            } @else if (cases.error()) {
+                <div>An error ocurred while loading the cases</div>
             }
         </div>
     </ng-template>
 </p-dataView>
-
-<!-- Skeleton loader -->
-@if (cases.isLoading()) {
-    <div class="grid mt-3">
-        @for (_ of [].constructor(15); track $index; let first = $first;) { 
-            <div class="col p-2">
-                <div class="pop-case-search-item-card placeholder" @fadeAnimation>
-                    <div class="flex my-3">
-                        <p-skeleton width="5rem" height="5rem"/>
-                        <div class="flex flex-column mx-3">
-                            <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
-                            <p-skeleton width="20rem" height="1.5rem"/>      
-                        </div>
-                    </div>
-                    <div class="mb-3 mt-4">
-                        <p-skeleton width="100%" height="2rem"/>
-                    </div>
-                    <div class="my-3 mb-5">
-                        <p-skeleton width="100%" height="2rem"/>
-                    </div>
-                    <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
-                </div>
-            </div>
-        }
-    </div>
-}

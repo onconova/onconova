@@ -65,7 +65,6 @@ class DashboardController(ControllerBase):
                 dataCompletionMedian = entity_cohort.aggregate(Median('data_completion_rate')).get('data_completion_rate__median'),
                 topographyCode=entity_code,
                 topographyGroup=entity_display,
-                contributors = oncological_models.PatientCase.pgh_event_model.objects.filter(pgh_obj_id__in=entity_cohort).values_list('pgh_context__username', flat=True).distinct(),
             ))
         statistics.sort(key=lambda x: x.population, reverse=True)
         return statistics
