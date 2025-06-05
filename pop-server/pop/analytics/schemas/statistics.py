@@ -8,6 +8,7 @@ class DataPlatformStatisticsSchema(Schema):
     cases: int
     primarySites: int
     projects: int 
+    cohorts: int 
     entries: int 
     mutations: int
     clinicalCenters: int 

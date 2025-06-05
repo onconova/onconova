@@ -73624,6 +73624,10 @@
             "title": "Projects",
             "type": "integer"
           },
+          "cohorts": {
+            "title": "Cohorts",
+            "type": "integer"
+          },
           "entries": {
             "title": "Entries",
             "type": "integer"
@@ -73645,6 +73649,7 @@
           "cases",
           "primarySites",
           "projects",
+          "cohorts",
           "entries",
           "mutations",
           "clinicalCenters",

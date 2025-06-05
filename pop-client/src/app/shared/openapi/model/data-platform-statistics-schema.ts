@@ -13,6 +13,7 @@ export interface DataPlatformStatisticsSchema {
     cases: number;
     primarySites: number;
     projects: number;
+    cohorts: number;
     entries: number;
     mutations: number;
     clinicalCenters: number;
