@@ -155,6 +155,54 @@ export interface PatientCaseFilters {
      */
     'dataCompletionRate.not.between'?: Array<any>;
     /**
+     * Data contributors - Filter for entries without a value
+     */
+    'contributors.not.exists'?: boolean;
+    /**
+     * Data contributors - Filter for entries with a value
+     */
+    'contributors.exists'?: boolean;
+    /**
+     * Data contributors - Filter for full text matches
+     */
+    contributors?: string;
+    /**
+     * Data contributors - Filter for full text mismatches
+     */
+    'contributors.not'?: string;
+    /**
+     * Data contributors - Filter for partial text matches
+     */
+    'contributors.contains'?: string;
+    /**
+     * Data contributors - Filter for partial text mismatches
+     */
+    'contributors.not.contains'?: string;
+    /**
+     * Data contributors - Filter for entries starting with the text
+     */
+    'contributors.beginsWith'?: string;
+    /**
+     * Data contributors - Filter for entries not starting with the text
+     */
+    'contributors.not.beginsWith'?: string;
+    /**
+     * Data contributors - Filter for entries ending with the text
+     */
+    'contributors.endsWith'?: string;
+    /**
+     * Data contributors - Filter for entries not ending with the text
+     */
+    'contributors.not.endsWith'?: string;
+    /**
+     * Data contributors - Filter for entries where at least one reference matches the query
+     */
+    'contributors.anyOf'?: Array<string>;
+    /**
+     * Data contributors - Filter for entries where at least one reference mismatches the query
+     */
+    'contributors.not.anyOf'?: Array<string>;
+    /**
      * Id - Filter for full text matches
      */
     id?: string;
@@ -528,7 +576,6 @@ export interface PatientCaseFilters {
      * Cause of death - Filter for all child concepts of a given concepts code
      */
     'causeOfDeath.descendantsOf'?: string;
-    manager?: string | null;
 }
 export namespace PatientCaseFilters {
     export type ConsentStatusEnum = 'valid' | 'revoked' | 'unknown';

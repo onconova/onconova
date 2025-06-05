@@ -22,6 +22,7 @@ export interface PatientCase {
      * Percentage indicating the completeness of a case in terms of its data.
      */
     dataCompletionRate: number;
+    contributors: Array<string> | null;
     /**
      * 
      */

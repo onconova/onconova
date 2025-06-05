@@ -80,7 +80,7 @@ export class CaseSearchComponent {
 
   // Resources
   public cases: Resource<PatientCase[] | undefined> = rxResource({
-    request: () => ({pseudoidentifierContains: this.searchQuery() || undefined, manager: this.manager(), limit: this.pagination().limit, offset: this.pagination().offset}),
+    request: () => ({pseudoidentifierContains: this.searchQuery() || undefined, contributors: this.manager(), limit: this.pagination().limit, offset: this.pagination().offset}),
     loader: ({request}) => this.#patientCasesService.getPatientCases(request).pipe(
       tap(page => this.totalCases.set(page.count)),
       map(page => page.items),

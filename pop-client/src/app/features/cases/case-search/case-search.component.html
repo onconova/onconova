@@ -1,17 +1,18 @@
 
 <div class="flex flex-column">
     <h2 class="mb-0 font-semibold">
+        Data Hub - 
         @if (isUserPage()) {
-            My Cases
+            My Contributions
         } @else {
-            Cases
+            Case Explorer
         }
     </h2>
     <div class="text-muted">
         @if (isUserPage()) {
-            Welcome to your personal case search page. You can find all patient cases managed by you.
+            Welcome to your personal contributions page. You can find all patient cases to which you have contributed.
         } @else {
-            Welcome to the case search page. You can find all existing patient cases here.
+            Welcome to the case explorer. You can find all existing patient cases here.
         }
     </div>    
 </div>

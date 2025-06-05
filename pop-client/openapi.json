@@ -4553,6 +4553,144 @@
           },
           {
             "in": "query",
+            "name": "contributors.not.exists",
+            "schema": {
+              "description": "Data contributors - Filter for entries without a value",
+              "title": "Contributors.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "contributors.exists",
+            "schema": {
+              "description": "Data contributors - Filter for entries with a value",
+              "title": "Contributors.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "contributors",
+            "schema": {
+              "description": "Data contributors - Filter for full text matches",
+              "title": "Contributors",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "contributors.not",
+            "schema": {
+              "description": "Data contributors - Filter for full text mismatches",
+              "title": "Contributors.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "contributors.contains",
+            "schema": {
+              "description": "Data contributors - Filter for partial text matches",
+              "title": "Contributors.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "contributors.not.contains",
+            "schema": {
+              "description": "Data contributors - Filter for partial text mismatches",
+              "title": "Contributors.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "contributors.beginsWith",
+            "schema": {
+              "description": "Data contributors - Filter for entries starting with the text",
+              "title": "Contributors.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "contributors.not.beginsWith",
+            "schema": {
+              "description": "Data contributors - Filter for entries not starting with the text",
+              "title": "Contributors.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "contributors.endsWith",
+            "schema": {
+              "description": "Data contributors - Filter for entries ending with the text",
+              "title": "Contributors.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "contributors.not.endsWith",
+            "schema": {
+              "description": "Data contributors - Filter for entries not ending with the text",
+              "title": "Contributors.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "contributors.anyOf",
+            "schema": {
+              "description": "Data contributors - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Contributors.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "contributors.not.anyOf",
+            "schema": {
+              "description": "Data contributors - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Contributors.Not.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
             "name": "id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -5736,24 +5874,6 @@
             },
             "required": false,
             "description": "Cause of death - Filter for all child concepts of a given concepts code"
-          },
-          {
-            "in": "query",
-            "name": "manager",
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Filter for a particular case manager by its username",
-              "title": "Manager"
-            },
-            "required": false,
-            "description": "Filter for a particular case manager by its username"
           },
           {
             "in": "query",
@@ -49439,6 +49559,21 @@
             "title": "Data completion rate",
             "type": "number"
           },
+          "contributors": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
+            "title": "Data contributors"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -49873,6 +50008,7 @@
         "required": [
           "age",
           "dataCompletionRate",
+          "contributors",
           "id",
           "pseudoidentifier",
           "clinicalCenter",
@@ -53915,6 +54051,72 @@
             "title": "Datacompletionrate.Not.Between",
             "type": "array"
           },
+          "contributors.not.exists": {
+            "description": "Data contributors - Filter for entries without a value",
+            "title": "Contributors.Not.Exists",
+            "type": "boolean"
+          },
+          "contributors.exists": {
+            "description": "Data contributors - Filter for entries with a value",
+            "title": "Contributors.Exists",
+            "type": "boolean"
+          },
+          "contributors": {
+            "description": "Data contributors - Filter for full text matches",
+            "title": "Contributors",
+            "type": "string"
+          },
+          "contributors.not": {
+            "description": "Data contributors - Filter for full text mismatches",
+            "title": "Contributors.Not",
+            "type": "string"
+          },
+          "contributors.contains": {
+            "description": "Data contributors - Filter for partial text matches",
+            "title": "Contributors.Contains",
+            "type": "string"
+          },
+          "contributors.not.contains": {
+            "description": "Data contributors - Filter for partial text mismatches",
+            "title": "Contributors.Not.Contains",
+            "type": "string"
+          },
+          "contributors.beginsWith": {
+            "description": "Data contributors - Filter for entries starting with the text",
+            "title": "Contributors.Beginswith",
+            "type": "string"
+          },
+          "contributors.not.beginsWith": {
+            "description": "Data contributors - Filter for entries not starting with the text",
+            "title": "Contributors.Not.Beginswith",
+            "type": "string"
+          },
+          "contributors.endsWith": {
+            "description": "Data contributors - Filter for entries ending with the text",
+            "title": "Contributors.Endswith",
+            "type": "string"
+          },
+          "contributors.not.endsWith": {
+            "description": "Data contributors - Filter for entries not ending with the text",
+            "title": "Contributors.Not.Endswith",
+            "type": "string"
+          },
+          "contributors.anyOf": {
+            "description": "Data contributors - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Anyof",
+            "type": "array"
+          },
+          "contributors.not.anyOf": {
+            "description": "Data contributors - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Not.Anyof",
+            "type": "array"
+          },
           "id": {
             "description": "Id - Filter for full text matches",
             "title": "Id",
@@ -54530,18 +54732,6 @@
             "description": "Cause of death - Filter for all child concepts of a given concepts code",
             "title": "Causeofdeath.Descendantsof",
             "type": "string"
-          },
-          "manager": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Filter for a particular case manager by its username",
-            "title": "Manager"
           }
         },
         "title": "PatientCaseFilters",
@@ -54603,6 +54793,21 @@
             "description": "Percentage indicating the completeness of a case in terms of its data.",
             "title": "Data completion rate",
             "type": "number"
+          },
+          "contributors": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
+            "title": "Data contributors"
           },
           "id": {
             "description": "",
@@ -54815,6 +55020,7 @@
         "required": [
           "age",
           "dataCompletionRate",
+          "contributors",
           "id",
           "pseudoidentifier",
           "clinicalCenter",
