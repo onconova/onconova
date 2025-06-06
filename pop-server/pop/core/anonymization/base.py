@@ -51,20 +51,20 @@ def anonymize_age(age: Age) -> AgeBin:
 
 
 def anonymize_personal_date(original_date: str):
-    if isinstance(value, datetime) or isinstance(value, date):
-        return value.year
-    elif isinstance(value, str):
+    if isinstance(original_date, datetime) or isinstance(original_date, date):
+        return original_date.year
+    elif isinstance(original_date, str):
         try:
-            parsed_date = datetime.fromisoformat(value)
+            parsed_date = datetime.fromisoformat(original_date)
             return parsed_date.year
         except ValueError:
             try:
-                parsed_date = datetime.strptime(value, "%Y-%m-%d")
+                parsed_date = datetime.strptime(original_date, "%Y-%m-%d")
                 return parsed_date.year
             except ValueError:
-                raise ValueError(f"Unrecognized date format: {value}")
+                raise ValueError(f"Unrecognized date format: {original_date}")
     else:
-        raise TypeError(f"Unsupported type: {type(value)}")
+        raise TypeError(f"Unsupported type: {type(original_date)}")
 
 def anonymize_value(value, case_id):
     # Anonymize date/time fields by introducing a hash-based time-shift
