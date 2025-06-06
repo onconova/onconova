@@ -328,7 +328,6 @@ export class DatasetComposerComponent {
             datasetRule: this.datasetRules(),
           }).pipe(first()).subscribe({
             next: (data: any) => {
-                console.log('data', data)
                 switch (mode) {
                     case 'tree':
                         this.#downloadService.downloadAsJson(data);

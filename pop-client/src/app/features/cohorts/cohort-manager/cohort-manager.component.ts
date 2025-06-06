@@ -198,7 +198,6 @@ export class CohortBuilderComponent {
     
     revertCohortDefinition(old: Cohort, timestamp: string) {
         try {
-            console.log(old)
             this.cohortControl.setValue({
                 name: old?.name,
                 isPublic: old?.isPublic,

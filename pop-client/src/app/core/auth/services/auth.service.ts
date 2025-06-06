@@ -128,7 +128,6 @@ export class AuthService {
     }
     const config = this.#configService;
     const callbackUrl = config.BASE_PATH + OPENID_CALLBACK_URL;
-    console.log('callbackUrl',callbackUrl)
     const scope = 'openid email profile';
     const responseType = 'token id_token';
     const state = this.generateRandomState(16);

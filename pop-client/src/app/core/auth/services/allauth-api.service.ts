@@ -158,7 +158,7 @@ export class AllAuthApiService {
 
   // Meta
   getConfig(): Observable<AllAuthConfiguration> {
-    return this.http.get<AllAuthResponse>(`${this.baseUrl}/config`, this.httpOptions).pipe(map((response: AllAuthResponse) => response.data), tap(() => console.log("RETURNS")));
+    return this.http.get<AllAuthResponse>(`${this.baseUrl}/config`, this.httpOptions).pipe(map((response: AllAuthResponse) => response.data));
   }
 
   // Account management

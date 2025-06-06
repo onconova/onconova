@@ -109,7 +109,6 @@ export class TumorMarkerFormComponent extends AbstractFormBase {
   // Effect to update the form when the initial data passed
   readonly #onInitialDataChangeEffect = effect((): void => {
     const data = this.initialData();
-    console.log('VALUETYPE',Object.entries(valueTypeMap).filter(([key, value]) => (this.initialData() as TumorMarker)[key as keyof TumorMarker]).map(([key, value]) => value)[0])
     if (!data) return;  
     this.form.patchValue({
       date: data.date ?? null,
@@ -213,7 +212,6 @@ export class TumorMarkerFormComponent extends AbstractFormBase {
   #currentValueType = toSignal(this.form.controls['valueType'].valueChanges);
   #onValueTypeChangeEffect = effect(() => this.updateValidators(this.#currentValueType()))
   #onAnalyteChangeEffect = effect(() => {
-    console.log('CURRENT ANALYTE', this.#currentAnalyte())
     this.allowedResultTypes.set(this.#currentAnalyte()? this.#currentAnalyte()!.properties!['valueTypes'] : []);    
   })
   #setSingleValueTypeEffect = effect(() => {
