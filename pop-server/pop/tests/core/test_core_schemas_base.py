@@ -4,7 +4,7 @@ from datetime import datetime
 from uuid import uuid4
 from pydantic import Field
 from django.db.models import Model, CharField, IntegerField
-from pop.core.anonymization import AnonymizationMixin, ANONYMIZED_STRING
+from pop.core.anonymization import AnonymizationMixin, REDACTED_STRING
 from pop.core.schemas.factory.base import OrmMetadataMixin
 from pop.core.schemas.factory.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.tests.models import UntrackedMockBaseModel
@@ -130,7 +130,7 @@ class TestSchemaAnonymization(unittest.TestCase):
         original_identifier = '123456789'
         instance = self.TestGetSchema(id=uuid4(), description='test', identifier=original_identifier, anonymized=True)
         self.assertNotEqual(instance.identifier, original_identifier)
-        self.assertEqual(instance.identifier, ANONYMIZED_STRING)
+        self.assertEqual(instance.identifier, REDACTED_STRING)
         
     def test_string_can_be_deanonymized(self):
         original_identifier = '123456789'

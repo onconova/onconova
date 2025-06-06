@@ -1,2 +1,2 @@
-from .base import AnonymizationMixin, AnonymizationConfig, ANONYMIZED_STRING
+from .base import *
 from .decorator import anonymize

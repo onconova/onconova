@@ -9,7 +9,7 @@ from pop.oncology import models as orm
 from pop.core.types import Age, AgeBin
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig, create_filters_schema
 from pop.core.schemas.factory.fields import POPTypeAnnotations
-from pop.core.anonymization import AnonymizationConfig
+from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date, model_validator
 
 class PatientCaseSchema(ModelGetSchema):
     age: Union[int, Age, AgeBin] = Field(
@@ -37,8 +37,21 @@ class PatientCaseSchema(ModelGetSchema):
         alias='data_completion_rate',
         validation_alias=AliasChoices('dataCompletionRate', 'data_completion_rate'),
     ) 
-    config = SchemaConfig(model = orm.PatientCase, anonymization=AnonymizationConfig(fields=['clinicalIdentifier','age','ageAtDiagnosis', 'dateOfBirth', 'dateOfDeath'], key='id'))
+    config = SchemaConfig(model = orm.PatientCase, anonymization=AnonymizationConfig(fields=['clinicalIdentifier', 'clinicalCenter','age','ageAtDiagnosis'], key='id'))
 
+    @model_validator(mode='after')
+    @classmethod
+    def personal_dates_anonymization(cls, obj):
+        if getattr(obj,'anonymize', None):
+            if obj.dateOfBirth:
+                date_of_birth_year = anonymize_personal_date(obj.dateOfBirth)
+                obj.dateOfBirth = datetime(date_of_birth_year,1,1).date()
+            if obj.dateOfDeath:
+                date_of_death_year = anonymize_personal_date(obj.dateOfDeath)
+                obj.dateOfDeath = datetime(date_of_death_year,1,1).date()
+        return obj         
+    
+    
     @field_validator('age', 'ageAtDiagnosis', mode='before')
     @classmethod
     def age_type_conversion(cls, value: Union[int, Age, AgeBin]) -> Age:

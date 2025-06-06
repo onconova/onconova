@@ -8,10 +8,21 @@ from pop.core.utils import hash_to_range, is_datetime, is_period
 from pop.core.schemas.others import Period
 from pop.core.types import Age, AgeBin
 
-ANONYMIZED_STRING = '*************'
+REDACTED_STRING = '*************'
+AVERAGE_MONTH = 30.436875
+MAX_DATE_SHIFT = round(6*AVERAGE_MONTH)
 
-def anonymize_date(original_date, key):
-    timeshift = hash_to_range(key, secret=settings.ANONYMIZATION_SECRET_KEY, low=-90, high=90)
+def anonymize_by_redacting_string(original_value: str):
+    return REDACTED_STRING
+
+def anonymize_clinically_relevant_date(original_date: date | datetime | str, case_id: str):
+    if isinstance(original_date, str):
+        try:
+            original_date = datetime.strptime(value, "%Y-%m-%d")
+        except ValueError:
+            raise ValueError(f"Unrecognized date format: {value}")
+    # Compute random timeshift of +-6 months based on a hash of the case ID
+    timeshift = hash_to_range(case_id, secret=settings.ANONYMIZATION_SECRET_KEY, low=-MAX_DATE_SHIFT, high=MAX_DATE_SHIFT)
     return original_date + timedelta(days=abs(timeshift)) if timeshift>0 else original_date - timedelta(days=abs(timeshift))
 
 def anonymize_age(age: Age) -> AgeBin:
@@ -38,24 +49,45 @@ def anonymize_age(age: Age) -> AgeBin:
             return age_bin
     raise ValueError(f"Age {age} is out of valid range")
 
-def anonymize_value(value, key):
+
+def anonymize_personal_date(original_date: str):
+    if isinstance(value, datetime) or isinstance(value, date):
+        return value.year
+    elif isinstance(value, str):
+        try:
+            parsed_date = datetime.fromisoformat(value)
+            return parsed_date.year
+        except ValueError:
+            try:
+                parsed_date = datetime.strptime(value, "%Y-%m-%d")
+                return parsed_date.year
+            except ValueError:
+                raise ValueError(f"Unrecognized date format: {value}")
+    else:
+        raise TypeError(f"Unsupported type: {type(value)}")
+
+def anonymize_value(value, case_id):
     # Anonymize date/time fields by introducing a hash-based time-shift
-    if isinstance(value, (datetime, date)):
-        anonymized_value = anonymize_date(value, key)
-    elif isinstance(value, (str)) and is_datetime(value,'%Y-%m-%d'):
-        anonymized_value = anonymize_date(datetime.strptime(value, '%Y-%m-%d').date(), key)
+    if isinstance(value, (datetime, date)) or (isinstance(value, (str)) and is_datetime(value,'%Y-%m-%d')):
+        anonymized_value = anonymize_clinically_relevant_date(value, case_id)
     # Anonymize string fields by replacing by a placeholder 
     elif isinstance(value, (Period)):
-        anonymized_value = Period(start=anonymize_date(value.start, key) if value.start else None, end=anonymize_date(value.end, key) if value.end else None)
+        anonymized_value = Period(
+            start=anonymize_clinically_relevant_date(value.start, case_id) if value.start else None, 
+            end=anonymize_clinically_relevant_date(value.end, case_id) if value.end else None
+        )
     elif isinstance(value, (str)) and is_period(value,'%Y-%m-%d'):
         period_start_string, period_end_string = value.strip('()[]').split(',')
-        anonymized_value = Period(start=anonymize_date(datetime.strptime(period_start_string, '%Y-%m-%d'), key) or None, end=anonymize_date(datetime.strptime(period_end_string, '%Y-%m-%d') , key) or None)
+        anonymized_value = Period(
+            start=anonymize_clinically_relevant_date(period_start_string, case_id) or None, 
+            end=anonymize_clinically_relevant_date(period_end_string, case_id) or None
+        )
         anonymized_value = f'{anonymized_value.start} to {anonymized_value.end}'
     # Anonymize string fields by replacing by a placeholder 
-    elif isinstance(value, (str)):
-        anonymized_value = ANONYMIZED_STRING
+    elif isinstance(value, str):
+        anonymized_value = anonymize_by_redacting_string(value)
     # Anonymize string fields by replacing by a placeholder 
-    elif isinstance(value, (Age)):
+    elif isinstance(value, Age):
         anonymized_value = anonymize_age(value)
     else:
         # Otherwise raise an error 

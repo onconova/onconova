@@ -16,7 +16,7 @@ from pop.terminology.models import CodedConcept
 from pop.core.measures.fields import MeasurementField
 from pop.core.models import User 
 from pop.core.utils import to_camel_case, hash_to_range
-from pop.core.anonymization import ANONYMIZED_STRING
+from pop.core.anonymization import REDACTED_STRING
 
 class FilterBaseSchema(FilterSchema):
     _queryset_model: Type[DjangoModel] = None
