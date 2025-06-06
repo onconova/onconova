@@ -18,9 +18,9 @@ def anonymize_by_redacting_string(original_value: str):
 def anonymize_clinically_relevant_date(original_date: date | datetime | str, case_id: str):
     if isinstance(original_date, str):
         try:
-            original_date = datetime.strptime(value, "%Y-%m-%d")
+            original_date = datetime.strptime(original_date, "%Y-%m-%d")
         except ValueError:
-            raise ValueError(f"Unrecognized date format: {value}")
+            raise ValueError(f"Unrecognized date format: {original_date}")
     # Compute random timeshift of +-6 months based on a hash of the case ID
     timeshift = hash_to_range(case_id, secret=settings.ANONYMIZATION_SECRET_KEY, low=-MAX_DATE_SHIFT, high=MAX_DATE_SHIFT)
     return original_date + timedelta(days=abs(timeshift)) if timeshift>0 else original_date - timedelta(days=abs(timeshift))

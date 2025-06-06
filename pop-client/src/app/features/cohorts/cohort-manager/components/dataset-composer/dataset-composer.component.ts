@@ -27,6 +27,7 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
 import { Pipe, PipeTransform } from '@angular/core';
 import { TypeCheckService } from "src/app/shared/services/type-check.service";
 import { rxResource } from "@angular/core/rxjs-interop";
+import { Skeleton } from "primeng/skeleton";
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -61,6 +62,7 @@ function getColumns(data: any[]): string[] {
         Card,
         Menu,
         ContextMenuModule,
+        Skeleton,
         AutoComplete,
         TreeModule,
         TableModule,

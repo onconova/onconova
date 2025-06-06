@@ -42,9 +42,7 @@ class PatientCaseSchema(ModelGetSchema):
     @model_validator(mode='after')
     @classmethod
     def personal_dates_anonymization(cls, obj):
-        print('ANONYMIZE CASE DATE',  obj.dateOfBirth)
         if getattr(obj,'anonymized', None):
-            print('ANONYMIZE CASE DATE',  obj.dateOfBirth)
             if obj.dateOfBirth:
                 date_of_birth_year = anonymize_personal_date(obj.dateOfBirth)
                 obj.dateOfBirth = datetime(date_of_birth_year,1,1).date()
