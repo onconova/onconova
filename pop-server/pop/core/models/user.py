@@ -1,18 +1,33 @@
 import uuid 
 import pghistory
 from django.db import models
-from django.db.models import Case, When, Q, Min
+from django.db.models import Case, When, Q, Min, Exists, OuterRef
 from django.db.models.functions import Concat
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser, UserManager
 
 from queryable_properties.managers import QueryablePropertiesManager
-from queryable_properties.properties import MappingProperty
-from queryable_properties.properties import AnnotationProperty
+from queryable_properties.properties import AnnotationProperty, MappingProperty, AnnotationGetterMixin, QueryableProperty
 
 class QueryablePropertiesUserManager(UserManager, QueryablePropertiesManager):
     pass
+
+
+class CanManageCasesProperty(AnnotationGetterMixin, QueryableProperty):
+
+    def get_annotation(self, cls):
+        from pop.projects.models import ProjectDataManagerGrant
+        return Case(
+            When(
+                Q(access_level__gte=4) 
+                | Q(is_superuser=True) 
+                | Exists(ProjectDataManagerGrant.objects.filter(member=OuterRef('pk'), is_valid=True)[:1]), 
+                then=True
+            ), 
+            default=False, 
+            output_field=models.BooleanField(),
+        )
 
 class User(AbstractUser):
     
@@ -112,11 +127,8 @@ class User(AbstractUser):
     can_manage_users = construct_permission_field_from_access_level(min_access_level=5, action='manage users')
     is_system_admin = construct_permission_field_from_access_level(min_access_level=6, action='system admin')
     
-    can_manage_cases = AnnotationProperty(
-        verbose_name = _('Can manage case data'),
-        annotation = Case(
-            When(Q(access_level__gte=4) | Q(is_superuser=True) | (Q(data_management_grants__isnull=False) & Q(data_management_grants__is_valid=True)), then=True), 
-            default=False, output_field=models.BooleanField()),
+    can_manage_cases = CanManageCasesProperty(
+        verbose_name = _('Can manage cases data'),
     )
 
     def __str__(self):
