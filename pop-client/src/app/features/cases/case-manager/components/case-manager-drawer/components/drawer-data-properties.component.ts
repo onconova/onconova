@@ -13,6 +13,9 @@ import { Skeleton } from 'primeng/skeleton';
             @case ('null') {
                 <div class="text-muted">-</div> 
             }
+            @case ('boolean') {
+                <div>{{ data() ? 'Yes' : 'No' }}</div> 
+            }
             @case ('Period') {
                 <div>{{ data().start | date }} - {{ (data().end | date) ?? 'ongoing' }}</div> 
             }
@@ -99,6 +102,8 @@ export class DrawerDataPropertiesComponent {
         } else if (this.#typeCheckService.isObject(this.data())) {
             if (this.#typeCheckService.isCodeableConcept(this.data())){
                 return 'CodedConcept';
+            } else if (this.#typeCheckService.isBoolean(this.data())) {
+                return 'boolean';                
             } else if (this.#typeCheckService.isPeriod(this.data())) {
                 return 'Period';                
             } else if (this.#typeCheckService.isMeasure(this.data())) {
