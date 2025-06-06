@@ -1,3 +1,14 @@
+@use "primeicons/primeicons.css";
+@use "primeflex/primeflex.css";
+@use "assets/styles/layout/layout.scss";
+@use "assets/styles/shared/shared.scss";
+@use "assets/styles/forms/forms.scss";
+@use "assets/styles/cases/cases.scss";
+@use "assets/styles/cohorts/cohorts.scss";
+@use "assets/styles/projects/projects.scss";
+@use "assets/styles/dashboard/dashboard.scss";
+
+
 /* You can add global styles to this file, and also import other style files */
 html {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
@@ -31,15 +42,3 @@ body {
   
 
 $gutter: 1rem; //for primeflex grid system
-/* PrimeNG */
-@import "primeicons/primeicons.css";
-@import "primeflex/primeflex.css";
-
-
-@import "assets/styles/layout/layout.scss";
-@import "assets/styles/shared/shared.scss";
-@import "assets/styles/forms/forms.scss";
-@import "assets/styles/cases/cases.scss";
-@import "assets/styles/cohorts/cohorts.scss";
-@import "assets/styles/projects/projects.scss";
-@import "assets/styles/dashboard/dashboard.scss";
