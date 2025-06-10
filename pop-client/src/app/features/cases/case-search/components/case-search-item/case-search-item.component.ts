@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Output, inject, EventEmitter, input, Resource, computed} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
-import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService, InteroperabilityService} from 'src/app/shared/openapi';
+import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService, InteroperabilityService} from 'pop-api-client';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { first, map } from 'rxjs';

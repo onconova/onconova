@@ -26,7 +26,15 @@
       "lib": [
         "ES2022",
         "dom"
-      ]
+      ],
+      "paths": {
+        "pop-api-client": [
+          "generated/pop-api-client"
+        ],
+        "pop-api-client/*": [
+          "generated/pop-api-client/*"
+        ]
+      }
     },
     "angularCompilerOptions": {
       "enableI18nLegacyMessageIdFormat": false,

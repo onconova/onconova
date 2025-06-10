@@ -2,8 +2,9 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { AllAuthApiService, AllAuthConfiguration, ProviderConfig } from './core/auth/services/allauth-api.service';
 import { catchError, firstValueFrom, map, Observable, of, tap, throwError } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { BASE_PATH } from './shared/openapi';
+import { BASE_PATH } from 'pop-api-client';
 import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'

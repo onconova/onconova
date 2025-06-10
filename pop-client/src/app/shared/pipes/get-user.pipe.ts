@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from "@angular/core"
-import { User } from "../openapi"
+import { User } from "pop-api-client"
 import { AuthService } from "src/app/core/auth/services/auth.service"
 import { Observable } from "rxjs"
 

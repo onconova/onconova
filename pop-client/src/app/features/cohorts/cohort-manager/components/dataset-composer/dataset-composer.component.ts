@@ -17,7 +17,7 @@ import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
 import OpenAPISpecification from "../../../../../../../openapi.json";
-import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource, Cohort } from "src/app/shared/openapi";
+import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource, Cohort } from "pop-api-client";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
 import { AuthService } from "src/app/core/auth/services/auth.service";

@@ -1,10 +1,8 @@
 import { computed, effect, inject, Injectable, linkedSignal, signal } from '@angular/core';
-import { Location } from '@angular/common';
-import { UsersService } from 'src/app/shared/openapi';
 import { iif, map, Observable, of, switchMap, throwError } from 'rxjs'
-import { User} from 'src/app/shared/openapi/';
+import { UsersService, User} from 'pop-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AllAuthApiService, AllAuthResponse } from './allauth-api.service';
 import { AppConfigService } from 'src/app/app.config.service';
 import { MessageService } from 'primeng/api';

@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from "@angular/core"
-import { InteroperabilityService } from "../openapi";
+import { InteroperabilityService } from "pop-api-client";
 import { Observable } from "rxjs";
 
 @Pipe({     

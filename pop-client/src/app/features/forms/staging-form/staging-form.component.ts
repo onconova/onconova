@@ -22,7 +22,7 @@ import {
   NeoplasticEntitiesService,
   AnyStaging,
   CodedConcept,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { ButtonModule } from 'primeng/button';
 import { Select } from 'primeng/select';

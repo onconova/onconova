@@ -12,7 +12,7 @@ import {
     TreatmentResponsesService,
     TreatmentResponse,
     CodedConcept,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

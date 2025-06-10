@@ -9,8 +9,7 @@ import { SelectButton } from 'primeng/selectbutton';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
-import { TerminologyService } from '../../openapi/api/terminology.service';
-import { CodedConcept, PaginatedCodedConcept } from '../../openapi';
+import { TerminologyService, CodedConcept, PaginatedCodedConcept } from 'pop-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({

@@ -6,7 +6,7 @@ import { Skeleton } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { map } from 'rxjs';
 
-import { Cohort, CohortContribution, CohortsService } from 'src/app/shared/openapi';
+import { Cohort, CohortContribution, CohortsService } from 'pop-api-client';
 import { UserBadgeComponent } from "../../../../shared/components/user-badge/user-badge.component";
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Message } from 'primeng/message';

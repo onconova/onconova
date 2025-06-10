@@ -17,7 +17,7 @@ import {
     ComorbiditiesAssessmentsService,
     ComorbiditiesAssessmentPanelChoices,
     ComorbiditiesAssessment,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

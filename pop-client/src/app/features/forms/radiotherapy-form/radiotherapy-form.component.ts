@@ -23,7 +23,7 @@ import {
     RadiotherapyIntentChoices,
     Period,
     Measure
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

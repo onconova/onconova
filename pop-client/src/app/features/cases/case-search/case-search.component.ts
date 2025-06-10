@@ -19,7 +19,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 // Project dependencies
-import { PatientCase, PatientCasesService} from 'src/app/shared/openapi';
+import { PatientCase, PatientCasesService} from 'pop-api-client';
 import { CaseSearchItemCardComponent } from './components/case-search-item/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/forms';
 import { AuthService } from 'src/app/core/auth/services/auth.service';

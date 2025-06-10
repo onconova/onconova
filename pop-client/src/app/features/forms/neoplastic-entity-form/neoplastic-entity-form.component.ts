@@ -11,7 +11,7 @@ import {
   NeoplasticEntityCreate,
   CodedConcept,
   PaginatedNeoplasticEntity
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { ButtonModule } from 'primeng/button';
 import { Select } from 'primeng/select';

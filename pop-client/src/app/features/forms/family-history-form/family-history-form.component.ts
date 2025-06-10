@@ -14,7 +14,7 @@ import {
     FamilyHistoryCreate,
     FamilyHistoriesService,
     CodedConcept,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

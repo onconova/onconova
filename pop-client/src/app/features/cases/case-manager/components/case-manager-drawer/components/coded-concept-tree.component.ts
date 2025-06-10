@@ -1,7 +1,7 @@
 import { Component, computed, input  } from '@angular/core';
 import { TreeModule } from 'primeng/tree';
 
-import { CodedConcept } from 'src/app/shared/openapi';
+import { CodedConcept } from 'pop-api-client';
 import { CommonModule } from '@angular/common';
 
 @Component({

@@ -16,15 +16,15 @@ docker compose run -v "${PWD}/pop-client/openapi.json:/app/openapi.json" pop-ser
 ```
 
 ```bash
-rm -r pop-client/src/app/shared/openapi && npx @openapitools/openapi-generator-cli generate -i pop-client/openapi.json -g typescript-angular -o pop-client/src/app/shared/openapi --additional-properties fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model 
+rm -r pop-client/node_modules/pop-api-client && npx @openapitools/openapi-generator-cli generate -i pop-client/openapi.json -g typescript-angular -o pop-client/node_modules/pop-api-client --additional-properties apiModulePrefix=Pop,npmName=pop-api-client,fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model 
 ```
 Alternatively using Docker
 ```bash
-rm -r ${PWD}/pop-client/src/app/shared/openapi && docker run --rm -v "${PWD}/pop-client/:/local" openapitools/openapi-generator-cli:latest-release generate \
+rm -r ${PWD}/pop-client/node_modules/pop-api-client && docker run --rm -v "${PWD}/pop-client/:/local" openapitools/openapi-generator-cli:latest-release generate \
     -i /local/openapi.json \
     -g typescript-angular \
-    -o /local/src/app/shared/openapi \
-    --additional-properties fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model      
+    -o /local/node_modules/pop-api-client \
+    --additional-properties apiModulePrefix=Pop,npmName=pop-api-client,fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model 
 ```
 
 ## Adding plugins

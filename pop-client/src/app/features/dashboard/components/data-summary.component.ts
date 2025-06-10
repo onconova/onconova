@@ -2,7 +2,7 @@ import { Component, effect, inject } from '@angular/core';
 
 import { SkeletonModule } from 'primeng/skeleton';
 
-import { DataPlatformStatisticsSchema, DashboardService, CasesPerMonthSchema } from 'src/app/shared/openapi';
+import { DataPlatformStatisticsSchema, DashboardService, CasesPerMonthSchema } from 'pop-api-client';
 import { ChartModule } from 'primeng/chart';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
 import { map, Observable } from 'rxjs';

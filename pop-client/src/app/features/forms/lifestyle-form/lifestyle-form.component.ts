@@ -13,7 +13,7 @@ import {
     LifestyleCreate,
     LifestylesService,
     Measure,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

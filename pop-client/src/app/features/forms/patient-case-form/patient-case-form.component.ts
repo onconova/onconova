@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices, PatientCase, CodedConcept } from '../../../shared/openapi'
+import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices, PatientCase, CodedConcept } from 'pop-api-client'
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';

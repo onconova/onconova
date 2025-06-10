@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, makeEnvironmentProviders, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -11,12 +11,11 @@ import { DialogService } from 'primeng/dynamicdialog';
 
 import { APIAuthInterceptor } from './core/auth/interceptors/api-auth.interceptor';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { BASE_PATH } from './shared/openapi';
+import { BASE_PATH, Configuration, ConfigurationParameters } from 'pop-api-client';
 import { JDENTICON_CONFIG } from "ngx-jdenticon";
 import { provideNgxCountAnimations } from "ngx-count-animation";
 import { UnauthorizedInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
 import { AppConfigService } from './app.config.service';
-
 
 export const appConfig: ApplicationConfig = {
     providers: [

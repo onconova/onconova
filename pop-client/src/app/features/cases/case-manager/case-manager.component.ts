@@ -39,7 +39,7 @@ import {
     TumorBoardsService,
     TreatmentResponsesService,
     InteroperabilityService,
-} from 'src/app/shared/openapi'
+} from 'pop-api-client'
 
 import { 
     NeoplasticEntityFormComponent,

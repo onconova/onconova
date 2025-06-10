@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { CohortQueryFilter } from "src/app/shared/openapi";
+import { CohortQueryFilter } from "pop-api-client";
 
 function mapOperator(operator: string): string {
     switch (operator) {

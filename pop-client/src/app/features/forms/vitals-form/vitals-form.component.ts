@@ -12,7 +12,7 @@ import {
     Vitals,
     VitalsCreate,
     VitalsService,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   DatePickerComponent,

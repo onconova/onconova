@@ -15,7 +15,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, CohortCreate, CohortTraitCounts, ProjectsService } from 'src/app/shared/openapi';
+import { CohortsService, Cohort, CohortCreate, CohortTraitCounts, ProjectsService } from 'pop-api-client';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
 import { catchError, map, of, throwError } from 'rxjs';
