@@ -718,6 +718,18 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const dataCompletionRateNotEqual = requestParameters?.dataCompletionRateNotEqual;
         const dataCompletionRateBetween = requestParameters?.dataCompletionRateBetween;
         const dataCompletionRateNotBetween = requestParameters?.dataCompletionRateNotBetween;
+        const contributorsNotExists = requestParameters?.contributorsNotExists;
+        const contributorsExists = requestParameters?.contributorsExists;
+        const contributors = requestParameters?.contributors;
+        const contributorsNot = requestParameters?.contributorsNot;
+        const contributorsContains = requestParameters?.contributorsContains;
+        const contributorsNotContains = requestParameters?.contributorsNotContains;
+        const contributorsBeginsWith = requestParameters?.contributorsBeginsWith;
+        const contributorsNotBeginsWith = requestParameters?.contributorsNotBeginsWith;
+        const contributorsEndsWith = requestParameters?.contributorsEndsWith;
+        const contributorsNotEndsWith = requestParameters?.contributorsNotEndsWith;
+        const contributorsAnyOf = requestParameters?.contributorsAnyOf;
+        const contributorsNotAnyOf = requestParameters?.contributorsNotAnyOf;
         const id = requestParameters?.id;
         const idNot = requestParameters?.idNot;
         const idContains = requestParameters?.idContains;
@@ -921,6 +933,38 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
             dataCompletionRateNotBetween.forEach((element) => {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'dataCompletionRate.not.between');
+            })
+        }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsNotExists, 'contributors.not.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsExists, 'contributors.exists');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributors, 'contributors');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsNot, 'contributors.not');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsContains, 'contributors.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsNotContains, 'contributors.not.contains');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsBeginsWith, 'contributors.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsNotBeginsWith, 'contributors.not.beginsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsEndsWith, 'contributors.endsWith');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>contributorsNotEndsWith, 'contributors.not.endsWith');
+        if (contributorsAnyOf) {
+            contributorsAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'contributors.anyOf');
+            })
+        }
+        if (contributorsNotAnyOf) {
+            contributorsNotAnyOf.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'contributors.not.anyOf');
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

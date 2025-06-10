@@ -193,6 +193,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pop.wsgi.application'
 
 PGHISTORY_CONTEXT_FIELD = pghistory.ContextJSONField()
+PGHISTORY_OBJ_FIELD = pghistory.ObjForeignKey(db_index=True)
 PGHISTORY_DEFAULT_TRACKERS = (
     pghistory.InsertEvent(label='create'), 
     pghistory.UpdateEvent(label='update'), 

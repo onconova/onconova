@@ -3,12 +3,12 @@ from datetime import date, datetime, timedelta
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from psycopg.types.range import Range as PostgresRange
-from pop.oncology.models.patient_case import PatientCaseDataCompletion
+from pop.oncology.models.patient_case import PatientCaseDataCompletion, PatientCase
+from pop.oncology.models.neoplastic_entity import NeoplasticEntity
 from pop.oncology.models.therapy_line import TherapyLine
 import pop.tests.factories as factories
 import pop.terminology.models as terminology
 from parameterized import parameterized
-import re 
 
 class PatientCaseModelTest(TestCase):
     
@@ -78,6 +78,56 @@ class PatientCaseModelTest(TestCase):
         
     def test_overall_survival_is_null_if_no_diagnosis(self):
         self.assertIsNone(self.patient.overall_survival)
+
+    def test_contributors_on_create(self):
+
+        import pghistory 
+        with pghistory.context(username="user1"):
+            case = factories.PatientCaseFactory()
+
+        self.assertEqual(len(case.contributors), 1)
+        self.assertIn("user1", case.contributors)
+
+        with pghistory.context(username="user2"):
+            factories.PrimaryNeoplasticEntityFactory.create(case=case)
+
+        self.assertEqual(len(case.contributors), 2)
+        self.assertIn("user1", case.contributors)
+        self.assertIn("user2", case.contributors)
+
+        self.assertEqual(PatientCase.objects.get(contributors="user1"), case)
+        self.assertEqual(PatientCase.objects.get(contributors="user2"), case)
+
+    def test_contributors_on_update(self):
+
+        import pghistory 
+        with pghistory.context(username="user1"):
+            case = factories.PatientCaseFactory()
+
+        self.assertEqual(len(case.contributors), 1)
+        self.assertIn("user1", case.contributors)
+
+        with pghistory.context(username="user2"):
+            neoplastic_entity = factories.PrimaryNeoplasticEntityFactory.create(case=case)
+
+        self.assertEqual(len(case.contributors), 2)
+        self.assertIn("user1", case.contributors)
+        self.assertIn("user2", case.contributors)
+
+
+        with pghistory.context(username="user3"):
+            neoplastic_entity.assertion_date = datetime(2010, 1, 1).date()
+            neoplastic_entity.save()
+
+        self.assertEqual(len(case.contributors), 3)
+        self.assertIn("user1", case.contributors)
+        self.assertIn("user2", case.contributors)
+        self.assertIn("user3", case.contributors)
+
+        self.assertEqual(PatientCase.objects.get(contributors="user1"), case)
+        self.assertEqual(PatientCase.objects.get(contributors="user2"), case)
+        self.assertEqual(PatientCase.objects.get(contributors="user3"), case)
+
 
 class NeoplasticEntityModelTest(TestCase):
     

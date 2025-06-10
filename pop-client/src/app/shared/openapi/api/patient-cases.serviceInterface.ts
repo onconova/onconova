@@ -104,6 +104,18 @@ export interface GetPatientCasesRequestParams {
     dataCompletionRateNotEqual?: number;
     dataCompletionRateBetween?: Array<any>;
     dataCompletionRateNotBetween?: Array<any>;
+    contributorsNotExists?: boolean;
+    contributorsExists?: boolean;
+    contributors?: string;
+    contributorsNot?: string;
+    contributorsContains?: string;
+    contributorsNotContains?: string;
+    contributorsBeginsWith?: string;
+    contributorsNotBeginsWith?: string;
+    contributorsEndsWith?: string;
+    contributorsNotEndsWith?: string;
+    contributorsAnyOf?: Array<string>;
+    contributorsNotAnyOf?: Array<string>;
     id?: string;
     idNot?: string;
     idContains?: string;

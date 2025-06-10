@@ -8,6 +8,8 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.oncology import models as oncological_models
+from pop.projects.models import Project
+from pop.analytics.models import Cohort
 from pop.core.security import XSessionTokenAuth
 from pop.analytics.schemas.statistics import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
 from pop.analytics.aggregates import Median
@@ -38,7 +40,8 @@ class DashboardController(ControllerBase):
             mutations = oncological_models.GenomicVariant.objects.count(),
             clinicalCenters = oncological_models.PatientCase.objects.distinct('clinical_center').count(),
             contributors = oncological_models.PatientCase.pgh_event_model.objects.values('pgh_context__username').distinct().count(),
-            projects = 0,
+            cohorts = Cohort.objects.count(),
+            projects = Project.objects.count(),
         )
     
     @route.get(
@@ -62,7 +65,6 @@ class DashboardController(ControllerBase):
                 dataCompletionMedian = entity_cohort.aggregate(Median('data_completion_rate')).get('data_completion_rate__median'),
                 topographyCode=entity_code,
                 topographyGroup=entity_display,
-                contributors = oncological_models.PatientCase.pgh_event_model.objects.filter(pgh_obj_id__in=entity_cohort).values_list('pgh_context__username', flat=True).distinct(),
             ))
         statistics.sort(key=lambda x: x.population, reverse=True)
         return statistics
