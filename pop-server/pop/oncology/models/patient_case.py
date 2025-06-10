@@ -62,7 +62,7 @@ class ContributorsProperty(QueryableProperty):
         """Return the combined version info as a string."""
         return pghistory.models.Events.objects.references(obj).filter(
                 Q(pgh_obj_id=obj.pk) | Q(pgh_data__case_id=str(obj.pk)),
-            ).alias(contributions_count=Count('pgh_context__username')).order_by('-contributions_count').values_list('pgh_context__username', flat=True).distinct().order_by()
+            ).exclude(pgh_context__username__isnull=True).alias(contributions_count=Count('pgh_context__username')).order_by('-contributions_count').values_list('pgh_context__username', flat=True).distinct().order_by()
     
     def get_filter(self, cls, lookup, value):
         related_models = [obj.related_model for obj in PatientCase._meta.related_objects if obj.related_model._meta.app_label == 'oncology' and not issubclass(obj.related_model, pghistory.models.Event)]
