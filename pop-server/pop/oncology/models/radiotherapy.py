@@ -16,7 +16,7 @@ import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies 
 import pop.core.measures as measures
 
-@pghistory.track()
+@pghistory.track(exclude='therapy_line_id')
 class Radiotherapy(BaseModel):
 
     objects = QueryablePropertiesManager()

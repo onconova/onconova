@@ -10,7 +10,7 @@ from pop.oncology.models.therapy_line import TherapyLine
 import pop.terminology.fields as termfields 
 import pop.terminology.models as terminologies 
 
-@pghistory.track()
+@pghistory.track(exclude='therapy_line_id')
 class Surgery(BaseModel):
 
     class TreatmentIntent(models.TextChoices):
