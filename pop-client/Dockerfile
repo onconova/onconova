@@ -24,20 +24,10 @@ RUN update-ca-certificates
 # Install Java for running OpenAPI Generator
 RUN apt-get update && apt-get install -y default-jre curl && apt-get clean
 
-# Download OpenAPI Generator CLI
-ENV OPENAPI_GENERATOR_VERSION=7.12.0
-RUN curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${OPENAPI_GENERATOR_VERSION}/openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar \
-    -o /openapi-generator-cli.jar
+# Generate the POP API client package
+ENV npm run generate:api:client java
 
-# Generate the Angular API client
-RUN java -jar /openapi-generator-cli.jar generate \
-    -i ./openapi.json \
-    -g typescript-angular \
-    -o ./generated/pop-api-client \
-    --skip-validate-spec \
-    --additional-properties \
-        fileNaming=kebab-case,npmName=pop-api-client,withInterfaces=true,useSingleRequestParameter=true \ 
-    --generate-alias-as-model 
+RUN npm cache clean --force
 
 ########################################
 # DEVLEOPMENT

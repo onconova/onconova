@@ -12,19 +12,7 @@ ng serve --ssl --ssl-cert ../etc/certs/localhost.pem --ssl-key ../etc/certs/loca
 ## Regenerate OpenAPI client
 
 ```bash
-docker compose run -v "${PWD}/pop-client/openapi.json:/app/openapi.json" pop-server python manage.py export_openapi_schema --output /app/openapi.json --indent 4
-```
-
-```bash
-rm -r pop-client/node_modules/pop-api-client && npx @openapitools/openapi-generator-cli generate -i pop-client/openapi.json -g typescript-angular -o pop-client/node_modules/pop-api-client --additional-properties apiModulePrefix=Pop,npmName=pop-api-client,fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model 
-```
-Alternatively using Docker
-```bash
-rm -r ${PWD}/pop-client/node_modules/pop-api-client && docker run --rm -v "${PWD}/pop-client/:/local" openapitools/openapi-generator-cli:latest-release generate \
-    -i /local/openapi.json \
-    -g typescript-angular \
-    -o /local/node_modules/pop-api-client \
-    --additional-properties apiModulePrefix=Pop,npmName=pop-api-client,fileNaming=kebab-case,withInterfaces=true,useSingleRequestParameter=true --generate-alias-as-model 
+npm run generate:api:client
 ```
 
 ## Adding plugins

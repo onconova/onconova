@@ -8,9 +8,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "jasmine",
-    "serve:ssr:ngtest": "node dist/ngtest/server/server.mjs"
+    "serve:ssr:ngtest": "node dist/ngtest/server/server.mjs",
+    "generate:api:client": "./generate-api-client.sh"
   },
   "dependencies": {
+    "pop-api-client": "file:./generated/pop-api-client",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
