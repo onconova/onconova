@@ -50,6 +50,9 @@ pop-cohort-trait-panel {
     }
 
     pop-dataset-composer {
+        & .p-datatable-flex-scrollable {
+            height: unset !important;
+        }
         & .expand-nested-table-button {
             margin: auto 0;
             margin-right: .5rem !important;

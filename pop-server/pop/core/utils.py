@@ -1,5 +1,7 @@
 import re
 import inspect
+from datetime import datetime
+import hashlib
 from uuid import UUID
 from enum import Enum
 from typing import Any, Union, get_args, get_origin, Optional, Literal
@@ -23,6 +25,18 @@ def is_optional(field: type) -> bool:
     """
     return get_origin(field) is Union and \
            type(None) in get_args(field)
+
+def is_union(field: type) -> bool:
+    """
+    Check if a field is optional, i.e. its type is a Union containing None.
+
+    Args:
+        field (type): The field to check.
+
+    Returns:
+        bool: True if the field is optional, False otherwise.
+    """
+    return get_origin(field) is Union
 
 def is_list(field):
     """
@@ -186,3 +200,37 @@ def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
             },
         )[0]
     return instance
+
+
+def is_datetime(date_string, date_format):
+    try:
+        datetime.strptime(date_string, date_format)
+        return True
+    except ValueError:
+        return False
+    
+
+def is_period(period_string, date_format):
+    try:
+        period_start_string, period_end_string = period_string.strip('()[]').split(',')
+        datetime.strptime(period_start_string, date_format)
+        datetime.strptime(period_end_string, date_format)
+        return True
+    except ValueError:
+        return False
+
+def hash_to_range(input_str: str, secret: str, low: int = -90, high: int = 90) -> int:
+    # Combine input and secret
+    combined = input_str + secret
+    
+    # Get SHA-256 hash as bytes
+    hash_bytes = hashlib.sha256(combined.encode('utf-8')).digest()
+    
+    # Convert hash bytes to a large integer
+    hash_int = int.from_bytes(hash_bytes, 'big')
+    
+    # Map to the range [low, high]
+    range_size = high - low + 1
+    mapped_value = low + (hash_int % range_size)
+    
+    return mapped_value

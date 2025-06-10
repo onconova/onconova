@@ -68,12 +68,13 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_all(self, scenario, config):            
         for i in range(self.SUBTESTS):
+            can_be_anonymized = hasattr(self.SCHEMA[i], 'anonymized')
             instance = self.INSTANCE[i]
             # Call the API endpoint
-            response = self.call_api_endpoint('GET', self.get_route_url(instance), **config)
+            response = self.call_api_endpoint('GET', self.get_route_url(instance), anonymized=False, **config)
             with self.subTest(i=i):
                 # Assert response content
-                if scenario == 'HTTPS Authenticated':
+                if scenario == 'HTTPS Authenticated':   
                     self.assertEqual(response.status_code, 200)
                     if 'items' in response.json():
                         entry = next((item for item in response.json()['items'] if str(instance.id) == item['id']))
@@ -84,15 +85,29 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     if self.history_tracked:
                         expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
                         result['createdAt'] = result['createdAt'].replace(microsecond=0)
-                    self.assertEqual(expected, result)
+                    self.assertDictEqual(expected, result)
+                    
+                    if can_be_anonymized:
+                        anonymized_response = self.call_api_endpoint('GET', self.get_route_url(instance), anonymized=True, **config)
+                        self.assertEqual(anonymized_response.status_code, 200)
+                        if 'items' in response.json():
+                            anonymized_entry = next((item for item in anonymized_response.json()['items'] if str(instance.id) == item['id']))
+                        else:                        
+                            anonymized_entry = anonymized_response.json()[0]
+                        anonymized_result = self.SCHEMA[i].model_validate(anonymized_entry).model_dump()
+                        if self.history_tracked:
+                            anonymized_result['createdAt'] = anonymized_result['createdAt'].replace(microsecond=0)
+                        self.assertNotEqual(result, anonymized_result)
+                        
                 self.MODEL[i].objects.all().delete()
-
+                
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_by_id(self, scenario, config):              
         for i in range(self.SUBTESTS):
+            can_be_anonymized = hasattr(self.SCHEMA[i], 'anonymized')
             instance = self.INSTANCE[i]
             # Call the API endpoint
-            response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), **config)
+            response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), anonymized=False, **config)
             with self.subTest(i=i):
                 # Assert response content
                 if scenario == 'HTTPS Authenticated':
@@ -103,6 +118,16 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                         expected['createdAt'] = expected['createdAt'].replace(microsecond=0)
                         result['createdAt'] = result['createdAt'].replace(microsecond=0)
                     self.assertDictEqual(result, expected)
+
+
+                    if can_be_anonymized:
+                        anonymized_response = self.call_api_endpoint('GET', self.get_route_url_with_id(instance), anonymized=True, **config)
+                        self.assertEqual(anonymized_response.status_code, 200)
+                        anonymized_result = self.SCHEMA[i].model_validate(anonymized_response.json()).model_dump()
+                        if self.history_tracked:
+                            anonymized_result['createdAt'] = anonymized_result['createdAt'].replace(microsecond=0)
+                        self.assertNotEqual(result, anonymized_result)
+
                 self.MODEL[i].objects.all().delete()
     
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)

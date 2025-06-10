@@ -10,6 +10,10 @@
 
 
 export interface LossOfHeterozygosity { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: LossOfHeterozygosity.CategoryEnum;
     /**
      * 

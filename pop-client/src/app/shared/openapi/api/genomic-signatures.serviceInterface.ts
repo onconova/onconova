@@ -38,6 +38,7 @@ export interface GetAllGenomicSignatureHistoryEventsRequestParams {
 
 export interface GetGenomicSignatureByIdRequestParams {
     genomicSignatureId: string;
+    anonymized?: boolean;
 }
 
 export interface GetGenomicSignatureHistoryEventByIdRequestParams {
@@ -77,6 +78,7 @@ export interface GetGenomicSignaturesRequestParams {
     dateNotOn?: string;
     dateBetween?: Array<any>;
     dateNotBetween?: Array<any>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

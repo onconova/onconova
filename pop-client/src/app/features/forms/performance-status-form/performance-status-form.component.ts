@@ -100,7 +100,6 @@ export class PerformanceStatusFormComponent extends AbstractFormBase {
                 '0': 'LA9622-7', '1': 'LA9623-5', '2': 'LA9624-3',  
                 '3': 'LA9625-0', '4': 'LA9626-8', '5': 'LA9627-6',        
             }
-            console.log('ECOG', Array.from({length: 6}, (_, i) => ({label: `${i} | ${data.items.find(c => c.code === ecogToInterpretation[i.toString() as keyof typeof ecogToInterpretation])?.display || ''}`, value: i})))
             return Array.from({length: 6}, (_, i) => ({label: `${i} | ${data.items.find(c => c.code === ecogToInterpretation[i.toString() as keyof typeof ecogToInterpretation])?.display || ''}`, value: i}));
         }))
     })

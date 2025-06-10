@@ -10,6 +10,10 @@
 
 
 export interface TumorNeoantigenBurden { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: TumorNeoantigenBurden.CategoryEnum;
     /**
      * 

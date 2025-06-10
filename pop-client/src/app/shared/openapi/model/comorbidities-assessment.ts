@@ -13,6 +13,10 @@ import { ComorbiditiesAssessmentPanelChoices } from './comorbidities-assessment-
 
 
 export interface ComorbiditiesAssessment { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     score?: Score | null;
     /**
      * 

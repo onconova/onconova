@@ -316,6 +316,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         const morphologyAnyOf = requestParameters?.morphologyAnyOf;
         const morphologyNotAnyOf = requestParameters?.morphologyNotAnyOf;
         const morphologyDescendantsOf = requestParameters?.morphologyDescendantsOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -499,6 +500,8 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>morphologyDescendantsOf, 'morphology.descendantsOf');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -560,6 +563,11 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         if (familyHistoryId === null || familyHistoryId === undefined) {
             throw new Error('Required parameter familyHistoryId was null or undefined when calling getFamilyHistoryById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -593,6 +601,7 @@ export class FamilyHistoriesService extends BaseService implements FamilyHistori
         return this.httpClient.request<FamilyHistory>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

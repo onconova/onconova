@@ -9,6 +9,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
 from pop.oncology.models.comorbidities import ComorbidityPanelCategory as ComorbidityPanelCategoryType
@@ -35,7 +36,8 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id='getComorbiditiesAssessments',
     )
     @paginate()
-    def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters]): # type: ignore
+    @anonymize()
+    def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters], anonymized: bool = True): # type: ignore
         queryset = ComorbiditiesAssessment.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -60,7 +62,8 @@ class ComorbiditiesAssessmentController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getComorbiditiesAssessmentById',
     )
-    def get_comorbidities_assessment_by_id(self, comorbiditiesAssessmentId: str):
+    @anonymize()
+    def get_comorbidities_assessment_by_id(self, comorbiditiesAssessmentId: str, anonymized: bool = True):
         return get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
         
 

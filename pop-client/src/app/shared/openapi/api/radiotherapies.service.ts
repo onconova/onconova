@@ -816,6 +816,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         const targetedEntitiesIdsNotEndsWith = requestParameters?.targetedEntitiesIdsNotEndsWith;
         const targetedEntitiesIdsAnyOf = requestParameters?.targetedEntitiesIdsAnyOf;
         const targetedEntitiesIdsNotAnyOf = requestParameters?.targetedEntitiesIdsNotAnyOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1239,6 +1240,8 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -1300,6 +1303,11 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         if (radiotherapyId === null || radiotherapyId === undefined) {
             throw new Error('Required parameter radiotherapyId was null or undefined when calling getRadiotherapyById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -1333,6 +1341,7 @@ export class RadiotherapiesService extends BaseService implements Radiotherapies
         return this.httpClient.request<Radiotherapy>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

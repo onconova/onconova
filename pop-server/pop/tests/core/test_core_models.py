@@ -33,7 +33,6 @@ class BaseModelTestCase(AbstractModelMixinTestCase):
         instance = MockBaseModel.objects.create(id=uuid4())
         instance.external_source = 'test'
         instance.save()
-        print('EVENTS', instance.events.values())
         self.assertGreaterEqual(instance.updated_at, instance.created_at)
 
 

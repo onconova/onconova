@@ -11,6 +11,10 @@ import { TumorMutationalBurdenStatusChoices } from './tumor-mutational-burden-st
 
 
 export interface TumorMutationalBurden { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: TumorMutationalBurden.CategoryEnum;
     /**
      * 

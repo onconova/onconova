@@ -259,6 +259,11 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
         if (genomicSignatureId === null || genomicSignatureId === undefined) {
             throw new Error('Required parameter genomicSignatureId was null or undefined when calling getGenomicSignatureById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -292,6 +297,7 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
         return this.httpClient.request<AnyGenomicSignature>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -404,6 +410,7 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
         const dateNotOn = requestParameters?.dateNotOn;
         const dateBetween = requestParameters?.dateBetween;
         const dateNotBetween = requestParameters?.dateNotBetween;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -498,6 +505,8 @@ export class GenomicSignaturesService extends BaseService implements GenomicSign
                   <any>element, 'date.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

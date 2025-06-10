@@ -12,6 +12,10 @@ import { MolecularTherapeuticRecommendation } from './molecular-therapeutic-reco
 
 
 export interface MolecularTumorBoard { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: MolecularTumorBoard.CategoryEnum;
     /**
      * Therapeutic recommendations of the molecular tumor board

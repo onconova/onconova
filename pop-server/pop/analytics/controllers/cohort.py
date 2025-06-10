@@ -17,6 +17,7 @@ from ninja_extra.exceptions import APIException
 from pop.core import permissions as perms
 from pop.core.utils import camel_to_snake
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import Paginated, ModifiedResourceSchema, HistoryEvent
 from pop.oncology import schemas as oncological_schemas
 from pop.interoperability.schemas import ExportMetadata
@@ -29,7 +30,7 @@ from pop.analytics.schemas.cohort import (
     CohortTraitMedian, CohortTraitCounts,
     CohortContribution,
 )
-from pop.analytics.schemas.datasets import DatasetRule
+from pop.analytics.schemas.datasets import DatasetRule, PatientCaseDataset
 
 
 def convert_api_path_to_snake_case_path(path):
@@ -133,7 +134,8 @@ class CohortsController(ControllerBase):
         operation_id='getCohortCases',
     )
     @paginate()
-    def get_cohort_cases(self, cohortId: str):
+    @anonymize()
+    def get_cohort_cases(self, cohortId: str, anonymized: bool = True):
         return get_object_or_404(Cohort, id=cohortId).cases.all()
 
     @route.get(
@@ -206,8 +208,8 @@ class CohortsController(ControllerBase):
     )
     def export_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        dataset = list(construct_dataset(cohort=cohort, rules=rules))
-        checksum = hashlib.md5(json.dumps(dataset, sort_keys=True, default=str).encode('utf-8')).hexdigest()
+        dataset = [PatientCaseDataset.model_validate(subset) for subset in construct_dataset(cohort=cohort, rules=rules)]
+        checksum = hashlib.md5(json.dumps([subset.model_dump(mode='json') for subset in dataset], sort_keys=True, default=str).encode('utf-8')).hexdigest()
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),
@@ -225,10 +227,11 @@ class CohortsController(ControllerBase):
     @route.post(
         path='/{cohortId}/dataset', 
         response={
-            200: Paginated[Any],
+            200: Paginated[PatientCaseDataset],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],
+        exclude_unset=True,
         operation_id='getCohortDatasetDynamically',
     )
     @paginate()
@@ -238,7 +241,7 @@ class CohortsController(ControllerBase):
     @route.get(
         path='/{cohortId}/datasets/{datasetId}', 
         response={
-            200: Paginated[Any],
+            200: Paginated[PatientCaseDataset],
             404: None, 401: None, 403: None,
         },
         permissions=[perms.CanViewCohorts],

@@ -13,6 +13,10 @@ import { Measure } from './measure';
 
 export interface Lifestyle { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * 
      */
     id: string;

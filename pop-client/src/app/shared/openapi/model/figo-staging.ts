@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface FIGOStaging { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: FIGOStaging.StagingDomainEnum;
     /**
      * 

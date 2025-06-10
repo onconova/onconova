@@ -479,6 +479,11 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         if (adverseEventId === null || adverseEventId === undefined) {
             throw new Error('Required parameter adverseEventId was null or undefined when calling getAdverseEventById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -512,6 +517,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         return this.httpClient.request<AdverseEvent>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -1117,6 +1123,7 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
         const dateResolvedNotOn = requestParameters?.dateResolvedNotOn;
         const dateResolvedBetween = requestParameters?.dateResolvedBetween;
         const dateResolvedNotBetween = requestParameters?.dateResolvedNotBetween;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1577,6 +1584,8 @@ export class AdverseEventsService extends BaseService implements AdverseEventsSe
                   <any>element, 'dateResolved.not.between');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

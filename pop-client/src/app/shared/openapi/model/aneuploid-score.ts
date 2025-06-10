@@ -10,6 +10,10 @@
 
 
 export interface AneuploidScore { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: AneuploidScore.CategoryEnum;
     /**
      * 

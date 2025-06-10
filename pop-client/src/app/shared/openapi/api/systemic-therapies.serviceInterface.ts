@@ -246,12 +246,14 @@ export interface GetSystemicTherapiesRequestParams {
     targetedEntitiesIdsNotEndsWith?: string;
     targetedEntitiesIdsAnyOf?: Array<string>;
     targetedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetSystemicTherapyByIdRequestParams {
     systemicTherapyId: string;
+    anonymized?: boolean;
 }
 
 export interface GetSystemicTherapyHistoryEventByIdRequestParams {

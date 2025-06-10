@@ -25,7 +25,7 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
 
 
 export interface DataService {
-    get: (caseId: string) => Observable<{items: any[]}>;
+    get: ({request} : any) => Observable<{items: any[]}>;
     delete: (id: string) => Observable<any>;
     history: (id: string) => Observable<any>;
 }
@@ -58,6 +58,7 @@ export class CaseManagerPanelComponent {
     readonly #dialogservice = inject(DialogService);
 
     @Input() formComponent!: any;
+    readonly anonymized = input<boolean>(true)
 
 
     public caseId = input.required<string>();
@@ -66,15 +67,15 @@ export class CaseManagerPanelComponent {
     public title = input<string>();
     public icon = input.required<LucideIconData>();
 
-    private dataCompletionStatus = rxResource({
+    protected dataCompletionStatus = rxResource({
         request: () => ({caseId: this.caseId(), category: this.category()}),
         loader: ({request}) => this.#patienCaseService.getPatientCaseDataCompletionStatus(request),
     });
     public currentUser = computed(() => this.#authService.user());
     public isCompleted = computed(() => this.dataCompletionStatus.value()?.status);
     public data = rxResource({
-        request: () => ({caseId: this.caseId()}),
-        loader: ({request}) => this.service().get(request.caseId).pipe(map(response => response.items)),
+        request: () => ({caseId: this.caseId(), anonymized: this.anonymized()}),
+        loader: ({request}) => this.service().get(request).pipe(map(response => response.items)),
     });
 
     #modalFormConfig = computed( () => ({
@@ -107,7 +108,7 @@ export class CaseManagerPanelComponent {
             {
                 label: 'Add',
                 icon: 'pi pi-plus',
-                disabled: this.isCompleted(),
+                disabled: this.isCompleted() || this.anonymized(),
                 command: () => this.addNewEntry()
             },
             {
@@ -124,6 +125,7 @@ export class CaseManagerPanelComponent {
                 label: this.isCompleted() ? 'Mark as incomplete' : 'Mark as complete',
                 icon: this.isCompleted() ? 'pi pi-star-fill' : 'pi pi-star',
                 styleClass: this.isCompleted() ? 'completed-category' : '',
+                disabled: this.anonymized(),
                 command: (event) => {
                     if (this.isCompleted()) {
                         this.confirmDataIncomplete(event);

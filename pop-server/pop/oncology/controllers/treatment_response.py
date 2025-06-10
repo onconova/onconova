@@ -7,6 +7,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TreatmentResponse, TherapyLine
 
@@ -30,7 +31,8 @@ class TreatmentResponseController(ControllerBase):
         operation_id='getTreatmentResponses',
     )
     @paginate()
-    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]): # type: ignore
+    @anonymize()
+    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters], anonymized: bool = True): # type: ignore
         queryset = TreatmentResponse.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -55,7 +57,8 @@ class TreatmentResponseController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getTreatmentResponseById',
     )
-    def get_treatment_response_by_id(self, treatmentRresponseId: str):
+    @anonymize()
+    def get_treatment_response_by_id(self, treatmentRresponseId: str, anonymized: bool = True):
         return get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
 
 

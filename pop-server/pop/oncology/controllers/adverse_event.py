@@ -8,6 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation
 
@@ -39,7 +40,8 @@ class AdverseEventController(ControllerBase):
         operation_id='getAdverseEvents',
     )
     @paginate()
-    def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters]):  # type: ignore
+    @anonymize()
+    def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters], anonymized: bool = True):  # type: ignore
         queryset = AdverseEvent.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -66,7 +68,8 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getAdverseEventById',
     )
-    def get_adverse_event_by_id(self, adverseEventId: str):
+    @anonymize()
+    def get_adverse_event_by_id(self, adverseEventId: str, anonymized: bool = True):
         return get_object_or_404(AdverseEvent, id=adverseEventId)
 
     @route.delete(

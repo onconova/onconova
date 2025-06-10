@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface INRGSSStage { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: INRGSSStage.StagingDomainEnum;
     /**
      * 

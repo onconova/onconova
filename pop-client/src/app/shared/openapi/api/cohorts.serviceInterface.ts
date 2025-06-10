@@ -55,6 +55,7 @@ export interface GetCohortByIdRequestParams {
 
 export interface GetCohortCasesRequestParams {
     cohortId: string;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

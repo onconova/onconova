@@ -1,8 +1,9 @@
 from pop.oncology import models as orm
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.anonymization import AnonymizationConfig
 
 class TumorMarkerSchema(ModelGetSchema):
-    config = SchemaConfig(model=orm.TumorMarker)
+    config = SchemaConfig(model=orm.TumorMarker, anonymization=AnonymizationConfig(fields=['date'], key='caseId'))
 
 class TumorMarkerCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.TumorMarker)

@@ -11,6 +11,11 @@
                 [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
                 [loading]="exportLoading"
                 (click)="downloadCaseBundle(case$.value()?.id || '')"/>
+            <p-button
+                [label]="anonymized() ? 'Enable data management' : 'Disable data management'"
+                [disabled]="!currentUser().canManageCases"
+                [icon]="anonymized() ? 'pi pi-lock' : 'pi pi-lock-open'"
+                (click)="anonymized.set(!anonymized())"/>
             <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
         </div>
     </div>
@@ -26,7 +31,7 @@
             <div>
                 @if (case$.value(); as case) {
                     <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : 'pi pi-venus'"></i> {{ case.gender.display }}, 
-                    {{ case.age }} years@if(case.isDeceased){, †}
+                    {{ case.age }} years@if(case.isDeceased){, deceased}
                 } @else {
                     <p-skeleton width="7rem" height="1.2rem" />
                 }
@@ -90,7 +95,7 @@
                 <div>
                     @if (case$.value(); as case) {
                         @if (case.overallSurvival !== null) {
-                            {{ case.ageAtDiagnosis | number:'1.0-0' }} years
+                            {{ case.ageAtDiagnosis }} years
                         } @else {
                             -
                         }
@@ -170,27 +175,36 @@
             }
         </div>
         <p-divider layout="vertical"></p-divider>
+        <div class="text-left">
+            <small class="text-muted">Anonymization</small>
+            <div class="">
+                @if (anonymized()) {
+                    <i class="pi pi-lock" style="scale: 0.8"></i> Anonymized
+                } @else {
+                    <i class="pi pi-lock-open" style="scale: 0.8"></i> Pseudononymized
+                }
+            </div>
 
-        <div class="flex flex-column mb-3 gap-1">
-            <small class="text-muted">Contributors</small>
-                <p-avatar-group >
-                    @if (case$.value(); as case) {
-                        @for (contributor of case.contributors; track $index; let index = $index;) {
-                            @if (index<3) {
-                                <pop-user-badge [username]="contributor"/>
+            <div class="flex flex-column mb-3 gap-1">
+                <small class="text-muted">Contributors</small>
+                    <p-avatar-group >
+                        @if (case$.value(); as case) {
+                            @for (contributor of case.contributors; track $index; let index = $index;) {
+                                @if (index<3) {
+                                    <pop-user-badge [username]="contributor"/>
+                                }
                             }
+                            @if ((case.contributors?.length || 0) > 3) {
+                                <p-avatar class="pop-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
+                            }
+                        } @else {
+                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
+                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
+                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
                         }
-                        @if ((case.contributors?.length || 0) > 2) {
-                            <p-avatar class="pop-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
-                        }
-                    } @else {
-                        <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                        <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                        <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                    }
-                </p-avatar-group>
-        </div>    
-
+                    </p-avatar-group>
+            </div>    
+        </div>
         <p-divider layout="vertical"></p-divider>
         <div class="">
             <div class=flex>
@@ -241,6 +255,7 @@
                         title="Neoplastic Entities"
                         [icon]="icons.neoplasticEntities"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="NeoplasticEntityFormComponent"
                         [service]="neoplasticEntityService"
@@ -252,6 +267,7 @@
                         title="Stagings"
                         [icon]="icons.stagings"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="StagingFormComponent"
                         [service]="stagingService"
@@ -263,6 +279,7 @@
                         title="Risk Assessments"
                         [icon]="icons.riskAssessments"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RiskAssessmentFormComponent"
                         [service]="riskAssessmentService"
@@ -274,6 +291,7 @@
                         title="Tumor Markers"
                         [icon]="icons.tumorMarkers"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="TumorMarkerFormComponent"
                         [service]="tumorMarkerService"
@@ -288,6 +306,7 @@
                         title="Genomic Variants"
                         [icon]="icons.genomicVariants"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="GenomicVariantFormComponent"
                         [service]="genomicVariantService"
@@ -299,6 +318,7 @@
                         title="Genomic Signatures"
                         [icon]="icons.genomicSignatures"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="GenomicSignatureFormComponent"
                         [service]="genomicSignatureService"
@@ -316,6 +336,7 @@
                         title="Systemic Treatments"
                         [icon]="icons.systemicTherapies"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SystemicTherapyFormComponent"
                         [service]="systemicTherapyService"
@@ -327,6 +348,7 @@
                         title="Surgical Procedures"
                         [icon]="icons.surgeries"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SurgeryFormComponent"
                         [service]="surgeryService"
@@ -338,6 +360,7 @@
                         title="Radiotherapies"
                         [icon]="icons.radiotherapies"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RadiotherapyFormComponent"
                         [service]="radiotherapyService"
@@ -350,6 +373,7 @@
                         title="Lifestyle"
                         [icon]="icons.lifestyle"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="LifestyleFormComponent"
                         [service]="lifestyleService"
@@ -361,6 +385,7 @@
                         title="Familiy History"
                         [icon]="icons.familyHistory"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="FamilyHistoryFormComponent"
                         [service]="familyHistoryService"
@@ -372,6 +397,7 @@
                         title="Comorbidities"
                         [icon]="icons.comorbidities"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="ComorbiditiesAssessmentFormComponent"
                         [service]="comorbiditiesAssessmentService"
@@ -383,6 +409,7 @@
                         title="Vitals"
                         [icon]="icons.vitals"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="VitalsFormComponent"
                         [service]="vitalsService"
@@ -399,6 +426,7 @@
                         title="Tumor Boards"
                         [icon]="icons.tumorBoards"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [category]="PatientCaseDataCategories.TumorBoardReviews"
                         [formComponent]="TumorBoardFormComponent"
@@ -410,6 +438,7 @@
                         title="Adverse Events"
                         [icon]="icons.adverseEvents"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [category]="PatientCaseDataCategories.AdverseEvents"
                         [formComponent]="AdverseEventFormComponent"
@@ -421,6 +450,7 @@
                         title="Treatment Responses"
                         [icon]="icons.treatmentResponses"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [category]="PatientCaseDataCategories.TherapyResponses"
                         [formComponent]="TreatmentResponseFormComponent"
@@ -432,6 +462,7 @@
                         title="Performance Status"
                         [icon]="icons.performanceStatus"
                         [caseId]="case.id"
+                        [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="PerformanceStatusFormComponent"
                         [service]="performanceStatusService"

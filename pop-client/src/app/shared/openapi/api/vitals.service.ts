@@ -343,6 +343,7 @@ export class VitalsService extends BaseService implements VitalsServiceInterface
         const temperatureNotEqual = requestParameters?.temperatureNotEqual;
         const temperatureBetween = requestParameters?.temperatureBetween;
         const temperatureNotBetween = requestParameters?.temperatureNotBetween;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -596,6 +597,8 @@ export class VitalsService extends BaseService implements VitalsServiceInterface
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -657,6 +660,11 @@ export class VitalsService extends BaseService implements VitalsServiceInterface
         if (vitalsId === null || vitalsId === undefined) {
             throw new Error('Required parameter vitalsId was null or undefined when calling getVitalsById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -690,6 +698,7 @@ export class VitalsService extends BaseService implements VitalsServiceInterface
         return this.httpClient.request<Vitals>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

@@ -26,6 +26,8 @@ import { FamilyHistory } from './family-history';
 import { Lifestyle } from './lifestyle';
 import { Vitals } from './vitals';
 import { PerformanceStatus } from './performance-status';
+import { Age } from './age';
+import { AgeAtDiagnosis } from './age-at-diagnosis';
 import { PatientCaseConsentStatusChoices } from './patient-case-consent-status-choices';
 import { PatientCaseBundleStagingsInner } from './patient-case-bundle-stagings-inner';
 
@@ -35,11 +37,12 @@ import { PatientCaseBundleStagingsInner } from './patient-case-bundle-stagings-i
  */
 export interface PatientCaseBundle { 
     /**
-     * Approximate age of the patient in years
+     * Whether the data has been anonymized
      */
-    age: number;
+    anonymized?: boolean;
+    age: Age;
     overallSurvival?: number | null;
-    ageAtDiagnosis?: number | null;
+    ageAtDiagnosis?: AgeAtDiagnosis | null;
     /**
      * Percentage indicating the completeness of a case in terms of its data.
      */

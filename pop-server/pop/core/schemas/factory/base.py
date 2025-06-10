@@ -1,11 +1,12 @@
 
 import inspect
-from typing import Optional, Dict, get_args, get_origin, Type, Any, Union, Callable
+from typing import Optional, List, Tuple, Dict, get_args, get_origin, Type, Any, Union, Callable, Self
+from datetime import date, datetime, timedelta
 
 from ninja import Schema, FilterSchema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
 from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
-from pydantic.fields import FieldInfo
+from pydantic.fields import FieldInfo, PrivateAttr
 
 from django.db import transaction
 from django.db.models import Q, QuerySet, Model as DjangoModel, Field as DjangoField
@@ -14,7 +15,8 @@ from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
 from pop.terminology.models import CodedConcept
 from pop.core.measures.fields import MeasurementField
 from pop.core.models import User 
-from pop.core.utils import to_camel_case 
+from pop.core.utils import to_camel_case, hash_to_range
+from pop.core.anonymization import REDACTED_STRING
 
 class FilterBaseSchema(FilterSchema):
     _queryset_model: Type[DjangoModel] = None
@@ -124,12 +126,13 @@ class BaseSchema(Schema):
     """
     Expands the Pydantic [BaseModel](https://docs.pydantic.dev/latest/api/base_model/) to use aliases by default.    
     """    
+    # Pydantic configuration
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name = True,
         arbitrary_types_allowed=True,
     )
-    
+            
     @model_validator(mode="wrap")
     @classmethod
     def _run_root_validator(cls, values, handler, info):

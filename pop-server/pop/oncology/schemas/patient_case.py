@@ -1,14 +1,18 @@
 from datetime import datetime
-from typing import Optional
-from pydantic import Field, AliasChoices
+from typing import Optional, Union
+from enum import Enum
+from pydantic import Field, AliasChoices, field_validator
 from ninja import Schema
 from django.db.models import Q
 
 from pop.oncology import models as orm
+from pop.core.types import Age, AgeBin
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig, create_filters_schema
+from pop.core.schemas.factory.fields import POPTypeAnnotations
+from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date, model_validator
 
 class PatientCaseSchema(ModelGetSchema):
-    age: int = Field(
+    age: Union[int, Age, AgeBin] = Field(
         title='Age', 
         alias='age', 
         description='Approximate age of the patient in years'
@@ -20,7 +24,7 @@ class PatientCaseSchema(ModelGetSchema):
         description='Overall survival of the patient since diagnosis',
         validation_alias=AliasChoices('overallSurvival','overall_survival'),
     ) 
-    ageAtDiagnosis: Optional[int] = Field(
+    ageAtDiagnosis: Optional[ Union[int, Age, AgeBin]] = Field(
         None,
         title='Age at diagnosis', 
         description='Approximate age of the patient in years at the time of the initial diagnosis',
@@ -37,20 +41,28 @@ class PatientCaseSchema(ModelGetSchema):
         title='Data contributors',
         description='Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.', 
     ) 
-    config = SchemaConfig(model = orm.PatientCase)
+    config = SchemaConfig(model = orm.PatientCase, anonymization=AnonymizationConfig(fields=['clinicalIdentifier', 'clinicalCenter','age','ageAtDiagnosis'], key='id'))
 
-    @staticmethod
-    def resolve_clinicalIdentifier(obj, context) -> str:
-        if isinstance(obj, dict):
-            return obj.get('clinicalIdentifier')
-        elif isinstance(obj, Schema):   
-            return obj.clinicalIdentifier
-        if not context:
-            return obj.clinical_identifier
-        request = context["request"]
-        if request.user.is_authenticated and request.user.can_access_sensitive_data:
-            return obj.clinical_identifier
-        return '*************'
+    @model_validator(mode='after')
+    @classmethod
+    def personal_dates_anonymization(cls, obj):
+        if getattr(obj,'anonymized', None):
+            if obj.dateOfBirth:
+                date_of_birth_year = anonymize_personal_date(obj.dateOfBirth)
+                obj.dateOfBirth = datetime(date_of_birth_year,1,1).date()
+            if obj.dateOfDeath:
+                date_of_death_year = anonymize_personal_date(obj.dateOfDeath)
+                obj.dateOfDeath = datetime(date_of_death_year,1,1).date()
+        return obj         
+    
+    
+    @field_validator('age', 'ageAtDiagnosis', mode='before')
+    @classmethod
+    def age_type_conversion(cls, value: Union[int, Age, AgeBin]) -> Age:
+        if isinstance(value, int):
+            return Age(value)
+        else:
+            return value
 
 
 class PatientCaseCreateSchema(ModelCreateSchema):

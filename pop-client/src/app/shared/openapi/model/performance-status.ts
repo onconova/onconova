@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface PerformanceStatus { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     ecogInterpretation?: CodedConcept | null;
     karnofskyInterpretation?: CodedConcept | null;
     /**

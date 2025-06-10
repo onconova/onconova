@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface MicrosatelliteInstability { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     category?: MicrosatelliteInstability.CategoryEnum;
     /**
      * 

@@ -38,6 +38,7 @@ export interface GetAllRiskAssessmentHistoryEventsRequestParams {
 
 export interface GetRiskAssessmentByIdRequestParams {
     riskAssessmentId: string;
+    anonymized?: boolean;
 }
 
 export interface GetRiskAssessmentHistoryEventByIdRequestParams {
@@ -104,6 +105,7 @@ export interface GetRiskAssessmentsRequestParams {
     assessedEntitiesIdsNotEndsWith?: string;
     assessedEntitiesIdsAnyOf?: Array<string>;
     assessedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

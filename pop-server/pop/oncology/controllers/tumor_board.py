@@ -15,6 +15,7 @@ from typing_extensions import TypeAliasType
 from pop.core import permissions as perms
 from pop.core.utils import revert_multitable_model
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models.tumor_board import TumorBoard, TumorBoardSpecialties, MolecularTumorBoard, MolecularTherapeuticRecommendation
 from pop.oncology.schemas import (
@@ -62,7 +63,8 @@ class TumorBoardController(ControllerBase):
         operation_id='getTumorBoards',
     )
     @paginate()
-    def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters]): # type: ignore
+    @anonymize()
+    def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters], anonymized: bool = True): # type: ignore
         queryset = TumorBoard.objects.all().order_by('-date')
         return [cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS) for tumorboard in query.filter(queryset)]
 
@@ -89,9 +91,10 @@ class TumorBoardController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getTumorBoardById',
         )
-    def get_tumor_board_by_id(self, tumorBoardId: str): 
+    @anonymize()
+    def get_tumor_board_by_id(self, tumorBoardId: str, anonymized: bool = True): 
         instance = get_object_or_404(TumorBoard, id=tumorBoardId)
-        return 200, cast_to_model_schema(instance.specialized_tumor_board, RESPONSE_SCHEMAS)
+        return cast_to_model_schema(instance.specialized_tumor_board, RESPONSE_SCHEMAS)
 
 
     @route.put(

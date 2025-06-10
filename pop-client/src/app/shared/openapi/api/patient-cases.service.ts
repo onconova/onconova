@@ -438,6 +438,11 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         if (caseId === null || caseId === undefined) {
             throw new Error('Required parameter caseId was null or undefined when calling getPatientCaseById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -471,6 +476,7 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         return this.httpClient.request<PatientCase>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -495,6 +501,11 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         if (pseudoidentifier === null || pseudoidentifier === undefined) {
             throw new Error('Required parameter pseudoidentifier was null or undefined when calling getPatientCaseByPseudoidentifier.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -528,6 +539,7 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         return this.httpClient.request<PatientCase>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -813,6 +825,8 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         const causeOfDeathAnyOf = requestParameters?.causeOfDeathAnyOf;
         const causeOfDeathNotAnyOf = requestParameters?.causeOfDeathNotAnyOf;
         const causeOfDeathDescendantsOf = requestParameters?.causeOfDeathDescendantsOf;
+        const manager = requestParameters?.manager;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1235,6 +1249,10 @@ export class PatientCasesService extends BaseService implements PatientCasesServ
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>causeOfDeathDescendantsOf, 'causeOfDeath.descendantsOf');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>manager, 'manager');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

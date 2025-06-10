@@ -18,4 +18,3 @@ class XSessionTokenAuth(XSessionTokenAuthBase):
             request.user = user
         return user
             
- 

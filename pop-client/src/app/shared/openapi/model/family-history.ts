@@ -12,6 +12,10 @@ import { CodedConcept } from './coded-concept';
 
 export interface FamilyHistory { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * 
      */
     id: string;

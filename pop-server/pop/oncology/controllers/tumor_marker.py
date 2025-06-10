@@ -9,6 +9,7 @@ from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import TumorMarker
+from pop.core.anonymization import anonymize
 from pop.oncology.models.tumor_marker import AnalyteDetails, ANALYTES_DATA
 
 from django.shortcuts import get_object_or_404
@@ -32,7 +33,8 @@ class TumorMarkerController(ControllerBase):
         operation_id='getTumorMarkers',
     )
     @paginate()
-    def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters]): # type: ignore
+    @anonymize()
+    def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters], anonymized: bool = True): # type: ignore
         queryset = TumorMarker.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -57,7 +59,8 @@ class TumorMarkerController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getTumorMarkerById',
     )
-    def get_tumor_marker_by_id(self, tumorMarkerId: str):
+    @anonymize()
+    def get_tumor_marker_by_id(self, tumorMarkerId: str, anonymized: bool = True):
         return get_object_or_404(TumorMarker, id=tumorMarkerId)
         
     @route.put(

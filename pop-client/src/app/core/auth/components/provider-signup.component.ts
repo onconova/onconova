@@ -92,14 +92,12 @@ export class ProviderSignupComponent {
         effect(() => {
           if (this.providerSignupInfo.hasValue()) {
             const data = this.providerSignupInfo.value().data
-            console.log(data)
             this.signupForm.patchValue({
                 username: data.user?.username,
                 email: data.user?.email
             })
             this.signupForm.controls['email'].disable()
             this.signupForm.updateValueAndValidity()
-            console.log('this.signupForm',this.signupForm.value)
           }
         })
     }

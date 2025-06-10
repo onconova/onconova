@@ -3,6 +3,7 @@ from typing import List
 
 from pop.oncology import models as orm
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.anonymization import AnonymizationConfig
 
 class RadiotherapyDosageSchema(ModelGetSchema):
     config = SchemaConfig(model=orm.RadiotherapyDosage, exclude=['radiotherapy'])
@@ -21,7 +22,7 @@ class RadiotherapySettingCreateSchema(ModelCreateSchema):
 class RadiotherapySchema(ModelGetSchema):
     dosages: List[RadiotherapyDosageSchema] = Field(description='Radiation doses administered during the radiotherapy')
     settings: List[RadiotherapySettingSchema] = Field(description='Settings of the radiotherapy irradiation procedure')
-    config = SchemaConfig(model=orm.Radiotherapy)
+    config = SchemaConfig(model=orm.Radiotherapy, anonymization=AnonymizationConfig(fields=['period'], key='caseId'))
 
 class RadiotherapyCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.Radiotherapy)

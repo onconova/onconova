@@ -259,6 +259,11 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         if (genomicVariantId === null || genomicVariantId === undefined) {
             throw new Error('Required parameter genomicVariantId was null or undefined when calling getGenomicVariantById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -292,6 +297,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         return this.httpClient.request<GenomicVariant>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -658,6 +664,7 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
         const genesDescendantsOf = requestParameters?.genesDescendantsOf;
         const genesAllOf = requestParameters?.genesAllOf;
         const genesNotAllOf = requestParameters?.genesNotAllOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -1464,6 +1471,8 @@ export class GenomicVariantsService extends BaseService implements GenomicVarian
                   <any>element, 'genes.not.allOf');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

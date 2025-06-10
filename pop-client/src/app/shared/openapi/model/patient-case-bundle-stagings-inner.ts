@@ -25,6 +25,10 @@ import { LymphomaStaging } from './lymphoma-staging';
 
 
 export interface PatientCaseBundleStagingsInner { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: PatientCaseBundleStagingsInner.StagingDomainEnum;
     /**
      * 

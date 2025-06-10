@@ -56,6 +56,7 @@ export interface DeleteAdverseEventSuspectedCauseRequestParams {
 
 export interface GetAdverseEventByIdRequestParams {
     adverseEventId: string;
+    anonymized?: boolean;
 }
 
 export interface GetAdverseEventHistoryEventByIdRequestParams {
@@ -252,6 +253,7 @@ export interface GetAdverseEventsRequestParams {
     dateResolvedNotOn?: string;
     dateResolvedBetween?: Array<any>;
     dateResolvedNotBetween?: Array<any>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

@@ -13,6 +13,7 @@ from typing_extensions import TypeAliasType
 from pop.core import permissions as perms
 from pop.core.utils import revert_multitable_model
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Staging
 from pop.oncology.schemas import (
@@ -94,7 +95,8 @@ class StagingController(ControllerBase):
         operation_id='getStagings',
     )
     @paginate()
-    def get_all_stagings_matching_the_query(self, query: Query[StagingFilters]): # type: ignore
+    @anonymize()
+    def get_all_stagings_matching_the_query(self, query: Query[StagingFilters], anonymized: bool = True): # type: ignore
         queryset = Staging.objects.all().order_by('-date')
         return [cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS) for staging in query.filter(queryset)]
 
@@ -121,7 +123,8 @@ class StagingController(ControllerBase):
         exclude_none=True,
         operation_id='getStagingById',
         )
-    def get_staging_by_id(self, stagingId: str): 
+    @anonymize()
+    def get_staging_by_id(self, stagingId: str, anonymized: bool = True): 
         instance = get_object_or_404(Staging, id=stagingId)
         return cast_to_model_schema(instance.get_domain_staging(), RESPONSE_SCHEMAS)
 

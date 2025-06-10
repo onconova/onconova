@@ -125,12 +125,14 @@ export interface GetVitalsRequestParams {
     temperatureNotEqual?: number;
     temperatureBetween?: Array<any>;
     temperatureNotBetween?: Array<any>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetVitalsByIdRequestParams {
     vitalsId: string;
+    anonymized?: boolean;
 }
 
 export interface GetVitalsHistoryEventByIdRequestParams {

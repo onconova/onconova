@@ -98,12 +98,14 @@ export interface GetFamilyHistoriesRequestParams {
     morphologyAnyOf?: Array<string>;
     morphologyNotAnyOf?: Array<string>;
     morphologyDescendantsOf?: string;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetFamilyHistoryByIdRequestParams {
     familyHistoryId: string;
+    anonymized?: boolean;
 }
 
 export interface GetFamilyHistoryHistoryEventByIdRequestParams {

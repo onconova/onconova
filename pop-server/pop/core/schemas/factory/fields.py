@@ -1,4 +1,4 @@
-from typing import get_args, List, Tuple, Optional, Annotated, TypeAlias
+from typing import get_args, List, Tuple, Optional, Annotated, TypeAlias, Union
 
 from typing_extensions import TypeAliasType
 import enum 
@@ -22,7 +22,7 @@ from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
 from pop.core.measures import Measure
 from pop.core import filters as schema_filters
-from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case, camel_to_snake
+from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case, camel_to_snake, is_union
 from pop.core.measures.fields import MeasurementField
 
 UserModel = get_user_model()
@@ -37,6 +37,10 @@ class POPTypeAnnotations(enum.Enum):
     USERNAME = TypeAliasType(
         'Username',
         str,
+    )
+    AGE = TypeAliasType(
+        'Age',
+        Union[int, str],
     )
 
 
@@ -202,6 +206,10 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
     # Check if field is optional
     if is_optional(annotation):
         filters += schema_filters.NULL_FILTERS
+        annotation = get_args(annotation)[0]
+        
+    # Check if field is optional
+    if is_union(annotation):
         annotation = get_args(annotation)[0]
 
     # Add the filters for the corresponding type        

@@ -7,6 +7,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Lifestyle
 
@@ -31,7 +32,8 @@ class LifestyleController(ControllerBase):
         operation_id='getLifestyles',
     )
     @paginate()
-    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters]): # type: ignore
+    @anonymize()
+    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters], anonymized: bool = True): # type: ignore
         queryset = Lifestyle.objects.all().order_by('-date')
         return query.filter(queryset)
 
@@ -58,7 +60,8 @@ class LifestyleController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getLifestyleById',
     )
-    def get_lifestyle_by_id(self, lifestyleId: str):
+    @anonymize()
+    def get_lifestyle_by_id(self, lifestyleId: str, anonymized: bool = True):
         return get_object_or_404(Lifestyle, id=lifestyleId)
         
         

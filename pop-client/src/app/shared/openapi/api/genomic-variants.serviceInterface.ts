@@ -38,6 +38,7 @@ export interface GetAllGenomicVariantHistoryEventsRequestParams {
 
 export interface GetGenomicVariantByIdRequestParams {
     genomicVariantId: string;
+    anonymized?: boolean;
 }
 
 export interface GetGenomicVariantHistoryEventByIdRequestParams {
@@ -331,6 +332,7 @@ export interface GetGenomicVariantsRequestParams {
     genesDescendantsOf?: string;
     genesAllOf?: Array<string>;
     genesNotAllOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

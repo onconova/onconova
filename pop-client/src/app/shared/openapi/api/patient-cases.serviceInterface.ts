@@ -49,10 +49,12 @@ export interface GetAllPatientCaseHistoryEventsRequestParams {
 
 export interface GetPatientCaseByIdRequestParams {
     caseId: string;
+    anonymized?: boolean;
 }
 
 export interface GetPatientCaseByPseudoidentifierRequestParams {
     pseudoidentifier: string;
+    anonymized?: boolean;
 }
 
 export interface GetPatientCaseDataCompletionStatusRequestParams {
@@ -209,6 +211,8 @@ export interface GetPatientCasesRequestParams {
     causeOfDeathAnyOf?: Array<string>;
     causeOfDeathNotAnyOf?: Array<string>;
     causeOfDeathDescendantsOf?: string;
+    manager?: string | null;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

@@ -10,6 +10,7 @@ from django.conf import settings
 from pop.core import permissions as perms
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.oncology.models import PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseSchema, PatientCaseCreateSchema, PatientCaseFilters,
@@ -32,7 +33,8 @@ class PatientCaseController(ControllerBase):
         operation_id='getPatientCases',
     )
     @paginate()
-    def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters]):  # type: ignore
+    @anonymize()
+    def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters], anonymized: bool = True):  # type: ignore
         queryset = PatientCase.objects.all().order_by('-created_at')
         return query.filter(queryset)
 
@@ -56,8 +58,9 @@ class PatientCaseController(ControllerBase):
         },
         permissions=[perms.CanViewCases],
         operation_id='getPatientCaseById',
-        )
-    def get_patient_case_by_id(self, caseId: str): 
+    )
+    @anonymize()
+    def get_patient_case_by_id(self, caseId: str, anonymized: bool = True): 
         return get_object_or_404(PatientCase, id=caseId)
 
     @route.get(
@@ -68,8 +71,9 @@ class PatientCaseController(ControllerBase):
         },
         permissions=[perms.CanViewCases],
         operation_id='getPatientCaseByPseudoidentifier',
-        )
-    def get_patient_case_by_pseudoidentifier(self, pseudoidentifier: str): 
+    )
+    @anonymize()
+    def get_patient_case_by_pseudoidentifier(self, pseudoidentifier: str, anonymized: bool = True): 
         return get_object_or_404(PatientCase, pseudoidentifier=pseudoidentifier.strip())
         
     @route.put(

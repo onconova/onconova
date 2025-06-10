@@ -38,7 +38,7 @@
             label="Download Dataset" 
             class="my-auto ml-auto"
             (onClick)="downloadMenu.toggle($event)"
-            [disabled]="user().canExportData"/>
+            [disabled]="!user().canExportData"/>
     </div>
     <div class="flex gap-4">
 
@@ -76,7 +76,7 @@
         @if (dataset) {
             <div class="pop-dataset-table">        
                 <p-table 
-                    [value]="dataset.value() || []" 
+                    [value]="dataset.hasValue() ? dataset.value() : [1,2,3,4,5,6,7,8,9,10]" 
                     [scrollable]="true"
                     [paginator]="true" 
                     [showCurrentPageReport]="true"
@@ -90,56 +90,66 @@
                     showGridlines>
 
                     <ng-template pTemplate="header">
-                        <tr>
-                            @for (col of datasetColumns(); track $index; let first = $first) {
-                                <th pFrozenColumn [frozen]="first">{{ col | camelCaseToTitleCase }}</th>
+                        <tr>                   
+                            @if (dataset.isLoading()) {
+                            <th><p-skeleton height="4rem" width="100%"/></th>
+                            } @else {
+                                @for (col of datasetColumns(); track $index; let first = $first) {
+                                    <th pFrozenColumn [frozen]="first">{{ col | camelCaseToTitleCase }}</th>
+                                }
                             }
                         </tr>
                     </ng-template>
                 
                     <ng-template pTemplate="body" let-rowData>
                         <tr @fadeAnimation> 
-                            @for (col of datasetColumns(); track $index; let first = $first) {
-                                <td pFrozenColumn [frozen]="first">
-                                    @if (isNested(rowData[col])) {
-                                        <!-- Check if the value is an object/array (nested structure) -->
-                                        <div class="flex">
-                                            <p-button 
-                                                [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
-                                                [rounded]="true" 
-                                                [outlined]="true"
-                                                (onClick)="rowData[col].expanded = !rowData[col].expanded"
-                                                class="expand-nested-table-button"/>
-                                            <div>
-                                                @if (rowData[col].expanded) {
-                                                    <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
-                                                } @else {
-                                                    {{ rowData[col].length }} entries
-                                                }
-                                            </div>
-                                        </div>
-                                    } @else {
-                                        <!-- If it's a simple value, display normally -->
-                                            @if (first) {
-                                            <div class="flex gap-3">
-                                                <p-avatar size="normal" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
-                                                    <svg class="jdenticon" width="2rem" height="2rem" [data-jdenticon-value]="[rowData[col]]"></svg>
-                                                </p-avatar>
-                                                <div class="my-auto">
-                                                    {{ rowData[col] }}
+                            @if (dataset.isLoading()) {
+                                <td>
+                                    <p-skeleton height="4rem" width="100%"/>
+                                </td>
+                            } @else {
+                                @for (col of datasetColumns(); track $index; let first = $first) {
+                                    <td pFrozenColumn [frozen]="first">
+                                        @if (isNested(rowData[col])) {
+                                            <!-- Check if the value is an object/array (nested structure) -->
+                                            <div class="flex">
+                                                <p-button 
+                                                    [icon]="rowData[col].expanded ? 'pi pi-minus' : 'pi pi-plus'" 
+                                                    [rounded]="true" 
+                                                    [outlined]="true"
+                                                    (onClick)="rowData[col].expanded = !rowData[col].expanded"
+                                                    class="expand-nested-table-button"/>
+                                                <div>
+                                                    @if (rowData[col].expanded) {
+                                                        <pop-nested-table [nestedData]="rowData[col]"></pop-nested-table>
+                                                    } @else {
+                                                        {{ rowData[col].length }} entries
+                                                    }
                                                 </div>
                                             </div>
-                                        } @else if (isArray(rowData[col])) {
-                                            <ul class="list-none pl-0  overflow-y-auto max-h-15rem">
-                                                @for (value of rowData[col]; track $index;) {
-                                                    <li class="mb-2">🞄 {{ value || '-' }}</li>
+                                        } @else {
+                                            <!-- If it's a simple value, display normally -->
+                                                @if (first) {
+                                                <div class="flex gap-3">
+                                                    <p-avatar size="normal" [style]="{'background': 'none', 'border': 'none', 'padding': '0'}">
+                                                        <svg class="jdenticon" width="2rem" height="2rem" [data-jdenticon-value]="[rowData[col]]"></svg>
+                                                    </p-avatar>
+                                                    <div class="my-auto monospace">
+                                                        {{ rowData[col] }}
+                                                    </div>
+                                                </div>
+                                            } @else if (isArray(rowData[col])) {
+                                                <ul class="list-none pl-0  overflow-y-auto max-h-15rem">
+                                                    @for (value of rowData[col]; track $index;) {
+                                                        <li class="mb-2">🞄 {{ value || '-' }}</li>
+                                                    }
+                                                </ul>
+                                                } @else {
+                                                {{ rowData[col] || '-' }}
                                                 }
-                                            </ul>
-                                            } @else {
-                                            {{ rowData[col] || '-' }}
-                                            }
-                                    }                            
-                                </td>
+                                        }                            
+                                    </td>
+                                }
                             }
                         </tr>                        
                     </ng-template>

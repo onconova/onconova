@@ -8,6 +8,7 @@ from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core import permissions as perms
 from pop.core.security import XSessionTokenAuth
+from pop.core.anonymization import anonymize
 from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
 from pop.oncology.models import Radiotherapy, RadiotherapyDosage, RadiotherapySetting, TherapyLine
 
@@ -37,7 +38,8 @@ class RadiotherapyController(ControllerBase):
         operation_id='getRadiotherapies',
     )
     @paginate()
-    def get_all_radiotherapies_matching_the_query(self, query: Query[RadiotherapyFilters]): # type: ignore
+    @anonymize()
+    def get_all_radiotherapies_matching_the_query(self, query: Query[RadiotherapyFilters], anonymized: bool = True): # type: ignore
         queryset = Radiotherapy.objects.all().order_by('-period')
         return query.filter(queryset)
 
@@ -62,7 +64,8 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id='getRadiotherapyById',
     )
-    def get_radiotherapy_by_id(self, radiotherapyId: str):
+    @anonymize()
+    def get_radiotherapy_by_id(self, radiotherapyId: str, anonymized: bool = True):
         return get_object_or_404(Radiotherapy, id=radiotherapyId)
         
 

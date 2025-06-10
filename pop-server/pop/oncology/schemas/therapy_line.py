@@ -4,6 +4,7 @@ from typing import Optional
 from pop.oncology import models as orm
 from pop.core.schemas import PeriodSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.anonymization import AnonymizationConfig
 
 class TherapyLineSchema(ModelGetSchema):
     period: Optional[PeriodSchema] =  Field(
@@ -24,7 +25,7 @@ class TherapyLineSchema(ModelGetSchema):
         alias='progression_free_survival',
         validation_alias=AliasChoices('progressionFreeSurvival', 'progression_free_survival')
     ) 
-    config = SchemaConfig(model=orm.TherapyLine, exclude=['label'])
+    config = SchemaConfig(model=orm.TherapyLine, exclude=['label'], anonymization=AnonymizationConfig(fields=['period'], key='caseId'))
 
 class TherapyLineCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.TherapyLine, exclude=['label'])

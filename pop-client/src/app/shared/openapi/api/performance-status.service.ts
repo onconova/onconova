@@ -317,6 +317,7 @@ export class PerformanceStatusService extends BaseService implements Performance
         const karnofskyScoreNotEqual = requestParameters?.karnofskyScoreNotEqual;
         const karnofskyScoreBetween = requestParameters?.karnofskyScoreBetween;
         const karnofskyScoreNotBetween = requestParameters?.karnofskyScoreNotBetween;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -502,6 +503,8 @@ export class PerformanceStatusService extends BaseService implements Performance
             })
         }
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -563,6 +566,11 @@ export class PerformanceStatusService extends BaseService implements Performance
         if (performanceStatusId === null || performanceStatusId === undefined) {
             throw new Error('Required parameter performanceStatusId was null or undefined when calling getPerformanceStatusById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -596,6 +604,7 @@ export class PerformanceStatusService extends BaseService implements Performance
         return this.httpClient.request<PerformanceStatus>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

@@ -210,12 +210,14 @@ export interface GetRadiotherapiesRequestParams {
     targetedEntitiesIdsNotEndsWith?: string;
     targetedEntitiesIdsAnyOf?: Array<string>;
     targetedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }
 
 export interface GetRadiotherapyByIdRequestParams {
     radiotherapyId: string;
+    anonymized?: boolean;
 }
 
 export interface GetRadiotherapyDosageByIdRequestParams {

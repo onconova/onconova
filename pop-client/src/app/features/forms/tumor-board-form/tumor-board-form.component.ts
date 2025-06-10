@@ -370,7 +370,6 @@ export class TumorBoardFormComponent extends AbstractFormBase {
                 break;
         }
         fieldNames.forEach((field: string) => form.get(field)?.updateValueAndValidity())
-        console.log('UPDATED VALIDATORS')
         return form
     }
 

@@ -15,6 +15,10 @@ import { SystemicTherapyMedication } from './systemic-therapy-medication';
 
 export interface SystemicTherapy { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * Medications administered during the systemic therapy
      */
     medications: Array<SystemicTherapyMedication>;

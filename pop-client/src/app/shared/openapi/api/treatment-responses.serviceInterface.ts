@@ -38,6 +38,7 @@ export interface GetAllTreatmentResponseHistoryEventsRequestParams {
 
 export interface GetTreatmentResponseByIdRequestParams {
     treatmentRresponseId: string;
+    anonymized?: boolean;
 }
 
 export interface GetTreatmentResponseHistoryEventByIdRequestParams {
@@ -106,6 +107,7 @@ export interface GetTreatmentResponsesRequestParams {
     assessedBodysitesDescendantsOf?: string;
     assessedBodysitesAllOf?: Array<string>;
     assessedBodysitesNotAllOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

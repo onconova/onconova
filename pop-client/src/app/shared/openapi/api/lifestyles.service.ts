@@ -259,6 +259,11 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
         if (lifestyleId === null || lifestyleId === undefined) {
             throw new Error('Required parameter lifestyleId was null or undefined when calling getLifestyleById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -292,6 +297,7 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
         return this.httpClient.request<Lifestyle>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -463,6 +469,7 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
         const exposuresDescendantsOf = requestParameters?.exposuresDescendantsOf;
         const exposuresAllOf = requestParameters?.exposuresAllOf;
         const exposuresNotAllOf = requestParameters?.exposuresNotAllOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -743,6 +750,8 @@ export class LifestylesService extends BaseService implements LifestylesServiceI
                   <any>element, 'exposures.not.allOf');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

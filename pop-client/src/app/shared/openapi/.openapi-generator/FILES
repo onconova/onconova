@@ -75,6 +75,9 @@ model/adverse-event-suspected-cause-causality-choices.ts
 model/adverse-event-suspected-cause-create.ts
 model/adverse-event-suspected-cause.ts
 model/adverse-event.ts
+model/age-at-diagnosis.ts
+model/age-bin.ts
+model/age.ts
 model/analyte-details.ts
 model/analyte-result-type.ts
 model/aneuploid-score-create.ts

@@ -11,6 +11,10 @@ import { CodedConcept } from './coded-concept';
 
 
 export interface TNMStaging { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     stagingDomain?: TNMStaging.StagingDomainEnum;
     /**
      * 

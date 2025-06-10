@@ -329,6 +329,7 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         const lateralityAnyOf = requestParameters?.lateralityAnyOf;
         const lateralityNotAnyOf = requestParameters?.lateralityNotAnyOf;
         const lateralityDescendantsOf = requestParameters?.lateralityDescendantsOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -558,6 +559,8 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>lateralityDescendantsOf, 'laterality.descendantsOf');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>offset, 'offset');
@@ -619,6 +622,11 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         if (entityId === null || entityId === undefined) {
             throw new Error('Required parameter entityId was null or undefined when calling getNeoplasticEntityById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -652,6 +660,7 @@ export class NeoplasticEntitiesService extends BaseService implements Neoplastic
         return this.httpClient.request<NeoplasticEntity>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

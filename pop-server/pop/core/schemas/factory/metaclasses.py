@@ -1,14 +1,14 @@
 from typing import Any, List, Tuple, Dict, Optional, Union
-
 from datetime import datetime
 from ninja.schema import ResolverMetaclass, Field
 from pydantic.dataclasses import dataclass
 from pydantic import AliasChoices 
 
 from pop.core.models import BaseModel as OrmBaseModel
+from pop.core.anonymization import AnonymizationConfig, AnonymizationMixin
 
 from .factory import create_schema
-from .base import BaseSchema 
+from .base import BaseSchema
 
 _is_modelschema_class_defined = False
 
@@ -19,6 +19,7 @@ CREATE_IGNORED_FIELDS = (
 @dataclass
 class SchemaConfig:
     model: Any
+    anonymization: Optional[AnonymizationConfig] = None
     schema_name: Optional[str] = None
     fields: Optional[Union[List[str], Tuple[str]]] = None
     exclude: Optional[Union[List[str], Tuple[str]]] = None
@@ -43,9 +44,9 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                     
                 # If it is a get schema, add description field to the custom schema fields
                 if issubclass(base, ModelGetSchema) and issubclass(metaclass_config.model, OrmBaseModel):
-                    custom_fields.append(
+                    custom_fields.extend((
                         ('description', str, Field(description='Human-readable description')),
-                    )
+                    ))
                     if hasattr(metaclass_config.model, 'pgh_event_model'):
                         custom_fields.extend((
                             ('createdAt', datetime, Field(description='Date-time when the resource was created', alias='created_at', validation_alias=AliasChoices('createdAt','created_at'))),
@@ -62,6 +63,10 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                 # If the new schema's name was not specified, base it on the model name by default 
                 schema_name = metaclass_config.schema_name or (metaclass_config.model.__name__ + ('Create' if issubclass(base, ModelCreateSchema) else ''))
 
+                bases = [cls]
+                if metaclass_config.anonymization:
+                    bases.append(AnonymizationMixin)
+                    
                 # Construct the schema from the model dynamically
                 model_schema = create_schema(
                     metaclass_config.model,
@@ -70,9 +75,12 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                     exclude=exclude,
                     expand=metaclass_config.expand,
                     custom_fields=custom_fields,
-                    base_class=cls,
+                    bases=bases,
                 )
                 model_schema.__doc__ = cls.__doc__
+                if metaclass_config.anonymization:
+                    model_schema.__anonymization_fields__ = metaclass_config.anonymization.fields
+                    model_schema.__anonymization_key__ = metaclass_config.anonymization.key
                 return model_schema
         return cls
 

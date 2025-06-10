@@ -13,6 +13,10 @@ import { SurgeryIntentChoices } from './surgery-intent-choices';
 
 export interface Surgery { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * 
      */
     id: string;

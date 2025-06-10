@@ -11,6 +11,10 @@ import { Measure } from './measure';
 
 
 export interface Vitals { 
+    /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
     body_mass_index?: Measure | null;
     /**
      * 

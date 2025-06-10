@@ -11,6 +11,16 @@
 
     <p-divider align="left"><span class="p-divider-text"><i class="pi pi-database"></i> Metadata</span></p-divider>
 
+    <div class="property mb-2">
+        <div class="property-label text-muted text-sm">Anonymization status</div>
+        <div class="text-sm">
+            @if (anonymized()) {
+                <i class="pi pi-lock" style="scale: 0.8"></i> Anonymized
+            } @else {
+                <i class="pi pi-lock-open"></i> Pseudononymized
+            }
+        </div>
+    </div>
     <div class="property">
         <div class="property-label text-muted text-sm">Database ID</div>
         <div class="monospace"><small>{{ data().id }}</small></div>

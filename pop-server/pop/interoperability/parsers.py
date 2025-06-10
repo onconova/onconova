@@ -112,7 +112,6 @@ class BundleParser:
             
             for list_field in self.list_fields:
                 for resource in getattr(self.bundle, list_field):
-                    print(list_field)
                     orm_resource = self.import_resource(resource)
                     # Check if the resource has any nested subresources
                     for nested_resource_details in self.nested_resources.get(list_field,[]):

@@ -3,6 +3,7 @@ from pydantic import Field, AliasChoices
 
 from pop.oncology import models as orm
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.anonymization import AnonymizationConfig
 
 class AdverseEventSuspectedCauseSchema(ModelGetSchema):
     config = SchemaConfig(model=orm.AdverseEventSuspectedCause, exclude=('adverse_event',))
@@ -25,7 +26,7 @@ class AdverseEventSchema(ModelGetSchema):
     mitigations: List[AdverseEventMitigationSchema] = Field(
         description='Mitigations of the adverse event',
     )
-    config = SchemaConfig(model=orm.AdverseEvent, exclude=('is_resolved',))    
+    config = SchemaConfig(model=orm.AdverseEvent, exclude=('is_resolved',), anonymization=AnonymizationConfig(fields=['date'], key='caseId'))    
 
 class AdverseEventCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.AdverseEvent, exclude=('is_resolved',))    

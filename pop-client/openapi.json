@@ -5877,6 +5877,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -5974,6 +5984,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -6105,6 +6125,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -7453,6 +7483,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -7550,6 +7590,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -8479,6 +8529,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -8620,6 +8680,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -9685,6 +9755,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -9782,6 +9862,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -11820,6 +11910,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -11917,6 +12017,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -14712,6 +14822,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -14809,6 +14929,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -16642,6 +16772,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -16739,6 +16879,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -18761,6 +18911,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -18858,6 +19018,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -21050,6 +21220,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -21147,6 +21327,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -23501,6 +23691,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -23604,6 +23804,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -25585,6 +25795,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -25682,6 +25902,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -26568,6 +26798,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -26673,6 +26913,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -28224,6 +28474,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -28321,6 +28581,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -32261,6 +32531,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -32358,6 +32638,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -33086,6 +33376,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -33203,6 +33503,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -34654,6 +34964,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -34751,6 +35071,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -35811,6 +36141,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -35908,6 +36248,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -37117,6 +37467,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -37214,6 +37574,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -38736,6 +39106,16 @@
           },
           {
             "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 100,
@@ -38833,6 +39213,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -40502,6 +40892,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "title": "Anonymized",
+              "type": "boolean"
+            },
+            "required": false
           },
           {
             "in": "query",
@@ -45270,6 +45670,12 @@
       },
       "AdverseEvent": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "suspectedCauses": {
             "description": "Suspected causes of the adverse event",
             "items": {
@@ -45794,8 +46200,36 @@
         "title": "AdverseEventSuspectedCauseCausalityChoices",
         "type": "string"
       },
+      "AgeBin": {
+        "enum": [
+          "\u003C20",
+          "20-24",
+          "25-30",
+          "30-34",
+          "35-40",
+          "40-44",
+          "45-50",
+          "50-54",
+          "55-60",
+          "60-64",
+          "65-70",
+          "70-74",
+          "75-80",
+          "80-84",
+          "85-90",
+          "\u003E90"
+        ],
+        "title": "AgeBin",
+        "type": "string"
+      },
       "AneuploidScore": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "aneuploid_score",
             "default": "aneuploid_score",
@@ -45921,6 +46355,12 @@
       },
       "BinetStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "binet",
             "default": "binet",
@@ -46058,6 +46498,12 @@
       },
       "BreslowDepth": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "breslow",
             "default": "breslow",
@@ -46211,6 +46657,12 @@
       },
       "ClarkStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "clark",
             "default": "clark",
@@ -46420,6 +46872,12 @@
       },
       "ComorbiditiesAssessment": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "score": {
             "anyOf": [
               {
@@ -46631,6 +47089,12 @@
       },
       "FIGOStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "figo",
             "default": "figo",
@@ -46782,6 +47246,12 @@
       },
       "FamilyHistory": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -46963,6 +47433,12 @@
       },
       "GenomicVariant": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "isPathogenic": {
             "anyOf": [
               {
@@ -47510,6 +47986,12 @@
       },
       "GleasonGrade": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "gleason",
             "default": "gleason",
@@ -47647,6 +48129,12 @@
       },
       "HomologousRecombinationDeficiency": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "homologous_recombination_deficiency",
             "default": "homologous_recombination_deficiency",
@@ -47800,6 +48288,12 @@
       },
       "INRGSSStage": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "inrgss",
             "default": "inrgss",
@@ -47937,6 +48431,12 @@
       },
       "INSSStage": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "inss",
             "default": "inss",
@@ -48074,6 +48574,12 @@
       },
       "ISSStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "iss",
             "default": "iss",
@@ -48211,6 +48717,12 @@
       },
       "Lifestyle": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -48428,6 +48940,12 @@
       },
       "LossOfHeterozygosity": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "loss_of_heterozygosity",
             "default": "loss_of_heterozygosity",
@@ -48553,6 +49071,12 @@
       },
       "LymphomaStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "lymphoma",
             "default": "lymphoma",
@@ -48760,6 +49284,12 @@
       },
       "MicrosatelliteInstability": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "microsatellite_instability",
             "default": "microsatellite_instability",
@@ -49104,6 +49634,12 @@
       },
       "MolecularTumorBoard": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "molecular",
             "default": "molecular",
@@ -49323,6 +49859,12 @@
       },
       "NeoplasticEntity": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "topographyGroup": {
             "anyOf": [
               {
@@ -49525,10 +50067,23 @@
       "PatientCaseBundle": {
         "description": "The order of the properties matters for the import tool (based on references tree)",
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
+              }
+            ],
             "description": "Approximate age of the patient in years",
-            "title": "Age",
-            "type": "integer"
+            "title": "Age"
           },
           "overallSurvival": {
             "anyOf": [
@@ -49546,6 +50101,9 @@
             "anyOf": [
               {
                 "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
               },
               {
                 "type": "null"
@@ -50098,6 +50656,12 @@
       },
       "PerformanceStatus": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "ecogInterpretation": {
             "anyOf": [
               {
@@ -50276,6 +50840,12 @@
       },
       "RISSStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "riss",
             "default": "riss",
@@ -50427,6 +50997,12 @@
       },
       "Radiotherapy": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "dosages": {
             "description": "Radiation doses administered during the radiotherapy",
             "items": {
@@ -50890,6 +51466,12 @@
       },
       "RaiStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "rai",
             "default": "rai",
@@ -51080,6 +51662,12 @@
       },
       "RhabdomyosarcomaClinicalGroup": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "rhabdomyosarcoma",
             "default": "rhabdomyosarcoma",
@@ -51217,6 +51805,12 @@
       },
       "RiskAssessment": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -51369,6 +51963,12 @@
       },
       "Surgery": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -51586,6 +52186,12 @@
       },
       "SystemicTherapy": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "medications": {
             "description": "Medications administered during the systemic therapy",
             "items": {
@@ -52059,6 +52665,12 @@
       },
       "TNMStaging": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "tnm",
             "default": "tnm",
@@ -52349,6 +52961,12 @@
       },
       "TherapyLine": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "period": {
             "anyOf": [
               {
@@ -52520,6 +53138,12 @@
       },
       "TreatmentResponse": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -52689,6 +53313,12 @@
       },
       "TumorMarker": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -53029,6 +53659,12 @@
       },
       "TumorMutationalBurden": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "tumor_mutational_burden",
             "default": "tumor_mutational_burden",
@@ -53177,6 +53813,12 @@
       },
       "TumorNeoantigenBurden": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "tumor_neoantigen_burden",
             "default": "tumor_neoantigen_burden",
@@ -53302,6 +53944,12 @@
       },
       "UnspecifiedTumorBoard": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "category": {
             "const": "unspecified",
             "default": "unspecified",
@@ -53448,6 +54096,12 @@
       },
       "Vitals": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "body_mass_index": {
             "anyOf": [
               {
@@ -53646,6 +54300,12 @@
       },
       "WilmsStage": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "stagingDomain": {
             "const": "wilms",
             "default": "wilms",
@@ -54760,10 +55420,23 @@
       },
       "PatientCase": {
         "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
           "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
+              }
+            ],
             "description": "Approximate age of the patient in years",
-            "title": "Age",
-            "type": "integer"
+            "title": "Age"
           },
           "overallSurvival": {
             "anyOf": [
@@ -54781,6 +55454,9 @@
             "anyOf": [
               {
                 "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
               },
               {
                 "type": "null"

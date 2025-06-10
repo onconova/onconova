@@ -8,16 +8,19 @@
  * Do not edit the class manually.
  */
 import { CodedConcept } from './coded-concept';
+import { Age } from './age';
+import { AgeAtDiagnosis } from './age-at-diagnosis';
 import { PatientCaseConsentStatusChoices } from './patient-case-consent-status-choices';
 
 
 export interface PatientCase { 
     /**
-     * Approximate age of the patient in years
+     * Whether the data has been anonymized
      */
-    age: number;
+    anonymized?: boolean;
+    age: Age;
     overallSurvival?: number | null;
-    ageAtDiagnosis?: number | null;
+    ageAtDiagnosis?: AgeAtDiagnosis | null;
     /**
      * Percentage indicating the completeness of a case in terms of its data.
      */

@@ -15,6 +15,10 @@ import { AdverseEventOutcomeChoices } from './adverse-event-outcome-choices';
 
 export interface AdverseEvent { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * Suspected causes of the adverse event
      */
     suspectedCauses: Array<AdverseEventSuspectedCause>;

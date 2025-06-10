@@ -5,10 +5,11 @@ from pydantic import AliasChoices
 from pop.oncology import models as orm
 from pop.core.schemas import CodedConceptSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.anonymization import AnonymizationConfig
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):
-    config = SchemaConfig(model=orm.ComorbiditiesAssessment)    
     score: Optional[int | float] = Field(default=None, alias='score', description='Comorbidity score')
+    config = SchemaConfig(model=orm.ComorbiditiesAssessment, anonymization=AnonymizationConfig(fields=['date'], key='caseId'))    
     
 class ComorbiditiesAssessmentCreateSchema(ModelCreateSchema):
     config = SchemaConfig(model=orm.ComorbiditiesAssessment)    

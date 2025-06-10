@@ -18,6 +18,10 @@ import { TumorMarkerImmuneCellScoreChoices } from './tumor-marker-immune-cell-sc
 
 export interface TumorMarker { 
     /**
+     * Whether the data has been anonymized
+     */
+    anonymized?: boolean;
+    /**
      * 
      */
     id: string;

@@ -38,6 +38,7 @@ export interface GetAllStagingHistoryEventsRequestParams {
 
 export interface GetStagingByIdRequestParams {
     stagingId: string;
+    anonymized?: boolean;
 }
 
 export interface GetStagingHistoryEventByIdRequestParams {
@@ -92,6 +93,7 @@ export interface GetStagingsRequestParams {
     stagedEntitiesIdsNotEndsWith?: string;
     stagedEntitiesIdsAnyOf?: Array<string>;
     stagedEntitiesIdsNotAnyOf?: Array<string>;
+    anonymized?: boolean;
     limit?: number;
     offset?: number;
 }

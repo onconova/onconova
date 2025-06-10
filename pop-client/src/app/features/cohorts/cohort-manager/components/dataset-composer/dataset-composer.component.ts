@@ -27,6 +27,7 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
 import { Pipe, PipeTransform } from '@angular/core';
 import { TypeCheckService } from "src/app/shared/services/type-check.service";
 import { rxResource } from "@angular/core/rxjs-interop";
+import { Skeleton } from "primeng/skeleton";
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -38,8 +39,11 @@ export class IsStringPipe implements PipeTransform {
 
 function getColumns(data: any[]): string[] {
     const allKeys = new Set<string>();
+    allKeys.add('pseudoidentifier')
     data.forEach(item => Object.entries(item).forEach(([key,value]) => {
-        allKeys.add(key);
+        if (key!=='pseudoidentifier') {
+            allKeys.add(key);
+        }
     }))
     return Array.from(allKeys);
 }
@@ -58,6 +62,7 @@ function getColumns(data: any[]): string[] {
         Card,
         Menu,
         ContextMenuModule,
+        Skeleton,
         AutoComplete,
         TreeModule,
         TableModule,
@@ -197,7 +202,7 @@ export class DatasetComposerComponent {
         const propertyNodes = Object.entries(properties)
             .filter(
                 ([propertyKey,_]) => !this.createMetadataItems('').map(
-                    item => item['field']).includes(propertyKey) && !['caseId', 'description'].includes(propertyKey)
+                    item => item['field']).includes(propertyKey) && !['caseId', 'description','anonymized'].includes(propertyKey)
             ).flatMap(
                 ([propertyKey,property]:[string, any]) => {
                     const title: string = property.title
@@ -239,9 +244,6 @@ export class DatasetComposerComponent {
         switch (type) {
             case 'CodedConcept':
                 defaultTransform = 'GetCodedConceptDisplay';
-                break
-            case 'User':
-                defaultTransform = 'GetUserUsername';
                 break
             default:
                 defaultTransform = null;
@@ -326,7 +328,6 @@ export class DatasetComposerComponent {
             datasetRule: this.datasetRules(),
           }).pipe(first()).subscribe({
             next: (data: any) => {
-                console.log('data', data)
                 switch (mode) {
                     case 'tree':
                         this.#downloadService.downloadAsJson(data);

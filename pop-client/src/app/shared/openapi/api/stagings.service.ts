@@ -259,6 +259,11 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         if (stagingId === null || stagingId === undefined) {
             throw new Error('Required parameter stagingId was null or undefined when calling getStagingById.');
         }
+        const anonymized = requestParameters?.anonymized;
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -292,6 +297,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         return this.httpClient.request<AnyStaging>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -419,6 +425,7 @@ export class StagingsService extends BaseService implements StagingsServiceInter
         const stagedEntitiesIdsNotEndsWith = requestParameters?.stagedEntitiesIdsNotEndsWith;
         const stagedEntitiesIdsAnyOf = requestParameters?.stagedEntitiesIdsAnyOf;
         const stagedEntitiesIdsNotAnyOf = requestParameters?.stagedEntitiesIdsNotAnyOf;
+        const anonymized = requestParameters?.anonymized;
         const limit = requestParameters?.limit;
         const offset = requestParameters?.offset;
 
@@ -559,6 +566,8 @@ export class StagingsService extends BaseService implements StagingsServiceInter
                   <any>element, 'stagedEntitiesIds.not.anyOf');
             })
         }
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>anonymized, 'anonymized');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,

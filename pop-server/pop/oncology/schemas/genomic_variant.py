@@ -2,6 +2,7 @@ from pop.oncology import models as orm
 from pop.oncology.models.genomic_variant import HGVSRegex
 from pop.core.schemas import RangeSchema
 from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.anonymization import AnonymizationConfig
 from pydantic import AliasChoices, Field
 from typing import Optional, List
 
@@ -122,9 +123,9 @@ class GenomicVariantSchema(ModelGetSchema):
         default=None,
         title='Gene regions',
         description='Gene regions (exons, introns, UTRs) affected by the variant. Estimated from MANE reference sequences.',
-        alias='exons',
+        alias='regions',
     )
-    config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'))
+    config = SchemaConfig(model=orm.GenomicVariant, exclude=('is_vus', 'is_pathogenic'), anonymization=AnonymizationConfig(fields=['date'], key='caseId'))
 
 
 class GenomicVariantCreateSchema(ModelCreateSchema):
