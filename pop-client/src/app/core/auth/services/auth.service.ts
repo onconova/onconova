@@ -79,14 +79,14 @@ export class AuthService {
                 this.#messageService.add({ severity: 'success', summary: 'Login', detail: 'Succesful login' })
             )
         },
-        error: (error) => {
-            if (error.status == 401) {
+        error: (response) => {
+            if (response.status == 401) {
                 this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
             } else 
-            if (error.status == 400 ){
-                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Please provide a username and a password' });
+            if (response.status == 400 ){
+                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: response.errors[0].message });
             } else {
-                this.#messageService.add({ severity: 'error', summary: 'Network error', detail: error.error.detail });
+                this.#messageService.add({ severity: 'error', summary: 'Network error', detail: response.error.detail });
             }
         }
     });
