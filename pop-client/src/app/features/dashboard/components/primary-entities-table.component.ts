@@ -4,7 +4,7 @@ import { RatingModule } from 'primeng/rating';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SkeletonModule } from 'primeng/skeleton';
-import { EntityStatisticsSchema, DashboardService } from 'src/app/shared/openapi';
+import { EntityStatisticsSchema, DashboardService } from 'pop-api-client';
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
 import { Observable } from 'rxjs';

@@ -19,7 +19,7 @@ import { DrawerDataPropertiesComponent } from './components/drawer-data-properti
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { OncologicalResource } from 'src/app/shared/models/resource.type';
 import { UserBadgeComponent } from "../../../../../shared/components/user-badge/user-badge.component";
-import { HistoryEvent, InteroperabilityService, PaginatedHistoryEvent, User } from 'src/app/shared/openapi';
+import { HistoryEvent, InteroperabilityService, PaginatedHistoryEvent, User } from 'pop-api-client';
 import { Timeline } from 'primeng/timeline';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Skeleton } from 'primeng/skeleton';

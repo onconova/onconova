@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, effect, ElementRef, inject, input, Input, viewChild, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
-import { CohortTraitCounts } from 'src/app/shared/openapi';
+import { CohortTraitCounts } from 'pop-api-client';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';

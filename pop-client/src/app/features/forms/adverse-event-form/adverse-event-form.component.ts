@@ -32,7 +32,7 @@ import {
     SystemicTherapyMedication,
     Surgery,
     Radiotherapy,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

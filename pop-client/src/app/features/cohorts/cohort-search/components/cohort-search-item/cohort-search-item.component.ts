@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, output} from '@angular/core';
 
-import { Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian } from 'src/app/shared/openapi';
+import { Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian } from 'pop-api-client';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';

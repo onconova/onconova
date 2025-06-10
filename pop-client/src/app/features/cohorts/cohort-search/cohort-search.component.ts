@@ -16,7 +16,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
 
 // Project dependencies
-import { Cohort, CohortsService} from 'src/app/shared/openapi';
+import { Cohort, CohortsService} from 'pop-api-client';
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
 import { CohortFormComponent } from 'src/app/features/forms/cohort-form/cohort-form.component';
 import { AuthService } from 'src/app/core/auth/services/auth.service';

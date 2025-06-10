@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { of, throwError } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { BASE_PATH } from 'src/app/shared/openapi';
+import { BASE_PATH } from 'pop-api-client';
 import { AppConfigService } from 'src/app/app.config.service';
 import { Location } from '@angular/common';
 

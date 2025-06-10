@@ -5,7 +5,7 @@ import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { MessageService } from 'primeng/api';
 
 import { EmptyObject } from 'chart.js/dist/types/basic';
-import { ModifiedResource } from 'src/app/shared/openapi';
+import { ModifiedResource } from 'pop-api-client';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 interface Resource {

@@ -14,7 +14,7 @@ import { Avatar } from 'primeng/avatar';
 import { Message } from 'primeng/message';
 
 import OpenAPISpecification from "../../../../../../../openapi.json";
-import { DataResource, CohortQueryFilter} from 'src/app/shared/openapi';
+import { DataResource, CohortQueryFilter} from 'pop-api-client';
 import { ConceptSelectorComponent, DatePickerComponent, RangeInputComponent, MeasureInputComponent } from '../../../../../shared/components';
 
 import { Entity, EntityMap, Field, FieldMap, InputContext, Option, QueryBuilderConfig, Rule, RuleFilter, RuleSet} from "./cohort-query-builder.interfaces";

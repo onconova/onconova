@@ -2,7 +2,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
-import { UsersService, User, UserCreate } from 'src/app/shared/openapi';
+import { UsersService, User, UserCreate } from 'pop-api-client';
 import { catchError, first, map, of, tap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';

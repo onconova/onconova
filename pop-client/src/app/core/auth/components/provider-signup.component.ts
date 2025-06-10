@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AllAuthApiService } from '../services/allauth-api.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AuthService } from '../services/auth.service';
-import { UsersService } from 'src/app/shared/openapi';
+import { UsersService } from 'pop-api-client';
 import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../layout/app.layout.service';
 import { InputIconModule } from 'primeng/inputicon';

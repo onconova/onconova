@@ -15,7 +15,7 @@ import {
     SurgeryIntentChoices,
     Surgery,
     CodedConcept
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

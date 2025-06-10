@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CodedConcept, Measure, Period } from '../openapi';
+import { CodedConcept, Measure, Period } from 'pop-api-client';
 
 @Injectable({
   providedIn: 'root'

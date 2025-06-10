@@ -15,7 +15,7 @@ import { Skeleton } from 'primeng/skeleton';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { CaseManagerDrawerComponent } from '../case-manager-drawer/case-manager-drawer.component';
-import { PatientCasesService, PatientCaseDataCategories } from 'src/app/shared/openapi';
+import { PatientCasesService, PatientCaseDataCategories } from 'pop-api-client';
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';

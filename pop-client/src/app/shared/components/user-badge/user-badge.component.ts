@@ -1,6 +1,6 @@
 import { Component, inject, input, ViewEncapsulation } from '@angular/core';
 
-import { UsersService } from '../../openapi';
+import { UsersService } from 'pop-api-client';
 import { GetNameAcronymPipe } from '../../pipes/name-acronym.pipe';
 import { GetFullNamePipe } from '../../pipes/full-name.pipe';
 

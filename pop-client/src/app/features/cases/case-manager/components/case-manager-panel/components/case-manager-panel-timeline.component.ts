@@ -3,7 +3,7 @@ import { EventEmitter } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { TimelineModule } from 'primeng/timeline';
 import { TypeCheckService } from '../../../../../../shared/services/type-check.service';
-import { Period } from '../../../../../../shared/openapi';
+import { Period } from 'pop-api-client';
 
 export interface RadioChoice {
     name: string 

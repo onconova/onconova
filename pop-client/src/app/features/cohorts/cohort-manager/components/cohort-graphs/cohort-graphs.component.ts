@@ -8,7 +8,7 @@ import { ChartModule } from 'primeng/chart';
 import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 
-import { Cohort, CohortsService } from 'src/app/shared/openapi';
+import { Cohort, CohortsService } from 'pop-api-client';
 import { KapplerMeierCurveComponent } from './components/kappler-meier-curve/kappler-meier-curve.component';
 import { FormsModule } from '@angular/forms';
 import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-graph.component';

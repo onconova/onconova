@@ -1,6 +1,6 @@
 import { Component, computed, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BASE_PATH } from 'src/app/shared/openapi';
+import { BASE_PATH } from 'pop-api-client';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';

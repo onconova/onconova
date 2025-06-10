@@ -7,7 +7,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { Fluid } from 'primeng/fluid';
 import { InputText } from 'primeng/inputtext';
 
-import { CohortCreate, Cohort, CohortsService, ProjectsService, GetProjectsRequestParams } from '../../../shared/openapi'
+import { CohortCreate, Cohort, CohortsService, ProjectsService, GetProjectsRequestParams } from 'pop-api-client'
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { 

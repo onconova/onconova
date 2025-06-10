@@ -3,7 +3,7 @@ import { Chart } from 'chart.js';
 import { ChartModule } from 'primeng/chart';
 
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
-import { CohortTraitCounts } from 'src/app/shared/openapi';
+import { CohortTraitCounts } from 'pop-api-client';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
 
 @Component({

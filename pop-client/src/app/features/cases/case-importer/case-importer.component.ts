@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { InteroperabilityService, PatientCaseBundle, PatientCasesService, PatientCase } from 'src/app/shared/openapi';
+import { InteroperabilityService, PatientCaseBundle, PatientCasesService, PatientCase } from 'pop-api-client';
 
 import { MessageService, TreeNode } from 'primeng/api';
 import { Button } from 'primeng/button';

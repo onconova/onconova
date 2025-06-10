@@ -2,7 +2,7 @@ import { AuthService } from '../services/auth.service';
 import { Injectable, inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BASE_PATH } from 'src/app/shared/openapi';
+import { BASE_PATH } from 'pop-api-client';
 
 @Injectable()
 export class APIAuthInterceptor implements HttpInterceptor {

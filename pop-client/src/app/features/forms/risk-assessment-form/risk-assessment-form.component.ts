@@ -15,7 +15,7 @@ import {
     RiskAssessmentsService,
     RiskAssessment,
     CodedConcept,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

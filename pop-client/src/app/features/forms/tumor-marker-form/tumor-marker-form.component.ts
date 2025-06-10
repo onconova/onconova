@@ -25,7 +25,7 @@ import {
   CodedConcept,
   TumorMarker,
   Measure,
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   DatePickerComponent,

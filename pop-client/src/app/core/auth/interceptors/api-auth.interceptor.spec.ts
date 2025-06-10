@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { APIAuthInterceptor } from './api-auth.interceptor';
 import { AuthService } from '../services/auth.service';
-import { BASE_PATH } from 'src/app/shared/openapi';
+import { BASE_PATH } from 'pop-api-client';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { signal } from '@angular/core';

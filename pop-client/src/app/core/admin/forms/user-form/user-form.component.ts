@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AbstractFormBase } from 'src/app/features/forms/abstract-form-base.component';
-import { AccessRoles, UsersService, User, UserCreate } from 'src/app/shared/openapi';
+import { AccessRoles, UsersService, User, UserCreate } from 'pop-api-client';
 import { Fluid } from 'primeng/fluid';
 import { Button } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';

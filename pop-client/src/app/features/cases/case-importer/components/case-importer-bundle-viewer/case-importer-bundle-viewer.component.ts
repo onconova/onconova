@@ -2,7 +2,7 @@ import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { PatientCaseBundle } from 'src/app/shared/openapi';
+import { PatientCaseBundle } from 'pop-api-client';
 
 import { TreeNode } from 'primeng/api';
 import { TabsModule } from 'primeng/tabs';

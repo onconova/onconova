@@ -2,6 +2,7 @@
 
 # Custom app plugins
 /src/plugins/**/
+/generated/**/
 
 # Compiled output
 /dist

@@ -15,7 +15,7 @@ import { TagModule } from "primeng/tag";
 import { ToggleSwitch } from "primeng/toggleswitch";
 import { forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
-import { CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "src/app/shared/openapi";
+import { CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
 import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
 
 interface ProjectMember extends User {

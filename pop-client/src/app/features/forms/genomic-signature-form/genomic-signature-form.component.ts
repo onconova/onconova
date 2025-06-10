@@ -24,7 +24,7 @@ import {
     AneuploidScoreCreate,
     AnyGenomicSignature,
     MicrosatelliteInstability
-} from '../../../shared/openapi'
+} from 'pop-api-client'
 
 import { 
   ConceptSelectorComponent, 

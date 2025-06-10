@@ -7,7 +7,7 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 
-import { MeasuresService, Measure } from 'src/app/shared/openapi';
+import { MeasuresService, Measure } from 'pop-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 export interface MeasureUnit {

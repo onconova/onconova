@@ -2,10 +2,12 @@
 # ANGULAR-BASE
 # Sets up Node and Angular
 ########################################
-FROM node:22-alpine as angular-base
+FROM node:22-bullseye  as angular-base
 
 # Setup workspace
 WORKDIR /app
+
+ARG ROOT_CA_CERTIFICATES=
 
 # Copy all source files
 COPY . .
@@ -13,6 +15,19 @@ COPY . .
 # Install the Angular CLI
 RUN npm install -g @angular/cli
 RUN npm install --force
+
+# Optional: Install a root CA TLS certificate
+COPY ${ROOT_CA_CERTIFICATES} /usr/local/share/ca-certificates/corporate-ca.crt
+# Update the system's CA certificates bundle
+RUN update-ca-certificates
+
+# Install Java for running OpenAPI Generator
+RUN apt-get update && apt-get install -y default-jre curl && apt-get clean
+
+# Generate the POP API client package
+ENV npm run generate:api:client java
+
+RUN npm cache clean --force
 
 ########################################
 # DEVLEOPMENT

@@ -7,7 +7,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
-import { User, UsersService } from '../../openapi';
+import { User, UsersService } from 'pop-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({

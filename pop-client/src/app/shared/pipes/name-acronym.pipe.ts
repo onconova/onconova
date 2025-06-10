@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core"
-import { User } from "../openapi"
+import { User } from "pop-api-client"
 
 @Pipe({
     standalone: true,
