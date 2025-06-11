@@ -99,7 +99,6 @@ class ApiControllerTestMixin:
 
     @staticmethod
     def _authenticate_user_and_get_authentication_header(username, password):
-        # Login the user and retrieve the JWT token
         auth_client = Client()
         response = auth_client.post("/api/auth/session", data={'username': username, 'password': password}, content_type='application/json', secure=True)
         if response.status_code != 200:
