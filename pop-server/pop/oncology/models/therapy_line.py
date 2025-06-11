@@ -131,6 +131,10 @@ class TherapyLine(BaseModel):
         PD = 'LA28370-7'
         TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.filter(code='407563006').first()
 
+        def remove_uninformative_events(object):
+            uninformative_events = pghistory.models.Events.objects.tracks(object).filter(Q(pgh_label='update') & Q(Q(pgh_diff__isnull=True) | Q(pgh_diff__therapy_line_id__isnull=False))).values_list('pgh_id', flat=True)
+            object.events.filter(pgh_id__in=uninformative_events).delete()
+
         def is_anti_hormonal(SACT):
             if not SACT:
                 return False 
@@ -175,6 +179,7 @@ class TherapyLine(BaseModel):
                 for systemic_therapy in systemic_therapies:
                     systemic_therapy.therapy_line = previous_therapy_line
                     systemic_therapy.save()
+                    remove_uninformative_events(systemic_therapy)
                                     
             def assign_therapy_to_new_line():
                 line_counter[line_intent] += 1 
@@ -186,6 +191,7 @@ class TherapyLine(BaseModel):
                 for systemic_therapy in systemic_therapies:
                     systemic_therapy.therapy_line = new_therapy_line
                     systemic_therapy.save()
+                    remove_uninformative_events(systemic_therapy)
 
             # If there are no lines of this type create the first one for this SACT
             if line_counter[line_intent]==0:
@@ -227,6 +233,7 @@ class TherapyLine(BaseModel):
             if therapy_line:
                 radiotherapy.therapy_line = therapy_line
                 radiotherapy.save()
+                remove_uninformative_events(radiotherapy)
 
         # Repeat for all surgeries of the given case
         for surgery in  case.surgeries.order_by('date'):
@@ -234,6 +241,7 @@ class TherapyLine(BaseModel):
             if therapy_line:
                 surgery.therapy_line = therapy_line
                 surgery.save()
+                remove_uninformative_events(surgery)
 
         for therapy_line in case.therapy_lines.all():
             if therapy_line.period.lower:
@@ -249,4 +257,4 @@ class TherapyLine(BaseModel):
             else:
                 therapy_line.progression_date = None
             therapy_line.save()
-                    
+        

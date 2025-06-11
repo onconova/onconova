@@ -54,7 +54,11 @@
                                     <i class="pi pi-sparkles"></i> Created resource
                                 }
                                 @case ('update') {
-                                    <i class="pi pi-pencil"></i> Updated {{ (event.differential | keyvalue).length }} {{ event.differential.length > 1 ? 'properties' : 'property'}}
+                                    @if (event.differential) {
+                                        <i class="pi pi-pencil"></i> Updated {{ (event.differential | keyvalue).length }} {{ event.differential.length > 1 ? 'properties' : 'property'}}
+                                    } @else {
+                                        <i class="pi pi-pencil"></i> Updated ? properties
+                                    }
                                 }
                                 @case ('export') {
                                     <i class="pi pi-file-export"></i> Exported resource
