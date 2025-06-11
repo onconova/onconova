@@ -1,8 +1,8 @@
 from pop.oncology import models as orm
 from typing import Optional
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.core.anonymization import AnonymizationConfig
-from pop.core.schemas import CodedConceptSchema
+from pop.core.schemas import CodedConcept as CodedConceptSchema
 from pydantic import Field, AliasChoices 
 
 

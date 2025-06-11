@@ -1,7 +1,7 @@
 
 from functools import wraps
 from django.db.models import Model as DjangoModel, Value
-from pop.core import permissions
+from pop.core.auth import permissions
 from ninja import Schema
 from ninja.errors import HttpError
 from typing import Callable, Any

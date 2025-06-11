@@ -5,6 +5,9 @@ from enum import Enum
 class Age(int):
     pass 
 
+class Username(str):
+    pass 
+
 class AgeBin(str, Enum):
     SUB_20 = '<20'
     AGE_20_24 = '20-24'

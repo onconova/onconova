@@ -1,131 +1,34 @@
 
 import inspect
-from typing import Optional, List, Tuple, Dict, get_args, get_origin, Type, Any, Union, Callable, Self
-from datetime import date, datetime, timedelta
-
-from ninja import Schema, FilterSchema
-from ninja.schema import DjangoGetter as BaseDjangoGetter
-from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
-from pydantic.fields import FieldInfo, PrivateAttr
+from typing import Any, Optional, Type, get_args, get_origin
 
 from django.db import transaction
-from django.db.models import Q, QuerySet, Model as DjangoModel, Field as DjangoField
+from django.db.models import Model as DjangoModel
 from django.contrib.postgres.fields import DateRangeField, BigIntegerRangeField
+
+from ninja import Schema
+from ninja.schema import DjangoGetter as BaseDjangoGetter
+from pydantic import BaseModel as PydanticBaseModel, ConfigDict, model_validator
 
 from pop.terminology.models import CodedConcept
 from pop.core.measures.fields import MeasurementField
-from pop.core.models import User 
-from pop.core.utils import to_camel_case, hash_to_range
-
-class FilterBaseSchema(FilterSchema):
-    _queryset_model: Type[DjangoModel] = None
-
-    def filter(self, queryset: QuerySet) -> QuerySet:
-        self._queryset_model = queryset.model
-        filtered_queryset = queryset.filter(self.get_filter_expression())
-        self._queryset_model = None
-        return filtered_queryset
-     
-    def get_filter(self, field_name: str) -> Callable:
-        method_name = f"filter_{field_name}".replace('.', '_')
-        return getattr(self, method_name)
-
-    def _resolve_field_expression(self, field_name: str, field_value: Any, field: FieldInfo) -> Q:
-        field_name = field_name.replace('.', '_')
-        return super()._resolve_field_expression(field_name, field_value, field)
-
-
-class OrmMetadataMixin:
-    __orm_model__: Type[DjangoModel] = None
-    __orm_meta__: Dict[str, Type[DjangoField]] = None
-
-    @classmethod
-    def set_orm_metadata(cls, **metadata: Dict[str, DjangoField]):
-        """
-        Sets the ORM metadata of the class.
-
-        The ORM metadata is a dictionary mapping field names to Django model
-        fields. This method is used by the ModelSchema metaclass to set the
-        ORM metadata of the class.
-
-        Args:
-            **metadata: A dictionary of keyword arguments where the key is a
-                string and the value is a Django model field instance.
-
-        Raises:
-            TypeError: If the value of any keyword argument is not a Django model
-                field instance.
-        """
-        for field in metadata.values():
-            if not isinstance(field, DjangoField):
-                raise TypeError('The set_orm_metadata only accepts keyword-argument pairs containing Django model field instances.')
-        cls.__orm_meta__ = metadata
-
-    @classmethod
-    def get_orm_metadata(cls):
-        """
-        Returns a dictionary mapping field names to Django model fields.
-
-        The dictionary is the ORM metadata of the class.
-
-        Returns:
-            A dictionary of keyword arguments where the key is a string and the
-                value is a Django model field instance.
-        """
-        return cls.__orm_meta__
-
-    @classmethod
-    def set_orm_model(cls, model: Union[None, Type[DjangoModel]]):
-        """
-        Sets the ORM model class for the schema.
-
-        This method assigns a Django model class to the schema, allowing it to
-        interact with the database representation of that model. It ensures that
-        the provided model is a valid Django model class.
-
-        Args:
-            model (Union[None, Type[DjangoModel]]): The Django model class to set
-                as the ORM model. If None, no model is set.
-
-        Raises:
-            TypeError: If the provided model is not a Django model class.
-        """
-        if model is not None:
-            if not isinstance(model, type) and not issubclass(model, DjangoModel):
-                raise TypeError('The set_orm_model method only accept a Django model class as argument.')
-        cls.__orm_model__ = model
-
-    @classmethod
-    def get_orm_model(cls):
-        """
-        Returns the Django model class that is associated with the schema.
-
-        Returns:
-            The Django model class associated with the schema, or None if no model
-            is associated.
-        """
-        return cls.__orm_model__
-    
-
-class DjangoGetter(BaseDjangoGetter):
-    def __getattr__(self, key: str) -> Any:
-        resolver = getattr(self._schema_cls, f'resolve_{key}', None)
-        if resolver and isinstance(self._obj, DjangoModel):
-            params = inspect.signature(resolver).parameters
-            if 'context' in params:
-                value = resolver(self._obj, context=self._context)
-            else:
-                value = resolver(self._obj)
-            return self._convert_result(value)
-        else:
-            return super().__getattr__(key)
+from pop.core.auth.models import User
+from pop.core.utils import to_camel_case
 
 
 class BaseSchema(Schema):
     """
-    Expands the Pydantic [BaseModel](https://docs.pydantic.dev/latest/api/base_model/) to use aliases by default.    
-    """    
-    # Pydantic configuration
+    Base schema class integrating Pydantic with Django ORM serialization and deserialization.
+
+    Features:
+    - ORM <-> Pydantic conversion
+    - Relation resolution and expansion
+    - Measurement and range field handling
+    - Custom resolver support via 'resolve_*' methods
+    - Custom model_dump and validation behavior
+    """
+
+    # Pydantic model configuration
     model_config = ConfigDict(
         from_attributes=True,
         populate_by_name = True,
@@ -135,6 +38,9 @@ class BaseSchema(Schema):
     @model_validator(mode="wrap")
     @classmethod
     def _run_root_validator(cls, values, handler, info):
+        """
+        Applies DjangoGetter to resolve dynamic field values during validation.
+        """
         forbids_extra = cls.model_config.get("extra") == "forbid"
         should_validate_assignment = cls.model_config.get("validate_assignment", False)
         if forbids_extra or should_validate_assignment:
@@ -452,11 +358,15 @@ class BaseSchema(Schema):
         return instance
 
 
-class ModelFilterSchema(BaseSchema):
-
-    @classmethod
-    def get_django_lookup(cls, filter_name):
-        filter_info = cls.model_fields.get(filter_name)
-        return filter_info.json_schema_extra.get('django_lookup')
-
-
+class DjangoGetter(BaseDjangoGetter):
+    def __getattr__(self, key: str) -> Any:
+        resolver = getattr(self._schema_cls, f'resolve_{key}', None)
+        if resolver and isinstance(self._obj, DjangoModel):
+            params = inspect.signature(resolver).parameters
+            if 'context' in params:
+                value = resolver(self._obj, context=self._context)
+            else:
+                value = resolver(self._obj)
+            return self._convert_result(value)
+        else:
+            return super().__getattr__(key)

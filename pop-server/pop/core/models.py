@@ -1,18 +1,13 @@
 import uuid 
-import pghistory
-import pghistory.models
 from django.db import models
 from django.db.models import Q, Min, Max
 from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models.fields.json import KeyTextTransform
-from django.utils.functional import lazy
 
 
 from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
-
-from .user import User 
 
 class UntrackedBaseModel(models.Model):
     """

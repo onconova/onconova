@@ -3,8 +3,8 @@ from typing import Optional, List
 from pydantic import AliasChoices
 
 from pop.oncology import models as orm
-from pop.core.schemas import CodedConceptSchema
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.core.anonymization import AnonymizationConfig
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):

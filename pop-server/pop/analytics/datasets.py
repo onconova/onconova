@@ -13,7 +13,6 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Any
 
 from pop.oncology.models import PatientCase, MODELS
-from pop.core.schemas.factory.metaclasses import ModelGetSchema
 from pop.analytics.schemas import DatasetRule
 
 class DatasetRuleProcessingError(RuntimeError): pass
@@ -77,7 +76,7 @@ class DatasetRuleProcessor:
         """Fetches transformation function if specified, otherwise defaults."""
         if not transform:
             return None
-        from pop.core import transforms
+        from pop.core.serialization import transforms
         transform_class = getattr(transforms, transform or "", None)
         if not transform_class:
             raise DatasetRuleProcessingError(f'Could not resolve transform "{transform}" into a transform class object.')

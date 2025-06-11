@@ -1,8 +1,9 @@
 import pghistory
 from uuid import UUID
-from pop.core.models import BaseModel, User
+from pop.core.models import BaseModel
+from pop.core.auth.models import User
 from pop.interoperability.schemas import PatientCaseBundle
-from pop.core.schemas import UserSchema
+from pop.core.auth.schemas import UserSchema
 from pop.oncology import models, schemas
 from pop.tests import factories
 from django.test import TestCase 

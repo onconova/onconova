@@ -7,10 +7,10 @@ from django.db import models as django_models
 from django.db.models import CharField, ForeignKey, ManyToManyField
 from pydantic import BaseModel
 
-from pop.core.schemas import CodedConceptSchema
-from pop.core.schemas.factory.fields import get_schema_field, CodedConceptSchema, get_schema_field, PydanticUndefined
-from pop.core.schemas.factory.factory import SchemaFactory
-from pop.core.schemas.factory.base import FilterBaseSchema
+from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.core.serialization.fields import get_schema_field, CodedConceptSchema, get_schema_field, PydanticUndefined
+from pop.core.serialization.factory import SchemaFactory
+from pop.core.serialization.filters import FilterBaseSchema
 
 from pop.tests.models import MockModel, MockCodedConcept
 

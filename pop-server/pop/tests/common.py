@@ -46,10 +46,8 @@ class AbstractModelMixinTestCase(TestCase):
 
 import uuid
 from django.test import TestCase, Client
-from ninja_extra.testing import TestClient
 from pop.tests import factories 
-from pop.core.controllers import AuthController 
-from pop.core.models import User 
+from pop.core.auth.models import User 
 from faker import Faker
 
 class ApiControllerTestMixin:

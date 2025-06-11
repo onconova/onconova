@@ -1,7 +1,7 @@
 from pop.oncology import models as orm
 from pop.oncology.models.genomic_variant import HGVSRegex
-from pop.core.schemas import RangeSchema
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.schemas import Range as RangeSchema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.core.anonymization import AnonymizationConfig
 from pydantic import AliasChoices, Field
 from typing import Optional, List

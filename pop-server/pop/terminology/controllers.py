@@ -10,8 +10,8 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
  
-from pop.core.schemas import Paginated, CodedConceptSchema
-from pop.core.security import XSessionTokenAuth
+from pop.core.schemas import Paginated, CodedConcept as CodedConceptSchema
+from pop.core.auth.token import XSessionTokenAuth
 from pop.terminology import models as terminologies
 
 

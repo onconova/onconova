@@ -6,8 +6,7 @@ from django.db.models import Model
 
 from pop.oncology import models, schemas
 from pop.tests import factories, common 
-from pop.core.schemas import HistoryEvent
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema
 from copy import deepcopy
 from parameterized import parameterized
 import pytest 

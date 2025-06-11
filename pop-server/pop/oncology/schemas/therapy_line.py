@@ -2,8 +2,8 @@ from pydantic import Field, AliasChoices
 from typing import Optional
 
 from pop.oncology import models as orm
-from pop.core.schemas import PeriodSchema
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.schemas import Period as PeriodSchema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.core.anonymization import AnonymizationConfig
 
 class TherapyLineSchema(ModelGetSchema):

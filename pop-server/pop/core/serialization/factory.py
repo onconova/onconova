@@ -10,7 +10,9 @@ from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
 
 from .fields import get_schema_field, get_schema_field_filters
-from .base import BaseSchema, FilterBaseSchema, OrmMetadataMixin
+from .base import BaseSchema
+from .filters import FilterBaseSchema
+from .mixins import OrmMetadataMixin
 
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
@@ -43,30 +45,7 @@ class SchemaFactory(NinjaSchemaFactory):
         custom_fields: Optional[List[Tuple[str, Any, Any]]] = None,
         bases: List[Type[Schema]] = [BaseSchema],
     ) -> Type[Schema]:
-        """
-        Creates a Pydantic schema from a Django model.
-
-        This method generates a Pydantic schema class based on a given Django model
-        and various configuration options. The schema can include, exclude, or modify
-        certain fields from the model, and can also customize field properties.
-
-        Args:
-            model (Type[Model]): The Django model to create a schema from.
-            name (str, optional): The name of the schema. Defaults to the model's name.
-            depth (int, optional): The depth of relation fields to include. Defaults to 0.
-            fields (Optional[List[str]], optional): Specific fields to include. Defaults to None.
-            exclude (Optional[List[str]], optional): Fields to exclude. Defaults to None.
-            optional_fields (Optional[List[str]], optional): Fields to make optional. Defaults to None.
-            custom_fields (Optional[List[Tuple[str, Any, Any]]], optional): Custom fields to add. Defaults to None.
-            base_class (Type[Schema], optional): The base class for the schema. Defaults to Schema.
-
-        Returns:
-            Type[Schema]: The generated Pydantic schema type.
-
-        Raises:
-            ConfigError: If both 'fields' and 'exclude' are set.
-        """
-
+        
         name = name or model.__name__
         orm_metadata = {}
         if fields and exclude:

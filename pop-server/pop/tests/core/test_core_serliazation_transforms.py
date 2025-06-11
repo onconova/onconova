@@ -3,7 +3,7 @@ from parameterized import parameterized
 from datetime import datetime
 
 from pop.tests.models import MockModel, OptionsEnum, MockCodedConcept
-import pop.core.transforms as t
+import pop.core.serialization.transforms as t
 
 
 class TestDjangoTransforms(TestCase):

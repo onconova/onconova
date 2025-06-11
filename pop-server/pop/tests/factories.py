@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password
 
 import pop.core.measures as measures
-from pop.core.models import User
+from pop.core.auth.models import User
 import pop.oncology.models as models
 import pop.analytics.models as analytics_models
 import pop.projects.models as projects_models

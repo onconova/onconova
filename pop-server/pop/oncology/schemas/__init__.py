@@ -1,4 +1,4 @@
-from pop.core.schemas.factory import create_filters_schema
+from pop.core.serialization.factory import create_filters_schema
 from .patient_case import (
     PatientCaseSchema, PatientCaseCreateSchema,
     PatientCaseDataCompletionStatusSchema, 

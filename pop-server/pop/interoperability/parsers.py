@@ -1,12 +1,12 @@
 from django.db import transaction
 from django.db.models import Model as DjangoModel
 from pop.oncology import schemas
-from pop.core.models import User
+from pop.core.auth.models import User
 from collections import defaultdict
 from pop.oncology import models 
 from ninja import Schema
 import pghistory
-from pop.core.schemas import UserSchema
+from pop.core.auth.schemas import UserSchema
 from pop.interoperability.schemas import PatientCaseBundle
 from typing import get_origin, Optional
 from dataclasses import dataclass 

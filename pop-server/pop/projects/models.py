@@ -1,16 +1,14 @@
 import pghistory
 import uuid
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from django.contrib.postgres import fields as postgres
 from django.utils.translation import gettext_lazy as _  
-
 
 from queryable_properties.managers import QueryablePropertiesManager
 from queryable_properties.properties import AnnotationProperty
 
-from pop.core.models import BaseModel, User
+from pop.core.models import BaseModel
+from pop.core.auth.models import User
 
 @pghistory.track()
 class Project(BaseModel):

@@ -3,7 +3,7 @@ from ninja_extra import route, api_controller, ControllerBase
 
 from measurement.base import MeasureBase, BidimensionalMeasure
 
-from pop.core.security import XSessionTokenAuth
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.measures.schemas import MeasureConversion, Measure
 from pop.core.measures import measures
 
@@ -65,5 +65,5 @@ class MeasuresController(ControllerBase):
         if measureClass is None:
             return 404, None
         measure = measureClass(**{payload.unit: payload.value})
-        converted_value = getattr(measure, payload.new_unit)
-        return 200, Measure(unit=payload.new_unit, value=converted_value)
+        converted_value = getattr(measure, payload.newUnit)
+        return 200, Measure(unit=payload.newUnit, value=converted_value)

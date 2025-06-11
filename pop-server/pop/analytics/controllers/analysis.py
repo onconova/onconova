@@ -9,8 +9,8 @@ from pop.analytics.schemas.analysis import KapplerMeierCurve
 from pop.analytics.analysis import calculate_Kappler_Maier_survival_curve, calculate_pfs_by_combination_therapy, calculate_pfs_by_therapy_classification
 from pop.analytics.models import Cohort
 from pop.oncology.models import TherapyLine
-from pop.core import permissions as perms
-from pop.core.security import XSessionTokenAuth
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 
 from collections import Counter
 from enum import Enum

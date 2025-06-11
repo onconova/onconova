@@ -1,8 +1,8 @@
 
 from django.test import TestCase
 from pop.tests import common, factories
-from pop.core.models import User 
-from pop.core.schemas import UserSchema, UserCreateSchema, UserProfileSchema, UserPasswordResetSchema
+from pop.core.auth.models import User 
+from pop.core.auth.schemas import UserSchema, UserCreateSchema, UserProfileSchema, UserPasswordReset
 from parameterized import parameterized
 
 from pop.core.measures import measures
@@ -105,7 +105,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
         new_password = 'newPassword123'
         self.user.set_password(old_password)
         self.user.save()
-        payload = UserPasswordResetSchema(oldPassword=old_password, newPassword=new_password).model_dump(mode='json')
+        payload = UserPasswordReset(oldPassword=old_password, newPassword=new_password).model_dump(mode='json')
         # Call the API endpoint.
         self.call_api_endpoint('PUT', f'/{self.user.id}/password', data=payload, **new_config)
         # Assert response content
@@ -147,7 +147,7 @@ class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_convert_units(self, scenario, config):
         measure = measures.Mass
-        data = MeasureConversion(value=1, unit='kg', new_unit='g').model_dump(mode='json')
+        data = MeasureConversion(value=1, unit='kg', newUnit='g').model_dump(mode='json')
         # Call the API endpoint
         response = self.call_api_endpoint('POST', f'/{measure.__name__}/units/conversion', data=data, **config)
         # Assert response content

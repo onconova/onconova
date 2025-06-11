@@ -1,34 +1,141 @@
 
-
-from django.db.models import Q, Model, Count
-from django.db.models.expressions import RawSQL
-
-from pydantic import BaseModel
-from typing import List, Tuple, Optional, Union
 from datetime import date
-from functools import partial 
+from functools import partial
+from typing import List, Tuple, Optional, Union, Type, Callable, Any
+
+from django.db.models import Q, QuerySet, Model as DjangoModel, Count
+from django.db.models.expressions import RawSQL
+from ninja import Schema, FilterSchema
+from pydantic import BaseModel
+from pydantic.fields import FieldInfo
+
+
+class FilterBaseSchema(FilterSchema):
+    """
+    Base schema for Django ORM-compatible filtering.
+
+    Provides:
+    - Automatic mapping of filters to queryset expressions.
+    - Field-specific filter resolution via method naming conventions.
+    """
+
+    _queryset_model: Type[DjangoModel] = None
+
+    def filter(self, queryset: QuerySet) -> QuerySet:
+        """
+        Apply all schema-defined filters to a queryset.
+
+        Args:
+            queryset (QuerySet): The Django queryset to filter.
+
+        Returns:
+            QuerySet: The filtered queryset.
+        """
+        self._queryset_model = queryset.model
+        filtered_queryset = queryset.filter(self.get_filter_expression())
+        self._queryset_model = None
+        return filtered_queryset
+
+    def get_filter(self, field_name: str) -> Callable:
+        """
+        Retrieve a custom filter method by its field name.
+
+        Args:
+            field_name (str): The schema field to resolve a filter for.
+
+        Returns:
+            Callable: The custom filter function.
+        """
+        method_name = f"filter_{field_name}".replace('.', '_')
+        return getattr(self, method_name)
+
+    def _resolve_field_expression(self, field_name: str, field_value: Any, field: FieldInfo) -> Q:
+        """
+        Convert a schema field and value into a Django Q expression.
+
+        Args:
+            field_name (str): The schema field name.
+            field_value (Any): The value being filtered on.
+            field (FieldInfo): The field's metadata.
+
+        Returns:
+            Q: A Django Q expression representing the filter.
+        """
+        field_name = field_name.replace('.', '_')
+        return super()._resolve_field_expression(field_name, field_value, field)
+
 
 class DjangoFilter:
+    """
+    Base class for defining custom Django-compatible ORM filters.
+
+    Attributes:
+        name (str): Human-readable filter label.
+        lookup (str): Django ORM lookup string (e.g. 'icontains', 'gte').
+        description (str): Description for documentation and OpenAPI.
+        value_type (type): The Python type of the expected filter value.
+        negative (bool): Whether this filter negates its result.
+    """
+
     name: str = ''
     lookup: str = None
-    description: str = ''  
+    description: str = ''
     value_type: type
     negative: bool = False
 
     @staticmethod
-    def query_expression(schema, value, field, lookup, negative):
+    def query_expression(schema: Any, value: Any, field: str, lookup: str, negative: bool) -> Q:
+        """
+        Build a Django Q query expression for a given filter configuration.
+
+        Args:
+            schema (Any): Schema context (unused here, but allows future customization).
+            value (Any): The value to filter against.
+            field (str): The field name on the model.
+            lookup (str): The Django lookup to apply.
+            negative (bool): Whether to invert the query expression.
+
+        Returns:
+            Q: The constructed Django Q query.
+        """
         if value is None:
             return Q()
-        query =  Q(**{f'{field}__{lookup}': value})
-        return ~query if negative else query 
-    
-    @classmethod
-    def generate_query_expression(cls, field: str):
-        return partial(cls.query_expression, field=field, lookup=cls.lookup, negative=cls.negative)
+
+        query = Q(**{f"{field}__{lookup}": value})
+        return ~query if negative else query
 
     @classmethod
-    def get_query(cls, field: str, value: any, model: Optional[Union[BaseModel, Model]] = None):
-        return cls.query_expression(model, field=field, value=value, lookup=cls.lookup, negative=cls.negative)
+    def generate_query_expression(cls, field: str) -> Callable:
+        """
+        Create a partial function to evaluate a query expression for this filter.
+
+        Args:
+            field (str): The model field name.
+
+        Returns:
+            Callable: A partial query expression function.
+        """
+        return partial(
+            cls.query_expression,
+            field=field,
+            lookup=cls.lookup,
+            negative=cls.negative
+        )
+
+    @classmethod
+    def get_query(cls, field: str, value: Any, model: Optional[Union[BaseModel, DjangoModel]] = None) -> Q:
+        """
+        Build a query expression for a given value and field.
+
+        Args:
+            field (str): The model field name.
+            value (Any): The value to filter on.
+            model (Optional[Union[BaseModel, DjangoModel]]): Optionally, the model instance or schema context.
+
+        Returns:
+            Q: The resulting Django Q query.
+        """
+        return cls.query_expression(model, value=value, field=field, lookup=cls.lookup, negative=cls.negative)
 
 
 

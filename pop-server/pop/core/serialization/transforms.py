@@ -1,5 +1,6 @@
 
-from pop.core.schemas import CodedConceptSchema,UserSchema
+from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.core.auth.schemas import UserSchema
 from pop.core.measures.schemas import Measure 
 from django.db.models import F 
 

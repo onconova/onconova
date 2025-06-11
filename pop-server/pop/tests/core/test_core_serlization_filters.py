@@ -4,7 +4,7 @@ from datetime import datetime
 
 from unittest.mock import MagicMock
 from pop.tests.models import MockModel, OptionsEnum, MockCodedConcept
-import pop.core.filters as f
+import pop.core.serialization.filters as f
 
 class TestDjangoFilters(TestCase):
 

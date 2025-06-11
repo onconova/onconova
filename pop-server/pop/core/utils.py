@@ -125,7 +125,18 @@ def camel_to_snake(name: str) -> str:
 
     
 def _get_deepest_args(tp: Any) -> list:
-    """Recursively get the deepest type arguments of nested typing constructs."""
+    """
+    Recursively traverse nested type hints to find the deepest types.
+
+    For example, if the input type is Union[List[Tuple[int, str]], float], the
+    function will return [int, str, float].
+
+    Args:
+        tp (Any): The type to traverse.
+
+    Returns:
+        list: A list of the deepest types.
+    """
     args = get_args(tp)
     if not args:
         # Base case: no further nested types
@@ -138,12 +149,33 @@ def _get_deepest_args(tp: Any) -> list:
 
 
 def get_all_models_from_field(field: Field, issubclass_of: type = BaseModel) -> BaseModel:
+    """
+    Returns a generator of all models that are nested in a given field.
+
+    Args:
+        field (Field): The field to traverse.
+        issubclass_of (type, optional): Filter results to only include classes
+            that are subclasses of this type. Defaults to BaseModel.
+
+    Yields:
+        BaseModel: A model that is nested in the given field.
+    """
+    
     return (arg 
             for arg in _get_deepest_args(field.annotation) 
                 if inspect.isclass(arg) and issubclass(arg, issubclass_of)
     )
 
 def get_related_model_from_field(field: Field) -> Optional[BaseModel]:
+    """
+    Return the first model that is nested in a given field.
+
+    Args:
+        field (Field): The field to traverse.
+
+    Returns:
+        Optional[BaseModel]: The first model that is nested in the given field.
+    """
     return next(get_all_models_from_field(field), None)
 
 def find_uuid_across_models(search_uuid: Union[str,UUID], using: str = "default", app_label=None) -> Optional[DjangoModel]:
@@ -161,7 +193,6 @@ def find_uuid_across_models(search_uuid: Union[str,UUID], using: str = "default"
     for model in apps.get_models():
         if app_label and model._meta.app_label!=app_label:
             continue
-        model_name = f"{model._meta.app_label}.{model.__name__}"
         try:
             match = model.objects.using(using).filter(pk=search_uuid).first()
             if match:
@@ -171,6 +202,18 @@ def find_uuid_across_models(search_uuid: Union[str,UUID], using: str = "default"
             continue
 
 def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
+    """
+    Revert a multi-table Django model to a specific history event.
+
+    This function is specifically designed to work with multi-table Django models
+    that are versioned using pghistory. It will find the history event with the given
+    ID and revert the instance to that point in time.
+
+    :param instance: The instance to revert.
+    :param eventId: The ID of the history event to revert to.
+    :return: The reverted instance.
+    :raises ObjectDoesNotExist: If no matching history event exists.
+    """
     # Get multi-table events 
     parent_event = instance.parent_events.filter(pgh_id=eventId).first()
     if parent_event:
@@ -202,7 +245,18 @@ def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
     return instance
 
 
-def is_datetime(date_string, date_format):
+def is_datetime(date_string: str, date_format: str) -> bool:
+    """
+    Checks if a given string can be parsed as a datetime object with the given date format.
+
+    Args:
+        date_string: The string to be parsed.
+        date_format: The date format to use for parsing.
+
+    Returns:
+        True if the string can be parsed as a datetime object with the given date format,
+        False otherwise.
+    """
     try:
         datetime.strptime(date_string, date_format)
         return True
@@ -211,6 +265,17 @@ def is_datetime(date_string, date_format):
     
 
 def is_period(period_string, date_format):
+    """
+    Checks if a given string can be parsed as a period string with the given date format.
+
+    Args:
+        period_string: The string to be parsed.
+        date_format: The date format to use for parsing.
+
+    Returns:
+        True if the string can be parsed as a period string with the given date format,
+        False otherwise.
+    """
     try:
         period_start_string, period_end_string = period_string.strip('()[]').split(',')
         datetime.strptime(period_start_string, date_format)
@@ -220,7 +285,24 @@ def is_period(period_string, date_format):
         return False
 
 def hash_to_range(input_str: str, secret: str, low: int = -90, high: int = 90) -> int:
-    # Combine input and secret
+    """
+    Maps a given string to a random integer in the range [low, high] deterministically
+    using the given secret string.
+
+    The function works by combining the input string with the secret string and then
+    computing the SHA-256 hash of the combined string. The hash is then converted to a
+    large integer and mapped to the range [low, high] using the modulo operator.
+
+    Args:
+        input_str: The string to be mapped.
+        secret: The secret string used for hashing.
+        low: The lowest value of the range (default: -90).
+        high: The highest value of the range (default: 90).
+
+    Returns:
+        An integer in the range [low, high] that is deterministically mapped from the
+        input string.
+    """
     combined = input_str + secret
     
     # Get SHA-256 hash as bytes

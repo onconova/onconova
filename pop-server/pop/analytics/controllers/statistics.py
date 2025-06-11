@@ -10,7 +10,7 @@ from ninja_extra import api_controller, ControllerBase, route
 from pop.oncology import models as oncological_models
 from pop.projects.models import Project
 from pop.analytics.models import Cohort
-from pop.core.security import XSessionTokenAuth
+from pop.core.auth.token import XSessionTokenAuth
 from pop.analytics.schemas.statistics import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
 from pop.analytics.aggregates import Median
 

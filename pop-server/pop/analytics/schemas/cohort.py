@@ -9,10 +9,10 @@ from ninja import Schema, Field
 
 from pop.analytics import models as orm
 from pop.oncology import models as oncology_models
-from pop.core import filters as filters_module
+from pop.core.serialization import filters as filters_module
 from pop.core.utils import camel_to_snake
-from pop.core.schemas import UserSchema
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig, create_filters_schema
+from pop.core.serialization.factory import create_filters_schema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 
 
 # ----------------------------------------------------

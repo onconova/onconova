@@ -6,10 +6,11 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core import permissions as perms
+from pop.core.auth import permissions as perms
 from pop.core.anonymization import  anonymize
-from pop.core.security import XSessionTokenAuth
-from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.history.schemas import HistoryEvent
 from pop.oncology.models import PerformanceStatus
 
 from django.shortcuts import get_object_or_404

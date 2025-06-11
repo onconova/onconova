@@ -110,23 +110,69 @@ class User(AbstractUser):
     )
 
     # Generated permission fields
-    can_view_cases = construct_permission_field_from_access_level(min_access_level=1, action='view cases')
-    can_view_projects = construct_permission_field_from_access_level(min_access_level=1, action='view projects')
-    can_view_cohorts = construct_permission_field_from_access_level(min_access_level=1, action='view cohorts')
-    can_view_users = construct_permission_field_from_access_level(min_access_level=1, action='view users')
-    can_view_datasets = construct_permission_field_from_access_level(min_access_level=1, action='view datasets')
-    can_import_data = construct_permission_field_from_access_level(min_access_level=2, action='import data')
-    can_manage_cohorts = construct_permission_field_from_access_level(min_access_level=2, action='manage cohorts')
-    can_manage_datasets = construct_permission_field_from_access_level(min_access_level=2, action='manage datasets')
-    can_analyze_data = construct_permission_field_from_access_level(min_access_level=3, action='analyze data')
-    can_export_data = construct_permission_field_from_access_level(min_access_level=3, action='export data')
-    can_manage_projects = construct_permission_field_from_access_level(min_access_level=4, action='manage projects')
-    can_access_sensitive_data = construct_permission_field_from_access_level(min_access_level=4, action='access sensitive data')
-    can_delete_projects = construct_permission_field_from_access_level(min_access_level=5, action='delete projects')
-    can_audit_logs = construct_permission_field_from_access_level(min_access_level=5, action='audit logs')
-    can_manage_users = construct_permission_field_from_access_level(min_access_level=5, action='manage users')
-    is_system_admin = construct_permission_field_from_access_level(min_access_level=6, action='system admin')
-    
+    can_view_cases = construct_permission_field_from_access_level(
+        min_access_level = 1, 
+        action = 'view cases'
+    )
+    can_view_projects = construct_permission_field_from_access_level(
+        min_access_level = 1, 
+        action = 'view projects'
+    )
+    can_view_cohorts = construct_permission_field_from_access_level(
+        min_access_level = 1, 
+        action = 'view cohorts'
+    )
+    can_view_users = construct_permission_field_from_access_level(
+        min_access_level = 1, 
+        action = 'view users'
+    )
+    can_view_datasets = construct_permission_field_from_access_level(
+        min_access_level = 1, action = 'view datasets'
+    )
+    can_import_data = construct_permission_field_from_access_level(
+        min_access_level = 2, 
+        action = 'import data'
+    )
+    can_manage_cohorts = construct_permission_field_from_access_level(
+        min_access_level = 2, 
+        action = 'manage cohorts'
+    )
+    can_manage_datasets = construct_permission_field_from_access_level(
+        min_access_level = 2, 
+        action = 'manage datasets'
+    )
+    can_analyze_data = construct_permission_field_from_access_level(
+        min_access_level = 3, 
+        action = 'analyze data'
+    )
+    can_export_data = construct_permission_field_from_access_level(
+        min_access_level = 3, 
+        action = 'export data'
+    )
+    can_manage_projects = construct_permission_field_from_access_level(
+        min_access_level = 4, 
+        action = 'manage projects'
+    )
+    can_access_sensitive_data = construct_permission_field_from_access_level(
+        min_access_level = 4, 
+        action = 'access sensitive data'
+    )
+    can_delete_projects = construct_permission_field_from_access_level(
+        min_access_level = 5, 
+        action = 'delete projects'
+    )
+    can_audit_logs = construct_permission_field_from_access_level( 
+        min_access_level = 5,
+        action='audit logs'
+    )
+    can_manage_users = construct_permission_field_from_access_level(
+        min_access_level = 5, 
+        action = 'manage users'
+    )
+    is_system_admin = construct_permission_field_from_access_level(
+        min_access_level = 6, 
+        action = 'system admin'
+    )
     can_manage_cases = CanManageCasesProperty(
         verbose_name = _('Can manage cases data'),
     )

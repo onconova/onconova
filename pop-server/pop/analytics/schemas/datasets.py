@@ -4,14 +4,13 @@ from enum import Enum
 from django.db.models import Q
 from pydantic import BaseModel, AliasChoices, Field, create_model, ConfigDict, field_validator, AliasPath, BaseModel as PydanticBaseModel
 from pop.core.utils import is_optional, _get_deepest_args, is_union, is_list
-from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
-from pop.core import transforms as tfs
+from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.core.serialization import transforms as tfs
 from pop.oncology import schemas as oncology_schemas
 import pop.oncology.schemas as sc
 from pop.analytics import models as orm
-from pop.core.schemas.factory import create_filters_schema, BaseSchema
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
-
+from pop.core.serialization.factory import create_filters_schema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 DataResource = Enum('DataResource', {
     model.__name__.upper(): model.__name__ for model in oncology_schemas.ONCOLOGY_SCHEMAS if issubclass(model, ModelGetSchema) and model.__name__ not in ['GenomicSignature']
 }, type=str)

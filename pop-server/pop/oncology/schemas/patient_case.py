@@ -5,7 +5,7 @@ from ninja import Schema
 
 from pop.oncology import models as orm
 from pop.core.types import Age, AgeBin
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date
 
 class PatientCaseSchema(ModelGetSchema):

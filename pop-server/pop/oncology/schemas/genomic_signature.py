@@ -3,7 +3,7 @@ from typing import Literal
 
 from pop.oncology import models as orm
 from pop.oncology.models.genomic_signature import GenomicSignatureTypes
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.core.anonymization import AnonymizationConfig
 
 class GenomicSignatureSchema(ModelGetSchema):

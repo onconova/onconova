@@ -9,17 +9,18 @@ from django.urls import resolve
 
 import json
 
-from pop.core import permissions as perms
-from pop.core.security import XSessionTokenAuth
-from pop.core.models import User
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.auth.models import User
 from pop.core.schemas import (
-    Paginated,
+    Paginated, ModifiedResource as ModifiedResourceSchema
+)
+from pop.core.auth.schemas import (
     UserFilters,
     UserSchema, 
     UserCreateSchema,
     UserProfileSchema,
-    UserPasswordResetSchema,
-    ModifiedResourceSchema,
+    UserPasswordReset as UserPasswordResetSchema,
 )
 
 from pydantic import Field, AliasChoices

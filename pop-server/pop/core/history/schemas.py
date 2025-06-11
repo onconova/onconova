@@ -1,58 +1,13 @@
-from datetime import date, datetime
-from typing import Optional, List, Dict, Union, Any
-from uuid import UUID
+from datetime import  datetime
+from typing import Optional, Dict, Any
 from enum import Enum
 from ninja import Schema
-from psycopg.types.range import Range as PostgresRange
-from pydantic import Field, model_validator, AliasChoices
-from ninja_extra.schemas import NinjaPaginationResponseSchema
-
-
-class Paginated(NinjaPaginationResponseSchema):
-    pass
-    
-class ModifiedResource(Schema):
-    id: UUID = Field(description='Unique identifier of the modified resource')
-    description: Optional[str] = Field(None, description='A human-readable description of the modified resource')
-
-class CodedConcept(Schema):  
-    code: str = Field(description='Unique code within a coding system that identifies a concept')
-    system: str = Field(description='The canonical URL of the code system defining the concept')
-    display: Optional[str] = Field(default=None, description='Human readable description of the concept')
-    version: Optional[str] = Field(default=None, description='Release version of the code system, if available')
-    synonyms: Optional[List[str]] = Field(default=None, description='List of synonyms or alternative representations of the concept')
-    properties: Optional[Dict] = Field(default=None, description='Other properties associated to the concept by the code system or otherwise')
-
-class Range(Schema):  
-    start: Optional[Union[int, float]] = Field(description='The lower bound of the range')
-    end: Optional[Union[int, float]] = Field(default=None, description='The upper bound of the range, if not exists, assumed to be unbounded')
-
-    @model_validator(mode='before')
-    def validate_data(cls, obj):
-        range = obj._obj
-        if isinstance(range, tuple):
-            return {'start': range[0], 'end': range[1],}
-        elif isinstance(range, PostgresRange):
-            return {'start': range.lower, 'end': range.upper,}
-        else:
-            return obj
-    
-class Period(Schema):  
-    start: Optional[date] = Field(default=None, description='The start date of the time period')
-    end: Optional[date] = Field(default=None, description='The end date of the time period')
-
-    @model_validator(mode='before')
-    def validate_data(cls, obj):
-        period = obj._obj
-        if isinstance(period, tuple):
-            return {'start': period[0], 'end': period[1],}
-        elif isinstance(period, PostgresRange):
-            return {'start': period.lower, 'end': period.upper,}
-        else:
-            return obj
-
+from pydantic import Field, AliasChoices
 
 class HistoryEventCategory(str, Enum):
+    """
+    Enumeration of possible history event categories.
+    """
     CREATE = 'create'
     UPDATE = 'update'
     DELETE = 'delete'
@@ -61,6 +16,9 @@ class HistoryEventCategory(str, Enum):
     DOWNLOAD = 'download'
 
 class HistoryEvent(Schema):
+    """
+    Represents an audit/history event capturing changes in the system.
+    """
 
     id: Any = Field(
         title='Event ID',
@@ -107,10 +65,28 @@ class HistoryEvent(Schema):
 
     @staticmethod
     def resolve_user(obj):
+        """
+        Extract the username from the event's context.
+
+        Args:
+            obj (Any): The history event object.
+
+        Returns:
+            Optional[str]: The username if present.
+        """
         return obj.pgh_context['username']
 
     @staticmethod 
     def resolve_category(obj):
+        """
+        Resolve the event category from its label.
+
+        Args:
+            obj (Any): The history event object.
+
+        Returns:
+            Optional[HistoryEventCategory]: The corresponding event category.
+        """
         return {
             'create': HistoryEventCategory.CREATE,
             'update': HistoryEventCategory.UPDATE,
@@ -122,15 +98,46 @@ class HistoryEvent(Schema):
     
     @staticmethod 
     def resolve_snapshot(obj):
+        """
+        Retrieve the snapshot data from the event.
+
+        Args:
+            obj (Any): The history event object.
+
+        Returns:
+            Dict[str, Any]: The data snapshot.
+        """
         return obj.pgh_data
 
     @staticmethod 
     def resolve_differential(obj):
+        """
+        Retrieve the data differential from the event.
+
+        Args:
+            obj (Any): The history event object.
+
+        Returns:
+            Optional[Dict[str, Any]]: The data changes if present.
+        """
         return obj.pgh_diff
 
-    @staticmethod
-    def bind_schema(schema: Schema):
-        class HistoryEventWithSchema(HistoryEvent):
+    @classmethod
+    def bind_schema(cls, schema: Schema):
+        """
+        Dynamically bind a specific Pydantic schema to the history event.
+
+        This allows resolving snapshot and differential data using the target schema
+        for automatic foreign key resolution and data validation.
+
+        Args:
+            schema (Type[Schema]): The target Pydantic schema.
+
+        Returns:
+            Type[HistoryEvent]: A new HistoryEvent schema subclass with schema-bound resolvers.
+        """
+
+        class HistoryEventWithSchema(cls):
             @staticmethod
             def resolve_snapshot(obj):
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys

@@ -5,8 +5,8 @@ from uuid import uuid4
 from pydantic import Field
 from django.db.models import Model, CharField, IntegerField
 from pop.core.anonymization import AnonymizationMixin, REDACTED_STRING
-from pop.core.schemas.factory.base import OrmMetadataMixin
-from pop.core.schemas.factory.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
+from pop.core.serialization.mixins import OrmMetadataMixin
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 from pop.tests.models import UntrackedMockBaseModel
 
 class TestOrmMetadataMixin(unittest.TestCase):

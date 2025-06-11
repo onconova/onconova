@@ -127,7 +127,7 @@ def anonymize_value(value, case_id):
     Returns:
         Any: The anonymized value.
     """
-    from pop.core.schemas.others import Period
+    from pop.core.schemas import Period
 
     # Anonymize date/time fields by introducing a hash-based time-shift
     if isinstance(value, (datetime, date)) or (isinstance(value, (str)) and is_datetime(value,'%Y-%m-%d')):

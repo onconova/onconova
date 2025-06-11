@@ -19,30 +19,22 @@ from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined #type: ignore
 
 from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import CodedConceptSchema, PeriodSchema, RangeSchema
+from pop.core.schemas import (
+    CodedConcept as CodedConceptSchema, 
+    Period as PeriodSchema, 
+    Range as RangeSchema
+)
 from pop.core.measures import Measure
-from pop.core import filters as schema_filters
+from pop.core.serialization import filters as schema_filters
 from pop.core.utils import is_list, is_optional, is_literal, is_enum, to_camel_case, camel_to_snake, is_union
 from pop.core.measures.fields import MeasurementField
+from pop.core.types import Username 
 
 UserModel = get_user_model()
 
 DJANGO_TO_PYDANTIC_TYPES = {
     **BASE_TYPES,
 }
-
-class POPTypeAnnotations(enum.Enum): 
-    
-    REFERENCE_ID = UUID4
-    USERNAME = TypeAliasType(
-        'Username',
-        str,
-    )
-    AGE = TypeAliasType(
-        'Age',
-        Union[int, str],
-    )
-
 
 
 def get_schema_field(
@@ -141,7 +133,7 @@ def get_related_field_type(field, related_model, serialization_alias):
         extras = {'x-terminology': related_model.__name__}
         return None, CodedConceptSchema, serialization_alias, extras
     if issubclass(related_model, UserModel):
-        return partial(BaseSchema._resolve_user, orm_field_name=field.name, many=field.many_to_many), POPTypeAnnotations.USERNAME, serialization_alias, {}
+        return partial(BaseSchema._resolve_user, orm_field_name=field.name, many=field.many_to_many), Union[Username, str], serialization_alias, {}
     
     resolver_fcn = partial(BaseSchema._resolve_many_to_many if field.many_to_many else BaseSchema._resolve_foreign_key, orm_field_name=field.name)
     internal_type = related_model._meta.get_field('id').get_internal_type()
@@ -189,7 +181,7 @@ FILTERS_MAP = {
     Measure: schema_filters.FLOAT_FILTERS,
     bool: schema_filters.BOOLEAN_FILTERS,
     CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
-    POPTypeAnnotations.USERNAME: schema_filters.USER_REFERENCE_FILTERS,
+    Username: schema_filters.USER_REFERENCE_FILTERS,
     List[CodedConceptSchema]: schema_filters.MULTI_CODED_CONCEPT_FILTERS,
 }
 

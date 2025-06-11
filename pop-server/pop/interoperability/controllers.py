@@ -12,10 +12,10 @@ from ninja_extra.exceptions import APIException
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 
-from pop.core import permissions as perms
+from pop.core.auth import permissions as perms
 from pop.core.utils import find_uuid_across_models
-from pop.core.security import XSessionTokenAuth
-from pop.core.schemas import ModifiedResourceSchema
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 import pop.oncology.schemas as oncology_schemas
 from pop.oncology.models import PatientCase
 from pop.interoperability.schemas import PatientCaseBundle, ExportMetadata

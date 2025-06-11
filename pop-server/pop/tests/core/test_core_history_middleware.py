@@ -6,7 +6,7 @@ from django.core.handlers.wsgi import WSGIRequest as DjangoWSGIRequest
 from django.core.handlers.asgi import ASGIRequest as DjangoASGIRequest
 from django.http import HttpRequest
 
-from pop.core.middleware import HistoryMiddleware, WSGIRequest, ASGIRequest, DjangoRequest
+from pop.core.history.middleware import HistoryMiddleware, WSGIRequest, ASGIRequest, DjangoRequest
 
 
 class MockUser:

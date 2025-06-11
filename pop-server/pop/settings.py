@@ -132,7 +132,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
     'allauth.usersessions.middleware.UserSessionsMiddleware',
-    'pop.core.middleware.HistoryMiddleware',
+    'pop.core.history.middleware.HistoryMiddleware',
 ]
 
 # ---------------------------------------------------------------
@@ -239,7 +239,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ----------------------------------------------------------------
 
 # Django template settings	
-TEMPLATES = []
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {},
+    },
+]
 # URL to use when referring to static files located in STATIC_ROOT
 STATIC_URL = '/static/'
 # Absolute path to the directory where collectstatic will collect static files for deployment

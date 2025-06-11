@@ -1,8 +1,7 @@
 from pydantic import Field, AliasChoices
 from pop.projects import models as orm
-from pop.core.schemas.factory import create_filters_schema
-from pop.core.schemas.factory import ModelGetSchema, ModelCreateSchema, SchemaConfig
-
+from pop.core.serialization.factory import create_filters_schema
+from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 class ProjectSchema(ModelGetSchema):
     config = SchemaConfig(model=orm.Project)
 
