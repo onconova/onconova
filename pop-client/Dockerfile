@@ -25,7 +25,7 @@ RUN update-ca-certificates
 RUN apt-get update && apt-get install -y default-jre curl && apt-get clean
 
 # Generate the POP API client package
-ENV npm run generate:api:client java
+RUN npm run generate:api:client java
 
 RUN npm cache clean --force
 

@@ -144,8 +144,8 @@ run_java() {
         # Create the directory if it doesn't exist
         if [ ! -d "${OPENAPI_GENERATOR_CLI_DIR}" ]; then
             echo "Creating directory: ${OPENAPI_GENERATOR_CLI_DIR}"
-            sudo mkdir -p "${OPENAPI_GENERATOR_CLI_DIR}"
-            sudo chown "${USER}":"${USER}" "${OPENAPI_GENERATOR_CLI_DIR}" # Ensure current user has permissions
+            mkdir -p "${OPENAPI_GENERATOR_CLI_DIR}"
+            chown "${USER}":"${USER}" "${OPENAPI_GENERATOR_CLI_DIR}" # Ensure current user has permissions
         fi
 
         echo "Checking for openapi-generator-cli-${OPENAPI_GENERATOR_VERSION}.jar at ${OPENAPI_GENERATOR_CLI_JAR}..."
@@ -181,9 +181,10 @@ run_java() {
 
 # Execute based on desired method or fall through
 if [[ -n "$DESIRED_METHOD" ]]; then
+    echo "Generating API client using method: ${DESIRED_METHOD}"
     case "$DESIRED_METHOD" in
-        npx)
-            run_npx || exit 1
+        npm)
+            run_npm || exit 1
             ;;
         docker)
             run_docker || exit 1
@@ -194,14 +195,14 @@ if [[ -n "$DESIRED_METHOD" ]]; then
     esac
 else
     # No specific method requested, try all in order
-    if run_npx; then
+    if run_npm; then
         exit 0
     elif run_docker; then
         exit 0
     elif run_java; then
         exit 0
     else
-        echo "Error: Could not generate API client. Neither npx, docker, nor a global openapi-generator installation was successful."
+        echo "Error: Could not generate API client. Neither npm, docker, nor a global openapi-generator installation was successful."
         exit 1
     fi
 fi
