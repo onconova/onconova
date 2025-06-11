@@ -79,8 +79,7 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                 )
                 model_schema.__doc__ = cls.__doc__
                 if metaclass_config.anonymization:
-                    model_schema.__anonymization_fields__ = metaclass_config.anonymization.fields
-                    model_schema.__anonymization_key__ = metaclass_config.anonymization.key
+                    AnonymizationMixin._setup(model_schema, metaclass_config.anonymization)
                 return model_schema
         return cls
 
