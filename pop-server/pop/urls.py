@@ -7,9 +7,9 @@ admin.autodiscover()
 admin.site.login = secure_admin_login(admin.site.login)
 
 urlpatterns = [
-    path("api/admin/", admin.site.urls),
+    # POP API endpoints 
     path("api/", api.urls),
-
+    # Allauth API endpoints
     path("api/accounts/", include("allauth.urls")),
     path("api/allauth/", include("allauth.headless.urls")),
 ]

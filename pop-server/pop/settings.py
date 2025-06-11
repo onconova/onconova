@@ -1,44 +1,62 @@
-"""
-Django settings for pop-server.
-"""
-
-from pathlib import Path
 import os 
-import environ
 import tomllib
 import pghistory
 import socket
-import datetime
+from pathlib import Path
+from corsheaders.defaults import default_headers
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Project base directory path	
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Read .env file
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=True)
-
-# parse and set the project version
+# Read project version from pyproject.toml	
 with open("pyproject.toml", "rb") as f:
     VERSION = tomllib.load(f).get('tool',{}).get('poetry',{}).get('version', None)
 
-# Security configuration
-SECRET_KEY = env("DJANGO_SECRET_KEY")  
-ALLOWED_HOSTS = env("DJANGO_ALLOWED_HOSTS").split(",") + ['testserver']
-ALLOWED_HOSTS += [socket.gethostbyname(socket.gethostname())]
-WEBAPP_HOST = env('WEBAPP_HOST')
-HOST_PORT = env('WEBAPP_HTTPS_PORT')
-HOST_ORGANIZATION = env('ORGANIZATION_NAME') # Used by API
+# Django debugging mode
+DEBUG = os.getenv("ENVIRONMENT") == 'development'                         
 
-# Data anonymization configuration
-ANONYMIZATION_SECRET_KEY = env("ANONYMIZATION_SECRET_KEY")  
 
-CORS_ORIGIN_ALLOW_ALL = True
+# ----------------------------------------------------------------
+# SECRETS
+# ----------------------------------------------------------------
+
+# Django secret key for cryptographic signing	
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")  
+# Data anonymization secret key
+ANONYMIZATION_SECRET_KEY = os.getenv("ANONYMIZATION_SECRET_KEY")  
+
+# ----------------------------------------------------------------
+# NETWORK
+# ----------------------------------------------------------------
+
+# Hosts the app is allowed to serve	
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+if os.getenv("ENVIRONMENT") == 'development':   
+    ALLOWED_HOSTS = ALLOWED_HOSTS + [socket.gethostbyname(socket.gethostname())]
+# Port the app is allowed to serve
+HOST_PORT = os.getenv('WEBAPP_HTTPS_PORT')
+# Host of the client application
+WEBAPP_HOST = os.getenv('WEBAPP_HOST')
+# Name of the providing organization (internal use)
+HOST_ORGANIZATION = os.getenv('ORGANIZATION_NAME')
+# URL config module	
+ROOT_URLCONF = 'pop.urls'
+
+# ---------------------------------------------------------------
+# SECURITY
+# ----------------------------------------------------------------
+
+# Disable all CORS origins	
+CORS_ORIGIN_ALLOW_ALL = False
+# Allowed HTTP methods for CORS	
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
+# Allows credentials with CORS requests	
 CORS_ALLOW_CREDENTIALS = True
+# Explicitly allowed CORS origins	
 CORS_ALLOWED_ORIGINS = [
     f"https://{WEBAPP_HOST}"
 ]
-from corsheaders.defaults import default_headers
+# Allowed headers in CORS requests (required for authentication)	
 CORS_ALLOW_HEADERS = (
     *default_headers,
     "x-session-token",
@@ -46,20 +64,29 @@ CORS_ALLOW_HEADERS = (
     "x-password-reset-key",
 )
 
-# Django debugging mode
-DEBUG = env("ENVIRONMENT") == 'development'                         # A boolean that turns on/off debug mode (never deploy a site into production with DEBUG turned on)
+# Cookies will only be sent over an HTTPS connection	
+SESSION_COOKIE_SECURE = True
+# Redirect all non-HTTPS requests to HTTPS
+SECURE_SSL_REDIRECT = True 
+# Trust the X-Forwarded-Proto header that comes from the Nginx proxy and that the request is guaranteed to be secure
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# HTTPS Settings
-SESSION_COOKIE_SECURE = True                # Cookie will only be sent over an HTTPS connection
-SECURE_SSL_REDIRECT = True                  # Redirect all non-HTTPS requests to HTTPS
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")   # Trust the X-Forwarded-Proto header that comes from the Nginx proxy and that the request is guaranteed to be secure
+# Enable HSTS for that exact domain or subdomain, and to remember it for the given number of seconds
+SECURE_HSTS_SECONDS = 31536000
+# Indicate that the domain owner consents to preloading
+SECURE_HSTS_PRELOAD = True
+# Ensure that all subdomains, not just top-level domains, can only be accessed over a secure connection
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-# HTTP Strict Transport Security (HSTS) settings
-SECURE_HSTS_SECONDS = 31536000              # Enable HSTS for that exact domain or subdomain, and to remember it for the given number of seconds
-SECURE_HSTS_PRELOAD = True                  # Indicate that the domain owner consents to preloading (may eventually become unnecessary)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True       # Ensure that all subdomains, not just top-level domains, can only be accessed over a secure connection
 
-# Application definition
+# ---------------------------------------------------------------
+# INSTALLATIONS
+# ----------------------------------------------------------------
+
+# WSGI application entry point
+WSGI_APPLICATION = 'pop.wsgi.application'
+
+# Installed Django + third-party + local apps	
 INSTALLED_APPS = [
 
     # Postgres triggers
@@ -96,64 +123,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-# Authentication Settings
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth
-AUTH_USER_MODEL = 'core.User'
-
-# Authentication Enabled Backends
-SITE_ID = 1
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-    # `allauth` specific authentication methods, such as login by email
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
-# Django AllAuth Configuration
-ACCOUNT_LOGIN_METHODS = {'email', 'username'}
-ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-USERSESSIONS_TRACK_ACTIVITY = True
-HEADLESS_ONLY = True
-HEADLESS_CLIENTS = ('app',)
-HEADLESS_SERVE_SPECIFICATION = True
-HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html" 
-
-
-# Django AllAuth Providers
-SOCIALACCOUNT_PROVIDERS = {
-    "openid_connect": {
-        "APPS": [
-            {
-                "provider_id": "google",
-                "name": "Google",
-                "client_id": os.environ.get("POP_GOOGLE_CLIENT_ID"),
-                "secret": os.environ.get("POP_GOOGLE_SECRET"),
-                "settings": {
-                    "server_url": "https://accounts.google.com",
-                    "auth_params": {
-                        "scope": "openid email profile",
-                        "prompt": "login",
-                    }
-                },
-            },
-            {
-                "provider_id": "microsoft",
-                "name": "Microsoft",
-                "client_id": os.environ.get("POP_MICROSOFT_CLIENT_ID"),
-                "secret": os.environ.get("POP_MICROSOFT_SECRET"),
-                "settings": {
-                    "server_url": f"https://login.microsoftonline.com/{os.environ.get('POP_MICROSOFT_TENANT_ID')}/v2.0",
-                    "auth_params": {
-                        "scope": "openid",
-                        "prompt": "login",
-                    }
-                },
-            },
-        ]
-    }
-}
-
+# Middleware stack	
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',           
     'corsheaders.middleware.CorsMiddleware',
@@ -166,32 +136,91 @@ MIDDLEWARE = [
     'pop.core.middleware.HistoryMiddleware',
 ]
 
-NINJA_JWT = {
-    "AUTH_TOKEN_CLASSES": ("ninja_jwt.tokens.AccessToken","ninja_jwt.tokens.RefreshToken"),
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=env("ACCESS_TOKEN_LIFETIME", default=30)),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=env("REFRESH_TOKEN_LIFETIME", default=1)),
-    "UPDATE_LAST_LOGIN": True,
-}
+# ---------------------------------------------------------------
+# AUTHENTICATION
+# ----------------------------------------------------------------
 
-ROOT_URLCONF = 'pop.urls'
+# Custom user model location	
+AUTH_USER_MODEL = 'core.User'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+# Authentication Enabled Backends
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-WSGI_APPLICATION = 'pop.wsgi.application'
+# Password validation
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
 
+# Django AllAuth Configuration
+SITE_ID = 1
+ACCOUNT_LOGIN_METHODS = {'email', 'username'}
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+USERSESSIONS_TRACK_ACTIVITY = True
+HEADLESS_ONLY = True
+HEADLESS_CLIENTS = ('app',)
+HEADLESS_SERVE_SPECIFICATION = True
+HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html" 
+
+# Django AllAuth Providers
+SOCIALACCOUNT_PROVIDERS = {
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "google",
+                "name": "Google",
+                "client_id": os.getenv("POP_GOOGLE_CLIENT_ID"),
+                "secret": os.getenv("POP_GOOGLE_SECRET"),
+                "settings": {
+                    "server_url": "https://accounts.google.com",
+                    "auth_params": {
+                        "scope": "openid email profile",
+                        "prompt": "login",
+                    }
+                },
+            },
+            {
+                "provider_id": "microsoft",
+                "name": "Microsoft",
+                "client_id": os.getenv("POP_MICROSOFT_CLIENT_ID"),
+                "secret": os.getenv("POP_MICROSOFT_SECRET"),
+                "settings": {
+                    "server_url": f"https://login.microsoftonline.com/{os.getenv('POP_MICROSOFT_TENANT_ID')}/v2.0",
+                    "auth_params": {
+                        "scope": "openid",
+                        "prompt": "login",
+                    }
+                },
+            },
+        ]
+    }
+}
+
+# ---------------------------------------------------------------
+# DATABASE
+# ----------------------------------------------------------------
+
+# Database configuration
+DATABASES = {
+    "default": {
+        "ENGINE": 'django.db.backends.postgresql',
+        "NAME": os.getenv("POSTGRES_DATABASE"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
+    },
+}
+
+# Postgres trigger-based event tracking configuration	
 PGHISTORY_CONTEXT_FIELD = pghistory.ContextJSONField()
 PGHISTORY_OBJ_FIELD = pghistory.ObjForeignKey(db_index=True)
 PGHISTORY_DEFAULT_TRACKERS = (
@@ -202,26 +231,28 @@ PGHISTORY_DEFAULT_TRACKERS = (
     pghistory.ManualEvent(label='export'),
 )
 
-# Database(s)
-DATABASES = {
-    "default": {
-        "ENGINE": 'django.db.backends.postgresql',
-        "NAME": env("POSTGRES_DATABASE"),
-        "USER": env("POSTGRES_USER"),
-        "PASSWORD": env("POSTGRES_PASSWORD"),
-        "HOST": env("POSTGRES_HOST"),
-        "PORT": env("POSTGRES_PORT"),
-    },
-}
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Password validation
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
 
+# ---------------------------------------------------------------
+# TEMPLATES
+# ----------------------------------------------------------------
+
+# Django template settings	
+TEMPLATES = []
+# URL to use when referring to static files located in STATIC_ROOT
+STATIC_URL = '/static/'
+# Absolute path to the directory where collectstatic will collect static files for deployment
+STATIC_ROOT = '/app/static' 
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+MEDIA_ROOT = '/app/media'
+# URL that handles the media served from MEDIA_ROOT, used for managing stored files
+MEDIA_URL = '/media/'                                               
+
+# ---------------------------------------------------------------
+# INTERNATIONALIZATION
+# ----------------------------------------------------------------
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'         # US English
@@ -229,16 +260,9 @@ TIME_ZONE = 'Europe/Berlin'     # Central European time
 USE_I18N = True                 # Enable Django’s translation system
 USE_TZ = False                   # Do not make datetimes timezone-aware by default
 
-
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'                                             # URL to use when referring to static files located in STATIC_ROOT
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]           # Additional locations the staticfiles app will traverse
-STATIC_ROOT = '/app/static' # Absolute path to the directory where collectstatic will collect static files for deployment.
-MEDIA_ROOT = '/app/media'      # Absolute filesystem path to the directory that will hold user-uploaded files.
-MEDIA_URL = '/media/'                                               # URL that handles the media served from MEDIA_ROOT, used for managing stored files
-
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# ---------------------------------------------------------------
+# LOGGING
+# ----------------------------------------------------------------
 
 # Logger settings
 LOGGING = {
@@ -280,9 +304,3 @@ LOGGING = {
         }, 
     }
 }
-
-
-try:
-    from .local_settings import *  # noqa
-except ImportError:
-    pass
