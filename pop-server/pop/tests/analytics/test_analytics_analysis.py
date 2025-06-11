@@ -6,7 +6,7 @@ import numpy as np
 import pytest 
 
 from pop.tests import factories
-from pop.analytics.analysis import calculate_pfs_by_combination_therapy, calculate_Kappler_Maier_survival_curve, get_progression_free_survival_for_therapy_line
+from pop.cohorts.analysis import calculate_pfs_by_combination_therapy, calculate_Kappler_Maier_survival_curve, get_progression_free_survival_for_therapy_line
 
 class TestKapplerMeierCurves(TestCase):
 

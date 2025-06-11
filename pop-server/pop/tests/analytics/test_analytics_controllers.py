@@ -1,6 +1,6 @@
 from pop.tests.oncology.test_oncology_controllers import ApiControllerTextMixin
 from django.test import TestCase
-from pop.analytics import schemas, models
+from pop.cohorts import schemas, models
 from pop.tests import factories, common
 from parameterized import parameterized    
 import numpy as np

@@ -13,8 +13,8 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
 
-from pop.analytics.models import Dataset
-from pop.analytics.schemas.datasets import (
+from pop.cohorts.models import Dataset
+from pop.cohorts.schemas.datasets import (
     Dataset as DatasetSchema, DatasetCreate as DatasetCreateSchema, DatasetFilters
 )
 

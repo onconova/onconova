@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.db.models import Q
-from pop.analytics.schemas import CohortRule, CohortRuleset, RulesetCondition, CohortRuleFilter, CohortQueryFilter, CohortQueryEntity
+from pop.cohorts.schemas import CohortRule, CohortRuleset, RulesetCondition, CohortRuleFilter, CohortQueryFilter, CohortQueryEntity
 from pop.oncology.models import PatientCase
 from pop.tests.factories import (
     PatientCaseFactory, PrimaryNeoplasticEntityFactory, SystemicTherapyFactory, SystemicTherapyMedicationFactory

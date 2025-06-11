@@ -13,7 +13,7 @@ from django.contrib.auth.hashers import make_password
 import pop.core.measures as measures
 from pop.core.auth.models import User
 import pop.oncology.models as models
-import pop.analytics.models as analytics_models
+import pop.cohorts.models as cohorts_models
 import pop.projects.models as projects_models
 import pop.terminology.models as terminology
 
@@ -466,14 +466,14 @@ class VitalsFactory(factory.django.DjangoModelFactory):
 
 class CohortFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = analytics_models.Cohort
+        model = cohorts_models.Cohort
     name = factory.LazyFunction(lambda: f'Cohort #{random.randint(1111,9999)}')
     is_public = factory.LazyFunction(lambda: random.random()>0.5)  
 
 
 class DatasetFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = analytics_models.Dataset
+        model = cohorts_models.Dataset
     name = factory.LazyFunction(lambda: f'Dataset #{random.randint(1111,9999)}')
     is_public = factory.LazyFunction(lambda: random.random()>0.5)  
 

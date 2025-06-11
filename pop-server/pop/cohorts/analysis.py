@@ -2,7 +2,7 @@
 import numpy as np 
 from collections import Counter
 from django.db.models import F, Subquery, OuterRef
-from pop.analytics.models import Cohort
+from pop.cohorts.models import Cohort
 from pop.oncology.models import TherapyLine, SystemicTherapy
 from statistics import NormalDist
 

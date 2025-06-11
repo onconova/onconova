@@ -7,7 +7,7 @@ from enum import Enum
 from django.db.models import Q, Exists, OuterRef
 from ninja import Schema, Field
 
-from pop.analytics import models as orm
+from pop.cohorts import models as orm
 from pop.oncology import models as oncology_models
 from pop.core.serialization import filters as filters_module
 from pop.core.utils import camel_to_snake

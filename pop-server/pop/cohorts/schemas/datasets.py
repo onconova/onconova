@@ -8,7 +8,7 @@ from pop.core.schemas import CodedConcept as CodedConceptSchema
 from pop.core.serialization import transforms as tfs
 from pop.oncology import schemas as oncology_schemas
 import pop.oncology.schemas as sc
-from pop.analytics import models as orm
+from pop.cohorts import models as orm
 from pop.core.serialization.factory import create_filters_schema
 from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema, SchemaConfig
 DataResource = Enum('DataResource', {

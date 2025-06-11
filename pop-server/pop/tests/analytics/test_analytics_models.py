@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import FieldError
-from pop.analytics.models import Cohort  
+from pop.cohorts.models import Cohort  
 from pop.tests.factories import PatientCaseFactory, UserFactory
 import numpy as np
 from random import random

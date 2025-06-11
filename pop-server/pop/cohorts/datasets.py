@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Any
 
 from pop.oncology.models import PatientCase, MODELS
-from pop.analytics.schemas import DatasetRule
+from pop.cohorts.schemas import DatasetRule
 
 class DatasetRuleProcessingError(RuntimeError): pass
 
@@ -398,7 +398,7 @@ class QueryCompiler:
     a QuerySet representing the dataset for that cohort.
 
     Attributes:
-        cohort (pop.analytics.models.Cohort): The cohort to generate the
+        cohort (pop.cohorts.models.Cohort): The cohort to generate the
             dataset for
         rules (List[DatasetRule]): The user-defined rules for generating the
             dataset
@@ -423,7 +423,7 @@ def construct_dataset(cohort, rules: List[DatasetRule]) -> QuerySet:
     Compiles a QuerySet based on the rules provided
 
     Args:
-        cohort (pop.analytics.models.Cohort): The cohort to generate the
+        cohort (pop.cohorts.models.Cohort): The cohort to generate the
             dataset for
         rules (List[DatasetRule]): The user-defined rules for generating the
             dataset

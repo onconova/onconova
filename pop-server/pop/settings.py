@@ -97,7 +97,7 @@ INSTALLED_APPS = [
     'pop.core',
     'pop.projects',
     'pop.oncology',
-    'pop.analytics',
+    'pop.cohorts',
     'pop.terminology',
     'pop.interoperability',
 

@@ -5,9 +5,9 @@ from django.db.models.functions import Coalesce
 
 from ninja_extra import route, api_controller, ControllerBase
 
-from pop.analytics.schemas.analysis import KapplerMeierCurve
-from pop.analytics.analysis import calculate_Kappler_Maier_survival_curve, calculate_pfs_by_combination_therapy, calculate_pfs_by_therapy_classification
-from pop.analytics.models import Cohort
+from pop.cohorts.schemas.analysis import KapplerMeierCurve
+from pop.cohorts.analysis import calculate_Kappler_Maier_survival_curve, calculate_pfs_by_combination_therapy, calculate_pfs_by_therapy_classification
+from pop.cohorts.models import Cohort
 from pop.oncology.models import TherapyLine
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth

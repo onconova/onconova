@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
-from pop.analytics.aggregates import Median, Percentile25, Percentile75
+from pop.cohorts.aggregates import Median, Percentile25, Percentile75
 from pop.oncology.models import PatientCase
 from pop.projects.models import Project
 from pop.core.models import BaseModel
@@ -97,7 +97,7 @@ class Cohort(BaseModel):
         return OrderedDict([(str(key), (count, round(count/values.count()*100.0,4))) for key, count in Counter(values).items()])
 
     def update_cohort_cases(self) -> models.QuerySet:        
-        from pop.analytics.schemas import CohortRuleset 
+        from pop.cohorts.schemas import CohortRuleset 
         
         if self.frozen_set.exists():
             return self.frozen_set.all()

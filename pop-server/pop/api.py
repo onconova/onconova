@@ -31,7 +31,7 @@ from pop.oncology.controllers import (
 from pop.interoperability.controllers import (    
     InteroperabilityController,
 )
-from pop.analytics.controllers import (
+from pop.cohorts.controllers import (
     CohortsController, 
     DashboardController, 
     DatasetsController,

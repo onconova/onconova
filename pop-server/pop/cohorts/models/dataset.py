@@ -24,7 +24,7 @@ class Dataset(BaseModel):
     )
     
     def save(self,*args, **kwargs):
-        from pop.analytics.schemas.datasets import DatasetRule
+        from pop.cohorts.schemas.datasets import DatasetRule
         # Validate the rules
         if not isinstance(self.rules, list):
             raise ValueError('Rules must be a valid list')

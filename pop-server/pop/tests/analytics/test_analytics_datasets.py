@@ -9,9 +9,9 @@ from pydantic import ValidationError
 from pop.tests import factories
 from pop.tests.models import MockModel
 import pop.oncology.models as models
-from pop.analytics.models import Cohort 
-from pop.analytics.schemas import DatasetRule
-from pop.analytics.datasets import DatasetRuleProcessingError, DatasetRuleProcessor, construct_dataset, AggregationNode, AnnotationNode, AnnotationCompiler
+from pop.cohorts.models import Cohort 
+from pop.cohorts.schemas import DatasetRule
+from pop.cohorts.datasets import DatasetRuleProcessingError, DatasetRuleProcessor, construct_dataset, AggregationNode, AnnotationNode, AnnotationCompiler
    
 class TestConstructDataset(TestCase):
 

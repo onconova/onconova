@@ -23,15 +23,15 @@ from pop.core.history.schemas import HistoryEvent
 from pop.oncology import schemas as oncological_schemas
 from pop.interoperability.schemas import ExportMetadata
 
-from pop.analytics.datasets import construct_dataset
-from pop.analytics.models import Cohort, Dataset
-from pop.analytics.schemas.cohort import (
+from pop.cohorts.datasets import construct_dataset
+from pop.cohorts.models import Cohort, Dataset
+from pop.cohorts.schemas.cohort import (
     CohortSchema, CohortCreateSchema, 
     CohortFilters, CohortTraitAverage, 
     CohortTraitMedian, CohortTraitCounts,
     CohortContribution,
 )
-from pop.analytics.schemas.datasets import DatasetRule, PatientCaseDataset
+from pop.cohorts.schemas.datasets import DatasetRule, PatientCaseDataset
 
 
 def convert_api_path_to_snake_case_path(path):

@@ -210,6 +210,8 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
         filters += schema_filters.REFERENCE_FILTERS
     if is_list(annotation):
         list_type = get_args(annotation)[0]
+        if is_union(list_type):
+            list_type = get_args(list_type)[0]
         if issubclass(list_type, PydanticBaseModel) and not issubclass(list_type, CodedConceptSchema):
             subfield_filters = []
             for subfield_name, subfield in list_type.model_fields.items():
