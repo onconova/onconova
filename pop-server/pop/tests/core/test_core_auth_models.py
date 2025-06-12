@@ -1,5 +1,6 @@
 from pop.core.auth.models import User
-from django.test import TestCase 
+from django.test import TestCase
+
 
 class TestUserModel(TestCase):
 
@@ -49,10 +50,10 @@ class TestUserModel(TestCase):
         self.assertTrue(user.can_manage_projects)
         self.assertTrue(user.can_manage_cases)
         self.assertTrue(user.can_access_sensitive_data)
-        
+
         # Upgrade to Platform Manager (level 5)
         user.access_level = 5
-        user.save()     
+        user.save()
         self.assertTrue(user.can_audit_logs)
         self.assertTrue(user.can_manage_users)
 
@@ -85,7 +86,7 @@ class TestUserModel(TestCase):
     def test_admin_permissions(self):
         """Ensure admin users have all permissions."""
         admin_user = self.admin_user
-        
+
         self.assertTrue(admin_user.is_system_admin)
         self.assertTrue(admin_user.can_manage_users)
         self.assertTrue(admin_user.can_audit_logs)

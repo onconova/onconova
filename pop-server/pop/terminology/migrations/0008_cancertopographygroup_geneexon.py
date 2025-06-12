@@ -9,34 +9,69 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('terminology', '0007_remove_adjunctivetherapyrole_created_at_and_more'),
+        ("terminology", "0007_remove_adjunctivetherapyrole_created_at_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CancerTopographyGroup',
-            fields=[
-            ],
+            name="CancerTopographyGroup",
+            fields=[],
             options={
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('terminology.cancertopography',),
+            bases=("terminology.cancertopography",),
         ),
         migrations.CreateModel(
-            name='GeneExon',
+            name="GeneExon",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('external_source', models.CharField(blank=True, help_text='The digital source of the data, relevant for automated data', null=True, verbose_name='External data source')),
-                ('external_source_id', models.CharField(blank=True, help_text='The data identifier at the digital source of the data, relevant for automated data', null=True, verbose_name='External data source Id')),
-                ('rank', models.IntegerField()),
-                ('coding_dna_region', django.contrib.postgres.fields.ranges.IntegerRangeField()),
-                ('coding_genomic_region', django.contrib.postgres.fields.ranges.IntegerRangeField()),
-                ('gene', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='terminology.gene')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "external_source",
+                    models.CharField(
+                        blank=True,
+                        help_text="The digital source of the data, relevant for automated data",
+                        null=True,
+                        verbose_name="External data source",
+                    ),
+                ),
+                (
+                    "external_source_id",
+                    models.CharField(
+                        blank=True,
+                        help_text="The data identifier at the digital source of the data, relevant for automated data",
+                        null=True,
+                        verbose_name="External data source Id",
+                    ),
+                ),
+                ("rank", models.IntegerField()),
+                (
+                    "coding_dna_region",
+                    django.contrib.postgres.fields.ranges.IntegerRangeField(),
+                ),
+                (
+                    "coding_genomic_region",
+                    django.contrib.postgres.fields.ranges.IntegerRangeField(),
+                ),
+                (
+                    "gene",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="terminology.gene",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

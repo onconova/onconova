@@ -1,18 +1,19 @@
-
 from datetime import date
 from ninja import Schema, Field
 from typing import List, Dict, Literal, Optional, Any, Union
 from pydantic import ConfigDict
 
+
 class DataPlatformStatisticsSchema(Schema):
     cases: int
     primarySites: int
-    projects: int 
-    cohorts: int 
-    entries: int 
+    projects: int
+    cohorts: int
+    entries: int
     mutations: int
-    clinicalCenters: int 
-    contributors: int 
+    clinicalCenters: int
+    contributors: int
+
 
 class CasesPerMonthSchema(Schema):
     month: date
@@ -24,4 +25,4 @@ class EntityStatisticsSchema(Schema):
     dataCompletionMedian: Optional[float] = None
     topographyCode: Optional[str] = None
     topographyGroup: Optional[str] = None
-    model_config = ConfigDict(title='EntityStatistics')
+    model_config = ConfigDict(title="EntityStatistics")

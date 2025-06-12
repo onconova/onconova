@@ -7,96 +7,111 @@ from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
-from pop.core.anonymization import  anonymize
+from pop.core.anonymization import anonymize
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
 from pop.oncology.models import PerformanceStatus
 
 from django.shortcuts import get_object_or_404
-from pop.oncology.schemas import PerformanceStatusSchema, PerformanceStatusCreateSchema, PerformanceStatusFilters
+from pop.oncology.schemas import (
+    PerformanceStatusSchema,
+    PerformanceStatusCreateSchema,
+    PerformanceStatusFilters,
+)
 
 
 @api_controller(
-    'performance-status', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Performance Status'],  
+    "performance-status",
+    auth=[XSessionTokenAuth()],
+    tags=["Performance Status"],
 )
 class PerformanceStatusController(ControllerBase):
 
     @route.get(
-        path='', 
+        path="",
         response={
             200: Paginated[PerformanceStatusSchema],
         },
         permissions=[perms.CanViewCases],
-        operation_id='getPerformanceStatus',
+        operation_id="getPerformanceStatus",
     )
     @paginate()
     @anonymize()
-    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters], anonymized: bool = True): # type: ignore
-        queryset = PerformanceStatus.objects.all().order_by('-date')
+    def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters], anonymized: bool = True):  # type: ignore
+        queryset = PerformanceStatus.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
-        path='', 
+        path="",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='createPerformanceStatus',
+        operation_id="createPerformanceStatus",
     )
-    def create_performance_status(self, payload: PerformanceStatusCreateSchema): # type: ignore
+    def create_performance_status(self, payload: PerformanceStatusCreateSchema):  # type: ignore
         return 201, payload.model_dump_django()
 
     @route.get(
-        path='/{performanceStatusId}', 
+        path="/{performanceStatusId}",
         response={
             200: PerformanceStatusSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getPerformanceStatusById',
+        operation_id="getPerformanceStatusById",
     )
     @anonymize()
-    def get_performance_status_by_id(self, performanceStatusId: str, anonymized: bool = True):
+    def get_performance_status_by_id(
+        self, performanceStatusId: str, anonymized: bool = True
+    ):
         return get_object_or_404(PerformanceStatus, id=performanceStatusId)
 
     @route.put(
-        path='/{performanceStatusId}', 
-       response={
+        path="/{performanceStatusId}",
+        response={
             200: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='updatePerformanceStatusById',
+        operation_id="updatePerformanceStatusById",
     )
-    def update_performance_status(self, performanceStatusId: str, payload: PerformanceStatusCreateSchema): # type: ignore
+    def update_performance_status(self, performanceStatusId: str, payload: PerformanceStatusCreateSchema):  # type: ignore
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
         return payload.model_dump_django(instance=instance)
 
     @route.delete(
-        path='/{performanceStatusId}', 
+        path="/{performanceStatusId}",
         response={
-            204: None, 
-            404: None, 401: None, 403: None,
+            204: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='deletePerformanceStatus',
+        operation_id="deletePerformanceStatus",
     )
     def delete_performance_status(self, performanceStatusId: str):
         get_object_or_404(PerformanceStatus, id=performanceStatusId).delete()
-        return 204, None    
-    
+        return 204, None
+
     @route.get(
-        path='/{performanceStatusId}/history/events', 
+        path="/{performanceStatusId}/history/events",
         response={
             200: Paginated[HistoryEvent.bind_schema(PerformanceStatusCreateSchema)],
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getAllPerformanceStatusHistoryEvents',
+        operation_id="getAllPerformanceStatusHistoryEvents",
     )
     @paginate()
     def get_all_performance_status_history_events(self, performanceStatusId: str):
@@ -104,27 +119,37 @@ class PerformanceStatusController(ControllerBase):
         return pghistory.models.Events.objects.tracks(instance).all()
 
     @route.get(
-        path='/{performanceStatusId}/history/events/{eventId}', 
+        path="/{performanceStatusId}/history/events/{eventId}",
         response={
             200: HistoryEvent.bind_schema(PerformanceStatusCreateSchema),
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getPerformanceStatusHistoryEventById',
+        operation_id="getPerformanceStatusHistoryEventById",
     )
-    def get_performance_status_history_event_by_id(self, performanceStatusId: str, eventId: str):
+    def get_performance_status_history_event_by_id(
+        self, performanceStatusId: str, eventId: str
+    ):
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
-        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+        return get_object_or_404(
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+        )
 
     @route.put(
-        path='/{performanceStatusId}/history/events/{eventId}/reversion', 
+        path="/{performanceStatusId}/history/events/{eventId}/reversion",
         response={
             201: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='revertPerformanceStatusToHistoryEvent',
+        operation_id="revertPerformanceStatusToHistoryEvent",
     )
-    def revert_performance_status_to_history_event(self, performanceStatusId: str, eventId: str):
+    def revert_performance_status_to_history_event(
+        self, performanceStatusId: str, eventId: str
+    ):
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

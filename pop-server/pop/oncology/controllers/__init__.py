@@ -14,7 +14,10 @@ from .comorbidities import ComorbiditiesAssessmentController
 from .vitals import VitalsController
 from .adverse_event import AdverseEventController
 from .treatment_response import TreatmentResponseController
-from .tumor_board import TumorBoardController, MolecularTherapeuticRecommendationController
+from .tumor_board import (
+    TumorBoardController,
+    MolecularTherapeuticRecommendationController,
+)
 from .genomic_variant import GenomicVariantController
 from .genomic_signature import GenomicSignatureController
 

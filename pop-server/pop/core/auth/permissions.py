@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django.contrib.auth.models import AnonymousUser
 from pop.core.auth.models import User
 
+
 class BasePermission(permissions.BasePermission):
     """
     Base permission class providing common permission evaluation logic.
@@ -39,40 +40,44 @@ class BasePermission(permissions.BasePermission):
             bool: Whether permission is granted.
         """
         user = request.user
-        return (
-            user.is_superuser
-            or (not isinstance(user, AnonymousUser)
-                and (user.is_system_admin or self.check_user_permission(user)))
+        return user.is_superuser or (
+            not isinstance(user, AnonymousUser)
+            and (user.is_system_admin or self.check_user_permission(user))
         )
 
 
 # View permissions
 class CanViewUsers(BasePermission):
     """Permission to view user accounts."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_view_users
 
 
 class CanViewCases(BasePermission):
     """Permission to view cases."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_view_cases
 
 
 class CanViewCohorts(BasePermission):
     """Permission to view cohorts."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_view_cohorts
 
 
 class CanViewDatasets(BasePermission):
     """Permission to view datasets."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_view_datasets
 
 
 class CanViewProjects(BasePermission):
     """Permission to view projects."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_view_projects
 
@@ -80,30 +85,35 @@ class CanViewProjects(BasePermission):
 # Manage permissions
 class CanManageCases(BasePermission):
     """Permission to manage cases."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_manage_cases
 
 
 class CanManageDatasets(BasePermission):
     """Permission to manage datasets."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_manage_datasets
 
 
 class CanManageCohorts(BasePermission):
     """Permission to manage cohorts."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_manage_cohorts
 
 
 class CanManageProjects(BasePermission):
     """Permission to manage projects."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_manage_projects
 
 
 class CanManageUsers(BasePermission):
     """Permission to manage users."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_manage_users
 
@@ -111,24 +121,28 @@ class CanManageUsers(BasePermission):
 # Other permissions
 class CanExportData(BasePermission):
     """Permission to export data."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_export_data
 
 
 class CanDeleteProjects(BasePermission):
     """Permission to delete projects."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_delete_projects
 
 
 class CanAccessSensitiveData(BasePermission):
     """Permission to access sensitive data."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_access_sensitive_data
 
 
 class CanAuditLogs(BasePermission):
     """Permission to view audit logs."""
+
     def check_user_permission(self, user: User) -> bool:
         return user.can_audit_logs
 

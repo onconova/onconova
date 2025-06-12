@@ -1,7 +1,6 @@
-
-
 from typing import Dict, Type, Union
 from django.db.models import Model as DjangoModel, Field as DjangoField
+
 
 class OrmMetadataMixin:
     __orm_model__: Type[DjangoModel] = None
@@ -26,7 +25,9 @@ class OrmMetadataMixin:
         """
         for field in metadata.values():
             if not isinstance(field, DjangoField):
-                raise TypeError('The set_orm_metadata only accepts keyword-argument pairs containing Django model field instances.')
+                raise TypeError(
+                    "The set_orm_metadata only accepts keyword-argument pairs containing Django model field instances."
+                )
         cls.__orm_meta__ = metadata
 
     @classmethod
@@ -60,7 +61,9 @@ class OrmMetadataMixin:
         """
         if model is not None:
             if not isinstance(model, type) and not issubclass(model, DjangoModel):
-                raise TypeError('The set_orm_model method only accept a Django model class as argument.')
+                raise TypeError(
+                    "The set_orm_model method only accept a Django model class as argument."
+                )
         cls.__orm_model__ = model
 
     @classmethod
@@ -73,5 +76,3 @@ class OrmMetadataMixin:
             is associated.
         """
         return cls.__orm_model__
-    
-

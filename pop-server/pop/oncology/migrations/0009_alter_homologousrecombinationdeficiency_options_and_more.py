@@ -6,20 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('oncology', '0008_therapylineevent_therapyline_create_insert_and_more'),
+        ("oncology", "0008_therapylineevent_therapyline_create_insert_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='homologousrecombinationdeficiency',
-            options={'verbose_name_plural': 'Homologous Recombination Deficiencies'},
+            name="homologousrecombinationdeficiency",
+            options={"verbose_name_plural": "Homologous Recombination Deficiencies"},
         ),
         migrations.AlterModelOptions(
-            name='lossofheterozygosity',
-            options={'verbose_name_plural': 'Losses of Heterozygosity'},
+            name="lossofheterozygosity",
+            options={"verbose_name_plural": "Losses of Heterozygosity"},
         ),
         migrations.AlterModelOptions(
-            name='microsatelliteinstability',
-            options={'verbose_name_plural': 'Microsatellite Instabilities'},
+            name="microsatelliteinstability",
+            options={"verbose_name_plural": "Microsatellite Instabilities"},
         ),
     ]

@@ -13,50 +13,154 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('oncology', '0007_patientcasedatacompletionevent_and_more'),
+        ("oncology", "0007_patientcasedatacompletionevent_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TherapyLineEvent',
+            name="TherapyLineEvent",
             fields=[
-                ('pgh_id', models.AutoField(primary_key=True, serialize=False)),
-                ('pgh_created_at', models.DateTimeField(auto_now_add=True)),
-                ('pgh_label', models.TextField(help_text='The event label.')),
-                ('pgh_context', pghistory.utils.JSONField(null=True)),
-                ('pgh_context_id', models.UUIDField(null=True)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, serialize=False)),
-                ('external_source', models.CharField(blank=True, help_text='The digital source of the data, relevant for automated data', null=True, verbose_name='External data source')),
-                ('external_source_id', models.CharField(blank=True, help_text='The data identifier at the digital source of the data, relevant for automated data', null=True, verbose_name='External data source Id')),
-                ('ordinal', models.PositiveIntegerField(help_text='Number indicating the sequence in which this block of treatments were administered to the patient', verbose_name='Line ordinal number')),
-                ('intent', models.CharField(choices=[('curative', 'Curative'), ('palliative', 'Palliative')], help_text='Treatment intent of the system therapy', max_length=30, verbose_name='Intent')),
-                ('progression_date', models.DateField(blank=True, help_text='Date at which progression was first detected, if applicable', null=True, verbose_name='Begin of progression')),
-                ('label', models.GeneratedField(db_persist=True, expression=django.db.models.functions.text.Concat(django.db.models.functions.text.Upper(django.db.models.functions.text.Left('intent', 1)), models.Value('LoT'), 'ordinal', output_field=django.db.models.fields.CharField), output_field=models.CharField())),
+                ("pgh_id", models.AutoField(primary_key=True, serialize=False)),
+                ("pgh_created_at", models.DateTimeField(auto_now_add=True)),
+                ("pgh_label", models.TextField(help_text="The event label.")),
+                ("pgh_context", pghistory.utils.JSONField(null=True)),
+                ("pgh_context_id", models.UUIDField(null=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, editable=False, serialize=False
+                    ),
+                ),
+                (
+                    "external_source",
+                    models.CharField(
+                        blank=True,
+                        help_text="The digital source of the data, relevant for automated data",
+                        null=True,
+                        verbose_name="External data source",
+                    ),
+                ),
+                (
+                    "external_source_id",
+                    models.CharField(
+                        blank=True,
+                        help_text="The data identifier at the digital source of the data, relevant for automated data",
+                        null=True,
+                        verbose_name="External data source Id",
+                    ),
+                ),
+                (
+                    "ordinal",
+                    models.PositiveIntegerField(
+                        help_text="Number indicating the sequence in which this block of treatments were administered to the patient",
+                        verbose_name="Line ordinal number",
+                    ),
+                ),
+                (
+                    "intent",
+                    models.CharField(
+                        choices=[
+                            ("curative", "Curative"),
+                            ("palliative", "Palliative"),
+                        ],
+                        help_text="Treatment intent of the system therapy",
+                        max_length=30,
+                        verbose_name="Intent",
+                    ),
+                ),
+                (
+                    "progression_date",
+                    models.DateField(
+                        blank=True,
+                        help_text="Date at which progression was first detected, if applicable",
+                        null=True,
+                        verbose_name="Begin of progression",
+                    ),
+                ),
+                (
+                    "label",
+                    models.GeneratedField(
+                        db_persist=True,
+                        expression=django.db.models.functions.text.Concat(
+                            django.db.models.functions.text.Upper(
+                                django.db.models.functions.text.Left("intent", 1)
+                            ),
+                            models.Value("LoT"),
+                            "ordinal",
+                            output_field=django.db.models.fields.CharField,
+                        ),
+                        output_field=models.CharField(),
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         pgtrigger.migrations.AddTrigger(
-            model_name='therapyline',
-            trigger=pgtrigger.compiler.Trigger(name='create_insert', sql=pgtrigger.compiler.UpsertTriggerSql(func='INSERT INTO "oncology_therapylineevent" ("case_id", "external_source", "external_source_id", "id", "intent", "ordinal", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "progression_date") VALUES (NEW."case_id", NEW."external_source", NEW."external_source_id", NEW."id", NEW."intent", NEW."ordinal", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'create\', NEW."id", NEW."progression_date"); RETURN NULL;', hash='b3a41b2ed3a29365aac7ba4ebc7b972fc49c2642', operation='INSERT', pgid='pgtrigger_create_insert_a0b4d', table='oncology_therapyline', when='AFTER')),
+            model_name="therapyline",
+            trigger=pgtrigger.compiler.Trigger(
+                name="create_insert",
+                sql=pgtrigger.compiler.UpsertTriggerSql(
+                    func='INSERT INTO "oncology_therapylineevent" ("case_id", "external_source", "external_source_id", "id", "intent", "ordinal", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "progression_date") VALUES (NEW."case_id", NEW."external_source", NEW."external_source_id", NEW."id", NEW."intent", NEW."ordinal", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'create\', NEW."id", NEW."progression_date"); RETURN NULL;',
+                    hash="b3a41b2ed3a29365aac7ba4ebc7b972fc49c2642",
+                    operation="INSERT",
+                    pgid="pgtrigger_create_insert_a0b4d",
+                    table="oncology_therapyline",
+                    when="AFTER",
+                ),
+            ),
         ),
         pgtrigger.migrations.AddTrigger(
-            model_name='therapyline',
-            trigger=pgtrigger.compiler.Trigger(name='update_update', sql=pgtrigger.compiler.UpsertTriggerSql(condition='WHEN (OLD.* IS DISTINCT FROM NEW.*)', func='INSERT INTO "oncology_therapylineevent" ("case_id", "external_source", "external_source_id", "id", "intent", "ordinal", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "progression_date") VALUES (NEW."case_id", NEW."external_source", NEW."external_source_id", NEW."id", NEW."intent", NEW."ordinal", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'update\', NEW."id", NEW."progression_date"); RETURN NULL;', hash='93c96b5d2ec1a47dfddc1fe92177c81b0d676e69', operation='UPDATE', pgid='pgtrigger_update_update_dda2b', table='oncology_therapyline', when='AFTER')),
+            model_name="therapyline",
+            trigger=pgtrigger.compiler.Trigger(
+                name="update_update",
+                sql=pgtrigger.compiler.UpsertTriggerSql(
+                    condition="WHEN (OLD.* IS DISTINCT FROM NEW.*)",
+                    func='INSERT INTO "oncology_therapylineevent" ("case_id", "external_source", "external_source_id", "id", "intent", "ordinal", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "progression_date") VALUES (NEW."case_id", NEW."external_source", NEW."external_source_id", NEW."id", NEW."intent", NEW."ordinal", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'update\', NEW."id", NEW."progression_date"); RETURN NULL;',
+                    hash="93c96b5d2ec1a47dfddc1fe92177c81b0d676e69",
+                    operation="UPDATE",
+                    pgid="pgtrigger_update_update_dda2b",
+                    table="oncology_therapyline",
+                    when="AFTER",
+                ),
+            ),
         ),
         pgtrigger.migrations.AddTrigger(
-            model_name='therapyline',
-            trigger=pgtrigger.compiler.Trigger(name='delete_delete', sql=pgtrigger.compiler.UpsertTriggerSql(func='INSERT INTO "oncology_therapylineevent" ("case_id", "external_source", "external_source_id", "id", "intent", "ordinal", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "progression_date") VALUES (OLD."case_id", OLD."external_source", OLD."external_source_id", OLD."id", OLD."intent", OLD."ordinal", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'delete\', OLD."id", OLD."progression_date"); RETURN NULL;', hash='61b2d780d023d7cdddf05a151ab1abac7737da20', operation='DELETE', pgid='pgtrigger_delete_delete_f5ba7', table='oncology_therapyline', when='AFTER')),
+            model_name="therapyline",
+            trigger=pgtrigger.compiler.Trigger(
+                name="delete_delete",
+                sql=pgtrigger.compiler.UpsertTriggerSql(
+                    func='INSERT INTO "oncology_therapylineevent" ("case_id", "external_source", "external_source_id", "id", "intent", "ordinal", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "progression_date") VALUES (OLD."case_id", OLD."external_source", OLD."external_source_id", OLD."id", OLD."intent", OLD."ordinal", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'delete\', OLD."id", OLD."progression_date"); RETURN NULL;',
+                    hash="61b2d780d023d7cdddf05a151ab1abac7737da20",
+                    operation="DELETE",
+                    pgid="pgtrigger_delete_delete_f5ba7",
+                    table="oncology_therapyline",
+                    when="AFTER",
+                ),
+            ),
         ),
         migrations.AddField(
-            model_name='therapylineevent',
-            name='case',
-            field=models.ForeignKey(db_constraint=False, help_text='Indicates the case of the patient to whom this therapy line is associated', on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', related_query_name='+', to='oncology.patientcase', verbose_name='Patient case'),
+            model_name="therapylineevent",
+            name="case",
+            field=models.ForeignKey(
+                db_constraint=False,
+                help_text="Indicates the case of the patient to whom this therapy line is associated",
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="+",
+                related_query_name="+",
+                to="oncology.patientcase",
+                verbose_name="Patient case",
+            ),
         ),
         migrations.AddField(
-            model_name='therapylineevent',
-            name='pgh_obj',
-            field=models.ForeignKey(db_constraint=False, on_delete=django.db.models.deletion.DO_NOTHING, related_name='events', to='oncology.therapyline'),
+            model_name="therapylineevent",
+            name="pgh_obj",
+            field=models.ForeignKey(
+                db_constraint=False,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="events",
+                to="oncology.therapyline",
+            ),
         ),
     ]

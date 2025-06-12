@@ -1,10 +1,13 @@
-from measurement.base import MeasureBase, BidimensionalMeasure as BidimensionalMeasureBase
+from measurement.base import (
+    MeasureBase,
+    BidimensionalMeasure as BidimensionalMeasureBase,
+)
 from measurement.measures import Mass, Volume as VolumeBase, Distance
 from sympy import S, Symbol
 
 
 class Measure(MeasureBase):
-    
+
     @property
     def unit(self):
         return self._default_unit
@@ -26,29 +29,30 @@ class Measure(MeasureBase):
         elif value.lower() in laliases:
             unit = laliases[value.lower]
         if not unit:
-            raise ValueError('Invalid unit %s' % value)
+            raise ValueError("Invalid unit %s" % value)
         self._default_unit = unit
 
     def __str__(self):
         value = getattr(self, self._default_unit)
-        return f'{round(value,2)} {self.unit}'
-        
+        return f"{round(value,2)} {self.unit}"
+
+
 class BidimensionalMeasure(BidimensionalMeasureBase):
 
     @property
     def unit(self):
-        return '%s__%s' % (
+        return "%s__%s" % (
             self.primary.unit,
             self.reference.unit,
         )
 
     @unit.setter
     def unit(self, value):
-        primary, reference = value.rsplit('__',1)
+        primary, reference = value.rsplit("__", 1)
         reference_units = self.REFERENCE_DIMENSION.get_units()
         if reference != self.reference.unit:
             reference_chg = (
-                reference_units[self.reference.unit]/reference_units[reference]
+                reference_units[self.reference.unit] / reference_units[reference]
             )
             self.primary.standard = self.primary.standard / reference_chg
         self.primary.unit = primary
@@ -58,29 +62,31 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
         if measure_string in self.ALIAS:
             measure_string = self.ALIAS[measure_string]
         try:
-            primary_unit, reference_unit = measure_string.rsplit('__', 1)
+            primary_unit, reference_unit = measure_string.rsplit("__", 1)
         except:
             primary_unit, reference_unit = super()._get_unit_parts(measure_string)
         return primary_unit, reference_unit
-    
+
     def __getattr__(self, measure_string):
         # Fixes bug when accessing class meta attributes (i.e. allows measure objects to be used in Django TestCase instances)
         if measure_string.startswith("__"):
             return super().__getattribute__(measure_string)
         return super().__getattr__(measure_string)
-    
+
     def __str__(self):
-        if isinstance( self.primary, (Measure, MeasureBase)):
-            primary_unit = self.primary.get_aliases().get(self.primary.unit, self.primary.unit)
+        if isinstance(self.primary, (Measure, MeasureBase)):
+            primary_unit = self.primary.get_aliases().get(
+                self.primary.unit, self.primary.unit
+            )
         else:
             primary_unit = self.primary
-        if isinstance( self.reference, (Measure, MeasureBase)):
-            reference_unit = self.reference.get_aliases().get(self.reference.unit, self.reference.unit)
+        if isinstance(self.reference, (Measure, MeasureBase)):
+            reference_unit = self.reference.get_aliases().get(
+                self.reference.unit, self.reference.unit
+            )
         else:
             reference_unit = self.reference
-        return f'{round(self.primary.value,2)} {primary_unit}/{reference_unit}'            
-
-
+        return f"{round(self.primary.value,2)} {primary_unit}/{reference_unit}"
 
 
 def get_measurement(measure, value, unit=None, original_unit=None):
@@ -107,20 +113,20 @@ def get_measurement(measure, value, unit=None, original_unit=None):
     return m
 
 
-
 class Temperature(Measure):
-    SU = Symbol('kelvin')
-    STANDARD_UNIT = 'kelvin'
+    SU = Symbol("kelvin")
+    STANDARD_UNIT = "kelvin"
     UNITS = {
-        'celsius': SU - S(273.15),
-        'fahrenheit': (SU - S(273.15)) * S('9/5') + 32,
-        'kelvin': 1.0
+        "celsius": SU - S(273.15),
+        "fahrenheit": (SU - S(273.15)) * S("9/5") + 32,
+        "kelvin": 1.0,
     }
     ALIAS = {
-        'celsius': '°C',
-        'fahrenheit': '°F',
-        'kelvin': 'K',
+        "celsius": "°C",
+        "fahrenheit": "°F",
+        "kelvin": "K",
     }
+
 
 class Unit(Measure):
     """
@@ -136,14 +142,16 @@ class Unit(Measure):
     >>> print(unit)
     10 IU
     """
-    STANDARD_UNIT = 'IU'
+
+    STANDARD_UNIT = "IU"
     UNITS = {
-        'IU': 1.0,
+        "IU": 1.0,
     }
     ALIAS = {
-        'IU': 'IU',
+        "IU": "IU",
     }
-    SI_UNITS = ['IU']
+    SI_UNITS = ["IU"]
+
 
 class Substance(Measure):
     """
@@ -165,14 +173,16 @@ class Substance(Measure):
     >>> print(substance)
     0.016042773999999998 mol
     """
-    STANDARD_UNIT = 'mol'
+
+    STANDARD_UNIT = "mol"
     UNITS = {
-        'mol': 1.0,
+        "mol": 1.0,
     }
     ALIAS = {
-        'moles': 'mol',
+        "moles": "mol",
     }
-    SI_UNITS = ['mol']
+    SI_UNITS = ["mol"]
+
 
 class MultipleOfMedian(Measure):
     """
@@ -195,12 +205,13 @@ class MultipleOfMedian(Measure):
     >>> print(mom)
     10 M.o.M
     """
-    STANDARD_UNIT = 'multiple_of_median'
+
+    STANDARD_UNIT = "multiple_of_median"
     UNITS = {
-        'multiple_of_median': 1.0,
+        "multiple_of_median": 1.0,
     }
     ALIAS = {
-        'multiple_of_median': 'M.o.M',
+        "multiple_of_median": "M.o.M",
     }
 
 
@@ -220,24 +231,26 @@ class Pressure(Measure):
     >>> pressure.convert_to('atm')
     0.0009869250513319517 atm
     """
-    STANDARD_UNIT = 'Pa'
+
+    STANDARD_UNIT = "Pa"
     UNITS = {
-        'Pa': 1,
-        'atm': 9.869250513319517e-6,
-        'mmHg': 0.00750062,
-        'psi': 0.000145038,
-        'bar': 1.0000018082621e-5,
-        'Torr': 0.0075006303913072412681,
+        "Pa": 1,
+        "atm": 9.869250513319517e-6,
+        "mmHg": 0.00750062,
+        "psi": 0.000145038,
+        "bar": 1.0000018082621e-5,
+        "Torr": 0.0075006303913072412681,
     }
     ALIAS = {
-        'Pascal': 'Pa',
-        'atmospheres': 'atm',
-        'milimetre of mercury': 'mmHg',
-        'pund per square inch': 'psi',
-        'Bar': 'bar',
-        'torr ': 'Torr',
+        "Pascal": "Pa",
+        "atmospheres": "atm",
+        "milimetre of mercury": "mmHg",
+        "pund per square inch": "psi",
+        "Bar": "bar",
+        "torr ": "Torr",
     }
-    SI_UNITS = ['Pa']
+    SI_UNITS = ["Pa"]
+
 
 class RadiationDose(Measure):
     """
@@ -255,15 +268,16 @@ class RadiationDose(Measure):
     >>> radiation_dose.convert_to('Rad')
     100 Rad
     """
-    STANDARD_UNIT = 'Gy'
+
+    STANDARD_UNIT = "Gy"
     UNITS = {
-        'Gy': 1.0,
+        "Gy": 1.0,
     }
     ALIAS = {
-        'gray': 'Gy',
+        "gray": "Gy",
     }
-    SI_UNITS = ['Gy']
-    
+    SI_UNITS = ["Gy"]
+
 
 class Time(Measure):
     """
@@ -281,29 +295,30 @@ class Time(Measure):
     >>> time.convert_to('min')
     0.166666667 min
     """
-    STANDARD_UNIT = 's'
+
+    STANDARD_UNIT = "s"
     UNITS = {
-        's': 1.0,
-        'min': 60.0,
-        'hour': 3600.0,
-        'day': 86400.0,
-        'week': 604800.0,
-        'month': 26282880,
-        'year': 31536000.0,
+        "s": 1.0,
+        "min": 60.0,
+        "hour": 3600.0,
+        "day": 86400.0,
+        "week": 604800.0,
+        "month": 26282880,
+        "year": 31536000.0,
     }
     ALIAS = {
-        'second': 's',
-        'sec': 's', 
-        'minute': 'min',
-        'hour': 'hour',
-        'day': 'day',
-        'week': 'week',
-        'month': 'month',
-        'year': 'year',
+        "second": "s",
+        "sec": "s",
+        "minute": "min",
+        "hour": "hour",
+        "day": "day",
+        "week": "week",
+        "month": "month",
+        "year": "year",
     }
-    SI_UNITS = ['s']
+    SI_UNITS = ["s"]
 
-    
+
 class Volume(VolumeBase):
     """
     Represents a measurement of volume.
@@ -319,30 +334,31 @@ class Volume(VolumeBase):
         >>> volume.convert_to('cubic_meter')
         0.001 cubic_meter
     """
-    STANDARD_UNIT = 'l'
+
+    STANDARD_UNIT = "l"
     UNITS = {
-        'us_g': 3.78541,
-        'us_qt': 0.946353,
-        'us_pint': 0.473176,
-        'us_cup': 0.236588,
-        'us_oz': 2.9574e-2,
-        'us_tbsp': 1.4787e-2,
-        'us_tsp': 4.9289e-3,
-        'cubic_millimeter': 0.000001,
-        'cubic_centimeter': 0.001,
-        'cubic_decimeter': 0.001,
-        'cubic_meter': 1000,
-        'l': 1,
-        'cubic_foot': 28.3168,
-        'cubic_inch': 1.6387e-2,
-        'imperial_g': 4.54609,
-        'imperial_qt': 1.13652,
-        'imperial_pint': 0.568261,
-        'imperial_oz': 2.8413e-2,
-        'imperial_tbsp': 1.7758e-3,
-        'imperial_tsp': 5.9194e-3,
+        "us_g": 3.78541,
+        "us_qt": 0.946353,
+        "us_pint": 0.473176,
+        "us_cup": 0.236588,
+        "us_oz": 2.9574e-2,
+        "us_tbsp": 1.4787e-2,
+        "us_tsp": 4.9289e-3,
+        "cubic_millimeter": 0.000001,
+        "cubic_centimeter": 0.001,
+        "cubic_decimeter": 0.001,
+        "cubic_meter": 1000,
+        "l": 1,
+        "cubic_foot": 28.3168,
+        "cubic_inch": 1.6387e-2,
+        "imperial_g": 4.54609,
+        "imperial_qt": 1.13652,
+        "imperial_pint": 0.568261,
+        "imperial_oz": 2.8413e-2,
+        "imperial_tbsp": 1.7758e-3,
+        "imperial_tsp": 5.9194e-3,
     }
-    SI_UNITS = ['l']
+    SI_UNITS = ["l"]
 
 
 class Area(Measure):
@@ -361,26 +377,28 @@ class Area(Measure):
         10.76391 square_foot
 
     """
-    STANDARD_UNIT = 'square_meter'
+
+    STANDARD_UNIT = "square_meter"
     UNITS = {
-        'square_millimeter': 1000000,
-        'square_centimeter': 10000,
-        'square_decimeter':  100,
-        'square_meter': 1,
-        'square_foot': 10.76391,
-        'square_inch': 1550.003,
-        'square_yard': 1.19599,
+        "square_millimeter": 1000000,
+        "square_centimeter": 10000,
+        "square_decimeter": 100,
+        "square_meter": 1,
+        "square_foot": 10.76391,
+        "square_inch": 1550.003,
+        "square_yard": 1.19599,
     }
     ALIAS = {
-        'square_millimeter': 'mm²',
-        'square_centimeter': 'cm²',
-        'square_decimeter': 'dm²',
-        'square_meter': 'm²',
-        'square_foot': 'ft²',
-        'square_inch': 'in²',
-        'square_yard': 'yd²',
+        "square_millimeter": "mm²",
+        "square_centimeter": "cm²",
+        "square_decimeter": "dm²",
+        "square_meter": "m²",
+        "square_foot": "ft²",
+        "square_inch": "in²",
+        "square_yard": "yd²",
     }
-    
+
+
 class Fraction(Measure):
     """
     Represents a fraction measurement.
@@ -397,20 +415,21 @@ class Fraction(Measure):
         10000.0 parts_per_million
 
     """
-    STANDARD_UNIT = '%'
+
+    STANDARD_UNIT = "%"
     UNITS = {
-        '%': 1.0,
-        'pph': 1.0,
-        'ppm': 10000,
-        'ppb': 10000000,
-        'ppt': 10000000000,
+        "%": 1.0,
+        "pph": 1.0,
+        "ppm": 10000,
+        "ppb": 10000000,
+        "ppt": 10000000000,
     }
     ALIAS = {
-        '%': 'percentage',
-        'pph': 'parts_per_hundreth',
-        'ppm': 'parts_per_million',
-        'ppb': 'parts_per_billion',
-        'ppt': 'parts_per_trillion',
+        "%": "percentage",
+        "pph": "parts_per_hundreth",
+        "ppm": "parts_per_million",
+        "ppb": "parts_per_billion",
+        "ppt": "parts_per_trillion",
     }
 
 
@@ -431,8 +450,10 @@ class MassConcentration(BidimensionalMeasure):
         100.0 mg/dl
 
     """
+
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Volume
+
 
 class SubstanceConcentration(BidimensionalMeasure):
     """
@@ -451,8 +472,10 @@ class SubstanceConcentration(BidimensionalMeasure):
         1000.0 mmol/l
 
     """
+
     PRIMARY_DIMENSION = Substance
     REFERENCE_DIMENSION = Volume
+
 
 class ArbitraryConcentration(BidimensionalMeasure):
     """
@@ -469,8 +492,10 @@ class ArbitraryConcentration(BidimensionalMeasure):
         >>> arbitrary_concentration.convert_to('another_unit')
         X another_unit
     """
+
     PRIMARY_DIMENSION = Unit
     REFERENCE_DIMENSION = Volume
+
 
 class MassPerArea(BidimensionalMeasure):
     """
@@ -488,6 +513,7 @@ class MassPerArea(BidimensionalMeasure):
         10.0 mg/cm^2
 
     """
+
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Area
 
@@ -508,8 +534,10 @@ class MassPerTime(BidimensionalMeasure):
         60000.0 mg/min
 
     """
+
     PRIMARY_DIMENSION = Mass
     REFERENCE_DIMENSION = Time
+
 
 class VolumePerTime(BidimensionalMeasure):
     """
@@ -527,8 +555,10 @@ class VolumePerTime(BidimensionalMeasure):
         60000.0 l/min
 
     """
+
     PRIMARY_DIMENSION = Volume
     REFERENCE_DIMENSION = Time
+
 
 class MassConcentrationPerTime(BidimensionalMeasure):
     """
@@ -547,15 +577,17 @@ class MassConcentrationPerTime(BidimensionalMeasure):
         6000.0 mg/dl/min
 
     """
+
     PRIMARY_DIMENSION = MassConcentration
     REFERENCE_DIMENSION = Time
+
 
 class MassPerAreaPerTime(BidimensionalMeasure):
     """
     Represents a measurement of mass per area per time.
 
     The MassPerAreaPerTime class is used for representing and converting mass
-    per area per time values in various units. The standard unit is gram per 
+    per area per time values in various units. The standard unit is gram per
     square meter per second (g/m^2/s).
 
     Examples:
@@ -567,7 +599,6 @@ class MassPerAreaPerTime(BidimensionalMeasure):
         10.0 mg/cm^2/min
 
     """
-    
+
     PRIMARY_DIMENSION = MassPerArea
     REFERENCE_DIMENSION = Time
-

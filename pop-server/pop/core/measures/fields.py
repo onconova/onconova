@@ -7,6 +7,7 @@ from measurement.base import BidimensionalMeasure, MeasureBase
 
 from .measures import get_measurement
 
+
 class MeasurementField(FloatField):
     description = "Easily store, retrieve, and convert python measures."
     empty_strings_allowed = False

@@ -8,31 +8,47 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0001_initial'),
+        ("projects", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='projectdatamanagergrant',
-            name='expiration_date_must_be_in_future',
+            model_name="projectdatamanagergrant",
+            name="expiration_date_must_be_in_future",
         ),
         migrations.RemoveConstraint(
-            model_name='projectdatamanagergrant',
-            name='max_31_day_expiry',
+            model_name="projectdatamanagergrant",
+            name="max_31_day_expiry",
         ),
         migrations.RemoveField(
-            model_name='projectdatamanagergrant',
-            name='expires_at',
+            model_name="projectdatamanagergrant",
+            name="expires_at",
         ),
         migrations.AddField(
-            model_name='projectdatamanagergrant',
-            name='validity_period',
-            field=django.contrib.postgres.fields.ranges.DateRangeField(default=(None, None), help_text='Period of validity', verbose_name='Validity period'),
+            model_name="projectdatamanagergrant",
+            name="validity_period",
+            field=django.contrib.postgres.fields.ranges.DateRangeField(
+                default=(None, None),
+                help_text="Period of validity",
+                verbose_name="Validity period",
+            ),
             preserve_default=False,
         ),
         migrations.AddConstraint(
-            model_name='projectdatamanagergrant',
-            constraint=models.CheckConstraint(condition=models.Q(('granted_at__lte', models.Func(models.F('validity_period'), function='lower', output_field=models.DateField()))), name='expiration_date_must_be_in_future'),
+            model_name="projectdatamanagergrant",
+            constraint=models.CheckConstraint(
+                condition=models.Q(
+                    (
+                        "granted_at__lte",
+                        models.Func(
+                            models.F("validity_period"),
+                            function="lower",
+                            output_field=models.DateField(),
+                        ),
+                    )
+                ),
+                name="expiration_date_must_be_in_future",
+            ),
         ),
     ]

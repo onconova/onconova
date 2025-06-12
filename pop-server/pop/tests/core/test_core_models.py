@@ -4,6 +4,7 @@ from pop.core.models import BaseModel
 from pop.tests.models import MockBaseModel
 from pop.tests.common import AbstractModelMixinTestCase
 
+
 class BaseModelTestCase(AbstractModelMixinTestCase):
     mixin = BaseModel
 
@@ -22,15 +23,13 @@ class BaseModelTestCase(AbstractModelMixinTestCase):
             str(instance)
 
     def test_created_at_annotation(self):
-        before_create = datetime.now()  - timedelta(minutes=1)
+        before_create = datetime.now() - timedelta(minutes=1)
         instance = MockBaseModel.objects.create(id=uuid4())
         self.assertGreater(instance.created_at, before_create)
         self.assertIsNone(instance.updated_at)
-        
+
     def test_updated_at_annotation(self):
         instance = MockBaseModel.objects.create(id=uuid4())
-        instance.external_source = 'test'
+        instance.external_source = "test"
         instance.save()
         self.assertGreaterEqual(instance.updated_at, instance.created_at)
-
-

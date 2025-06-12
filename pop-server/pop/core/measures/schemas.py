@@ -1,6 +1,7 @@
 from ninja import Schema, Field
 from pydantic import AliasChoices
 
+
 class Measure(Schema):
     """
     Represents a measurable quantity with its value and unit.
@@ -11,14 +12,12 @@ class Measure(Schema):
     """
 
     value: float = Field(
-        title="Value",
-        description="The numerical value of the measure.",
-        alias="value"
+        title="Value", description="The numerical value of the measure.", alias="value"
     )
     unit: str = Field(
         title="Unit",
         description="The unit of measurement (e.g., 'kg', 'm', 'ml').",
-        alias="unit"
+        alias="unit",
     )
 
 
@@ -35,16 +34,16 @@ class MeasureConversion(Schema):
     value: float = Field(
         title="Value",
         description="The numerical value of the measure to be converted.",
-        alias="value"
+        alias="value",
     )
     unit: str = Field(
         title="Original Unit",
         description="The current unit of the measure.",
-        alias="unit"
+        alias="unit",
     )
     newUnit: str = Field(
         title="New Unit",
         description="The target unit to convert the measure into.",
         alias="new_unit",
-        validation_alias=AliasChoices("newUnit", "new_unit")
+        validation_alias=AliasChoices("newUnit", "new_unit"),
     )

@@ -1,4 +1,4 @@
-from typing import List 
+from typing import List
 from ninja_extra import route, api_controller, ControllerBase
 
 from measurement.base import MeasureBase, BidimensionalMeasure
@@ -7,20 +7,18 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.measures.schemas import MeasureConversion, Measure
 from pop.core.measures import measures
 
+
 @api_controller(
-    '/measures', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Measures'],  
+    "/measures",
+    auth=[XSessionTokenAuth()],
+    tags=["Measures"],
 )
 class MeasuresController(ControllerBase):
 
     @route.get(
-        path="/{measureName}/units", 
-        operation_id='getMeasureUnits',
-        response={
-            200: List[str],
-            404: None
-        }, 
+        path="/{measureName}/units",
+        operation_id="getMeasureUnits",
+        response={200: List[str], 404: None},
     )
     def get_measure_units(self, measureName: str):
         measure = getattr(measures, measureName, None)
@@ -33,17 +31,16 @@ class MeasuresController(ControllerBase):
             primaries = list(measure.PRIMARY_DIMENSION.get_units())
             references = list(measure.REFERENCE_DIMENSION.get_units())
             units = [
-                f'{primary}__{reference}' for primary in primaries for reference in references
+                f"{primary}__{reference}"
+                for primary in primaries
+                for reference in references
             ]
         return 200, units
 
     @route.get(
-        path="/{measureName}/units/default", 
-        operation_id='getMeasureDefaultUnits',
-        response={
-            200: str,
-            404: None
-        }, 
+        path="/{measureName}/units/default",
+        operation_id="getMeasureDefaultUnits",
+        response={200: str, 404: None},
     )
     def get_measure_default_units(self, measureName: str):
         measure = getattr(measures, measureName, None)
@@ -51,14 +48,10 @@ class MeasuresController(ControllerBase):
             return 404, None
         return 200, measure.STANDARD_UNIT
 
-
     @route.post(
-        path="/{measureName}/units/conversion", 
-        operation_id='convertUnits',
-        response={
-            200: Measure,
-            404: None
-        }, 
+        path="/{measureName}/units/conversion",
+        operation_id="convertUnits",
+        response={200: Measure, 404: None},
     )
     def convert_units(self, measureName: str, payload: MeasureConversion):
         measureClass = getattr(measures, measureName, None)

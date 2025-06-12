@@ -1,4 +1,4 @@
-from typing import Any,List, Tuple, Type, Optional
+from typing import Any, List, Tuple, Type, Optional
 import types
 
 from django.db.models import Model as DjangoModel
@@ -17,6 +17,7 @@ from .mixins import OrmMetadataMixin
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
 
+
 class SchemaFactory(NinjaSchemaFactory):
     """
     A factory for creating Pydantic schemas from Django models.
@@ -29,8 +30,10 @@ class SchemaFactory(NinjaSchemaFactory):
         IGNORE_FIELDS (List[str]): A list of field names to ignore when creating schemas.
     """
 
-    IGNORE_FIELDS = ['auto_id', ]
-    
+    IGNORE_FIELDS = [
+        "auto_id",
+    ]
+
     def create_schema(
         self,
         model: Type[DjangoModel],
@@ -45,7 +48,7 @@ class SchemaFactory(NinjaSchemaFactory):
         custom_fields: Optional[List[Tuple[str, Any, Any]]] = None,
         bases: List[Type[Schema]] = [BaseSchema],
     ) -> Type[Schema]:
-        
+
         name = name or model.__name__
         orm_metadata = {}
         if fields and exclude:
@@ -59,8 +62,13 @@ class SchemaFactory(NinjaSchemaFactory):
 
         model_fields_list = list(self._selected_model_fields(model, fields, exclude))
 
-        if reverse_fields: 
-            model_fields_list.extend([model._meta.get_field(reverse_field) for reverse_field in reverse_fields])
+        if reverse_fields:
+            model_fields_list.extend(
+                [
+                    model._meta.get_field(reverse_field)
+                    for reverse_field in reverse_fields
+                ]
+            )
 
         if optional_fields:
             if optional_fields == "__all__":
@@ -71,7 +79,7 @@ class SchemaFactory(NinjaSchemaFactory):
         resolvers2 = {}
         for fld in model_fields_list:
             if fld.name in self.IGNORE_FIELDS:
-                continue 
+                continue
             resolver_fcn, field_name, (python_type, field_info) = get_schema_field(
                 fld,
                 expand=(expand or dict()).get(fld.name),
@@ -79,7 +87,7 @@ class SchemaFactory(NinjaSchemaFactory):
                 exclude_related_fields=exclude,
             )
             if resolver_fcn:
-                resolvers[f'resolve_{field_name}'] = staticmethod(resolver_fcn)
+                resolvers[f"resolve_{field_name}"] = staticmethod(resolver_fcn)
                 resolvers2[field_info.alias] = staticmethod(resolver_fcn)
             definitions[field_name] = (python_type, field_info)
             orm_metadata[field_name] = fld
@@ -93,13 +101,13 @@ class SchemaFactory(NinjaSchemaFactory):
 
         schema: Type[Schema] = create_pydantic_model(
             name,
-            __base__= (OrmMetadataMixin, *bases),
+            __base__=(OrmMetadataMixin, *bases),
             __module__=bases[-1].__module__,
             __validators__={},
             **definitions,
         )
         for fcn_name, fcn in resolvers.items():
-            setattr(schema, fcn_name, fcn) 
+            setattr(schema, fcn_name, fcn)
         # Store ORM metadata
         schema.set_orm_model(model)
         schema.set_orm_metadata(**orm_metadata)
@@ -107,7 +115,6 @@ class SchemaFactory(NinjaSchemaFactory):
         self.schemas[key] = schema
         self.schema_names.add(name)
         return schema
-
 
     def create_filters_schema(
         self,
@@ -121,23 +128,34 @@ class SchemaFactory(NinjaSchemaFactory):
     ) -> Type[Schema]:
 
         name = name or schema.__name__
-    
+
         if fields and exclude:
             raise ConfigError("Only one of 'fields' or 'exclude' should be set.")
 
-        key = self.get_key(
-            schema, name, depth, fields, exclude, None, None
-        )
+        key = self.get_key(schema, name, depth, fields, exclude, None, None)
         if key in self.schemas:
             return self.schemas[key]
 
         definitions = {}
         filter_fcns = {}
         for field_name, field_info in schema.model_fields.items():
-            if field_name in ['description', 'createdAt', 'createdBy', 'updatedBy', 'updatedAt', 'externalSourceId', 'externalSource', 'anonymized']:
+            if field_name in [
+                "description",
+                "createdAt",
+                "createdBy",
+                "updatedBy",
+                "updatedAt",
+                "externalSourceId",
+                "externalSource",
+                "anonymized",
+            ]:
                 continue
             schema_fields = get_schema_field_filters(field_name, field_info)
-            for field_name, (python_type, field_info), (method_name, filter_fcn) in schema_fields:
+            for (
+                field_name,
+                (python_type, field_info),
+                (method_name, filter_fcn),
+            ) in schema_fields:
                 definitions[field_name] = (python_type, field_info)
                 filter_fcns[method_name] = filter_fcn
 
@@ -152,12 +170,12 @@ class SchemaFactory(NinjaSchemaFactory):
             **definitions,
         )
         for fcn_name, fcn in filter_fcns.items():
-            setattr(schema, fcn_name, types.MethodType(fcn, schema)) 
+            setattr(schema, fcn_name, types.MethodType(fcn, schema))
         self.schemas[key] = schema
         self.schema_names.add(name)
         return schema
 
+
 factory = SchemaFactory()
 create_schema = factory.create_schema
 create_filters_schema = factory.create_filters_schema
-

@@ -6,13 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0002_remove_projectdatamanagergrant_expiration_date_must_be_in_future_and_more'),
+        (
+            "projects",
+            "0002_remove_projectdatamanagergrant_expiration_date_must_be_in_future_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='projectdatamanagergrant',
-            name='revoked',
-            field=models.BooleanField(default=False, help_text='A flag that indicated whether the authorization has been revoked', verbose_name='Revoked'),
+            model_name="projectdatamanagergrant",
+            name="revoked",
+            field=models.BooleanField(
+                default=False,
+                help_text="A flag that indicated whether the authorization has been revoked",
+                verbose_name="Revoked",
+            ),
         ),
     ]

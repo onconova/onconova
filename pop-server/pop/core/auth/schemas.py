@@ -16,12 +16,10 @@ class UserPasswordReset(Schema):
     """Schema for user password reset payload."""
 
     oldPassword: str = Field(
-        title="Old Password",
-        description="The user's current password."
+        title="Old Password", description="The user's current password."
     )
     newPassword: str = Field(
-        title="New Password",
-        description="The user's new password to be set."
+        title="New Password", description="The user's new password to be set."
     )
 
 
@@ -35,8 +33,7 @@ class UserSchema(ModelGetSchema):
         validation_alias=AliasChoices("fullName", "full_name"),
     )
     role: orm.User.AccessRoles = Field(
-        title="Role",
-        description="The user's assigned access role."
+        title="Role", description="The user's assigned access role."
     )
     canViewCases: bool = Field(
         title="View Cases",
@@ -114,7 +111,9 @@ class UserSchema(ModelGetSchema):
         title="Access Sensitive Data",
         description="Permission to view sensitive data fields.",
         alias="can_access_sensitive_data",
-        validation_alias=AliasChoices("canAccessSensitiveData", "can_access_sensitive_data"),
+        validation_alias=AliasChoices(
+            "canAccessSensitiveData", "can_access_sensitive_data"
+        ),
     )
     canAuditLogs: bool = Field(
         title="Audit Logs",
@@ -196,21 +195,18 @@ class UserProfileSchema(Schema):
     organization: Optional[str] = Field(
         default=None,
         title="Organization",
-        description="The user's affiliated organization."
+        description="The user's affiliated organization.",
     )
     department: Optional[str] = Field(
         default=None,
         title="Department",
-        description="The user's department within the organization."
+        description="The user's department within the organization.",
     )
     title: Optional[str] = Field(
-        default=None,
-        title="Job Title",
-        description="The user's job title or position."
+        default=None, title="Job Title", description="The user's job title or position."
     )
     email: str = Field(
-        title="Email Address",
-        description="The user's primary email address."
+        title="Email Address", description="The user's primary email address."
     )
 
 

@@ -3,9 +3,9 @@ from .project import Project, ProjectMembership, ProjectDataManagerGrant
 from .dataset import Dataset
 
 __all__ = [
-    'Cohort',
-    'Project',
-    'ProjectMembership',
-    'ProjectDataManagerGrant',
-    'Dataset',
+    "Cohort",
+    "Project",
+    "ProjectMembership",
+    "ProjectDataManagerGrant",
+    "Dataset",
 ]

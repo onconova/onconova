@@ -1,5 +1,5 @@
-from collections import defaultdict 
-import os 
+from collections import defaultdict
+import os
 import csv
 import requests
 from typing import List, Optional, TextIO, Tuple, Union
@@ -7,10 +7,19 @@ from pydantic import BaseModel, Field
 
 _cache = {}
 
+
 # Custom function to print with color
-def printRed(skk): print("\033[91m {}\033[00m" .format(skk))
-def printGreen(skk): print("\033[92m {}\033[00m" .format(skk))
-def printYellow(skk): print("\033[93m {}\033[00m" .format(skk))
+def printRed(skk):
+    print("\033[91m {}\033[00m".format(skk))
+
+
+def printGreen(skk):
+    print("\033[92m {}\033[00m".format(skk))
+
+
+def printYellow(skk):
+    print("\033[93m {}\033[00m".format(skk))
+
 
 class CodedConcept(BaseModel):
     """
@@ -27,7 +36,6 @@ class CodedConcept(BaseModel):
         properties (dict): A dictionary of additional properties for the concept.
     """
 
-
     system: Optional[str] = Field(default=None)
     code: str = Field()
     display: Optional[str] = Field(default=None)
@@ -39,6 +47,7 @@ class CodedConcept(BaseModel):
 
     def __hash__(self):
         return hash(self.__repr__())
+
 
 def parent_to_children(codesystem: dict) -> dict:
     """
@@ -66,9 +75,9 @@ def parent_to_children(codesystem: dict) -> dict:
     _cache[id(codesystem)] = mapping
     return mapping
 
+
 from typing import Generator, Dict, Any
 from collections import defaultdict
-
 
 
 def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:
@@ -82,6 +91,7 @@ def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:
         dict: Each GO term as a dictionary with keys as term attributes and values
               as attributes' values, converting single-element lists to single values.
     """
+
     def process_OBO_term(goTerm: defaultdict) -> Dict[str, Any]:
         """
         In an object representing a GO term, replace single-element lists with
@@ -97,7 +107,7 @@ def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:
         for key, value in ret.items():
             if len(value) == 1:
                 ret[key] = value[0]
-        return ret    
+        return ret
 
     currentGOTerm = None
     for line in file:
@@ -122,9 +132,9 @@ def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:
         yield process_OBO_term(currentGOTerm)
 
 
-
-
-def get_dictreader_and_size(file: TextIO, has_header: bool = True, verbose: bool = True) -> Tuple[List[Dict[str, str]], int]:
+def get_dictreader_and_size(
+    file: TextIO, has_header: bool = True, verbose: bool = True
+) -> Tuple[List[Dict[str, str]], int]:
     """
     Get a DictReader for a file and the total number of rows. Accepts `.csv`, `.tsv`, and `.obo` files.
 
@@ -140,19 +150,19 @@ def get_dictreader_and_size(file: TextIO, has_header: bool = True, verbose: bool
         ValueError: If the file format is not supported.
     """
     if verbose:
-        print(f'• Loading file "{file.name}"...', end='')
+        print(f'• Loading file "{file.name}"...', end="")
 
     # Special case for OBO files
-    if file.name.endswith('.obo'):
+    if file.name.endswith(".obo"):
         # Parse the OBO file
         reader = list(parse_OBO_file(file))
         total = len(reader)
         return reader, total
 
     # Handle CSV/TSV files
-    elif file.name.endswith('.csv') or file.name.endswith('.tsv'):
+    elif file.name.endswith(".csv") or file.name.endswith(".tsv"):
         # Determine the delimiter based on file extension
-        delimiter = "," if file.name.endswith('.csv') else '\t'
+        delimiter = "," if file.name.endswith(".csv") else "\t"
         # Initialize the DictReader
         reader = csv.DictReader(file, delimiter=delimiter)
         if has_header:
@@ -167,14 +177,15 @@ def get_dictreader_and_size(file: TextIO, has_header: bool = True, verbose: bool
             next(reader)
 
         if verbose:
-            print(' complete.')
-            print(f'• Found {total} entries')
+            print(" complete.")
+            print(f"• Found {total} entries")
         return reader, total
 
     else:
         # Raise an error for unsupported file formats
-        raise ValueError('Invalid file format. Must be an `.csv`, `.tsv`, or `.obo` file.')
-
+        raise ValueError(
+            "Invalid file format. Must be an `.csv`, `.tsv`, or `.obo` file."
+        )
 
 
 def get_file_location(path: str, filepart: str) -> str:
@@ -191,11 +202,17 @@ def get_file_location(path: str, filepart: str) -> str:
     Raises:
         FileNotFoundError: If no file containing the substring is found in the directory.
     """
-    files = [i for i in os.listdir(path) if os.path.isfile(os.path.join(path, i)) and filepart in i]
+    files = [
+        i
+        for i in os.listdir(path)
+        if os.path.isfile(os.path.join(path, i)) and filepart in i
+    ]
     if files:
         filename = files[0]
     else:
-        raise FileNotFoundError(f'There is no *{filepart}* file in the {path} directory.')
+        raise FileNotFoundError(
+            f"There is no *{filepart}* file in the {path} directory."
+        )
     return os.path.join(path, filename)
 
 
@@ -209,8 +226,8 @@ def ensure_within_string_limits(string: str) -> str:
     Returns:
         str: The string, truncated to 2000 characters or less.
     """
-    if len(string)>2000:
-        string = string[:2000]    
+    if len(string) > 2000:
+        string = string[:2000]
     return string
 
 
@@ -245,24 +262,26 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
         proxies, and certificate verification, to make a secure API request.
     """
     # Define the API endpoint basic authentication credentials
-    if 'loinc.org' in api_url:
-        api_username = os.environ.get('LOINC_USER', default=None)
-        api_password = os.environ.get('LOINC_PASSWORD', default=None)
-    elif 'nlm.nih.gov' in api_url:
-        api_username = os.environ.get('UMLS_API_USER', default=None)
-        api_password = os.environ.get('UMLS_API_KEY', default=None)
-    else: 
+    if "loinc.org" in api_url:
+        api_username = os.environ.get("LOINC_USER", default=None)
+        api_password = os.environ.get("LOINC_PASSWORD", default=None)
+    elif "nlm.nih.gov" in api_url:
+        api_username = os.environ.get("UMLS_API_USER", default=None)
+        api_password = os.environ.get("UMLS_API_KEY", default=None)
+    else:
         api_username, api_password = None, None
 
     # Define the path to the certificate bundle file
-    certificate_bundle_path = os.environ.get('ROOT_CA_CERTIFICATES', default=None) or None 
+    certificate_bundle_path = (
+        os.environ.get("ROOT_CA_CERTIFICATES", default=None) or None
+    )
     # Create a session for making the request
     session = requests.Session()
 
     # Set up the proxy with authentication
     proxies = {
-        'http': os.environ.get('http_proxy', default=None),
-        'https': os.environ.get('https_proxy', default=None),
+        "http": os.environ.get("http_proxy", default=None),
+        "https": os.environ.get("https_proxy", default=None),
     }
     session.proxies = proxies
     # Set up the basic authentication for the API
@@ -274,18 +293,26 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
 
     # Check if there is an authorization issue
     if response.status_code == 401:
-        # If authorization is required, the session cookies have now been set by the first request and a second request is necessary 
+        # If authorization is required, the session cookies have now been set by the first request and a second request is necessary
         response = session.get(api_url, verify=certificate_bundle_path, proxies=proxies)
 
     # Check for custom FHIR expansion response code
-    if response.status_code == 422 and '$expand' in api_url:
+    if response.status_code == 422 and "$expand" in api_url:
         # If expansion operation is too costly, server will refuse, in that case, get non-expanded content definition
-        response = session.get(api_url.replace('$expand',''), verify=certificate_bundle_path, proxies=proxies)
+        response = session.get(
+            api_url.replace("$expand", ""),
+            verify=certificate_bundle_path,
+            proxies=proxies,
+        )
 
     # Check for unknown URL response code
     if response.status_code == 404:
         # Certain mCODE valuesets use a different domain to serve the JSON representations
-        response = session.get(api_url.replace("ValueSet", "valueset").replace("CodeSystem", "codesystem"), verify=certificate_bundle_path, proxies=proxies)
+        response = session.get(
+            api_url.replace("ValueSet", "valueset").replace("CodeSystem", "codesystem"),
+            verify=certificate_bundle_path,
+            proxies=proxies,
+        )
 
     if response.status_code == 200:
         # Successfully connected to the API
@@ -295,6 +322,7 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
         # Now you can work with the JSON data
         return json_response
     else:
-        printRed(f"NETWORK ERROR: Request failed with status code: {response.status_code}")
+        printRed(
+            f"NETWORK ERROR: Request failed with status code: {response.status_code}"
+        )
         response.raise_for_status()
-        

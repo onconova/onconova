@@ -7,14 +7,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_alter_user_access_level'),
+        ("core", "0004_alter_user_access_level"),
     ]
 
     operations = [
         migrations.AlterModelManagers(
-            name='user',
+            name="user",
             managers=[
-                ('objects', pop.core.auth.models.QueryablePropertiesUserManager()),
+                ("objects", pop.core.auth.models.QueryablePropertiesUserManager()),
             ],
         ),
     ]

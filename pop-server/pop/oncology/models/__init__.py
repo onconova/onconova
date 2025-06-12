@@ -20,12 +20,26 @@ from .genomic_signature import *
 
 MODELS = (
     # Patient case
-    PatientCase, PatientCaseDataCompletion,
-    # Neoplastic entity    
+    PatientCase,
+    PatientCaseDataCompletion,
+    # Neoplastic entity
     NeoplasticEntity,
     # Stagings
-    Staging, TNMStaging, FIGOStaging, BinetStaging, RaiStaging, BreslowDepth, ClarkStaging, ISSStaging,
-    RISSStaging, GleasonGrade, INSSStage, INRGSSStage, WilmsStage, RhabdomyosarcomaClinicalGroup, LymphomaStaging,
+    Staging,
+    TNMStaging,
+    FIGOStaging,
+    BinetStaging,
+    RaiStaging,
+    BreslowDepth,
+    ClarkStaging,
+    ISSStaging,
+    RISSStaging,
+    GleasonGrade,
+    INSSStage,
+    INRGSSStage,
+    WilmsStage,
+    RhabdomyosarcomaClinicalGroup,
+    LymphomaStaging,
     # Tumor marker
     TumorMarker,
     # Risk assessment
@@ -35,13 +49,16 @@ MODELS = (
     # Therapy line
     TherapyLine,
     # Systemic therapy
-    SystemicTherapy, SystemicTherapyMedication,
+    SystemicTherapy,
+    SystemicTherapyMedication,
     # Performance status
     PerformanceStatus,
     # Surgery
     Surgery,
     # Radiotherapy
-    Radiotherapy, RadiotherapyDosage, RadiotherapySetting,
+    Radiotherapy,
+    RadiotherapyDosage,
+    RadiotherapySetting,
     # Lifestyle
     Lifestyle,
     # Comorbidities
@@ -49,16 +66,26 @@ MODELS = (
     # Family history
     FamilyHistory,
     # Tumor boards
-    TumorBoard, MolecularTumorBoard, UnspecifiedTumorBoard, MolecularTherapeuticRecommendation,
+    TumorBoard,
+    MolecularTumorBoard,
+    UnspecifiedTumorBoard,
+    MolecularTherapeuticRecommendation,
     # Adverse events
-    AdverseEvent, AdverseEventSuspectedCause, AdverseEventMitigation,
-    # Vitals 
+    AdverseEvent,
+    AdverseEventSuspectedCause,
+    AdverseEventMitigation,
+    # Vitals
     Vitals,
     # Genomic variant
     GenomicVariant,
     # Genomic signatures
-    GenomicSignature, TumorMutationalBurden, MicrosatelliteInstability,
-    LossOfHeterozygosity, HomologousRecombinationDeficiency, TumorNeoantigenBurden, AneuploidScore,
+    GenomicSignature,
+    TumorMutationalBurden,
+    MicrosatelliteInstability,
+    LossOfHeterozygosity,
+    HomologousRecombinationDeficiency,
+    TumorNeoantigenBurden,
+    AneuploidScore,
 )
 
 __all__ = [model.__name__ for model in MODELS]

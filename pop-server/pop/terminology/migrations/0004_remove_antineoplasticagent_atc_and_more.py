@@ -6,37 +6,55 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('terminology', '0003_rename_drugcategory_antineoplasticagent_drug_category_and_more'),
+        (
+            "terminology",
+            "0003_rename_drugcategory_antineoplasticagent_drug_category_and_more",
+        ),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='antineoplasticagent',
-            name='atc',
+            model_name="antineoplasticagent",
+            name="atc",
         ),
         migrations.RemoveField(
-            model_name='antineoplasticagent',
-            name='drug_category',
+            model_name="antineoplasticagent",
+            name="drug_category",
         ),
         migrations.RemoveField(
-            model_name='antineoplasticagent',
-            name='drug_domain',
+            model_name="antineoplasticagent",
+            name="drug_domain",
         ),
         migrations.RemoveField(
-            model_name='antineoplasticagent',
-            name='drugbank',
+            model_name="antineoplasticagent",
+            name="drugbank",
         ),
         migrations.RemoveField(
-            model_name='antineoplasticagent',
-            name='rxnorm',
+            model_name="antineoplasticagent",
+            name="rxnorm",
         ),
         migrations.RemoveField(
-            model_name='antineoplasticagent',
-            name='snomed',
+            model_name="antineoplasticagent",
+            name="snomed",
         ),
         migrations.AlterField(
-            model_name='antineoplasticagent',
-            name='therapy_category',
-            field=models.CharField(blank=True, choices=[('chemotherapy', 'Chemotherapy'), ('immunotherapy', 'Immunotherapy'), ('hormone-therapy', 'Hormone Therapy'), ('targeted-therapy', 'Targeted Therapy'), ('antimetastatic_therapy', 'Antimetastatic Therapy'), ('metabolic-therapy', 'Metabolic Therapy'), ('radiopharmaceutical-therapy', 'Radiopharmaceutical Therapy')], help_text='Therapy classification', max_length=50, null=True, verbose_name='Therapy classification'),
+            model_name="antineoplasticagent",
+            name="therapy_category",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("chemotherapy", "Chemotherapy"),
+                    ("immunotherapy", "Immunotherapy"),
+                    ("hormone-therapy", "Hormone Therapy"),
+                    ("targeted-therapy", "Targeted Therapy"),
+                    ("antimetastatic_therapy", "Antimetastatic Therapy"),
+                    ("metabolic-therapy", "Metabolic Therapy"),
+                    ("radiopharmaceutical-therapy", "Radiopharmaceutical Therapy"),
+                ],
+                help_text="Therapy classification",
+                max_length=50,
+                null=True,
+                verbose_name="Therapy classification",
+            ),
         ),
     ]

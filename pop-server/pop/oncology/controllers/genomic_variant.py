@@ -14,124 +14,140 @@ from pop.oncology.models import GenomicVariant
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import GenomicVariantSchema, GenomicVariantCreateSchema, GenomicVariantFilters
+from pop.oncology.schemas import (
+    GenomicVariantSchema,
+    GenomicVariantCreateSchema,
+    GenomicVariantFilters,
+)
 
 
 @api_controller(
-    'genomic-variants', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Genomic Variants'],  
+    "genomic-variants",
+    auth=[XSessionTokenAuth()],
+    tags=["Genomic Variants"],
 )
 class GenomicVariantController(ControllerBase):
 
     @route.get(
-        path='', 
+        path="",
         response={
             200: Paginated[GenomicVariantSchema],
         },
         permissions=[perms.CanViewCases],
-        operation_id='getGenomicVariants',
+        operation_id="getGenomicVariants",
     )
     @paginate()
     @anonymize()
-    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters], anonymized: bool = True): # type: ignore
-        queryset = GenomicVariant.objects.all().order_by('-date')
+    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters], anonymized: bool = True):  # type: ignore
+        queryset = GenomicVariant.objects.all().order_by("-date")
         return query.filter(queryset)
 
-
     @route.post(
-        path='', 
+        path="",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='createGenomicVariant',
+        operation_id="createGenomicVariant",
     )
-    def create_genomic_variant(self, payload: GenomicVariantCreateSchema): # type: ignore
+    def create_genomic_variant(self, payload: GenomicVariantCreateSchema):  # type: ignore
         return 201, payload.model_dump_django()
-        
 
     @route.get(
-        path='/{genomicVariantId}', 
+        path="/{genomicVariantId}",
         response={
             200: GenomicVariantSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getGenomicVariantById',
+        operation_id="getGenomicVariantById",
     )
     @anonymize()
     def get_genomic_variant_by_id(self, genomicVariantId: str, anonymized: bool = True):
         return get_object_or_404(GenomicVariant, id=genomicVariantId)
-        
 
     @route.put(
-        path='/{genomicVariantId}', 
-       response={
+        path="/{genomicVariantId}",
+        response={
             200: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='updateGenomicVariant',
+        operation_id="updateGenomicVariant",
     )
-    def update_genomic_variant(self, genomicVariantId: str, payload: GenomicVariantCreateSchema): # type: ignore
+    def update_genomic_variant(self, genomicVariantId: str, payload: GenomicVariantCreateSchema):  # type: ignore
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return payload.model_dump_django(instance=instance)
-        
-        
+
     @route.delete(
-        path='/{genomicVariantId}', 
+        path="/{genomicVariantId}",
         response={
-            204: None, 
-            404: None, 401: None, 403: None,
+            204: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='deleteGenomicVariant',
+        operation_id="deleteGenomicVariant",
     )
     def delete_genomic_variant(self, genomicVariantId: str):
         get_object_or_404(GenomicVariant, id=genomicVariantId).delete()
         return 204, None
-    
-    
+
     @route.get(
-        path='/{genomicVariantId}/history/events', 
+        path="/{genomicVariantId}/history/events",
         response={
             200: Paginated[HistoryEvent.bind_schema(GenomicVariantCreateSchema)],
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getAllGenomicVariantHistoryEvents',
+        operation_id="getAllGenomicVariantHistoryEvents",
     )
     @paginate()
     def get_all_genomic_variant_history_events(self, genomicVariantId: str):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return pghistory.models.Events.objects.tracks(instance).all()
 
-
     @route.get(
-        path='/{genomicVariantId}/history/events/{eventId}', 
+        path="/{genomicVariantId}/history/events/{eventId}",
         response={
             200: HistoryEvent.bind_schema(GenomicVariantCreateSchema),
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getGenomicVariantHistoryEventById',
+        operation_id="getGenomicVariantHistoryEventById",
     )
-    def get_genomic_variant_history_event_by_id(self, genomicVariantId: str, eventId: str):
+    def get_genomic_variant_history_event_by_id(
+        self, genomicVariantId: str, eventId: str
+    ):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
-
+        return get_object_or_404(
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+        )
 
     @route.put(
-        path='/{genomicVariantId}/history/events/{eventId}/reversion', 
+        path="/{genomicVariantId}/history/events/{eventId}/reversion",
         response={
             201: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='revertGenomicVariantToHistoryEvent',
+        operation_id="revertGenomicVariantToHistoryEvent",
     )
-    def revert_genomic_variant_to_history_event(self, genomicVariantId: str, eventId: str):
+    def revert_genomic_variant_to_history_event(
+        self, genomicVariantId: str, eventId: str
+    ):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

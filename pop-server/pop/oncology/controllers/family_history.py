@@ -13,91 +13,102 @@ from pop.core.history.schemas import HistoryEvent
 from pop.oncology.models import FamilyHistory
 
 from django.shortcuts import get_object_or_404
-from pop.oncology.schemas import FamilyHistorySchema, FamilyHistoryCreateSchema, FamilyHistoryFilters
+from pop.oncology.schemas import (
+    FamilyHistorySchema,
+    FamilyHistoryCreateSchema,
+    FamilyHistoryFilters,
+)
+
 
 @api_controller(
-    'family-histories', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Family Histories'],  
+    "family-histories",
+    auth=[XSessionTokenAuth()],
+    tags=["Family Histories"],
 )
 class FamilyHistoryController(ControllerBase):
 
     @route.get(
-        path='', 
+        path="",
         response={
             200: Paginated[FamilyHistorySchema],
         },
         permissions=[perms.CanViewCases],
-        operation_id='getFamilyHistories',
+        operation_id="getFamilyHistories",
     )
     @paginate()
     @anonymize()
-    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters], anonymized: bool = True): # type: ignore
-        queryset = FamilyHistory.objects.all().order_by('-date')
+    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters], anonymized: bool = True):  # type: ignore
+        queryset = FamilyHistory.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
-        path='', 
+        path="",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='createFamilyHistory',
+        operation_id="createFamilyHistory",
     )
-    def create_family_history(self, payload: FamilyHistoryCreateSchema): # type: ignore
+    def create_family_history(self, payload: FamilyHistoryCreateSchema):  # type: ignore
         return 201, payload.model_dump_django()
-        
 
     @route.get(
-        path='/{familyHistoryId}', 
+        path="/{familyHistoryId}",
         response={
             200: FamilyHistorySchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getFamilyHistoryById',
+        operation_id="getFamilyHistoryById",
     )
     @anonymize()
     def get_family_history_by_id(self, familyHistoryId: str, anonymized: bool = True):
         return get_object_or_404(FamilyHistory, id=familyHistoryId)
-        
 
     @route.delete(
-        path='/{familyHistoryId}', 
+        path="/{familyHistoryId}",
         response={
-            204: None, 
-            404: None, 401: None, 403: None,
+            204: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='deleteFamilyHistoryById',
+        operation_id="deleteFamilyHistoryById",
     )
     def delete_family_history(self, familyHistoryId: str):
         get_object_or_404(FamilyHistory, id=familyHistoryId).delete()
         return 204, None
-    
-    
+
     @route.put(
-        path='/{familyHistoryId}', 
-       response={
+        path="/{familyHistoryId}",
+        response={
             200: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='updateFamilyHistory',
+        operation_id="updateFamilyHistory",
     )
-    def update_family_history(self, familyHistoryId: str, payload: FamilyHistoryCreateSchema): # type: ignore
+    def update_family_history(self, familyHistoryId: str, payload: FamilyHistoryCreateSchema):  # type: ignore
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
         return payload.model_dump_django(instance=instance)
 
     @route.get(
-        path='/{familyHistoryId}/history/events', 
+        path="/{familyHistoryId}/history/events",
         response={
             200: Paginated[HistoryEvent.bind_schema(FamilyHistoryCreateSchema)],
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getAllFamilyHistoryHistoryEvents',
+        operation_id="getAllFamilyHistoryHistoryEvents",
     )
     @paginate()
     def get_all_family_history_history_events(self, familyHistoryId: str):
@@ -105,27 +116,37 @@ class FamilyHistoryController(ControllerBase):
         return pghistory.models.Events.objects.tracks(instance).all()
 
     @route.get(
-        path='/{familyHistoryId}/history/events/{eventId}', 
+        path="/{familyHistoryId}/history/events/{eventId}",
         response={
             200: HistoryEvent.bind_schema(FamilyHistoryCreateSchema),
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getFamilyHistoryHistoryEventById',
+        operation_id="getFamilyHistoryHistoryEventById",
     )
-    def get_family_history_history_event_by_id(self, familyHistoryId: str, eventId: str):
+    def get_family_history_history_event_by_id(
+        self, familyHistoryId: str, eventId: str
+    ):
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
-        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+        return get_object_or_404(
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+        )
 
     @route.put(
-        path='/{familyHistoryId}/history/events/{eventId}/reversion', 
+        path="/{familyHistoryId}/history/events/{eventId}/reversion",
         response={
             201: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='revertFamilyHistoryToHistoryEvent',
+        operation_id="revertFamilyHistoryToHistoryEvent",
     )
-    def revert_family_history_to_history_event(self, familyHistoryId: str, eventId: str):
+    def revert_family_history_to_history_event(
+        self, familyHistoryId: str, eventId: str
+    ):
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

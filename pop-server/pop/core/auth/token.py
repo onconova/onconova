@@ -1,5 +1,7 @@
 from django.http import HttpRequest
-from allauth.headless.contrib.ninja.security import XSessionTokenAuth as XSessionTokenAuthBase
+from allauth.headless.contrib.ninja.security import (
+    XSessionTokenAuth as XSessionTokenAuthBase,
+)
 
 
 class XSessionTokenAuth(XSessionTokenAuthBase):

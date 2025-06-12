@@ -6,6 +6,5 @@ from .base import (
     anonymize_by_redacting_string,
     anonymize_clinically_relevant_date,
     anonymize_personal_date,
-    
 )
 from .decorator import anonymize

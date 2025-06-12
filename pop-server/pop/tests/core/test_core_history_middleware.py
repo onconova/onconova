@@ -6,7 +6,12 @@ from django.core.handlers.wsgi import WSGIRequest as DjangoWSGIRequest
 from django.core.handlers.asgi import ASGIRequest as DjangoASGIRequest
 from django.http import HttpRequest
 
-from pop.core.history.middleware import HistoryMiddleware, WSGIRequest, ASGIRequest, DjangoRequest
+from pop.core.history.middleware import (
+    HistoryMiddleware,
+    WSGIRequest,
+    ASGIRequest,
+    DjangoRequest,
+)
 
 
 class MockUser:
@@ -26,12 +31,12 @@ class TestDjangoRequest(TestCase):
 
         setattr(req, "user", user)
 
-        mock_context.assert_called_once_with(username="alice", user='1')
+        mock_context.assert_called_once_with(username="alice", user="1")
 
 
 class TestHistoryMiddleware(TestCase):
 
-    @classmethod 
+    @classmethod
     def setUpTestData(cls):
         cls.get_response = MagicMock(return_value="response")
         cls.middleware = HistoryMiddleware(cls.get_response)

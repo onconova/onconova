@@ -1,7 +1,19 @@
 import unittest
 from typing import Union, Type, List, Literal, Union
 from enum import Enum
-from pop.core.utils import is_optional, is_list, is_enum, is_literal, to_camel_case, average, std, percentile, median, hash_to_range
+from pop.core.utils import (
+    is_optional,
+    is_list,
+    is_enum,
+    is_literal,
+    to_camel_case,
+    average,
+    std,
+    percentile,
+    median,
+    hash_to_range,
+)
+
 
 class TestIsOptional(unittest.TestCase):
     def test_union_with_none(self):
@@ -37,11 +49,13 @@ class TestIsEnum(unittest.TestCase):
         class MyEnum(Enum):
             VALUE1 = 1
             VALUE2 = 2
+
         self.assertTrue(is_enum(MyEnum))
 
         # Testing with a non-Enum type
         class MyClass:
             pass
+
         self.assertFalse(is_enum(MyClass))
 
         # Testing with a different type
@@ -51,11 +65,10 @@ class TestIsEnum(unittest.TestCase):
 class TestIsLiteralFunction(unittest.TestCase):
 
     def test_literal_type(self):
-        self.assertTrue(is_literal(Literal['a', 'b']))
+        self.assertTrue(is_literal(Literal["a", "b"]))
 
     def test_non_literal_type(self):
         self.assertFalse(is_literal(int))
-
 
 
 class TestToCamelCase(unittest.TestCase):
@@ -73,6 +86,7 @@ class TestToCamelCase(unittest.TestCase):
 
     def test_numbers(self):
         self.assertEqual(to_camel_case("hello_123"), "hello123")
+
 
 class TestAverageFunction(unittest.TestCase):
     def test_average_empty_data(self):
@@ -96,6 +110,7 @@ class TestAverageFunction(unittest.TestCase):
     def test_average_zero_total_weight(self):
         with self.assertRaises(ValueError):
             average([1, 2, 3, 4, 5], [0, 0, 0, 0, 0])
+
 
 class TestMedianFunction(unittest.TestCase):
 
@@ -162,7 +177,7 @@ class TestStdFunction(unittest.TestCase):
             std(data, ddof=0)
 
     def test_non_numeric_data(self):
-        data = ['a', 'b', 'c']
+        data = ["a", "b", "c"]
         with self.assertRaises(TypeError):
             std(data, ddof=0)
 

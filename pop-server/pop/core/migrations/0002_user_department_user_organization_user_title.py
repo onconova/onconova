@@ -6,23 +6,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='department',
-            field=models.CharField(blank=True, help_text='Department within an organization to which the user belongs to', max_length=100, null=True, verbose_name='Department'),
+            model_name="user",
+            name="department",
+            field=models.CharField(
+                blank=True,
+                help_text="Department within an organization to which the user belongs to",
+                max_length=100,
+                null=True,
+                verbose_name="Department",
+            ),
         ),
         migrations.AddField(
-            model_name='user',
-            name='organization',
-            field=models.CharField(blank=True, help_text='Organization to which the user belongs to', max_length=100, null=True, verbose_name='Organization'),
+            model_name="user",
+            name="organization",
+            field=models.CharField(
+                blank=True,
+                help_text="Organization to which the user belongs to",
+                max_length=100,
+                null=True,
+                verbose_name="Organization",
+            ),
         ),
         migrations.AddField(
-            model_name='user',
-            name='title',
-            field=models.CharField(blank=True, help_text='Personal title of the user', max_length=100, null=True, verbose_name='Title'),
+            model_name="user",
+            name="title",
+            field=models.CharField(
+                blank=True,
+                help_text="Personal title of the user",
+                max_length=100,
+                null=True,
+                verbose_name="Title",
+            ),
         ),
     ]

@@ -9,6 +9,7 @@ from django.db import connection
 import pghistory
 from pghistory import config
 
+
 class DjangoRequest:
     """
     Although Django's auth middleware sets the user in middleware,
@@ -27,11 +28,10 @@ class DjangoRequest:
                 if value and hasattr(value, "_meta")
                 else None
             )
-            username = (
-                value.username if hasattr(value, "username") else None
-            )
+            username = value.username if hasattr(value, "username") else None
             pghistory.context(username=username, user=user)
         return super().__setattr__(attr, value)
+
 
 class WSGIRequest(DjangoRequest, DjangoWSGIRequest):
     pass
@@ -40,12 +40,13 @@ class WSGIRequest(DjangoRequest, DjangoWSGIRequest):
 class ASGIRequest(DjangoRequest, DjangoASGIRequest):
     pass
 
+
 class HistoryMiddleware(pghistory.middleware.HistoryMiddleware):
 
     def get_context(self, request):
         return super().get_context(request) | {
             "username": request.user.username if hasattr(request, "username") else None,
-            "ip_address": request.META.get('REMOTE_ADDR', 'unknown'),
+            "ip_address": request.META.get("REMOTE_ADDR", "unknown"),
         }
 
     def __call__(self, request):

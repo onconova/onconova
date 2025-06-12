@@ -1,4 +1,4 @@
-from typing import  Optional
+from typing import Optional
 from ninja import Query, Schema
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
@@ -12,41 +12,43 @@ import json
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.auth.models import User
-from pop.core.schemas import (
-    Paginated, ModifiedResource as ModifiedResourceSchema
-)
+from pop.core.schemas import Paginated, ModifiedResource as ModifiedResourceSchema
 from pop.core.auth.schemas import (
     UserFilters,
-    UserSchema, 
+    UserSchema,
     UserCreateSchema,
     UserProfileSchema,
     UserPasswordReset as UserPasswordResetSchema,
 )
 
 from pydantic import Field, AliasChoices
+
+
 class UserCredentials(Schema):
-    username: str 
+    username: str
     password: str
+
 
 class AuthenticationMeta(Schema):
     sessionToken: Optional[str] = Field(
         default=None,
-        alias='session_token',
-        validation_alias=AliasChoices('sessionToken','session_token'),
+        alias="session_token",
+        validation_alias=AliasChoices("sessionToken", "session_token"),
     )
     accessToken: Optional[str] = Field(
         default=None,
-        alias='access_token',
-        validation_alias=AliasChoices('accessToken','access_token'),
+        alias="access_token",
+        validation_alias=AliasChoices("accessToken", "access_token"),
     )
     isAuthenticated: bool = Field(
-        alias='is_authenticated',
-        validation_alias=AliasChoices('isAuthenticated','is_authenticated'),
-    ) 
-        
+        alias="is_authenticated",
+        validation_alias=AliasChoices("isAuthenticated", "is_authenticated"),
+    )
+
+
 @api_controller(
-    '/auth', 
-    tags=['Authentication'],  
+    "/auth",
+    tags=["Authentication"],
 )
 class AuthController(ControllerBase):
 
@@ -54,21 +56,23 @@ class AuthController(ControllerBase):
         path="/session",
         response={
             200: AuthenticationMeta,
-            401: None, 403: None,
-        }, 
-        operation_id='login',
-        openapi_extra=dict(security=[])
+            401: None,
+            403: None,
+        },
+        operation_id="login",
+        openapi_extra=dict(security=[]),
     )
     @paginate
-    def login(self, credentials: UserCredentials): 
-        view = resolve('/api/allauth/app/v1/auth/login')
+    def login(self, credentials: UserCredentials):
+        view = resolve("/api/allauth/app/v1/auth/login")
         response = view.func(self.context.request)
-        return 200, json.loads(response.content.decode())['meta']
-    
+        return 200, json.loads(response.content.decode())["meta"]
+
+
 @api_controller(
-    '/users', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Users'],  
+    "/users",
+    auth=[XSessionTokenAuth()],
+    tags=["Users"],
 )
 class UsersController(ControllerBase):
 
@@ -76,73 +80,82 @@ class UsersController(ControllerBase):
         path="",
         response={
             200: Paginated[UserSchema],
-            401: None, 403: None,
-        }, 
-        operation_id='getUsers',
+            401: None,
+            403: None,
+        },
+        operation_id="getUsers",
     )
     @paginate
-    def get_all_users_matching_the_query(self, query: Query[UserFilters]): # type: ignore
+    def get_all_users_matching_the_query(self, query: Query[UserFilters]):  # type: ignore
         queryset = get_user_model().objects.all()
         return query.filter(queryset)
-    
+
     @route.get(
-        path="/{userId}", 
+        path="/{userId}",
         response={
             200: UserSchema,
-            404: None, 401: None, 403: None,
-        }, 
-        operation_id='getUserById',
+            404: None,
+            401: None,
+            403: None,
+        },
+        operation_id="getUserById",
     )
     def get_user_by_id(self, userId: str):
         return get_object_or_404(get_user_model(), id=userId)
 
-
     @route.post(
-        path="", 
+        path="",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
-        }, 
+            401: None,
+            403: None,
+        },
         permissions=[perms.CanManageUsers],
-        operation_id='createUser',
+        operation_id="createUser",
     )
     def create_user(self, payload: UserCreateSchema):
         return 201, payload.model_dump_django()
 
     @route.put(
-        path='/{userId}', 
-       response={
+        path="/{userId}",
+        response={
             200: UserSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageUsers],
-        operation_id='updateUser',
+        operation_id="updateUser",
     )
     def update_user(self, userId: str, payload: UserCreateSchema):
         user = get_object_or_404(User, id=userId)
         return payload.model_dump_django(instance=user)
-        
+
     @route.put(
-        path='/{userId}/profile', 
-       response={
+        path="/{userId}/profile",
+        response={
             201: UserSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageUsers | perms.IsRequestingUser],
-        operation_id='updateUserProfile',
+        operation_id="updateUserProfile",
     )
     def update_user_profile(self, userId: str, payload: UserProfileSchema):
         user = get_object_or_404(User, id=userId)
         User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
         return 201, get_object_or_404(User, id=user.id)
-    
+
     @route.put(
-        path='/{userId}/password', 
-       response={
+        path="/{userId}/password",
+        response={
             201: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
-        operation_id='updateUserPassword',
+        operation_id="updateUserPassword",
     )
     def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
         user = get_object_or_404(User, id=userId)
@@ -152,20 +165,20 @@ class UsersController(ControllerBase):
             return 403, None
         user.set_password(payload.newPassword)
         user.save()
-        return 201, user 
-    
+        return 201, user
 
     @route.post(
-        path='/{userId}/password/reset', 
+        path="/{userId}/password/reset",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageUsers],
-        operation_id='resetUserPassword',
+        operation_id="resetUserPassword",
     )
     def reset_user_password(self, userId: str, password: str):
         user = get_object_or_404(User, id=userId)
         user.set_password(password)
         user.save()
-        return 201, user 
+        return 201, user
