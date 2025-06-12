@@ -132,7 +132,8 @@ class TherapyLine(BaseModel):
         TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.filter(code='407563006').first()
 
         def remove_uninformative_events(object):
-            uninformative_events = pghistory.models.Events.objects.tracks(object).filter(Q(pgh_label='update') & Q(Q(pgh_diff__isnull=True) | Q(pgh_diff__therapy_line_id__isnull=False))).values_list('pgh_id', flat=True)
+            uninformative_events = pghistory.models.Events.objects.tracks(object).filter(Q(pgh_label='update') & Q(pgh_diff__isnull=True))
+            uninformative_events = [event.id for event in uninformative_events if list(event.pgh_diff.keys()) == ['therapy_line_id']]
             object.events.filter(pgh_id__in=uninformative_events).delete()
 
         def is_anti_hormonal(SACT):
