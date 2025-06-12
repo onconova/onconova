@@ -1,13 +1,13 @@
 from ninja_extra import NinjaExtraAPI
 
-from pop.core.controllers import AuthController, UsersController
+from pop.core.auth.controllers import AuthController, UsersController
 from pop.core.measures.controllers import MeasuresController
 from pop.terminology.controllers import TerminologyController
-from pop.projects.controllers import ProjectController
+from pop.research.controllers.project import ProjectController
 from pop.oncology.controllers import (
     PatientCaseController,
     NeoplasticEntityController,
-    StagingController,    
+    StagingController,
     TumorMarkerController,
     RiskAssessmentController,
     SystemicTherapyController,
@@ -28,16 +28,16 @@ from pop.oncology.controllers import (
     MolecularTherapeuticRecommendationController,
     OthersController,
 )
-from pop.interoperability.controllers import (    
+from pop.interoperability.controllers import (
     InteroperabilityController,
 )
-from pop.analytics.controllers import (
-    CohortsController, 
-    DashboardController, 
+from pop.research.controllers.cohort import CohortsController, CohortAnalysisController
+from pop.research.controllers.dataset import (
     DatasetsController,
-    CohortAnalysisController
 )
-
+from pop.analytics.controllers import (
+    DashboardController,
+)
 
 api = NinjaExtraAPI(
     title="POP API",
@@ -75,17 +75,21 @@ The Precision Oncology Platform API specification is made available under the MI
 modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.
     """,
     urls_namespace="pop",
-    servers=[dict(
-        url='https://{domain}:{port}/api', 
-        description='API server', 
-        variables={
-            "port": {"default": "4443"}, 
-            "domain": {"default": "localhost"}
-        }),
+    servers=[
+        dict(
+            url="https://{domain}:{port}/api",
+            description="API server",
+            variables={"port": {"default": "4443"}, "domain": {"default": "localhost"}},
+        ),
     ],
     openapi_extra=dict(
-        info=dict(license=dict(name="MIT", url="https://github.com/precisionmedicineinitiative/POP/blob/main/LICENSE"))
-    )
+        info=dict(
+            license=dict(
+                name="MIT",
+                url="https://github.com/precisionmedicineinitiative/POP/blob/main/LICENSE",
+            )
+        )
+    ),
 )
 api.register_controllers(
     AuthController,

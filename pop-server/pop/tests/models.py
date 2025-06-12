@@ -1,25 +1,29 @@
-
 from django.db import models
 import pghistory
 from django.contrib.postgres.fields import DateRangeField
 from pop.terminology.fields import CodedConceptField
 from pop.terminology.models import CodedConcept
 from pop.core.models import BaseModel
-from enum import Enum 
+from enum import Enum
+
 
 class OptionsEnum(models.TextChoices):
-    OPTIONA = 'optionA'
-    OPTIONB = 'optionB'
+    OPTIONA = "optionA"
+    OPTIONB = "optionB"
+
 
 class MockCodedConcept(CodedConcept):
     pass
-    
-class UntrackedMockBaseModel(BaseModel):    
+
+
+class UntrackedMockBaseModel(BaseModel):
     pass
 
+
 @pghistory.track()
-class MockBaseModel(BaseModel):    
+class MockBaseModel(BaseModel):
     pass
+
 
 class MockModel(models.Model):
     id = models.CharField(primary_key=True)
@@ -32,5 +36,9 @@ class MockModel(models.Model):
     bool_field = models.BooleanField(null=True)
     period_field = DateRangeField(null=True)
     float_field = models.FloatField(null=True)
-    coded_concept_field = CodedConceptField(null=True, _to=MockCodedConcept, terminology=None)
-    multi_coded_concept_field = CodedConceptField(null=True, _to=MockCodedConcept, terminology=None, multiple=True)
+    coded_concept_field = CodedConceptField(
+        null=True, _to=MockCodedConcept, terminology=None
+    )
+    multi_coded_concept_field = CodedConceptField(
+        null=True, _to=MockCodedConcept, terminology=None, multiple=True
+    )

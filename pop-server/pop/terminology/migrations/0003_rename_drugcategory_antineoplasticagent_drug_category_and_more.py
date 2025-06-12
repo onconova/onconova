@@ -6,23 +6,23 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('terminology', '0002_rename_treatmentcategory_adjunctivetherapyrole'),
+        ("terminology", "0002_rename_treatmentcategory_adjunctivetherapyrole"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='antineoplasticagent',
-            old_name='drugCategory',
-            new_name='drug_category',
+            model_name="antineoplasticagent",
+            old_name="drugCategory",
+            new_name="drug_category",
         ),
         migrations.RenameField(
-            model_name='antineoplasticagent',
-            old_name='drugDomain',
-            new_name='drug_domain',
+            model_name="antineoplasticagent",
+            old_name="drugDomain",
+            new_name="drug_domain",
         ),
         migrations.RenameField(
-            model_name='antineoplasticagent',
-            old_name='therapyCategory',
-            new_name='therapy_category',
+            model_name="antineoplasticagent",
+            old_name="therapyCategory",
+            new_name="therapy_category",
         ),
     ]

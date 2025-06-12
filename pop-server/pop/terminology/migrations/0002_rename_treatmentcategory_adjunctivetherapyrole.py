@@ -7,14 +7,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('oncology', '0001_initial'),
-        ('terminology', '0001_initial'),
+        ("oncology", "0001_initial"),
+        ("terminology", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='TreatmentCategory',
-            new_name='AdjunctiveTherapyRole',
+            old_name="TreatmentCategory",
+            new_name="AdjunctiveTherapyRole",
         ),
     ]

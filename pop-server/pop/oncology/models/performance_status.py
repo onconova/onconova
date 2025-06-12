@@ -3,33 +3,38 @@ import pghistory
 from django.db import models
 from django.db.models import Q, Value, Case, When, OuterRef, ExpressionWrapper
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from queryable_properties.properties import SubqueryObjectProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
-from pop.core.models import BaseModel 
+from pop.core.models import BaseModel
 from pop.oncology.models import PatientCase
 import pop.terminology.models as terminologies
 
 ECOG_INTEPRETATION = {
-    0: 'LA9622-7', 1: 'LA9623-5', 2: 'LA9624-3', 
-    3: 'LA9625-0', 4: 'LA9626-8', 5: 'LA9627-6',
+    0: "LA9622-7",
+    1: "LA9623-5",
+    2: "LA9624-3",
+    3: "LA9625-0",
+    4: "LA9626-8",
+    5: "LA9627-6",
 }
 
 KARNOFSKY_INTEPRETATION = {
-0: 'LA9627-6',
-10: 'LA29184-1', 
-20: 'LA29183-3', 
-30: 'LA29182-5',
-40: 'LA29181-7',
-50: 'LA29180-9', 
-60: 'LA29179-1', 
-70: 'LA29178-3',
-80: 'LA29177-5', 
-90: 'LA29176-7', 
-100: 'LA29175-9',
+    0: "LA9627-6",
+    10: "LA29184-1",
+    20: "LA29183-3",
+    30: "LA29182-5",
+    40: "LA29181-7",
+    50: "LA29180-9",
+    60: "LA29179-1",
+    70: "LA29178-3",
+    80: "LA29177-5",
+    90: "LA29176-7",
+    100: "LA29175-9",
 }
+
 
 @pghistory.track()
 class PerformanceStatus(BaseModel):
@@ -37,39 +42,48 @@ class PerformanceStatus(BaseModel):
     objects = QueryablePropertiesManager()
 
     case = models.ForeignKey(
-        verbose_name = _('Patient case'),
-        help_text = _("Indicates the case of the patient who's performance status is assesed"),
-        to = PatientCase,
-        related_name = 'performance_status',
-        on_delete = models.CASCADE,
+        verbose_name=_("Patient case"),
+        help_text=_(
+            "Indicates the case of the patient who's performance status is assesed"
+        ),
+        to=PatientCase,
+        related_name="performance_status",
+        on_delete=models.CASCADE,
     )
     date = models.DateField(
-        verbose_name = _('Assessment date'),
-        help_text = _("Clinically-relevant date at which the performance score was performed and recorded."),
-    ) 
+        verbose_name=_("Assessment date"),
+        help_text=_(
+            "Clinically-relevant date at which the performance score was performed and recorded."
+        ),
+    )
     ecog_score = models.PositiveSmallIntegerField(
-        verbose_name = _('ECOG Score'),
-        help_text = _("ECOG Performance Status Score"), 
+        verbose_name=_("ECOG Score"),
+        help_text=_("ECOG Performance Status Score"),
         validators=[MinValueValidator(0), MaxValueValidator(5)],
-        blank = True, null=True,
+        blank=True,
+        null=True,
     )
     karnofsky_score = models.PositiveSmallIntegerField(
-        verbose_name = _('Karnofsky Score'),
-        help_text = _("Karnofsky Performance Status Score"), 
+        verbose_name=_("Karnofsky Score"),
+        help_text=_("Karnofsky Performance Status Score"),
         validators=[MinValueValidator(0), MaxValueValidator(100)],
-        blank = True, null=True,
+        blank=True,
+        null=True,
     )
     ecog_interpretation = SubqueryObjectProperty(
         model=terminologies.ECOGPerformanceStatusInterpretation,
-        queryset=lambda: terminologies.ECOGPerformanceStatusInterpretation.objects
-            .annotate(ecog=ExpressionWrapper(OuterRef('ecog_score'), output_field=models.PositiveSmallIntegerField()))
-            .filter(code=Case(
-                When(ecog=0, then=Value('LA9622-7')),
-                When(ecog=1, then=Value('LA9623-5')),
-                When(ecog=2, then=Value('LA9624-3')),
-                When(ecog=3, then=Value('LA9625-0')),
-                When(ecog=4, then=Value('LA9626-8')),
-                When(ecog=5, then=Value('LA9627-6')),
+        queryset=lambda: terminologies.ECOGPerformanceStatusInterpretation.objects.annotate(
+            ecog=ExpressionWrapper(
+                OuterRef("ecog_score"), output_field=models.PositiveSmallIntegerField()
+            )
+        ).filter(
+            code=Case(
+                When(ecog=0, then=Value("LA9622-7")),
+                When(ecog=1, then=Value("LA9623-5")),
+                When(ecog=2, then=Value("LA9624-3")),
+                When(ecog=3, then=Value("LA9625-0")),
+                When(ecog=4, then=Value("LA9626-8")),
+                When(ecog=5, then=Value("LA9627-6")),
                 default=None,
             )
         ),
@@ -77,20 +91,24 @@ class PerformanceStatus(BaseModel):
     )
     karnofsky_interpretation = SubqueryObjectProperty(
         model=terminologies.KarnofskyPerformanceStatusInterpretation,
-        queryset=lambda: terminologies.KarnofskyPerformanceStatusInterpretation.objects
-            .annotate(karnofsky=ExpressionWrapper(OuterRef('karnofsky_score'), output_field=models.PositiveSmallIntegerField()))
-            .filter(code=Case(
-                When(karnofsky=0, then=Value('LA9627-6')),
-                When(karnofsky=10, then=Value('LA29184-1')),
-                When(karnofsky=20, then=Value('LA29183-3')),
-                When(karnofsky=30, then=Value('LA29182-5')),
-                When(karnofsky=40, then=Value('LA29181-7')),
-                When(karnofsky=50, then=Value('LA29180-9')),
-                When(karnofsky=60, then=Value('LA29179-1')),
-                When(karnofsky=70, then=Value('LA29178-3')),
-                When(karnofsky=80, then=Value('LA29177-5')),
-                When(karnofsky=90, then=Value('LA29176-7')),
-                When(karnofsky=100, then=Value('LA29175-9')),
+        queryset=lambda: terminologies.KarnofskyPerformanceStatusInterpretation.objects.annotate(
+            karnofsky=ExpressionWrapper(
+                OuterRef("karnofsky_score"),
+                output_field=models.PositiveSmallIntegerField(),
+            )
+        ).filter(
+            code=Case(
+                When(karnofsky=0, then=Value("LA9627-6")),
+                When(karnofsky=10, then=Value("LA29184-1")),
+                When(karnofsky=20, then=Value("LA29183-3")),
+                When(karnofsky=30, then=Value("LA29182-5")),
+                When(karnofsky=40, then=Value("LA29181-7")),
+                When(karnofsky=50, then=Value("LA29180-9")),
+                When(karnofsky=60, then=Value("LA29179-1")),
+                When(karnofsky=70, then=Value("LA29178-3")),
+                When(karnofsky=80, then=Value("LA29177-5")),
+                When(karnofsky=90, then=Value("LA29176-7")),
+                When(karnofsky=100, then=Value("LA29175-9")),
                 default=None,
             )
         ),
@@ -100,18 +118,19 @@ class PerformanceStatus(BaseModel):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(ecog_score__isnull=False) | 
-                          models.Q(karnofsky_score__isnull=False),
-                name='at_least_one_score_must_be_set'
+                condition=models.Q(ecog_score__isnull=False)
+                | models.Q(karnofsky_score__isnull=False),
+                name="at_least_one_score_must_be_set",
             )
         ]
+
     @property
     def description(self):
         if self.ecog_score is not None:
-            return f'ECOG: ({self.ecog_score})'
+            return f"ECOG: ({self.ecog_score})"
         elif self.karnofsky_score is not None:
-            return f'Karnofsky ({self.karnofsky_score})'
-        
+            return f"Karnofsky ({self.karnofsky_score})"
+
     def convert_karnofsky_to_ecog(self):
         """
         Reference

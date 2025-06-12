@@ -6,13 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('terminology', '0004_remove_antineoplasticagent_atc_and_more'),
+        ("terminology", "0004_remove_antineoplasticagent_atc_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='antineoplasticagent',
-            name='therapy_category',
-            field=models.CharField(blank=True, choices=[('chemotherapy', 'Chemotherapy'), ('immunotherapy', 'Immunotherapy'), ('hormone-therapy', 'Hormone Therapy'), ('targeted-therapy', 'Targeted Therapy'), ('antimetastatic_therapy', 'Antimetastatic Therapy'), ('metabolic-therapy', 'Metabolic Therapy'), ('radiopharmaceutical-therapy', 'Radiopharmaceutical Therapy'), ('unclassified', 'Unclassified')], default='unclassified', help_text='Therapy classification', max_length=50, null=True, verbose_name='Therapy classification'),
+            model_name="antineoplasticagent",
+            name="therapy_category",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("chemotherapy", "Chemotherapy"),
+                    ("immunotherapy", "Immunotherapy"),
+                    ("hormone-therapy", "Hormone Therapy"),
+                    ("targeted-therapy", "Targeted Therapy"),
+                    ("antimetastatic_therapy", "Antimetastatic Therapy"),
+                    ("metabolic-therapy", "Metabolic Therapy"),
+                    ("radiopharmaceutical-therapy", "Radiopharmaceutical Therapy"),
+                    ("unclassified", "Unclassified"),
+                ],
+                default="unclassified",
+                help_text="Therapy classification",
+                max_length=50,
+                null=True,
+                verbose_name="Therapy classification",
+            ),
         ),
     ]

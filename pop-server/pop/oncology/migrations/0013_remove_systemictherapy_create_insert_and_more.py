@@ -9,51 +9,100 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('oncology', '0012_remove_genomicvariant_valid_rna_hgvs_and_more'),
-        ('terminology', '0009_alter_geneexon_gene'),
+        ("oncology", "0012_remove_genomicvariant_valid_rna_hgvs_and_more"),
+        ("terminology", "0009_alter_geneexon_gene"),
     ]
 
     operations = [
         pgtrigger.migrations.RemoveTrigger(
-            model_name='systemictherapy',
-            name='create_insert',
+            model_name="systemictherapy",
+            name="create_insert",
         ),
         pgtrigger.migrations.RemoveTrigger(
-            model_name='systemictherapy',
-            name='update_update',
+            model_name="systemictherapy",
+            name="update_update",
         ),
         pgtrigger.migrations.RemoveTrigger(
-            model_name='systemictherapy',
-            name='delete_delete',
+            model_name="systemictherapy",
+            name="delete_delete",
         ),
         migrations.RemoveField(
-            model_name='systemictherapyevent',
-            name='id',
+            model_name="systemictherapyevent",
+            name="id",
         ),
         migrations.RemoveField(
-            model_name='systemictherapyevent',
-            name='therapy_line',
+            model_name="systemictherapyevent",
+            name="therapy_line",
         ),
         migrations.AlterField(
-            model_name='lifestyle',
-            name='smoking_status',
-            field=models.ForeignKey(blank=True, help_text='Tobacco consumption status', null=True, on_delete=django.db.models.deletion.PROTECT, related_name='+', to='terminology.smokingstatus', verbose_name='Smoking Status'),
+            model_name="lifestyle",
+            name="smoking_status",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Tobacco consumption status",
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="+",
+                to="terminology.smokingstatus",
+                verbose_name="Smoking Status",
+            ),
         ),
         migrations.AlterField(
-            model_name='lifestyleevent',
-            name='smoking_status',
-            field=models.ForeignKey(blank=True, db_constraint=False, help_text='Tobacco consumption status', null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', related_query_name='+', to='terminology.smokingstatus', verbose_name='Smoking Status'),
+            model_name="lifestyleevent",
+            name="smoking_status",
+            field=models.ForeignKey(
+                blank=True,
+                db_constraint=False,
+                help_text="Tobacco consumption status",
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="+",
+                related_query_name="+",
+                to="terminology.smokingstatus",
+                verbose_name="Smoking Status",
+            ),
         ),
         pgtrigger.migrations.AddTrigger(
-            model_name='systemictherapy',
-            trigger=pgtrigger.compiler.Trigger(name='create_insert', sql=pgtrigger.compiler.UpsertTriggerSql(func='INSERT INTO "oncology_systemictherapyevent" ("adjunctive_role_id", "case_id", "cycles", "external_source", "external_source_id", "intent", "period", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "termination_reason_id") VALUES (NEW."adjunctive_role_id", NEW."case_id", NEW."cycles", NEW."external_source", NEW."external_source_id", NEW."intent", NEW."period", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'create\', NEW."id", NEW."termination_reason_id"); RETURN NULL;', hash='3fd85f48079e36eb3d449d3f8c0007bb788c69a6', operation='INSERT', pgid='pgtrigger_create_insert_b1c76', table='oncology_systemictherapy', when='AFTER')),
+            model_name="systemictherapy",
+            trigger=pgtrigger.compiler.Trigger(
+                name="create_insert",
+                sql=pgtrigger.compiler.UpsertTriggerSql(
+                    func='INSERT INTO "oncology_systemictherapyevent" ("adjunctive_role_id", "case_id", "cycles", "external_source", "external_source_id", "intent", "period", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "termination_reason_id") VALUES (NEW."adjunctive_role_id", NEW."case_id", NEW."cycles", NEW."external_source", NEW."external_source_id", NEW."intent", NEW."period", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'create\', NEW."id", NEW."termination_reason_id"); RETURN NULL;',
+                    hash="3fd85f48079e36eb3d449d3f8c0007bb788c69a6",
+                    operation="INSERT",
+                    pgid="pgtrigger_create_insert_b1c76",
+                    table="oncology_systemictherapy",
+                    when="AFTER",
+                ),
+            ),
         ),
         pgtrigger.migrations.AddTrigger(
-            model_name='systemictherapy',
-            trigger=pgtrigger.compiler.Trigger(name='update_update', sql=pgtrigger.compiler.UpsertTriggerSql(condition='WHEN (OLD."adjunctive_role_id" IS DISTINCT FROM (NEW."adjunctive_role_id") OR OLD."case_id" IS DISTINCT FROM (NEW."case_id") OR OLD."cycles" IS DISTINCT FROM (NEW."cycles") OR OLD."external_source" IS DISTINCT FROM (NEW."external_source") OR OLD."external_source_id" IS DISTINCT FROM (NEW."external_source_id") OR OLD."intent" IS DISTINCT FROM (NEW."intent") OR OLD."is_adjunctive" IS DISTINCT FROM (NEW."is_adjunctive") OR OLD."period" IS DISTINCT FROM (NEW."period") OR OLD."termination_reason_id" IS DISTINCT FROM (NEW."termination_reason_id"))', func='INSERT INTO "oncology_systemictherapyevent" ("adjunctive_role_id", "case_id", "cycles", "external_source", "external_source_id", "intent", "period", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "termination_reason_id") VALUES (NEW."adjunctive_role_id", NEW."case_id", NEW."cycles", NEW."external_source", NEW."external_source_id", NEW."intent", NEW."period", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'update\', NEW."id", NEW."termination_reason_id"); RETURN NULL;', hash='6065dc618d9fc0f2aceea9e545c3a8560bd66303', operation='UPDATE', pgid='pgtrigger_update_update_86fe4', table='oncology_systemictherapy', when='AFTER')),
+            model_name="systemictherapy",
+            trigger=pgtrigger.compiler.Trigger(
+                name="update_update",
+                sql=pgtrigger.compiler.UpsertTriggerSql(
+                    condition='WHEN (OLD."adjunctive_role_id" IS DISTINCT FROM (NEW."adjunctive_role_id") OR OLD."case_id" IS DISTINCT FROM (NEW."case_id") OR OLD."cycles" IS DISTINCT FROM (NEW."cycles") OR OLD."external_source" IS DISTINCT FROM (NEW."external_source") OR OLD."external_source_id" IS DISTINCT FROM (NEW."external_source_id") OR OLD."intent" IS DISTINCT FROM (NEW."intent") OR OLD."is_adjunctive" IS DISTINCT FROM (NEW."is_adjunctive") OR OLD."period" IS DISTINCT FROM (NEW."period") OR OLD."termination_reason_id" IS DISTINCT FROM (NEW."termination_reason_id"))',
+                    func='INSERT INTO "oncology_systemictherapyevent" ("adjunctive_role_id", "case_id", "cycles", "external_source", "external_source_id", "intent", "period", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "termination_reason_id") VALUES (NEW."adjunctive_role_id", NEW."case_id", NEW."cycles", NEW."external_source", NEW."external_source_id", NEW."intent", NEW."period", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'update\', NEW."id", NEW."termination_reason_id"); RETURN NULL;',
+                    hash="6065dc618d9fc0f2aceea9e545c3a8560bd66303",
+                    operation="UPDATE",
+                    pgid="pgtrigger_update_update_86fe4",
+                    table="oncology_systemictherapy",
+                    when="AFTER",
+                ),
+            ),
         ),
         pgtrigger.migrations.AddTrigger(
-            model_name='systemictherapy',
-            trigger=pgtrigger.compiler.Trigger(name='delete_delete', sql=pgtrigger.compiler.UpsertTriggerSql(func='INSERT INTO "oncology_systemictherapyevent" ("adjunctive_role_id", "case_id", "cycles", "external_source", "external_source_id", "intent", "period", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "termination_reason_id") VALUES (OLD."adjunctive_role_id", OLD."case_id", OLD."cycles", OLD."external_source", OLD."external_source_id", OLD."intent", OLD."period", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'delete\', OLD."id", OLD."termination_reason_id"); RETURN NULL;', hash='368f974699617d206a7428fc6a56c163509eb001', operation='DELETE', pgid='pgtrigger_delete_delete_7ed74', table='oncology_systemictherapy', when='AFTER')),
+            model_name="systemictherapy",
+            trigger=pgtrigger.compiler.Trigger(
+                name="delete_delete",
+                sql=pgtrigger.compiler.UpsertTriggerSql(
+                    func='INSERT INTO "oncology_systemictherapyevent" ("adjunctive_role_id", "case_id", "cycles", "external_source", "external_source_id", "intent", "period", "pgh_context", "pgh_context_id", "pgh_created_at", "pgh_label", "pgh_obj_id", "termination_reason_id") VALUES (OLD."adjunctive_role_id", OLD."case_id", OLD."cycles", OLD."external_source", OLD."external_source_id", OLD."intent", OLD."period", COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_metadata\', TRUE), \'\'), NULL)::JSONB, COALESCE(NULLIF(CURRENT_SETTING(\'pghistory.context_id\', TRUE), \'\'), NULL)::UUID, NOW(), \'delete\', OLD."id", OLD."termination_reason_id"); RETURN NULL;',
+                    hash="368f974699617d206a7428fc6a56c163509eb001",
+                    operation="DELETE",
+                    pgid="pgtrigger_delete_delete_7ed74",
+                    table="oncology_systemictherapy",
+                    when="AFTER",
+                ),
+            ),
         ),
     ]

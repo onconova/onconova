@@ -5,83 +5,92 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core import permissions as perms
-from pop.core.security import XSessionTokenAuth
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.history.schemas import HistoryEvent
 from pop.oncology.models import Surgery, TherapyLine
 
 from django.shortcuts import get_object_or_404
 
 from pop.oncology.schemas import SurgerySchema, SurgeryCreateSchema, SurgeryFilters
 
+
 @api_controller(
-    'surgeries', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Surgeries'],  
+    "surgeries",
+    auth=[XSessionTokenAuth()],
+    tags=["Surgeries"],
 )
 class SurgeryController(ControllerBase):
 
     @route.get(
-        path='', 
+        path="",
         response={
             200: Paginated[SurgerySchema],
         },
         permissions=[perms.CanViewCases],
-        operation_id='getSurgeries',
+        operation_id="getSurgeries",
     )
     @paginate()
     @anonymize()
-    def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters], anonymized: bool = True): # type: ignore
-        queryset = Surgery.objects.all().order_by('-date')
+    def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters], anonymized: bool = True):  # type: ignore
+        queryset = Surgery.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
-        path='', 
+        path="",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='createSurgery',
+        operation_id="createSurgery",
     )
-    def create_surgery(self, payload: SurgeryCreateSchema): # type: ignore
+    def create_surgery(self, payload: SurgeryCreateSchema):  # type: ignore
         return 201, payload.model_dump_django().assign_therapy_line()
 
     @route.get(
-        path='/{surgeryId}', 
+        path="/{surgeryId}",
         response={
             200: SurgerySchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getSurgeryById',
+        operation_id="getSurgeryById",
     )
     @anonymize()
     def get_surgery_by_id(self, surgeryId: str, anonymized: bool = True):
         return get_object_or_404(Surgery, id=surgeryId)
 
     @route.put(
-        path='/{surgeryId}', 
-       response={
+        path="/{surgeryId}",
+        response={
             200: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='updateSurgeryById',
+        operation_id="updateSurgeryById",
     )
-    def update_surgery(self, surgeryId: str, payload: SurgeryCreateSchema): # type: ignore
+    def update_surgery(self, surgeryId: str, payload: SurgeryCreateSchema):  # type: ignore
         instance = get_object_or_404(Surgery, id=surgeryId)
         return payload.model_dump_django(instance=instance).assign_therapy_line()
 
     @route.delete(
-        path='/{surgeryId}', 
+        path="/{surgeryId}",
         response={
-            204: None, 
-            404: None, 401: None, 403: None,
+            204: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='deleteSurgeryById',
+        operation_id="deleteSurgeryById",
     )
     def delete_surgery(self, surgeryId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)
@@ -89,15 +98,17 @@ class SurgeryController(ControllerBase):
         instance.delete()
         TherapyLine.assign_therapy_lines(case)
         return 204, None
-        
+
     @route.get(
-        path='/{surgeryId}/history/events', 
+        path="/{surgeryId}/history/events",
         response={
             200: Paginated[HistoryEvent.bind_schema(SurgeryCreateSchema)],
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getAllSurgeryHistoryEvents',
+        operation_id="getAllSurgeryHistoryEvents",
     )
     @paginate()
     def get_all_surgery_history_events(self, surgeryId: str):
@@ -105,26 +116,32 @@ class SurgeryController(ControllerBase):
         return pghistory.models.Events.objects.tracks(instance).all()
 
     @route.get(
-        path='/{surgeryId}/history/events/{eventId}', 
+        path="/{surgeryId}/history/events/{eventId}",
         response={
             200: HistoryEvent.bind_schema(SurgeryCreateSchema),
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getSurgeryHistoryEventById',
+        operation_id="getSurgeryHistoryEventById",
     )
     def get_surgery_history_event_by_id(self, surgeryId: str, eventId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)
-        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+        return get_object_or_404(
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+        )
 
     @route.put(
-        path='/{surgeryId}/history/events/{eventId}/reversion', 
+        path="/{surgeryId}/history/events/{eventId}/reversion",
         response={
             201: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='revertSurgeryToHistoryEvent',
+        operation_id="revertSurgeryToHistoryEvent",
     )
     def revert_surgery_to_history_event(self, surgeryId: str, eventId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)

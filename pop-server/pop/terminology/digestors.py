@@ -1,19 +1,26 @@
-from collections import defaultdict 
-from django.conf import settings 
-import re 
-import os 
+from collections import defaultdict
+from django.conf import settings
+import re
+import os
 import csv
 import subprocess
-import json 
+import json
 import sys
 from pydantic import BaseModel
-from datetime import datetime 
+from datetime import datetime
 from typing import Optional
-from tqdm import tqdm 
-from pop.terminology.utils import get_file_location, get_dictreader_and_size, ensure_within_string_limits, ensure_list, CodedConcept
+from tqdm import tqdm
+from pop.terminology.utils import (
+    get_file_location,
+    get_dictreader_and_size,
+    ensure_within_string_limits,
+    ensure_list,
+    CodedConcept,
+)
 
-# Expand size limit to load heavy CSV files 
+# Expand size limit to load heavy CSV files
 csv.field_size_limit(sys.maxsize)
+
 
 class TerminologyDigestor:
     """
@@ -29,22 +36,22 @@ class TerminologyDigestor:
     Methods:
         __init__(verbose: bool = True) -> None:
             Initializes the TerminologyDigestor and prepares the file location.
-        
+
         digest() -> dict[str, CodedConcept]:
             Digests the terminology's concepts and designations.
-        
+
         _digest_concepts() -> None:
             Reads and processes each row from the file containing concepts.
-        
+
         _digest_concept_row(row: dict[str, str]) -> None:
             Processes a single row from the concepts file.
     """
 
-    PATH: str = os.path.join(settings.BASE_DIR, os.environ.get('EXTERNAL_DATA_DIR')) 
+    PATH: str = os.path.join(settings.BASE_DIR, os.environ.get("EXTERNAL_DATA_DIR"))
     FILENAME: str
-    CANONICAL_URL: str 
+    CANONICAL_URL: str
     OTHER_URLS: list[str] = []
-    LABEL: str 
+    LABEL: str
 
     def __init__(self, verbose: bool = True) -> None:
         """
@@ -56,13 +63,15 @@ class TerminologyDigestor:
         try:
             self.file_location = get_file_location(self.PATH, self.FILENAME)
         except FileNotFoundError:
-            print(f'\nFile {self.PATH}/{self.FILENAME} not found. Attempting download...')
-            cmd = f'chmod +x download.sh && ./download.sh {self.LABEL}'
+            print(
+                f"\nFile {self.PATH}/{self.FILENAME} not found. Attempting download..."
+            )
+            cmd = f"chmod +x download.sh && ./download.sh {self.LABEL}"
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
             process.wait()
         self.file_location = get_file_location(self.PATH, self.FILENAME)
         self.verbose = verbose
-        
+
     def digest(self) -> dict[str, CodedConcept]:
         """
         Digests the terminology's concepts and designations.
@@ -72,12 +81,12 @@ class TerminologyDigestor:
                 and CodedConcept objects as values.
         """
         self.designations = defaultdict(list)
-        self.concepts = {}     
+        self.concepts = {}
         self._digest_concepts()
-        for code, synonyms in self.designations.items(): 
+        for code, synonyms in self.designations.items():
             self.concepts[code].synonyms = synonyms
         return self.concepts
-    
+
     def _digest_concepts(self) -> None:
         """
         Reads through a file containing concepts and processes each row.
@@ -89,10 +98,15 @@ class TerminologyDigestor:
         with open(self.file_location) as file:
             # Go over the concepts in the file
             reader, total = get_dictreader_and_size(file)
-            for row in tqdm(reader, total=total, disable=not self.verbose, desc='• Digesting concepts'):
+            for row in tqdm(
+                reader,
+                total=total,
+                disable=not self.verbose,
+                desc="• Digesting concepts",
+            ):
                 self._digest_concept_row(row)
         if self.verbose:
-            print(f'\r✓ All concepts successfully digested')
+            print(f"\r✓ All concepts successfully digested")
 
     def _digest_concept_row(self, row: dict[str, str]) -> None:
         """
@@ -110,182 +124,206 @@ class TerminologyDigestor:
         raise NotImplementedError()
 
 
-
 class NCITDigestor(TerminologyDigestor):
-    LABEL = 'ncit'
-    FILENAME = 'ncit.tsv'
-    CANONICAL_URL='http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl'
-    
-    def _digest_concept_row(self, row):        
+    LABEL = "ncit"
+    FILENAME = "ncit.tsv"
+    CANONICAL_URL = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"
+
+    def _digest_concept_row(self, row):
         # Get core coding elements
-        code = row['code']
-        parent = row['parents'].split('|')[0] if row['parents'] else None
-        synonyms = [ensure_within_string_limits(synonym) for synonym in row['synonyms'].split('|')] if row['synonyms'] else [None]
-        display = row['display name'] or synonyms[0]
+        code = row["code"]
+        parent = row["parents"].split("|")[0] if row["parents"] else None
+        synonyms = (
+            [
+                ensure_within_string_limits(synonym)
+                for synonym in row["synonyms"].split("|")
+            ]
+            if row["synonyms"]
+            else [None]
+        )
+        display = row["display name"] or synonyms[0]
         # Add the concept
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
-            definition=row['definition'],
-            parent=parent,  
+            definition=row["definition"],
+            parent=parent,
             synonyms=[synonym for synonym in synonyms[1:]],
             system=self.CANONICAL_URL,
         )
 
 
 class SNOMEDCTDigestor(TerminologyDigestor):
-    LABEL = 'snomedct'
-    FILENAME = 'snomedct.tsv'
-    CANONICAL_URL='http://snomed.info/sct'
-    RELATIONSHIPS_FILENAME = 'snomedct_relations.tsv'
-    SNOMED_IS_A = '116680003'
+    LABEL = "snomedct"
+    FILENAME = "snomedct.tsv"
+    CANONICAL_URL = "http://snomed.info/sct"
+    RELATIONSHIPS_FILENAME = "snomedct_relations.tsv"
+    SNOMED_IS_A = "116680003"
     SNOMED_DESIGNATION_USES = {
-        '900000000000013009': 'SYNONYM',
-        '900000000000003001': 'FULL',
+        "900000000000013009": "SYNONYM",
+        "900000000000003001": "FULL",
     }
 
     def digest(self):
-        super().digest() 
+        super().digest()
         self._digest_relationships()
         for code, concept in self.concepts.items():
             if len(concept.display) > len(concept.synonyms[0]):
                 self.concepts[code].synonyms.append(concept.display)
                 self.concepts[code].display = concept.synonyms[0]
         return self.concepts
-    
+
     def _digest_relationships(self):
         file_location = get_file_location(self.PATH, self.RELATIONSHIPS_FILENAME)
         # Read through file containing the relationships
         with open(file_location) as file:
             # Go over the concepts in the file
             reader, total = get_dictreader_and_size(file)
-            for row in tqdm(reader, total=total, disable=not self.verbose, desc='• Digesting relationships'):
-                type = row['typeId']
-                active = bool(row['active'])
+            for row in tqdm(
+                reader,
+                total=total,
+                disable=not self.verbose,
+                desc="• Digesting relationships",
+            ):
+                type = row["typeId"]
+                active = bool(row["active"])
                 if active and type == self.SNOMED_IS_A:
-                    parent = self.concepts[row['destinationId']]
-                    child = self.concepts[row['sourceId']]
+                    parent = self.concepts[row["destinationId"]]
+                    child = self.concepts[row["sourceId"]]
                     child.parent = parent.code
 
-        if self.verbose: 
-            print(f'\r✓ All relationships sucessfully digested')
+        if self.verbose:
+            print(f"\r✓ All relationships sucessfully digested")
 
-    def _digest_concept_row(self, row):   
-        if not bool(row['active']):
+    def _digest_concept_row(self, row):
+        if not bool(row["active"]):
             return
-        code = row['conceptId'] 
-        usage = self.SNOMED_DESIGNATION_USES[row['typeId']]
-        display = ensure_within_string_limits(row['term'])
+        code = row["conceptId"]
+        usage = self.SNOMED_DESIGNATION_USES[row["typeId"]]
+        display = ensure_within_string_limits(row["term"])
         if code not in self.concepts:
-            self.concepts[code] = CodedConcept( 
+            self.concepts[code] = CodedConcept(
                 code=code,
                 display=display,
                 system=self.CANONICAL_URL,
             )
-        if usage == 'FULL':
+        if usage == "FULL":
             self.concepts[code].display = display
         else:
-            self.concepts[code].synonyms.append(display)     
+            self.concepts[code].synonyms.append(display)
 
 
 class LOINCDigestor(TerminologyDigestor):
-    FILENAME = 'loinc.csv'
-    LABEL='loinc'
-    CANONICAL_URL='http://loinc.org'
+    FILENAME = "loinc.csv"
+    LABEL = "loinc"
+    CANONICAL_URL = "http://loinc.org"
     LOINC_PROPERTIES = [
-        'COMPONENT',
-        'PROPERTY',
-        'TIME_ASPCT',
-        'SYSTEM',
-        'SCALE_TYP',
-        'METHOD_TYP',
-        'CLASS',
-        'CONSUMER_NAME',
-        'CLASSTYPE',
-        'ORDER_OBS'
+        "COMPONENT",
+        "PROPERTY",
+        "TIME_ASPCT",
+        "SYSTEM",
+        "SCALE_TYP",
+        "METHOD_TYP",
+        "CLASS",
+        "CONSUMER_NAME",
+        "CLASSTYPE",
+        "ORDER_OBS",
     ]
-    
+
     def digest(self):
-        super().digest() 
+        super().digest()
         self._digest_part_codes()
         self._digest_answer_lists()
         return self.concepts
-    
+
     def _digest_concept_row(self, row):
         # Get core coding elements
-        code = row['LOINC_NUM']
-        display = ensure_within_string_limits(row['LONG_COMMON_NAME'])
+        code = row["LOINC_NUM"]
+        display = ensure_within_string_limits(row["LONG_COMMON_NAME"])
         # Add the concept
         self.concepts[code] = CodedConcept(
-            code = code,
-            display = display,
-            properties = {prop: row[prop] for prop in self.LOINC_PROPERTIES},
-            synonyms = [ensure_within_string_limits(row['DisplayName'])] if row['DisplayName'] else [],
+            code=code,
+            display=display,
+            properties={prop: row[prop] for prop in self.LOINC_PROPERTIES},
+            synonyms=(
+                [ensure_within_string_limits(row["DisplayName"])]
+                if row["DisplayName"]
+                else []
+            ),
             system=self.CANONICAL_URL,
         )
 
     def _digest_part_codes(self):
         # Go over all translation files
-        filename = f'loinc_parts.csv'
+        filename = f"loinc_parts.csv"
         with open(get_file_location(self.PATH, filename)) as file:
             reader, total = get_dictreader_and_size(file)
             # Go over the translation designations in the file
-            for row in tqdm(reader, total=total, disable=not self.verbose, desc='• Digesting ansswer lists'):
-                code = row['CODE']
-                if not code.startswith('LP'):
+            for row in tqdm(
+                reader,
+                total=total,
+                disable=not self.verbose,
+                desc="• Digesting ansswer lists",
+            ):
+                code = row["CODE"]
+                if not code.startswith("LP"):
                     continue
-                display = row['CODE_TEXT']
+                display = row["CODE_TEXT"]
                 self.concepts[code] = CodedConcept(
-                    code = code,
-                    display = display,
-                    parent = row['IMMEDIATE_PARENT'],
+                    code=code,
+                    display=display,
+                    parent=row["IMMEDIATE_PARENT"],
                     system=self.CANONICAL_URL,
-                ) 
+                )
             if self.verbose:
-                print(f'\r• Sucessfully digested all parts')
+                print(f"\r• Sucessfully digested all parts")
 
     def _digest_answer_lists(self):
         # Go over all translation files
-        filename = f'loinc_answer_lists.csv'
+        filename = f"loinc_answer_lists.csv"
         with open(get_file_location(self.PATH, filename)) as file:
             reader, total = get_dictreader_and_size(file)
             answer_lists_codes_included = []
             # Go over the translation designations in the file
-            for row in tqdm(reader, total=total, disable=not self.verbose, desc='• Digesting answer lists'):
+            for row in tqdm(
+                reader,
+                total=total,
+                disable=not self.verbose,
+                desc="• Digesting answer lists",
+            ):
                 # Get core coding elements
-                list_code = row['AnswerListId']
-                list_display = ensure_within_string_limits(row['AnswerListName'])
-                answer_code = row['AnswerStringId']
-                answer_display = ensure_within_string_limits(row['DisplayText'])
+                list_code = row["AnswerListId"]
+                list_display = ensure_within_string_limits(row["AnswerListName"])
+                answer_code = row["AnswerStringId"]
+                answer_display = ensure_within_string_limits(row["DisplayText"])
                 # Add the concepts
                 if list_code not in answer_lists_codes_included:
                     self.concepts[list_code] = CodedConcept(
-                        code = list_code,
-                        display = list_display,
+                        code=list_code,
+                        display=list_display,
                         system=self.CANONICAL_URL,
-                    )     
-                    answer_lists_codes_included.append(list_code)                
+                    )
+                    answer_lists_codes_included.append(list_code)
                 self.concepts[answer_code] = CodedConcept(
-                    code = answer_code,
-                    display = answer_display,
+                    code=answer_code,
+                    display=answer_display,
                     system=self.CANONICAL_URL,
-                )        
+                )
             if self.verbose:
-                print(f'\r• Sucessfully digested all answer lists')
-                
-        
-        
+                print(f"\r• Sucessfully digested all answer lists")
+
+
 class ICD10Digestor(TerminologyDigestor):
-    LABEL = 'icd10'
-    FILENAME = 'icd10.tsv'
-    CANONICAL_URL='http://hl7.org/fhir/sid/icd-10'
-    
-    def _digest_concept_row(self, row):        
-        code = row['code'] 
-        display = row['display']
-        if len(display)>2000:
+    LABEL = "icd10"
+    FILENAME = "icd10.tsv"
+    CANONICAL_URL = "http://hl7.org/fhir/sid/icd-10"
+
+    def _digest_concept_row(self, row):
+        code = row["code"]
+        display = row["display"]
+        if len(display) > 2000:
             display = display[:2000]
-        self.concepts[code] = CodedConcept( 
+        self.concepts[code] = CodedConcept(
             code=code,
             display=display,
             system=self.CANONICAL_URL,
@@ -293,132 +331,143 @@ class ICD10Digestor(TerminologyDigestor):
 
 
 class ICD10CMDigestor(TerminologyDigestor):
-    LABEL = 'icd10cm'
-    FILENAME = 'icd10cm'
+    LABEL = "icd10cm"
+    FILENAME = "icd10cm"
     ICD10CM_CODE_STRING_LENGTH = 7
-    CANONICAL_URL='ttp://hl7.org/fhir/sid/icd-10-cm'
-    
-    def _digest_concept_row(self, row):     
-        code = row['term'][:self.ICD10CM_CODE_STRING_LENGTH].strip() 
-        display = row['term'][self.ICD10CM_CODE_STRING_LENGTH+1:].strip() 
-        if len(display)>2000:
+    CANONICAL_URL = "ttp://hl7.org/fhir/sid/icd-10-cm"
+
+    def _digest_concept_row(self, row):
+        code = row["term"][: self.ICD10CM_CODE_STRING_LENGTH].strip()
+        display = row["term"][self.ICD10CM_CODE_STRING_LENGTH + 1 :].strip()
+        if len(display) > 2000:
             display = display[:2000]
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
             system=self.CANONICAL_URL,
         )
-        
+
 
 class ICD10PCSDigestor(TerminologyDigestor):
-    LABEL = 'icd10pcs'
-    FILENAME = 'icd10pcs'
+    LABEL = "icd10pcs"
+    FILENAME = "icd10pcs"
     ICD10PCS_CODE_STRING_LENGTH = 7
-    CANONICAL_URL='http://hl7.org/fhir/sid/icd-10-pcs'
-    
-    def _digest_concept_row(self, row):     
-        code = row['term'][:self.ICD10PCS_CODE_STRING_LENGTH].strip() 
-        display = row['term'][self.ICD10PCS_CODE_STRING_LENGTH+1:].strip() 
-        if len(display)>2000:
+    CANONICAL_URL = "http://hl7.org/fhir/sid/icd-10-pcs"
+
+    def _digest_concept_row(self, row):
+        code = row["term"][: self.ICD10PCS_CODE_STRING_LENGTH].strip()
+        display = row["term"][self.ICD10PCS_CODE_STRING_LENGTH + 1 :].strip()
+        if len(display) > 2000:
             display = display[:2000]
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
             system=self.CANONICAL_URL,
-        )           
+        )
 
 
 class ICDO3DifferentiationDigestor(TerminologyDigestor):
-    LABEL = 'icdo3diff'
-    FILENAME = 'icdo3diff.tsv'
-    CANONICAL_URL='http://terminology.hl7.org/CodeSystem/icd-o-3-differentiation'
-    
-    def _digest_concept_row(self, row):        
-        code = row['code'] 
-        display = ensure_within_string_limits(row['display'])
-        self.concepts[code] = CodedConcept( 
+    LABEL = "icdo3diff"
+    FILENAME = "icdo3diff.tsv"
+    CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-differentiation"
+
+    def _digest_concept_row(self, row):
+        code = row["code"]
+        display = ensure_within_string_limits(row["display"])
+        self.concepts[code] = CodedConcept(
             code=code,
             display=display,
             system=self.CANONICAL_URL,
         )
-                       
+
 
 class ICDO3MorphologyDigestor(TerminologyDigestor):
-    LABEL = 'icdo3morph'
-    FILENAME = 'icdo3morph.tsv'
-    CANONICAL_URL='http://terminology.hl7.org/CodeSystem/icd-o-3-morphology'
-    
-    def _digest_concept_row(self, row):        
-        code = row['Code'] 
-        display = ensure_within_string_limits(row['Label'])
+    LABEL = "icdo3morph"
+    FILENAME = "icdo3morph.tsv"
+    CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-morphology"
+
+    def _digest_concept_row(self, row):
+        code = row["Code"]
+        display = ensure_within_string_limits(row["Label"])
         if code not in self.concepts:
-            self.concepts[code] = CodedConcept( 
+            self.concepts[code] = CodedConcept(
                 code=code,
                 display=display,
                 system=self.CANONICAL_URL,
             )
-        if row['Struct'] == 'title':
+        if row["Struct"] == "title":
             self.concepts[code].display = display
-        elif row['Struct'] == 'sub':
-            self.concepts[code].synonyms.append(display)
-      
-class ICDO3TopographyDigestor(TerminologyDigestor):
-    LABEL = 'icdo3topo'
-    FILENAME = 'icdo3topo.tsv'
-    CANONICAL_URL='http://terminology.hl7.org/CodeSystem/icd-o-3-topography'
-    
-    def _digest_concept_row(self, row):        
-        code = row['Code'] 
-        display = ensure_within_string_limits(row['Title'])
-        if code not in self.concepts:
-            self.concepts[code] = CodedConcept( 
-                code=code,
-                display=display,
-                system=self.CANONICAL_URL,
-                parent=code.split('.')[0] if len(code.split('.'))>1 else None,
-            )
-        if str(row['Lvl']) in ['3','4']:
-            self.concepts[code].display = display.capitalize() if str(row['Lvl']) == '3' else display
-        elif row['Lvl'] == 'incl':
+        elif row["Struct"] == "sub":
             self.concepts[code].synonyms.append(display)
 
+
+class ICDO3TopographyDigestor(TerminologyDigestor):
+    LABEL = "icdo3topo"
+    FILENAME = "icdo3topo.tsv"
+    CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-topography"
+
+    def _digest_concept_row(self, row):
+        code = row["Code"]
+        display = ensure_within_string_limits(row["Title"])
+        if code not in self.concepts:
+            self.concepts[code] = CodedConcept(
+                code=code,
+                display=display,
+                system=self.CANONICAL_URL,
+                parent=code.split(".")[0] if len(code.split(".")) > 1 else None,
+            )
+        if str(row["Lvl"]) in ["3", "4"]:
+            self.concepts[code].display = (
+                display.capitalize() if str(row["Lvl"]) == "3" else display
+            )
+        elif row["Lvl"] == "incl":
+            self.concepts[code].synonyms.append(display)
+
+
 class HGNCGenesDigestor(TerminologyDigestor):
-    LABEL = 'hgnc'
-    FILENAME = 'hgnc.tsv'
-    CANONICAL_URL='http://www.genenames.org/geneId'
-        
+    LABEL = "hgnc"
+    FILENAME = "hgnc.tsv"
+    CANONICAL_URL = "http://www.genenames.org/geneId"
+
     def _digest_concept_row(self, row):
         # Get core coding elements
-        code = row['hgnc_id']
-        display = row['symbol']
+        code = row["hgnc_id"]
+        display = row["symbol"]
         # Compile all synonyms
-        synonyms = [ensure_within_string_limits(synonym) for synonym in row['alias_symbol'].split('|') + row['alias_name'].split('|') if synonym]
-        olds = [ensure_within_string_limits(synonym) for synonym in row['prev_symbol'].split('|') + row['prev_name'].split('|') if synonym]
+        synonyms = [
+            ensure_within_string_limits(synonym)
+            for synonym in row["alias_symbol"].split("|") + row["alias_name"].split("|")
+            if synonym
+        ]
+        olds = [
+            ensure_within_string_limits(synonym)
+            for synonym in row["prev_symbol"].split("|") + row["prev_name"].split("|")
+            if synonym
+        ]
         # Add the concept
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
-            definition=row['name'],
+            definition=row["name"],
             properties={
-                'locus_group': row['locus_group'],
-                'locus_type': row['locus_type'],
-                'location': row['location'],
-                'refseq_accession': row['refseq_accession'],
+                "locus_group": row["locus_group"],
+                "locus_type": row["locus_type"],
+                "location": row["location"],
+                "refseq_accession": row["refseq_accession"],
             },
-            synonyms=synonyms+olds,
+            synonyms=synonyms + olds,
             system=self.CANONICAL_URL,
         )
-        
-        
+
 
 class HGNCGroupDigestor(TerminologyDigestor):
-    LABEL = 'hgnc-group'
-    FILENAME = 'hgnc.tsv'
-    CANONICAL_URL='http://www.genenames.org/genegroup'
-    
+    LABEL = "hgnc-group"
+    FILENAME = "hgnc.tsv"
+    CANONICAL_URL = "http://www.genenames.org/genegroup"
+
     def _digest_concept_row(self, row):
-        codes = row['gene_group_id'].split('|')
-        displays =  row['gene_group'].split('|')
+        codes = row["gene_group_id"].split("|")
+        displays = row["gene_group"].split("|")
         for code, display in zip(codes, displays):
             concept = CodedConcept(
                 code=code,
@@ -432,65 +481,71 @@ class HGNCGroupDigestor(TerminologyDigestor):
 
 
 class EnsemblExonsDigestor(TerminologyDigestor):
-    LABEL = 'ensembl'
-    FILENAME = 'ensembl_exons.tsv'
-    
+    LABEL = "ensembl"
+    FILENAME = "ensembl_exons.tsv"
+
     class GeneExon(BaseModel):
-        rank: int 
+        rank: int
         coding_dna_start: Optional[int] = None
         coding_dna_end: Optional[int] = None
-        coding_genomic_start: Optional[int] = None 
+        coding_genomic_start: Optional[int] = None
         coding_genomic_end: Optional[int] = None
-            
-    def __init__(self, verbose = True):
+
+    def __init__(self, verbose=True):
         super().__init__(verbose)
-        self.exons = defaultdict(list) 
-    
+        self.exons = defaultdict(list)
+
     def digest(self):
-        super().digest() 
+        super().digest()
         for gene, exons in self.exons.items():
-            # Adjust the the cDNA position from the position in the gene reference sequence to position in the cDNA 
-            gene_coding_dna_region_start = min([exon.coding_dna_start for exon in exons if exon.coding_dna_start] or 0)
+            # Adjust the the cDNA position from the position in the gene reference sequence to position in the cDNA
+            gene_coding_dna_region_start = min(
+                [exon.coding_dna_start for exon in exons if exon.coding_dna_start] or 0
+            )
             if gene_coding_dna_region_start:
                 for exon in exons:
                     if exon.coding_dna_start:
-                        exon.coding_dna_start = exon.coding_dna_start - gene_coding_dna_region_start + 1
+                        exon.coding_dna_start = (
+                            exon.coding_dna_start - gene_coding_dna_region_start + 1
+                        )
                     if exon.coding_dna_end:
-                        exon.coding_dna_end = exon.coding_dna_end - gene_coding_dna_region_start + 1         
+                        exon.coding_dna_end = (
+                            exon.coding_dna_end - gene_coding_dna_region_start + 1
+                        )
         return self.exons
-    
+
     def _digest_concept_row(self, row):
-        gene = row['gene']
+        gene = row["gene"]
         # Add the concept
         self.exons[gene].append(
             self.GeneExon(
-            rank=row['exon_rank'],
-            coding_dna_start=row['cdna_coding_start'] or None,
-            coding_dna_end=row['cdna_coding_end'] or None,
-            coding_genomic_start=row['genomic_coding_start'] or None,
-            coding_genomic_end=row['genomic_coding_end'] or None,
+                rank=row["exon_rank"],
+                coding_dna_start=row["cdna_coding_start"] or None,
+                coding_dna_end=row["cdna_coding_end"] or None,
+                coding_genomic_start=row["genomic_coding_start"] or None,
+                coding_genomic_end=row["genomic_coding_end"] or None,
             )
         )
-        
-                  
+
+
 class SequenceOntologyDigestor(TerminologyDigestor):
-    LABEL = 'so'
-    FILENAME = 'so.obo'
-    CANONICAL_URL = 'http://www.sequenceontology.org'
-    OTHER_URLS = ['http://sequenceontology.org']
+    LABEL = "so"
+    FILENAME = "so.obo"
+    CANONICAL_URL = "http://www.sequenceontology.org"
+    OTHER_URLS = ["http://sequenceontology.org"]
 
     def _digest_concept_row(self, row):
-        if bool(row.get('is_obsolete')):
+        if bool(row.get("is_obsolete")):
             return
         # Get core coding elements
-        code = row['id']
-        display = ensure_within_string_limits(row['name'])
-        definition = row.get('def')
+        code = row["id"]
+        display = ensure_within_string_limits(row["name"])
+        definition = row.get("def")
         if definition:
             definition = definition.split('"')[1]
         synonyms = []
-        for synonym in ensure_list(row.get('synonym')):
-            if not synonym: 
+        for synonym in ensure_list(row.get("synonym")):
+            if not synonym:
                 continue
             SYNONYM_REGEX = r"\"(.*)\" ([A-Z]*) .*"
             matches = re.finditer(SYNONYM_REGEX, synonym)
@@ -501,86 +556,100 @@ class SequenceOntologyDigestor(TerminologyDigestor):
             code=code,
             display=display,
             definition=definition,
-            parent=ensure_list(row.get('is_a'))[0].split(' ! ')[0] if row.get('is_a') else None,
+            parent=(
+                ensure_list(row.get("is_a"))[0].split(" ! ")[0]
+                if row.get("is_a")
+                else None
+            ),
             synonyms=synonyms,
             system=self.CANONICAL_URL,
         )
 
 
-
 class CTCAEDigestor(TerminologyDigestor):
-    LABEL = 'ctcae'
-    FILENAME = 'ctcae.csv'
-    CANONICAL_URL = '' 
+    LABEL = "ctcae"
+    FILENAME = "ctcae.csv"
+    CANONICAL_URL = ""
 
-    def _digest_concept_row(self, row):   
-        code = row['MedDRA Code'] 
-        display = row['CTCAE Term']
+    def _digest_concept_row(self, row):
+        code = row["MedDRA Code"]
+        display = row["CTCAE Term"]
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
-            definition=row['Definition'],
+            definition=row["Definition"],
             properties={
-                prop: row[prop] for prop in ['MedDRA SOC', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5']
+                prop: row[prop]
+                for prop in [
+                    "MedDRA SOC",
+                    "Grade 1",
+                    "Grade 2",
+                    "Grade 3",
+                    "Grade 4",
+                    "Grade 5",
+                ]
             },
             system=self.CANONICAL_URL,
         )
 
-class UCUMDigestor(TerminologyDigestor):
-    LABEL = 'ucum'
-    FILENAME = 'ucum.csv'
-    CANONICAL_URL = 'http://unitsofmeasure.org'
-    
-    def _digest_concept_row(self, row):   
-        code = row['UCUM_CODE'] 
-        display = row['Description']
-        self.concepts.append(CodedConcept(
-            code=code,
-            display=display,
-            system=self.CANONICAL_URL,
-        ))
 
+class UCUMDigestor(TerminologyDigestor):
+    LABEL = "ucum"
+    FILENAME = "ucum.csv"
+    CANONICAL_URL = "http://unitsofmeasure.org"
+
+    def _digest_concept_row(self, row):
+        code = row["UCUM_CODE"]
+        display = row["Description"]
+        self.concepts.append(
+            CodedConcept(
+                code=code,
+                display=display,
+                system=self.CANONICAL_URL,
+            )
+        )
 
 
 class RxNormDigestor(TerminologyDigestor):
-    LABEL = 'rxnorm'
-    FILENAME = 'rxnorm.csv'
-    CANONICAL_URL = 'http://www.nlm.nih.gov/research/umls/rxnorm'
+    LABEL = "rxnorm"
+    FILENAME = "rxnorm.csv"
+    CANONICAL_URL = "http://www.nlm.nih.gov/research/umls/rxnorm"
 
-    def _digest_concept_row(self, row):   
-        code = row['rxcui'] 
-        display = ensure_within_string_limits(row['name'])
+    def _digest_concept_row(self, row):
+        code = row["rxcui"]
+        display = ensure_within_string_limits(row["name"])
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
             system=self.CANONICAL_URL,
         )
-        
-    
+
 
 class WHOATCDigestor(TerminologyDigestor):
-    LABEL = 'atc'
-    FILENAME = 'atc.csv'
-    CANONICAL_URL = 'http://www.whocc.no/atc'
-    def _digest_concept_row(self, row):   
-        code = row['atc_code'] 
-        display = ensure_within_string_limits(row['atc_name'])
+    LABEL = "atc"
+    FILENAME = "atc.csv"
+    CANONICAL_URL = "http://www.whocc.no/atc"
+
+    def _digest_concept_row(self, row):
+        code = row["atc_code"]
+        display = ensure_within_string_limits(row["atc_name"])
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
             properties={
-                'defined_daily_dose': row['ddd'] if row['ddd']!='NA' else None,
-                'defined_daily_dose_units': row['uom'] if row['uom']!='NA' else None,
-                'adminsitration_route': row['adm_r'] if row['adm_r']!='NA' else None,
-                'note': row['note'] if row['note']!='NA' else None,
+                "defined_daily_dose": row["ddd"] if row["ddd"] != "NA" else None,
+                "defined_daily_dose_units": row["uom"] if row["uom"] != "NA" else None,
+                "adminsitration_route": row["adm_r"] if row["adm_r"] != "NA" else None,
+                "note": row["note"] if row["note"] != "NA" else None,
             },
             system=self.CANONICAL_URL,
         )
 
+
 class OncoTreeDigestor(TerminologyDigestor):
-    LABEL = 'oncotree'
-    FILENAME = 'oncotree.json'
-    CANONICAL_URL='http://oncotree.mskcc.org/fhir/CodeSystem/snapshot'
+    LABEL = "oncotree"
+    FILENAME = "oncotree.json"
+    CANONICAL_URL = "http://oncotree.mskcc.org/fhir/CodeSystem/snapshot"
     VERSION = datetime.now().strftime("%d%m%Y")
 
     def digest(self):
@@ -588,29 +657,29 @@ class OncoTreeDigestor(TerminologyDigestor):
         with open(self.file_location) as file:
             self.oncotree = json.load(file)
         # And recursively add all its children
-        for branch in self.oncotree['TISSUE']['children'].values():
+        for branch in self.oncotree["TISSUE"]["children"].values():
             self._digest_branch(branch)
         return self.concepts
 
     def _digest_branch(self, branch):
-        code = branch['code']
-        display = ensure_within_string_limits(branch['name'])
+        code = branch["code"]
+        display = ensure_within_string_limits(branch["name"])
         # Add current oncotree code
         self.concepts[code] = CodedConcept(
-            code = code,
-            display = display,
-            parent = branch['parent'],
-            properties = {'tissue': branch['tissue'], 'level': branch['level']},
-            system = self.CANONICAL_URL,
-            version = self.VERSION,
+            code=code,
+            display=display,
+            parent=branch["parent"],
+            properties={"tissue": branch["tissue"], "level": branch["level"]},
+            system=self.CANONICAL_URL,
+            version=self.VERSION,
         )
         # And recursively add all its children
-        for child_branch in branch['children'].values():
+        for child_branch in branch["children"].values():
             self._digest_branch(child_branch)
 
 
 DIGESTORS = [
-    NCITDigestor, 
+    NCITDigestor,
     SNOMEDCTDigestor,
     SequenceOntologyDigestor,
     CTCAEDigestor,

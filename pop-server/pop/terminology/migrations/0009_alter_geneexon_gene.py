@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('terminology', '0008_cancertopographygroup_geneexon'),
+        ("terminology", "0008_cancertopographygroup_geneexon"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='geneexon',
-            name='gene',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='exons', to='terminology.gene'),
+            model_name="geneexon",
+            name="gene",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="exons",
+                to="terminology.gene",
+            ),
         ),
     ]

@@ -5,100 +5,111 @@ from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
-from pop.core import permissions as perms
-from pop.core.security import XSessionTokenAuth
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResourceSchema, Paginated, HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.history.schemas import HistoryEvent
 from pop.oncology.models import Lifestyle
 
 from django.shortcuts import get_object_or_404
 
-from pop.oncology.schemas import LifestyleSchema, LifestyleCreateSchema, LifestyleFilters
+from pop.oncology.schemas import (
+    LifestyleSchema,
+    LifestyleCreateSchema,
+    LifestyleFilters,
+)
 
 
 @api_controller(
-    'lifestyles', 
-    auth=[XSessionTokenAuth()], 
-    tags=['Lifestyles'],  
+    "lifestyles",
+    auth=[XSessionTokenAuth()],
+    tags=["Lifestyles"],
 )
 class LifestyleController(ControllerBase):
 
     @route.get(
-        path='', 
+        path="",
         response={
             200: Paginated[LifestyleSchema],
         },
         permissions=[perms.CanViewCases],
-        operation_id='getLifestyles',
+        operation_id="getLifestyles",
     )
     @paginate()
     @anonymize()
-    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters], anonymized: bool = True): # type: ignore
-        queryset = Lifestyle.objects.all().order_by('-date')
+    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters], anonymized: bool = True):  # type: ignore
+        queryset = Lifestyle.objects.all().order_by("-date")
         return query.filter(queryset)
 
-
     @route.post(
-        path='', 
+        path="",
         response={
             201: ModifiedResourceSchema,
-            401: None, 403: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='createLifestyle',
+        operation_id="createLifestyle",
     )
-    def create_lifestyle(self, payload: LifestyleCreateSchema): # type: ignore
+    def create_lifestyle(self, payload: LifestyleCreateSchema):  # type: ignore
         return 201, payload.model_dump_django()
-        
 
     @route.get(
-        path='/{lifestyleId}', 
+        path="/{lifestyleId}",
         response={
             200: LifestyleSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getLifestyleById',
+        operation_id="getLifestyleById",
     )
     @anonymize()
     def get_lifestyle_by_id(self, lifestyleId: str, anonymized: bool = True):
         return get_object_or_404(Lifestyle, id=lifestyleId)
-        
-        
+
     @route.put(
-        path='/{lifestyleId}', 
-       response={
+        path="/{lifestyleId}",
+        response={
             200: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='updateLifestyleById',
+        operation_id="updateLifestyleById",
     )
-    def update_lifestyle(self, lifestyleId: str, payload: LifestyleCreateSchema): # type: ignore
+    def update_lifestyle(self, lifestyleId: str, payload: LifestyleCreateSchema):  # type: ignore
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
         return payload.model_dump_django(instance=instance)
-        
+
     @route.delete(
-        path='/{lifestyleId}', 
+        path="/{lifestyleId}",
         response={
-            204: None, 
-            404: None, 401: None, 403: None,
+            204: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='deleteLifestyleById',
+        operation_id="deleteLifestyleById",
     )
     def delete_lifestyle(self, lifestyleId: str):
         get_object_or_404(Lifestyle, id=lifestyleId).delete()
         return 204, None
-    
+
     @route.get(
-        path='/{lifestyleId}/history/events', 
+        path="/{lifestyleId}/history/events",
         response={
             200: Paginated[HistoryEvent.bind_schema(LifestyleCreateSchema)],
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getAllLifestyleHistoryEvents',
+        operation_id="getAllLifestyleHistoryEvents",
     )
     @paginate()
     def get_all_lifestyle_history_events(self, lifestyleId: str):
@@ -106,26 +117,32 @@ class LifestyleController(ControllerBase):
         return pghistory.models.Events.objects.tracks(instance).all()
 
     @route.get(
-        path='/{lifestyleId}/history/events/{eventId}', 
+        path="/{lifestyleId}/history/events/{eventId}",
         response={
             200: HistoryEvent.bind_schema(LifestyleCreateSchema),
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanViewCases],
-        operation_id='getLifestyleHistoryEventById',
+        operation_id="getLifestyleHistoryEventById",
     )
     def get_lifestyle_history_event_by_id(self, lifestyleId: str, eventId: str):
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
-        return get_object_or_404(pghistory.models.Events.objects.tracks(instance), pgh_id=eventId)
+        return get_object_or_404(
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+        )
 
     @route.put(
-        path='/{lifestyleId}/history/events/{eventId}/reversion', 
+        path="/{lifestyleId}/history/events/{eventId}/reversion",
         response={
             201: ModifiedResourceSchema,
-            404: None, 401: None, 403: None,
+            404: None,
+            401: None,
+            403: None,
         },
         permissions=[perms.CanManageCases],
-        operation_id='revertLifestyleToHistoryEvent',
+        operation_id="revertLifestyleToHistoryEvent",
     )
     def revert_lifestyle_to_history_event(self, lifestyleId: str, eventId: str):
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
