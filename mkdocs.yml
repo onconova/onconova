@@ -1,0 +1,86 @@
+site_name: Precision Oncology Platform - Documentation
+site_description: An open-source web app with Angular, Django, and Docker
+site_author: Your Name
+theme:
+  name: material
+  logo: assets/logo-white.svg
+  favicon: assets/favicon.ico
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.expand
+    - navigation.path    
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+plugins:
+    - search
+    - neoteroi.mkdocsoad:
+        use_pymdownx: true
+nav:
+  - Home: index.md
+  - About: about.md
+  - Installation:
+      - Requirements: installation/requirements.md
+      - Quick Start: installation/quickstart.md
+      - Configuration: installation/configuration.md
+  - API:
+      - Overview: api/overview.md
+      - Specification: api/specification.md
+  - Frontend:
+      - Overview: frontend/overview.md
+      - Structure: frontend/structure.md
+      - Components: frontend/components.md
+  - Database:
+      - Schema: database/schema.md
+      - Migrations: database/migrations.md
+  - Contributing: contributing.md
+  - FAQs: faq.md
+  - License: license.md
+  - Credits: credits.md
+repo_url: https://github.com/luisfabib/pop
+edit_uri: edit/main/docs/
+markdown_extensions:
+  - neoteroi.cards
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.emoji
+  - pymdownx.tabbed:
+      alternate_style: true
+extra_css:
+  - assets/style.css
+  - assets/neoteroi-mkdocsoad.css
+  - assets/neoteroi-mkdocs.min.css

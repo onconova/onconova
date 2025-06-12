@@ -5,7 +5,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/luisfabib/pop">
-        <img src="pop-client/src/assets/images/logo-white.svg" width="10%">
+        <img src="pop-client/src/assets/images/logo.svg" width="10%">
     </a>
     <h1 style="border-bottom: none;">Precision Oncology Platform</h1>
 
