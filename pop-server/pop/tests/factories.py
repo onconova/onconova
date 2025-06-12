@@ -13,8 +13,8 @@ from django.contrib.auth.hashers import make_password
 import pop.core.measures as measures
 from pop.core.auth.models import User
 import pop.oncology.models as models
-import pop.cohorts.models as cohorts_models
-import pop.projects.models as projects_models
+import pop.research.models.cohort as cohorts_models
+import pop.research.models.project as projects_models
 import pop.terminology.models as terminology
 
 import sys

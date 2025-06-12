@@ -95,13 +95,12 @@ INSTALLED_APPS = [
 
     # POP core
     'pop.core',
-    'pop.projects',
-    'pop.oncology',
-    'pop.cohorts',
     'pop.terminology',
+    'pop.oncology',
+    'pop.research',
     'pop.interoperability',
 
-    # Social Media Auth
+    # Django AllAuth
     'allauth',
     'allauth.account',
     "allauth.headless",

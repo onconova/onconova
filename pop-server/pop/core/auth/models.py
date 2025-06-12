@@ -17,7 +17,7 @@ class QueryablePropertiesUserManager(UserManager, QueryablePropertiesManager):
 class CanManageCasesProperty(AnnotationGetterMixin, QueryableProperty):
 
     def get_annotation(self, cls):
-        from pop.projects.models import ProjectDataManagerGrant
+        from pop.research.models.project import ProjectDataManagerGrant
         return Case(
             When(
                 Q(access_level__gte=4) 

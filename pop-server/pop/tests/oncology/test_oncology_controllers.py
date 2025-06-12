@@ -36,6 +36,8 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 cls.INSTANCE.append(instance1)
                 cls.CREATE_PAYLOAD.append(schema.model_validate(instance1).model_dump(mode='json'))
                 cls.UPDATE_PAYLOAD.append(schema.model_validate(instance2).model_dump(mode='json'))
+                print(instance1.__dict__)
+                print(instance2.__dict__)
                 instance2.delete()
         
     def _remove_key_recursive(self, dictionary, keys_to_remove):
@@ -187,6 +189,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     if self.history_tracked:
                         if updated_instance.updated_by:
                             self.assertIn(self.user.username, updated_instance.updated_by, 'The updating user is not registered') 
+                        from pprint import pprint; pprint([e.__dict__ for e in updated_instance.events.all()])
                         self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='update').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete() 
                

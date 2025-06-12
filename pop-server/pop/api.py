@@ -3,7 +3,7 @@ from ninja_extra import NinjaExtraAPI
 from pop.core.auth.controllers import AuthController, UsersController
 from pop.core.measures.controllers import MeasuresController
 from pop.terminology.controllers import TerminologyController
-from pop.projects.controllers import ProjectController
+from pop.research.controllers.project import ProjectController
 from pop.oncology.controllers import (
     PatientCaseController,
     NeoplasticEntityController,
@@ -31,13 +31,16 @@ from pop.oncology.controllers import (
 from pop.interoperability.controllers import (    
     InteroperabilityController,
 )
-from pop.cohorts.controllers import (
+from pop.research.controllers.cohort import (
     CohortsController, 
-    DashboardController, 
-    DatasetsController,
     CohortAnalysisController
 )
-
+from pop.research.controllers.dataset import (
+    DatasetsController,
+)
+from pop.analytics.controllers import (
+    DashboardController, 
+)
 
 api = NinjaExtraAPI(
     title="POP API",

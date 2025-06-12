@@ -9,6 +9,10 @@ from django.db.models.fields.json import KeyTextTransform
 from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
+# Import models from submodules to be discoverable by Django 
+from .auth.models import *
+
+
 class UntrackedBaseModel(models.Model):
     """
     A base model class that provides common fields and methods for all models.
