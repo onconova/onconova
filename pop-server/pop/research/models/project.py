@@ -97,7 +97,7 @@ class ProjectMembership(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["project", "member"], name="unique_project_member"
+                fields=["project", "member"], name="unique_project_members"
             )
         ]
 

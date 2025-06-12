@@ -285,12 +285,12 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     genomicSignatures: Optional[
         List[
             Union[
-                partial_schemas["TumorMutationalBurden"],
+                partial_schemas["TumorMutationalBurden"],  # type: ignore
                 partial_schemas["MicrosatelliteInstability"],  # type: ignore
-                partial_schemas["LossOfHeterozygosity"],
+                partial_schemas["LossOfHeterozygosity"],  # type: ignore
                 partial_schemas["HomologousRecombinationDeficiency"],  # type: ignore
-                partial_schemas["TumorNeoantigenBurden"],
-                partial_schemas["AneuploidScore"],
+                partial_schemas["TumorNeoantigenBurden"],  # type: ignore
+                partial_schemas["AneuploidScore"],  # type: ignore
             ]
         ]
     ] = Field(  # type: ignore
