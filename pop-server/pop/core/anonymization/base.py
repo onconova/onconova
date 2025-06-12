@@ -70,22 +70,22 @@ def anonymize_age(age: Age) -> AgeBin:
         AgeBin: The anonymized age bin.
     """
     bins = [
-        (AgeBin.SUB_20, (None, 19)),
+        (AgeBin.SUB_20, (0, 19)),
         (AgeBin.AGE_20_24, (20, 24)),
-        (AgeBin.AGE_25_30, (25, 30)),
-        (AgeBin.AGE_30_34, (31, 34)),
-        (AgeBin.AGE_35_40, (35, 40)),
-        (AgeBin.AGE_40_44, (41, 44)),
-        (AgeBin.AGE_45_50, (45, 50)),
-        (AgeBin.AGE_50_54, (51, 54)),
-        (AgeBin.AGE_55_60, (55, 60)),
-        (AgeBin.AGE_60_64, (61, 64)),
-        (AgeBin.AGE_65_70, (65, 70)),
-        (AgeBin.AGE_70_74, (71, 74)),
-        (AgeBin.AGE_75_80, (75, 80)),
-        (AgeBin.AGE_80_84, (81, 84)),
-        (AgeBin.AGE_85_90, (85, 90)),
-        (AgeBin.OVER_90, (91, None)),
+        (AgeBin.AGE_25_29, (25, 29)),
+        (AgeBin.AGE_30_34, (30, 34)),
+        (AgeBin.AGE_35_39, (35, 39)),
+        (AgeBin.AGE_40_44, (40, 44)),
+        (AgeBin.AGE_45_49, (45, 49)),
+        (AgeBin.AGE_50_54, (50, 54)),
+        (AgeBin.AGE_55_59, (55, 59)),
+        (AgeBin.AGE_60_64, (60, 64)),
+        (AgeBin.AGE_65_69, (65, 69)),
+        (AgeBin.AGE_70_74, (70, 74)),
+        (AgeBin.AGE_75_79, (75, 79)),
+        (AgeBin.AGE_80_84, (80, 84)),
+        (AgeBin.AGE_85_89, (85, 89)),
+        (AgeBin.OVER_90, (90, 150)),
     ]
     for age_bin, (low, high) in bins:
         if (low is None or age >= low) and (high is None or age <= high):
@@ -93,7 +93,7 @@ def anonymize_age(age: Age) -> AgeBin:
     raise ValueError(f"Age {age} is out of valid range")
 
 
-def anonymize_personal_date(original_date: Union[datetime, date, str]) -> int:
+def anonymize_personal_date(original_date: Union[datetime, date, str]) -> date:
     """
     Anonymize a date by returning only the year.
 
@@ -101,10 +101,10 @@ def anonymize_personal_date(original_date: Union[datetime, date, str]) -> int:
         original_date (Union[datetime, date, str]): The date to be anonymized.
 
     Returns:
-        int: The year of the anonymized date.
+        date: The year of the anonymized date with month and day set to 1.
     """
     if isinstance(original_date, (datetime, date)):
-        return original_date.year
+        return datetime(original_date.year, 1, 1).date()
     elif isinstance(original_date, str):
         try:
             parsed_date = datetime.fromisoformat(original_date)

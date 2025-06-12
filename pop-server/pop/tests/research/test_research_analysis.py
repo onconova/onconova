@@ -3,12 +3,15 @@ import pytest
 from django.test import TestCase
 from django.db.models import F
 
+from pop.terminology.models import AntineoplasticAgent
 from pop.tests import factories
 from pop.research.analysis import (
     calculate_pfs_by_combination_therapy,
     calculate_Kappler_Maier_survival_curve,
     get_progression_free_survival_for_therapy_line,
+    calculate_pfs_by_therapy_classification,
 )
+from unittest.mock import MagicMock, patch
 
 
 class TestKapplerMeierCurves(TestCase):
@@ -155,4 +158,76 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
         result = calculate_pfs_by_combination_therapy(self.cohort, "CLoT1")
         self.assertEqual(len(result), 2)
         self.assertEqual(sorted(self.exected), sorted(list(result.values())[0]))
+        self.assertEqual([], result["Others"])
+
+
+class TestCalculatePFSByTherapyClassification(TestCase):
+
+    @staticmethod
+    def _simulate_case():
+        user = factories.UserFactory.create()
+        case = factories.PatientCaseFactory.create()
+        therapy_line_1 = factories.TherapyLineFactory.create(
+            case=case, intent="curative", ordinal=1
+        )
+        systemic_therapy_1 = factories.SystemicTherapyFactory.create(
+            case=case, therapy_line=therapy_line_1
+        )
+        factories.SystemicTherapyMedicationFactory.create(
+            systemic_therapy=systemic_therapy_1,
+            drug=AntineoplasticAgent.objects.get_or_create(
+                code="drug1",
+                display="drug1",
+                therapy_category=AntineoplasticAgent.TherapyCategory.CHEMOTHERAPY,
+            )[0],
+        )
+        factories.SystemicTherapyMedicationFactory.create(
+            systemic_therapy=systemic_therapy_1,
+            drug=AntineoplasticAgent.objects.get_or_create(
+                code="drug2",
+                display="drug2",
+                therapy_category=AntineoplasticAgent.TherapyCategory.IMMUNOTHERAPY,
+            )[0],
+        )
+        therapy_line_2 = factories.TherapyLineFactory.create(
+            case=case, intent="palliative", ordinal=1
+        )
+        systemic_therapy_2 = factories.SystemicTherapyFactory.create(
+            case=case, therapy_line=therapy_line_2
+        )
+        factories.SystemicTherapyMedicationFactory.create(
+            systemic_therapy=systemic_therapy_2,
+            drug=AntineoplasticAgent.objects.get_or_create(
+                code="drug1",
+                display="drug1",
+                therapy_category=AntineoplasticAgent.TherapyCategory.CHEMOTHERAPY,
+            )[0],
+        )
+        factories.RadiotherapyFactory.create(case=case, therapy_line=therapy_line_2)
+        return case
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.cohort = factories.CohortFactory.create()
+        cls.case1 = cls._simulate_case()
+        cls.case2 = cls._simulate_case()
+        cls.case3 = cls._simulate_case()
+        cls.cohort.cases.set([cls.case1, cls.case2, cls.case3])
+        cls.expected = [
+            pfs
+            for case in [cls.case1, cls.case2, cls.case3]
+            for pfs in list(
+                case.therapy_lines.filter(intent="curative")
+                .annotate(pfs=F("progression_free_survival"))
+                .values_list("pfs", flat=True)
+            )
+        ]
+
+    def test_get_pfs_incuding_CLoT1_lines(self):
+        result = calculate_pfs_by_therapy_classification(self.cohort, "CLoT1")
+        self.assertEqual(sorted(self.expected), sorted(result["Chemoimmunotherapy"]))
+
+    def test_with_no_cases(self):
+        self.cohort.cases.clear()
+        result = calculate_pfs_by_therapy_classification(self.cohort, "CLoT1")
         self.assertEqual([], result["Others"])

@@ -196,11 +196,11 @@ def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
             list.remove(value)
             return value
 
-        categories = value.split(",")
+        categories: List[str] = value.split(",")
         if "chemotherapy" in categories and "immunotherapy" in categories:
             categories.remove("chemotherapy")
             categories.remove("immunotherapy")
-            categories.insert("chemoimmunotherapy", 0)
+            categories.insert(0, "chemoimmunotherapy")
         radiotherapy = pop_from_list(categories, "radiotherapy")
         if radiotherapy and len(categories) == 1:
             return f"Radio{categories[0]}"
