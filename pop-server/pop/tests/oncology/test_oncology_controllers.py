@@ -189,7 +189,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                     if self.history_tracked:
                         if updated_instance.updated_by:
                             self.assertIn(self.user.username, updated_instance.updated_by, 'The updating user is not registered') 
-                        from pprint import pprint; pprint([e.__dict__ for e in updated_instance.events.all()])
                         self.assertTrue(pghistory.models.Events.objects.filter(pgh_obj_id=instance.id, pgh_label='update').exists(), 'Event not properly registered')
                 self.MODEL[i].objects.all().delete() 
                

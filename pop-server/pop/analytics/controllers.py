@@ -10,7 +10,7 @@ from pop.oncology import models as oncological_models
 from pop.research.models.project import Project
 from pop.research.models.cohort import Cohort
 from pop.core.auth.token import XSessionTokenAuth
-from pop.analytics.schemas.statistics import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
+from pop.analytics.schemas import EntityStatisticsSchema, DataPlatformStatisticsSchema, CasesPerMonthSchema
 from pop.core.aggregates import Median
 
 

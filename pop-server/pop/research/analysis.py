@@ -8,14 +8,10 @@ from django.db.models import F, Subquery, OuterRef
 from pop.research.models.cohort import Cohort
 from pop.oncology.models import TherapyLine, SystemicTherapy
 
+
 def calculate_Kappler_Maier_survival_curve(
-        survival_months: List[Optional[float]], 
-        confidence_level: float = 0.95
-    ) -> Tuple[
-        List[int], 
-        List[float], 
-        Dict[str, List[float]]
-    ]:
+    survival_months: List[Optional[float]], confidence_level: float = 0.95
+) -> Tuple[List[int], List[float], Dict[str, List[float]]]:
     """
     Performs Kappler-Maier analysis to estimate survival probabilities and 95% confidence intervals.
 
@@ -42,9 +38,9 @@ def calculate_Kappler_Maier_survival_curve(
     """
     # Remove None values and convert to floats
     survival_months = [float(m) for m in survival_months if m is not None]
-    # Check that there are values in the array left    
-    if len(survival_months)==0:
-        raise ValueError('The input argument cannot be empty or None')
+    # Check that there are values in the array left
+    if len(survival_months) == 0:
+        raise ValueError("The input argument cannot be empty or None")
 
     # Round months to integers
     survival_months = [round(m) for m in survival_months]
@@ -58,9 +54,9 @@ def calculate_Kappler_Maier_survival_curve(
 
     # Determine the number of death events along the axis
     events = [sum(m == month for m in survival_months) for month in survival_axis]
-    
+
     # Truncate the axis regions where nothing more happens
-    valid_indices = [i for i, a in enumerate(alive) if a > 0]   
+    valid_indices = [i for i, a in enumerate(alive) if a > 0]
     survival_axis = [survival_axis[i] for i in valid_indices]
     alive = [alive[i] for i in valid_indices]
     events = [events[i] for i in valid_indices]
@@ -70,7 +66,7 @@ def calculate_Kappler_Maier_survival_curve(
     cumulative_product = 1.0
 
     for e, a in zip(events, alive):
-        cumulative_product *= (1 - e / a)
+        cumulative_product *= 1 - e / a
         est_survival_prob.append(cumulative_product)
 
     # Evaluate its standard deviation
@@ -90,8 +86,8 @@ def calculate_Kappler_Maier_survival_curve(
 
     # Set the normal inverse CDF value for confidence level
     z = NormalDist().inv_cdf(1 - (1 - confidence_level) / 2)
-    
-    # Compute the 95%-confidence intervals 
+
+    # Compute the 95%-confidence intervals
     confidence_bands = {
         "lower": [p ** math.exp(+z * s) for p, s in zip(est_survival_prob, std)],
         "upper": [p ** math.exp(-z * s) for p, s in zip(est_survival_prob, std)],
@@ -101,9 +97,7 @@ def calculate_Kappler_Maier_survival_curve(
 
 
 def get_progression_free_survival_for_therapy_line(
-    cohort: Cohort, 
-    exclude_filters: dict = {}, 
-    **include_filters: dict
+    cohort: Cohort, exclude_filters: dict = {}, **include_filters: dict
 ) -> List[float]:
     """
     Returns the list of progression free survival values for the given therapy line
@@ -117,34 +111,54 @@ def get_progression_free_survival_for_therapy_line(
     Returns:
         List[float]: The list of progression free survival values.
     """
-    return list(cohort.cases.annotate(progression_free_survival=
-            Subquery(
-                TherapyLine.objects.filter(
-                        case_id=OuterRef('id'), 
-                         **include_filters
-                ).exclude(**exclude_filters).annotate(
-                    progression_free_survival=F('progression_free_survival')
-                ).values_list('progression_free_survival', flat=True)[:1]
-            ) 
-        ).filter(progression_free_survival__isnull=False).values_list('progression_free_survival', flat=True))
+    return list(
+        cohort.cases.annotate(
+            progression_free_survival=Subquery(
+                TherapyLine.objects.filter(case_id=OuterRef("id"), **include_filters)
+                .exclude(**exclude_filters)
+                .annotate(progression_free_survival=F("progression_free_survival"))
+                .values_list("progression_free_survival", flat=True)[:1]
+            )
+        )
+        .filter(progression_free_survival__isnull=False)
+        .values_list("progression_free_survival", flat=True)
+    )
 
 
 def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str):
-    drug_combinations = cohort.cases.annotate(drug_combination=Subquery(
-            SystemicTherapy.objects.filter(case_id=OuterRef('id'), therapy_line__label=therapyLine).annotate(
-                drug_combination=F('drug_combination')
-            ).values_list('drug_combination', flat=True)[:1]
-        )).filter(drug_combination__isnull=False).values_list('drug_combination', flat=True)
-    
-    survival_per_combination = {combo[0]: None for combo in Counter(drug_combinations).most_common(4)}
-    for combination in survival_per_combination.keys():
-        survival_per_combination[combination] = get_progression_free_survival_for_therapy_line(cohort,
-            label=therapyLine,
-            systemic_therapies__drug_combination=combination,
+    drug_combinations = (
+        cohort.cases.annotate(
+            drug_combination=Subquery(
+                SystemicTherapy.objects.filter(
+                    case_id=OuterRef("id"), therapy_line__label=therapyLine
+                )
+                .annotate(drug_combination=F("drug_combination"))
+                .values_list("drug_combination", flat=True)[:1]
+            )
         )
-    survival_per_combination['Others'] = get_progression_free_survival_for_therapy_line(cohort,
+        .filter(drug_combination__isnull=False)
+        .values_list("drug_combination", flat=True)
+    )
+
+    survival_per_combination = {
+        combo[0]: None for combo in Counter(drug_combinations).most_common(4)
+    }
+    for combination in survival_per_combination.keys():
+        survival_per_combination[combination] = (
+            get_progression_free_survival_for_therapy_line(
+                cohort,
+                label=therapyLine,
+                systemic_therapies__drug_combination=combination,
+            )
+        )
+    survival_per_combination["Others"] = get_progression_free_survival_for_therapy_line(
+        cohort,
         label=therapyLine,
-        exclude_filters=dict(systemic_therapies__drug_combination__in=list(survival_per_combination.keys()))
+        exclude_filters=dict(
+            systemic_therapies__drug_combination__in=list(
+                survival_per_combination.keys()
+            )
+        ),
     )
     return survival_per_combination
 
@@ -172,36 +186,55 @@ def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
     Returns:
         dict: A dictionary with the progression free survival for each therapy classification
     """
+
     def _parse_category_name(value):
         def pop_from_list(list, value):
-            try: 
+            try:
                 index = list.index(value)
             except ValueError:
-                return None 
+                return None
             list.remove(value)
-            return value        
-        categories = value.split(',')
-        if 'chemotherapy' in categories and 'immunotherapy' in categories:
-            categories.remove('chemotherapy')
-            categories.remove('immunotherapy')
-            categories.insert('chemoimmunotherapy',0)
-        radiotherapy = pop_from_list(categories, 'radiotherapy')
-        if radiotherapy and len(categories)==1:
-            return f'Radio{categories[0]}'
-        else:
-            return ' & '.join(categories).title()
+            return value
 
-    therapy_classifications = TherapyLine.objects.filter(case__in=cohort.cases.all()).filter(label=therapyLine).annotate(therapy_classification=F('therapy_classification')).values_list('therapy_classification', flat=True)
-    
-    most_common = [category[0] for category in  Counter(therapy_classifications).most_common(4)]
-    survival_per_classification = {_parse_category_name(category): None for category in most_common}
+        categories = value.split(",")
+        if "chemotherapy" in categories and "immunotherapy" in categories:
+            categories.remove("chemotherapy")
+            categories.remove("immunotherapy")
+            categories.insert("chemoimmunotherapy", 0)
+        radiotherapy = pop_from_list(categories, "radiotherapy")
+        if radiotherapy and len(categories) == 1:
+            return f"Radio{categories[0]}"
+        else:
+            return " & ".join(categories).title()
+
+    therapy_classifications = (
+        TherapyLine.objects.filter(case__in=cohort.cases.all())
+        .filter(label=therapyLine)
+        .annotate(therapy_classification=F("therapy_classification"))
+        .values_list("therapy_classification", flat=True)
+    )
+
+    most_common = [
+        category[0] for category in Counter(therapy_classifications).most_common(4)
+    ]
+    survival_per_classification = {
+        _parse_category_name(category): None for category in most_common
+    }
     for classification in most_common:
-        survival_per_classification[_parse_category_name(classification)] = get_progression_free_survival_for_therapy_line(cohort,
-            label=therapyLine,
-            therapy_classification=classification,
+        survival_per_classification[_parse_category_name(classification)] = (
+            get_progression_free_survival_for_therapy_line(
+                cohort,
+                label=therapyLine,
+                therapy_classification=classification,
+            )
         )
-    survival_per_classification['Others'] = get_progression_free_survival_for_therapy_line(cohort,
-        label=therapyLine,
-        exclude_filters=dict(therapy_classification=list(survival_per_classification.keys()))
+    survival_per_classification["Others"] = (
+        get_progression_free_survival_for_therapy_line(
+            cohort,
+            label=therapyLine,
+            exclude_filters=dict(
+                therapy_classification=list(survival_per_classification.keys())
+            ),
+        )
     )
     return survival_per_classification
