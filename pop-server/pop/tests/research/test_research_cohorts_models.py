@@ -86,13 +86,12 @@ class TestGetCohortTraitCounts(TestCase):
         self.assertIsNone(result)
 
     def test_trait_counts(self):
-        counter = Counter([c.clinical_center for c in self.cohort.cases.all()])
+        counter = dict(Counter([c.clinical_center for c in self.cohort.cases.all()]))
         result = self.cohort.get_cohort_trait_counts('clinical_center')
-        expected = OrderedDict([
+        expected = dict(OrderedDict([
             ('centerA', (counter['centerA'], counter['centerA']/self.cohort.cases.count()*100)),
             ('centerB', (counter['centerB'], counter['centerB']/self.cohort.cases.count()*100))
-
-        ])
+        ]))
         self.assertEqual(result, expected)
 
     def test_invalid_trait(self):

@@ -16,38 +16,98 @@ from pop.oncology import schemas as oncology_schemas
 
 from pop.research.models import dataset as orm
 
-DataResource = Enum('DataResource', {
-    model.__name__.upper(): model.__name__ for model in oncology_schemas.ONCOLOGY_SCHEMAS if issubclass(model, ModelGetSchema) and model.__name__ not in ['GenomicSignature']
-}, type=str)
+
+
+# Dynamically generate Enum from oncology schemas (excluding 'GenomicSignature')
+DataResource = Enum(
+    'DataResource',
+    {
+        model.__name__.upper(): model.__name__
+        for model in oncology_schemas.ONCOLOGY_SCHEMAS
+        if issubclass(model, ModelGetSchema) and model.__name__ != 'GenomicSignature'
+    },
+    type=str
+)
+
 
 class DatasetRule(Schema):
-    resource: DataResource # type: ignore
-    field: str
-    transform: Optional[Union[str, Tuple[str, Any]]] = None   
+    """
+    A rule defining how a dataset is composed from a specific resource and field.
+
+    Attributes:
+        resource (DataResource): The resource (model type) this rule applies to.
+        field (str): Dot-separated path to the target field within the resource.
+        transform (Optional[Union[str, Tuple[str, Any]]]): Optional transformation or expression to apply.
+    """
+    resource: DataResource = Field( # type: ignore
+        title="Resource",
+        description="The oncology resource this rule references."
+    )  # type: ignore
+
+    field: str = Field(
+        title="Field",
+        description="Dot-separated path of the field within the resource (e.g. 'medications.drug')."
+    )
+
+    transform: Optional[Union[str, Tuple[str, Any]]] = Field(
+        default=None,
+        title="Transform",
+        description="Optional transform expression or mapping applied to the field's value."
+    )
 
 
 class Dataset(ModelGetSchema):
-    rules: List[DatasetRule] = Field([], description='Composition rules of the dataset')
+    """
+    Schema for retrieving a dataset definition, including its composition rules.
+    """
+    rules: List[DatasetRule] = Field(
+        default=[],
+        title="Rules",
+        description="List of composition rules that define the dataset's structure."
+    )
+
     config = SchemaConfig(model=orm.Dataset)
-    
+
+
 class DatasetCreate(ModelCreateSchema):
-    rules: List[DatasetRule] = Field([], description='Composition rules of the dataset')
+    """
+    Schema for creating a new dataset, including its composition rules.
+    """
+    rules: List[DatasetRule] = Field(
+        default=[],
+        title="Rules",
+        description="List of composition rules that define the dataset's structure."
+    )
+
     config = SchemaConfig(model=orm.Dataset)
-    
+
+
+# Base filters schema generated from the Dataset schema
 DatasetFiltersBase = create_filters_schema(
-    schema = Dataset, 
-    name='DatasetFilters'
+    schema=Dataset,
+    name="DatasetFilters"
 )
 
+
 class DatasetFilters(DatasetFiltersBase):
-    createdBy: Optional[str] = Field(None, description='Filter for a particular cohort creator by its username')
+    """
+    Additional query filters for datasets.
+    """
+    createdBy: Optional[str] = Field(
+        default=None,
+        title="Created By",
+        description="Filter datasets by the creator's username."
+    )
 
     def filter_createdBy(self, value: str) -> Q:
+        """
+        Apply a filter for the creator's username.
+        """
         return Q(created_by=self.createdBy) if value is not None else Q()
 
 
 
-def create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
+def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
     """
     Given a Pydantic model class, return a new model class with the same fields and validators,
     but all fields are optional (default=None).
@@ -73,11 +133,11 @@ def create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
         if is_list(annotation):
             list_annotation = get_args(annotation)[0]
             if issubclass(list_annotation, PydanticBaseModel) and not issubclass(list_annotation, CodedConceptSchema):
-                related_schema_partial = create_partial_schema(list_annotation)
+                related_schema_partial = _create_partial_schema(list_annotation)
                 annotation = List[related_schema_partial]        
                 
         if issubclass(annotation, PydanticBaseModel) and not issubclass(annotation, CodedConceptSchema):
-                annotation = create_partial_schema(annotation)
+                annotation = _create_partial_schema(annotation)
         
         # Set default to None
         if 'CodedConcept' in str(annotation):
@@ -115,7 +175,7 @@ def create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
     
 
 partial_schemas = {
-    schema.__name__: create_partial_schema(schema) for schema in oncology_schemas.ONCOLOGY_SCHEMAS if issubclass(schema, ModelGetSchema)   
+    schema.__name__: _create_partial_schema(schema) for schema in oncology_schemas.ONCOLOGY_SCHEMAS if issubclass(schema, ModelGetSchema)   
 }
 
 

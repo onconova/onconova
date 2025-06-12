@@ -1,27 +1,34 @@
-
+import math
 from collections import Counter
+from statistics import NormalDist
+from typing import List, Tuple, Dict, Optional
+
 from django.db.models import F, Subquery, OuterRef
+
 from pop.research.models.cohort import Cohort
 from pop.oncology.models import TherapyLine, SystemicTherapy
-from statistics import NormalDist
-import math
-from statistics import NormalDist
 
 def calculate_Kappler_Maier_survival_curve(
-        survival_months, confidence_level=0.95):
+        survival_months: List[Optional[float]], 
+        confidence_level: float = 0.95
+    ) -> Tuple[
+        List[int], 
+        List[float], 
+        Dict[str, List[float]]
+    ]:
     """
     Performs Kappler-Maier analysis to estimate survival probabilities and 95% confidence intervals.
 
     Args:
-        survival_months (array_like): Array containing the number of months survived for each
+        survival_months (List[Optional[float]]): Array containing the number of months survived for each
             patient.
         confidence_level (float): Confidence level for the confidence interval (0.95 default).
 
     Returns:
-        survival_axis (ndarray): Array of months survived, serving as the x-axis.
-        est_survival_prob (ndarray): Estimated survival probabilities corresponding to the
+        survival_axis (List[int]): Array of months survived, serving as the x-axis.
+        est_survival_prob (List[float]): Estimated survival probabilities corresponding to the
             survival axis.
-        ci95 (dict): Dictionary containing the upper and lower bounds of 95% confidence
+        ci95 (Dict[str,List[float]]): Dictionary containing the upper and lower bounds of 95% confidence
             intervals for the estimated survival probabilities. The keys are 'upper' and 'lower'.
 
     Notes:
@@ -92,7 +99,24 @@ def calculate_Kappler_Maier_survival_curve(
 
     return survival_axis, est_survival_prob, confidence_bands
 
-def get_progression_free_survival_for_therapy_line(cohort: Cohort, exclude_filters={}, **include_filters,):
+
+def get_progression_free_survival_for_therapy_line(
+    cohort: Cohort, 
+    exclude_filters: dict = {}, 
+    **include_filters: dict
+) -> List[float]:
+    """
+    Returns the list of progression free survival values for the given therapy line
+    in the given cohort, filtered by the given include and exclude filters.
+
+    Args:
+        cohort (Cohort): The cohort to filter cases from.
+        exclude_filters (dict, optional): Filters to exclude cases with. Defaults to {}.
+        **include_filters (dict): Filters to include cases with.
+
+    Returns:
+        List[float]: The list of progression free survival values.
+    """
     return list(cohort.cases.annotate(progression_free_survival=
             Subquery(
                 TherapyLine.objects.filter(
@@ -126,7 +150,28 @@ def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str):
 
 
 def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
+    """
+    Calculate progression free survival per therapy classification
 
+    Given a cohort and a therapy line (e.g. first-line, second-line, etc.),
+    this function returns a dictionary with the progression free survival
+    for each therapy classification in the cohort. The therapy classification
+    is a comma-separated string of therapy types (e.g. chemotherapy, immunotherapy, etc.).
+    The function will split this string into its individual components, and then
+    categorize the therapy lines into one of the following categories:
+        - chemotherapy + immunotherapy: chemoimmunotherapy
+        - radiotherapy + [any other therapy type]: radio[therapy type]
+        - any other therapy type: [therapy type]
+    The function will then calculate the progression free survival for each
+    of the most common categories, and return a dictionary with the results.
+
+    Parameters:
+        cohort (Cohort): The cohort to calculate the progression free survival for
+        therapyLine (str): The therapy line to calculate the progression free survival for
+
+    Returns:
+        dict: A dictionary with the progression free survival for each therapy classification
+    """
     def _parse_category_name(value):
         def pop_from_list(list, value):
             try: 
@@ -145,10 +190,6 @@ def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
             return f'Radio{categories[0]}'
         else:
             return ' & '.join(categories).title()
-
-
-        
-
 
     therapy_classifications = TherapyLine.objects.filter(case__in=cohort.cases.all()).filter(label=therapyLine).annotate(therapy_classification=F('therapy_classification')).values_list('therapy_classification', flat=True)
     
