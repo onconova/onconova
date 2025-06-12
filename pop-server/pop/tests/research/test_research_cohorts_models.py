@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.core.exceptions import FieldError
+from pop.core.utils import average, std, percentile
 from pop.research.models.cohort import Cohort  
 from pop.tests.factories import PatientCaseFactory, UserFactory
-import numpy as np
 from random import random, seed
 
 
@@ -35,8 +35,8 @@ class TestGetCohortTraitAverage(TestCase):
     def test_average_and_standard_deviation_values(self):
         ages = [c.age for c in self.cohort.cases.all()]
         avg, stddev = self.cohort.get_cohort_trait_average('age')
-        self.assertAlmostEqual(avg, np.average(ages))
-        self.assertAlmostEqual(stddev, np.std(ages))
+        self.assertAlmostEqual(avg, average(ages))
+        self.assertAlmostEqual(stddev, std(ages))
 
     def test_invalid_trait(self):
         with self.assertRaises(FieldError):
@@ -57,9 +57,9 @@ class TestGetCohortTraitMedian(TestCase):
     def test_median_and_iqr_values(self):
         ages = [c.age for c in self.cohort.cases.all()]
         avg, iqr = self.cohort.get_cohort_trait_median('age')
-        self.assertAlmostEqual(avg, np.percentile(ages, 50))
-        self.assertAlmostEqual(iqr[0], np.percentile(ages, 25))
-        self.assertAlmostEqual(iqr[1], np.percentile(ages, 75))
+        self.assertAlmostEqual(avg, percentile(ages, 50))
+        self.assertAlmostEqual(iqr[0], percentile(ages, 25))
+        self.assertAlmostEqual(iqr[1], percentile(ages, 75))
 
     def test_invalid_trait(self):
         with self.assertRaises(FieldError):

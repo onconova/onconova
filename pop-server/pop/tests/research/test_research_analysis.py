@@ -1,5 +1,3 @@
-
-import numpy as np 
 import pytest 
 
 from django.test import TestCase
@@ -17,10 +15,15 @@ class TestKapplerMeierCurves(TestCase):
     def _assert_correct_KM_Curve(self):
         survival_axis, survival_prob, ci95 = calculate_Kappler_Maier_survival_curve(self.survival_months)       
         self.assertEqual(survival_axis, self.expected_survival_axis)
-        np.testing.assert_almost_equal(survival_prob, self.expected_survival_prob, 5)
+
+        for value, expected in zip(survival_prob, self.expected_survival_prob):
+            self.assertAlmostEqual(value, expected, places=5)
+
         if self.expected_ci:
-            np.testing.assert_almost_equal(ci95['lower'], self.expected_ci['lower'], 2)
-            np.testing.assert_almost_equal(ci95['upper'], self.expected_ci['upper'], 2)
+            for lower_ci, expected in zip(ci95['lower'], self.expected_ci['lower']):
+                self.assertAlmostEqual(lower_ci, expected, places=2)
+            for upper_ci, expected in zip(ci95['upper'], self.expected_ci['upper']):
+                self.assertAlmostEqual(upper_ci, expected, places=2)
 
     def test_empty_dataset_raises_error(self):
         self.survival_months = []
@@ -67,6 +70,7 @@ class TestKapplerMeierCurves(TestCase):
         self.expected_survival_prob = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0. ]
         self.expected_ci = None
         self._assert_correct_KM_Curve()
+
 
 
 class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):

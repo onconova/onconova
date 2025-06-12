@@ -2,6 +2,7 @@ import re
 import inspect
 from datetime import datetime
 import hashlib
+import math
 from uuid import UUID
 from enum import Enum
 from typing import Any, Union, get_args, get_origin, Optional, Literal
@@ -316,3 +317,89 @@ def hash_to_range(input_str: str, secret: str, low: int = -90, high: int = 90) -
     mapped_value = low + (hash_int % range_size)
     
     return mapped_value
+
+
+def percentile(data, q):
+    """
+    Pure Python percentile function
+    Supports single q value (0-100)
+    """
+    if not data:
+        raise ValueError("Cannot compute percentile of empty data")
+    
+    if not (0 <= q <= 100):
+        raise ValueError("Percentile must be between 0 and 100")
+    
+    sorted_data = sorted(data)
+    n = len(sorted_data)
+    rank = (q / 100) * (n - 1)
+    lower_idx = int(math.floor(rank))
+    upper_idx = int(math.ceil(rank))
+    
+    if lower_idx == upper_idx:
+        return sorted_data[int(rank)]
+    
+    lower_value = sorted_data[lower_idx]
+    upper_value = sorted_data[upper_idx]
+    weight = rank - lower_idx
+    
+    return lower_value + weight * (upper_value - lower_value)
+
+
+def average(data, weights=None):
+    """
+    Pure Python average function
+    """
+    if not data:
+        raise ValueError("Cannot compute average of empty data")
+    
+    if weights is None:
+        return sum(data) / len(data)
+    
+    if len(weights) != len(data):
+        raise ValueError("Data and weights must be the same length")
+    
+    weighted_sum = sum(d * w for d, w in zip(data, weights))
+    total_weight = sum(weights)
+    
+    if total_weight == 0:
+        raise ValueError("Sum of weights cannot be zero")
+    
+    return weighted_sum / total_weight
+
+def median(data):
+    """
+    Pure Python median function
+    """
+    if not data:
+        raise ValueError("Cannot compute median of empty data")
+    
+    sorted_data = sorted(data)
+    n = len(sorted_data)
+    mid = n // 2
+    
+    if n % 2 == 0:
+        return (sorted_data[mid - 1] + sorted_data[mid]) / 2
+    else:
+        return sorted_data[mid]
+
+def std(data, ddof=0):
+    """
+    Pure Python standard deviation function
+
+    Args:
+        data (list): List of numeric values
+        ddof (int): Delta Degrees of Freedom (0 for population, 1 for sample)
+
+    Returns:
+        float: Standard deviation of the data
+    """
+    n = len(data)
+    if n == 0:
+        raise ValueError("Cannot compute standard deviation of empty data")
+    if n - ddof <= 0:
+        raise ValueError("Degrees of freedom <= 0. Increase data size or reduce ddof.")
+    
+    mean = sum(data) / n
+    variance = sum((x - mean) ** 2 for x in data) / (n - ddof)
+    return math.sqrt(variance)

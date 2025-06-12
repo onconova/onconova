@@ -1,10 +1,10 @@
 from pop.tests.oncology.test_oncology_controllers import ApiControllerTextMixin
 from django.test import TestCase
+from pop.core.utils import average, std, percentile
 from pop.research import models
 from pop.research import schemas
 from pop.tests import factories, common
 from parameterized import parameterized    
-import numpy as np
 from collections import Counter
 
 class TestCohortController(ApiControllerTextMixin, TestCase):
@@ -33,7 +33,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
         if scenario == 'HTTPS Authenticated':
             self.assertEqual(response.status_code, 200)
             values = [getattr(case, self.trait) for case in self.cohort.cases.all()]
-            expected = schemas.cohort.CohortTraitAverage(average=np.average(values), standardDeviation=np.std(values)).model_dump()
+            expected = schemas.cohort.CohortTraitAverage(average=average(values), standardDeviation=std(values)).model_dump()
             result = schemas.cohort.CohortTraitAverage.model_validate(response.json()).model_dump()
             self.assertDictEqual(result, expected)
     
@@ -45,7 +45,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
         if scenario == 'HTTPS Authenticated':
             self.assertEqual(response.status_code, 200)
             values = [getattr(case, self.trait) for case in self.cohort.cases.all()]
-            expected = schemas.cohort.CohortTraitMedian(median=np.percentile(values, 50), interQuartalRange=(np.percentile(values, 25), np.percentile(values, 75))).model_dump()
+            expected = schemas.cohort.CohortTraitMedian(median=percentile(values, 50), interQuartalRange=(percentile(values, 25), percentile(values, 75))).model_dump()
             result = schemas.cohort.CohortTraitMedian.model_validate(response.json()).model_dump()
             self.assertDictEqual(result, expected)
 
