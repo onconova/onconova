@@ -1,6 +1,6 @@
 @media only screen and (min-width: 76.25em) {
     .md-main__inner {
-      max-width: none;
+      max-width: 85vw;
     }
     .md-sidebar--primary {
       left: 0;

@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pop-docs"
+version = "1.0.0"
+description = "The Precision Oncology Program (POP) is a joint at the University Hospital Zurich (USZ) to capture clinical data from oncology patients in a structured manner. The final aim of the project is to enable aggregated data analysis interactively."
+license = "MIT"
+authors = ["Luis Fabregas-Ibanez <Luis.Fabregas-Ibanez@usz.ch>"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "~=3.11"
+mkdocs-material = "9.6.14"
+neoteroi-mkdocs = "1.1.2"
+
+
+

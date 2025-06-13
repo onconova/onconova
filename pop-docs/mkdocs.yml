@@ -9,24 +9,24 @@ theme:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: black
+      accent: teal
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default 
-      primary: indigo
-      accent: indigo
+      primary: teal
+      accent: teal
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: teal
+      accent: teal
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
@@ -47,15 +47,13 @@ nav:
       - Requirements: installation/requirements.md
       - Quick Start: installation/quickstart.md
       - Configuration: installation/configuration.md
+  - Security: 
+      - Data Protection: security/data_security.md
   - API:
       - Overview: api/overview.md
       - Specification: api/specification.md
-  - Frontend:
-      - Overview: frontend/overview.md
-      - Structure: frontend/structure.md
-      - Components: frontend/components.md
   - Database:
-      - Schema: database/schema.md
+      - Schema: database/db_schema.md
       - Migrations: database/migrations.md
   - Contributing: contributing.md
   - FAQs: faq.md
@@ -73,7 +71,11 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - pymdownx.blocks.caption
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.details
   - pymdownx.highlight
   - pymdownx.inlinehilite
