@@ -31,7 +31,7 @@
     </ng-template>
 
     <ng-template #end>
-        <div class="flex">
+        <div class="flex gap-2">
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search"/>
                 <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
@@ -41,11 +41,42 @@
                 title="Refresh cases"
                 severity="secondary"
                 (onClick)="cases.reload()"/>
-            <!-- <p-button 
-                label="Filters" 
-                icon="pi pi-filter"
-                title="Manage filters"
-                severity="secondary"/> -->
+            
+            <pop-popover-filter-button [(ngModel)]="selectedAgeRange" label="Age" [selectionLabelFcn]="showAgeRangeFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select an age range:</div>
+                        <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
+            <pop-popover-filter-button [(ngModel)]="selectedGender" label="Gender" [selectionLabelFcn]="showSelectedCodedFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select a gender:</div>
+                        <pop-concept-selector
+                            terminology="AdministrativeGender"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
+            <pop-popover-filter-button [(ngModel)]="selectedVitalStatus" label="Vital status" [selectionLabelFcn]="showSelectedChoiceFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select a vital status:</div>
+                        <p-selectbutton 
+                            [options]="vitalStatusChoices" optionLabel="label" aria-labelledby="basic"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
             <p-divider layout="vertical"></p-divider>
             <!-- Button to add new cases -->
             <p-button 

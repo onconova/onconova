@@ -60,9 +60,9 @@ import { rxResource } from '@angular/core/rxjs-interop';
                             <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div>
                         </td>
                         <td class="font-semibold text-center"> 
-                            {{ entity.population }}
+                            <div>{{ entity.population }}</div>
                         </td>
-                        <td class="flex align-items-center">
+                        <td class="flex align-items-center my-auto">
                             <p-rating class="ml-auto" title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" />
                             <span class="text-muted ml-2 mr-auto">({{entity.dataCompletionMedian}}%)</span>
                         </td>
