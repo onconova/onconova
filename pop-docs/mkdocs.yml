@@ -48,6 +48,7 @@ nav:
       - Quick Start: installation/quickstart.md
       - Configuration: installation/configuration.md
   - Security: 
+      - Authentication: security/authentication.md
       - Data Protection: security/data_security.md
   - API:
       - Overview: api/overview.md

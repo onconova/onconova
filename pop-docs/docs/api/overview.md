@@ -59,44 +59,7 @@ This allows developers to:
 To maintain security and confidentiality, all API requests must be authenticated.
 POP uses a **session-based token authentication** mechanism. This means you must include a valid session token in your API requests' headers.
 
-**How to Authenticate**
-
-1. Obtain a session token by logging in through the web interface or by using the API login endpoint:
-    ```
-    POST /api/auth/login/
-    ```
-
-    Example JSON body:
-    ```json
-    {
-        "username": "admin",
-        "password": "your_password"
-    }
-    ```
-
-    Example response:
-    ```json
-    {
-        "session_token": "eyJ0eXAiOiJKV1QiLCJh..."
-    }
-    ```
-
-2. Include this token in the `X-SESSION-TOKEN` header in your subsequent API requests.
-
-    Example Request with Token:
-    ```bash
-    curl -X GET "https://pop.example.com/api/patients/" \
-        -H "X-SESSION-TOKEN: eyJ0eXAiOiJKV1QiLCJh..."
-    ```
-!!! note "Token Expiration"
-    
-    Tokens are valid for a limited period or until manually revoked. After the expriration period, users must authenticate again to retrieve a new token.
-
-!!! warning "Security Considerations"
-
-    - Always keep your session tokens secure.
-    - Never expose API credentials or tokens in public code repositories.
-    - Use HTTPS connections for all API calls. HTTP connections will be redirected to HTTPS by default.
+Check the [Authentication Guide](/docs/security/authentication/) for details on how to authenticate HTTP requests to the POP API.
 
 ## API Generation, Versioning, and Implications for Integrators
 

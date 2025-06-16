@@ -2,8 +2,7 @@
 
 ## Why Data Protection Matters
 
-The **Precision Oncology Platform (POP)** handles sensitive clinical and research data, which may include **Protected Health Information (PHI)**.  
-Ensuring the privacy and security of this data is both an ethical obligation and a legal requirement under various regulations, such as:
+The **Precision Oncology Platform (POP)** handles sensitive clinical and research data, which may include **Protected Health Information (PHI)**.  Ensuring the privacy and security of this data is both an ethical obligation and a legal requirement under various regulations, such as:
 
 - **GDPR (General Data Protection Regulation)** in the European Union
 - **HIPAA (Health Insurance Portability and Accountability Act)** in the United States
@@ -14,6 +13,10 @@ Failing to properly manage sensitive data can result in:
 - Legal penalties and regulatory sanctions
 - Data breaches and loss of patient trust
 - Irreparable harm to research integrity
+
+!!! note
+
+    **Each site is accountable for maintaining a compliant environment**. No software is inherently compliant; compliance depends on the environment in which it’s implemented. This includes the policies, procedures, and infrastructure managed by each study team and institution. Decisions about server settings, security, data backups, and user access are the responsibility of each organization — not defined by POP itself. 
 
 ---
 

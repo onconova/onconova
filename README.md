@@ -27,6 +27,7 @@
 </div>
 
 # Installation 
+
 Follow these steps to install and set up the Precision Oncology Platform (POP) on a Linux-based machine:
 
 1. **Clone the repository** - Download the code repository navigate to the project's directory
