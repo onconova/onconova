@@ -13,6 +13,9 @@ build-backend = "poetry.core.masonry.api"
 python = "~=3.11"
 mkdocs-material = "9.6.14"
 neoteroi-mkdocs = "1.1.2"
+mkdocstrings = {extras = ["python"], version = "0.29.1"}
+mkdocs-gen-files= "0.5.0"
+
 
 
 

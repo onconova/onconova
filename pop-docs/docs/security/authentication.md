@@ -154,7 +154,7 @@ To enable Google SSO:
 
 To enable Microsoft SSO through ID tokens:
 
-1. Go to your organization's [Microoft Entra admin center](https://entra.microsoft.com/) and navigate to the *APIs and services* page.  
+1. Go to your organization's [Microsoft Entra admin center](https://entra.microsoft.com/) and navigate to the *APIs and services* page.  
 
 2. Browse to Entra ID > App registrations > POP > Authentication.
 

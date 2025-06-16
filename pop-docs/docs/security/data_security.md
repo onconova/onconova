@@ -88,7 +88,7 @@ POP enforces **role-based access control (RBAC)** to manage who can access pseud
 | 3 | **Data Analyst**          | ✱       | ✅                         |
 | 2 | **Data Contributor**      | ✱       | ✅                         |
 | 1 | **Viewer**                | ❌      | ❌                         |
-| 0 | **External Collaborator** | ❌      | ❌                         |
+| 0 | **External** | ❌      | ❌                         |
 
 ✱ *Data Contributors* and *Data Analysts* that belong to a research project **can be granted temporary rights by their project leaders** to manage (add, update and delete) data in addition to the right to see the pseudonymized data of the patient.    
 

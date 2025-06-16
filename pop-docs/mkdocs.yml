@@ -10,23 +10,23 @@ theme:
     - media: "(prefers-color-scheme)"
       scheme: slate
       primary: black
-      accent: teal
+      accent: blue
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default 
-      primary: teal
-      accent: teal
+      primary: blue
+      accent: blue
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
-      accent: teal
+      primary: blue
+      accent: blue
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
@@ -40,6 +40,10 @@ plugins:
     - search
     - neoteroi.mkdocsoad:
         use_pymdownx: true
+    - gen-files:
+        scripts:
+          - scripts/gen_ref_pages.py
+    - mkdocstrings
 nav:
   - Home: index.md
   - About: about.md
@@ -47,8 +51,10 @@ nav:
       - Requirements: installation/requirements.md
       - Quick Start: installation/quickstart.md
       - Configuration: installation/configuration.md
+      - Plugins: installation/plugins.md
   - Security: 
       - Authentication: security/authentication.md
+      - Authorization: security/permissions.md
       - Data Protection: security/data_security.md
   - API:
       - Overview: api/overview.md
@@ -56,6 +62,9 @@ nav:
   - Database:
       - Schema: database/db_schema.md
       - Migrations: database/migrations.md
+  - API Reference:
+      -  ./reference/*
+      - Ref: reference/pop/core/history/schemas.md
   - Contributing: contributing.md
   - FAQs: faq.md
   - License: license.md
@@ -83,6 +92,11 @@ markdown_extensions:
   - pymdownx.emoji
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.snippets
 extra_css:
   - assets/style.css
   - assets/neoteroi-mkdocsoad.css
