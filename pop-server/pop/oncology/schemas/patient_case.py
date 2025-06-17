@@ -10,7 +10,7 @@ from pop.core.serialization.metaclasses import (
     ModelCreateSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date
+from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date, anonymize_by_redacting_string
 
 
 class PatientCaseSchema(ModelGetSchema):
@@ -47,7 +47,7 @@ class PatientCaseSchema(ModelGetSchema):
             fields=["clinicalIdentifier", "clinicalCenter", "age", "ageAtDiagnosis"],
             key="id",
             functions={
-                "dateOfBirth": anonymize_personal_date,
+                "dateOfBirth": anonymize_by_redacting_string,
                 "dateOfDeath": anonymize_personal_date,
             },
         ),
