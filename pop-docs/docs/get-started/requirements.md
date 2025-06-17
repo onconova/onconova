@@ -15,8 +15,12 @@ The table below summarizes the core system and infrastructure requirements neede
 | RAM | 3 GB | 
 | Storage | 5 GB |
 
+--- 
+
 #### Operating System
 POP runs on any system where [Docker](https://www.docker.com/) is supported, including Linux, macOS, and Windows, as well as container platforms such as Docker Compose or Kubernetes.
+
+--- 
 
 #### Database
 
@@ -24,9 +28,9 @@ POP uses **PostgreSQL 13 or later** as its database backend. You can either conn
 
 **Important:** Due to PostgreSQL-specific functionality within POP, no other database backends (e.g. MySQL, MSSQL, SQLite, Oracle) are supported or compatible.
 
+--- 
 
 #### Network 
-
 
 The POP container stack includes an NGINX reverse proxy that exposes HTTP and HTTPS ports for client access.  
 To secure access to the platform, you must configure:
@@ -36,7 +40,9 @@ To secure access to the platform, you must configure:
 
 Ensure firewall and network configurations permit traffic on the designated HTTP and HTTPS ports.
 
-#### CPU & Memory Recommendations
+--- 
+
+#### CPU & Memory
 
 While POP can technically run on a single CPU core, for stable performance and to leverage multi-worker concurrency in the WSGI server, a minimum of **2 vCPUs** is recommended.
 
@@ -47,11 +53,11 @@ Memory requirements:
 
 For production deployments, consider provisioning **4 GB or more** for improved performance and resource headroom.
 
+--- 
 
-## Storage Guidelines
+#### Storage
 
 Storage needs depend on your deployment size and expected data volume.  
-Baseline requirements:
 
 - **Database storage:**  
     - Less than **100 MB** for core platform data (terminologies, users, etc.)
@@ -64,6 +70,7 @@ Baseline requirements:
 
 Consider using SSD storage for improved performance, especially for database operations.
 
+--- 
 
 #### Supported Browsers
 

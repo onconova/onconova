@@ -1,6 +1,7 @@
-site_name: Precision Oncology Platform - Documentation
-site_description: An open-source web app with Angular, Django, and Docker
+site_name: Precision Oncology Platform
+site_description: Precision Oncology Platform
 site_author: Your Name
+copyright: Copyright &copy; 2025 - Luis Fabregas
 theme:
   name: material
   logo: assets/logo-white.svg
@@ -17,15 +18,15 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default 
-      primary: blue
-      accent: blue
+      primary: indigo
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: blue
+      primary: black
       accent: blue
       toggle:
         icon: material/brightness-4
@@ -33,41 +34,40 @@ theme:
   features:
     - navigation.expand
     - navigation.path    
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.top
+    - navigation.sections
     - content.code.copy
     - content.code.annotate
 plugins:
-    - search
-    - neoteroi.mkdocsoad:
-        use_pymdownx: true
-    - gen-files:
-        scripts:
-          - scripts/gen_ref_pages.py
-    - mkdocstrings
+  - search
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
+  - document-dates:
+      exclude:                
+        - index.md
+  - mike
 nav:
   - Home: index.md
-  - About: about.md
-  - Installation:
-      - Requirements: installation/requirements.md
-      - Quick Start: installation/quickstart.md
-      - Configuration: installation/configuration.md
-      - Plugins: installation/plugins.md
-  - Security: 
+  - Get Started: 
+    - Requirements: get-started/requirements.md
+    - Installation: get-started/installation.md
+    - Configuration: get-started/configuration.md
+    - License: license.md
+  - Guide:
+    - Security: 
       - Authentication: security/authentication.md
       - Authorization: security/permissions.md
       - Data Protection: security/data_security.md
-  - API:
+    - API:
       - Overview: api/overview.md
       - Specification: api/specification.md
-  - Database:
-      - Schema: database/db_schema.md
-      - Migrations: database/migrations.md
-  - API Reference:
-      -  ./reference/*
-      - Ref: reference/pop/core/history/schemas.md
-  - Contributing: contributing.md
+    - Database:
+        - Schema: database/db_schema.md
+        - Migrations: database/migrations.md
+    - Contributing: contributing.md
   - FAQs: faq.md
-  - License: license.md
   - Credits: credits.md
 repo_url: https://github.com/luisfabib/pop
 edit_uri: edit/main/docs/
@@ -89,7 +89,9 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:
@@ -99,5 +101,6 @@ markdown_extensions:
   - pymdownx.snippets
 extra_css:
   - assets/style.css
+  - assets/home.css
   - assets/neoteroi-mkdocsoad.css
   - assets/neoteroi-mkdocs.min.css

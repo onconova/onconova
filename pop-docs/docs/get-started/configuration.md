@@ -50,14 +50,17 @@ The following variables control the different configurable aspects of the POP co
 | `ANONYMIZATION_SECRET_KEY`        | Secret key for anonymizing protected healthcare information (PHI). |
 | `DJANGO_SECRET_KEY`               | Secret key used by Django to cryptographically sign sensitive data. |
 | `DJANGO_ALLOWED_HOSTS`            | Comma-separated list of allowed hosts to serve the POP server. Typically matches `WEBAPP_HOST`. |
-| `CLIENT_PLUGINS_PATH` *(optional)*| Path to directory containing POP client plugins to install on service start. |
 | `EXTERNAL_DATA_DIR`               | Path within the server container for temporary files used by terminology connectors. |
-| `LOINC_ZIPFILE_PATH`              | Directory containing LOINC terminology artifacts. |
-| `SNOMED_ZIPFILE_PATH`             | Directory containing SNOMED CT terminology artifacts. |
 | `POSTGRES_DATABASE`               | Name of the PostgreSQL database for POP. |
 | `POSTGRES_USER`                   | PostgreSQL admin username for POP. |
 | `POSTGRES_PASSWORD`               | Password for the PostgreSQL database user. |
 | `POSTGRES_HOST`                   | Hostname of the PostgreSQL database server. |
 | `POSTGRES_PORT`                   | Exposed port of the PostgreSQL database server. |
+| `CLIENT_PLUGINS_PATH` *(optional)*  | Path to directory containing POP client plugins to install on service start. |
+| `POP_GOOGLE_CLIENT_ID` *(optional)* | Google OIDC client ID for SSO. |
+| `POP_GOOGLE_SECRET` *(optional)*    | Google OIDC secret for SSO. |
+| `POP_MICROSOFT_CLIENT_ID` *(optional)* | Microsoft OIDC client ID for SSO. |
+| `POP_MICROSOFT_TENANT_ID` *(optional)* | Microsoft OIDC client secret for SSO. |
+| `POP_MICROSOFT_SECRET` *(optional)* | Microsoft OIDC tenant ID for SSO. |
 
 Be sure to update environment variable values according to your deployment infrastructure and security requirements before starting the application.

@@ -4,7 +4,7 @@ This project implements secure and flexible authentication practices for both tr
 
 All API endpoints in POP require a valid, authenticated user session. Authentication is managed via a session token, which must be included in the `X-SESSION-TOKEN` HTTP header for every request.
 
-A session token is issued by *Django-AllAuth* upon successful user authentication, whether through traditional username/password sign-in or supported Single Sign-On (SSO) providers. Requests that lack a valid session token, or include an expired or invalid token, will receive a `401 Unauthorized` HTTP response.
+A session token is issued by *Django-AllAuth* upon successful user authentication, whether through traditional username/email+password sign-in or supported Single Sign-On (SSO) providers. Requests that lack a valid session token, or include an expired or invalid token, will receive a `401 Unauthorized` HTTP response.
 
 !!! important "Authorized users only" 
 

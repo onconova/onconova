@@ -40,6 +40,7 @@ We would like to acknowledge the following institution for their support and/or 
 
 The following libraries or frameworks and their communities have enabled the development of this project.  
 
+- All medical illustrations provided by <a href="https://storyset.com/medical">Storyset</a>.
 
 ::cards:: bg-image cols=4
 
