@@ -1,5 +1,5 @@
-from datetime import datetime
-from typing import Optional, Union
+from datetime import datetime, date
+from typing import Optional, Union, Literal
 from pydantic import Field, AliasChoices, field_validator
 from ninja import Schema
 
@@ -10,12 +10,23 @@ from pop.core.serialization.metaclasses import (
     ModelCreateSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date, anonymize_by_redacting_string
+from pop.core.anonymization import (
+    REDACTED_STRING,
+    AnonymizationConfig,
+    anonymize_personal_date,
+    anonymize_by_redacting_string,
+)
 
 
 class PatientCaseSchema(ModelGetSchema):
     age: Union[int, Age, AgeBin] = Field(
         title="Age", alias="age", description="Approximate age of the patient in years"
+    )
+    dateOfBirth: Union[date, Literal[REDACTED_STRING]] = Field(  # type: ignore
+        title="Date of birth",
+        alias="date_of_birth",
+        description="Date of birth of the patient",
+        validation_alias=AliasChoices("dateOfBirth", "date_of_birth"),
     )
     overallSurvival: Optional[float] = Field(
         None,

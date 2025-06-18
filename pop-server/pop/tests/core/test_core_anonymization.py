@@ -5,6 +5,8 @@ from pop.core.schemas import Period
 from pop.core.anonymization.base import (
     REDACTED_STRING,
     MAX_DATE_SHIFT,
+    AnonymizationConfig,
+    AnonymizationMixin,
     anonymize_age,
     anonymize_by_redacting_string,
     anonymize_personal_date,
@@ -204,3 +206,65 @@ class TestAnonymizeValue(unittest.TestCase):
         case_id = "test_case_id"
         with self.assertRaises(NotImplementedError):
             anonymize_value(original_value, case_id)
+
+
+class TestAnonymizationMixin(unittest.TestCase):
+
+    def setUp(self):
+        self.mixin = AnonymizationMixin()
+        self.mixin.anonymized = True
+        self.mixin.field1 = "value1"
+        self.mixin.field2 = None
+        self.mixin.__anonymization_fields__ = ["field1", "field2"]
+        self.mixin.__anonymization_functions__ = {
+            "field1": unittest.mock.MagicMock(return_value="anonymized_value1")
+        }
+
+    def test_setup_with_valid_config(self):
+        model_class = unittest.mock.MagicMock()
+        func1 = lambda x: x
+        config = AnonymizationConfig(
+            fields=["field1", "field2"], key="key", functions={"func1": func1}
+        )
+        AnonymizationMixin._setup(model_class, config)
+        self.assertEqual(
+            model_class.__anonymization_fields__, ("field1", "field2", "func1")
+        )
+        self.assertEqual(model_class.__anonymization_key__, "key")
+        self.assertEqual(model_class.__anonymization_functions__, {"func1": func1})
+
+    def test_anonymization_skipped_when_anonymized_is_false(self):
+        self.mixin.anonymized = False
+        self.mixin.anonymize_data()
+        self.assertEqual(self.mixin.field1, "value1")
+
+    def test_anonymization_applied_to_fields_with_values(self):
+        self.mixin.anonymize_data()
+        self.assertEqual(self.mixin.field1, "anonymized_value1")
+
+    def test_anonymization_skipped_for_fields_with_no_values(self):
+        self.mixin.anonymize_data()
+        self.assertIsNone(self.mixin.field2)
+
+    def test_field_specific_anonymizer_used_when_available(self):
+        self.mixin.anonymize_data()
+        self.mixin.__anonymization_functions__["field1"].assert_called_once_with(
+            "value1"
+        )
+
+    def test_fallback_anonymizer_used_when_field_specific_anonymizer_is_not_available(
+        self,
+    ):
+        self.mixin.field2 = "value2"
+        with unittest.mock.patch.object(
+            self.mixin, "anonymize_value"
+        ) as anonymize_value:
+            self.mixin.anonymize_data()
+            anonymize_value.assert_called_once_with("value2")
+
+    def test_post_anonymization_hook_called_after_anonymization(self):
+        with unittest.mock.patch.object(
+            self.mixin, "__post_anonymization_hook__"
+        ) as hook:
+            self.mixin.anonymize_data()
+            hook.assert_called_once()
