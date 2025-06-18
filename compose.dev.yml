@@ -31,7 +31,7 @@ services:
           file: compose.prod.yml
           service: pop-docs
         build:
-          target: production
+          target: development
         volumes:
           - ./pop-docs:/app/src		
           - ./pop-server:/app/server		

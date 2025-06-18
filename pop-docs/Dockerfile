@@ -52,8 +52,9 @@ FROM python-base AS builder-base
 RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
 # Install Python dependencies
-WORKDIR /app/src		
-COPY ./pyproject.toml .
+WORKDIR /app/src	
+# Copy source files
+COPY . .	
 RUN --mount=type=cache,target=/root/.cache \
     $VIRTUAL_ENV/bin/poetry install -v --no-root --no-interaction --no-ansi --no-cache
 
@@ -61,18 +62,30 @@ RUN --mount=type=cache,target=/root/.cache \
 # PRODUCTION
 # Final image used for production
 ################################
-FROM python-base AS production
-
-# Set environment flag
-ENV ENVIRONMENT=production
+FROM python-base AS development
 
 # Copy the pre-built virtual environment without its runtime dependencies 
 COPY --from=builder-base $VIRTUAL_ENV $VIRTUAL_ENV
 
-# Copy only necessary source files
-WORKDIR /app/src
-COPY . .
-
 # Start the production-ready Gunicon webserver
 EXPOSE 8000
-CMD ["mkdocs", "serve", "-a", "0.0.0.0:8000"]
+CMD ["mkdocs", "serve", "-a", "0.0.0.0:80"]
+
+
+########################################
+# BUILDER
+# Build the production-ready application
+########################################
+FROM builder-base AS builder
+
+# Creating angular build
+RUN mkdocs build
+
+########################################
+# PRODUCTION
+# Nginx for serving built app files
+########################################
+FROM nginx:1.23.3-alpine AS production
+COPY --from=builder /app/src/site /usr/share/nginx/html/docs
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80

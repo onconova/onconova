@@ -34,8 +34,6 @@ services:
             context: pop-docs
             dockerfile: Dockerfile
             target: production     
-        expose:
-            - 8000
 
     pop-nginx:
         image: nginx:1.23        
