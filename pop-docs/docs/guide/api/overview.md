@@ -59,7 +59,7 @@ This allows developers to:
 To maintain security and confidentiality, all API requests must be authenticated.
 POP uses a **session-based token authentication** mechanism. This means you must include a valid session token in your API requests' headers.
 
-Check the [Authentication Guide](/docs/security/authentication/) for details on how to authenticate HTTP requests to the POP API.
+Check the [Authentication Guide](../security/authentication.md) for details on how to authenticate HTTP requests to the POP API.
 
 ## API Generation, Versioning, and Implications for Integrators
 

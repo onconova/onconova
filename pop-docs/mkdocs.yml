@@ -5,7 +5,7 @@ site_author: Luis Fabregas
 copyright: Copyright &copy; 2025 - Luis Fabregas
 theme:
   name: material
-  logo: assets/logo-white.svg
+  logo: assets/img/logo-white.svg
   favicon: assets/favicon.ico
   palette:
     # Palette toggle for automatic mode
@@ -55,22 +55,24 @@ nav:
     - Requirements: get-started/requirements.md
     - Installation: get-started/installation.md
     - Configuration: get-started/configuration.md
-    - License: license.md
+    - License: get-started/license.md
   - Guide:
+    - About: guide/about.md
     - Security: 
-      - Authentication: security/authentication.md
-      - Authorization: security/permissions.md
-      - Data Protection: security/data_security.md
+      - Authentication: guide/security/authentication.md
+      - Authorization: guide/security/permissions.md
+      - Data Protection: guide/security/data-security.md
+      - Audit Trail: guide/security/audit-trail.md
     - API:
-      - Overview: api/overview.md
-      - Specification: api/specification.md
+      - Overview: guide/api/overview.md
+      - Specification: guide/api/specification.md
     - Database:
-        - Schema: database/db_schema.md
-        - Migrations: database/migrations.md
+        - Schema: guide/database/db_schema.md
+        - Migrations: guide/database/migrations.md
     - Developers Guide: 
-      - Contributing: developers/contributing.md
-      - Microservices: developers/microservices.md
-      - Client Plugins: developers/plugins.md
+      - Contributing: guide/developers/contributing.md
+      - Microservices: guide/developers/microservices.md
+      - Client Plugins: guide/developers/plugins.md
   - FAQs: faq.md
   - Credits: credits.md
 repo_url: https://github.com/luisfabib/pop
@@ -103,7 +105,7 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.snippets
 extra_css:
-  - assets/style.css
-  - assets/home.css
-  - assets/neoteroi-mkdocsoad.css
-  - assets/neoteroi-mkdocs.min.css
+  - assets/css/style.css
+  - assets/css/home.css
+  - assets/css/neoteroi-mkdocsoad.css
+  - assets/css/neoteroi-mkdocs.min.css

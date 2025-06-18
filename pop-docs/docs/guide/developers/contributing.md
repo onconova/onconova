@@ -53,7 +53,7 @@ This keeps the core platform clean, maintainable, and institution-agnostic while
 
 2. **Set Up Your Development Environment**
 
-    - Follow the [Installation Guide](../installation/quickstart) to set up POP locally for development using Docker Compose.
+    - Follow the [Installation Guide](../../get-started/installation.md) to set up POP locally for development using Docker Compose.
 
 3. **Create a Feature Branch**
 

@@ -20,18 +20,18 @@ Yes, POP is designed for production environments. However, you should carefully 
 
 
 #### Does POP support Single Sign-On (SSO)?
-Yes — POP integrates with the Django-AllAuth authentication framework and provides built-in SSO support for Google and Microsoft. See the [Authentication guide](../security/authentication) for integration instructions.
+Yes — POP integrates with the Django-AllAuth authentication framework and provides built-in SSO support for Google and Microsoft. See the [Authentication guide](guide/security/authentication.md) for integration instructions.
 
 --- 
 
 
 #### Can I export data from POP for my research?
-Yes — users with sufficient access (typically Project Managers or higher) can export anonymized or pseudonymized patient case data, depending on their access level and project permissions. See [Access Control](../security/permissions) for details.
+Yes — users with sufficient access (typically Project Managers or higher) can export anonymized or pseudonymized patient case data, depending on their access level and project permissions. See [Access Control](guide/security/permissions.md) for details.
 
 --- 
 
 #### Is patient data anonymized?
-POP uses an annymization system where data fields are treated according to the "Safe-Harbor" method of the HIPAA rules. Detailed information can be found in the [Data Security](../security/data_security/) section.
+POP uses an annymization system where data fields are treated according to the "Safe-Harbor" method of the HIPAA rules. Detailed information can be found in the [Data Security](guide/security/data-security.md) section.
 
 --- 
 

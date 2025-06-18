@@ -18,7 +18,7 @@ hide:
     </p>
   </div>
 
-  <img src="../assets/banner.svg" />
+  <img src="./assets/img/banner.svg" />
 
   <div class="banner-background">
 

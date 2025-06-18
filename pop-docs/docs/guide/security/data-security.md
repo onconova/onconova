@@ -106,6 +106,6 @@ When handling sensitive data through POP:
 
 ## Further Reading
 
-- [User Roles and Permissions](../administration/access-control.md)
+- [User Roles and Permissions](permissions.md)
 - [GDPR Official Website](https://gdpr.eu/)
 - [HIPAA Security Rule Summary](https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html)

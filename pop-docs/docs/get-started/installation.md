@@ -80,7 +80,7 @@ Follow these steps to install and set up POP from its source code.
                 COMPOSE_FILE=compose.dev.yml 
                 ```
 
-        - Set all other non-optional environment variables listed in the [Configuration section](./configuration.md#pop-environment-variables-reference) based on your environment.
+        - Set all other non-optional environment variables listed in the [Configuration section](configuration.md#pop-environment-variables-reference) based on your environment.
 
 4. **Build and Run the Containers**
 
@@ -158,7 +158,7 @@ Before using POP, the database must be configured and populated with required cl
     docker compose run pop-server python manage.py migrate
     ```
 
-    See the [Database Migrations Guide](../database/migrations.md) for details.
+    See the [Database Migrations Guide](../guide/database/migrations.md) for details.
 
 2. **Create a Superuser Account**
 
@@ -233,7 +233,7 @@ After completing these steps and successfully installing POP you can run the fol
 - **Setup Single-Sign-On through an identity provider**
     
     - You can enable signgle-sign-on through a provider (e.g. Microsoft) to facility and better controll access to POP.
-    - Follow the instructions in the [Authentication Guide](../security/authentication.md/#sso-through-identity-providers) to setup the SSO.
+    - Follow the instructions in the [Authentication Guide](../guide/security/authentication.md/#sso-through-identity-providers) to setup the SSO.
 
 - **Create User Accounts and Roles**
 
@@ -243,7 +243,7 @@ After completing these steps and successfully installing POP you can run the fol
     - Configure OpenID authorization with providers such as Google or Microsoft. 
     - Assign appropriate roles and access levels for clinicians, data analysts, researchers, and system administrators.
 
-    See the [Authorization Guide](../security/permissions.md) for details. 
+    See the [Authorization Guide](../guide/security/permissions.md) for details. 
 
 
 - **Backup the Initial Database State**
