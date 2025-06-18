@@ -17,12 +17,14 @@ Examples:
 - Bug fixes in shared components.
 - UI/UX improvements affecting all users.
 
-Note: Changes to the existing core database models (Django models / schema) must be:
+!!! note 
 
-- Well justified and documented.
-- Submitted via a Pull Request (PR) for review.
-- Approved by the core POP development team.
-- Unless critical or part of a planned roadmap, schema changes should be avoided to preserve platform stability and backwards compatibility.
+    Changes to the existing core database models (Django models / schema) must be:
+
+    - Well justified and documented.
+    - Submitted via a Pull Request (PR) for review.
+    - Approved by the core POP development team.
+    - Unless critical or part of a planned roadmap, schema changes should be avoided to preserve platform stability and backwards compatibility.
 
 ### Institution-Specific Features
 
@@ -45,51 +47,51 @@ This keeps the core platform clean, maintainable, and institution-agnostic while
 
 ## Development Workflow
 
-**1. Fork the Repository**
+1. **Fork the Repository**
 
- - Create a personal fork of the POP repository on GitHub.
+    - Create a personal fork of the POP repository on GitHub.
 
-**2. Set Up Your Development Environment**
+2. **Set Up Your Development Environment**
 
-- Follow the [Installation Guide](../installation/quickstart) to set up POP locally for development using Docker Compose.
+    - Follow the [Installation Guide](../installation/quickstart) to set up POP locally for development using Docker Compose.
 
-**3. Create a Feature Branch**
+3. **Create a Feature Branch**
 
-- Use descriptive branch names:
+    - Use descriptive branch names:
 
-```
-feature/add-new-api-endpoint
-bugfix/fix-export-error
-plugin/custom-data-importer
-```
+        ```
+        feature/add-new-api-endpoint
+        bugfix/fix-export-error
+        plugin/custom-data-importer
+        ```
 
-**4. Make Your Changes**
+4. **Make Your Changes**
 
-- Follow the project’s coding standards (Python: PEP8, Angular: ESLint rules).
-- Write clean, readable, and well-documented code.
-- Include clear, well-structured commit messages.
-- If modifying the core database models, document your reasoning clearly in your PR description.
-- Follow existing file structures and naming conventions.
-- Avoid hardcoding institution-specific logic into core components.
-- Use environment variables and configuration files for deploy-time settings.
+    - Follow the project’s coding standards (Python: PEP8, Angular: ESLint rules).
+    - Write clean, readable, and well-documented code.
+    - Include clear, well-structured commit messages.
+    - If modifying the core database models, document your reasoning clearly in your PR description.
+    - Follow existing file structures and naming conventions.
+    - Avoid hardcoding institution-specific logic into core components.
+    - Use environment variables and configuration files for deploy-time settings.
 
-**5. Test Thoroughly**
+5. **Test Thoroughly**
 
-- Run unit tests and integration tests.
-- Add new tests for new functionality.
-- Verify Docker containers build and run cleanly.
-- Test frontend and backend functionality locally.
+    - Run unit tests and integration tests.
+    - Add new tests for new functionality.
+    - Verify Docker containers build and run cleanly.
+    - Test frontend and backend functionality locally.
 
-**6. Submit a Pull Request**
+6. **Submit a Pull Request**
 
-- Provide a clear, informative description:
+    - Provide a clear, informative description:
 
-    + Purpose of the change.
-    + Type of contribution (core change / institution-specific feature).
-    + Any model or schema changes proposed, with justification.
-    + Testing steps performed.
+        + Purpose of the change.
+        + Type of contribution (core change / institution-specific feature).
+        + Any model or schema changes proposed, with justification.
+        + Testing steps performed.
 
-- Label the PR appropriately.
+    - Label the PR appropriately.
 
 ### Code Review & Approval
 All contributions must be reviewed and approved by a POP core development team member before being merged.

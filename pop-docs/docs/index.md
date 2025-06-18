@@ -76,7 +76,7 @@ hide:
 
       ---
 
-      Ensure compliance with data protection regulations with HIPAA- and GDPR-based data anonymization.
+      Protect privacy and ensure compliance with data anonymization.
 
 
   -   :material-scale-balance:{ .lg .middle } __Easy to Use__

@@ -98,8 +98,7 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'User manual', 
                         icon: 'pi pi-fw pi-book', 
-                        url: `/notfound`,
-                        disabled: true
+                        url: `${this.#basePath}/docs/`,
                     },
                     { 
                         label: 'API Specification', 
