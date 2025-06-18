@@ -91,17 +91,15 @@ class AuthController(ControllerBase):
             401: None,
             403: None,
         },
-        operation_id="login",
+        operation_id="loginWithProviderToken",
         openapi_extra=dict(security=[]),
     )
     @paginate
     def login_with_provider_token(self, credentials: UserProviderToken):
         view = resolve("/api/allauth/app/v1/auth/provider/token")
         response = view.func(self.context.request)
-        print("REPONSE", response)
         if response.status_code != 200:
             return response.status_code, None
-        print("JSON", response.content.decode())
         return 200, json.loads(response.content.decode())["meta"]
 
 
