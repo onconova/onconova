@@ -144,7 +144,7 @@ class ApiControllerTestMixin:
     def _authenticate_user_and_get_authentication_header(username, password):
         auth_client = Client()
         response = auth_client.post(
-            "/api/auth/session",
+            "/api/v1/auth/session",
             data={"username": username, "password": password},
             content_type="application/json",
             secure=True,

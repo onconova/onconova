@@ -409,7 +409,7 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
 
 
 class TestPatientCaseController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/patient-cases"
+    controller_path = "/api/v1/patient-cases"
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
     SCHEMA = schemas.PatientCaseSchema
@@ -417,7 +417,7 @@ class TestPatientCaseController(ApiControllerTextMixin, TestCase):
 
 
 class TestNeoplastcEntityController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/neoplastic-entities"
+    controller_path = "/api/v1/neoplastic-entities"
     FACTORY = factories.PrimaryNeoplasticEntityFactory
     MODEL = models.NeoplasticEntity
     SCHEMA = schemas.NeoplasticEntitySchema
@@ -425,7 +425,7 @@ class TestNeoplastcEntityController(ApiControllerTextMixin, TestCase):
 
 
 class TestStagingController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/stagings"
+    controller_path = "/api/v1/stagings"
     FACTORY = [
         factories.TNMStagingFactory,
         factories.FIGOStagingFactory,
@@ -442,7 +442,7 @@ class TestStagingController(ApiControllerTextMixin, TestCase):
 
 
 class TestTumorMarkerController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/tumor-markers"
+    controller_path = "/api/v1/tumor-markers"
     FACTORY = factories.TumorMarkerTestFactory
     MODEL = models.TumorMarker
     SCHEMA = schemas.TumorMarkerSchema
@@ -450,7 +450,7 @@ class TestTumorMarkerController(ApiControllerTextMixin, TestCase):
 
 
 class TestRiskAssessmentController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/risk-assessments"
+    controller_path = "/api/v1/risk-assessments"
     FACTORY = factories.RiskAssessmentFactory
     MODEL = models.RiskAssessment
     SCHEMA = schemas.RiskAssessmentSchema
@@ -458,7 +458,7 @@ class TestRiskAssessmentController(ApiControllerTextMixin, TestCase):
 
 
 class TestSystemicTherapyController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/systemic-therapies"
+    controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyFactory
     MODEL = models.SystemicTherapy
     SCHEMA = schemas.SystemicTherapySchema
@@ -466,7 +466,7 @@ class TestSystemicTherapyController(ApiControllerTextMixin, TestCase):
 
 
 class TestSystemicTherapyMedicationController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/systemic-therapies"
+    controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyMedicationFactory
     MODEL = models.SystemicTherapyMedication
     SCHEMA = schemas.SystemicTherapyMedicationSchema
@@ -491,7 +491,7 @@ class TestSystemicTherapyMedicationController(ApiControllerTextMixin, TestCase):
 
 
 class TestSurgeryController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/surgeries"
+    controller_path = "/api/v1/surgeries"
     FACTORY = factories.SurgeryFactory
     MODEL = models.Surgery
     SCHEMA = schemas.SurgerySchema
@@ -499,7 +499,7 @@ class TestSurgeryController(ApiControllerTextMixin, TestCase):
 
 
 class TestRadiotherapyController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/radiotherapies"
+    controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyFactory
     MODEL = models.Radiotherapy
     SCHEMA = schemas.RadiotherapySchema
@@ -507,7 +507,7 @@ class TestRadiotherapyController(ApiControllerTextMixin, TestCase):
 
 
 class TestRadiotherapyDosageController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/radiotherapies"
+    controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyDosageFactory
     MODEL = models.RadiotherapyDosage
     SCHEMA = schemas.RadiotherapyDosageSchema
@@ -530,7 +530,7 @@ class TestRadiotherapyDosageController(ApiControllerTextMixin, TestCase):
 
 
 class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/radiotherapies"
+    controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapySettingFactory
     MODEL = models.RadiotherapySetting
     SCHEMA = schemas.RadiotherapySettingSchema
@@ -553,7 +553,7 @@ class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
 
 
 class TestTreatmentResponseController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/treatment-responses"
+    controller_path = "/api/v1/treatment-responses"
     FACTORY = factories.TreatmentResponseFactory
     MODEL = models.TreatmentResponse
     SCHEMA = schemas.TreatmentResponseSchema
@@ -561,7 +561,7 @@ class TestTreatmentResponseController(ApiControllerTextMixin, TestCase):
 
 
 class TestAdverseEventController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/adverse-events"
+    controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
     SCHEMA = schemas.AdverseEventSchema
@@ -569,7 +569,7 @@ class TestAdverseEventController(ApiControllerTextMixin, TestCase):
 
 
 class TestAdverseEventSuspectedCauseController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/adverse-events"
+    controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventSuspectedCauseFactory
     MODEL = models.AdverseEventSuspectedCause
     SCHEMA = schemas.AdverseEventSuspectedCauseSchema
@@ -592,7 +592,7 @@ class TestAdverseEventSuspectedCauseController(ApiControllerTextMixin, TestCase)
 
 
 class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/adverse-events"
+    controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventMitigationFactory
     MODEL = models.AdverseEventMitigation
     SCHEMA = schemas.AdverseEventMitigationSchema
@@ -615,7 +615,7 @@ class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
 
 
 class TestGenomicVariantController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/genomic-variants"
+    controller_path = "/api/v1/genomic-variants"
     FACTORY = factories.GenomicVariantFactory
     MODEL = models.GenomicVariant
     SCHEMA = schemas.GenomicVariantSchema
@@ -623,7 +623,7 @@ class TestGenomicVariantController(ApiControllerTextMixin, TestCase):
 
 
 class TestTumorBoardController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/tumor-boards"
+    controller_path = "/api/v1/tumor-boards"
     FACTORY = [
         factories.TumorBoardFactory,
         factories.MolecularTumorBoardFactory,
@@ -645,7 +645,7 @@ class TestTumorBoardController(ApiControllerTextMixin, TestCase):
 class TestMolecularTherapeuticRecommendationController(
     ApiControllerTextMixin, TestCase
 ):
-    controller_path = "/api/molecular-tumor-boards"
+    controller_path = "/api/v1/molecular-tumor-boards"
     FACTORY = factories.MolecularTherapeuticRecommendationFactory
     MODEL = models.MolecularTherapeuticRecommendation
     SCHEMA = schemas.MolecularTherapeuticRecommendationSchema
@@ -668,7 +668,7 @@ class TestMolecularTherapeuticRecommendationController(
 
 
 class TestTherapyLineController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/therapy-lines"
+    controller_path = "/api/v1/therapy-lines"
     FACTORY = factories.TherapyLineFactory
     MODEL = models.TherapyLine
     SCHEMA = schemas.TherapyLineSchema
@@ -676,7 +676,7 @@ class TestTherapyLineController(ApiControllerTextMixin, TestCase):
 
 
 class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/performance-status"
+    controller_path = "/api/v1/performance-status"
     FACTORY = factories.PerformanceStatusFactory
     MODEL = models.PerformanceStatus
     SCHEMA = schemas.PerformanceStatusSchema
@@ -684,7 +684,7 @@ class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
 
 
 class TestLifestyleController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/lifestyles"
+    controller_path = "/api/v1/lifestyles"
     FACTORY = factories.LifestyleFactory
     MODEL = models.Lifestyle
     SCHEMA = schemas.LifestyleSchema
@@ -692,7 +692,7 @@ class TestLifestyleController(ApiControllerTextMixin, TestCase):
 
 
 class TestFamilyHistoryController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/family-histories"
+    controller_path = "/api/v1/family-histories"
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
     SCHEMA = schemas.FamilyHistorySchema
@@ -700,7 +700,7 @@ class TestFamilyHistoryController(ApiControllerTextMixin, TestCase):
 
 
 class TestVitalsController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/vitals"
+    controller_path = "/api/v1/vitals"
     FACTORY = factories.VitalsFactory
     MODEL = models.Vitals
     SCHEMA = schemas.VitalsSchema
@@ -708,7 +708,7 @@ class TestVitalsController(ApiControllerTextMixin, TestCase):
 
 
 class TestComorbiditiesAssessmentController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/comorbidities-assessments"
+    controller_path = "/api/v1/comorbidities-assessments"
     FACTORY = factories.ComorbiditiesAssessmentFactory
     MODEL = models.ComorbiditiesAssessment
     SCHEMA = schemas.ComorbiditiesAssessmentSchema
@@ -731,7 +731,7 @@ class TestComorbiditiesAssessmentController(ApiControllerTextMixin, TestCase):
 
 
 class TestGenomicSignatureController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/genomic-signatures"
+    controller_path = "/api/v1/genomic-signatures"
     FACTORY = [
         factories.TumorMutationalBurdenFactory,
         factories.LossOfHeterozygosityFactory,

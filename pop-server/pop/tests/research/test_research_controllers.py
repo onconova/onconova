@@ -9,7 +9,7 @@ from collections import Counter
 
 
 class TestCohortController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/cohorts"
+    controller_path = "/api/v1/cohorts"
     FACTORY = factories.CohortFactory
     MODEL = models.Cohort
     SCHEMA = schemas.CohortSchema
@@ -17,7 +17,7 @@ class TestCohortController(ApiControllerTextMixin, TestCase):
 
 
 class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/cohorts"
+    controller_path = "/api/v1/cohorts"
 
     @classmethod
     def setUpTestData(cls):
@@ -90,7 +90,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
 
 
 class TestDatasetController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/datasets"
+    controller_path = "/api/v1/datasets"
     FACTORY = factories.DatasetFactory
     MODEL = models.Dataset
     SCHEMA = schemas.Dataset
@@ -98,7 +98,7 @@ class TestDatasetController(ApiControllerTextMixin, TestCase):
 
 
 class TestProjectController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/projects"
+    controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectFactory
     MODEL = models.Project
     SCHEMA = schemas.ProjectSchema
@@ -106,7 +106,7 @@ class TestProjectController(ApiControllerTextMixin, TestCase):
 
 
 class TestProjectDataManagerController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/projects"
+    controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectDataManagerGrantFactory
     MODEL = models.ProjectDataManagerGrant
     SCHEMA = schemas.ProjectDataManagerGrantSchema

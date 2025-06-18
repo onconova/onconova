@@ -33,7 +33,7 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
     def test_login_user_with_username_password(self):
         client = Client()
         response = client.post(
-            "/api/auth/session",
+            "/api/v1/auth/session",
             data={"username": self.username, "password": self.password},
             content_type="application/json",
             secure=True,
@@ -44,7 +44,7 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
     def test_login_user_with_email_password(self):
         client = Client()
         response = client.post(
-            "/api/auth/session",
+            "/api/v1/auth/session",
             data={"username": self.email, "password": self.password},
             content_type="application/json",
             secure=True,
@@ -65,7 +65,7 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
             return_value=MagicMock(func=mock_view_func),
         ) as mock_redirect:
             response = client.post(
-                "/api/auth/provider/session",
+                "/api/v1/auth/provider/session",
                 data={
                     "provider": "providerId",
                     "process": "login",
@@ -83,7 +83,7 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
 
 
 class TestUserController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/users"
+    controller_path = "/api/v1/users"
 
     @classmethod
     def setUpTestData(cls):
@@ -208,7 +208,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
 
 
 class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/measures"
+    controller_path = "/api/v1/measures"
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_measure_units(self, scenario, config):
