@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Literal
 from ninja import Query, Schema
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
@@ -29,6 +29,18 @@ class UserCredentials(Schema):
     password: str
 
 
+class UserProviderClientToken(Schema):
+    client_id: str
+    id_token: Optional[str] = None
+    access_token: Optional[str] = None
+
+
+class UserProviderToken(Schema):
+    provider: str
+    process: Literal["login"] | Literal["connect"]
+    token: UserProviderClientToken
+
+
 class AuthenticationMeta(Schema):
     sessionToken: Optional[str] = Field(
         default=None,
@@ -57,15 +69,39 @@ class AuthController(ControllerBase):
         response={
             200: AuthenticationMeta,
             401: None,
+            400: None,
             403: None,
         },
         operation_id="login",
         openapi_extra=dict(security=[]),
     )
     @paginate
-    def login(self, credentials: UserCredentials):
+    def login(self, credentials: UserCredentials | UserProviderToken):
         view = resolve("/api/allauth/app/v1/auth/login")
         response = view.func(self.context.request)
+        if response.status_code != 200:
+            return response.status_code, None
+        return 200, json.loads(response.content.decode())["meta"]
+
+    @route.post(
+        path="/provider/session",
+        response={
+            200: AuthenticationMeta,
+            400: None,
+            401: None,
+            403: None,
+        },
+        operation_id="login",
+        openapi_extra=dict(security=[]),
+    )
+    @paginate
+    def login_with_provider_token(self, credentials: UserProviderToken):
+        view = resolve("/api/allauth/app/v1/auth/provider/token")
+        response = view.func(self.context.request)
+        print("REPONSE", response)
+        if response.status_code != 200:
+            return response.status_code, None
+        print("JSON", response.content.decode())
         return 200, json.loads(response.content.decode())["meta"]
 
 
