@@ -26,7 +26,12 @@ import { rxResource } from '@angular/core/rxjs-interop';
                 <div>
                     <div class="font-semibold mb-1"><small>Research paper</small></div>
                     <div class="mb-1"><i>{{ paper.title[0] }}</i></div>
-                    <p class="mb-3"> {{ paper.author[0].family }} et al., {{ paper['container-title'] }}, {{ paper['journal-issue']?.issue || '?' }}, {{ paper['published-print']?.['date-parts'][0][0] || '' }}</p>
+                    
+                      <p class="mb-3"> 
+                        @if (paper.author; as authors) {
+                          {{ authors[0].family }} et al., 
+                        }{{ paper['container-title'] }}, {{ paper['journal-issue']?.issue || '?' }}, {{ paper['published-print']?.['date-parts'][0][0] || '' }}
+                      </p>
                     <a [href]="paper.URL" target="_blank"><p-button icon="pi pi-arrow-right" label="Access the publication"/></a>
                 </div>
               }
