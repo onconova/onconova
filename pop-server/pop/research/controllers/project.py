@@ -1,7 +1,6 @@
 import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 

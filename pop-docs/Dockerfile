@@ -3,7 +3,7 @@
 # PYTHON-BASE
 # Sets up all our shared environment variables
 ################################
-FROM python:3.11-slim as python-base
+FROM python:3.11-slim AS python-base
 
 ARG ROOT_CA_CERTIFICATES=
 
@@ -46,7 +46,7 @@ ENV PYTHONPATH="/app/src:$PYTHONPATH"
 # BUILDER-BASE
 # Used to build deps + create our virtual environment
 ################################
-FROM python-base as builder-base
+FROM python-base AS builder-base
 
 # Install Poetry
 RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org --trusted-host files.pythonhosted.org
@@ -61,7 +61,7 @@ RUN --mount=type=cache,target=/root/.cache \
 # PRODUCTION
 # Final image used for production
 ################################
-FROM python-base as production
+FROM python-base AS production
 
 # Set environment flag
 ENV ENVIRONMENT=production
