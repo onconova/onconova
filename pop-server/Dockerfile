@@ -3,7 +3,7 @@
 # PYTHON-BASE
 # Sets up all our shared environment variables
 ################################
-FROM python:3.11-slim as python-base
+FROM python:3.11-slim AS python-base
 
 ARG ROOT_CA_CERTIFICATES=
 
@@ -51,7 +51,7 @@ ENV PYTHONPATH="/app/src:$PYTHONPATH"
 # BUILDER-BASE
 # Used to build deps + create our virtual environment
 ################################
-FROM python-base as builder-base
+FROM python-base AS builder-base
 
 # Install essential Linux dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -75,7 +75,7 @@ RUN --mount=type=cache,target=/root/.cache \
 # DEVELOPMENT
 # Image used during development / testing
 ################################
-FROM builder-base as development
+FROM builder-base AS development
 
 # Set environment flag
 ENV ENVIRONMENT=development
@@ -97,7 +97,7 @@ CMD ["python", "manage.py",  "runserver_plus", "0.0.0.0:8000"]
 # PRODUCTION
 # Final image used for production
 ################################
-FROM python-base as production
+FROM python-base AS production
 
 # Set environment flag
 ENV ENVIRONMENT=production

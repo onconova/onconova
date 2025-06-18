@@ -2,7 +2,7 @@
 # ANGULAR-BASE
 # Sets up Node and Angular
 ########################################
-FROM node:22-bullseye  as angular-base
+FROM node:22-bullseye  AS angular-base
 
 # Setup workspace
 WORKDIR /app
@@ -33,7 +33,7 @@ RUN npm cache clean --force
 # DEVLEOPMENT
 # Serve application for development
 ########################################
-FROM angular-base as development
+FROM angular-base AS development
 # Serve angular application
 CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check", "--configuration", "development"]
 
@@ -41,7 +41,7 @@ CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check",
 # BUILDER
 # Build the production-ready application
 ########################################
-FROM angular-base as builder
+FROM angular-base AS builder
 # Creating angular build
 RUN ng build --output-path dist/client --configuration production
 
@@ -49,7 +49,7 @@ RUN ng build --output-path dist/client --configuration production
 # PRODUCTION
 # Nginx for serving built app files
 ########################################
-FROM nginx:1.23.3-alpine as production
+FROM nginx:1.23.3-alpine AS production
 COPY --from=builder /app/dist/client /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

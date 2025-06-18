@@ -1,0 +1,39 @@
+@media only screen and (min-width: 76.25em) {
+    .md-main__inner {
+      max-width: 85vw;
+    }
+    .md-sidebar--primary {
+      left: 0;
+    }
+    .md-sidebar--secondary {
+      right: 0;
+      margin-left: 0;
+      -webkit-transform: none;
+      transform: none;   
+    }
+  }
+
+
+.credits-authors {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.credits-profile {
+    text-align: center;
+}
+
+.credits-profile-img {
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+}
+
+.credits-profile-title {
+  margin-top: .5rem;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+.credits-profile-role {
+  margin-top: 0;
+}

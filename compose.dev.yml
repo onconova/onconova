@@ -25,6 +25,17 @@ services:
           - ./pop-client/openapi.json:/app/openapi.json
           - ${CLIENT_PLUGINS_PATH}:/app/src/plugins
 
+    pop-docs:
+        container_name: "${COMPOSE_PROJECT_NAME}-docs"
+        extends:
+          file: compose.prod.yml
+          service: pop-docs
+        build:
+          target: development
+        volumes:
+          - ./pop-docs:/app/src		
+          - ./pop-server:/app/server		
+
     pop-nginx:
         image: nginx:1.23        
         container_name: "${COMPOSE_PROJECT_NAME}-dev-nginx"

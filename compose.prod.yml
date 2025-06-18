@@ -27,6 +27,14 @@ services:
         volumes:
             - ${CLIENT_PLUGINS_PATH}:/app/src/plugins
 
+    pop-docs:
+        container_name: "${COMPOSE_PROJECT_NAME}-docs"
+        restart: unless-stopped
+        build:
+            context: pop-docs
+            dockerfile: Dockerfile
+            target: production     
+
     pop-nginx:
         image: nginx:1.23        
         container_name: "${COMPOSE_PROJECT_NAME}-nginx"
@@ -49,6 +57,7 @@ services:
             - pop-postgres
             - pop-server
             - pop-client
+            - pop-docs
 
     pop-postgres:
         image: postgres:13-alpine

@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 
 from ninja import Query
 from ninja_extra import route, api_controller
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
