@@ -84,7 +84,7 @@ export class PatientFormComponent extends AbstractFormBase {
       },
       general: {
         gender: data.gender ?? null,
-        dateOfBirth: data.dateOfBirth ?? null,
+        dateOfBirth: typeof data.dateOfBirth === 'string' ? data.dateOfBirth as string : data.dateOfBirth as string  ?? null,
         isAlive: !data.isDeceased,
         dateOfDeath: data.dateOfDeath ?? null,
         causeOfDeath: data.causeOfDeath ?? null,
@@ -100,7 +100,7 @@ export class PatientFormComponent extends AbstractFormBase {
     const data = this.form.value;
     return {
       gender: data.general!.gender!,
-      dateOfBirth: data.general!.dateOfBirth!,
+      dateOfBirth: data.general!.dateOfBirth! as string,
       dateOfDeath: !data.general!.isAlive ? data.general!.dateOfDeath : null,
       causeOfDeath: !data.general!.isAlive ? data.general!.causeOfDeath: null,
       clinicalCenter: data.identification!.clinicalCenter!,

@@ -103,7 +103,7 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'API Specification', 
                         icon: 'pi pi-fw pi-book', 
-                        url: `${this.#basePath}/api/docs#/`,
+                        url: `${this.#basePath}/api/v1/docs#/`,
                     },
                 ]
             }

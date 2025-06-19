@@ -9,7 +9,7 @@ from parameterized import parameterized
 
 
 class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/interoperability"
+    controller_path = "/api/v1/interoperability"
 
     @classmethod
     def setUpTestData(cls):

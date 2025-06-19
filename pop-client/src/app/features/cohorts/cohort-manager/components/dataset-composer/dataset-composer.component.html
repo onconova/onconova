@@ -76,7 +76,7 @@
         @if (dataset) {
             <div class="pop-dataset-table">        
                 <p-table 
-                    [value]="dataset.hasValue() ? dataset.value() : [1,2,3,4,5,6,7,8,9,10]" 
+                    [value]="dataset.hasValue() ? dataset.value() : emptyDatasetPlaceholder" 
                     [scrollable]="true"
                     [paginator]="true" 
                     [showCurrentPageReport]="true"

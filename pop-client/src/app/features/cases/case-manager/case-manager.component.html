@@ -221,15 +221,6 @@
             </div>
     
             <div class=flex>
-                @if (case$.value(); as case) {
-                    @if (case.updatedBy) {
-                        @if (case.updatedBy[case.updatedBy.length-1]; as lastUpdatedBy) {
-                            <pop-user-badge [username]="lastUpdatedBy" class="my-auto mr-2"/>
-                        }
-                    }
-                } @else {
-                    <p-skeleton width="4rem" height="4rem" />                    
-                    }
                 <div class="text-left mt-1">
                     <small class="text-muted">Last updated</small>
                     <div>
