@@ -43179,6 +43179,51 @@
           }
         ]
       }
+    },
+    "/api/v1/others/clinical-centers": {
+      "get": {
+        "operationId": "getClinicalCenters",
+        "summary": "Get Clinical Centers",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "default": "",
+              "title": "Query",
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented"
+          }
+        },
+        "tags": [
+          "Patient Cases"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {

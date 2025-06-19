@@ -122,8 +122,8 @@ export class PatientFormComponent extends AbstractFormBase {
   // Dynamically react to changes to the clinical center input query and search for matching centers
   public clinicalCenterQuery = signal<string>('');
   public clinicalCenters = rxResource({
-    request: () => ({clinicalCenterContains: this.clinicalCenterQuery()}),
-    loader: ({request}) => this.#caseService.getPatientCases(request).pipe(map(response => [...new Set(response.items.map(item => item.clinicalCenter))]))
+    request: () => ({query: this.clinicalCenterQuery()}),
+    loader: ({request}) => this.#caseService.getClinicalCenters(request)
   })
 
   // Dynamically react to changes to the isAlive field

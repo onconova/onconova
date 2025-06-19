@@ -240,3 +240,17 @@ class OthersController(ControllerBase):
             return 200, clinical_center
         else:
             return 501, None
+
+    @route.get(
+        path="/clinical-centers",
+        response={
+            200: list[str],
+            501: None,
+        },
+        operation_id="getClinicalCenters",
+    )
+    def get_clinical_centers(self, query: str = ""):
+        queryset = PatientCase.objects.all()
+        if query:
+            queryset = queryset.filter(clinical_center__icontains=query)
+        return queryset.values_list("clinical_center", flat=True).distinct()
