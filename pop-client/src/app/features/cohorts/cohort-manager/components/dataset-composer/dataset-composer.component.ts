@@ -17,7 +17,7 @@ import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
 import OpenAPISpecification from "../../../../../../../openapi.json";
-import { CohortsService, Dataset, DatasetsService, PaginatedDataset, DataResource, Cohort } from "pop-api-client";
+import { CohortsService, PatientCaseDataset, DatasetsService, PaginatedDataset, DataResource, Cohort, Dataset } from "pop-api-client";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
 import { AuthService } from "src/app/core/auth/services/auth.service";
@@ -116,6 +116,7 @@ export class DatasetComposerComponent {
     // Table pagination
     readonly pageSizeChoices: number[] = [10, 20, 50, 100];
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0})
+    protected emptyDatasetPlaceholder = [1,2,3,4,5,6,7,8,9,10] as unknown as PatientCaseDataset[]
 
     // Dataset selection tree properties
     public selectedRules = signal<TreeNode[]>([]);
