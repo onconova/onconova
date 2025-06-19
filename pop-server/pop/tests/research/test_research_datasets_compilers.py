@@ -56,6 +56,12 @@ class TestConstructDataset(TestCase):
         self.assertEqual(len(dataset), 1)
         self.assertEqual(self.case.age, dataset[0].get("age"))
 
+    def test_query_non_annotated_property(self):
+        rule = DatasetRule(resource="PatientCase", field="contributors")
+        dataset = construct_dataset(self.cohort, [rule])
+        self.assertEqual(len(dataset), 1)
+        self.assertEqual(self.case.contributors, dataset[0].get("contributors"))
+
     def test_query_coded_concept_text(self):
         rule = DatasetRule(
             resource="PatientCase", field="gender", transform="GetCodedConceptDisplay"

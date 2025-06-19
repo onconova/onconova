@@ -770,6 +770,84 @@ MULTI_REFERENCE_FILTERS = (
 )
 
 
+class ExactArrayFilter(DjangoFilter):
+    name = ""
+    description = "Filter for exact array matches"
+    value_type = List[str]
+    lookup = ""
+
+
+class NotExactArrayFilter(ExactArrayFilter):
+    name = "not"
+    description = "Filter for exact array mismatches"
+    value_type = List[str]
+    negative = True
+
+
+class ContainsArrayFilter(DjangoFilter):
+    name = "contains"
+    description = (
+        "Filter for entries where where the values passed are a subset of the data"
+    )
+    value_type = List[str]
+    lookup = "contains"
+
+
+class NotContainsArrayFilter(ContainsArrayFilter):
+    name = "not.contains"
+    description = (
+        "Filter for entries where the values passed are not a subset of the data"
+    )
+    value_type = List[str]
+    negative = True
+
+
+class ContainedByArrayFilter(DjangoFilter):
+    name = "containedBy"
+    description = (
+        "Filter for entries where where the data is a subset of the values passed"
+    )
+    value_type = List[str]
+    lookup = "contained_by"
+
+
+class NotContainedByArrayFilter(ContainedByArrayFilter):
+    name = "not.containedBy"
+    description = (
+        "Filter for entries where the data is not a subset of the values passed"
+    )
+    value_type = List[str]
+    negative = True
+
+
+class OverlapsArrayFilter(DjangoFilter):
+    name = "overlaps"
+    description = (
+        "Filter for entries  where the data shares any results with the values passed."
+    )
+    value_type = List[str]
+    lookup = "overlap"
+
+
+class NotOverlapsByArrayFilter(OverlapsArrayFilter):
+    name = "not.overlaps"
+    description = "Filter for entries  where the data shares not any results with the values passed."
+    value_type = List[str]
+    negative = True
+
+
+ARRAY_FILTERS = (
+    ExactArrayFilter,
+    NotExactArrayFilter,
+    ContainsArrayFilter,
+    NotContainsArrayFilter,
+    ContainedByArrayFilter,
+    NotContainedByArrayFilter,
+    OverlapsArrayFilter,
+    NotOverlapsByArrayFilter,
+)
+
+
 class ExactUserReferenceFilter(DjangoFilter):
     name = "username"
     description = "Filter for username matches"
@@ -820,4 +898,5 @@ __all__ = (
     *USER_REFERENCE_FILTERS,
     *ENUM_FILTERS,
     *NULL_FILTERS,
+    *ARRAY_FILTERS,
 )

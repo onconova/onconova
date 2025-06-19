@@ -4,7 +4,7 @@ from pydantic import Field, AliasChoices, field_validator
 from ninja import Schema
 
 from pop.oncology import models as orm
-from pop.core.types import Age, AgeBin
+from pop.core.types import Age, AgeBin, Array
 from pop.core.serialization.metaclasses import (
     ModelGetSchema,
     ModelCreateSchema,
@@ -48,7 +48,7 @@ class PatientCaseSchema(ModelGetSchema):
         alias="data_completion_rate",
         validation_alias=AliasChoices("dataCompletionRate", "data_completion_rate"),
     )
-    contributors: Optional[list[str]] = Field(
+    contributors: Union[list[str], Array[str]] = Field(
         title="Data contributors",
         description="Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
     )

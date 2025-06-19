@@ -40,7 +40,7 @@ from pop.core.utils import (
     is_union,
 )
 from pop.core.measures.fields import MeasurementField
-from pop.core.types import Username
+from pop.core.types import Username, Array
 
 UserModel = get_user_model()
 
@@ -251,6 +251,7 @@ FILTERS_MAP = {
     bool: schema_filters.BOOLEAN_FILTERS,
     CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
     Username: schema_filters.USER_REFERENCE_FILTERS,
+    Array[str]: schema_filters.ARRAY_FILTERS,
     List[CodedConceptSchema]: schema_filters.MULTI_CODED_CONCEPT_FILTERS,
 }
 
@@ -272,7 +273,10 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
 
     # Check if field is optional
     if is_union(annotation):
-        annotation = get_args(annotation)[0]
+        if len(get_args(annotation)) == 2 and get_args(annotation)[1] == Array[str]:
+            annotation = Array[str]
+        else:
+            annotation = get_args(annotation)[0]
 
     # Add the filters for the corresponding type
     filters += FILTERS_MAP.get(annotation, [])

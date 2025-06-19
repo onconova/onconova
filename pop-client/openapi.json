@@ -4747,141 +4747,115 @@
           },
           {
             "in": "query",
-            "name": "contributors.not.exists",
-            "schema": {
-              "description": "Data contributors - Filter for entries without a value",
-              "title": "Contributors.Not.Exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "contributors.exists",
-            "schema": {
-              "description": "Data contributors - Filter for entries with a value",
-              "title": "Contributors.Exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for entries with a value"
-          },
-          {
-            "in": "query",
             "name": "contributors",
             "schema": {
-              "description": "Data contributors - Filter for full text matches",
+              "description": "Data contributors - Filter for exact array matches",
+              "items": {
+                "type": "string"
+              },
               "title": "Contributors",
-              "type": "string"
+              "type": "array"
             },
             "required": false,
-            "description": "Data contributors - Filter for full text matches"
+            "description": "Data contributors - Filter for exact array matches"
           },
           {
             "in": "query",
             "name": "contributors.not",
             "schema": {
-              "description": "Data contributors - Filter for full text mismatches",
+              "description": "Data contributors - Filter for exact array mismatches",
+              "items": {
+                "type": "string"
+              },
               "title": "Contributors.Not",
-              "type": "string"
+              "type": "array"
             },
             "required": false,
-            "description": "Data contributors - Filter for full text mismatches"
+            "description": "Data contributors - Filter for exact array mismatches"
           },
           {
             "in": "query",
             "name": "contributors.contains",
             "schema": {
-              "description": "Data contributors - Filter for partial text matches",
+              "description": "Data contributors - Filter for entries where where the values passed are a subset of the data",
+              "items": {
+                "type": "string"
+              },
               "title": "Contributors.Contains",
-              "type": "string"
+              "type": "array"
             },
             "required": false,
-            "description": "Data contributors - Filter for partial text matches"
+            "description": "Data contributors - Filter for entries where where the values passed are a subset of the data"
           },
           {
             "in": "query",
             "name": "contributors.not.contains",
             "schema": {
-              "description": "Data contributors - Filter for partial text mismatches",
+              "description": "Data contributors - Filter for entries where the values passed are not a subset of the data",
+              "items": {
+                "type": "string"
+              },
               "title": "Contributors.Not.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "contributors.beginsWith",
-            "schema": {
-              "description": "Data contributors - Filter for entries starting with the text",
-              "title": "Contributors.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "contributors.not.beginsWith",
-            "schema": {
-              "description": "Data contributors - Filter for entries not starting with the text",
-              "title": "Contributors.Not.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "contributors.endsWith",
-            "schema": {
-              "description": "Data contributors - Filter for entries ending with the text",
-              "title": "Contributors.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "contributors.not.endsWith",
-            "schema": {
-              "description": "Data contributors - Filter for entries not ending with the text",
-              "title": "Contributors.Not.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Data contributors - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "contributors.anyOf",
-            "schema": {
-              "description": "Data contributors - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "Contributors.Anyof",
               "type": "array"
             },
             "required": false,
-            "description": "Data contributors - Filter for entries where at least one reference matches the query"
+            "description": "Data contributors - Filter for entries where the values passed are not a subset of the data"
           },
           {
             "in": "query",
-            "name": "contributors.not.anyOf",
+            "name": "contributors.containedBy",
             "schema": {
-              "description": "Data contributors - Filter for entries where at least one reference mismatches the query",
+              "description": "Data contributors - Filter for entries where where the data is a subset of the values passed",
               "items": {
                 "type": "string"
               },
-              "title": "Contributors.Not.Anyof",
+              "title": "Contributors.Containedby",
               "type": "array"
             },
             "required": false,
-            "description": "Data contributors - Filter for entries where at least one reference mismatches the query"
+            "description": "Data contributors - Filter for entries where where the data is a subset of the values passed"
+          },
+          {
+            "in": "query",
+            "name": "contributors.not.containedBy",
+            "schema": {
+              "description": "Data contributors - Filter for entries where the data is not a subset of the values passed",
+              "items": {
+                "type": "string"
+              },
+              "title": "Contributors.Not.Containedby",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries where the data is not a subset of the values passed"
+          },
+          {
+            "in": "query",
+            "name": "contributors.overlaps",
+            "schema": {
+              "description": "Data contributors - Filter for entries  where the data shares any results with the values passed.",
+              "items": {
+                "type": "string"
+              },
+              "title": "Contributors.Overlaps",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries  where the data shares any results with the values passed."
+          },
+          {
+            "in": "query",
+            "name": "contributors.not.overlaps",
+            "schema": {
+              "description": "Data contributors - Filter for entries  where the data shares not any results with the values passed.",
+              "items": {
+                "type": "string"
+              },
+              "title": "Contributors.Not.Overlaps",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Data contributors - Filter for entries  where the data shares not any results with the values passed."
           },
           {
             "in": "query",
@@ -50317,19 +50291,12 @@
             "type": "number"
           },
           "contributors": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
             "description": "Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
-            "title": "Data contributors"
+            "items": {
+              "type": "string"
+            },
+            "title": "Data contributors",
+            "type": "array"
           },
           "id": {
             "description": "",
@@ -54974,70 +54941,68 @@
             "title": "Datacompletionrate.Not.Between",
             "type": "array"
           },
-          "contributors.not.exists": {
-            "description": "Data contributors - Filter for entries without a value",
-            "title": "Contributors.Not.Exists",
-            "type": "boolean"
-          },
-          "contributors.exists": {
-            "description": "Data contributors - Filter for entries with a value",
-            "title": "Contributors.Exists",
-            "type": "boolean"
-          },
           "contributors": {
-            "description": "Data contributors - Filter for full text matches",
-            "title": "Contributors",
-            "type": "string"
-          },
-          "contributors.not": {
-            "description": "Data contributors - Filter for full text mismatches",
-            "title": "Contributors.Not",
-            "type": "string"
-          },
-          "contributors.contains": {
-            "description": "Data contributors - Filter for partial text matches",
-            "title": "Contributors.Contains",
-            "type": "string"
-          },
-          "contributors.not.contains": {
-            "description": "Data contributors - Filter for partial text mismatches",
-            "title": "Contributors.Not.Contains",
-            "type": "string"
-          },
-          "contributors.beginsWith": {
-            "description": "Data contributors - Filter for entries starting with the text",
-            "title": "Contributors.Beginswith",
-            "type": "string"
-          },
-          "contributors.not.beginsWith": {
-            "description": "Data contributors - Filter for entries not starting with the text",
-            "title": "Contributors.Not.Beginswith",
-            "type": "string"
-          },
-          "contributors.endsWith": {
-            "description": "Data contributors - Filter for entries ending with the text",
-            "title": "Contributors.Endswith",
-            "type": "string"
-          },
-          "contributors.not.endsWith": {
-            "description": "Data contributors - Filter for entries not ending with the text",
-            "title": "Contributors.Not.Endswith",
-            "type": "string"
-          },
-          "contributors.anyOf": {
-            "description": "Data contributors - Filter for entries where at least one reference matches the query",
+            "description": "Data contributors - Filter for exact array matches",
             "items": {
               "type": "string"
             },
-            "title": "Contributors.Anyof",
+            "title": "Contributors",
             "type": "array"
           },
-          "contributors.not.anyOf": {
-            "description": "Data contributors - Filter for entries where at least one reference mismatches the query",
+          "contributors.not": {
+            "description": "Data contributors - Filter for exact array mismatches",
             "items": {
               "type": "string"
             },
-            "title": "Contributors.Not.Anyof",
+            "title": "Contributors.Not",
+            "type": "array"
+          },
+          "contributors.contains": {
+            "description": "Data contributors - Filter for entries where where the values passed are a subset of the data",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Contains",
+            "type": "array"
+          },
+          "contributors.not.contains": {
+            "description": "Data contributors - Filter for entries where the values passed are not a subset of the data",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Not.Contains",
+            "type": "array"
+          },
+          "contributors.containedBy": {
+            "description": "Data contributors - Filter for entries where where the data is a subset of the values passed",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Containedby",
+            "type": "array"
+          },
+          "contributors.not.containedBy": {
+            "description": "Data contributors - Filter for entries where the data is not a subset of the values passed",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Not.Containedby",
+            "type": "array"
+          },
+          "contributors.overlaps": {
+            "description": "Data contributors - Filter for entries  where the data shares any results with the values passed.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Overlaps",
+            "type": "array"
+          },
+          "contributors.not.overlaps": {
+            "description": "Data contributors - Filter for entries  where the data shares not any results with the values passed.",
+            "items": {
+              "type": "string"
+            },
+            "title": "Contributors.Not.Overlaps",
             "type": "array"
           },
           "id": {
@@ -55678,19 +55643,12 @@
             "type": "number"
           },
           "contributors": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
             "description": "Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
-            "title": "Data contributors"
+            "items": {
+              "type": "string"
+            },
+            "title": "Data contributors",
+            "type": "array"
           },
           "id": {
             "description": "",
@@ -74152,7 +74110,15 @@
           "AnyOfEnumFilter",
           "NotAnyOfEnumFilter",
           "IsNullFilter",
-          "NotIsNullFilter"
+          "NotIsNullFilter",
+          "ExactArrayFilter",
+          "NotExactArrayFilter",
+          "ContainsArrayFilter",
+          "NotContainsArrayFilter",
+          "ContainedByArrayFilter",
+          "NotContainedByArrayFilter",
+          "OverlapsArrayFilter",
+          "NotOverlapsByArrayFilter"
         ],
         "title": "CohortQueryFilter",
         "type": "string"
