@@ -7,18 +7,18 @@ class TestUserModel(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.viewer_user = User.objects.create(username="viewer_user", access_level=1)
-        cls.admin_user = User.objects.create(username="admin_user", access_level=6)
+        cls.admin_user = User.objects.create(username="admin_user", access_level=4)
 
     def test_role_mapping(self):
         """Ensure the access_level correctly maps to the expected role."""
         user = self.viewer_user
-        self.assertEqual(user.role, "Viewer")
+        self.assertEqual(user.role, "Member")
 
-        user.access_level = 3
+        user.access_level = 2
         user.save()
-        self.assertEqual(user.role, "Data Analyst")
+        self.assertEqual(user.role, "Project Manager")
 
-        user.access_level = 6
+        user.access_level = 4
         user.save()
         self.assertEqual(user.role, "System Administrator")
 
@@ -28,37 +28,25 @@ class TestUserModel(TestCase):
 
         # Viewer should have only view permissions
         self.assertTrue(user.can_view_cases)
+        self.assertTrue(user.can_view_cohorts)
+        self.assertTrue(user.can_view_datasets)
         self.assertTrue(user.can_view_projects)
-        self.assertFalse(user.can_import_data)
-        self.assertFalse(user.can_manage_cases)
 
-        # Upgrade user to Data Contributor (level 2)
+        # Upgrade to Project Manager (level 2)
         user.access_level = 2
         user.save()
-        self.assertTrue(user.can_import_data)
-        self.assertFalse(user.can_export_data)
-
-        # Upgrade user to Data Analyst (level 3)
-        user.access_level = 3
-        user.save()
-        self.assertTrue(user.can_export_data)
-        self.assertFalse(user.can_manage_projects)
-
-        # Upgrade to Project Manager (level 4)
-        user.access_level = 4
-        user.save()
         self.assertTrue(user.can_manage_projects)
-        self.assertTrue(user.can_manage_cases)
-        self.assertTrue(user.can_access_sensitive_data)
+        self.assertTrue(user.can_export_data)
 
         # Upgrade to Platform Manager (level 5)
-        user.access_level = 5
+        user.access_level = 3
         user.save()
-        self.assertTrue(user.can_audit_logs)
         self.assertTrue(user.can_manage_users)
+        self.assertTrue(user.can_export_data)
+        self.assertTrue(user.can_delete_projects)
 
-        # Upgrade to System Admin (level 6)
-        user.access_level = 6
+        # Upgrade to System Admin (level 4)
+        user.access_level = 4
         user.save()
         self.assertTrue(user.is_system_admin)
 
@@ -89,4 +77,3 @@ class TestUserModel(TestCase):
 
         self.assertTrue(admin_user.is_system_admin)
         self.assertTrue(admin_user.can_manage_users)
-        self.assertTrue(admin_user.can_audit_logs)

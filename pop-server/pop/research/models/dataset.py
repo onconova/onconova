@@ -3,6 +3,7 @@ import pghistory
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from pop.core.models import BaseModel
+from pop.research.models.project import Project
 
 
 @pghistory.track()
@@ -18,10 +19,12 @@ class Dataset(BaseModel):
         help_text=_("Dataset composition rules"),
         default=list,
     )
-    is_public = models.BooleanField(
-        verbose_name=_("Is public?"),
-        help_text=_("Whether the cohort is public"),
-        default=True,
+    project = models.ForeignKey(
+        verbose_name=_("Project"),
+        help_text=_("Project that the dataset is part of"),
+        to=Project,
+        on_delete=models.CASCADE,
+        related_name="datasets",
     )
 
     def save(self, *args, **kwargs):

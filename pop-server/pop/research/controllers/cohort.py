@@ -13,6 +13,7 @@ from django.db.models.functions import Coalesce
 
 
 from ninja import Query
+from ninja.errors import HttpError
 from ninja_extra import route, api_controller
 from ninja_extra.pagination import paginate
 from ninja_extra import route, api_controller, status, ControllerBase
@@ -31,6 +32,7 @@ from pop.interoperability.schemas import ExportMetadata
 from pop.research.compilers import construct_dataset
 from pop.research.models.dataset import Dataset
 from pop.research.models.cohort import Cohort
+from pop.research.models.project import Project
 from pop.research.schemas.dataset import DatasetRule, PatientCaseDataset
 from pop.research.schemas.cohort import (
     CohortSchema,
@@ -89,7 +91,16 @@ class CohortsController(ControllerBase):
         operation_id="createCohort",
     )
     def create_cohort(self, payload: CohortCreateSchema):
+        # Check that requesting user is a member of the project
+        project = get_object_or_404(Project, id=payload.projectId)
+        if (
+            not project.is_member(self.context.request.user)
+            and self.context.request.user.access_level < 3
+        ):
+            raise HttpError(403, "User is not a member of the project")
+        # Create cohort for that project
         cohort = payload.model_dump_django()
+        # Update cohort cases
         cohort.update_cohort_cases()
         return 201, cohort
 
@@ -115,7 +126,7 @@ class CohortsController(ControllerBase):
             401: None,
             403: None,
         },
-        permissions=[perms.CanManageCohorts],
+        permissions=[perms.CanDeleteCohorts],
         operation_id="deleteCohortById",
     )
     def delete_cohort(self, cohortId: str):
@@ -134,7 +145,7 @@ class CohortsController(ControllerBase):
         operation_id="updateCohort",
     )
     def update_cohort(self, cohortId: str, payload: CohortCreateSchema):
-        cohort = get_object_or_404(Cohort, id=cohortId)
+        cohort = self.get_object_or_exception(Cohort, id=cohortId)
         cohort = payload.model_dump_django(instance=cohort)
         cohort.update_cohort_cases()
         return cohort
@@ -223,15 +234,15 @@ class CohortsController(ControllerBase):
             401: None,
             403: None,
         },
-        permissions=[perms.CanManageCases],
+        permissions=[perms.CanManageCohorts],
         operation_id="revertCohortToHistoryEvent",
     )
     def revert_cohort_to_history_event(self, cohortId: str, eventId: str):
-        instance = get_object_or_404(Cohort, id=cohortId)
+        instance = self.get_object_or_exception(Cohort, id=cohortId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.post(
-        path="/{cohortId}/dataset/export",
+        path="/{cohortId}/dataset/{datasetId}/export",
         response={
             200: Any,
             404: None,
@@ -241,12 +252,22 @@ class CohortsController(ControllerBase):
         permissions=[perms.CanExportData],
         operation_id="exportCohortDataset",
     )
-    def export_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
+    def export_cohort_dataset(self, cohortId: str, datasetId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
+        dataset = get_object_or_404(Dataset, id=datasetId)
+
+        if not perms.CanManageCohorts().check_user_object_permission(
+            self.context.request.user, None, cohort
+        ) or not perms.CanManageDatasets().check_user_object_permission(
+            self.context.request.user, None, dataset
+        ):
+            raise HttpError(403, "User is not a member of the project")
+
         dataset = [
             PatientCaseDataset.model_validate(subset)
-            for subset in construct_dataset(cohort=cohort, rules=rules)
+            for subset in construct_dataset(cohort=cohort, rules=dataset.rules)
         ]
+
         checksum = hashlib.md5(
             json.dumps(
                 [subset.model_dump(mode="json") for subset in dataset],
@@ -264,7 +285,7 @@ class CohortsController(ControllerBase):
             "dataset": dataset,
         }
         with pghistory.context(
-            dataset=[rule.model_dump(mode="json") for rule in rules],
+            dataset=[rule.model_dump(mode="json") for rule in dataset.rules],
             checksum=checksum,
             version=settings.VERSION,
         ):
