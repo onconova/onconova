@@ -15,8 +15,9 @@ import { TagModule } from "primeng/tag";
 import { ToggleSwitch } from "primeng/toggleswitch";
 import { forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
-import { CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
+import { AccessRoles, CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
 import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
+import { AuthService } from "src/app/core/auth/services/auth.service";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -51,9 +52,12 @@ export class ProjectManagementComponent {
     
     readonly #projectsService = inject(ProjectsService);
     readonly #userService = inject(UsersService);
+    readonly #authService = inject(AuthService);
     readonly #messageService = inject(MessageService);
     readonly #confirmationService = inject(ConfirmationService);
     readonly #cohortsService = inject(CohortsService);
+
+    public readonly currentUser = computed(() => this.#authService.user())
 
     protected project = rxResource({
         request: () => ({projectId: this.projectId()}),
@@ -126,6 +130,17 @@ export class ProjectManagementComponent {
         return Math.ceil(diffMs / oneDayMs);
     }
 
+    canEditAuthorizations = computed(() => 
+        this.project.value() && (this.currentUser()?.accessLevel || 0) > 1 && (
+            this.currentUser().username == this.project.value()?.leader 
+            || 
+            (this.project.value()?.members || []).includes(this.currentUser().username)
+         ) && !(
+            this.project.value()?.status === ProjectStatusChoices.Completed 
+            || this.project.value()?.status === ProjectStatusChoices.Aborted
+        ) 
+    )
+
     getMemberMenuItems(member: ProjectMember): MenuItem[] {
         return [{
             label: 'Actions for ' + member.fullName,
@@ -133,16 +148,14 @@ export class ProjectManagementComponent {
                 {
                     label: 'Grant data management authorization',
                     icon: 'pi pi-plus',
-                    disabled: this.project.value()?.status === ProjectStatusChoices.Completed 
-                            || this.project.value()?.status === ProjectStatusChoices.Aborted 
+                    disabled: !this.canEditAuthorizations() 
                             || (member?.accessLevel || 0) >= 4 
                             || !!member.authorization,
                     command: (event: any) => {this.grantNewAuthorization(event, member)}
                 },
                 {
                     label: 'Revoke data management authorization',
-                    disabled: this.project.value()?.status === ProjectStatusChoices.Completed 
-                            || this.project.value()?.status === ProjectStatusChoices.Aborted 
+                    disabled: !this.canEditAuthorizations() 
                             || (member?.accessLevel || 0) >= 4 
                             || !member.authorization 
                             || (new Date(member.authorization.validityPeriod.end as string) < new Date()),

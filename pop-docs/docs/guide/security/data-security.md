@@ -85,12 +85,10 @@ POP enforces **role-based access control (RBAC)** to manage who can access pseud
 | 6 | **Administrator**         | ✅      | ✅                         |
 | 5 | **Platform Manager**      | ✅      | ✅                         |
 | 4 | **Project Manager**       | ✅      | ✅                         |
-| 3 | **Data Analyst**          | ✱       | ✅                         |
-| 2 | **Data Contributor**      | ✱       | ✅                         |
-| 1 | **Viewer**                | ❌      | ❌                         |
-| 0 | **External** | ❌      | ❌                         |
+| 1 | **Member**                | ✱       | ✱                         |
+| 0 | **External**              | ❌      | ❌                         |
 
-✱ *Data Contributors* and *Data Analysts* that belong to a research project **can be granted temporary rights by their project leaders** to manage (add, update and delete) data in addition to the right to see the pseudonymized data of the patient.    
+✱ *Members* that belong to an *ongoing* research project **can be granted temporary rights by their project leaders** to manage (add, update and delete) data in addition to the right to see the pseudonymized data of the patient.    
 
 Exporting of any data outside of POP is restricted to high-level users such as *Project Managers* or higher (i.e. users who could otherwise have access to the data, e.g. clinicials, IT administrators, etc.).    
 

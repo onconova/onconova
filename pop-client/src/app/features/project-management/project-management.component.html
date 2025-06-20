@@ -139,7 +139,7 @@
             </td>
             <td>
                 <p-menu #menu [model]="getMemberMenuItems(member)" [popup]="true" appendTo="body" />
-                <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
             </td>
         </tr>
     </ng-template>
