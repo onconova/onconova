@@ -26,6 +26,7 @@ class CanManageCasesProperty(AnnotationGetterMixin, QueryableProperty):
         from pop.research.models.project import ProjectDataManagerGrant
 
         return Case(
+            When(is_service_account=True, then=True),
             When(
                 Q(access_level__gte=4)
                 | Q(is_superuser=True)
@@ -74,6 +75,11 @@ class User(AbstractUser):
             "last_name",
             output_field=models.CharField(),
         ),
+    )
+    is_service_account = models.BooleanField(
+        verbose_name=_("Is service account?"),
+        help_text=_("Whether the user is a technical service account"),
+        default=False,
     )
     title = models.CharField(
         verbose_name=_("Title"),
