@@ -114,7 +114,7 @@ export class DatasetComposerComponent {
     public datasetSize = signal<number>(0)
 
     // Table pagination
-    readonly pageSizeChoices: number[] = [10, 20, 50, 100];
+    readonly pageSizeChoices: number[] = [10, 20, 50];
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0})
     protected emptyDatasetPlaceholder = [1,2,3,4,5,6,7,8,9,10] as unknown as PatientCaseDataset[]
 
@@ -312,6 +312,7 @@ export class DatasetComposerComponent {
             datasetCreate: {
                 name: datasetName,
                 rules: this.datasetRules(),
+                projectId: this.cohort().projectId!
             }
         }).pipe(take(1)).subscribe({
             complete: () => {
@@ -326,7 +327,7 @@ export class DatasetComposerComponent {
         this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
         this.#cohortService.exportCohortDataset({
             cohortId: this.cohort().id,
-            datasetRule: this.datasetRules(),
+            datasetId: 'TODO',
           }).pipe(first()).subscribe({
             next: (data: any) => {
                 switch (mode) {

@@ -19,7 +19,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -92,7 +93,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -277,9 +279,7 @@
                 {
                   "enum": [
                     "External",
-                    "Viewer",
-                    "Data Contributor",
-                    "Data Analyst",
+                    "Member",
                     "Project Manager",
                     "Platform Manager",
                     "System Administrator"
@@ -301,9 +301,7 @@
                 {
                   "enum": [
                     "External",
-                    "Viewer",
-                    "Data Contributor",
-                    "Data Analyst",
+                    "Member",
                     "Project Manager",
                     "Platform Manager",
                     "System Administrator"
@@ -325,9 +323,7 @@
               "items": {
                 "enum": [
                   "External",
-                  "Viewer",
-                  "Data Contributor",
-                  "Data Analyst",
+                  "Member",
                   "Project Manager",
                   "Platform Manager",
                   "System Administrator"
@@ -398,17 +394,6 @@
           },
           {
             "in": "query",
-            "name": "canImportData",
-            "schema": {
-              "description": "Import Data - ('Filter for yes/no statement',)",
-              "title": "Canimportdata",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Import Data - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
             "name": "canManageCases",
             "schema": {
               "description": "Manage Cases - ('Filter for yes/no statement',)",
@@ -417,39 +402,6 @@
             },
             "required": false,
             "description": "Manage Cases - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
-            "name": "canManageCohorts",
-            "schema": {
-              "description": "Manage Cohorts - ('Filter for yes/no statement',)",
-              "title": "Canmanagecohorts",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Manage Cohorts - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
-            "name": "canManageDatasets",
-            "schema": {
-              "description": "Manage Datasets - ('Filter for yes/no statement',)",
-              "title": "Canmanagedatasets",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Manage Datasets - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
-            "name": "canAnalyzeData",
-            "schema": {
-              "description": "Analyze Data - ('Filter for yes/no statement',)",
-              "title": "Cananalyzedata",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Analyze Data - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -472,28 +424,6 @@
             },
             "required": false,
             "description": "Manage Projects - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
-            "name": "canAccessSensitiveData",
-            "schema": {
-              "description": "Access Sensitive Data - ('Filter for yes/no statement',)",
-              "title": "Canaccesssensitivedata",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Access Sensitive Data - ('Filter for yes/no statement',)"
-          },
-          {
-            "in": "query",
-            "name": "canAuditLogs",
-            "schema": {
-              "description": "Audit Logs - ('Filter for yes/no statement',)",
-              "title": "Canauditlogs",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Audit Logs - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -1465,6 +1395,17 @@
           },
           {
             "in": "query",
+            "name": "isServiceAccount",
+            "schema": {
+              "description": "Is service account? - ('Filter for yes/no statement',)",
+              "title": "Isserviceaccount",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is service account? - ('Filter for yes/no statement',)"
+          },
+          {
+            "in": "query",
             "name": "title.not.exists",
             "schema": {
               "description": "Title - Filter for entries without a value",
@@ -1989,7 +1930,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -3087,7 +3029,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -3324,7 +3267,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -3511,7 +3455,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -3774,7 +3719,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -5939,7 +5885,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -6230,7 +6177,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -7545,7 +7493,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -7792,7 +7741,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -8591,7 +8541,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -8920,7 +8871,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -9817,7 +9769,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -10064,7 +10017,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -11972,7 +11926,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -12219,7 +12174,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -14884,7 +14840,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -15131,7 +15088,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -15583,7 +15541,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -16834,7 +16793,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -17081,7 +17041,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -18973,7 +18934,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -19220,7 +19182,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -19672,7 +19635,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -20142,7 +20106,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -21282,7 +21247,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -21529,7 +21495,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -23753,7 +23720,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -24006,7 +23974,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -24458,7 +24427,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -24928,7 +24898,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -25857,7 +25828,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -26104,7 +26076,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -26860,7 +26833,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -27117,7 +27091,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -27563,7 +27538,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -28536,7 +28512,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -28783,7 +28760,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -32593,7 +32571,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -32840,7 +32819,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -33438,7 +33418,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -33719,7 +33700,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -35026,7 +35008,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -35273,7 +35256,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -36203,7 +36187,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -36450,7 +36435,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -37529,7 +37515,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -37776,7 +37763,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -39168,7 +39156,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -39415,7 +39404,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -39749,7 +39739,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -40184,17 +40175,6 @@
             },
             "required": false,
             "description": "Exclusion criteria - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "isPublic",
-            "schema": {
-              "description": "Is public? - ('Filter for yes/no statement',)",
-              "title": "Ispublic",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Is public? - ('Filter for yes/no statement',)"
           },
           {
             "in": "query",
@@ -40704,7 +40684,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -40957,7 +40938,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -41025,7 +41007,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -41097,7 +41080,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -41257,7 +41241,7 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/dataset/export": {
+    "/api/v1/cohorts/{cohortId}/dataset/{datasetId}/export": {
       "post": {
         "operationId": "exportCohortDataset",
         "summary": "Export Cohort Dataset",
@@ -41267,6 +41251,15 @@
             "name": "cohortId",
             "schema": {
               "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "schema": {
+              "title": "Datasetid",
               "type": "string"
             },
             "required": true
@@ -41296,20 +41289,6 @@
         "tags": [
           "Cohorts"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "items": {
-                  "$ref": "#/components/schemas/DatasetRule"
-                },
-                "title": "Rules",
-                "type": "array"
-              }
-            }
-          },
-          "required": true
-        },
         "security": [
           {
             "XSessionTokenAuth": []
@@ -41335,7 +41314,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -41426,7 +41406,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -42715,14 +42696,119 @@
           },
           {
             "in": "query",
-            "name": "isPublic",
+            "name": "projectId",
             "schema": {
-              "description": "Is public? - ('Filter for yes/no statement',)",
-              "title": "Ispublic",
-              "type": "boolean"
+              "description": "Project - Filter for reference matches",
+              "title": "Projectid",
+              "type": "string"
             },
             "required": false,
-            "description": "Is public? - ('Filter for yes/no statement',)"
+            "description": "Project - Filter for reference matches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not",
+            "schema": {
+              "description": "Project - Filter for reference mismatches",
+              "title": "Projectid.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for reference mismatches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.contains",
+            "schema": {
+              "description": "Project - Filter for partial text matches",
+              "title": "Projectid.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.contains",
+            "schema": {
+              "description": "Project - Filter for partial text mismatches",
+              "title": "Projectid.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.beginsWith",
+            "schema": {
+              "description": "Project - Filter for entries starting with the text",
+              "title": "Projectid.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.beginsWith",
+            "schema": {
+              "description": "Project - Filter for entries not starting with the text",
+              "title": "Projectid.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.endsWith",
+            "schema": {
+              "description": "Project - Filter for entries ending with the text",
+              "title": "Projectid.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.endsWith",
+            "schema": {
+              "description": "Project - Filter for entries not ending with the text",
+              "title": "Projectid.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.anyOf",
+            "schema": {
+              "description": "Project - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Projectid.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Project - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.anyOf",
+            "schema": {
+              "description": "Project - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Projectid.Not.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Project - Filter for entries where at least one reference mismatches the query"
           },
           {
             "in": "query",
@@ -42746,7 +42832,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -42989,7 +43076,8 @@
             "in": "query",
             "name": "limit",
             "schema": {
-              "default": 100,
+              "default": 10,
+              "maximum": 50,
               "minimum": 1,
               "title": "Limit",
               "type": "integer"
@@ -43231,7 +43319,8 @@
       "Input": {
         "properties": {
           "limit": {
-            "default": 100,
+            "default": 10,
+            "maximum": 50,
             "minimum": 1,
             "title": "Limit",
             "type": "integer"
@@ -43368,9 +43457,7 @@
       "AccessRoles": {
         "enum": [
           "External",
-          "Viewer",
-          "Data Contributor",
-          "Data Analyst",
+          "Member",
           "Project Manager",
           "Platform Manager",
           "System Administrator"
@@ -43441,9 +43528,7 @@
               {
                 "enum": [
                   "External",
-                  "Viewer",
-                  "Data Contributor",
-                  "Data Analyst",
+                  "Member",
                   "Project Manager",
                   "Platform Manager",
                   "System Administrator"
@@ -43459,9 +43544,7 @@
               {
                 "enum": [
                   "External",
-                  "Viewer",
-                  "Data Contributor",
-                  "Data Analyst",
+                  "Member",
                   "Project Manager",
                   "Platform Manager",
                   "System Administrator"
@@ -43477,9 +43560,7 @@
             "items": {
               "enum": [
                 "External",
-                "Viewer",
-                "Data Contributor",
-                "Data Analyst",
+                "Member",
                 "Project Manager",
                 "Platform Manager",
                 "System Administrator"
@@ -43515,29 +43596,9 @@
             "title": "Canviewdatasets",
             "type": "boolean"
           },
-          "canImportData": {
-            "description": "Import Data - ('Filter for yes/no statement',)",
-            "title": "Canimportdata",
-            "type": "boolean"
-          },
           "canManageCases": {
             "description": "Manage Cases - ('Filter for yes/no statement',)",
             "title": "Canmanagecases",
-            "type": "boolean"
-          },
-          "canManageCohorts": {
-            "description": "Manage Cohorts - ('Filter for yes/no statement',)",
-            "title": "Canmanagecohorts",
-            "type": "boolean"
-          },
-          "canManageDatasets": {
-            "description": "Manage Datasets - ('Filter for yes/no statement',)",
-            "title": "Canmanagedatasets",
-            "type": "boolean"
-          },
-          "canAnalyzeData": {
-            "description": "Analyze Data - ('Filter for yes/no statement',)",
-            "title": "Cananalyzedata",
             "type": "boolean"
           },
           "canExportData": {
@@ -43548,16 +43609,6 @@
           "canManageProjects": {
             "description": "Manage Projects - ('Filter for yes/no statement',)",
             "title": "Canmanageprojects",
-            "type": "boolean"
-          },
-          "canAccessSensitiveData": {
-            "description": "Access Sensitive Data - ('Filter for yes/no statement',)",
-            "title": "Canaccesssensitivedata",
-            "type": "boolean"
-          },
-          "canAuditLogs": {
-            "description": "Audit Logs - ('Filter for yes/no statement',)",
-            "title": "Canauditlogs",
             "type": "boolean"
           },
           "canManageUsers": {
@@ -44036,6 +44087,11 @@
             "title": "Id.Not.Anyof",
             "type": "array"
           },
+          "isServiceAccount": {
+            "description": "Is service account? - ('Filter for yes/no statement',)",
+            "title": "Isserviceaccount",
+            "type": "boolean"
+          },
           "title.not.exists": {
             "description": "Title - Filter for entries without a value",
             "title": "Title.Not.Exists",
@@ -44357,29 +44413,9 @@
             "title": "View Datasets",
             "type": "boolean"
           },
-          "canImportData": {
-            "description": "Permission to import data into the system.",
-            "title": "Import Data",
-            "type": "boolean"
-          },
           "canManageCases": {
             "description": "Permission to manage cases.",
             "title": "Manage Cases",
-            "type": "boolean"
-          },
-          "canManageCohorts": {
-            "description": "Permission to manage cohorts.",
-            "title": "Manage Cohorts",
-            "type": "boolean"
-          },
-          "canManageDatasets": {
-            "description": "Permission to manage datasets.",
-            "title": "Manage Datasets",
-            "type": "boolean"
-          },
-          "canAnalyzeData": {
-            "description": "Permission to run data analyses.",
-            "title": "Analyze Data",
             "type": "boolean"
           },
           "canExportData": {
@@ -44390,16 +44426,6 @@
           "canManageProjects": {
             "description": "Permission to manage projects.",
             "title": "Manage Projects",
-            "type": "boolean"
-          },
-          "canAccessSensitiveData": {
-            "description": "Permission to view sensitive data fields.",
-            "title": "Access Sensitive Data",
-            "type": "boolean"
-          },
-          "canAuditLogs": {
-            "description": "Permission to view system audit logs.",
-            "title": "Audit Logs",
             "type": "boolean"
           },
           "canManageUsers": {
@@ -44506,6 +44532,13 @@
             "type": "string",
             "x-expanded": false
           },
+          "isServiceAccount": {
+            "default": false,
+            "description": "Whether the user is a technical service account",
+            "title": "Is service account?",
+            "type": "boolean",
+            "x-expanded": false
+          },
           "title": {
             "anyOf": [
               {
@@ -44564,15 +44597,9 @@
           "canViewCohorts",
           "canViewUsers",
           "canViewDatasets",
-          "canImportData",
           "canManageCases",
-          "canManageCohorts",
-          "canManageDatasets",
-          "canAnalyzeData",
           "canExportData",
           "canManageProjects",
-          "canAccessSensitiveData",
-          "canAuditLogs",
           "canManageUsers",
           "isSystemAdmin",
           "isProvided",
@@ -44680,6 +44707,13 @@
             "default": true,
             "description": "Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
             "title": "Active",
+            "type": "boolean",
+            "x-expanded": false
+          },
+          "isServiceAccount": {
+            "default": false,
+            "description": "Whether the user is a technical service account",
+            "title": "Is service account?",
             "type": "boolean",
             "x-expanded": false
           },
@@ -73448,11 +73482,6 @@
             "title": "Excludecriteria.Exists",
             "type": "boolean"
           },
-          "isPublic": {
-            "description": "Is public? - ('Filter for yes/no statement',)",
-            "title": "Ispublic",
-            "type": "boolean"
-          },
           "projectId.not.exists": {
             "description": "Project - Filter for entries without a value",
             "title": "Projectid.Not.Exists",
@@ -73777,13 +73806,6 @@
             "title": "Exclusion criteria",
             "x-expanded": false
           },
-          "isPublic": {
-            "default": true,
-            "description": "Whether the cohort is public",
-            "title": "Is public?",
-            "type": "boolean",
-            "x-expanded": false
-          },
           "projectId": {
             "anyOf": [
               {
@@ -73973,13 +73995,6 @@
             "maxLength": 255,
             "title": "Cohort name",
             "type": "string",
-            "x-expanded": false
-          },
-          "isPublic": {
-            "default": true,
-            "description": "Whether the cohort is public",
-            "title": "Is public?",
-            "type": "boolean",
             "x-expanded": false
           },
           "projectId": {
@@ -74281,102 +74296,6 @@
           "contributions"
         ],
         "title": "CohortContribution",
-        "type": "object"
-      },
-      "DataResource": {
-        "enum": [
-          "PatientCase",
-          "NeoplasticEntity",
-          "TNMStaging",
-          "FIGOStaging",
-          "BinetStaging",
-          "RaiStaging",
-          "BreslowDepth",
-          "ClarkStaging",
-          "ISSStaging",
-          "RISSStaging",
-          "GleasonGrade",
-          "INSSStage",
-          "INRGSSStage",
-          "WilmsStage",
-          "RhabdomyosarcomaClinicalGroup",
-          "LymphomaStaging",
-          "TumorMarker",
-          "RiskAssessment",
-          "TherapyLine",
-          "SystemicTherapy",
-          "SystemicTherapyMedication",
-          "Surgery",
-          "Radiotherapy",
-          "RadiotherapyDosage",
-          "RadiotherapySetting",
-          "AdverseEvent",
-          "AdverseEventSuspectedCause",
-          "AdverseEventMitigation",
-          "TreatmentResponse",
-          "UnspecifiedTumorBoard",
-          "MolecularTumorBoard",
-          "MolecularTherapeuticRecommendation",
-          "PerformanceStatus",
-          "Lifestyle",
-          "FamilyHistory",
-          "Vitals",
-          "ComorbiditiesAssessment",
-          "GenomicVariant",
-          "TumorMutationalBurden",
-          "MicrosatelliteInstability",
-          "LossOfHeterozygosity",
-          "HomologousRecombinationDeficiency",
-          "TumorNeoantigenBurden",
-          "AneuploidScore"
-        ],
-        "title": "DataResource",
-        "type": "string"
-      },
-      "DatasetRule": {
-        "description": "A rule defining how a dataset is composed from a specific resource and field.\n\nAttributes:\n    resource (DataResource): The resource (model type) this rule applies to.\n    field (str): Dot-separated path to the target field within the resource.\n    transform (Optional[Union[str, Tuple[str, Any]]]): Optional transformation or expression to apply.",
-        "properties": {
-          "resource": {
-            "$ref": "#/components/schemas/DataResource",
-            "description": "The oncology resource this rule references.",
-            "title": "Resource"
-          },
-          "field": {
-            "description": "Dot-separated path of the field within the resource (e.g. 'medications.drug').",
-            "title": "Field",
-            "type": "string"
-          },
-          "transform": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "maxItems": 2,
-                "minItems": 2,
-                "prefixItems": [
-                  {
-                    "type": "string"
-                  },
-                  {
-
-                  }
-                ],
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Optional transform expression or mapping applied to the field's value.",
-            "title": "Transform"
-          }
-        },
-        "required": [
-          "resource",
-          "field"
-        ],
-        "title": "DatasetRule",
         "type": "object"
       },
       "AdverseEventMitigationPartial": {
@@ -81422,6 +81341,102 @@
         "title": "VitalsPartial",
         "type": "object"
       },
+      "DataResource": {
+        "enum": [
+          "PatientCase",
+          "NeoplasticEntity",
+          "TNMStaging",
+          "FIGOStaging",
+          "BinetStaging",
+          "RaiStaging",
+          "BreslowDepth",
+          "ClarkStaging",
+          "ISSStaging",
+          "RISSStaging",
+          "GleasonGrade",
+          "INSSStage",
+          "INRGSSStage",
+          "WilmsStage",
+          "RhabdomyosarcomaClinicalGroup",
+          "LymphomaStaging",
+          "TumorMarker",
+          "RiskAssessment",
+          "TherapyLine",
+          "SystemicTherapy",
+          "SystemicTherapyMedication",
+          "Surgery",
+          "Radiotherapy",
+          "RadiotherapyDosage",
+          "RadiotherapySetting",
+          "AdverseEvent",
+          "AdverseEventSuspectedCause",
+          "AdverseEventMitigation",
+          "TreatmentResponse",
+          "UnspecifiedTumorBoard",
+          "MolecularTumorBoard",
+          "MolecularTherapeuticRecommendation",
+          "PerformanceStatus",
+          "Lifestyle",
+          "FamilyHistory",
+          "Vitals",
+          "ComorbiditiesAssessment",
+          "GenomicVariant",
+          "TumorMutationalBurden",
+          "MicrosatelliteInstability",
+          "LossOfHeterozygosity",
+          "HomologousRecombinationDeficiency",
+          "TumorNeoantigenBurden",
+          "AneuploidScore"
+        ],
+        "title": "DataResource",
+        "type": "string"
+      },
+      "DatasetRule": {
+        "description": "A rule defining how a dataset is composed from a specific resource and field.\n\nAttributes:\n    resource (DataResource): The resource (model type) this rule applies to.\n    field (str): Dot-separated path to the target field within the resource.\n    transform (Optional[Union[str, Tuple[str, Any]]]): Optional transformation or expression to apply.",
+        "properties": {
+          "resource": {
+            "$ref": "#/components/schemas/DataResource",
+            "description": "The oncology resource this rule references.",
+            "title": "Resource"
+          },
+          "field": {
+            "description": "Dot-separated path of the field within the resource (e.g. 'medications.drug').",
+            "title": "Field",
+            "type": "string"
+          },
+          "transform": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "string"
+                  },
+                  {
+
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional transform expression or mapping applied to the field's value.",
+            "title": "Transform"
+          }
+        },
+        "required": [
+          "resource",
+          "field"
+        ],
+        "title": "DatasetRule",
+        "type": "object"
+      },
       "CohortTraitAverage": {
         "description": "Descriptive statistics schema representing the average and optional standard deviation\nfor a numeric cohort trait.",
         "properties": {
@@ -82071,10 +82086,61 @@
             "title": "Name.Not.Anyof",
             "type": "array"
           },
-          "isPublic": {
-            "description": "Is public? - ('Filter for yes/no statement',)",
-            "title": "Ispublic",
-            "type": "boolean"
+          "projectId": {
+            "description": "Project - Filter for reference matches",
+            "title": "Projectid",
+            "type": "string"
+          },
+          "projectId.not": {
+            "description": "Project - Filter for reference mismatches",
+            "title": "Projectid.Not",
+            "type": "string"
+          },
+          "projectId.contains": {
+            "description": "Project - Filter for partial text matches",
+            "title": "Projectid.Contains",
+            "type": "string"
+          },
+          "projectId.not.contains": {
+            "description": "Project - Filter for partial text mismatches",
+            "title": "Projectid.Not.Contains",
+            "type": "string"
+          },
+          "projectId.beginsWith": {
+            "description": "Project - Filter for entries starting with the text",
+            "title": "Projectid.Beginswith",
+            "type": "string"
+          },
+          "projectId.not.beginsWith": {
+            "description": "Project - Filter for entries not starting with the text",
+            "title": "Projectid.Not.Beginswith",
+            "type": "string"
+          },
+          "projectId.endsWith": {
+            "description": "Project - Filter for entries ending with the text",
+            "title": "Projectid.Endswith",
+            "type": "string"
+          },
+          "projectId.not.endsWith": {
+            "description": "Project - Filter for entries not ending with the text",
+            "title": "Projectid.Not.Endswith",
+            "type": "string"
+          },
+          "projectId.anyOf": {
+            "description": "Project - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Projectid.Anyof",
+            "type": "array"
+          },
+          "projectId.not.anyOf": {
+            "description": "Project - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Projectid.Not.Anyof",
+            "type": "array"
           },
           "createdBy": {
             "anyOf": [
@@ -82144,11 +82210,11 @@
             "type": "string",
             "x-expanded": false
           },
-          "isPublic": {
-            "default": true,
-            "description": "Whether the cohort is public",
-            "title": "Is public?",
-            "type": "boolean",
+          "projectId": {
+            "description": "Project that the dataset is part of",
+            "format": "uuid",
+            "title": "Project",
+            "type": "string",
             "x-expanded": false
           },
           "description": {
@@ -82206,6 +82272,7 @@
         "required": [
           "id",
           "name",
+          "projectId",
           "description",
           "createdAt",
           "createdBy"
@@ -82279,16 +82346,17 @@
             "type": "string",
             "x-expanded": false
           },
-          "isPublic": {
-            "default": true,
-            "description": "Whether the cohort is public",
-            "title": "Is public?",
-            "type": "boolean",
+          "projectId": {
+            "description": "Project that the dataset is part of",
+            "format": "uuid",
+            "title": "Project",
+            "type": "string",
             "x-expanded": false
           }
         },
         "required": [
-          "name"
+          "name",
+          "projectId"
         ],
         "title": "DatasetCreate",
         "type": "object"

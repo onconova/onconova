@@ -102,7 +102,7 @@ export class ProjectManagementComponent {
 
 
     // Pagination and search settings
-    public readonly cohortsPageSizeChoices: number[] = [12, 24, 36, 48, 60];
+    public readonly cohortsPageSizeChoices: number[] = [12, 24, 36, 48];
     public cohortsPagination = signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
     public totalCohorts= signal(0);
 

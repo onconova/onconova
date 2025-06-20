@@ -67,7 +67,7 @@ class ProjectController(ControllerBase):
         operation_id="getProjectById",
     )
     def get_project_by_id(self, projectId: str):
-        return self.get_object_or_exception(Project, id=projectId)
+        return get_object_or_404(Project, id=projectId)
 
     @route.put(
         path="/{projectId}",

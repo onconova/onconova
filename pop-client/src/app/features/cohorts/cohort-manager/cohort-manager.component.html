@@ -110,7 +110,7 @@
                     <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
-            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [attr.disabled]="!userCanEdit()"/>
+            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
         </p-panel>
     
         <p-panel class="pop-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
@@ -121,7 +121,7 @@
                     <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
                 </div>
             </ng-template>
-            <pop-cohort-query-builder formControlName="excludeCriteria" [attr.disabled]="!userCanEdit()"/>
+            <pop-cohort-query-builder formControlName="excludeCriteria" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
         </p-panel>  
     }
 </div>
@@ -129,17 +129,9 @@
 <div class="flex gap-3 mt-4">
     <p-button 
     type="submit" 
-    [icon]="user().canViewCohorts ? 'pi pi-sync' : 'pi pi-lock'"
-    label="Update Cohort" 
-    styleClass="p-2"  
-    severity="secondary"
-    [loading]="loading()"
-    [disabled]="!userCanEdit() || !user().canViewCohorts || !cohortControl || cohortControl.invalid" />
-    <p-button 
-    type="submit" 
     [icon]="userCanEdit() ? 'pi pi-sync' : 'pi pi-lock'"
     label="Save & Update Cohort" 
-    styleClass="p-2"  
+    styleClass="w-15rem p-3"  
     [loading]="loading()"
     [disabled]="!userCanEdit() || !cohortControl || cohortControl.invalid" />
 </div>

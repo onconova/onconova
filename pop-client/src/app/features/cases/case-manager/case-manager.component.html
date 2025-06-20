@@ -150,7 +150,7 @@
                 <small class="text-muted">Clinical Identifier</small>
                 <div>
                     @if (case$.value(); as case) {
-                        @if (currentUser().canAccessSensitiveData) {
+                        @if (currentUser().canManageCases) {
                             {{ case.clinicalIdentifier}}
                         } @else {
                             <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>

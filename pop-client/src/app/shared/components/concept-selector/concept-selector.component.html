@@ -1,9 +1,10 @@
 @if (widget() === 'autocomplete') {
-  <p-autoComplete
+  <p-autocomplete
     [formControl]="formControl"
     [dropdown]="true"
     [showClear]="true"
     [attr.disabled]="disabled()"
+    [disabled]="disabled()"
     [forceSelection]="true"
     [suggestions]="concepts.value() || []"
     (completeMethod)="query.set($event.query); concepts.reload()"
@@ -47,7 +48,7 @@
       </ng-template>
     }
 
-  </p-autoComplete>
+  </p-autocomplete>
 } @else if (widget() === 'radio' && concepts.hasValue()) {
   @for (concept of concepts.value(); track concept.code;) {
     <div class="field-checkbox">
@@ -55,6 +56,7 @@
           [inputId]="concept.code" 
           [value]="concept" 
           [attr.disabled]="disabled()"
+          [disabled]="disabled()"
           [formControl]="formControl"/>
       <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
     </div>    
@@ -64,6 +66,7 @@
         [options]="concepts.value() || []"
         optionLabel="display"
         [attr.disabled]="disabled()"
+        [disabled]="disabled()"
         [formControl]="formControl"/>
 }
 

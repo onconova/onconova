@@ -100,8 +100,8 @@
             class="mt-auto"
             [model]="actionItems"
             (onClick)="openProjectManagement()"
-            [menuButtonDisabled]="!currentUser().canManageCohorts"
-            [dropdownIcon]="currentUser().canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
+            [menuButtonDisabled]="!currentUserCanEdit()"
+            [dropdownIcon]="currentUserCanEdit() ? 'pi pi-cog' : 'pi pi-lock'" 
             />
     </div>
 </div>

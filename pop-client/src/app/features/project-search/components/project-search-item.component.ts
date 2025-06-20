@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, output} from '@angular/core';
 
-import { Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian, Project, ProjectStatusChoices } from 'pop-api-client';
+import { AccessRoles, Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian, Project, ProjectStatusChoices } from 'pop-api-client';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
@@ -66,7 +66,10 @@ export class ProjectSearchItemComponent {
 
     // Other properties
     public readonly currentUser = computed(() => this.#authService.user());
-
+    public readonly currentUserCanEdit = computed(() => 
+        (this.currentUser().role == AccessRoles.ProjectManager && this.project().leader == this.currentUser().username) 
+        || [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
+    )
     // Other properties
     public readonly actionItems = [
         {

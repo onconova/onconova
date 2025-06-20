@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, output} from '@angular/core';
 
-import { Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian } from 'pop-api-client';
+import { AccessRoles, Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian, ProjectsService } from 'pop-api-client';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
@@ -57,7 +57,7 @@ export class CohortSearchItemComponent {
     readonly #authService = inject(AuthService);
     readonly #router = inject(Router);
     readonly #confirmationService = inject(ConfirmationService);
-    readonly #downloadService = inject(DownloadService);
+    readonly #projectsService = inject(ProjectsService);
     readonly #messageService = inject(MessageService);
     readonly #cohortsService = inject(CohortsService);
 
@@ -86,6 +86,14 @@ export class CohortSearchItemComponent {
 
     // Other properties
     public readonly currentUser = computed(() => this.#authService.user());
+    private project = rxResource({
+        request: () => ({projectId: this.cohort().projectId as string}),
+        loader: ({request}) => this.#projectsService.getProjectById(request)
+    })
+    public readonly currentUserCanEdit = computed(() => 
+        (this.currentUser().role == AccessRoles.ProjectManager && this.project.value()?.leader == this.currentUser().username) 
+        || [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
+    )
     public readonly populationIcon = Users;
     public readonly actionItems = [
         // {

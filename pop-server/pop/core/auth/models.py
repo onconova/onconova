@@ -28,7 +28,7 @@ class CanManageCasesProperty(AnnotationGetterMixin, QueryableProperty):
         return Case(
             When(is_service_account=True, then=True),
             When(
-                Q(access_level__gte=4)
+                Q(access_level__gte=2)
                 | Q(is_superuser=True)
                 | Exists(
                     ProjectDataManagerGrant.objects.filter(

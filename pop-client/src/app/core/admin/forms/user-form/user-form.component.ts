@@ -98,12 +98,10 @@ export class UserFormComponent extends AbstractFormBase {
     // Human readable choices for UI elements
     public roles = [
         {label: AccessRoles.External, accessLevel: 0},
-        {label: AccessRoles.Viewer, accessLevel: 1},
-        {label: AccessRoles.DataContributor, accessLevel: 2},
-        {label: AccessRoles.DataAnalyst, accessLevel: 3},
-        {label: AccessRoles.ProjectManager, accessLevel: 4},
-        {label: AccessRoles.PlatformManager, accessLevel: 5},
-        {label: AccessRoles.SystemAdministrator, accessLevel: 6},
+        {label: AccessRoles.Member, accessLevel: 1},
+        {label: AccessRoles.ProjectManager, accessLevel: 2},
+        {label: AccessRoles.PlatformManager, accessLevel: 3},
+        {label: AccessRoles.SystemAdministrator, accessLevel: 4},
     ]
 
 
