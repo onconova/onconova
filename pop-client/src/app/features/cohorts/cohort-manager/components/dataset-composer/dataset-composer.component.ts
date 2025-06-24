@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, computed, inject, input, linkedSignal, signal } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, signal } from "@angular/core";
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { catchError, first, map, Observable, of, take, tap } from "rxjs";
 
@@ -16,8 +16,7 @@ import { MessageService, TreeNode } from "primeng/api";
 import { TreeModule} from 'primeng/tree';
 import { AutoComplete } from 'primeng/autocomplete';
 
-import OpenAPISpecification from "../../../../../../../openapi.json";
-import { CohortsService, PatientCaseDataset, DatasetsService, PaginatedDataset, DataResource, Cohort, Dataset } from "pop-api-client";
+import { CohortsService, PatientCaseDataset, DatasetsService, PaginatedDataset, DataResource, Cohort, Dataset, DatasetCreate, DatasetRule } from "pop-api-client";
 import { NestedTableComponent } from "src/app/shared/components";
 import { NgxJdenticonModule } from "ngx-jdenticon";
 import { AuthService } from "src/app/core/auth/services/auth.service";
@@ -26,8 +25,13 @@ import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-ca
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { TypeCheckService } from "src/app/shared/services/type-check.service";
-import { rxResource } from "@angular/core/rxjs-interop";
+import { rxResource, toSignal } from "@angular/core/rxjs-interop";
 import { Skeleton } from "primeng/skeleton";
+import { Fieldset } from "primeng/fieldset";
+import { InputText } from "primeng/inputtext";
+import { Fluid } from "primeng/fluid";
+import { DatasetComposeService } from "./dataset-composer.service";
+import { PopoverModule } from 'primeng/popover';
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -54,22 +58,24 @@ function getColumns(data: any[]): string[] {
     templateUrl: './dataset-composer.component.html',
     providers: [],
     imports: [
-        CommonModule,
         FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
         Avatar,
         Button,
-        Toolbar,
+        Fieldset,
+        InputText,
         Card,
         Menu,
         ContextMenuModule,
         Skeleton,
+        PopoverModule,
         AutoComplete,
         TreeModule,
         TableModule,
         NgxJdenticonModule,
         NestedTableComponent,
         CamelCaseToTitleCasePipe,
-        IsStringPipe,
     ],
     animations: [
         trigger('fadeAnimation', [
@@ -88,85 +94,82 @@ export class DatasetComposerComponent {
 
     // Injected services
     readonly #authService = inject(AuthService);
+    readonly #fb = inject(FormBuilder);
     readonly #datasetService = inject(DatasetsService);
     readonly #cohortService = inject(CohortsService);
     readonly #downloadService = inject(DownloadService);
     readonly #messageService = inject(MessageService);
     readonly #typeCheckService = inject(TypeCheckService); 
+    readonly #datasetComposerService = inject(DatasetComposeService); 
 
     public isArray = this.#typeCheckService.isArray;
-    public user = computed(() => this.#authService.user());
+    public isNested = (value: any): boolean => value !== null && typeof value === 'object' && typeof value[0] === 'object';
     
-    // User datasets properties
-    public selectedDataset!: Dataset | string;
-    public userDatasets$: Observable<Dataset[]> = of([])
-    public userDatasetOptions: Dataset[] = []
+    protected readonly currentUser = computed(() => this.#authService.user());
+    
+    protected form = this.#fb.group({
+        datasetId: this.#fb.control<string>(''),
+        title: this.#fb.nonNullable.control<string>('', Validators.required),
+        description: this.#fb.nonNullable.control<string>('', Validators.required),
+        projectId: this.#fb.nonNullable.control<string>('', Validators.required),
+        datasetRules: this.#fb.nonNullable.control<any[]>([], Validators.required)
+    })
+    #formChanges = toSignal(this.form.valueChanges, { initialValue: this.form.value });
+    private payload = () => {
+        const data = this.form.value;
+        return {
+            name: data.title,
+            description: data.description,
+            rules: data.datasetRules,
+            projectId: data.projectId,
+        } as DatasetCreate
+    }
+
 
     // Dataset properties
-    public dataset = rxResource({
+    protected datasetData = rxResource({
         request: () => ({cohortId: this.cohort().id, datasetRule: this.datasetRules(), limit: this.pagination().limit, offset: this.pagination().offset}),
         loader: ({request}) => this.#cohortService.getCohortDatasetDynamically(request).pipe(
-            tap(response => this.datasetSize.set(response.count)),
+            tap(response => this.datasetDataSize.set(response.count)),
             map(response => response.items)
         )
     });
-    public datasetColumns = computed(() => this.dataset.value() ? getColumns(this.dataset.value()!) : [])
-    public datasetSize = signal<number>(0)
+    protected datasetDataColumns = computed(() => this.datasetData.value() ? getColumns(this.datasetData.value()!) : [])
+    protected datasetDataSize = signal<number>(0)
+
+    // Dataset definition
+    protected datasetId = signal<string>('');
+    protected dataset = rxResource({
+        request: () => ({datasetId: this.datasetId() as string}),
+        loader: ({request}) => request.datasetId ? this.#datasetService.getDatasetById(request) : of(null)
+    });
+    protected datasetChanged = signal<boolean>(false);
+
+    // Dataset search properties
+    protected datasetTitleQuery = signal<string>('');
+    protected selectedDataset = signal<Dataset | undefined>(undefined);
+    protected projectDatasets = rxResource({
+        request: () => ({projectId: this.cohort().projectId || undefined, titleContains: this.datasetTitleQuery() || undefined}),
+        loader: ({request}) => this.#datasetService.getDatasets(request).pipe(map(response => response.items))
+    })
 
     // Table pagination
-    readonly pageSizeChoices: number[] = [10, 20, 50];
-    public pagination = signal({limit: this.pageSizeChoices[0], offset: 0})
+    readonly pageSizeChoices: number[] = [10];
+    protected pagination = signal({limit: this.pageSizeChoices[0], offset: 0})
     protected emptyDatasetPlaceholder = [1,2,3,4,5,6,7,8,9,10] as unknown as PatientCaseDataset[]
 
     // Dataset selection tree properties
-    public selectedRules = signal<TreeNode[]>([]);
-    public datasetRules = linkedSignal<any[]>(() => this.selectedRules().map((node: TreeNode) => ({key: node.key, data: node.data})).filter(node => node.data).map(node => node.data))
+    protected selectedRules = signal<TreeNode[]>([]);
+    protected datasetRules = linkedSignal<any[]>(
+        () => this.selectedRules()
+            .map(
+                (node: TreeNode) => ({key: node.key, data: node.data})
+            ).filter(node => node.data)
+            .map(node => node.data)
+    )
 
-    public resourceItems: TreeNode<any>[] = [
-        this.constructResourceTreeNode(DataResource.PatientCase, 'Patient case', {exclude: ['pseudoidentifier']}),
-        this.constructResourceTreeNode(DataResource.NeoplasticEntity, 'Neoplastic Entities'),
-        {key: 'Stagings', label: 'Stagings', children: [
-            this.constructResourceTreeNode(DataResource.TnmStaging, 'TNM Stagings', {exclude: ['stagingDomain']}),
-            this.constructResourceTreeNode(DataResource.FigoStaging, 'FIGO Stagings', {exclude: ['stagingDomain']}),
-        ]},
-        this.constructResourceTreeNode(DataResource.RiskAssessment, 'Risk Assessments'),
-        this.constructResourceTreeNode(DataResource.TherapyLine, 'Therapy Lines'),
-        this.constructResourceTreeNode(DataResource.SystemicTherapy, 'Systemic Therapies', {exclude: ['medications'], children: [
-            this.constructResourceTreeNode(DataResource.SystemicTherapyMedication, 'Medications', {isRoot: false}),
-        ]}),
-        this.constructResourceTreeNode(DataResource.Surgery, 'Surgeries'),
-        this.constructResourceTreeNode(DataResource.Radiotherapy, 'Radiotherapies', {exclude: ['dosages', 'settings'], children: [
-            this.constructResourceTreeNode(DataResource.RadiotherapyDosage, 'Dosages', {isRoot: false}),
-            this.constructResourceTreeNode(DataResource.RadiotherapySetting, 'Settings', {isRoot: false})
-        ]}),
-        this.constructResourceTreeNode(DataResource.TreatmentResponse, 'Treatment Responses'),
-        this.constructResourceTreeNode(DataResource.GenomicVariant, 'Genomic Variants'),
-        {key: 'GenomicSignatures', label: 'Genomic Signatures', children: [
-            this.constructResourceTreeNode(DataResource.TumorMutationalBurden, 'Tumor Mutational Burdens', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.MicrosatelliteInstability, 'Microsatellite Instabilities', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.LossOfHeterozygosity, 'Losses of Heterozygosity', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.HomologousRecombinationDeficiency, 'Homologous Recombination Deficiencies', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.TumorNeoantigenBurden, 'Tumor Neoantigen Burdens', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.AneuploidScore, 'Aneuploid Score', {exclude: ['category']}),
-        ]},
-        this.constructResourceTreeNode(DataResource.AdverseEvent, 'Adverse Events', {exclude: ['suspectedCauses', 'mitigations'], children: [
-            this.constructResourceTreeNode(DataResource.AdverseEventSuspectedCause, 'Suspected Causes', {isRoot: false}),
-            this.constructResourceTreeNode(DataResource.AdverseEventMitigation, 'Mitigations', {isRoot: false})
-        ]}),
-        {key: 'TumorBoards', label: 'Tumor Boards', children: [
-            this.constructResourceTreeNode(DataResource.UnspecifiedTumorBoard, 'Unspecified Tumor Boards', {exclude: ['category']}),
-            this.constructResourceTreeNode(DataResource.MolecularTumorBoard, 'Molecular Tumor Boards', {exclude: ['category', 'therapeuticRecommendations'], children: [
-                this.constructResourceTreeNode(DataResource.MolecularTherapeuticRecommendation, 'Therapeutic Recommendations', {isRoot: false}),
-            ]}),
-        ]},
-        this.constructResourceTreeNode(DataResource.PerformanceStatus, 'Performance Status'),
-        this.constructResourceTreeNode(DataResource.Lifestyle, 'Lifestyle'),
-        this.constructResourceTreeNode(DataResource.FamilyHistory, 'Family History'),
-        this.constructResourceTreeNode(DataResource.ComorbiditiesAssessment, 'Comorbidities'),
-        this.constructResourceTreeNode(DataResource.Vitals, 'Vitals'),
-    ]
-
-    public downloadMenuItems: MenuItem[] = [
+    protected datasetTreeItems = this.#datasetComposerService.resourceItems
+    protected downloadMenuItems: MenuItem[] = [
         {
             label: 'Download dataset as...',
             items: [
@@ -190,144 +193,89 @@ export class DatasetComposerComponent {
         }
     ];
 
-    ngOnInit() {
-        this.refreshUserDatasets()
-    }
-
-
-    public constructResourceTreeNode(resource: DataResource, label: string, options: {children?: any[], exclude?: string[], isRoot?: boolean} = {children: [], exclude: [], isRoot: true}){
-        // Get the schema definition of the entity from the OpenAPISpecification object
-        const schemas = OpenAPISpecification.components.schemas
-        // Get a list of all fields/properties in that resource
-        const properties = schemas[resource].properties || {};
-        const propertyNodes = Object.entries(properties)
-            .filter(
-                ([propertyKey,_]) => !this.createMetadataItems('').map(
-                    item => item['field']).includes(propertyKey) && !['caseId', 'description','anonymized'].includes(propertyKey)
-            ).flatMap(
-                ([propertyKey,property]:[string, any]) => {
-                    const title: string = property.title
-                    const description: string = property.description
-                    if (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null') {
-                        property = property.anyOf[0];
+    constructor() {
+        effect(() => {
+            console.log('CHECK')
+            const currentState = this.#formChanges();
+            const currentDataset = this.dataset.value();
+            this.datasetChanged.set(this.hasDatasetChanged(currentState, currentDataset));
+        });
+        effect(() => {
+            this.form.controls.projectId.setValue(this.cohort().projectId!);
+        });
+        effect(() => {
+            this.form.controls.datasetRules.setValue(this.datasetRules());
+        });
+        effect(() => {
+            const dataset = this.selectedDataset();
+            if (dataset) {
+                this.datasetId.set(dataset.id);
+                this.form.controls.datasetId.setValue(dataset.id);
+                this.form.controls.title.setValue(dataset.name);
+                this.form.controls.description.setValue(dataset.description);
+                this.form.controls.projectId.setValue(dataset.projectId);
+                const rules = dataset.rules || [];
+                try {
+                    if (rules) {
+                        this.selectedRules.set([
+                            ...rules.map(rule => ({key: `${rule.resource}-${rule.field}`, data: rule})),
+                            ...rules.map(rule => ({key: `${rule.resource}-properties`, partialSelected: true , checked: false})),
+                            ...rules.map(rule => ({key: `${rule.resource}`, partialSelected: true, checked: false })),
+                        ])
                     }
-                    if (property.items) {
-                        property = property.items;       
-                    }
-
-                    let propertyType: string;
-                    if (property.type === undefined && property.$ref) {
-                        propertyType = property.$ref.split('/').pop();
-                    } else {
-                        propertyType = property.type;
-                    }     
-                    return this.createTreeNode(resource, title, propertyKey, propertyType, description);
+                    this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset loaded successfully' });
+                } catch (error) {
+                    this.#messageService.add({ severity: 'error', summary: 'Dataset load failed', detail: 'An error ocurred while loading the dataset. The dataset may have been created in an outdated release.' });
                 }
-            )
-                
-        const isRoot =  options?.isRoot ?? true
-        const treeNode = {
-            key: resource, 
-            label: label, 
-            children: isRoot ? [
-                {key: `${resource}-properties`, label: "Properties", children: propertyNodes.filter(
-                    ((item: any) => !resource.includes(item.field) && !options?.exclude?.includes(item.field))
-                )},
-                {key: `${resource}-metadata`, label: "Metadata", children: this.createMetadataItems(resource)},
-            ] : propertyNodes
-        }
-        treeNode.children = isRoot ? [treeNode.children[0], ...(options?.children || []), treeNode.children[1]] : treeNode.children
-        return treeNode
+            }
+        });
     }
 
-    private createTreeNode(resource: string, label: string, field: string, type: string, description: string | null = null) {
-        let defaultTransform;
-        switch (type) {
-            case 'CodedConcept':
-                defaultTransform = 'GetCodedConceptDisplay';
-                break
-            default:
-                defaultTransform = null;
-                break
-        }        
-        return {
-            key: `${resource}-${field}`, 
-            label: label, 
-            field: field, 
-            type: type, 
-            data: {
-                resource: resource, 
-                field: field,
-                transform: defaultTransform,
-            },
-            description: description,
-        }
+    resetDataset() {
+        this.selectedRules.set([]);
+        this.form.setValue({datasetId: '', title: '', description: '', projectId: this.cohort().projectId!, datasetRules: []});
+        this.form.updateValueAndValidity()
+        this.datasetId.set('');
     }
-
-    private createMetadataItems(schema: string) {
-        return [
-            this.createTreeNode(schema, 'Database ID', 'id', 'string'),
-            this.createTreeNode(schema, 'Date created', 'createdAt', 'date'),
-            this.createTreeNode(schema, 'Date updated', 'updatedAt', 'date'),
-            this.createTreeNode(schema, 'Created by', 'createdBy', 'User'),
-            this.createTreeNode(schema, 'Updated by', 'updatedBy', 'User'),
-            this.createTreeNode(schema, 'External source', 'externalSource', 'string'),
-            this.createTreeNode(schema, 'External source ID', 'externalSourceId', 'string'),
-        ]
-    }
-
-
-    public searchUserDatasets(event: any) {
-        this.#datasetService.getDatasets({nameContains: event.query}).pipe(first(), map((response: PaginatedDataset) => this.userDatasetOptions = response.items), catchError(() => [])).subscribe()
-    }
-    private refreshUserDatasets() {
-        this.userDatasets$ = this.#datasetService.getDatasets().pipe(map(response => this.userDatasetOptions = response.items), catchError(() => []))
-    }
-    public deleteUserDataset() {
-        if (typeof this.selectedDataset !== 'string'  && this.selectedDataset.id) {
-            this.#datasetService.deleteDatasetById({datasetId: this.selectedDataset.id}).pipe(take(1)).subscribe({
-                complete: () => {
-                    const datasetName = (typeof this.selectedDataset !== 'string') ? this.selectedDataset.name : 'Unknown';
-                    this.selectedDataset = ''
-                    this.#messageService.add({ severity: 'success', summary: 'Dataset deleted', detail: `Succesfully deleted dataset "${datasetName}"` })
+     
+    submitDataset() {
+        const dataset = this.payload();
+        if (this.form.value.datasetId) {
+            this.#datasetService.updateDataset({datasetId: this.form.value.datasetId, datasetCreate: dataset}).pipe(first()).subscribe({
+                next: (response) => {
+                    this.datasetId.set(response.id);
+                    this.form.controls.datasetId.setValue(response.id);
+                    this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Updated dataset "${this.form.value.title}".`});
                 },
-                error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset could not be deleted', detail: error.error.detail }),
+                error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset update failed', detail: error.error.detail }),
+            })
+        } else {
+            this.#datasetService.createDataset({datasetCreate: dataset}).pipe(first()).subscribe({
+                next: () => {
+                    this.dataset.reload();
+                    this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Saved dataset "${this.form.value.title}".`});
+                },
+                error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset save failed', detail: error.error.detail }),
             })
         }
     }
-    public loadUserDataset() {
-        if (typeof this.selectedDataset !== 'string'  && this.selectedDataset.rules) {
-            this.datasetRules.set(this.selectedDataset.rules);
-            this.selectedRules.set([
-                ...this.selectedDataset.rules.map(rule => ({key: `${rule.resource}-${rule.field}`, data: rule})),
-                ...this.selectedDataset.rules.map(rule => ({key: `${rule.resource}-properties`, partialSelected: true , checked: false})),
-                ...this.selectedDataset.rules.map(rule => ({key: `${rule.resource}`, partialSelected: true, checked: false })),
-            ])
-            this.dataset.reload()    
-        }
+
+    hasDatasetChanged(currentState: any, currentDataset: Dataset | undefined | null) {
+        if (!currentState) return false
+        if (!currentDataset) return true
+        return !(currentDataset.id == currentState.datasetId 
+            && currentDataset.projectId == currentState.projectId 
+            && currentDataset.rules?.length == currentState.datasetRules?.length
+            && currentDataset.rules?.every((rule: DatasetRule) => currentState.datasetRules?.some((existingRule: DatasetRule) => existingRule.resource == rule.resource && existingRule.field == rule.field && existingRule.transform == rule.transform))
+            && currentDataset.name == currentState.title
+            && currentDataset.description == currentState.description)
     }
-    public createUserDataset() {
-        let datasetName = (typeof this.selectedDataset == 'string') ? this.selectedDataset : this.selectedDataset.name;
-        this.#datasetService.createDataset({
-            datasetCreate: {
-                name: datasetName,
-                rules: this.datasetRules(),
-                projectId: this.cohort().projectId!
-            }
-        }).pipe(take(1)).subscribe({
-            complete: () => {
-                this.refreshUserDatasets()
-                this.#messageService.add({ severity: 'success', summary: 'Dataset update', detail: `Succesfully updated dataset "${datasetName}"` })
-            },
-            error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset could not be saved', detail: error.error.detail }),
-        })
-    }
-     
+
     downloadDataset(mode: 'tree' | 'split' | 'flat') {
         this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
         this.#cohortService.exportCohortDataset({
             cohortId: this.cohort().id,
-            datasetId: 'TODO',
+            datasetId: this.form.value.datasetId!,
           }).pipe(first()).subscribe({
             next: (data: any) => {
                 switch (mode) {
@@ -345,11 +293,6 @@ export class DatasetComposerComponent {
             complete: () => this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' }),
             error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail }),
         });
-    }
-
-
-    isNested(value: any): boolean {
-        return value !== null && typeof value === 'object' && typeof value[0] === 'object';
     }
 
 }   
