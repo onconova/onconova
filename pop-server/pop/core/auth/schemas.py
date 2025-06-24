@@ -65,35 +65,11 @@ class UserSchema(ModelGetSchema):
         alias="can_view_datasets",
         validation_alias=AliasChoices("canViewDatasets", "can_view_datasets"),
     )
-    canImportData: bool = Field(
-        title="Import Data",
-        description="Permission to import data into the system.",
-        alias="can_import_data",
-        validation_alias=AliasChoices("canImportData", "can_import_data"),
-    )
     canManageCases: bool = Field(
         title="Manage Cases",
         description="Permission to manage cases.",
         alias="can_manage_cases",
         validation_alias=AliasChoices("canManageCases", "can_manage_cases"),
-    )
-    canManageCohorts: bool = Field(
-        title="Manage Cohorts",
-        description="Permission to manage cohorts.",
-        alias="can_manage_cohorts",
-        validation_alias=AliasChoices("canManageCohorts", "can_manage_cohorts"),
-    )
-    canManageDatasets: bool = Field(
-        title="Manage Datasets",
-        description="Permission to manage datasets.",
-        alias="can_manage_datasets",
-        validation_alias=AliasChoices("canManageDatasets", "can_manage_datasets"),
-    )
-    canAnalyzeData: bool = Field(
-        title="Analyze Data",
-        description="Permission to run data analyses.",
-        alias="can_analyze_data",
-        validation_alias=AliasChoices("canAnalyzeData", "can_analyze_data"),
     )
     canExportData: bool = Field(
         title="Export Data",
@@ -106,20 +82,6 @@ class UserSchema(ModelGetSchema):
         description="Permission to manage projects.",
         alias="can_manage_projects",
         validation_alias=AliasChoices("canManageProjects", "can_manage_projects"),
-    )
-    canAccessSensitiveData: bool = Field(
-        title="Access Sensitive Data",
-        description="Permission to view sensitive data fields.",
-        alias="can_access_sensitive_data",
-        validation_alias=AliasChoices(
-            "canAccessSensitiveData", "can_access_sensitive_data"
-        ),
-    )
-    canAuditLogs: bool = Field(
-        title="Audit Logs",
-        description="Permission to view system audit logs.",
-        alias="can_audit_logs",
-        validation_alias=AliasChoices("canAuditLogs", "can_audit_logs"),
     )
     canManageUsers: bool = Field(
         title="Manage Users",

@@ -16,7 +16,7 @@ A session token is issued by *Django-AllAuth* upon successful user authenticatio
 
     1. Obtain a session token by logging in through the web interface or by using the API login endpoint:
         ```
-        POST /api/auth/login/
+        POST /api/v1/auth/session
         ```
 
         Example JSON body:
@@ -62,7 +62,7 @@ A session token is issued by *Django-AllAuth* upon successful user authenticatio
 
     2. Obtain a session token by providing the `id_token` or `access_token` value, as well as other provider details, to the POP API interface:
         ```
-        POST /api/auth/login/
+        POST /api/v1/auth/provider/session
         ```
 
         Example JSON body:

@@ -1,5 +1,6 @@
 from typing import Tuple, Optional, Union, Any, List, Type, get_args
 from enum import Enum
+from datetime import datetime
 
 from django.db.models import Q
 
@@ -76,7 +77,27 @@ class Dataset(ModelGetSchema):
         title="Rules",
         description="List of composition rules that define the dataset's structure.",
     )
-
+    lastExport: Optional[datetime] = Field(
+        default=None,
+        title="Last Export",
+        description="The datetime of the last export of this dataset",
+        serialization_alias="last_export",
+        validation_alias=AliasChoices("lastExport", "last_export"),
+    )
+    totalExports: int = Field(
+        default=0,
+        title="Total Exports",
+        description="The total number times this dataset has been exported",
+        serialization_alias="total_exports",
+        validation_alias=AliasChoices("totalExports", "total_exports"),
+    )
+    cohortsIds: List[str] = Field(
+        default=[],
+        title="Cohorts",
+        description="List of cohort IDs that have been exported with this dataset",
+        serialization_alias="cohorts_ids",
+        validation_alias=AliasChoices("cohortsIds", "cohorts_ids"),
+    )
     config = SchemaConfig(model=orm.Dataset)
 
 

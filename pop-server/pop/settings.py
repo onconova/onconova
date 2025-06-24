@@ -76,6 +76,15 @@ SECURE_HSTS_PRELOAD = True
 # Ensure that all subdomains, not just top-level domains, can only be accessed over a secure connection
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
+# API pagination and throttling settings
+NINJA_PAGINATION_PER_PAGE = 10
+NINJA_PAGINATION_MAX_LIMIT = 50
+NINJA_DEFAULT_THROTTLE_RATES = {
+    "auth": "10000/day",
+    "user": "10000/day",
+    "anon": "1000/day",
+}
+
 
 # ---------------------------------------------------------------
 # INSTALLATIONS

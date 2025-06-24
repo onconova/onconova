@@ -19,10 +19,9 @@
         <!-- Button to add new cohorts -->
         <p-button 
             (onClick)="openNewCohortForm()" 
-            [disabled]="!currentUser().canManageCohorts"
             label="New cohort" 
             class="ml-3"
-            [icon]="!currentUser().canManageCohorts ? 'pi pi-plus' : 'pi pi-lock'"/>
+            [icon]="'pi pi-plus'"/>
     </div>
 </div>
     

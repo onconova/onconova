@@ -1,18 +1,16 @@
 ## Access levels 
 
-POP implements a structured, role-based access control (RBAC) system by assigning each user an Access Level. These access levels progressively grant additional permissions and access to data within the platform.
+POP implements a structured, **role-based access control (RBAC)** system combined with **project-based permissions**. Each user is assigned a global Access Level and may receive additional permissions within specific projects. These levels determine what actions a user can perform and what data they can access.
 
 Each access level corresponds to a defined **Role** that governs what actions a user can perform and what types of data they can access.
 
 | Access Level | Role | Description
 |:-----:|:---------:|:-----------------|
 | 0 | External | Limited, non-member access to basic, aggregated public data|
-| 1 | Viewer | View anonymized data, projects, and cohorts |
-| 2 | Data Contributor | Add and edit new clinical cases, but cannot view pseudonymized data |
-| 3 | Data Analyst | Access to aggregated and pseudonymized data for analysis |
-| 4 | Project Manager | Manage research projects, members, and access rights |
-| 5 | Platform Manager | Full operational control of the platform, except backend/system config |
-| 6 | Administrator | Complete control, including platform configuration and system maintenance |
+| 1 | Member | Registered user that can view data and can participate in projects|
+| 2 | Project Manager | Manages research projects and project memberships |
+| 3 | Platform Manager | Full operational control of the platform, except backend/system config |
+| 4 | Administrator | Complete control, including platform configuration and system maintenance |
 
 #### Level 0 - Externals
 
@@ -25,17 +23,17 @@ Users with minimal rights, typically external collaborators or new users pending
 By default, newly created users or users authenticated via SSO (Single Sign-On) for the first time are assigned to this role.
 They can access the platform but have extremely limited permissions, primarily to view publicly aggregated statistics.
 
-#### Level 1 - Viewers
+#### Level 1 - Members
 
 Users who can browse anonymized data but cannot modify or export it.
 
 *Permissions*:
 
 - View anonymized patient case data, including audit trails.
-- View research projects and project members.
-- View cohorts and their audit trails.
+- View research projects, cohort and their audit trails.
+- Create and manage cohorts for ongoing projects where they are members
 
-#### Level 4 - Project leaders
+#### Level 2 - Project leaders
 
 Leaders of individual research projects with authority over project scope and team members.
 
@@ -50,7 +48,7 @@ Leaders of individual research projects with authority over project scope and te
 
     As this role can access pseudonymized data, assignment to this role or higher should be restricted to authorized personnel such as clinicians or principal investigators.
 
-#### Level 5 - Platform managers
+#### Level 3 - Platform managers
 
 Operational managers responsible for the oversight of platform usage and user management.
 
@@ -60,7 +58,7 @@ Operational managers responsible for the oversight of platform usage and user ma
 - Adjust access levels for any user.
 - View platform-wide statistics and settings.
 
-#### Level 6 - System administrators
+#### Level 4 - System administrators
 
 Technical system administrators with unrestricted access. Server superusers are assigned this role automatically. 
 
@@ -84,7 +82,7 @@ At the core of POP’s security model is API-level permission enforcement. Every
 
 **Example:**
 
-A *Viewer* (Level 1) attempting to access a pseudonymized data endpoint (Level 3+) will immediately receive a `403 Forbidden` response.
+A *Member* (Level 1) attempting to access a pseudonymized data endpoint (Level 2+) will immediately receive a `403 Forbidden` response.
 
 **Benefits:**
 
@@ -104,7 +102,7 @@ The Angular frontend complements backend security by proactively managing the us
 
 **Example:**
 
-A *Viewer* (Level 1) will not see buttons to add new patient cases or export data.
+A *Member* (Level 1) will not see buttons to add new patient cases or export data.
 Attempting to navigate directly to a restricted route via URL will redirect the user or show an access denied message.
 
 **Benefits**:

@@ -56,7 +56,7 @@ export class CohortSearchComponent {
   public readonly currentUser = computed(() => this.#authService.user());
 
   // Pagination settings
-  public readonly pageSizeChoices: number[] = [15, 30, 45, 60];
+  public readonly pageSizeChoices: number[] = [15, 30, 45];
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
   public totalCohorts= signal(0);
   public searchQuery = signal('');

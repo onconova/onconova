@@ -74,6 +74,9 @@ class Project(BaseModel):
     def description(self):
         return f"{self.title}"
 
+    def is_member(self, user: User) -> bool:
+        return user in self.members.all() or user == self.leader
+
 
 class ProjectMembership(models.Model):
     member = models.ForeignKey(

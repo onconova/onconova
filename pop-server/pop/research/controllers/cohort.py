@@ -13,6 +13,7 @@ from django.db.models.functions import Coalesce
 
 
 from ninja import Query
+from ninja.errors import HttpError, ValidationError
 from ninja_extra import route, api_controller
 from ninja_extra.pagination import paginate
 from ninja_extra import route, api_controller, status, ControllerBase
@@ -26,11 +27,13 @@ from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginat
 from pop.core.history.schemas import HistoryEvent
 
 from pop.oncology import schemas as oncological_schemas
+from pop.oncology.models import TherapyLine
 from pop.interoperability.schemas import ExportMetadata
 
 from pop.research.compilers import construct_dataset
 from pop.research.models.dataset import Dataset
 from pop.research.models.cohort import Cohort
+from pop.research.models.project import Project
 from pop.research.schemas.dataset import DatasetRule, PatientCaseDataset
 from pop.research.schemas.cohort import (
     CohortSchema,
@@ -89,7 +92,16 @@ class CohortsController(ControllerBase):
         operation_id="createCohort",
     )
     def create_cohort(self, payload: CohortCreateSchema):
+        # Check that requesting user is a member of the project
+        project = get_object_or_404(Project, id=payload.projectId)
+        if (
+            not project.is_member(self.context.request.user)
+            and self.context.request.user.access_level < 3
+        ):
+            raise HttpError(403, "User is not a member of the project")
+        # Create cohort for that project
         cohort = payload.model_dump_django()
+        # Update cohort cases
         cohort.update_cohort_cases()
         return 201, cohort
 
@@ -115,7 +127,7 @@ class CohortsController(ControllerBase):
             401: None,
             403: None,
         },
-        permissions=[perms.CanManageCohorts],
+        permissions=[perms.CanDeleteCohorts],
         operation_id="deleteCohortById",
     )
     def delete_cohort(self, cohortId: str):
@@ -134,7 +146,7 @@ class CohortsController(ControllerBase):
         operation_id="updateCohort",
     )
     def update_cohort(self, cohortId: str, payload: CohortCreateSchema):
-        cohort = get_object_or_404(Cohort, id=cohortId)
+        cohort = self.get_object_or_exception(Cohort, id=cohortId)
         cohort = payload.model_dump_django(instance=cohort)
         cohort.update_cohort_cases()
         return cohort
@@ -223,15 +235,15 @@ class CohortsController(ControllerBase):
             401: None,
             403: None,
         },
-        permissions=[perms.CanManageCases],
+        permissions=[perms.CanManageCohorts],
         operation_id="revertCohortToHistoryEvent",
     )
     def revert_cohort_to_history_event(self, cohortId: str, eventId: str):
-        instance = get_object_or_404(Cohort, id=cohortId)
+        instance = self.get_object_or_exception(Cohort, id=cohortId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.post(
-        path="/{cohortId}/dataset/export",
+        path="/{cohortId}/dataset/{datasetId}/export",
         response={
             200: Any,
             404: None,
@@ -241,15 +253,33 @@ class CohortsController(ControllerBase):
         permissions=[perms.CanExportData],
         operation_id="exportCohortDataset",
     )
-    def export_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
+    def export_cohort_dataset(self, cohortId: str, datasetId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        dataset = [
+        dataset = get_object_or_404(Dataset, id=datasetId)
+
+        if not perms.CanManageCohorts().check_user_object_permission(
+            self.context.request.user, None, cohort
+        ) or not perms.CanManageDatasets().check_user_object_permission(
+            self.context.request.user, None, dataset
+        ):
+            raise HttpError(403, "User is not a member of the project")
+
+        try:
+            rules = [DatasetRule.model_validate(rule) for rule in dataset.rules]
+        except ValidationError:
+            raise HttpError(422, "Invalid or outdated dataset rules")
+
+        data = [
             PatientCaseDataset.model_validate(subset)
             for subset in construct_dataset(cohort=cohort, rules=rules)
         ]
+
+        data = (
+            [subset.model_dump(mode="json", exclude_unset=True) for subset in data],
+        )
         checksum = hashlib.md5(
             json.dumps(
-                [subset.model_dump(mode="json") for subset in dataset],
+                data,
                 sort_keys=True,
                 default=str,
             ).encode("utf-8")
@@ -260,15 +290,18 @@ class CohortsController(ControllerBase):
                 exportedBy=self.context.request.user.username,
                 exportVersion=settings.VERSION,
                 checksum=checksum,
-            ).model_dump(mode="json"),
-            "dataset": dataset,
+            ).model_dump(mode="json", exclude_unset=True),
+            "dataset": data,
         }
         with pghistory.context(
+            cohort=cohortId,
+            datasetId=datasetId,
             dataset=[rule.model_dump(mode="json") for rule in rules],
             checksum=checksum,
             version=settings.VERSION,
         ):
             pghistory.create_event(cohort, label="export")
+            pghistory.create_event(dataset, label="export")
         return 200, export
 
     @route.post(
@@ -287,24 +320,6 @@ class CohortsController(ControllerBase):
     def construct_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
         return construct_dataset(
             cohort=get_object_or_404(Cohort, id=cohortId), rules=rules
-        )
-
-    @route.get(
-        path="/{cohortId}/datasets/{datasetId}",
-        response={
-            200: Paginated[PatientCaseDataset],
-            404: None,
-            401: None,
-            403: None,
-        },
-        permissions=[perms.CanViewCohorts],
-        operation_id="getCohortDataset",
-    )
-    @paginate()
-    def get_cohort_dataset(self, cohortId: str, datasetId: str):
-        return construct_dataset(
-            cohort=get_object_or_404(Cohort, id=cohortId),
-            rules=get_object_or_404(Dataset, id=datasetId).rules,
         )
 
     @route.get(
@@ -483,7 +498,7 @@ class CohortAnalysisController(ControllerBase):
                 progression_free_survival=
                 # Filter all therapy lines for current patient and by the queries line-label
                 Subquery(
-                    oncological_schemas.TherapyLine.objects.filter(
+                    TherapyLine.objects.filter(
                         case_id=OuterRef("id"), label=therapyLine
                     )
                     .annotate(

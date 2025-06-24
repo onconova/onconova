@@ -76,6 +76,12 @@
                 <div>{{cohortsCount.value() || '-' }}</div>
             </div>
         </div>
+        <div class="flex flex-column">
+            <small class="text-muted mb-1">Datasets</small>
+            <div class="flex my-auto gap-1">
+                <div>{{datasetsCount.value() || '-' }}</div>
+            </div>
+        </div>
         <!-- Metadata -->
         <div class="flex flex-column">
             <small class="text-muted mb-1">Created</small>
@@ -100,8 +106,8 @@
             class="mt-auto"
             [model]="actionItems"
             (onClick)="openProjectManagement()"
-            [menuButtonDisabled]="!currentUser().canManageCohorts"
-            [dropdownIcon]="currentUser().canManageCohorts? 'pi pi-cog' : 'pi pi-lock'" 
+            [menuButtonDisabled]="!currentUserCanEdit()"
+            [dropdownIcon]="currentUserCanEdit() ? 'pi pi-cog' : 'pi pi-lock'" 
             />
     </div>
 </div>
