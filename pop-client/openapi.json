@@ -42696,6 +42696,144 @@
           },
           {
             "in": "query",
+            "name": "summary.not.exists",
+            "schema": {
+              "description": "Dataset summary - Filter for entries without a value",
+              "title": "Summary.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "summary.exists",
+            "schema": {
+              "description": "Dataset summary - Filter for entries with a value",
+              "title": "Summary.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "summary",
+            "schema": {
+              "description": "Dataset summary - Filter for full text matches",
+              "title": "Summary",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "summary.not",
+            "schema": {
+              "description": "Dataset summary - Filter for full text mismatches",
+              "title": "Summary.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "summary.contains",
+            "schema": {
+              "description": "Dataset summary - Filter for partial text matches",
+              "title": "Summary.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "summary.not.contains",
+            "schema": {
+              "description": "Dataset summary - Filter for partial text mismatches",
+              "title": "Summary.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "summary.beginsWith",
+            "schema": {
+              "description": "Dataset summary - Filter for entries starting with the text",
+              "title": "Summary.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "summary.not.beginsWith",
+            "schema": {
+              "description": "Dataset summary - Filter for entries not starting with the text",
+              "title": "Summary.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "summary.endsWith",
+            "schema": {
+              "description": "Dataset summary - Filter for entries ending with the text",
+              "title": "Summary.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "summary.not.endsWith",
+            "schema": {
+              "description": "Dataset summary - Filter for entries not ending with the text",
+              "title": "Summary.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "summary.anyOf",
+            "schema": {
+              "description": "Dataset summary - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Summary.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "summary.not.anyOf",
+            "schema": {
+              "description": "Dataset summary - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Summary.Not.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Dataset summary - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
             "name": "projectId",
             "schema": {
               "description": "Project - Filter for reference matches",
@@ -82086,6 +82224,72 @@
             "title": "Name.Not.Anyof",
             "type": "array"
           },
+          "summary.not.exists": {
+            "description": "Dataset summary - Filter for entries without a value",
+            "title": "Summary.Not.Exists",
+            "type": "boolean"
+          },
+          "summary.exists": {
+            "description": "Dataset summary - Filter for entries with a value",
+            "title": "Summary.Exists",
+            "type": "boolean"
+          },
+          "summary": {
+            "description": "Dataset summary - Filter for full text matches",
+            "title": "Summary",
+            "type": "string"
+          },
+          "summary.not": {
+            "description": "Dataset summary - Filter for full text mismatches",
+            "title": "Summary.Not",
+            "type": "string"
+          },
+          "summary.contains": {
+            "description": "Dataset summary - Filter for partial text matches",
+            "title": "Summary.Contains",
+            "type": "string"
+          },
+          "summary.not.contains": {
+            "description": "Dataset summary - Filter for partial text mismatches",
+            "title": "Summary.Not.Contains",
+            "type": "string"
+          },
+          "summary.beginsWith": {
+            "description": "Dataset summary - Filter for entries starting with the text",
+            "title": "Summary.Beginswith",
+            "type": "string"
+          },
+          "summary.not.beginsWith": {
+            "description": "Dataset summary - Filter for entries not starting with the text",
+            "title": "Summary.Not.Beginswith",
+            "type": "string"
+          },
+          "summary.endsWith": {
+            "description": "Dataset summary - Filter for entries ending with the text",
+            "title": "Summary.Endswith",
+            "type": "string"
+          },
+          "summary.not.endsWith": {
+            "description": "Dataset summary - Filter for entries not ending with the text",
+            "title": "Summary.Not.Endswith",
+            "type": "string"
+          },
+          "summary.anyOf": {
+            "description": "Dataset summary - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Summary.Anyof",
+            "type": "array"
+          },
+          "summary.not.anyOf": {
+            "description": "Dataset summary - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Summary.Not.Anyof",
+            "type": "array"
+          },
           "projectId": {
             "description": "Project - Filter for reference matches",
             "title": "Projectid",
@@ -82208,6 +82412,19 @@
             "maxLength": 255,
             "title": "Dataset name",
             "type": "string",
+            "x-expanded": false
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Summary of the dataset",
+            "title": "Dataset summary",
             "x-expanded": false
           },
           "projectId": {
@@ -82344,6 +82561,19 @@
             "maxLength": 255,
             "title": "Dataset name",
             "type": "string",
+            "x-expanded": false
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Summary of the dataset",
+            "title": "Dataset summary",
             "x-expanded": false
           },
           "projectId": {

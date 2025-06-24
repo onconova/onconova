@@ -14,6 +14,12 @@ class Dataset(BaseModel):
         help_text=_("Name of the dataset"),
         max_length=255,
     )
+    summary = models.TextField(
+        verbose_name=_("Dataset summary"),
+        help_text=_("Summary of the dataset"),
+        null=True,
+        blank=True,
+    )
     rules = models.JSONField(
         verbose_name=_("Rules"),
         help_text=_("Dataset composition rules"),

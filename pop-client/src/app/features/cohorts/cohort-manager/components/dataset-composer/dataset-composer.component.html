@@ -24,7 +24,15 @@
 
                         <p-button icon="pi pi-eraser" label="Reset" severity="secondary" (onClick)="resetDataset()"/>
                     </div>
-                    <p-button icon="pi pi-cloud-upload" [label]="dataset.value()?.id ? 'Update dataset' : 'Create dataset'" [disabled]="form.invalid || !datasetChanged()" styleClass="w-full" (onClick)="submitDataset()"/>
+                    <p-button 
+                        icon="pi pi-cloud-upload" 
+                        [label]="dataset.value()?.id ? 'Update dataset' : 'Create dataset'" 
+                        [disabled]="form.invalid 
+                            || !datasetChanged()
+                            || dataset.isLoading() 
+                            || processing()" 
+                        styleClass="w-full" 
+                        (onClick)="submitDataset()"/>
                 </div>
                 <form [formGroup]="form">
                     <div class="field">
@@ -33,7 +41,7 @@
                     </div>
                     <div class="field">
                             <label class="form-label required mr-3">Description</label>
-                            <input type="text" pInputText class="flex-grow w-30rem" formControlName="description" />
+                            <input type="text" pInputText class="flex-grow w-30rem" formControlName="summary" />
                     </div>
                 </form>
                 <div class="ml-auto my-auto">
@@ -43,7 +51,12 @@
                         label="Download Dataset" 
                         class="h-4rem flex mb-3"
                         (onClick)="downloadMenu.toggle($event)"
-                        [disabled]="form.invalid || !dataset.hasValue() || !dataset.value()?.id || !currentUser().canExportData ||  datasetChanged()"/>
+                        [disabled]="form.invalid 
+                            || dataset.isLoading() 
+                            || !dataset.value()?.id
+                            || processing() 
+                            || !currentUser().canExportData 
+                            || !datasetChanged()"/>
                 </div>
             </div>
         </p-fieldset>

@@ -110,16 +110,17 @@ export class DatasetComposerComponent {
     protected form = this.#fb.group({
         datasetId: this.#fb.control<string>(''),
         title: this.#fb.nonNullable.control<string>('', Validators.required),
-        description: this.#fb.nonNullable.control<string>('', Validators.required),
+        summary: this.#fb.nonNullable.control<string>('', Validators.required),
         projectId: this.#fb.nonNullable.control<string>('', Validators.required),
         datasetRules: this.#fb.nonNullable.control<any[]>([], Validators.required)
     })
+    protected processing = signal<boolean>(false);
     #formChanges = toSignal(this.form.valueChanges, { initialValue: this.form.value });
     private payload = () => {
         const data = this.form.value;
         return {
             name: data.title,
-            description: data.description,
+            summary: data.summary,
             rules: data.datasetRules,
             projectId: data.projectId,
         } as DatasetCreate
@@ -195,7 +196,6 @@ export class DatasetComposerComponent {
 
     constructor() {
         effect(() => {
-            console.log('CHECK')
             const currentState = this.#formChanges();
             const currentDataset = this.dataset.value();
             this.datasetChanged.set(this.hasDatasetChanged(currentState, currentDataset));
@@ -212,7 +212,7 @@ export class DatasetComposerComponent {
                 this.datasetId.set(dataset.id);
                 this.form.controls.datasetId.setValue(dataset.id);
                 this.form.controls.title.setValue(dataset.name);
-                this.form.controls.description.setValue(dataset.description);
+                this.form.controls.summary.setValue(dataset.summary || '');
                 this.form.controls.projectId.setValue(dataset.projectId);
                 const rules = dataset.rules || [];
                 try {
@@ -233,29 +233,38 @@ export class DatasetComposerComponent {
 
     resetDataset() {
         this.selectedRules.set([]);
-        this.form.setValue({datasetId: '', title: '', description: '', projectId: this.cohort().projectId!, datasetRules: []});
+        this.form.setValue({datasetId: '', title: '', summary: '', projectId: this.cohort().projectId!, datasetRules: []});
         this.form.updateValueAndValidity()
         this.datasetId.set('');
     }
      
     submitDataset() {
+        this.processing.set(true);
         const dataset = this.payload();
         if (this.form.value.datasetId) {
             this.#datasetService.updateDataset({datasetId: this.form.value.datasetId, datasetCreate: dataset}).pipe(first()).subscribe({
                 next: (response) => {
+                    this.processing.set(false);
                     this.datasetId.set(response.id);
                     this.form.controls.datasetId.setValue(response.id);
                     this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Updated dataset "${this.form.value.title}".`});
                 },
-                error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset update failed', detail: error.error.detail }),
+                error: (error) => {
+                    this.processing.set(false);
+                    this.#messageService.add({ severity: 'error', summary: 'Dataset update failed', detail: error.error.detail })
+                },
             })
         } else {
             this.#datasetService.createDataset({datasetCreate: dataset}).pipe(first()).subscribe({
                 next: () => {
+                    this.processing.set(false);
                     this.dataset.reload();
-                    this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Saved dataset "${this.form.value.title}".`});
+                    this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Saved dataset "${this.form.value.title}".`})
                 },
-                error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset save failed', detail: error.error.detail }),
+                error: (error) => {
+                    this.processing.set(false)
+                    this.#messageService.add({ severity: 'error', summary: 'Dataset save failed', detail: error.error.detail })
+                },
             })
         }
     }
@@ -268,10 +277,11 @@ export class DatasetComposerComponent {
             && currentDataset.rules?.length == currentState.datasetRules?.length
             && currentDataset.rules?.every((rule: DatasetRule) => currentState.datasetRules?.some((existingRule: DatasetRule) => existingRule.resource == rule.resource && existingRule.field == rule.field && existingRule.transform == rule.transform))
             && currentDataset.name == currentState.title
-            && currentDataset.description == currentState.description)
+            && currentDataset.summary == currentState.summary)
     }
 
     downloadDataset(mode: 'tree' | 'split' | 'flat') {
+        this.processing.set(true);
         this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
         this.#cohortService.exportCohortDataset({
             cohortId: this.cohort().id,
@@ -290,8 +300,14 @@ export class DatasetComposerComponent {
                         break;
                 }
             },
-            complete: () => this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' }),
-            error: (error) => this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail }),
+            complete: () => {
+                this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' })
+                this.processing.set(false)
+            },
+            error: (error) => {
+                this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail })
+                this.processing.set(false)
+            },
         });
     }
 
