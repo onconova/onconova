@@ -13,7 +13,7 @@ from django.db.models.functions import Coalesce
 
 
 from ninja import Query
-from ninja.errors import HttpError
+from ninja.errors import HttpError, ValidationError
 from ninja_extra import route, api_controller
 from ninja_extra.pagination import paginate
 from ninja_extra import route, api_controller, status, ControllerBase
@@ -264,14 +264,22 @@ class CohortsController(ControllerBase):
         ):
             raise HttpError(403, "User is not a member of the project")
 
-        dataset = [
+        try:
+            rules = [DatasetRule.model_validate(rule) for rule in dataset.rules]
+        except ValidationError:
+            raise HttpError(422, "Invalid or outdated dataset rules")
+
+        data = [
             PatientCaseDataset.model_validate(subset)
-            for subset in construct_dataset(cohort=cohort, rules=dataset.rules)
+            for subset in construct_dataset(cohort=cohort, rules=rules)
         ]
 
+        data = (
+            [subset.model_dump(mode="json", exclude_unset=True) for subset in data],
+        )
         checksum = hashlib.md5(
             json.dumps(
-                [subset.model_dump(mode="json") for subset in dataset],
+                data,
                 sort_keys=True,
                 default=str,
             ).encode("utf-8")
@@ -282,15 +290,18 @@ class CohortsController(ControllerBase):
                 exportedBy=self.context.request.user.username,
                 exportVersion=settings.VERSION,
                 checksum=checksum,
-            ).model_dump(mode="json"),
-            "dataset": dataset,
+            ).model_dump(mode="json", exclude_unset=True),
+            "dataset": data,
         }
         with pghistory.context(
-            dataset=[rule.model_dump(mode="json") for rule in dataset.rules],
+            cohort=cohortId,
+            datasetId=datasetId,
+            dataset=[rule.model_dump(mode="json") for rule in rules],
             checksum=checksum,
             version=settings.VERSION,
         ):
             pghistory.create_event(cohort, label="export")
+            pghistory.create_event(dataset, label="export")
         return 200, export
 
     @route.post(
@@ -309,24 +320,6 @@ class CohortsController(ControllerBase):
     def construct_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
         return construct_dataset(
             cohort=get_object_or_404(Cohort, id=cohortId), rules=rules
-        )
-
-    @route.get(
-        path="/{cohortId}/datasets/{datasetId}",
-        response={
-            200: Paginated[PatientCaseDataset],
-            404: None,
-            401: None,
-            403: None,
-        },
-        permissions=[perms.CanViewCohorts],
-        operation_id="getCohortDataset",
-    )
-    @paginate()
-    def get_cohort_dataset(self, cohortId: str, datasetId: str):
-        return construct_dataset(
-            cohort=get_object_or_404(Cohort, id=cohortId),
-            rules=get_object_or_404(Dataset, id=datasetId).rules,
         )
 
     @route.get(

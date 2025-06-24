@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, output} from '@angular/core';
 
-import { AccessRoles, Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian, Project, ProjectStatusChoices } from 'pop-api-client';
+import { AccessRoles, Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian, DatasetsService, Project, ProjectStatusChoices } from 'pop-api-client';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
@@ -62,6 +62,7 @@ export class ProjectSearchItemComponent {
     readonly #authService = inject(AuthService);
     readonly #router = inject(Router);
     readonly #cohortsService = inject(CohortsService);
+    readonly #datasetsService = inject(DatasetsService);
 
 
     // Other properties
@@ -83,6 +84,10 @@ export class ProjectSearchItemComponent {
     protected cohortsCount = rxResource({
         request: () => ({projectId: this.project().id}),
         loader: ({request}) => this.#cohortsService.getCohorts(request).pipe(map(response => response.count))
+    })
+    protected datasetsCount = rxResource({
+        request: () => ({projectId: this.project().id}),
+        loader: ({request}) => this.#datasetsService.getDatasets(request).pipe(map(response => response.count))
     })
     
 

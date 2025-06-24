@@ -41379,84 +41379,6 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/datasets/{datasetId}": {
-      "get": {
-        "operationId": "getCohortDataset",
-        "summary": "Get Cohort Dataset",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "datasetId",
-            "schema": {
-              "title": "Datasetid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "default": 10,
-              "maximum": 50,
-              "minimum": 1,
-              "title": "Limit",
-              "type": "integer"
-            },
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "offset",
-            "schema": {
-              "default": 0,
-              "minimum": 0,
-              "title": "Offset",
-              "type": "integer"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Paginated_PatientCaseDataset_"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
     "/api/v1/cohorts/{cohortId}/traits/{trait}/average": {
       "get": {
         "operationId": "getCohortTraitAverage",
@@ -42461,6 +42383,370 @@
             },
             "required": false,
             "description": "Transform - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.not.exists",
+            "schema": {
+              "description": "Last Export - Filter for entries without a value",
+              "title": "Lastexport.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.exists",
+            "schema": {
+              "description": "Last Export - Filter for entries with a value",
+              "title": "Lastexport.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.before",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates before the specified value",
+              "format": "date",
+              "title": "Lastexport.Before",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates before the specified value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.after",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates after the specified value",
+              "format": "date",
+              "title": "Lastexport.After",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates after the specified value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.onOrBefore",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates on or before the specified value",
+              "format": "date",
+              "title": "Lastexport.Onorbefore",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates on or before the specified value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.onOrAfter",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates on or after the specified value",
+              "format": "date",
+              "title": "Lastexport.Onorafter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates on or after the specified value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.on",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates exactly matching the specified value",
+              "format": "date",
+              "title": "Lastexport.On",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates exactly matching the specified value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.not.on",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates not matching the specified value",
+              "format": "date",
+              "title": "Lastexport.Not.On",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates not matching the specified value"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.between",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ],
+              "title": "Lastexport.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "lastExport.not.between",
+            "schema": {
+              "description": "Last Export - Filter for entries with dates not between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ],
+              "title": "Lastexport.Not.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Last Export - Filter for entries with dates not between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.lessThan",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values less than the specified value",
+              "title": "Totalexports.Lessthan",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values less than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.lessThanOrEqual",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values less than or equal to the specified value",
+              "title": "Totalexports.Lessthanorequal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values less than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.greaterThan",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values greater than the specified value",
+              "title": "Totalexports.Greaterthan",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values greater than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.greaterThanOrEqual",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values greater than or equal to the specified value",
+              "title": "Totalexports.Greaterthanorequal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values greater than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.equal",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values exactly equal to the specified value",
+              "title": "Totalexports.Equal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values exactly equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.not.equal",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values not equal to the specified value",
+              "title": "Totalexports.Not.Equal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values not equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.between",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "Totalexports.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "totalExports.not.between",
+            "schema": {
+              "description": "Total Exports - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "Totalexports.Not.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Total Exports - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds",
+            "schema": {
+              "description": "Cohorts - Filter for full text matches",
+              "title": "Cohortsids",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.not",
+            "schema": {
+              "description": "Cohorts - Filter for full text mismatches",
+              "title": "Cohortsids.Not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.contains",
+            "schema": {
+              "description": "Cohorts - Filter for partial text matches",
+              "title": "Cohortsids.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.not.contains",
+            "schema": {
+              "description": "Cohorts - Filter for partial text mismatches",
+              "title": "Cohortsids.Not.Contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.beginsWith",
+            "schema": {
+              "description": "Cohorts - Filter for entries starting with the text",
+              "title": "Cohortsids.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.not.beginsWith",
+            "schema": {
+              "description": "Cohorts - Filter for entries not starting with the text",
+              "title": "Cohortsids.Not.Beginswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.endsWith",
+            "schema": {
+              "description": "Cohorts - Filter for entries ending with the text",
+              "title": "Cohortsids.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.not.endsWith",
+            "schema": {
+              "description": "Cohorts - Filter for entries not ending with the text",
+              "title": "Cohortsids.Not.Endswith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.anyOf",
+            "schema": {
+              "description": "Cohorts - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Cohortsids.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "cohortsIds.not.anyOf",
+            "schema": {
+              "description": "Cohorts - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "Cohortsids.Not.Anyof",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cohorts - Filter for entries where at least one reference mismatches the query"
           },
           {
             "in": "query",
@@ -82112,6 +82398,202 @@
             "title": "Rules.Transform.Not.Anyof",
             "type": "array"
           },
+          "lastExport.not.exists": {
+            "description": "Last Export - Filter for entries without a value",
+            "title": "Lastexport.Not.Exists",
+            "type": "boolean"
+          },
+          "lastExport.exists": {
+            "description": "Last Export - Filter for entries with a value",
+            "title": "Lastexport.Exists",
+            "type": "boolean"
+          },
+          "lastExport.before": {
+            "description": "Last Export - Filter for entries with dates before the specified value",
+            "format": "date",
+            "title": "Lastexport.Before",
+            "type": "string"
+          },
+          "lastExport.after": {
+            "description": "Last Export - Filter for entries with dates after the specified value",
+            "format": "date",
+            "title": "Lastexport.After",
+            "type": "string"
+          },
+          "lastExport.onOrBefore": {
+            "description": "Last Export - Filter for entries with dates on or before the specified value",
+            "format": "date",
+            "title": "Lastexport.Onorbefore",
+            "type": "string"
+          },
+          "lastExport.onOrAfter": {
+            "description": "Last Export - Filter for entries with dates on or after the specified value",
+            "format": "date",
+            "title": "Lastexport.Onorafter",
+            "type": "string"
+          },
+          "lastExport.on": {
+            "description": "Last Export - Filter for entries with dates exactly matching the specified value",
+            "format": "date",
+            "title": "Lastexport.On",
+            "type": "string"
+          },
+          "lastExport.not.on": {
+            "description": "Last Export - Filter for entries with dates not matching the specified value",
+            "format": "date",
+            "title": "Lastexport.Not.On",
+            "type": "string"
+          },
+          "lastExport.between": {
+            "description": "Last Export - Filter for entries with dates between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "Lastexport.Between",
+            "type": "array"
+          },
+          "lastExport.not.between": {
+            "description": "Last Export - Filter for entries with dates not between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "Lastexport.Not.Between",
+            "type": "array"
+          },
+          "totalExports.lessThan": {
+            "description": "Total Exports - Filter for entries with values less than the specified value",
+            "title": "Totalexports.Lessthan",
+            "type": "integer"
+          },
+          "totalExports.lessThanOrEqual": {
+            "description": "Total Exports - Filter for entries with values less than or equal to the specified value",
+            "title": "Totalexports.Lessthanorequal",
+            "type": "integer"
+          },
+          "totalExports.greaterThan": {
+            "description": "Total Exports - Filter for entries with values greater than the specified value",
+            "title": "Totalexports.Greaterthan",
+            "type": "integer"
+          },
+          "totalExports.greaterThanOrEqual": {
+            "description": "Total Exports - Filter for entries with values greater than or equal to the specified value",
+            "title": "Totalexports.Greaterthanorequal",
+            "type": "integer"
+          },
+          "totalExports.equal": {
+            "description": "Total Exports - Filter for entries with values exactly equal to the specified value",
+            "title": "Totalexports.Equal",
+            "type": "integer"
+          },
+          "totalExports.not.equal": {
+            "description": "Total Exports - Filter for entries with values not equal to the specified value",
+            "title": "Totalexports.Not.Equal",
+            "type": "integer"
+          },
+          "totalExports.between": {
+            "description": "Total Exports - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Totalexports.Between",
+            "type": "array"
+          },
+          "totalExports.not.between": {
+            "description": "Total Exports - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Totalexports.Not.Between",
+            "type": "array"
+          },
+          "cohortsIds": {
+            "description": "Cohorts - Filter for full text matches",
+            "title": "Cohortsids",
+            "type": "string"
+          },
+          "cohortsIds.not": {
+            "description": "Cohorts - Filter for full text mismatches",
+            "title": "Cohortsids.Not",
+            "type": "string"
+          },
+          "cohortsIds.contains": {
+            "description": "Cohorts - Filter for partial text matches",
+            "title": "Cohortsids.Contains",
+            "type": "string"
+          },
+          "cohortsIds.not.contains": {
+            "description": "Cohorts - Filter for partial text mismatches",
+            "title": "Cohortsids.Not.Contains",
+            "type": "string"
+          },
+          "cohortsIds.beginsWith": {
+            "description": "Cohorts - Filter for entries starting with the text",
+            "title": "Cohortsids.Beginswith",
+            "type": "string"
+          },
+          "cohortsIds.not.beginsWith": {
+            "description": "Cohorts - Filter for entries not starting with the text",
+            "title": "Cohortsids.Not.Beginswith",
+            "type": "string"
+          },
+          "cohortsIds.endsWith": {
+            "description": "Cohorts - Filter for entries ending with the text",
+            "title": "Cohortsids.Endswith",
+            "type": "string"
+          },
+          "cohortsIds.not.endsWith": {
+            "description": "Cohorts - Filter for entries not ending with the text",
+            "title": "Cohortsids.Not.Endswith",
+            "type": "string"
+          },
+          "cohortsIds.anyOf": {
+            "description": "Cohorts - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Cohortsids.Anyof",
+            "type": "array"
+          },
+          "cohortsIds.not.anyOf": {
+            "description": "Cohorts - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "Cohortsids.Not.Anyof",
+            "type": "array"
+          },
           "id": {
             "description": "Id - Filter for full text matches",
             "title": "Id",
@@ -82372,6 +82854,34 @@
               "$ref": "#/components/schemas/DatasetRule"
             },
             "title": "Rules",
+            "type": "array"
+          },
+          "lastExport": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The datetime of the last export of this dataset",
+            "title": "Last Export"
+          },
+          "totalExports": {
+            "default": 0,
+            "description": "The total number times this dataset has been exported",
+            "title": "Total Exports",
+            "type": "integer"
+          },
+          "cohortsIds": {
+            "default": [],
+            "description": "List of cohort IDs that have been exported with this dataset",
+            "items": {
+              "type": "string"
+            },
+            "title": "Cohorts",
             "type": "array"
           },
           "id": {

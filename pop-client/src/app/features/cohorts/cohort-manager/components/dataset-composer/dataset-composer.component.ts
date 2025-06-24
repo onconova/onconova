@@ -245,8 +245,7 @@ export class DatasetComposerComponent {
             this.#datasetService.updateDataset({datasetId: this.form.value.datasetId, datasetCreate: dataset}).pipe(first()).subscribe({
                 next: (response) => {
                     this.processing.set(false);
-                    this.datasetId.set(response.id);
-                    this.form.controls.datasetId.setValue(response.id);
+                    this.dataset.reload();
                     this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Updated dataset "${this.form.value.title}".`});
                 },
                 error: (error) => {
@@ -256,9 +255,10 @@ export class DatasetComposerComponent {
             })
         } else {
             this.#datasetService.createDataset({datasetCreate: dataset}).pipe(first()).subscribe({
-                next: () => {
+                next: (response) => {
                     this.processing.set(false);
-                    this.dataset.reload();
+                    this.datasetId.set(response.id);
+                    this.form.controls.datasetId.setValue(response.id);
                     this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Saved dataset "${this.form.value.title}".`})
                 },
                 error: (error) => {

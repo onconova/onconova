@@ -15,9 +15,10 @@ import { TagModule } from "primeng/tag";
 import { ToggleSwitch } from "primeng/toggleswitch";
 import { forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
-import { AccessRoles, CohortsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
+import { AccessRoles, Cohort, CohortsService, DatasetsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
 import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
 import { AuthService } from "src/app/core/auth/services/auth.service";
+import { ResolveResourcePipe } from "src/app/shared/pipes/resolve-resource.pipe";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -56,6 +57,7 @@ export class ProjectManagementComponent {
     readonly #messageService = inject(MessageService);
     readonly #confirmationService = inject(ConfirmationService);
     readonly #cohortsService = inject(CohortsService);
+    readonly #datasetsService = inject(DatasetsService);
 
     public readonly currentUser = computed(() => this.#authService.user())
 
@@ -90,6 +92,13 @@ export class ProjectManagementComponent {
             return response.items
         }))
     });
+    protected datasets = rxResource({
+        request: () => ({projectId: this.projectId()}),
+        loader: ({request}) => this.#datasetsService.getDatasets(request).pipe(map(response => {
+            this.totalDatasets.set(response.count)
+            return response.items
+        }))
+    });
 
     protected authDialogMember = signal<ProjectMember | null>(null);
     protected authDialogConfirmation = signal<boolean>(false);
@@ -106,9 +115,12 @@ export class ProjectManagementComponent {
 
 
     // Pagination and search settings
-    public readonly cohortsPageSizeChoices: number[] = [12, 24, 36, 48];
+    public readonly cohortsPageSizeChoices: number[] = [4, 8, 12];
     public cohortsPagination = signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
     public totalCohorts= signal(0);
+    public readonly datasetsPageSizeChoices: number[] = [4, 8, 12];
+    public datasetsPagination = signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
+    public totalDatasets= signal(0);
 
 
     getValidityPeriodAnnotation(period: Period) {
@@ -124,6 +136,11 @@ export class ProjectManagementComponent {
         }
     }
 
+
+    matchCohort(cohortId: string) {
+        return (cohort: Cohort): boolean => cohort.id == cohortId
+    }
+    
     getDaysDifference(start: Date, end: Date) {
         const oneDayMs = 1000 * 60 * 60 * 24; // milliseconds in one day
         const diffMs = end.getTime() - start.getTime();
