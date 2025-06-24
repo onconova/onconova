@@ -134,6 +134,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.usersessions.middleware.UserSessionsMiddleware",
     "pop.core.history.middleware.HistoryMiddleware",
+    "pop.core.history.middleware.APILoggingMiddleware",
 ]
 
 # ---------------------------------------------------------------
@@ -279,7 +280,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "simple": {
-            "format": '[%(levelname)s %(asctime)s]: "%(message)s"',
+            "format": "[%(levelname)s %(asctime)s] %(message)s",
             "datefmt": "%d/%b/%Y %H:%M:%S",
         },
     },
@@ -306,8 +307,13 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {
+        "api": {
             "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django": {
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },
