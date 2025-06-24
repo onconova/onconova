@@ -150,27 +150,27 @@ export class CohortBuilderComponent {
 
     public ageStats = rxResource({
         request: () => ({cohortId: this.currentCohortId(), trait: 'age'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+        loader: ({request}) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
     }) 
     public topographyStats = rxResource({
         request: () => ({cohortId: this.currentCohortId(), trait: 'neoplasticEntities.topographyGroup.display'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+        loader: ({request}) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
             (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-        ))
+        )) : of(null)
     }) 
     public genderStats = rxResource({
         request: () => ({cohortId: this.currentCohortId(), trait: 'gender.display'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+        loader: ({request}) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
             (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-        ))
+        )) : of(null)
     }) 
     public overallSurvivalStats = rxResource({
         request: () => ({cohortId: this.currentCohortId(), trait: 'overallSurvival'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+        loader: ({request}) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
     }) 
     public dataCompletionStats = rxResource({
         request: () => ({cohortId: this.currentCohortId(), trait: 'dataCompletionRate'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+        loader: ({request}) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
     }) 
 
     public cohortPayload = signal<CohortCreate | null>(null)

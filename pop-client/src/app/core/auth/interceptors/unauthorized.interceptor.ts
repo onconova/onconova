@@ -38,6 +38,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
                 return throwError(() => error);
             }
         }
+        this.#messageService.add({ severity: 'error', summary: `HTTP ${error.status} Error`, detail: error.message });
+        console.error(error)
         return throwError(() => error);
       })
     );
