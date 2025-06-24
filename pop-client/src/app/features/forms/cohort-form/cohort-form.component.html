@@ -1,9 +1,10 @@
 <p-fluid>
     <form  [formGroup]="form()" (ngSubmit)="submitFormData()" >
-
+        
         <div class="field">
             <label class="form-label required">Cohort title</label>
-            <input type="text" pInputText formControlName="name" />
+            <input type="text" pInputText formControlName="name" 
+            [attr.disabled]="invalidUser()"/>
             <pop-form-control-error controlName="name"></pop-form-control-error>
         </div>
 
@@ -13,11 +14,16 @@
             <p-select 
             [options]="relatedProjects.value() || []" 
             formControlName="project"
+            [disabled]="invalidUser()"
             optionLabel="title" 
             optionValue="id"
             appendTo="body"
             placeholder="Select a project" />
         </div>
+
+        @if (invalidUser()) {
+            <p-message styleClass="my-3" severity="error" text="You are not a member of any ongoing projects"></p-message>
+        }
 
         <p-button 
             type="submit" 

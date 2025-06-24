@@ -52,11 +52,6 @@ class Cohort(BaseModel):
         to=PatientCase,
         related_name="+",
     )
-    is_public = models.BooleanField(
-        verbose_name=_("Is public?"),
-        help_text=_("Whether the cohort is public"),
-        default=True,
-    )
     frozen_set = models.ManyToManyField(
         verbose_name=_("Frozen cases"),
         help_text=_("Frozen cases"),

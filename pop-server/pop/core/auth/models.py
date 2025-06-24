@@ -26,8 +26,9 @@ class CanManageCasesProperty(AnnotationGetterMixin, QueryableProperty):
         from pop.research.models.project import ProjectDataManagerGrant
 
         return Case(
+            When(is_service_account=True, then=True),
             When(
-                Q(access_level__gte=4)
+                Q(access_level__gte=2)
                 | Q(is_superuser=True)
                 | Exists(
                     ProjectDataManagerGrant.objects.filter(
@@ -47,9 +48,7 @@ class User(AbstractUser):
 
     class AccessRoles(models.TextChoices):
         EXTERNAL = "External"
-        VIEWER = "Viewer"
-        DATA_CONTRIBUTOR = "Data Contributor"
-        DATA_ANALYST = "Data Analyst"
+        MEMBER = "Member"
         PROJECT_MANAGER = "Project Manager"
         PLATFORM_MANAGER = "Platform Manager"
         SYSTEM_ADMIN = "System Administrator"
@@ -76,6 +75,11 @@ class User(AbstractUser):
             "last_name",
             output_field=models.CharField(),
         ),
+    )
+    is_service_account = models.BooleanField(
+        verbose_name=_("Is service account?"),
+        help_text=_("Whether the user is a technical service account"),
+        default=False,
     )
     title = models.CharField(
         verbose_name=_("Title"),
@@ -110,12 +114,10 @@ class User(AbstractUser):
         output_field=models.CharField(choices=AccessRoles),
         mappings=(
             (0, AccessRoles.EXTERNAL),
-            (1, AccessRoles.VIEWER),
-            (2, AccessRoles.DATA_CONTRIBUTOR),
-            (3, AccessRoles.DATA_ANALYST),
-            (4, AccessRoles.PROJECT_MANAGER),
-            (5, AccessRoles.PLATFORM_MANAGER),
-            (6, AccessRoles.SYSTEM_ADMIN),
+            (1, AccessRoles.MEMBER),
+            (2, AccessRoles.PROJECT_MANAGER),
+            (3, AccessRoles.PLATFORM_MANAGER),
+            (4, AccessRoles.SYSTEM_ADMIN),
         ),
     )
     is_provided = AnnotationProperty(
@@ -155,41 +157,29 @@ class User(AbstractUser):
     can_view_datasets = construct_permission_field_from_access_level(
         min_access_level=1, action="view datasets"
     )
-    can_import_data = construct_permission_field_from_access_level(
-        min_access_level=2, action="import data"
-    )
-    can_manage_cohorts = construct_permission_field_from_access_level(
-        min_access_level=2, action="manage cohorts"
-    )
-    can_manage_datasets = construct_permission_field_from_access_level(
-        min_access_level=2, action="manage datasets"
-    )
-    can_analyze_data = construct_permission_field_from_access_level(
-        min_access_level=3, action="analyze data"
-    )
     can_export_data = construct_permission_field_from_access_level(
-        min_access_level=3, action="export data"
+        min_access_level=2, action="export data"
     )
     can_manage_projects = construct_permission_field_from_access_level(
-        min_access_level=4, action="manage projects"
-    )
-    can_access_sensitive_data = construct_permission_field_from_access_level(
-        min_access_level=4, action="access sensitive data"
+        min_access_level=2, action="manage projects"
     )
     can_delete_projects = construct_permission_field_from_access_level(
-        min_access_level=5, action="delete projects"
+        min_access_level=3, action="delete projects"
     )
-    can_audit_logs = construct_permission_field_from_access_level(
-        min_access_level=5, action="audit logs"
+    can_delete_cohorts = construct_permission_field_from_access_level(
+        min_access_level=3, action="delete cohorts"
+    )
+    can_delete_datasets = construct_permission_field_from_access_level(
+        min_access_level=3, action="delete datasets"
     )
     can_manage_users = construct_permission_field_from_access_level(
-        min_access_level=5, action="manage users"
+        min_access_level=3, action="manage users"
     )
     is_system_admin = construct_permission_field_from_access_level(
-        min_access_level=6, action="system admin"
+        min_access_level=4, action="system admin"
     )
     can_manage_cases = CanManageCasesProperty(
-        verbose_name=_("Can manage cases data"),
+        verbose_name=_("Can manage patient data"),
     )
 
     def __str__(self):
@@ -203,7 +193,7 @@ class User(AbstractUser):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=Q(access_level__gte=0) & Q(access_level__lte=6),
-                name="access_level_must_be_between_1_and_6",
+                condition=Q(access_level__gte=0) & Q(access_level__lte=4),
+                name="access_level_must_be_between_1_and_4",
             )
         ]

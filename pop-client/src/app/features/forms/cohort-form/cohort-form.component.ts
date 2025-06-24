@@ -17,6 +17,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { Select } from 'primeng/select';
+import { Message } from 'primeng/message';
 
 @Component({
     selector: 'cohort-form',
@@ -26,6 +27,7 @@ import { Select } from 'primeng/select';
         FormsModule,
         ReactiveFormsModule,
         FormControlErrorComponent,
+        Message,
         ButtonModule,
         Select,
         Fluid,
@@ -44,7 +46,7 @@ export class CohortFormComponent extends AbstractFormBase {
   readonly #fb = inject(FormBuilder);
 
   #currentUser = computed(() => this.#authService.user());
-
+  protected invalidUser = computed(() => this.relatedProjects.hasValue() && this.relatedProjects.value().length === 0)
   // Create and update service methods for the form data
   public readonly createService = (payload: CohortCreate) => this.#cohortsService.createCohort({cohortCreate: payload});
   public readonly updateService = (id: string, payload: CohortCreate) => this.#cohortsService.updateCohort({cohortId: id, cohortCreate: payload});
@@ -67,7 +69,7 @@ export class CohortFormComponent extends AbstractFormBase {
   }
 
   protected relatedProjects = rxResource({
-    request: () => ({membersUsername: this.#currentUser()?.username} as GetProjectsRequestParams),
+    request: () => ({membersUsername: this.#currentUser()?.username, status: 'ongoing'} as GetProjectsRequestParams),
     loader: ({request}) => this.#projectsService.getProjects(request).pipe(
       map(response => response.items)
     )

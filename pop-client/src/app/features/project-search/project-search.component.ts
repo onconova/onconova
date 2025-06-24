@@ -96,7 +96,7 @@ export class ProjectSearchComponent {
     public readonly isPersonalPage = computed(() => this.member() !== undefined);
     
     // Pagination and search settings
-    public readonly pageSizeChoices: number[] = [12, 24, 36, 48, 60];
+    public readonly pageSizeChoices: number[] = [12, 24, 36, 48];
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
     public totalProjects= signal(0);
     public currentOffset: number = 0;

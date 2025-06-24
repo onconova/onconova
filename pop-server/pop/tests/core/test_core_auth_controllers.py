@@ -140,7 +140,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update_user_and_access_level(self, scenario, config):
         update_schema = UserCreateSchema.model_validate(self.instance)
-        update_schema.accessLevel = 5
+        update_schema.accessLevel = 4
         json_data = update_schema.model_dump(mode="json")
         # Call the API endpoint.
         response = self.call_api_endpoint(
@@ -149,7 +149,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
         # Assert response content
         if scenario == "HTTPS Authenticated":
             updated_instance = User.objects.get(id=response.json()["id"])
-            self.assertEqual(updated_instance.access_level, 5)
+            self.assertEqual(updated_instance.access_level, 4)
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update_user_profile(self, scenario, config):
