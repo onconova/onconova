@@ -27,6 +27,7 @@ from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginat
 from pop.core.history.schemas import HistoryEvent
 
 from pop.oncology import schemas as oncological_schemas
+from pop.oncology.models import TherapyLine
 from pop.interoperability.schemas import ExportMetadata
 
 from pop.research.compilers import construct_dataset
@@ -504,7 +505,7 @@ class CohortAnalysisController(ControllerBase):
                 progression_free_survival=
                 # Filter all therapy lines for current patient and by the queries line-label
                 Subquery(
-                    oncological_schemas.TherapyLine.objects.filter(
+                    TherapyLine.objects.filter(
                         case_id=OuterRef("id"), label=therapyLine
                     )
                     .annotate(
